@@ -1,25 +1,31 @@
-import emotionReset from 'emotion-reset';
-import { Global, css } from '@emotion/react';
+import {createGlobalStyle} from 'styled-components';
 
-const global = css`
-  ${emotionReset}
-
-  *,
-  *::after,
-  *::before {
-    margin: 0;
-
-    box-sizing: border-box;
+const GlobalStyle = createGlobalStyle`
+    @font-face {
+      font-family: 'BMJUA';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
   }
-
-  body {
-    font-family: 'Nanum Gothic', sans-serif;
-    font-size: 12px;
+    * {  
+      margin: 0;
+      box-sizing: border-box;
+      font-family: 'BMJUA';
+    } 
+    a {
+      text-decoration: none;
+    } 
+    body {
+      max-width: 100%;
+      overflow-x: hidden;
+      background-color: #f5f5f5;
+    }
+    
+    button {
+      border: none;
+      cursor: pointer;
   }
 `;
-
-function GlobalStyle() {
-    return <Global styles={global} />;
-}
 
 export default GlobalStyle;
