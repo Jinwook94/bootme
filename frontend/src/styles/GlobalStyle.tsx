@@ -2,8 +2,7 @@ import {createGlobalStyle} from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
     @font-face {
-      font-family: 'BMJUA';
-      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff') format('woff');
+      font-family: 'Noto Sans KR', sans-serif;
       font-weight: normal;
       font-style: normal;
       font-display: swap;
@@ -11,7 +10,7 @@ const GlobalStyle = createGlobalStyle`
     * {  
       margin: 0;
       box-sizing: border-box;
-      font-family: 'BMJUA';
+      font-family: 'Noto Sans KR', sans-serif;
     } 
     a {
       text-decoration: none;

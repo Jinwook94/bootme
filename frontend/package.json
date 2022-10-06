@@ -7,8 +7,8 @@
     "dev": "webpack-dev-server --config webpack.dev.js --open --hot",
     "build": "webpack --config webpack.prod.js",
     "start": "webpack --config webpack.dev.js",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
+    "storybook": "start-storybook ... -s ./src",
+    "build-storybook": "build-storybook -s ./src",
     "prettier": "npx prettier --write '**/*.{jsx,js,css,html,json}'"
   },
   "author": "Jinwook <kimjinwook94@gmail.com>",
