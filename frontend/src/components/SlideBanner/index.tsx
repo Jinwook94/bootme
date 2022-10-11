@@ -2,12 +2,12 @@ import React from "react";
 import {Swiper, SwiperSlide, SwiperProps, SwiperSlideProps} from 'swiper/react';
 import SwiperCore, {Autoplay} from 'swiper';
 import 'swiper/css';
-import "./SlideBanner.styles.css"
+import "./style.css"
 
 SwiperCore.use([Autoplay]);
 
 
-const SlideBanner = () => {
+const Index = () => {
     return (
         <>
             <div className="swiper-container">
@@ -69,4 +69,4 @@ const SlideBanner = () => {
     );
 }
 
-export default SlideBanner;
+export default Index;

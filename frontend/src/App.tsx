@@ -1,7 +1,7 @@
-import Button from "./components/@common/Button/Button";
+import Button from "./components/@common/Button";
 import React from "react";
-import SlideBanner from "./components/SlideBanner/SlideBanner";
-import CourseCard from "./components/CourseCard/CourseCard";
+import SlideBanner from "./components/SlideBanner";
+import CourseCard from "./components/CourseCard";
 
 
 const App = () => {

@@ -13,7 +13,7 @@ import {
     CourseTags,
     TagItem,
     Bookmark
-} from "./CourseCard.styles";
+} from "./style";
 
 import ExperienceIcon from "../../assets/experience.svg"
 import LocationIcon from "../../assets/location.svg"

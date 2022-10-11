@@ -1,4 +1,4 @@
-import { ButtonStyle } from "./Button.styles";
+import { ButtonStyle } from "./style";
 import React from "react";
 
 const Button = ({

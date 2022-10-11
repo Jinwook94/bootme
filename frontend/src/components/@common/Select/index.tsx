@@ -1,4 +1,4 @@
-import { SelectStyle} from "./Select.styles";
+import { SelectStyle } from "./style";
 
 
 const Select = ({children}: SelectProps) => {

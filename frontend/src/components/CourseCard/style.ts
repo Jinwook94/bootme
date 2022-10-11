@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import FlexBox from "../@common/FlexBox/FlexBox";
+import Index from "../@common/FlexBox";
 import BookmarkIconFile from "../../assets/bookmark.svg"
 
 export const Wrapper = styled.li`
@@ -29,7 +29,7 @@ export const Wrapper = styled.li`
 }
 `
 
-export const ItemHeader = styled(FlexBox)`
+export const ItemHeader = styled(Index)`
     width: 4.5rem;
     height: 4.5rem;
     align-items: center;
@@ -76,7 +76,7 @@ export const ItemBody = styled.div`
 }
 }
 `
-export const CourseTitleWrapper = styled(FlexBox)`
+export const CourseTitleWrapper = styled(Index)`
     align-items: center;
 `
 
