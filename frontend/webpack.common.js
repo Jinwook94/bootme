@@ -14,15 +14,20 @@ module.exports = {
         use: ['babel-loader', 'ts-loader'], // 해당 loader를 통해서 버전을 변환
       },
       {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
         test: /\.(png|jpe?g|gif)$/,
-        use: [
-          {
-            loader: 'file-loader',
-          },
-        ],
+        use: ['file-loader'],
+      },
+      {
+        test: /\.svg$/,
+        use: ['@svgr/webpack'],
       },
     ],
   },
+
   output: {
     path: path.join(__dirname, '/dist'),
     filename: 'bundle.js',

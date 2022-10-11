@@ -9,6 +9,7 @@ const GlobalStyle = createGlobalStyle`
   }
     * {  
       margin: 0;
+      padding:0 ;
       box-sizing: border-box;
       font-family: 'Noto Sans KR', sans-serif;
     } 
@@ -18,7 +19,6 @@ const GlobalStyle = createGlobalStyle`
     body {
       max-width: 100%;
       overflow-x: hidden;
-      background-color: #f5f5f5;
     }
     
     button {

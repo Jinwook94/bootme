@@ -12,11 +12,10 @@
     "outDir": "./dist",
     "isolatedModules": true,
     "strict": true,
-    "baseUrl": "src",
-    "paths": {
-    },
+    "baseUrl": ".",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true
-  }
+  },
+  "include": [ "src", "global.d.ts" ]
 }
