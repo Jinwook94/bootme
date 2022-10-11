@@ -7,7 +7,7 @@ import "./style.css"
 SwiperCore.use([Autoplay]);
 
 
-const Index = () => {
+const SlideBanner = () => {
     return (
         <>
             <div className="swiper-container">
@@ -69,4 +69,4 @@ const Index = () => {
     );
 }
 
-export default Index;
+export default SlideBanner;

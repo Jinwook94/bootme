@@ -1,12 +1,12 @@
-import {ButtonStyle} from './style';
+import Button from './index';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 export default {
   title: 'Button',
-  component: ButtonStyle,
-} as ComponentMeta<typeof ButtonStyle>;
+  component: Button,
+} as ComponentMeta<typeof Button>;
 
-const Template: ComponentStory<typeof ButtonStyle> = (args) => <ButtonStyle {...args}></ButtonStyle>;
+const Template: ComponentStory<typeof Button> = (args) => <Button {...args}></Button>;
 
 export const Base = Template.bind({});
 Base.args = {
