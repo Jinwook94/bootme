@@ -43,11 +43,7 @@ const Home = () => {
                     </HeaderRight>
                 </CourseListHeader>
                 <CourseList>
-                    <CourseCard/>
-                    <CourseCard/>
-                    <CourseCard/>
-                    <CourseCard/>
-                    <CourseCard/>
+                    Mockup data 필요
                 </CourseList>
             </Wrapper>
             <PaginationWrapper>
