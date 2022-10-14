@@ -1,0 +1,12 @@
+{
+  "dummy": [
+    {
+      "id": 1,
+      "title": "Dummy 1"
+    },
+    {
+      "id": 2,
+      "title": "Dummy 2"
+    }
+  ]
+}

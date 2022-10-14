@@ -52,6 +52,7 @@
     "eslint": "^8.23.1",
     "eslint-plugin-react": "^7.31.8",
     "html-webpack-plugin": "^5.5.0",
+    "msw": "^0.47.4",
     "prettier": "2.7.1",
     "style-loader": "^3.3.1",
     "ts-loader": "^9.3.1",
@@ -59,5 +60,8 @@
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.11.0",
     "webpack-merge": "^5.8.0"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }
