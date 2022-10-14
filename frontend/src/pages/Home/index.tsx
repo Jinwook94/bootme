@@ -17,8 +17,17 @@ import {
 
 import SlideBanner from "../../components/SlideBanner";
 import CourseCard from "../../components/CourseCard";
+import React, {useEffect, useState} from "react";
 
 const Home = () => {
+    const [cards, setCards] = useState([]);
+
+    useEffect(() => {
+        fetch("/api/cards")
+            .then((response) => response.json())
+            .then(({cards}) => setCards(cards));
+    }, []);
+
     return (
         <MainWrapper>
             <Wrapper style={{marginTop: "32px"}}>
@@ -36,14 +45,30 @@ const Home = () => {
                             <span> 검색 필터 </span>
                         </FilterButton>
                         <FilterSelect>
-                            <option value={"recent"}> 최신순 </option>
-                            <option value={"popular"}> 인기순 </option>
-                            <option value={"popular"}> 응답률순 </option>
+                            <option value={"recent"}> 최신순</option>
+                            <option value={"popular"}> 인기순</option>
+                            <option value={"popular"}> 응답률순</option>
                         </FilterSelect>
                     </HeaderRight>
                 </CourseListHeader>
                 <CourseList>
-                    Mockup data 필요
+                    {cards.map(({
+                                    companyLogoUrl,
+                                    companyLogoAlt,
+                                    courseTitleUrl,
+                                    courseTitleDesc,
+                                    companyName,
+                                    LocationName,
+                                    CourseTag
+                                }) => (
+                        <CourseCard companyLogoUrl={companyLogoUrl}
+                                    companyLogoAlt={companyLogoAlt}
+                                    courseTitleUrl={courseTitleUrl}
+                                    courseTitleDesc={courseTitleDesc}
+                                    companyName={companyName}
+                                    LocationName={LocationName}
+                                    CourseTag={CourseTag}/>
+                    ))}
                 </CourseList>
             </Wrapper>
             <PaginationWrapper>
@@ -51,7 +76,7 @@ const Home = () => {
                 </Pagination>
             </PaginationWrapper>
             <FooterWrapper>
-                <Footer> Footer 작성 필요</Footer>
+                <Footer style={{textAlign: "center"}}> Footer 작성 필요</Footer>
             </FooterWrapper>
         </MainWrapper>
     );
