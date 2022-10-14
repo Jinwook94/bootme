@@ -14,6 +14,11 @@ module.exports = {
         use: ['babel-loader', 'ts-loader'], // 해당 loader를 통해서 버전을 변환
       },
       {
+        test: /\.jsx?$/,
+        use: 'babel-loader',
+        exclude: /node_modules/
+      },
+      {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
       },
