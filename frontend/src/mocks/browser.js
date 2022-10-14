@@ -1,5 +1,5 @@
 import { setupWorker } from 'msw'
-import { courseCardHandler } from './handlers/courseCardHandler'
+import { handlers } from './handlers/handler'
 
 // This configures a Service Worker with the given request handlers.
-export const worker = setupWorker(...courseCardHandler)
+export const worker = setupWorker(...handlers)
