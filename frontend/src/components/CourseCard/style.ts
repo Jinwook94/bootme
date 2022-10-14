@@ -4,28 +4,28 @@ import FlexBox from "../@common/FlexBox";
 export const Wrapper = styled.li`
     position: relative;
     display: flex;
-    width: calc(50% - 3rem);
+    width: calc(50% - 0.5rem);
     padding: 1.5rem;
     border: 0.0625rem solid #D7E2EB;
     margin-top: 1rem;
-    margin-left: 1rem;
     border-radius: 0.25rem;
     color: #263747;
     font-size: 0;
-    letter-spacing: -0.009em;
-    line-height: 1.6;
-    list-style: none;
-    text-align: -webkit-match-parent;
-
+  
     @media (max-width: 575px){
     padding: 1rem;
-}
+    }
 
     @media (max-width: 991px){
     width: 100%;
-    margin-top: 0;
     margin-left: 0;
-}
+    }
+    
+    @media (min-width: 991px){
+        &:nth-child(even) {
+        margin-left: 1rem;
+        }
+    }
 `
 
 export const ItemHeader = styled(FlexBox)`
