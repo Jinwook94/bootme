@@ -58,7 +58,9 @@ const CourseCard = ({
                     </Location>
                 </CourseInfo>
                 <CourseTags>
-                    <TagItem>{CourseTag}</TagItem>
+                    {CourseTag.map((tag) => (
+                        <TagItem>{tag}</TagItem>
+                    ))}
                 </CourseTags>
             </ItemBody>
 
