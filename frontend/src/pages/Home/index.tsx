@@ -7,19 +7,19 @@ import {
     HeaderRight,
     FilterButton,
     FilterSelect,
-    CourseList,
     PaginationWrapper,
-    Pagination,
-    PageItem,
     FooterWrapper,
     Footer
 } from "./style"
 
 import SlideBanner from "../../components/SlideBanner";
-import CourseCard from "../../components/CourseCard";
+import PaginationBar from "../../components/PaginationBar"
 import React, {useEffect, useState} from "react";
+import CourseCardList from "../../components/CourseCardList";
+import usePaging from "../../hooks/usePaging";
 
 const Home = () => {
+
     const [cards, setCards] = useState([]);
 
     useEffect(() => {
@@ -27,6 +27,15 @@ const Home = () => {
             .then((response) => response.json())
             .then(({cards}) => setCards(cards));
     }, []);
+
+    const [cardsPerPage] = useState(20);
+    const maxPage = Math.floor(cards.length / cardsPerPage) + 1
+    const { currentPage, handleNumberClick, handleNextClick, handlePrevClick } = usePaging(maxPage)
+
+    // Get current cards
+    const indexOfLastCard = currentPage * cardsPerPage;
+    const indexOfFirstCard = indexOfLastCard - cardsPerPage;
+    const currentCards = cards.slice(indexOfFirstCard, indexOfLastCard);
 
     return (
         <MainWrapper>
@@ -51,29 +60,17 @@ const Home = () => {
                         </FilterSelect>
                     </HeaderRight>
                 </CourseListHeader>
-                <CourseList>
-                    {cards.map(({
-                                    companyLogoUrl,
-                                    companyLogoAlt,
-                                    courseTitleUrl,
-                                    courseTitleDesc,
-                                    companyName,
-                                    locationName,
-                                    courseTag
-                                }) => (
-                        <CourseCard companyLogoUrl={companyLogoUrl}
-                                    companyLogoAlt={companyLogoAlt}
-                                    courseTitleUrl={courseTitleUrl}
-                                    courseTitleDesc={courseTitleDesc}
-                                    companyName={companyName}
-                                    locationName={locationName}
-                                    courseTag={courseTag}/>
-                    ))}
-                </CourseList>
+                <CourseCardList cards={currentCards}/>
             </Wrapper>
             <PaginationWrapper>
-                <Pagination> Pagination 컴포넌트 필요
-                </Pagination>
+                <PaginationBar
+                    itemsPerPage={cardsPerPage}
+                    totalItems={cards.length}
+                    handleNumberClick={handleNumberClick}
+                    currentPage={currentPage}
+                    handlePrevClick={handlePrevClick}
+                    handleNextClick={handleNextClick}
+                />
             </PaginationWrapper>
             <FooterWrapper>
                 <Footer style={{textAlign: "center"}}> Footer 작성 필요</Footer>

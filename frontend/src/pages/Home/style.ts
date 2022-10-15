@@ -111,16 +111,6 @@ export const FilterSelect = styled.select`
     }
 `
 
-export const CourseList = styled.ul`
-    display: flex;
-    flex-wrap: wrap;
-    padding: 0;
-    margin: 0;
-    font-size: 0;
-    font-weight: 500;
-    list-style: none;
-`
-
 export const PaginationWrapper = styled.div`
     display: flex;
     flex-direction: row;
@@ -129,35 +119,6 @@ export const PaginationWrapper = styled.div`
     justify-content: center;
 `
 
-export const Pagination = styled.ul`
-    display: flex;
-    justify-content: center;
-    list-style: none;
-    padding-left: 0;
-    margin: 0;
-    border-radius: 0.25rem;
-    
-    @media (max-width: 575px){
-        margin-top: calc(2.5rem - ((2.5rem / 8) * 4)) !important;
-    }
-`
-export const PageItem = styled.li`
-    margin-top: 0;
-    letter-spacing: -0.009em;
-    line-height: 1.6;
-    list-style: none;
-    
-    span{
-        z-index: 3;
-        background-color: #0078FF;
-        color: white;
-        cursor: default;
-    } 
-    
-    @media (max-width: 767px){
-    font-size: 15px;
-    }
-`
 
 export const FooterWrapper = styled.div``
 
