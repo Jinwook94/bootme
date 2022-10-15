@@ -26,8 +26,8 @@ const CourseCard = ({
                         courseTitleUrl,
                         courseTitleDesc,
                         companyName,
-                        LocationName,
-                        CourseTag
+                        locationName,
+                        courseTag
                     }: CourseCardProps) => {
     return (
         <Wrapper>
@@ -54,11 +54,11 @@ const CourseCard = ({
                     </Experience>
                     <Location>
                         <LocationIcon/>
-                        {LocationName}
+                        {locationName}
                     </Location>
                 </CourseInfo>
                 <CourseTags>
-                    {CourseTag.map((tag) => (
+                    {courseTag.map((tag: string) => (
                         <TagItem>{tag}</TagItem>
                     ))}
                 </CourseTags>
@@ -79,8 +79,8 @@ interface CourseCardProps {
     "courseTitleUrl": string;
     "courseTitleDesc": string;
     "companyName": string;
-    "LocationName": string;
-    "CourseTag": [];
+    "locationName": string;
+    "courseTag": [];
 }
 
 export default CourseCard;

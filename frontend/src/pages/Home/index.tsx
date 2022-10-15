@@ -58,16 +58,16 @@ const Home = () => {
                                     courseTitleUrl,
                                     courseTitleDesc,
                                     companyName,
-                                    LocationName,
-                                    CourseTag
+                                    locationName,
+                                    courseTag
                                 }) => (
                         <CourseCard companyLogoUrl={companyLogoUrl}
                                     companyLogoAlt={companyLogoAlt}
                                     courseTitleUrl={courseTitleUrl}
                                     courseTitleDesc={courseTitleDesc}
                                     companyName={companyName}
-                                    LocationName={LocationName}
-                                    CourseTag={CourseTag}/>
+                                    locationName={locationName}
+                                    courseTag={courseTag}/>
                     ))}
                 </CourseList>
             </Wrapper>
