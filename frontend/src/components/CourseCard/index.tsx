@@ -73,7 +73,7 @@ const CourseCard = ({
     )
 }
 
-interface CourseCardProps {
+export interface CourseCardProps {
     "companyLogoUrl": string;
     "companyLogoAlt": string;
     "courseTitleUrl": string;
