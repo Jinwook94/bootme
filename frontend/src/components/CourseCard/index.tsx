@@ -24,7 +24,7 @@ const CourseCard = ({
                         companyLogoUrl,
                         companyLogoAlt,
                         courseTitleUrl,
-                        courseTitleDesc,
+                        courseName,
                         companyName,
                         locationName,
                         courseTag
@@ -41,7 +41,7 @@ const CourseCard = ({
             <ItemBody>
                 <CourseTitleWrapper>
                     <CourseTitle>
-                        <a href={courseTitleUrl}> {courseTitleDesc}</a>
+                        <a href={courseTitleUrl}> {courseName}</a>
                     </CourseTitle>
                 </CourseTitleWrapper>
                 <CompanyName>
@@ -77,7 +77,7 @@ export interface CourseCardProps {
     "companyLogoUrl": string;
     "companyLogoAlt": string;
     "courseTitleUrl": string;
-    "courseTitleDesc": string;
+    "courseName": string;
     "companyName": string;
     "locationName": string;
     "courseTag": [];

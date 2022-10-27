@@ -9,7 +9,7 @@ const CourseCardList = ({cards}: CourseCardListProps) => {
                             companyLogoUrl,
                             companyLogoAlt,
                             courseTitleUrl,
-                            courseTitleDesc,
+                            courseName,
                             companyName,
                             locationName,
                             courseTag
@@ -17,7 +17,7 @@ const CourseCardList = ({cards}: CourseCardListProps) => {
                 <CourseCard companyLogoUrl={companyLogoUrl}
                             companyLogoAlt={companyLogoAlt}
                             courseTitleUrl={courseTitleUrl}
-                            courseTitleDesc={courseTitleDesc}
+                            courseName={courseName}
                             companyName={companyName}
                             locationName={locationName}
                             courseTag={courseTag}/>
