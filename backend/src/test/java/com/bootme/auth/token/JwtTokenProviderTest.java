@@ -1,6 +1,7 @@
 package com.bootme.auth.token;
 
 import com.bootme.auth.dto.AuthInfo;
+import com.bootme.member.domain.RoleType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.jsonwebtoken.Claims;
 import org.junit.jupiter.api.DisplayName;
@@ -27,7 +28,7 @@ class JwtTokenProviderTest {
         @DisplayName("엑세스 토큰을 반환한다.")
         void createAccessToken() {
             //when
-            String token = tokenManager.createAccessToken(new AuthInfo(1L, "ADMIN", "test"));
+            String token = tokenManager.createAccessToken(new AuthInfo(1L, RoleType.ADMIN.getName(), "test"));
 
             //then
             assertThat(token).isNotNull();
@@ -57,7 +58,7 @@ class JwtTokenProviderTest {
         @DisplayName("토큰의 페이로드를 반환한다.")
         void getPayload(){
             //given
-            String token = tokenManager.createAccessToken(new AuthInfo(1L, "ADMIN", "accessToken"));
+            String token = tokenManager.createAccessToken(new AuthInfo(1L, RoleType.ADMIN.getName(), "accessToken"));
 
             //when
             AuthInfo payload = tokenManager.getPayload(token);
