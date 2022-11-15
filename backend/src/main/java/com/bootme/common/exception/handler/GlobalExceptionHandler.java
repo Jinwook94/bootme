@@ -4,7 +4,7 @@ import com.bootme.common.exception.BadRequestException;
 import com.bootme.common.exception.UnauthorizedException;
 import com.bootme.common.exception.ForbiddenException;
 import com.bootme.common.exception.dto.ErrorResponse;
-import com.bootme.common.exception.errortype.ErrorType;
+import com.bootme.common.exception.ErrorType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
