@@ -1,4 +1,4 @@
-package com.bootme.common.exception.errortype;
+package com.bootme.common.exception;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

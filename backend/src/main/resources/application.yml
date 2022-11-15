@@ -10,3 +10,7 @@ security:
       expire-length:
         access: 3600000
         refresh: 1210000000
+
+admin:
+  id: test_id
+  password: test_password

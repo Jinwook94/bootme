@@ -22,6 +22,9 @@ public abstract class ControllerTest {
     @Autowired
     protected MockMvc mockMvc;
 
+    @Autowired
+    protected ObjectMapper objectMapper;
+
     @BeforeEach
     void setUp(final WebApplicationContext context, final RestDocumentationContextProvider provider) {
         setMockMvcRestDocsSpec(context, provider);
