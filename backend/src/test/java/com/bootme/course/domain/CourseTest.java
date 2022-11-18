@@ -48,33 +48,6 @@ class CourseTest {
     }
 
     @Test
-    @DisplayName("updateCompany()은 코스를 개설한 회사를 변경한다.")
-    void updateCompany() {
-        //given
-        Course course2 = Course.builder()
-                        .url(VALID_URL_2)
-                        .title(VALID_TITLE_2)
-                        .company(VALID_COMPANY_2)
-                        .location(VALID_LOCATION_2)
-                        .tags(VALID_TAGS_2)
-                        .build();
-        Company modifiedCompany = Company.builder()
-                .name("다른 회사")
-                .url("www.google.com")
-                .courses(new ArrayList<>(Arrays.asList(course2)))
-                .build();
-
-        //when
-        course.updateCompany(modifiedCompany);
-
-        //then
-        assertAll(
-                () -> assertThat(course.getCompany()).isEqualTo(modifiedCompany),
-                () -> assertThat(modifiedCompany.getCourses().contains(course)).isTrue()
-        );
-    }
-
-    @Test
     @DisplayName("updateLocation()은 코스 진행 장소를 변경한다.")
     void updateLocation() {
         course.updateLocation("변경된 장소");

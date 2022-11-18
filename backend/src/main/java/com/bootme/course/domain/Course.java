@@ -50,11 +50,6 @@ public class Course {
         this.title = title;
     }
 
-    public void updateCompany(Company company){
-        this.company = company;
-        company.getCourses().add(this);
-    }
-
     public void updateLocation(String location){
         this.location = location;
     }

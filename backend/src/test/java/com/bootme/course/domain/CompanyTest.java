@@ -50,28 +50,6 @@ class CompanyTest {
     }
 
     @Test
-    @DisplayName("addCourse()는 회사가 개설한 코스를 추가한다.")
-    void addCourse(){
-        //given
-        Course newCourse = Course.builder()
-                .url(VALID_URL_2)
-                .title(VALID_TITLE_2)
-                .company(VALID_COMPANY_2)
-                .location(VALID_LOCATION_2)
-                .tags(VALID_TAGS_2)
-                .build();
-
-        //when
-        company.addCourse(newCourse);
-
-        //then
-        assertAll(
-                () -> assertThat(company.getCourses().contains(newCourse)).isTrue(),
-                () -> assertThat(newCourse.getCompany()).isEqualTo(company)
-        );
-    }
-
-    @Test
     @DisplayName("deleteCourse()는 회사의 개설 코스에서 해당 코스를 삭제한다.")
     void deleteCourse(){
         company.deleteCourse(course);

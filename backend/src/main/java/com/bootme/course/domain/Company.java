@@ -41,11 +41,6 @@ public class Company {
         this.url = url;
     }
 
-    public void addCourse(Course course) {
-        courses.add(course);
-        course.updateCompany(this);
-    }
-
     public void deleteCourse(Course course){
         courses.remove(course);
     }
