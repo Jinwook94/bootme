@@ -20,11 +20,11 @@ class CompanyTest {
     @BeforeEach
     void setup(){
         course = Course.builder()
-                .url(VALID_URL)
-                .title(VALID_TITLE)
-                .company(VALID_COMPANY)
-                .location(VALID_LOCATION)
-                .tags(VALID_TAGS)
+                .url(VALID_URL_1)
+                .title(VALID_TITLE_1)
+                .company(VALID_COMPANY_1)
+                .location(VALID_LOCATION_1)
+                .tags(VALID_TAGS_1)
                 .build();
         company = Company.builder()
                         .name("Google")
@@ -54,11 +54,11 @@ class CompanyTest {
     void addCourse(){
         //given
         Course newCourse = Course.builder()
-                .url(VALID_URL)
-                .title(VALID_TITLE)
-                .company(VALID_COMPANY)
-                .location(VALID_LOCATION)
-                .tags(VALID_TAGS)
+                .url(VALID_URL_2)
+                .title(VALID_TITLE_2)
+                .company(VALID_COMPANY_2)
+                .location(VALID_LOCATION_2)
+                .tags(VALID_TAGS_2)
                 .build();
 
         //when
