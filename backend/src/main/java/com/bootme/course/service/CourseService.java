@@ -12,8 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 import static com.bootme.common.exception.ErrorType.NOT_FOUND_COMPANY;
 import static com.bootme.common.exception.ErrorType.NOT_FOUND_COURSE;
 
@@ -44,8 +42,8 @@ public class CourseService {
         return CourseResponse.of(foundCourse);
     }
 
-    public void modifyCourse(Long courseId, CourseRequest courseRequest){
-        Course course = courseRepository.findById(courseId)
+    public void modifyCourse(Long id, CourseRequest courseRequest){
+        Course course = courseRepository.findById(id)
                          .orElseThrow(() -> new CourseNotFoundException(NOT_FOUND_COURSE));
 
         course.updateUrl(courseRequest.getUrl());
