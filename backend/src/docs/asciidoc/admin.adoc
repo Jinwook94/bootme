@@ -1,4 +1,16 @@
 == Admin (관리자)
-=== 관리자 로그인 - 성공
 
+=== 관리자 로그인 - 성공
 operation::admin/login/success[snippets='http-request,http-response']
+
+=== 코스 추가 - 성공
+operation::admin/courses/add/success[snippets='http-request,http-response']
+
+=== 코스 조회 - 성공
+operation::admin/courses/find/success[snippets='http-request,http-response']
+
+=== 코스 수정 - 성공
+operation::admin/courses/modify/success[snippets='http-request,http-response']
+
+=== 코스 삭제 - 성공
+operation::admin/courses/delete/success[snippets='http-request,http-response']

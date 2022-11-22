@@ -7,6 +7,11 @@ import com.bootme.auth.dto.AuthInfo;
 import com.bootme.auth.dto.TokenResponse;
 import com.bootme.auth.token.JwtTokenProvider;
 import com.bootme.common.exception.ErrorType;
+import com.bootme.course.dto.CourseRequest;
+import com.bootme.course.dto.CourseResponse;
+import com.bootme.course.repository.CompanyRepository;
+import com.bootme.course.repository.CourseRepository;
+import com.bootme.course.service.CourseService;
 import com.bootme.member.domain.RoleType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +26,7 @@ public class AdminService {
 
     public final JwtTokenProvider jwtTokenProvider;
     public final AdminAccount adminAccount;
+    public final CourseService courseService;
 
     public TokenResponse login(AdminLoginRequest adminLoginRequest) {
         validateLogin(adminLoginRequest.getId(), adminLoginRequest.getPassword());
@@ -33,5 +39,21 @@ public class AdminService {
         if (!Objects.equals(adminAccount.getId(), id) || !Objects.equals(adminAccount.getPassword(), password)) {
             throw new InvalidAdminException(ErrorType.NOT_AUTHENTICATED);
         }
+    }
+
+    public Long addCourse(CourseRequest courseRequest){
+        return courseService.addCourse(courseRequest);
+    }
+
+    public CourseResponse findById(Long id) {
+        return courseService.findById(id);
+    }
+
+    public void modifyCourse(Long id, CourseRequest courseRequest){
+        courseService.modifyCourse(id, courseRequest);
+    }
+
+    public void deleteCourse(Long id){
+        courseService.deleteCourse(id);
     }
 }
