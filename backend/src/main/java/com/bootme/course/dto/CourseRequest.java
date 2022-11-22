@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Getter
@@ -17,7 +18,6 @@ public class CourseRequest {
     @NotBlank(message = "타이틀을 입력해주세요.")
     private String title;
 
-    @NotBlank(message = "회사를 입력해주세요.")
     private Company company;
 
     @NotBlank(message = "장소를 입력해주세요.")

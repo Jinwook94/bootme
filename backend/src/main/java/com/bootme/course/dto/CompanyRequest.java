@@ -3,15 +3,16 @@ package com.bootme.course.dto;
 import lombok.Builder;
 import lombok.Getter;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Getter
 public class CompanyRequest {
 
-    @NotNull(message = "회사 url을 입력해주세요.")
+    @NotBlank(message = "회사 url을 입력해주세요.")
     private String url;
 
-    @NotNull(message = "회사명을 입력해주세요.")
+    @NotBlank(message = "회사명을 입력해주세요.")
     private String name;
 
     public CompanyRequest(){
