@@ -14,7 +14,7 @@ public class CourseResponse {
     private Long id;
     private String url;
     private String title;
-    private Company company;
+    private String company;
     private String location;
     private List<Tag> tags;
 
@@ -22,7 +22,7 @@ public class CourseResponse {
     }
 
     @Builder
-    private CourseResponse(Long id, String url, String title, Company company,
+    private CourseResponse(Long id, String url, String title, String company,
                            String location, List<Tag> tags) {
         this.id = id;
         this.url = url;
@@ -37,7 +37,7 @@ public class CourseResponse {
                 .id(course.getId())
                 .url(course.getUrl())
                 .title(course.getTitle())
-                .company(course.getCompany())
+                .company(course.getCompany().getName())
                 .location(course.getLocation())
                 .tags(course.getTags())
                 .build();
