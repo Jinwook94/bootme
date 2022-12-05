@@ -1,7 +1,6 @@
 package com.bootme.course.service;
 
-import com.bootme.course.domain.Company;
-import com.bootme.course.domain.Course;
+import com.bootme.course.domain.*;
 import com.bootme.course.dto.CourseRequest;
 import com.bootme.course.dto.CourseResponse;
 import com.bootme.course.exception.CompanyNotFoundException;
@@ -24,12 +23,22 @@ public class CourseService {
     private final CompanyRepository companyRepository;
 
     public Long addCourse(CourseRequest courseRequest){
+        String companyName = courseRequest.getCompanyName();
+        Company company = companyRepository.findByName(companyName)
+                                    .orElseThrow(() -> new CompanyNotFoundException(NOT_FOUND_COMPANY));
         Course course = Course.builder()
-                        .url(courseRequest.getUrl())
                         .title(courseRequest.getTitle())
-                        .company(courseRequest.getCompany())
+                        .url(courseRequest.getUrl())
+                        .company(company)
                         .location(courseRequest.getLocation())
+                        .cost(courseRequest.getCost())
+                        .costType(Enum.valueOf(CostType.class, courseRequest.getCostType()))
+                        .dates(courseRequest.getDates())
+                        .onoffline(Enum.valueOf(OnOffline.class, courseRequest.getOnOffline()))
                         .tags(courseRequest.getTags())
+                        .prerequisites(Enum.valueOf(Prerequisites.class, courseRequest.getPrerequisites()))
+                        .isRecommended(courseRequest.isRecommended())
+                        .isTested(courseRequest.isTested())
                         .build();
         Course savedCourse = courseRepository.save(course);
         return savedCourse.getId();
@@ -46,10 +55,7 @@ public class CourseService {
         Course course = courseRepository.findById(id)
                          .orElseThrow(() -> new CourseNotFoundException(NOT_FOUND_COURSE));
 
-        course.updateUrl(courseRequest.getUrl());
-        course.updateTitle(courseRequest.getTitle());
-        course.updateLocation(courseRequest.getLocation());
-        course.updateTag(courseRequest.getTags());
+        course.modifyCourse(courseRequest);
     }
 
     public void deleteCourse(Long id){
