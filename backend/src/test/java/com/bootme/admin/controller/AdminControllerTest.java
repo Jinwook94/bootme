@@ -3,6 +3,7 @@ package com.bootme.admin.controller;
 import com.bootme.admin.dto.AdminLoginRequest;
 import com.bootme.admin.service.AdminService;
 import com.bootme.auth.dto.TokenResponse;
+import com.bootme.course.domain.Dates;
 import com.bootme.course.dto.CourseRequest;
 import com.bootme.course.dto.CourseResponse;
 import com.bootme.util.ControllerTest;
@@ -12,6 +13,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
+
+import java.time.LocalDate;
 
 import static com.bootme.util.fixture.CourseFixture.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -60,12 +63,24 @@ class AdminControllerTest extends ControllerTest {
     void addCourse() throws Exception {
     //given
     CourseRequest courseRequest = CourseRequest.builder()
-                                    .url(VALID_URL_1)
-                                    .title(VALID_TITLE_1)
-                                    .company(VALID_COMPANY_1)
-                                    .location(VALID_LOCATION_1)
-                                    .tags(VALID_TAGS_1)
-                                    .build();
+                                .title(VALID_TITLE_1)
+                                .url(VALID_URL_1)
+                                .companyName(VALID_COMPANY_1.getName())
+                                .location(VALID_LOCATION_1)
+                                .cost(VALID_COST_1)
+                                .costType(VALID_CostType_1.name())
+                                .dates(Dates.builder()
+                                        .registrationStartDate(LocalDate.of(2022, 12, 5))
+                                        .registrationEndDate(LocalDate.of(2023, 1, 10))
+                                        .courseStartDate(LocalDate.of(2023, 1, 20))
+                                        .courseEndDate(LocalDate.of(2023, 7, 31))
+                                        .build())
+                                .onOffline(VALID_ONOFFLINE_1.name())
+                                .tags(VALID_TAGS_1)
+                                .prerequisites(VALID_PREREQUISITES_1.name())
+                                .recommended(VALID_ISRECOMMENDED_1)
+                                .tested(VALID_ISTESTED_1)
+                                .build();
 
     String content = objectMapper.writeValueAsString(courseRequest);
     given(adminService.addCourse(any())).willReturn(1L);
@@ -91,11 +106,23 @@ class AdminControllerTest extends ControllerTest {
         //given
         CourseResponse courseResponse = CourseResponse.builder()
                                         .id(1L)
-                                        .url(VALID_URL_1)
                                         .title(VALID_TITLE_1)
-                                        .company(VALID_COMPANY_1)
+                                        .url(VALID_URL_1)
+                                        .companyName(VALID_COMPANY_1.getName())
                                         .location(VALID_LOCATION_1)
+                                        .cost(VALID_COST_1)
+                                        .costType(VALID_CostType_1.name())
+                                        .dates(Dates.builder()
+                                                .registrationStartDate(LocalDate.of(2022, 12, 5))
+                                                .registrationEndDate(LocalDate.of(2023, 1, 10))
+                                                .courseStartDate(LocalDate.of(2023, 1, 20))
+                                                .courseEndDate(LocalDate.of(2023, 7, 31))
+                                                .build())
+                                        .onOffline(VALID_ONOFFLINE_1.name())
                                         .tags(VALID_TAGS_1)
+                                        .prerequisites(VALID_PREREQUISITES_1.name())
+                                        .recommended(VALID_ISRECOMMENDED_1)
+                                        .tested(VALID_ISTESTED_1)
                                         .build();
         given(adminService.findById(any())).willReturn(courseResponse);
 
@@ -118,12 +145,24 @@ class AdminControllerTest extends ControllerTest {
     public void modifyCourse() throws Exception{
         //given
         CourseRequest courseRequest = CourseRequest.builder()
-                                        .url(VALID_URL_1)
-                                        .title(VALID_TITLE_1)
-                                        .company(VALID_COMPANY_1)
-                                        .location(VALID_LOCATION_1)
-                                        .tags(VALID_TAGS_1)
-                                        .build();
+                                    .title(VALID_TITLE_1)
+                                    .url(VALID_URL_1)
+                                    .companyName(VALID_COMPANY_1.getName())
+                                    .location(VALID_LOCATION_1)
+                                    .cost(VALID_COST_1)
+                                    .costType(VALID_CostType_1.name())
+                                    .dates(Dates.builder()
+                                            .registrationStartDate(LocalDate.of(2022, 12, 5))
+                                            .registrationEndDate(LocalDate.of(2023, 1, 10))
+                                            .courseStartDate(LocalDate.of(2023, 1, 20))
+                                            .courseEndDate(LocalDate.of(2023, 7, 31))
+                                            .build())
+                                    .onOffline(VALID_ONOFFLINE_1.name())
+                                    .tags(VALID_TAGS_1)
+                                    .prerequisites(VALID_PREREQUISITES_1.name())
+                                    .recommended(VALID_ISRECOMMENDED_1)
+                                    .tested(VALID_ISTESTED_1)
+                                    .build();
         String content = objectMapper.writeValueAsString(courseRequest);
         willDoNothing().given(adminService).modifyCourse(any(), any());
 
