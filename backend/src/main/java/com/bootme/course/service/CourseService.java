@@ -11,6 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static com.bootme.common.exception.ErrorType.NOT_FOUND_COMPANY;
 import static com.bootme.common.exception.ErrorType.NOT_FOUND_COURSE;
 
@@ -49,6 +52,12 @@ public class CourseService {
         Course foundCourse = courseRepository.findById(id)
                                 .orElseThrow(() -> new CourseNotFoundException(NOT_FOUND_COURSE));
         return CourseResponse.of(foundCourse);
+    }
+
+    @Transactional(readOnly = true)
+    public List<CourseResponse> findAll() {
+        List<Course> courseList = courseRepository.findAll();
+        return courseList.stream().map(CourseResponse::of).collect(Collectors.toList());
     }
 
     public void modifyCourse(Long id, CourseRequest courseRequest){
