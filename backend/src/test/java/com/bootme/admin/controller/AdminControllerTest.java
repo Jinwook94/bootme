@@ -15,6 +15,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.bootme.util.fixture.CourseFixture.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -138,6 +140,70 @@ class AdminControllerTest extends ControllerTest {
                 .andDo(document(BASE_SNIPPET_PATH + "courses/find/success",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint())));
+    }
+
+    @Test
+    @DisplayName("findCourse()는 정상 요청시 상태코드 200을 반환한다.")
+    public void findCourses() throws Exception {
+        //given
+        CourseResponse courseResponse1 = CourseResponse.builder()
+                .id(1L)
+                .title(VALID_TITLE_1)
+                .url(VALID_URL_1)
+                .companyName(VALID_COMPANY_1.getName())
+                .location(VALID_LOCATION_1)
+                .cost(VALID_COST_1)
+                .costType(VALID_CostType_1.name())
+                .dates(Dates.builder()
+                        .registrationStartDate(LocalDate.of(2022, 12, 5))
+                        .registrationEndDate(LocalDate.of(2023, 1, 10))
+                        .courseStartDate(LocalDate.of(2023, 1, 20))
+                        .courseEndDate(LocalDate.of(2023, 7, 31))
+                        .build())
+                .onOffline(VALID_ONOFFLINE_1.name())
+                .tags(VALID_TAGS_1)
+                .prerequisites(VALID_PREREQUISITES_1.name())
+                .recommended(VALID_ISRECOMMENDED_1)
+                .tested(VALID_ISTESTED_1)
+                .build();
+        CourseResponse courseResponse2 = CourseResponse.builder()
+                .id(2L)
+                .title(VALID_TITLE_2)
+                .url(VALID_URL_2)
+                .companyName(VALID_COMPANY_2.getName())
+                .location(VALID_LOCATION_2)
+                .cost(VALID_COST_2)
+                .costType(VALID_CostType_2.name())
+                .dates(Dates.builder()
+                        .registrationStartDate(LocalDate.of(2022, 12, 5))
+                        .registrationEndDate(LocalDate.of(2023, 1, 10))
+                        .courseStartDate(LocalDate.of(2023, 1, 20))
+                        .courseEndDate(LocalDate.of(2023, 7, 31))
+                        .build())
+                .onOffline(VALID_ONOFFLINE_2.name())
+                .tags(VALID_TAGS_2)
+                .prerequisites(VALID_PREREQUISITES_2.name())
+                .recommended(VALID_ISRECOMMENDED_2)
+                .tested(VALID_ISTESTED_2)
+                .build();
+        List<CourseResponse> courseResponses = new ArrayList<CourseResponse>();
+        courseResponses.add(courseResponse1);
+        courseResponses.add(courseResponse2);
+        given(adminService.findAll()).willReturn(courseResponses);
+
+        //when
+        ResultActions perform = mockMvc.perform(get("/admin/courses")
+                .contentType(MediaType.APPLICATION_JSON));
+
+        //then
+        perform.andExpect(status().isOk());
+
+        //docs
+        perform.andDo(print())
+                .andDo(document(BASE_SNIPPET_PATH + "courses/findAll/success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())));
+
     }
 
     @Test
