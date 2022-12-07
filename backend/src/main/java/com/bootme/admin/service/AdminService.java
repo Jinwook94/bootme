@@ -9,14 +9,13 @@ import com.bootme.auth.token.JwtTokenProvider;
 import com.bootme.common.exception.ErrorType;
 import com.bootme.course.dto.CourseRequest;
 import com.bootme.course.dto.CourseResponse;
-import com.bootme.course.repository.CompanyRepository;
-import com.bootme.course.repository.CourseRepository;
 import com.bootme.course.service.CourseService;
 import com.bootme.member.domain.RoleType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -47,6 +46,10 @@ public class AdminService {
 
     public CourseResponse findById(Long id) {
         return courseService.findById(id);
+    }
+
+    public List<CourseResponse> findAll(){
+        return courseService.findAll();
     }
 
     public void modifyCourse(Long id, CourseRequest courseRequest){

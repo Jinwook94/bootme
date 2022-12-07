@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static com.bootme.common.exception.ErrorType.NOT_FOUND_COURSE;
@@ -141,6 +142,39 @@ class CourseServiceTest extends ServiceTest {
                 () -> assertThat(courseResponse.getLocation()).isEqualTo(course.getLocation()),
                 () -> assertThat(courseResponse.getTags()).isEqualTo(course.getTags())
         );
+    }
+
+    @Test
+    @DisplayName("findAll()은 모든 코스 정보를 반환한다.")
+    public void findAll (){
+        //given
+        CourseRequest courseRequest = CourseRequest.builder()
+                .title(VALID_TITLE_2)
+                .url(VALID_URL_2)
+                .companyName(company2.getName())
+                .location(VALID_LOCATION_2)
+                .cost(VALID_COST_2)
+                .costType(VALID_CostType_2.name())
+                .dates(Dates.builder()
+                        .registrationStartDate(LocalDate.of(2022, 1, 1))
+                        .registrationEndDate(LocalDate.of(2022, 2, 1))
+                        .courseStartDate(LocalDate.of(2022, 2, 10))
+                        .courseEndDate(LocalDate.of(2022, 8, 31))
+                        .build())
+                .onOffline(VALID_ONOFFLINE_2.name())
+                .tags(VALID_TAGS_2)
+                .prerequisites(VALID_PREREQUISITES_2.name())
+                .recommended(VALID_ISRECOMMENDED_2)
+                .tested(VALID_ISTESTED_2)
+                .build();
+        courseService.addCourse(courseRequest);
+        courseService.addCourse(courseRequest);
+        courseService.addCourse(courseRequest);
+        //when
+        List<CourseResponse> courseResponses = courseService.findAll();
+
+        //then
+        assertThat(courseResponses.size()).isEqualTo(3);
     }
 
     @Test

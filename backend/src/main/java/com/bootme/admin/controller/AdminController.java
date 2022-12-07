@@ -5,13 +5,13 @@ import com.bootme.admin.service.AdminService;
 import com.bootme.auth.dto.TokenResponse;
 import com.bootme.course.dto.CourseRequest;
 import com.bootme.course.dto.CourseResponse;
-import com.bootme.course.repository.CourseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/admin")
@@ -35,6 +35,11 @@ public class AdminController {
     public ResponseEntity<CourseResponse> findCourse(@PathVariable Long id){
         CourseResponse courseResponse = adminService.findById(id);
         return ResponseEntity.ok(courseResponse);
+    }
+
+    @GetMapping("/courses")
+    public ResponseEntity<List<CourseResponse>> findCourses(){
+        return ResponseEntity.ok(adminService.findAll());
     }
 
     @PutMapping("/courses/{id}")

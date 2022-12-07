@@ -9,6 +9,9 @@ operation::admin/courses/add/success[snippets='http-request,http-response']
 === 코스 조회 - 성공
 operation::admin/courses/find/success[snippets='http-request,http-response']
 
+=== 코스 전체 조회 - 성공
+operation::admin/courses/findAll/success[snippets='http-request,http-response']
+
 === 코스 수정 - 성공
 operation::admin/courses/modify/success[snippets='http-request,http-response']
 
