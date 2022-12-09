@@ -1,15 +1,15 @@
 import * as React from "react";
-import { Admin, Resource } from "react-admin";
-import simpleRestProvider from 'ra-data-json-server';
+import {Admin, fetchUtils, Resource} from 'react-admin';
+import jsonServerProvider from 'ra-data-json-server';
+import {UserList} from "./components/users";
 import authProvider from "./auth/authProvider";
-import courses from './courses';
 
-const dataProvider = simpleRestProvider('http://localhost:8080/admin')
+const dataProvider = jsonServerProvider('https://jsonplaceholder.typicode.com')
 
 const App = () => (
     <Admin dataProvider={dataProvider} authProvider={authProvider}>
-        <Resource name="courses" {...courses} />
+        <Resource name="users" list={UserList} />
     </Admin>
-);
+    );
 
 export default App;
