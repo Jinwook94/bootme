@@ -1,6 +1,6 @@
 const authProvider = {
     login: ({ username, password }) => {
-        if (username !== process.env.ADMIN_ID || password !== process.env.ADMIN_PW) {
+        if (username !== process.env.REACT_APP_ADMIN_ID || password !== process.env.REACT_APP_ADMIN_PW) {
             return Promise.reject();
         }
         localStorage.setItem('username', username);
