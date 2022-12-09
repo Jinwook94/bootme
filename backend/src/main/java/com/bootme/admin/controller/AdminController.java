@@ -6,6 +6,7 @@ import com.bootme.auth.dto.TokenResponse;
 import com.bootme.course.dto.CourseRequest;
 import com.bootme.course.dto.CourseResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000/")
 @RestController
 @RequestMapping("/admin")
 @RequiredArgsConstructor
@@ -39,7 +41,15 @@ public class AdminController {
 
     @GetMapping("/courses")
     public ResponseEntity<List<CourseResponse>> findCourses(){
-        return ResponseEntity.ok(adminService.findAll());
+        List<CourseResponse> courseResponses = adminService.findAll();
+        int size = courseResponses.size();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Expose-Headers", "X-Total-Count");
+        headers.add("X-Total-Count", String.valueOf(size));
+        headers.add("Content-Range", "courses 0-"+size+"/"+size);
+
+        return ResponseEntity.ok().headers(headers).body(courseResponses);
     }
 
     @PutMapping("/courses/{id}")
