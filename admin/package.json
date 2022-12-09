@@ -16,6 +16,7 @@
     "@babel/preset-env": "^7.19.4",
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.18.6",
+    "@mui/icons-material": "^5.10.16",
     "bootstrap": "^5.2.2",
     "dotenv": "^16.0.3",
     "prop-types": "^15.8.1",
@@ -25,7 +26,8 @@
     "react-bootstrap": "^2.5.0",
     "react-dom": "^18.2.0",
     "react-modal": "^3.16.1",
-    "react-router-dom": "^6.4.2"
+    "react-router-dom": "^6.4.2",
+    "typescript": "^4.9.4"
   },
   "devDependencies": {
     "@types/react": "^18.0.24",
