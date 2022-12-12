@@ -37,6 +37,46 @@ class AdminControllerTest extends ControllerTest {
 
     private static final String BASE_SNIPPET_PATH = "admin/";
 
+    CourseRequest courseRequest = CourseRequest.builder()
+            .title(VALID_TITLE_1)
+            .url(VALID_URL_1)
+            .companyName(VALID_COMPANY_1.getName())
+            .location(VALID_LOCATION_1)
+            .cost(VALID_COST_1)
+            .costType(VALID_CostType_1.name())
+            .dates(Dates.builder()
+                    .registrationStartDate(LocalDate.of(2022, 12, 5))
+                    .registrationEndDate(LocalDate.of(2023, 1, 10))
+                    .courseStartDate(LocalDate.of(2023, 1, 20))
+                    .courseEndDate(LocalDate.of(2023, 7, 31))
+                    .build())
+            .onOffline(VALID_ONOFFLINE_1.name())
+            .tags(VALID_TAGS_1)
+            .prerequisites(VALID_PREREQUISITES_1.name())
+            .recommended(VALID_ISRECOMMENDED_1)
+            .tested(VALID_ISTESTED_1)
+            .build();
+    CourseResponse courseResponse = CourseResponse.builder()
+            .id(1L)
+            .title(VALID_TITLE_1)
+            .url(VALID_URL_1)
+            .companyName(VALID_COMPANY_1.getName())
+            .location(VALID_LOCATION_1)
+            .cost(VALID_COST_1)
+            .costType(VALID_CostType_1.name())
+            .dates(Dates.builder()
+                    .registrationStartDate(LocalDate.of(2022, 12, 5))
+                    .registrationEndDate(LocalDate.of(2023, 1, 10))
+                    .courseStartDate(LocalDate.of(2023, 1, 20))
+                    .courseEndDate(LocalDate.of(2023, 7, 31))
+                    .build())
+            .onOffline(VALID_ONOFFLINE_1.name())
+            .tags(VALID_TAGS_1)
+            .prerequisites(VALID_PREREQUISITES_1.name())
+            .recommended(VALID_ISRECOMMENDED_1)
+            .tested(VALID_ISTESTED_1)
+            .build();
+
     @Test
     @DisplayName("login()은 정상 요청시 HTTP Status Code 200을 반환한다")
     void login() throws Exception {
@@ -47,8 +87,8 @@ class AdminControllerTest extends ControllerTest {
 
         //when
         ResultActions perform = mockMvc.perform(post("/admin/login")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(content));
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content));
 
         //then
         perform.andExpect(status().isOk());
@@ -63,74 +103,34 @@ class AdminControllerTest extends ControllerTest {
     @Test
     @DisplayName("addCourse()는 정상 요청시 코스를 추가하고 상태코드 201을 반환한다.")
     void addCourse() throws Exception {
-    //given
-    CourseRequest courseRequest = CourseRequest.builder()
-                                .title(VALID_TITLE_1)
-                                .url(VALID_URL_1)
-                                .companyName(VALID_COMPANY_1.getName())
-                                .location(VALID_LOCATION_1)
-                                .cost(VALID_COST_1)
-                                .costType(VALID_CostType_1.name())
-                                .dates(Dates.builder()
-                                        .registrationStartDate(LocalDate.of(2022, 12, 5))
-                                        .registrationEndDate(LocalDate.of(2023, 1, 10))
-                                        .courseStartDate(LocalDate.of(2023, 1, 20))
-                                        .courseEndDate(LocalDate.of(2023, 7, 31))
-                                        .build())
-                                .onOffline(VALID_ONOFFLINE_1.name())
-                                .tags(VALID_TAGS_1)
-                                .prerequisites(VALID_PREREQUISITES_1.name())
-                                .recommended(VALID_ISRECOMMENDED_1)
-                                .tested(VALID_ISTESTED_1)
-                                .build();
+        //given
+        String content = objectMapper.writeValueAsString(courseRequest);
+        given(adminService.addCourse(any())).willReturn(1L);
 
-    String content = objectMapper.writeValueAsString(courseRequest);
-    given(adminService.addCourse(any())).willReturn(1L);
+        //when
+        ResultActions perform = mockMvc.perform(post("/admin/courses")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content));
 
-    //when
-    ResultActions perform = mockMvc.perform(post("/admin/courses")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(content));
+        //then
+        perform.andExpect(status().isCreated());
 
-    //then
-    perform.andExpect(status().isCreated());
-
-    //docs
-    perform.andDo(print())
-            .andDo(document(BASE_SNIPPET_PATH + "courses/add/success",
-                    preprocessRequest(prettyPrint()),
-                    preprocessResponse(prettyPrint())));
+        //docs
+        perform.andDo(print())
+                .andDo(document(BASE_SNIPPET_PATH + "courses/add/success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())));
     }
 
     @Test
     @DisplayName("findCourse()는 정상 요청시 상태코드 200을 반환한다.")
     void findCourse() throws Exception {
         //given
-        CourseResponse courseResponse = CourseResponse.builder()
-                                        .id(1L)
-                                        .title(VALID_TITLE_1)
-                                        .url(VALID_URL_1)
-                                        .companyName(VALID_COMPANY_1.getName())
-                                        .location(VALID_LOCATION_1)
-                                        .cost(VALID_COST_1)
-                                        .costType(VALID_CostType_1.name())
-                                        .dates(Dates.builder()
-                                                .registrationStartDate(LocalDate.of(2022, 12, 5))
-                                                .registrationEndDate(LocalDate.of(2023, 1, 10))
-                                                .courseStartDate(LocalDate.of(2023, 1, 20))
-                                                .courseEndDate(LocalDate.of(2023, 7, 31))
-                                                .build())
-                                        .onOffline(VALID_ONOFFLINE_1.name())
-                                        .tags(VALID_TAGS_1)
-                                        .prerequisites(VALID_PREREQUISITES_1.name())
-                                        .recommended(VALID_ISRECOMMENDED_1)
-                                        .tested(VALID_ISTESTED_1)
-                                        .build();
         given(adminService.findById(any())).willReturn(courseResponse);
 
         //when
         ResultActions perform = mockMvc.perform(get("/admin/courses/1")
-                                .contentType(MediaType.APPLICATION_JSON));
+                .contentType(MediaType.APPLICATION_JSON));
 
         //then
         perform.andExpect(status().isOk());
@@ -143,10 +143,10 @@ class AdminControllerTest extends ControllerTest {
     }
 
     @Test
-    @DisplayName("findCourse()는 정상 요청시 상태코드 200을 반환한다.")
+    @DisplayName("findCourses()는 정상 요청시 상태코드 200을 반환한다.")
     public void findCourses() throws Exception {
         //given
-        CourseResponse courseResponse1 = CourseResponse.builder()
+        CourseResponse courseResponse2 = CourseResponse.builder()
                 .id(1L)
                 .title(VALID_TITLE_1)
                 .url(VALID_URL_1)
@@ -166,28 +166,9 @@ class AdminControllerTest extends ControllerTest {
                 .recommended(VALID_ISRECOMMENDED_1)
                 .tested(VALID_ISTESTED_1)
                 .build();
-        CourseResponse courseResponse2 = CourseResponse.builder()
-                .id(2L)
-                .title(VALID_TITLE_2)
-                .url(VALID_URL_2)
-                .companyName(VALID_COMPANY_2.getName())
-                .location(VALID_LOCATION_2)
-                .cost(VALID_COST_2)
-                .costType(VALID_CostType_2.name())
-                .dates(Dates.builder()
-                        .registrationStartDate(LocalDate.of(2022, 12, 5))
-                        .registrationEndDate(LocalDate.of(2023, 1, 10))
-                        .courseStartDate(LocalDate.of(2023, 1, 20))
-                        .courseEndDate(LocalDate.of(2023, 7, 31))
-                        .build())
-                .onOffline(VALID_ONOFFLINE_2.name())
-                .tags(VALID_TAGS_2)
-                .prerequisites(VALID_PREREQUISITES_2.name())
-                .recommended(VALID_ISRECOMMENDED_2)
-                .tested(VALID_ISTESTED_2)
-                .build();
+
         List<CourseResponse> courseResponses = new ArrayList<CourseResponse>();
-        courseResponses.add(courseResponse1);
+        courseResponses.add(courseResponse);
         courseResponses.add(courseResponse2);
         given(adminService.findAll()).willReturn(courseResponses);
 
@@ -210,32 +191,13 @@ class AdminControllerTest extends ControllerTest {
     @DisplayName("modifyCourse()는 정상 요청시 상태코드 204를 반환한다.")
     public void modifyCourse() throws Exception{
         //given
-        CourseRequest courseRequest = CourseRequest.builder()
-                                    .title(VALID_TITLE_1)
-                                    .url(VALID_URL_1)
-                                    .companyName(VALID_COMPANY_1.getName())
-                                    .location(VALID_LOCATION_1)
-                                    .cost(VALID_COST_1)
-                                    .costType(VALID_CostType_1.name())
-                                    .dates(Dates.builder()
-                                            .registrationStartDate(LocalDate.of(2022, 12, 5))
-                                            .registrationEndDate(LocalDate.of(2023, 1, 10))
-                                            .courseStartDate(LocalDate.of(2023, 1, 20))
-                                            .courseEndDate(LocalDate.of(2023, 7, 31))
-                                            .build())
-                                    .onOffline(VALID_ONOFFLINE_1.name())
-                                    .tags(VALID_TAGS_1)
-                                    .prerequisites(VALID_PREREQUISITES_1.name())
-                                    .recommended(VALID_ISRECOMMENDED_1)
-                                    .tested(VALID_ISTESTED_1)
-                                    .build();
         String content = objectMapper.writeValueAsString(courseRequest);
         willDoNothing().given(adminService).modifyCourse(any(), any());
 
         //when
         ResultActions perform = mockMvc.perform(put("/admin/courses/1")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(content));
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content));
 
         //then
         perform.andExpect(status().isNoContent());
@@ -255,7 +217,7 @@ class AdminControllerTest extends ControllerTest {
 
         //when
         ResultActions perform = mockMvc.perform(delete("/admin/courses/1")
-                                .contentType(MediaType.APPLICATION_JSON));
+                .contentType(MediaType.APPLICATION_JSON));
 
         //then
         perform.andExpect(status().isNoContent());
