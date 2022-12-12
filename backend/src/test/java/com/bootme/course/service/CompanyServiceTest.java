@@ -121,4 +121,22 @@ class CompanyServiceTest extends ServiceTest {
         );
     }
 
+    @Test
+    @DisplayName("deleteCompany()는 회사 정보를 삭제한다.")
+    public void deleteCompany(){
+        //given
+        Long id = companyRepository.save(company1).getId();
+        long count = companyRepository.count();
+
+        //when
+        companyService.deleteCompany(id);
+
+        //then
+        assertAll(
+                () -> assertThat(companyRepository.findById(id).isEmpty()).isTrue(),
+                () -> assertThat(companyRepository.count()).isEqualTo(count - 1)
+        );
+
+    }
+
 }

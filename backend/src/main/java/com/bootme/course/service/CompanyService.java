@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.bootme.common.exception.ErrorType.NOT_FOUND_COMPANY;
@@ -53,6 +54,10 @@ public class CompanyService {
 
         foundCompany.updateUrl(companyRequest.getUrl());
         foundCompany.updateName(companyRequest.getName());
+    }
+
+    public void deleteCompany(Long companyId){
+        companyRepository.deleteById(companyId);
     }
 
 }
