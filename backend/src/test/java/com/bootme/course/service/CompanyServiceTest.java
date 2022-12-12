@@ -1,6 +1,5 @@
 package com.bootme.course.service;
 
-import com.bootme.common.exception.ErrorType;
 import com.bootme.course.domain.Company;
 import com.bootme.course.dto.CompanyRequest;
 import com.bootme.course.dto.CompanyResponse;
@@ -36,6 +35,28 @@ class CompanyServiceTest extends ServiceTest {
                 .name("네이버")
                 .courses(new ArrayList<>())
                 .build();
+    }
+
+    @Test
+    @DisplayName("addCompany()는 회사를 추가한다.")
+    public void addCompany(){
+        //given
+        CompanyRequest companyRequest = CompanyRequest.builder()
+                .url("www.naver.com")
+                .name("네이버")
+                .build();
+        long count = companyRepository.count();
+
+        //when
+        Long id = companyService.addCompany(companyRequest);
+        Company foundCompany = companyRepository.findById(id).orElseThrow();
+
+        //then
+        assertAll(
+                () -> assertThat(companyRepository.count()).isEqualTo(count + 1),
+                () -> assertThat(foundCompany.getUrl()).isEqualTo("www.naver.com"),
+                () -> assertThat(foundCompany.getName()).isEqualTo("네이버")
+        );
     }
 
     @Test
