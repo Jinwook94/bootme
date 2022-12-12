@@ -7,11 +7,11 @@ import com.bootme.course.dto.CourseRequest;
 import com.bootme.course.dto.CourseResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.net.URI;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000/")
@@ -28,9 +28,12 @@ public class AdminController {
     }
 
     @PostMapping("/courses")
-    public ResponseEntity<Void> addCourse(@Valid @RequestBody CourseRequest courseRequest){
+    public ResponseEntity<CourseResponse> addCourse(@Valid @RequestBody CourseRequest courseRequest){
         Long courseId = adminService.addCourse(courseRequest);
-        return ResponseEntity.created(URI.create("/courses/" + courseId)).build();
+        CourseResponse courseResponse = adminService.findById(courseId);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Location", "/courses/" + courseId);
+        return new ResponseEntity<>(courseResponse, headers, HttpStatus.CREATED);
     }
 
     @GetMapping("/courses/{id}")
