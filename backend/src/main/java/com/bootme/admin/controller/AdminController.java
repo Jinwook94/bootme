@@ -30,7 +30,7 @@ public class AdminController {
     @PostMapping("/courses")
     public ResponseEntity<CourseResponse> addCourse(@Valid @RequestBody CourseRequest courseRequest){
         Long courseId = adminService.addCourse(courseRequest);
-        CourseResponse courseResponse = adminService.findById(courseId);
+        CourseResponse courseResponse = adminService.findCourseById(courseId);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Location", "/courses/" + courseId);
         return new ResponseEntity<>(courseResponse, headers, HttpStatus.CREATED);
@@ -38,13 +38,13 @@ public class AdminController {
 
     @GetMapping("/courses/{id}")
     public ResponseEntity<CourseResponse> findCourse(@PathVariable Long id){
-        CourseResponse courseResponse = adminService.findById(id);
+        CourseResponse courseResponse = adminService.findCourseById(id);
         return ResponseEntity.ok(courseResponse);
     }
 
     @GetMapping("/courses")
     public ResponseEntity<List<CourseResponse>> findCourses(){
-        List<CourseResponse> courseResponses = adminService.findAll();
+        List<CourseResponse> courseResponses = adminService.findAllCourses();
         int size = courseResponses.size();
 
         HttpHeaders headers = new HttpHeaders();

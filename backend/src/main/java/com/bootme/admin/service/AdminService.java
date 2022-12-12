@@ -44,11 +44,11 @@ public class AdminService {
         return courseService.addCourse(courseRequest);
     }
 
-    public CourseResponse findById(Long id) {
+    public CourseResponse findCourseById(Long id) {
         return courseService.findById(id);
     }
 
-    public List<CourseResponse> findAll(){
+    public List<CourseResponse> findAllCourses(){
         return courseService.findAll();
     }
 

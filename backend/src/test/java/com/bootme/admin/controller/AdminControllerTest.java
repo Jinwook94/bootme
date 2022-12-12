@@ -106,7 +106,7 @@ class AdminControllerTest extends ControllerTest {
         //given
         String content = objectMapper.writeValueAsString(courseRequest);
         given(adminService.addCourse(any())).willReturn(1L);
-        given(adminService.findById(1L)).willReturn(courseResponse);
+        given(adminService.findCourseById(1L)).willReturn(courseResponse);
 
         //when
         ResultActions perform = mockMvc.perform(post("/admin/courses")
@@ -127,7 +127,7 @@ class AdminControllerTest extends ControllerTest {
     @DisplayName("findCourse()는 정상 요청시 상태코드 200을 반환한다.")
     void findCourse() throws Exception {
         //given
-        given(adminService.findById(any())).willReturn(courseResponse);
+        given(adminService.findCourseById(any())).willReturn(courseResponse);
 
         //when
         ResultActions perform = mockMvc.perform(get("/admin/courses/1")
@@ -171,7 +171,7 @@ class AdminControllerTest extends ControllerTest {
         List<CourseResponse> courseResponses = new ArrayList<CourseResponse>();
         courseResponses.add(courseResponse);
         courseResponses.add(courseResponse2);
-        given(adminService.findAll()).willReturn(courseResponses);
+        given(adminService.findAllCourses()).willReturn(courseResponses);
 
         //when
         ResultActions perform = mockMvc.perform(get("/admin/courses")
