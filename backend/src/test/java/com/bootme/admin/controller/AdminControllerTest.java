@@ -106,6 +106,7 @@ class AdminControllerTest extends ControllerTest {
         //given
         String content = objectMapper.writeValueAsString(courseRequest);
         given(adminService.addCourse(any())).willReturn(1L);
+        given(adminService.findById(1L)).willReturn(courseResponse);
 
         //when
         ResultActions perform = mockMvc.perform(post("/admin/courses")
