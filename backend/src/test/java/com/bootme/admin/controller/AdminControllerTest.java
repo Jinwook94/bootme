@@ -4,6 +4,8 @@ import com.bootme.admin.dto.AdminLoginRequest;
 import com.bootme.admin.service.AdminService;
 import com.bootme.auth.dto.TokenResponse;
 import com.bootme.course.domain.Dates;
+import com.bootme.course.dto.CompanyRequest;
+import com.bootme.course.dto.CompanyResponse;
 import com.bootme.course.dto.CourseRequest;
 import com.bootme.course.dto.CourseResponse;
 import com.bootme.util.ControllerTest;
@@ -77,6 +79,24 @@ class AdminControllerTest extends ControllerTest {
             .tested(VALID_ISTESTED_1)
             .build();
 
+    CompanyRequest companyRequest = CompanyRequest.builder()
+                                    .url("www.naver.com")
+                                    .name("네이버")
+                                    .build();
+
+    CompanyResponse companyResponse = CompanyResponse.builder()
+                                    .id(1L)
+                                    .url("www.naver.com")
+                                    .name("네이버")
+                                    .courses(new ArrayList<>())
+                                    .build();
+    CompanyResponse companyResponse2 = CompanyResponse.builder()
+                                    .id(2L)
+                                    .url("www.kakao.com")
+                                    .name("카카오")
+                                    .courses(new ArrayList<>())
+                                    .build();
+
     @Test
     @DisplayName("login()은 정상 요청시 HTTP Status Code 200을 반환한다")
     void login() throws Exception {
@@ -106,7 +126,7 @@ class AdminControllerTest extends ControllerTest {
         //given
         String content = objectMapper.writeValueAsString(courseRequest);
         given(adminService.addCourse(any())).willReturn(1L);
-        given(adminService.findById(1L)).willReturn(courseResponse);
+        given(adminService.findCourseById(1L)).willReturn(courseResponse);
 
         //when
         ResultActions perform = mockMvc.perform(post("/admin/courses")
@@ -127,7 +147,7 @@ class AdminControllerTest extends ControllerTest {
     @DisplayName("findCourse()는 정상 요청시 상태코드 200을 반환한다.")
     void findCourse() throws Exception {
         //given
-        given(adminService.findById(any())).willReturn(courseResponse);
+        given(adminService.findCourseById(any())).willReturn(courseResponse);
 
         //when
         ResultActions perform = mockMvc.perform(get("/admin/courses/1")
@@ -171,7 +191,7 @@ class AdminControllerTest extends ControllerTest {
         List<CourseResponse> courseResponses = new ArrayList<CourseResponse>();
         courseResponses.add(courseResponse);
         courseResponses.add(courseResponse2);
-        given(adminService.findAll()).willReturn(courseResponses);
+        given(adminService.findAllCourses()).willReturn(courseResponses);
 
         //when
         ResultActions perform = mockMvc.perform(get("/admin/courses")
@@ -229,4 +249,113 @@ class AdminControllerTest extends ControllerTest {
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint())));
     }
+
+    @Test
+    @DisplayName("addCompany()는 정상 요청시 회사를 추가하고 상태코드 201을 반환한다.")
+    void addCompany() throws Exception {
+        //given
+        String content = objectMapper.writeValueAsString(companyRequest);
+        given(adminService.addCompany(any())).willReturn(1L);
+        given(adminService.findCompanyById(1L)).willReturn(companyResponse);
+
+        //when
+        ResultActions perform = mockMvc.perform(post("/admin/companies")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content));
+
+        //then
+        perform.andExpect(status().isCreated());
+
+        //docs
+        perform.andDo(print())
+                .andDo(document(BASE_SNIPPET_PATH + "companies/add/success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())));
+    }
+
+    @Test
+    @DisplayName("findCompany()는 정상 요청시 상태코드 200을 반환한다.")
+    void findCompany() throws Exception {
+        //given
+        given(adminService.findCompanyById(any())).willReturn(companyResponse);
+
+        //when
+        ResultActions perform = mockMvc.perform(get("/admin/companies/1")
+                .contentType(MediaType.APPLICATION_JSON));
+
+        //then
+        perform.andExpect(status().isOk());
+
+        //docs
+        perform.andDo(print())
+                .andDo(document(BASE_SNIPPET_PATH + "companies/find/success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())));
+    }
+
+    @Test
+    @DisplayName("findCompanies()는 정상 요청시 상태코드 200을 반환한다.")
+    public void findCompanies() throws Exception {
+        //given
+        List<CompanyResponse> companyResponses = new ArrayList<>();
+        companyResponses.add(companyResponse);
+        companyResponses.add(companyResponse2);
+        given(adminService.findAllCompanies()).willReturn(companyResponses);
+
+        //when
+        ResultActions perform = mockMvc.perform(get("/admin/companies")
+                .contentType(MediaType.APPLICATION_JSON));
+
+        //then
+        perform.andExpect(status().isOk());
+
+        //docs
+        perform.andDo(print())
+                .andDo(document(BASE_SNIPPET_PATH + "companies/findAll/success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())));
+    }
+
+    @Test
+    @DisplayName("modifyCompany()는 정상 요청시 상태코드 204를 반환한다.")
+    public void modifyCompany() throws Exception{
+        //given
+        String content = objectMapper.writeValueAsString(companyRequest);
+        willDoNothing().given(adminService).modifyCompany(any(), any());
+
+        //when
+        ResultActions perform = mockMvc.perform(put("/admin/companies/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content));
+
+        //then
+        perform.andExpect(status().isNoContent());
+
+        //docs
+        perform.andDo(print())
+                .andDo(document(BASE_SNIPPET_PATH + "companies/modify/success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())));
+    }
+
+    @Test
+    @DisplayName("deleteCompany()는 정상 요청시 상태코드 204를 반환한다.")
+    public void deleteCompany() throws Exception {
+        //given
+        willDoNothing().given(adminService).deleteCompany(any());
+
+        //when
+        ResultActions perform = mockMvc.perform(delete("/admin/companies/1")
+                .contentType(MediaType.APPLICATION_JSON));
+
+        //then
+        perform.andExpect(status().isNoContent());
+
+        //docs
+        perform.andDo(print())
+                .andDo(document(BASE_SNIPPET_PATH + "companies/delete/success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())));
+    }
+
 }

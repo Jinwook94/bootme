@@ -7,8 +7,11 @@ import com.bootme.auth.dto.AuthInfo;
 import com.bootme.auth.dto.TokenResponse;
 import com.bootme.auth.token.JwtTokenProvider;
 import com.bootme.common.exception.ErrorType;
+import com.bootme.course.dto.CompanyRequest;
+import com.bootme.course.dto.CompanyResponse;
 import com.bootme.course.dto.CourseRequest;
 import com.bootme.course.dto.CourseResponse;
+import com.bootme.course.service.CompanyService;
 import com.bootme.course.service.CourseService;
 import com.bootme.member.domain.RoleType;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +29,7 @@ public class AdminService {
     public final JwtTokenProvider jwtTokenProvider;
     public final AdminAccount adminAccount;
     public final CourseService courseService;
+    public final CompanyService companyService;
 
     public TokenResponse login(AdminLoginRequest adminLoginRequest) {
         validateLogin(adminLoginRequest.getId(), adminLoginRequest.getPassword());
@@ -44,11 +48,11 @@ public class AdminService {
         return courseService.addCourse(courseRequest);
     }
 
-    public CourseResponse findById(Long id) {
+    public CourseResponse findCourseById(Long id) {
         return courseService.findById(id);
     }
 
-    public List<CourseResponse> findAll(){
+    public List<CourseResponse> findAllCourses(){
         return courseService.findAll();
     }
 
@@ -58,5 +62,24 @@ public class AdminService {
 
     public void deleteCourse(Long id){
         courseService.deleteCourse(id);
+    }
+
+    public Long addCompany(CompanyRequest companyRequest){
+        return companyService.addCompany(companyRequest);}
+
+    public CompanyResponse findCompanyById(Long id){
+        return companyService.findById(id);
+    }
+
+    public List<CompanyResponse> findAllCompanies(){
+        return companyService.findAll();
+    }
+
+    public void modifyCompany(Long id, CompanyRequest companyRequest){
+        companyService.modifyCompany(id, companyRequest);
+    }
+
+    public void deleteCompany(Long id){
+        companyService.deleteCompany(id);
     }
 }

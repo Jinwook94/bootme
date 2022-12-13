@@ -233,11 +233,14 @@ class CourseServiceTest extends ServiceTest {
 
         //when
         courseService.deleteCourse(id);
-        Optional<Course> deletedCourse = courseRepository.findById(id);
 
         //then
-        assertThat(deletedCourse).isEmpty();
-        assertThat(courseRepository.count()).isEqualTo(count - 1);
+        assertAll(
+                () -> assertThat(courseRepository.findById(id).isEmpty()).isTrue(),
+                () -> assertThat(courseRepository.count()).isEqualTo(count - 1),
+                () -> assertThat(company1.getCourses().contains(course)).isFalse()
+        );
+
     }
 
 }

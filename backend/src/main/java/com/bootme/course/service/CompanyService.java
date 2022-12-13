@@ -1,8 +1,10 @@
 package com.bootme.course.service;
 
 import com.bootme.course.domain.Company;
+import com.bootme.course.domain.Course;
 import com.bootme.course.dto.CompanyRequest;
 import com.bootme.course.dto.CompanyResponse;
+import com.bootme.course.dto.CourseResponse;
 import com.bootme.course.exception.CompanyNotFoundException;
 import com.bootme.course.repository.CompanyRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.bootme.common.exception.ErrorType.NOT_FOUND_COMPANY;
 
@@ -37,12 +42,22 @@ public class CompanyService {
         return CompanyResponse.of(foundCompany);
     }
 
+    @Transactional(readOnly = true)
+    public List<CompanyResponse> findAll() {
+        List<Company> companyList = companyRepository.findAll();
+        return companyList.stream().map(CompanyResponse::of).collect(Collectors.toList());
+    }
+
     public void modifyCompany(Long companyId, CompanyRequest companyRequest){
         Company foundCompany = companyRepository.findById(companyId)
                                 .orElseThrow(() -> new CompanyNotFoundException(NOT_FOUND_COMPANY));
 
         foundCompany.updateUrl(companyRequest.getUrl());
         foundCompany.updateName(companyRequest.getName());
+    }
+
+    public void deleteCompany(Long companyId){
+        companyRepository.deleteById(companyId);
     }
 
 }
