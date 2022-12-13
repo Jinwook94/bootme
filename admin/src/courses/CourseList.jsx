@@ -6,7 +6,8 @@ import {
     ChipField,
     NumberField,
     UrlField,
-    Pagination
+    Pagination,
+    ReferenceField
 } from 'react-admin';
 
 const CoursePagination = props => <Pagination rowsPerPageOptions={[10, 25, 50, 100]} {...props} />;
@@ -20,7 +21,9 @@ export const CourseList = (props) => (
             <TextField source="id" />
             <TextField source="title" label="코스 타이틀" />
             <UrlField source="url" label="코스 URL" />
-            <TextField source="companyName" label="회사명" />
+            <ReferenceField source="companyId" reference="companies" label="회사명">
+                <TextField source="name" />
+            </ReferenceField>
             <TextField source="dates.registrationStartDate" label="등록 시작" />
             <TextField source="dates.registrationEndDate" label="등록 마감" />
             <TextField source="dates.courseStartDate" label="코스 시작" />
