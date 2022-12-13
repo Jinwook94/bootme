@@ -1,7 +1,6 @@
 package com.bootme.course.service;
 
 import com.bootme.course.domain.Company;
-import com.bootme.course.dto.CompanyRequest;
 import com.bootme.course.dto.CompanyResponse;
 import com.bootme.course.exception.CompanyNotFoundException;
 import com.bootme.course.repository.CompanyRepository;
@@ -15,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.bootme.common.exception.ErrorType.NOT_FOUND_COMPANY;
+import static com.bootme.util.fixture.CourseFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,10 +22,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class CompanyServiceTest extends ServiceTest {
 
     @Autowired
-    CompanyService companyService;
+    private CompanyService companyService;
 
     @Autowired
-    CompanyRepository companyRepository;
+    private CompanyRepository companyRepository;
 
     private Company company1;
     private Company company2;
@@ -33,13 +33,13 @@ class CompanyServiceTest extends ServiceTest {
     @BeforeEach
     public void setUp() {
         company1 = Company.builder()
-                .url("www.naver.com")
-                .name("네이버")
+                .url(VALID_COM_URL_1)
+                .name(VALID_COM_NAME_1)
                 .courses(new ArrayList<>())
                 .build();
         company2 = Company.builder()
-                .url("www.kakao.com")
-                .name("카카오")
+                .url(VALID_COM_URL_2)
+                .name(VALID_COM_NAME_2)
                 .courses(new ArrayList<>())
                 .build();
     }
@@ -48,21 +48,17 @@ class CompanyServiceTest extends ServiceTest {
     @DisplayName("addCompany()는 회사를 추가한다.")
     public void addCompany(){
         //given
-        CompanyRequest companyRequest = CompanyRequest.builder()
-                .url("www.naver.com")
-                .name("네이버")
-                .build();
         long count = companyRepository.count();
 
         //when
-        Long id = companyService.addCompany(companyRequest);
+        Long id = companyService.addCompany(VALID_COMPANY_REQUEST_1);
         Company foundCompany = companyRepository.findById(id).orElseThrow();
 
         //then
         assertAll(
                 () -> assertThat(companyRepository.count()).isEqualTo(count + 1),
-                () -> assertThat(foundCompany.getUrl()).isEqualTo("www.naver.com"),
-                () -> assertThat(foundCompany.getName()).isEqualTo("네이버")
+                () -> assertThat(foundCompany.getUrl()).isEqualTo(VALID_COMPANY_REQUEST_1.getUrl()),
+                () -> assertThat(foundCompany.getName()).isEqualTo(VALID_COMPANY_REQUEST_1.getName())
         );
     }
 
@@ -79,8 +75,7 @@ class CompanyServiceTest extends ServiceTest {
         assertAll(
                 () -> assertThat(companyResponse.getId()).isEqualTo(company1.getId()),
                 () -> assertThat(companyResponse.getUrl()).isEqualTo(company1.getUrl()),
-                () -> assertThat(companyResponse.getName()).isEqualTo(company1.getName()),
-                () -> assertThat(companyResponse.getCourses()).isEqualTo(company1.getCourses())
+                () -> assertThat(companyResponse.getName()).isEqualTo(company1.getName())
         );
     }
 
@@ -102,22 +97,18 @@ class CompanyServiceTest extends ServiceTest {
 
     @Test
     @DisplayName("modifyCompany()는 회사 정보를 변경한다.")
-    public void modifyCompany() throws Exception {
+    public void modifyCompany() {
         //given
         Long id = companyRepository.save(company1).getId();
-        CompanyRequest companyRequest = CompanyRequest.builder()
-                                        .url("www.kakao.com")
-                                        .name("카카오")
-                                        .build();
 
         //when
-        companyService.modifyCompany(id, companyRequest);
+        companyService.modifyCompany(id, VALID_COMPANY_REQUEST_1);
         Company foundCompany = companyRepository.findById(id)
                 .orElseThrow(() -> new CompanyNotFoundException(NOT_FOUND_COMPANY));
         //then
         assertAll(
-                () -> assertThat(foundCompany.getUrl()).isEqualTo(companyRequest.getUrl()),
-                () -> assertThat(foundCompany.getName()).isEqualTo(companyRequest.getName())
+                () -> assertThat(foundCompany.getUrl()).isEqualTo(VALID_COMPANY_REQUEST_1.getUrl()),
+                () -> assertThat(foundCompany.getName()).isEqualTo(VALID_COMPANY_REQUEST_1.getName())
         );
     }
 
@@ -136,7 +127,6 @@ class CompanyServiceTest extends ServiceTest {
                 () -> assertThat(companyRepository.findById(id).isEmpty()).isTrue(),
                 () -> assertThat(companyRepository.count()).isEqualTo(count - 1)
         );
-
     }
 
 }
