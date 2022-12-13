@@ -185,6 +185,7 @@ public class CourseFixture {
             .id(1L)
             .title(VALID_TITLE_1)
             .url(VALID_URL_1)
+            .companyId(1L)
             .companyName(VALID_COMPANY_1.getName())
             .location(VALID_LOCATION_1)
             .cost(VALID_COST_1)
@@ -201,6 +202,7 @@ public class CourseFixture {
             .id(2L)
             .title(VALID_TITLE_2)
             .url(VALID_URL_2)
+            .companyId(2L)
             .companyName(VALID_COMPANY_2.getName())
             .location(VALID_LOCATION_2)
             .cost(VALID_COST_2)
@@ -217,6 +219,7 @@ public class CourseFixture {
             .id(3L)
             .title(VALID_TITLE_3)
             .url(VALID_URL_3)
+            .companyId(3L)
             .companyName(VALID_COMPANY_3.getName())
             .location(VALID_LOCATION_3)
             .cost(VALID_COST_3)
@@ -245,18 +248,21 @@ public class CourseFixture {
             .build();
 
     public static final CompanyResponse VALID_COMPANY_RESPONSE_1 = CompanyResponse.builder()
+            .id(1L)
             .url(VALID_COM_URL_1)
             .name(VALID_COM_NAME_1)
             .courses(new ArrayList<>(Arrays.asList("네이버 부트캠프", "카카오 부트캠프", "라인 부트캠프")))
             .build();
 
     public static final CompanyResponse VALID_COMPANY_RESPONSE_2 = CompanyResponse.builder()
+            .id(2L)
             .url(VALID_COM_URL_2)
             .name(VALID_COM_NAME_2)
             .courses(new ArrayList<>(Arrays.asList("쿠팡 부트캠프", "배민 부트캠프", "토스 부트캠프")))
             .build();
 
     public static final CompanyResponse VALID_COMPANY_RESPONSE_3 = CompanyResponse.builder()
+            .id(3L)
             .url(VALID_COM_URL_3)
             .name(VALID_COM_NAME_3)
             .courses(new ArrayList<>(Arrays.asList("페이스북 부트캠프", "아마존 부트캠프", "구글 부트캠프")))

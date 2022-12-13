@@ -14,6 +14,7 @@ public class CourseResponse {
     private Long id;
     private String title;
     private String url;
+    private Long companyId;
     private String companyName;
     private String location;
     private int cost;
@@ -30,12 +31,13 @@ public class CourseResponse {
 
     @Builder
     public CourseResponse(Long id, String title, String url, String companyName,
-                          String location, int cost, String costType, Dates dates,
+                          Long companyId, String location, int cost, String costType, Dates dates,
                           String onOffline, List<Tag> tags, String prerequisites,
                           boolean recommended, boolean tested) {
         this.id = id;
         this.title = title;
         this.url = url;
+        this.companyId = companyId;
         this.companyName = companyName;
         this.location = location;
         this.cost = cost;
@@ -55,6 +57,7 @@ public class CourseResponse {
                 .id(course.getId())
                 .title(course.getTitle())
                 .url(course.getUrl())
+                .companyId(course.getCompany().getId())
                 .companyName(course.getCompany().getName())
                 .location(course.getLocation())
                 .cost(course.getCost())
