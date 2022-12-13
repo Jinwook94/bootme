@@ -3,6 +3,8 @@ package com.bootme.admin.controller;
 import com.bootme.admin.dto.AdminLoginRequest;
 import com.bootme.admin.service.AdminService;
 import com.bootme.auth.dto.TokenResponse;
+import com.bootme.course.dto.CompanyRequest;
+import com.bootme.course.dto.CompanyResponse;
 import com.bootme.course.dto.CourseRequest;
 import com.bootme.course.dto.CourseResponse;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +45,7 @@ public class AdminController {
     }
 
     @GetMapping("/courses")
-    public ResponseEntity<List<CourseResponse>> findCourses(){
+    public ResponseEntity<List<CourseResponse>> findAllCourses(){
         List<CourseResponse> courseResponses = adminService.findAllCourses();
         int size = courseResponses.size();
 
@@ -68,4 +70,43 @@ public class AdminController {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/companies")
+    public ResponseEntity<CompanyResponse> addCompany(@Valid @RequestBody CompanyRequest companyRequest){
+        Long companyId = adminService.addCompany(companyRequest);
+        CompanyResponse companyResponse = adminService.findCompanyById(companyId);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Location", "/companies/" + companyId);
+        return new ResponseEntity(companyResponse, headers, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/companies/{id}")
+    public ResponseEntity<CompanyResponse> findCompanyById(@PathVariable Long id) {
+        CompanyResponse companyResponse = adminService.findCompanyById(id);
+        return ResponseEntity.ok(companyResponse);
+    }
+
+    @GetMapping("/companies")
+    public ResponseEntity<List<CompanyResponse>> findAllCompanies(){
+        List<CompanyResponse> companyResponses = adminService.findAllCompanies();
+        int size = companyResponses.size();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Expose-Headers", "X-Total-Count");
+        headers.add("X-Total-Count", String.valueOf(size));
+        headers.add("Content-Range", "companies 0-"+size+"/"+size);
+
+        return ResponseEntity.ok().headers(headers).body(companyResponses);
+    }
+
+    @PutMapping("/companies/{id}")
+        public ResponseEntity<Void> modifyCompany(@PathVariable Long id, @Valid @RequestBody CompanyRequest companyRequest){
+            adminService.modifyCompany(id, companyRequest);
+            return ResponseEntity.noContent().build();
+        }
+
+    @DeleteMapping("/companies/{id}")
+    public ResponseEntity<Void> deleteCompany(@PathVariable Long id){
+        adminService.deleteCompany(id);
+        return ResponseEntity.noContent().build();
+    }
 }
