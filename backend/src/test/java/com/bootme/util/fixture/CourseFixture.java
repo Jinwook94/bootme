@@ -5,7 +5,6 @@ import com.bootme.course.dto.CompanyRequest;
 import com.bootme.course.dto.CompanyResponse;
 import com.bootme.course.dto.CourseRequest;
 import com.bootme.course.dto.CourseResponse;
-import org.hibernate.type.TrueFalseType;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -248,19 +247,19 @@ public class CourseFixture {
     public static final CompanyResponse VALID_COMPANY_RESPONSE_1 = CompanyResponse.builder()
             .url(VALID_COM_URL_1)
             .name(VALID_COM_NAME_1)
-            .courses(new ArrayList<>())
+            .courses(new ArrayList<>(Arrays.asList("네이버 부트캠프", "카카오 부트캠프", "라인 부트캠프")))
             .build();
 
     public static final CompanyResponse VALID_COMPANY_RESPONSE_2 = CompanyResponse.builder()
             .url(VALID_COM_URL_2)
             .name(VALID_COM_NAME_2)
-            .courses(new ArrayList<>())
+            .courses(new ArrayList<>(Arrays.asList("쿠팡 부트캠프", "배민 부트캠프", "토스 부트캠프")))
             .build();
 
     public static final CompanyResponse VALID_COMPANY_RESPONSE_3 = CompanyResponse.builder()
             .url(VALID_COM_URL_3)
             .name(VALID_COM_NAME_3)
-            .courses(new ArrayList<>())
+            .courses(new ArrayList<>(Arrays.asList("페이스북 부트캠프", "아마존 부트캠프", "구글 부트캠프")))
             .build();
 
 }
