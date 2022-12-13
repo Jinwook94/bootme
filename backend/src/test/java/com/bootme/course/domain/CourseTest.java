@@ -1,6 +1,5 @@
 package com.bootme.course.domain;
 
-import com.bootme.course.dto.CourseRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,49 +19,13 @@ class CourseTest {
 
     @BeforeEach
     void setUp() {
-        course = Course.builder()
-                .title(VALID_TITLE_1)
-                .url(VALID_URL_1)
-                .company(VALID_COMPANY_1)
-                .location(VALID_LOCATION_1)
-                .cost(VALID_COST_1)
-                .costType(VALID_CostType_1)
-                .dates(Dates.builder()
-                        .registrationStartDate(LocalDate.of(2022, 12, 5))
-                        .registrationEndDate(LocalDate.of(2023, 1, 10))
-                        .courseStartDate(LocalDate.of(2023, 1, 20))
-                        .courseEndDate(LocalDate.of(2023, 7, 31))
-                        .build())
-                .onoffline(VALID_ONOFFLINE_1)
-                .tags(VALID_TAGS_1)
-                .prerequisites(VALID_PREREQUISITES_1)
-                .isRecommended(VALID_ISRECOMMENDED_1)
-                .isTested(VALID_ISTESTED_1)
-                .build();
+        course = VALID_COURSE_1;
     }
 
     @Test
     @DisplayName("modifyCourse()는 코스 정보를 변경한다.")
     void updateUrl() {
-        CourseRequest courseRequest = CourseRequest.builder()
-                                                .title(VALID_TITLE_2)
-                                                .url(VALID_URL_2)
-                                                .location(VALID_LOCATION_2)
-                                                .cost(VALID_COST_2)
-                                                .costType(VALID_CostType_2.name())
-                                                .dates(Dates.builder()
-                                                        .registrationStartDate(LocalDate.of(2022, 1, 1))
-                                                        .registrationEndDate(LocalDate.of(2022, 2, 1))
-                                                        .courseStartDate(LocalDate.of(2022, 2, 10))
-                                                        .courseEndDate(LocalDate.of(2022, 8, 31))
-                                                        .build())
-                                                .onOffline(VALID_ONOFFLINE_2.name())
-                                                .tags(VALID_TAGS_2)
-                                                .prerequisites(VALID_PREREQUISITES_2.name())
-                                                .recommended(VALID_ISRECOMMENDED_2)
-                                                .tested(VALID_ISTESTED_2)
-                                                .build();
-        course.modifyCourse(courseRequest);
+        course.modifyCourse(VALID_COURSE_REQUEST_2);
 
         assertAll(
                 () -> assertThat(course.getTitle()).isEqualTo(VALID_TITLE_2),
