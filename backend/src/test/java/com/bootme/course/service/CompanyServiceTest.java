@@ -33,13 +33,19 @@ class CompanyServiceTest extends ServiceTest {
     @BeforeEach
     public void setUp() {
         company1 = Company.builder()
-                .url(VALID_COM_URL_1)
                 .name(VALID_COM_NAME_1)
+                .serviceName(VALID_COM_SERVICE_NAME_1)
+                .url(VALID_COM_URL_1)
+                .serviceUrl(VALID_COM_SERVICE_URL_1)
+                .logoUrl(VALID_COM_LOGO_URL_1)
                 .courses(new ArrayList<>())
                 .build();
         company2 = Company.builder()
-                .url(VALID_COM_URL_2)
                 .name(VALID_COM_NAME_2)
+                .serviceName(VALID_COM_SERVICE_NAME_2)
+                .url(VALID_COM_URL_2)
+                .serviceUrl(VALID_COM_SERVICE_URL_2)
+                .logoUrl(VALID_COM_LOGO_URL_2)
                 .courses(new ArrayList<>())
                 .build();
     }
@@ -74,8 +80,11 @@ class CompanyServiceTest extends ServiceTest {
         //then
         assertAll(
                 () -> assertThat(companyResponse.getId()).isEqualTo(company1.getId()),
+                () -> assertThat(companyResponse.getName()).isEqualTo(company1.getName()),
+                () -> assertThat(companyResponse.getServiceName()).isEqualTo(company1.getServiceName()),
                 () -> assertThat(companyResponse.getUrl()).isEqualTo(company1.getUrl()),
-                () -> assertThat(companyResponse.getName()).isEqualTo(company1.getName())
+                () -> assertThat(companyResponse.getServiceUrl()).isEqualTo(company1.getServiceUrl()),
+                () -> assertThat(companyResponse.getLogoUrl()).isEqualTo(company1.getLogoUrl())
         );
     }
 
@@ -107,8 +116,11 @@ class CompanyServiceTest extends ServiceTest {
                 .orElseThrow(() -> new CompanyNotFoundException(NOT_FOUND_COMPANY));
         //then
         assertAll(
-                () -> assertThat(foundCompany.getUrl()).isEqualTo(VALID_COMPANY_REQUEST_1.getUrl()),
-                () -> assertThat(foundCompany.getName()).isEqualTo(VALID_COMPANY_REQUEST_1.getName())
+                () -> assertThat(foundCompany.getName()).isEqualTo(VALID_COM_NAME_1),
+                () -> assertThat(foundCompany.getServiceName()).isEqualTo(VALID_COM_SERVICE_NAME_1),
+                () -> assertThat(foundCompany.getUrl()).isEqualTo(VALID_COM_URL_1),
+                () -> assertThat(foundCompany.getServiceUrl()).isEqualTo(VALID_COM_SERVICE_URL_1),
+                () -> assertThat(foundCompany.getLogoUrl()).isEqualTo(VALID_COM_LOGO_URL_1)
         );
     }
 
