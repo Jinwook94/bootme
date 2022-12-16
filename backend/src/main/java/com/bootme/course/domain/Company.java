@@ -1,5 +1,6 @@
 package com.bootme.course.domain;
 
+import com.bootme.course.dto.CompanyRequest;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,24 +22,33 @@ public class Company {
 
     private String name;
 
+    private String serviceName;
+
     private String url;
+
+    private String serviceUrl;
+
+    private String logoUrl;
 
     @OneToMany(mappedBy = "company")
     private List<Course> courses = new ArrayList<>();
 
     @Builder
-    public Company(String name, String url, List<Course> courses) {
+    public Company(String name, String serviceName, String url, String serviceUrl, String logoUrl, List<Course> courses) {
         this.name = name;
+        this.serviceName = serviceName;
         this.url = url;
+        this.serviceUrl = serviceUrl;
+        this.logoUrl = logoUrl;
         this.courses = courses;
     }
 
-    public void updateName(String name){
-        this.name = name;
-    }
-
-    public void updateUrl(String url){
-        this.url = url;
+    public void modifyCompany(CompanyRequest companyRequest){
+        this.name = companyRequest.getName();
+        this.serviceName = companyRequest.getServiceName();
+        this.url = companyRequest.getUrl();
+        this.serviceUrl = companyRequest.getServiceUrl();
+        this.logoUrl = companyRequest.getLogoUrl();
     }
 
     public void deleteCourse(Course course){

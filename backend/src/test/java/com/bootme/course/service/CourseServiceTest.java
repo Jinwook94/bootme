@@ -41,18 +41,27 @@ class CourseServiceTest extends ServiceTest {
     @BeforeEach
     public void setup(){
         company1 = Company.builder()
-                .url(VALID_COM_URL_1)
                 .name(VALID_COM_NAME_1)
+                .serviceName(VALID_COM_SERVICE_NAME_1)
+                .url(VALID_COM_URL_1)
+                .serviceUrl(VALID_COM_SERVICE_URL_1)
+                .logoUrl(VALID_COM_LOGO_URL_1)
                 .courses(new ArrayList<>())
                 .build();
         company2 = Company.builder()
-                .url(VALID_COM_URL_2)
                 .name(VALID_COM_NAME_2)
+                .serviceName(VALID_COM_SERVICE_NAME_2)
+                .url(VALID_COM_URL_2)
+                .serviceUrl(VALID_COM_SERVICE_URL_2)
+                .logoUrl(VALID_COM_LOGO_URL_2)
                 .courses(new ArrayList<>())
                 .build();
         company3 = Company.builder()
-                .url(VALID_COM_URL_3)
                 .name(VALID_COM_NAME_3)
+                .serviceName(VALID_COM_SERVICE_NAME_3)
+                .url(VALID_COM_URL_3)
+                .serviceUrl(VALID_COM_SERVICE_URL_3)
+                .logoUrl(VALID_COM_LOGO_URL_3)
                 .courses(new ArrayList<>())
                 .build();
         companyRepository.save(company1);

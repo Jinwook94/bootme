@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static com.bootme.util.fixture.CourseFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @DisplayName("Company 엔티티 클래스의")
 class CompanyTest {
@@ -20,19 +21,17 @@ class CompanyTest {
     }
 
     @Test
-    @DisplayName("updateName()은 회사의 이름을 업데이트한다.")
+    @DisplayName("modifyCompany()는 회사의 정보를 변경한다.")
     void updateName() {
-        company.updateName("Alphabet");
+        company.modifyCompany(VALID_COMPANY_REQUEST_2);
 
-        assertThat(company.getName()).isEqualTo("Alphabet");
-    }
-
-    @Test
-    @DisplayName("updateUrl()은 회사의 링크을 업데이트한다.")
-    void updateUrl() {
-        company.updateUrl("www.alphabet.com");
-
-        assertThat(company.getUrl()).isEqualTo("www.alphabet.com");
+        assertAll(
+                () -> assertThat(company.getName()).isEqualTo(VALID_COM_NAME_2),
+                () -> assertThat(company.getServiceName()).isEqualTo(VALID_COM_SERVICE_NAME_2),
+                () -> assertThat(company.getUrl()).isEqualTo(VALID_COM_URL_2),
+                () -> assertThat(company.getServiceUrl()).isEqualTo(VALID_COM_SERVICE_URL_2),
+                () -> assertThat(company.getLogoUrl()).isEqualTo(VALID_COM_LOGO_URL_2)
+        );
     }
 
     @Test

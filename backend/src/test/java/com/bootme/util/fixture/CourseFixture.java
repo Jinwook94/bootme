@@ -66,28 +66,46 @@ public class CourseFixture {
     public static final boolean VALID_ISTESTED_1 = false;
     public static final boolean VALID_ISTESTED_2 = true;
     public static final boolean VALID_ISTESTED_3 = true;
-    public static final String VALID_COM_URL_1 = "www.naver.com";
     public static final String VALID_COM_NAME_1 = "네이버";
-    public static final String VALID_COM_URL_2 = "www.kakao.com";
     public static final String VALID_COM_NAME_2 = "카카오";
-    public static final String VALID_COM_URL_3 = "www.line.com";
     public static final String VALID_COM_NAME_3 = "라인";
+    public static final String VALID_COM_SERVICE_NAME_1 = "네이버앱";
+    public static final String VALID_COM_SERVICE_NAME_2 = "카카오톡";
+    public static final String VALID_COM_SERVICE_NAME_3 = "라인앱";
+    public static final String VALID_COM_URL_1 = "www.naver.com";
+    public static final String VALID_COM_URL_2 = "www.kakao.com";
+    public static final String VALID_COM_URL_3 = "www.line.com";
+    public static final String VALID_COM_SERVICE_URL_1 = "www.app.naver.com";
+    public static final String VALID_COM_SERVICE_URL_2 = "www.talk.kakao.com";
+    public static final String VALID_COM_SERVICE_URL_3 = "www.app.line.com";
+    public static final String VALID_COM_LOGO_URL_1 = "https://logoproject.naver.com/img/img_story_renewal.png";
+    public static final String VALID_COM_LOGO_URL_2 = "https://t1.kakaocdn.net/kakaocorp/kakaocorp/admin/1b904e28017800001.png";
+    public static final String VALID_COM_LOGO_URL_3 = "https://vos.line-scdn.net/strapi-cluster-instance-bucket-84/brand_02_8089c34e51.jpeg";
 
     public static final Company VALID_COMPANY_1 = Company.builder()
-            .url(VALID_COM_URL_1)
             .name(VALID_COM_NAME_1)
+            .serviceName(VALID_COM_SERVICE_NAME_1)
+            .url(VALID_COM_URL_1)
+            .serviceUrl(VALID_COM_SERVICE_URL_1)
+            .logoUrl(VALID_COM_LOGO_URL_1)
             .courses(new ArrayList<>())
             .build();
 
     public static final Company VALID_COMPANY_2 = Company.builder()
-            .url(VALID_COM_URL_2)
             .name(VALID_COM_NAME_2)
+            .serviceName(VALID_COM_SERVICE_NAME_2)
+            .url(VALID_COM_URL_2)
+            .serviceUrl(VALID_COM_SERVICE_URL_2)
+            .logoUrl(VALID_COM_LOGO_URL_2)
             .courses(new ArrayList<>())
             .build();
 
     public static final Company VALID_COMPANY_3 = Company.builder()
-            .url(VALID_COM_URL_3)
             .name(VALID_COM_NAME_3)
+            .serviceName(VALID_COM_SERVICE_NAME_3)
+            .url(VALID_COM_URL_3)
+            .serviceUrl(VALID_COM_SERVICE_URL_3)
+            .logoUrl(VALID_COM_LOGO_URL_3)
             .courses(new ArrayList<>())
             .build();
 
@@ -233,38 +251,56 @@ public class CourseFixture {
             .build();
 
     public static final CompanyRequest VALID_COMPANY_REQUEST_1 = CompanyRequest.builder()
-            .url(VALID_COM_URL_1)
             .name(VALID_COM_NAME_1)
+            .serviceName(VALID_COM_SERVICE_NAME_1)
+            .url(VALID_COM_URL_1)
+            .serviceUrl(VALID_COM_SERVICE_URL_1)
+            .logoUrl(VALID_COM_LOGO_URL_1)
             .build();
 
     public static final CompanyRequest VALID_COMPANY_REQUEST_2 = CompanyRequest.builder()
-            .url(VALID_COM_URL_2)
             .name(VALID_COM_NAME_2)
+            .serviceName(VALID_COM_SERVICE_NAME_2)
+            .url(VALID_COM_URL_2)
+            .serviceUrl(VALID_COM_SERVICE_URL_2)
+            .logoUrl(VALID_COM_LOGO_URL_2)
             .build();
 
     public static final CompanyRequest VALID_COMPANY_REQUEST_3 = CompanyRequest.builder()
-            .url(VALID_COM_URL_3)
             .name(VALID_COM_NAME_3)
+            .serviceName(VALID_COM_SERVICE_NAME_3)
+            .url(VALID_COM_URL_3)
+            .serviceUrl(VALID_COM_SERVICE_URL_3)
+            .logoUrl(VALID_COM_LOGO_URL_3)
             .build();
 
     public static final CompanyResponse VALID_COMPANY_RESPONSE_1 = CompanyResponse.builder()
             .id(1L)
-            .url(VALID_COM_URL_1)
             .name(VALID_COM_NAME_1)
+            .serviceName(VALID_COM_SERVICE_NAME_1)
+            .url(VALID_COM_URL_1)
+            .serviceUrl(VALID_COM_SERVICE_URL_1)
+            .logoUrl(VALID_COM_LOGO_URL_1)
             .courses(new ArrayList<>(Arrays.asList("네이버 부트캠프", "카카오 부트캠프", "라인 부트캠프")))
             .build();
 
     public static final CompanyResponse VALID_COMPANY_RESPONSE_2 = CompanyResponse.builder()
             .id(2L)
-            .url(VALID_COM_URL_2)
             .name(VALID_COM_NAME_2)
+            .serviceName(VALID_COM_SERVICE_NAME_2)
+            .url(VALID_COM_URL_2)
+            .serviceUrl(VALID_COM_SERVICE_URL_2)
+            .logoUrl(VALID_COM_LOGO_URL_2)
             .courses(new ArrayList<>(Arrays.asList("쿠팡 부트캠프", "배민 부트캠프", "토스 부트캠프")))
             .build();
 
     public static final CompanyResponse VALID_COMPANY_RESPONSE_3 = CompanyResponse.builder()
             .id(3L)
-            .url(VALID_COM_URL_3)
             .name(VALID_COM_NAME_3)
+            .serviceName(VALID_COM_SERVICE_NAME_3)
+            .url(VALID_COM_URL_3)
+            .serviceUrl(VALID_COM_SERVICE_URL_3)
+            .logoUrl(VALID_COM_LOGO_URL_3)
             .courses(new ArrayList<>(Arrays.asList("페이스북 부트캠프", "아마존 부트캠프", "구글 부트캠프")))
             .build();
 
