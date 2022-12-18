@@ -26,9 +26,23 @@ public class CourseService {
     private final CompanyRepository companyRepository;
 
     public Long addCourse(CourseRequest courseRequest){
-        Company company = companyRepository.findByName(courseRequest.getCompanyName())
+        String companyName = courseRequest.getCompanyName();
+        Company company = companyRepository.findByName(companyName)
                                     .orElseThrow(() -> new CompanyNotFoundException(NOT_FOUND_COMPANY));
-        Course course = Course.of(courseRequest, company);
+        Course course = Course.builder()
+                        .title(courseRequest.getTitle())
+                        .url(courseRequest.getUrl())
+                        .company(company)
+                        .location(courseRequest.getLocation())
+                        .cost(courseRequest.getCost())
+                        .costType(Enum.valueOf(CostType.class, courseRequest.getCostType()))
+                        .dates(courseRequest.getDates())
+                        .onoffline(Enum.valueOf(OnOffline.class, courseRequest.getOnOffline()))
+                        .tags(courseRequest.getTags())
+                        .prerequisites(Enum.valueOf(Prerequisites.class, courseRequest.getPrerequisites()))
+                        .isRecommended(courseRequest.isRecommended())
+                        .isTested(courseRequest.isTested())
+                        .build();
         Course savedCourse = courseRepository.save(course);
         return savedCourse.getId();
     }
