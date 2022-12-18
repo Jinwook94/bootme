@@ -69,17 +69,20 @@ class CourseServiceTest extends ServiceTest {
         companyRepository.save(company3);
         course = Course.builder()
                 .title(VALID_TITLE_1)
+                .name(VALID_NAME_1)
+                .generation(VALID_GENERATION_1)
                 .url(VALID_URL_1)
                 .company(company1)
                 .location(VALID_LOCATION_1)
-                .cost(VALID_COST_1)
-                .costType(VALID_CostType_1)
-                .dates(VALID_DATES_1)
                 .onoffline(VALID_ONOFFLINE_1)
                 .tags(VALID_TAGS_1)
                 .prerequisites(VALID_PREREQUISITES_1)
-                .isRecommended(VALID_ISRECOMMENDED_1)
-                .isTested(VALID_ISTESTED_1)
+                .cost(VALID_COST_1)
+                .costType(VALID_CostType_1)
+                .period(VALID_PERIOD_1)
+                .dates(VALID_DATES_1)
+                .isRecommended(true)
+                .isTested(true)
                 .build();
     }
 
@@ -107,9 +110,8 @@ class CourseServiceTest extends ServiceTest {
                 () -> assertThat(foundCourse.getOnoffline()).isEqualTo(VALID_ONOFFLINE_2),
                 // repository 에서 찾아온 리스트는 persistenceBag 에 담겨있기 때문에 아래와 같이 검증
                 () -> assertThat(foundCourse.getTags()).containsExactly(프론트엔드, Javascript, React),
-                () -> assertThat(foundCourse.getPrerequisites()).isEqualTo(VALID_PREREQUISITES_2),
-                () -> assertThat(foundCourse.isRecommended()).isEqualTo(VALID_ISRECOMMENDED_2),
-                () -> assertThat(foundCourse.isTested()).isEqualTo(VALID_ISTESTED_2));
+                () -> assertThat(foundCourse.getPrerequisites()).isEqualTo(VALID_PREREQUISITES_2)
+        );
     }
 
     @Test
@@ -126,7 +128,6 @@ class CourseServiceTest extends ServiceTest {
                 () -> assertThat(courseResponse.getId()).isEqualTo(course.getId()),
                 () -> assertThat(courseResponse.getUrl()).isEqualTo(course.getUrl()),
                 () -> assertThat(courseResponse.getTitle()).isEqualTo(course.getTitle()),
-                () -> assertThat(courseResponse.getCompanyName()).isEqualTo(course.getCompany().getName()),
                 () -> assertThat(courseResponse.getLocation()).isEqualTo(course.getLocation()),
                 () -> assertThat(courseResponse.getTags()).isEqualTo(course.getTags())
         );
@@ -169,9 +170,7 @@ class CourseServiceTest extends ServiceTest {
                 () -> assertThat(foundCourse.getOnoffline()).isEqualTo(VALID_ONOFFLINE_2),
                 // repository 에서 찾아온 리스트는 persistenceBag 에 담겨있기 때문에 아래와 같이 검증
                 () -> assertThat(foundCourse.getTags()).containsExactly(프론트엔드, Javascript, React),
-                () -> assertThat(foundCourse.getPrerequisites()).isEqualTo(VALID_PREREQUISITES_2),
-                () -> assertThat(foundCourse.isRecommended()).isEqualTo(VALID_ISRECOMMENDED_2),
-                () -> assertThat(foundCourse.isTested()).isEqualTo(VALID_ISTESTED_2)
+                () -> assertThat(foundCourse.getPrerequisites()).isEqualTo(VALID_PREREQUISITES_2)
         );
     }
 
