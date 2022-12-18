@@ -26,23 +26,9 @@ public class CourseService {
     private final CompanyRepository companyRepository;
 
     public Long addCourse(CourseRequest courseRequest){
-        String companyName = courseRequest.getCompanyName();
-        Company company = companyRepository.findByName(companyName)
-                                    .orElseThrow(() -> new CompanyNotFoundException(NOT_FOUND_COMPANY));
-        Course course = Course.builder()
-                        .title(courseRequest.getTitle())
-                        .url(courseRequest.getUrl())
-                        .company(company)
-                        .location(courseRequest.getLocation())
-                        .cost(courseRequest.getCost())
-                        .costType(Enum.valueOf(CostType.class, courseRequest.getCostType()))
-                        .dates(courseRequest.getDates())
-                        .onoffline(Enum.valueOf(OnOffline.class, courseRequest.getOnOffline()))
-                        .tags(courseRequest.getTags())
-                        .prerequisites(Enum.valueOf(Prerequisites.class, courseRequest.getPrerequisites()))
-                        .isRecommended(courseRequest.isRecommended())
-                        .isTested(courseRequest.isTested())
-                        .build();
+        Company company = companyRepository.findByName(courseRequest.getCompanyName())
+                .orElseThrow(() -> new CompanyNotFoundException(NOT_FOUND_COMPANY));
+        Course course = Course.of(courseRequest, company);
         Course savedCourse = courseRepository.save(course);
         return savedCourse.getId();
     }
@@ -50,7 +36,7 @@ public class CourseService {
     @Transactional(readOnly = true)
     public CourseResponse findById(Long id) {
         Course foundCourse = courseRepository.findById(id)
-                                .orElseThrow(() -> new CourseNotFoundException(NOT_FOUND_COURSE));
+                .orElseThrow(() -> new CourseNotFoundException(NOT_FOUND_COURSE));
         return CourseResponse.of(foundCourse);
     }
 
@@ -62,7 +48,7 @@ public class CourseService {
 
     public void modifyCourse(Long id, CourseRequest courseRequest){
         Course course = courseRepository.findById(id)
-                         .orElseThrow(() -> new CourseNotFoundException(NOT_FOUND_COURSE));
+                .orElseThrow(() -> new CourseNotFoundException(NOT_FOUND_COURSE));
 
         course.modifyCourse(courseRequest);
     }
