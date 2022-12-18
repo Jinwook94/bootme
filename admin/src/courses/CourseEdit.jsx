@@ -5,7 +5,6 @@ import {
     Edit,
     NumberInput,
     RadioButtonGroupInput,
-    required,
     SelectArrayInput,
     SimpleForm,
     TextInput
@@ -16,7 +15,10 @@ export const CourseEdit = () => (
     <Edit>
         <SimpleForm>
             <TextInput source="title" label="코스 타이틀" />
+            <TextInput source="name" label="코스 이름" />
+            <NumberInput source="generation" label="회차" />
             <TextInput source="url" label="코스 URL" />
+            <TextInput source="period" label="수강 기간" />
             <DateInput source="dates.registrationStartDate" label="접수 시작일" />
             <DateInput source="dates.registrationEndDate" label="접수 마감일" />
             <DateInput source="dates.courseStartDate" label="코스 시작일" />

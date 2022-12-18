@@ -16,12 +16,15 @@ export const CourseCreate = () => (
     <Create>
         <SimpleForm>
             <TextInput source="title" label="코스 타이틀" validate={[required()]} />
+            <TextInput source="name" label="코스 이름" validate={[required()]} />
+            <NumberInput source="generation" label="회차" />
             <TextInput source="url" label="코스 URL" validate={[required()]} />
+            <TextInput source="period" label="수강 기간" validate={[required()]} />
             <TextInput source="companyName" label="회사명" validate={[required()]} />
-            <DateInput source="dates.registrationStartDate" label="접수 시작일" />
-            <DateInput source="dates.registrationEndDate" label="접수 마감일" />
-            <DateInput source="dates.courseStartDate" label="코스 시작일" />
-            <DateInput source="dates.courseEndDate" label="코스 종료일" />
+            <DateInput source="dates.registrationStartDate" label="접수 시작일" validate={[required()]} />
+            <DateInput source="dates.registrationEndDate" label="접수 마감일" validate={[required()]} />
+            <DateInput source="dates.courseStartDate" label="코스 시작일" validate={[required()]} />
+            <DateInput source="dates.courseEndDate" label="코스 종료일" validate={[required()]} />
             <SelectArrayInput source="tags" choices={[
                 { id: '프론트엔드', name: '프론트엔드' },
                 { id: '백엔드', name: '백엔드' },
@@ -46,7 +49,7 @@ export const CourseCreate = () => (
             <RadioButtonGroupInput source="onOffline" choices={[
                 { id: '온라인', name: '온라인' },
                 { id: '오프라인', name: '오프라인' },
-                { id: '온오프라인혼', name: '온오프라인혼합' },
+                { id: '온오프라인혼합', name: '온오프라인혼합' },
             ]} label="온오프라인" validate={[required()]} />
             <RadioButtonGroupInput source="prerequisites" choices={[
                 { id: '노베이스', name: '노베이스' },
