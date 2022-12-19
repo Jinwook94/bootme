@@ -1,7 +1,5 @@
-import { cardHandlers } from "./cardHandlers"
+import { cardHandlers } from './cardHandlers';
 
-const handlers = [
-  ...cardHandlers,
-];
+const handlers = [...cardHandlers];
 
 export default handlers;
