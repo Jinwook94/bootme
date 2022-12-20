@@ -1,4 +1,4 @@
-import {createGlobalStyle} from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
     @font-face {
@@ -32,7 +32,6 @@ const GlobalStyle = createGlobalStyle`
     body {
       max-width: 100%;
       overflow-x: hidden;
-      font-display: 'block';
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       width: 100%;
@@ -40,7 +39,6 @@ const GlobalStyle = createGlobalStyle`
       word-break: keep-all;
       word-wrap: break-word;
       color: #263747;
-      overflow-x: hidden;
     }
     
     button {
