@@ -19,30 +19,22 @@ import ExperienceIcon from '../../assets/experience.svg';
 import LocationIcon from '../../assets/location.svg';
 import BookmarkIcon from '../../assets/bookmark.svg';
 
-const CourseCard = ({
-  companyLogoUrl,
-  companyLogoAlt,
-  courseTitleUrl,
-  courseName,
-  companyName,
-  locationName,
-  courseTag,
-}: CourseCardProps) => {
+const CourseCard = ({ title, url, company, tags, location }: CourseCardProps) => {
   return (
     <Wrapper>
       <ItemHeader>
         <a>
-          <CompanyLogo src={companyLogoUrl} alt={companyLogoAlt} className="company-logo" />
+          <CompanyLogo src={company.logoUrl} alt={company.name} className="company-logo" />
         </a>
       </ItemHeader>
       <ItemBody>
         <CourseTitleWrapper>
           <CourseTitle>
-            <a href={courseTitleUrl}> {courseName}</a>
+            <a href={url}> {title}</a>
           </CourseTitle>
         </CourseTitleWrapper>
         <CompanyName>
-          <CompanyLink>{companyName}</CompanyLink>
+          <CompanyLink>{company.name}</CompanyLink>
         </CompanyName>
         <CourseInfo>
           <Experience>
@@ -51,11 +43,11 @@ const CourseCard = ({
           </Experience>
           <Location>
             <LocationIcon />
-            {locationName}
+            {location}
           </Location>
         </CourseInfo>
         <CourseTags>
-          {courseTag.map((tag: string) => (
+          {tags?.map((tag: string) => (
             <TagItem>{tag}</TagItem>
           ))}
         </CourseTags>
@@ -70,14 +62,19 @@ const CourseCard = ({
   );
 };
 
-export interface CourseCardProps {
-  companyLogoUrl: string;
-  companyLogoAlt: string;
-  courseTitleUrl: string;
-  courseName: string;
-  companyName: string;
-  locationName: string;
-  courseTag: [];
-}
+export type CourseCardProps = Omit<
+  Course,
+  | 'name'
+  | 'generation'
+  | 'onOffline'
+  | 'prerequisites'
+  | 'cost'
+  | 'costType'
+  | 'period'
+  | 'dates'
+  | 'isRecommended'
+  | 'isTested'
+  | 'isRegisterOpen'
+>;
 
 export default CourseCard;
