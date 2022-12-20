@@ -14,27 +14,33 @@ import {
 
 import SlideBanner from '../../components/SlideBanner';
 import PaginationBar from '../../components/PaginationBar';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import CourseCardList from '../../components/CourseCardList';
 import usePaging from '../../hooks/usePaging';
+import useCourses from '../../hooks/queries/course/useCourses';
 
 const Home = () => {
-  const [cards, setCards] = useState([]);
-
-  useEffect(() => {
-    fetch('/api/cards')
-      .then(response => response.json())
-      .then(({ cards }) => setCards(cards));
-  }, []);
+  const { data, isLoading, isError } = useCourses({});
 
   const [cardsPerPage] = useState(20);
-  const maxPage = Math.floor(cards.length / cardsPerPage) + 1;
+  const length = data?.length ?? 10; // 데이터를 받아오지 못한 경우 data.length 를 10으로 설정
+  const maxPage = Math.floor(length / cardsPerPage) + 1;
   const { currentPage, handleNumberClick, handleNextClick, handlePrevClick } = usePaging(maxPage);
 
   // Get current cards
   const indexOfLastCard = currentPage * cardsPerPage;
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
-  const currentCards = cards.slice(indexOfFirstCard, indexOfLastCard);
+
+  if (isLoading) {
+    return <p>to do: 로딩중 화면 작성</p>;
+  }
+
+  if (isError) {
+    return <p>to do: 에러 화면 작성</p>;
+  }
+
+  // 로딩 되기 전에 data.slice() 호출하면 data = undefined 오류 발생 -> 로딩 후에 data.slice() 호출
+  const currentCards = data!.slice(indexOfFirstCard, indexOfLastCard);
 
   return (
     <MainWrapper>
@@ -64,7 +70,7 @@ const Home = () => {
       <PaginationWrapper>
         <PaginationBar
           itemsPerPage={cardsPerPage}
-          totalItems={cards.length}
+          totalItems={length}
           handleNumberClick={handleNumberClick}
           currentPage={currentPage}
           handlePrevClick={handlePrevClick}
