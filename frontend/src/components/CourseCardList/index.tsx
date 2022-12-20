@@ -5,34 +5,15 @@ import React from 'react';
 const CourseCardList = ({ cards }: CourseCardListProps) => {
   return (
     <CourseCardListStyle>
-      {cards.map(
-        ({
-          companyLogoUrl,
-          companyLogoAlt,
-          courseTitleUrl,
-          courseName,
-          companyName,
-          locationName,
-          courseTag,
-        }: CourseCardProps) => (
-          <CourseCard
-            key={courseName}
-            companyLogoUrl={companyLogoUrl}
-            companyLogoAlt={companyLogoAlt}
-            courseTitleUrl={courseTitleUrl}
-            courseName={courseName}
-            companyName={companyName}
-            locationName={locationName}
-            courseTag={courseTag}
-          />
-        )
-      )}
+      {cards.map(({ id, title, url, company, tags, location }: CourseCardProps) => (
+        <CourseCard key={id} title={title} url={url} company={company} tags={tags} location={location} id={id} />
+      ))}
     </CourseCardListStyle>
   );
 };
 
 interface CourseCardListProps {
-  cards: any;
+  cards: Course[];
 }
 
 export default CourseCardList;
