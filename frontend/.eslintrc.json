@@ -13,12 +13,31 @@
   "overrides": [],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": "latest"
+    "ecmaFeatures": {
+      "modules": true,
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "requireConfigFile": false,
+    "babelOptions": {
+      "presets": ["@babel/preset-env", "@babel/preset-react", "@babel/preset-typescript"]
+    }
   },
   "plugins": ["react", "@typescript-eslint", "prettier"],
   "rules": {
+    "no-unused-vars": "off",
+    "no-useless-escape": "off",
+    "jsx-a11y/no-autofocus": "off",
     "react/react-in-jsx-scope": "off",
-    "prettier/prettier": "error"
+    "react/display-name": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "react-hooks/rules-of-hooks": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
+    "@typescript-eslint/ban-ts-comment": "off"
   },
-  "ignorePatterns": ["webpack.config.js"]
+  "ignorePatterns": ["webpack.**.js", "node_modules"]
 }
