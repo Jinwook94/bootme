@@ -3,14 +3,13 @@ import { theme } from './styles/theme';
 import GlobalStyle from './styles/GlobalStyle';
 
 import App from './App';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 
-const rootElement = document.getElementById('root');
+const rootElement = document.getElementById('root') as Element;
 
-ReactDOM.render(
+ReactDOM.createRoot(rootElement).render(
   <ThemeProvider theme={theme}>
     <GlobalStyle />
     <App />
-  </ThemeProvider>,
-  rootElement
+  </ThemeProvider>
 );
