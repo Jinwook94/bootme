@@ -51,7 +51,7 @@ const Home = () => {
         <CourseListHeader>
           <HeaderLeft>
             <CourseCount>
-              <h6> 100개의 커리큘럼 </h6>
+              <span> 100개의 커리큘럼 </span>
             </CourseCount>
           </HeaderLeft>
           <HeaderRight>

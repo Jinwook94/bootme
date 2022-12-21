@@ -22,7 +22,7 @@ const PaginationBar = ({
       </PageItem>
 
       {pageNumbers.map(number => (
-        <PageItem>
+        <PageItem key={number}>
           <PageNumb
             onClick={handleNumberClick ? handleNumberClick(number) : undefined}
             className={number == currentPage ? 'active' : undefined}

@@ -48,7 +48,7 @@ const CourseCard = ({ title, url, company, tags, location }: CourseCardProps) =>
         </CourseInfo>
         <CourseTags>
           {tags?.map((tag: string) => (
-            <TagItem>{tag}</TagItem>
+            <TagItem key={tag}>{tag}</TagItem>
           ))}
         </CourseTags>
       </ItemBody>
