@@ -6,7 +6,7 @@ module.exports = merge(common, {
   devtool: 'eval',
   devServer: {
     historyApiFallback: true,
-    port: 3000,
+    port: 3001,
     hot: true,
   },
 });
