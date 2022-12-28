@@ -15,8 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-
-@CrossOrigin(origins = "http://localhost:3000/")
+@CrossOrigin
 @RestController
 @RequestMapping("/admin")
 @RequiredArgsConstructor
@@ -76,7 +75,7 @@ public class AdminController {
         CompanyResponse companyResponse = adminService.findCompanyById(companyId);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Location", "/companies/" + companyId);
-        return new ResponseEntity(companyResponse, headers, HttpStatus.CREATED);
+        return new ResponseEntity<>(companyResponse, headers, HttpStatus.CREATED);
     }
 
     @GetMapping("/companies/{id}")
