@@ -79,6 +79,10 @@ export const CourseTitleWrapper = styled(FlexBox)`
 `;
 
 export const CourseTitle = styled.h5`
+  &:hover {
+    text-decoration: underline;
+  }
+
   transition-delay: initial;
   transition-duration: 0.08s;
   transition-property: all;
@@ -96,13 +100,12 @@ export const CourseTitle = styled.h5`
   @media (max-width: 767px) {
     font-size: 16px;
   }
-
-  a {
-    color: #263747;
-  }
 `;
 
-export const CompanyName = styled.h6`
+export const CompanyName = styled.a`
+  &:hover {
+    text-decoration: underline;
+  }
   display: flex;
   align-items: center;
   margin-top: 0.5rem;
@@ -111,15 +114,11 @@ export const CompanyName = styled.h6`
   line-height: 1.5;
   font-weight: 400;
   vertical-align: baseline;
+  font-size: 14px;
 
   @media (max-width: 767px) {
     font-size: 13px;
   }
-`;
-
-export const CompanyLink = styled.a`
-  color: #98a8b9;
-  font-size: 14px;
 `;
 
 export const CourseInfo = styled.ul`
