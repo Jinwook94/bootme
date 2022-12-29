@@ -1,13 +1,6 @@
 import styled from 'styled-components';
 import Button from '../../components/@common/Button';
 
-export const MainWrapper = styled.div`
-  min-height: calc(100vh - 3.125rem - 24.625rem - 5rem);
-  box-sizing: border-box;
-  font-size: 100%;
-  vertical-align: baseline;
-`;
-
 export const Wrapper = styled.div`
   max-width: 100%;
   padding-right: 16px;

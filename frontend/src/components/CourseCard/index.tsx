@@ -6,7 +6,6 @@ import {
   CourseTitle,
   CompanyLogo,
   CompanyName,
-  CompanyLink,
   CourseInfo,
   Experience,
   Location,
@@ -23,18 +22,18 @@ const CourseCard = ({ title, url, company, tags, location }: CourseCardProps) =>
   return (
     <Wrapper>
       <ItemHeader>
-        <a>
-          <CompanyLogo src={company.logoUrl} alt={company.name} className="company-logo" />
+        <a href={url}>
+          <CompanyLogo src={company.logoUrl} alt={company.name} />
         </a>
       </ItemHeader>
       <ItemBody>
         <CourseTitleWrapper>
-          <CourseTitle>
-            <a href={url}> {title}</a>
+          <CourseTitle as="a" href={url}>
+            {title}
           </CourseTitle>
         </CourseTitleWrapper>
-        <CompanyName>
-          <CompanyLink>{company.name}</CompanyLink>
+        <CompanyName href={company.url} target="_blank">
+          {company.name}
         </CompanyName>
         <CourseInfo>
           <Experience>
@@ -52,12 +51,9 @@ const CourseCard = ({ title, url, company, tags, location }: CourseCardProps) =>
           ))}
         </CourseTags>
       </ItemBody>
-
-      <div className={'Bookmark'}>
-        <Bookmark>
-          <BookmarkIcon />
-        </Bookmark>
-      </div>
+      <Bookmark>
+        <BookmarkIcon />
+      </Bookmark>
     </Wrapper>
   );
 };
