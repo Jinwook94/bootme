@@ -1,5 +1,4 @@
 import {
-  MainWrapper,
   Wrapper,
   CourseListHeader,
   HeaderLeft,
@@ -18,6 +17,7 @@ import React, { useState } from 'react';
 import CourseCardList from '../../components/CourseCardList';
 import usePaging from '../../hooks/usePaging';
 import useCourses from '../../hooks/queries/course/useCourses';
+import { Layout } from '../../components/@common/Layout';
 
 const Home = () => {
   const { data, isLoading, isError } = useCourses({});
@@ -43,7 +43,7 @@ const Home = () => {
   const currentCards = data!.slice(indexOfFirstCard, indexOfLastCard);
 
   return (
-    <MainWrapper>
+    <Layout>
       <Wrapper style={{ marginTop: '32px' }}>
         <SlideBanner />
       </Wrapper>
@@ -80,7 +80,7 @@ const Home = () => {
       <FooterWrapper>
         <Footer style={{ textAlign: 'center' }}> Footer 작성 필요</Footer>
       </FooterWrapper>
-    </MainWrapper>
+    </Layout>
   );
 };
 
