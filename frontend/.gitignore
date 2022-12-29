@@ -1,6 +1,5 @@
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
-.DS_Store
 
 # User-specific stuff
 .idea
@@ -86,6 +85,7 @@ yarn-debug.log*
 yarn-error.log*
 
 .dist
+dist/
 
 .eslintcache
 
