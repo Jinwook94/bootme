@@ -17,6 +17,7 @@ import React, { useState } from 'react';
 import CourseCardList from '../../components/CourseCardList';
 import usePaging from '../../hooks/usePaging';
 import useCourses from '../../hooks/queries/course/useCourses';
+import Header from '../../components/@common/Header';
 import { Layout } from '../../components/@common/Layout';
 
 const Home = () => {
@@ -43,44 +44,47 @@ const Home = () => {
   const currentCards = data!.slice(indexOfFirstCard, indexOfLastCard);
 
   return (
-    <Layout>
-      <Wrapper style={{ marginTop: '32px' }}>
-        <SlideBanner />
-      </Wrapper>
-      <Wrapper>
-        <CourseListHeader>
-          <HeaderLeft>
-            <CourseCount>
-              <span> 100개의 커리큘럼 </span>
-            </CourseCount>
-          </HeaderLeft>
-          <HeaderRight>
-            <FilterButton primary>
-              <span> 검색 필터 </span>
-            </FilterButton>
-            <FilterSelect>
-              <option value={'recent'}> 최신순</option>
-              <option value={'popular'}> 인기순</option>
-              <option value={'popular'}> 응답률순</option>
-            </FilterSelect>
-          </HeaderRight>
-        </CourseListHeader>
-        <CourseCardList cards={currentCards} />
-      </Wrapper>
-      <PaginationWrapper>
-        <PaginationBar
-          itemsPerPage={cardsPerPage}
-          totalItems={length}
-          handleNumberClick={handleNumberClick}
-          currentPage={currentPage}
-          handlePrevClick={handlePrevClick}
-          handleNextClick={handleNextClick}
-        />
-      </PaginationWrapper>
-      <FooterWrapper>
-        <Footer style={{ textAlign: 'center' }}> Footer 작성 필요</Footer>
-      </FooterWrapper>
-    </Layout>
+    <>
+      <Header />
+      <Layout>
+        <Wrapper style={{ marginTop: '32px' }}>
+          <SlideBanner />
+        </Wrapper>
+        <Wrapper>
+          <CourseListHeader>
+            <HeaderLeft>
+              <CourseCount>
+                <span> 100개의 커리큘럼 </span>
+              </CourseCount>
+            </HeaderLeft>
+            <HeaderRight>
+              <FilterButton primary>
+                <span> 검색 필터 </span>
+              </FilterButton>
+              <FilterSelect>
+                <option value={'recent'}> 최신순</option>
+                <option value={'popular'}> 인기순</option>
+                <option value={'popular'}> 응답률순</option>
+              </FilterSelect>
+            </HeaderRight>
+          </CourseListHeader>
+          <CourseCardList cards={currentCards} />
+        </Wrapper>
+        <PaginationWrapper>
+          <PaginationBar
+            itemsPerPage={cardsPerPage}
+            totalItems={length}
+            handleNumberClick={handleNumberClick}
+            currentPage={currentPage}
+            handlePrevClick={handlePrevClick}
+            handleNextClick={handleNextClick}
+          />
+        </PaginationWrapper>
+        <FooterWrapper>
+          <Footer style={{ textAlign: 'center' }}> Footer 작성 필요</Footer>
+        </FooterWrapper>
+      </Layout>
+    </>
   );
 };
 
