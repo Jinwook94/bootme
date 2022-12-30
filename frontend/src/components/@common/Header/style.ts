@@ -15,10 +15,11 @@ export const HeaderLeft = styled.div`
   height: 4rem;
   align-items: center;
 
-  @media (max-width: 767px) {
+  @media (min-width: 576px) and (max-width: 767px) {
     height: 3rem;
   }
-  @media (max-width: 991px) {
+
+  @media (min-width: 768px) and (max-width: 991px) {
     height: 3.375rem;
   }
 `;
@@ -49,7 +50,6 @@ export const HeaderRight = styled.div`
   font-size: 1rem;
   font-weight: 400;
   justify-content: space-between;
-  margin-right: 1.5rem;
 
   @media (max-width: 768px) {
     font-size: 14px;

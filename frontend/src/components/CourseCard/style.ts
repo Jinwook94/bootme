@@ -8,7 +8,7 @@ export const Wrapper = styled.li`
   padding: 1.5rem;
   border: 0.0625rem solid #d7e2eb;
   margin-top: 1rem;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   color: #263747;
   font-size: 0;
 
@@ -97,8 +97,8 @@ export const CourseTitle = styled.h5`
   text-overflow: ellipsis;
   letter-spacing: -0.009em;
 
-  @media (max-width: 767px) {
-    font-size: 16px;
+  @media (max-width: 991px) {
+    font-size: 1rem;
   }
 `;
 
@@ -226,5 +226,10 @@ export const Bookmark = styled.button`
     transition-timing-function: ease-in-out;
     vertical-align: top;
     overflow: hidden;
+
+    @media (max-width: 575px) {
+      width: 1.3rem;
+      height: 1.3rem;
+    }
   }
 `;

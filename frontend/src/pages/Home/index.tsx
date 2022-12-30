@@ -1,14 +1,19 @@
 import {
-  Wrapper,
-  CourseListHeader,
-  HeaderLeft,
   CourseCount,
-  HeaderRight,
   FilterButton,
   FilterSelect,
   PaginationWrapper,
   FooterWrapper,
   Footer,
+  SlideWrapper,
+  BodyWrapper,
+  SideFilterWrapper,
+  CourseListWrapper,
+  BodyWrapper2,
+  HomeLayout,
+  CourseListMenu,
+  MenuLeft,
+  MenuRight,
 } from './style';
 
 import SlideBanner from '../../components/SlideBanner';
@@ -18,12 +23,12 @@ import CourseCardList from '../../components/CourseCardList';
 import usePaging from '../../hooks/usePaging';
 import useCourses from '../../hooks/queries/course/useCourses';
 import Header from '../../components/@common/Header';
-import { Layout } from '../../components/@common/Layout';
+import SideFilter from '../../components/SideFilter';
 
 const Home = () => {
   const { data, isLoading, isError } = useCourses({});
 
-  const [cardsPerPage] = useState(20);
+  const [cardsPerPage] = useState(12);
   const length = data?.length ?? 10; // 데이터를 받아오지 못한 경우 data.length 를 10으로 설정
   const maxPage = Math.floor(length / cardsPerPage) + 1;
   const { currentPage, handleNumberClick, handleNextClick, handlePrevClick } = usePaging(maxPage);
@@ -46,30 +51,35 @@ const Home = () => {
   return (
     <>
       <Header />
-      <Layout>
-        <Wrapper style={{ marginTop: '32px' }}>
-          <SlideBanner />
-        </Wrapper>
-        <Wrapper>
-          <CourseListHeader>
-            <HeaderLeft>
-              <CourseCount>
-                <span> 100개의 커리큘럼 </span>
-              </CourseCount>
-            </HeaderLeft>
-            <HeaderRight>
-              <FilterButton primary>
-                <span> 검색 필터 </span>
-              </FilterButton>
-              <FilterSelect>
-                <option value={'recent'}> 최신순</option>
-                <option value={'popular'}> 인기순</option>
-                <option value={'popular'}> 응답률순</option>
-              </FilterSelect>
-            </HeaderRight>
-          </CourseListHeader>
-          <CourseCardList cards={currentCards} />
-        </Wrapper>
+      <SlideWrapper style={{ marginTop: '1.5rem' }}>
+        <SlideBanner />
+      </SlideWrapper>
+      <HomeLayout>
+        <BodyWrapper>
+          <BodyWrapper2>
+            <SideFilterWrapper>
+              <SideFilter />
+            </SideFilterWrapper>
+            <CourseListWrapper>
+              <CourseListMenu>
+                <MenuLeft>
+                  <CourseCount>100개의 커리큘럼</CourseCount>
+                </MenuLeft>
+                <MenuRight>
+                  <FilterButton primary>
+                    <span> 검색 필터 </span>
+                  </FilterButton>
+                  <FilterSelect>
+                    <option value={'recent'}> 최신순</option>
+                    <option value={'popular'}> 인기순</option>
+                    <option value={'popular'}> 응답률순</option>
+                  </FilterSelect>
+                </MenuRight>
+              </CourseListMenu>
+              <CourseCardList cards={currentCards} />
+            </CourseListWrapper>
+          </BodyWrapper2>
+        </BodyWrapper>
         <PaginationWrapper>
           <PaginationBar
             itemsPerPage={cardsPerPage}
@@ -83,7 +93,7 @@ const Home = () => {
         <FooterWrapper>
           <Footer style={{ textAlign: 'center' }}> Footer 작성 필요</Footer>
         </FooterWrapper>
-      </Layout>
+      </HomeLayout>
     </>
   );
 };
