@@ -97,6 +97,9 @@ export const CourseTitle = styled.h5`
   text-overflow: ellipsis;
   letter-spacing: -0.009em;
 
+  @media (max-width: 575px) {
+    font-size: 0.9rem;
+  }
   @media (max-width: 991px) {
     font-size: 1rem;
   }
@@ -116,6 +119,11 @@ export const CompanyName = styled.a`
   vertical-align: baseline;
   font-size: 14px;
 
+  @media (max-width: 575px) {
+    font-size: 13px;
+    margin-top: 0.25rem;
+  }
+
   @media (max-width: 767px) {
     font-size: 13px;
   }
@@ -123,16 +131,16 @@ export const CompanyName = styled.a`
 
 export const CourseInfo = styled.ul`
   padding: 0;
-  margin-top: 0.25rem;
+  margin-top: 0.5rem;
   list-style: none;
   vertical-align: baseline;
 `;
 
-export const Experience = styled.li`
+export const ItemWrapper = styled.li`
   font-size: 14px;
   line-height: 1.5;
   display: inline-block;
-  margin-right: 1rem;
+  margin-right: 0.75rem;
   color: #98a8b9;
   vertical-align: top;
   transition: 0s !important;
@@ -141,40 +149,6 @@ export const Experience = styled.li`
 
   @media (max-width: 767px) {
     font-size: 13px;
-  }
-
-  svg {
-    min-width: 0.875rem;
-    max-width: 0.875rem;
-    height: 1.25rem;
-    fill: #98a8b9;
-    vertical-align: top;
-    margin-right: 0.25rem;
-  }
-`;
-
-export const Location = styled.li`
-  font-size: 14px;
-  line-height: 1.5;
-  display: inline-block;
-  margin-right: 1rem;
-  color: #98a8b9;
-  vertical-align: top;
-  transition: 0s !important;
-  letter-spacing: -0.009em;
-  list-style: none;
-
-  @media (max-width: 767px) {
-    font-size: 13px;
-  }
-
-  svg {
-    min-width: 0.875rem;
-    max-width: 0.875rem;
-    height: 1.25rem;
-    margin-right: 0.125rem;
-    fill: #98a8b9;
-    vertical-align: top;
   }
 `;
 
@@ -195,9 +169,7 @@ export const TagItem = styled.li`
   display: inline-block;
   padding: 0.1875rem 0.5rem;
   margin: 0.25rem 0.25rem 0 0;
-  background-color: #e9ecf3;
   border-radius: 0.25rem;
-  color: #44576c;
   font-weight: 500;
   vertical-align: top;
 `;
