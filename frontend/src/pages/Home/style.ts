@@ -89,7 +89,7 @@ export const CourseListMenu = styled.div`
 
   @media (max-width: 575px) {
     align-items: center;
-    padding: 1.5rem 0;
+    padding: 0.5rem 0;
   }
 
   @media (min-width: 767px) {
