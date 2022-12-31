@@ -15,6 +15,7 @@ import {
 
 import './style.css';
 import BookmarkIcon from '../../assets/bookmark.svg';
+import DateFormatter from './dateFormatter';
 
 const CourseCard = ({ title, url, company, tags, dates, period, cost }: CourseCardProps) => {
   const categoryTags = ['백엔드', '프론트엔드', '웹', '앱'];
@@ -44,11 +45,13 @@ const CourseCard = ({ title, url, company, tags, dates, period, cost }: CourseCa
           <ItemWrapper>
             <span
               className="material-symbols-outlined"
-              style={{ fontSize: '.9rem', verticalAlign: 'sub', marginRight: '2px', transform: 'translateY(-0.8px)' }}
+              style={{ fontSize: '1rem', verticalAlign: 'sub', marginRight: '2px' }}
             >
-              schedule
+              notifications
             </span>
-            <span>개강 {dates.courseStartDate}</span>
+            <span>
+              <DateFormatter date={dates.courseStartDate} /> 개강
+            </span>
           </ItemWrapper>
           <ItemWrapper>
             <span
@@ -64,7 +67,7 @@ const CourseCard = ({ title, url, company, tags, dates, period, cost }: CourseCa
               className="material-symbols-outlined"
               style={{ fontSize: '1rem', verticalAlign: 'sub', marginRight: '2px' }}
             >
-              paid
+              credit_card
             </span>
             <span>{cost === 0 ? '무료' : cost}</span>
           </ItemWrapper>
