@@ -42,6 +42,10 @@ export const HeaderItem = styled.span`
   color: #000;
   font-size: 1.125rem;
   font-weight: 500;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 export const HeaderRight = styled.div`
@@ -72,5 +76,12 @@ export const SignIn = styled.div`
   text-decoration: none;
   @media (max-width: 1200px) {
     display: none;
+  }
+`;
+
+export const Menu = styled.div`
+  display: none;
+  @media (max-width: 768px) {
+    display: inline-block;
   }
 `;
