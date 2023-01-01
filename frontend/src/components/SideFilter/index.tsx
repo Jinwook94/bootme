@@ -2,6 +2,58 @@ import FilterItem from './FilterItem';
 import { FilterItemWrapper, FilterReset, ResetButton, Wrapper } from './style';
 
 const SideFilter = () => {
+  const filterOptions = [
+    {
+      name: '개발 분야',
+      options: [
+        '웹',
+        '모바일 앱',
+        '게임',
+        '임베디드',
+        '데스크탑 앱',
+        '데이터 & AI & 머신러닝',
+        '데브옵스 & 클라우드 & 인프라',
+        '보안',
+      ],
+      isMore: true,
+    },
+    {
+      name: '기술 스택',
+      options: [
+        'HTML',
+        'CSS',
+        'JavaScript',
+        'TypeScript',
+        'Java',
+        'Python',
+        'Kotlin',
+        'Swift',
+        'Spring',
+        'Django',
+        'React',
+        'Vue.js',
+        'Node.js',
+        'Angular',
+      ],
+      isMore: true,
+    },
+    {
+      name: '비용',
+      options: ['무료', '무료 (국비)', '유료 (Progress bar)'],
+      isMore: false,
+    },
+    {
+      name: '수강 기간',
+      options: ['0 ~ 12 Progress Bar'],
+      isMore: false,
+    },
+    {
+      name: '코딩 테스트',
+      options: ['있음', '없음'],
+      isMore: false,
+    },
+  ];
+
   return (
     <Wrapper>
       <FilterReset>
@@ -29,13 +81,14 @@ const SideFilter = () => {
         </ResetButton>
       </FilterReset>
       <FilterItemWrapper>
-        <FilterItem
-          filterName={'프로그래밍 언어'}
-          filterOptions={['HTML', 'JavaScript', 'CSS', 'Java', 'Ruby', 'Python', 'TypeScript']}
-          isMore={true}
-        />
-        <FilterItem filterName={'수업 난이도'} filterOptions={['입문', '초급', '중급', '고급']} isMore={false} />
-        <FilterItem filterName={'수강 기간'} filterOptions={['무제한', '30일 이내', '2달', '3달']} isMore={false} />
+        {filterOptions.map(option => (
+          <FilterItem
+            key={option.name}
+            filterName={option.name}
+            filterOptions={option.options}
+            isMore={option.isMore}
+          />
+        ))}
       </FilterItemWrapper>
     </Wrapper>
   );
