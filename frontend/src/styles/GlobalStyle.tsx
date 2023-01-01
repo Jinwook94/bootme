@@ -34,6 +34,11 @@ const GlobalStyle = createGlobalStyle`
     color: inherit;
   }
   
+  a:hover {
+    text-decoration: none;
+    color: inherit;
+  }
+  
   ul {
     margin-bottom: 0;
   }
