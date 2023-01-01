@@ -32,13 +32,13 @@ const SideFilter = () => {
     },
     {
       name: '비용',
-      options: ['무료', '무료 (국비)', '유료 (Progress bar)'],
+      options: ['무료', '무료 (국비)'],
       isMore: false,
       borderTop: 'none',
     },
     {
       name: '수강 기간',
-      options: ['0 ~ 12 Progress Bar'],
+      options: [],
       isMore: false,
       borderTop: 'none',
     },
