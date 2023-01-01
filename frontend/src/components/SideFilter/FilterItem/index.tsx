@@ -30,8 +30,8 @@ const FilterItem = ({ filterName, filterOptions, isMore }: FilterItemProps) => {
   function handleMoreClick() {
     setIsMoreOpen(!isMoreOpen);
     setPosition(position === 'absolute' ? 'unset' : 'absolute');
-    setPaddingTop(paddingTop === '2rem' ? '1rem' : '2rem');
-    setPaddingBottom(paddingBottom === '0.875rem' ? '0.25rem' : '0.875rem');
+    setPaddingTop(paddingTop === '2rem' ? '0.3rem' : '2rem');
+    setPaddingBottom(paddingBottom === '0.875rem' ? '0' : '0.875rem');
   }
 
   return (
@@ -51,7 +51,7 @@ const FilterItem = ({ filterName, filterOptions, isMore }: FilterItemProps) => {
           </svg>
         </CaretWrapper>
       </FilterTitle>
-      <FilterBodyWrapper style={{ display: isOpen ? 'block' : 'none' }}>
+      <FilterBodyWrapper style={{ display: isOpen ? 'block' : 'none', paddingBottom: isMoreOpen ? '0.3rem' : '1rem' }}>
         <FilterBody>
           <FilterOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '9.25rem' }}>
             {filterOptions.map((filterOption: string) => (

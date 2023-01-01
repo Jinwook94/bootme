@@ -5,6 +5,7 @@ export const Wrapper = styled.div`
   border-radius: 0.9375rem;
   margin-bottom: 1rem;
   overflow: hidden;
+  padding-bottom: 0.5rem;
 `;
 
 export const FilterTitle = styled.div`
@@ -64,6 +65,7 @@ export const MoreButton = styled.button<ButtonProps>`
   color: rgb(0, 120, 255);
   position: ${props => props.position};
   padding-top: ${props => props.paddingTop};
+  top: 120px;
   padding-bottom: ${props => props.paddingBottom};
   padding-right: 1rem;
   bottom: -1rem;
