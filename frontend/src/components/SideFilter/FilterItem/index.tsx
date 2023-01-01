@@ -14,7 +14,7 @@ import React, { useState } from 'react';
 
 type Position = 'absolute' | 'relative' | 'fixed' | 'unset';
 
-const FilterItem = ({ filterName, filterOptions, isMore }: FilterItemProps) => {
+const FilterItem = ({ filterName, filterOptions, isMore, borderTop }: FilterItemProps) => {
   const [isOpen, setIsOpen] = useState(true);
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const [position, setPosition] = useState<Position | undefined>('absolute');
@@ -54,8 +54,12 @@ const FilterItem = ({ filterName, filterOptions, isMore }: FilterItemProps) => {
       <FilterBodyWrapper style={{ display: isOpen ? 'block' : 'none', paddingBottom: isMoreOpen ? '0.3rem' : '1rem' }}>
         <FilterBody>
           <FilterOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '9.25rem' }}>
-            {filterOptions.map((filterOption: string) => (
-              <FilterOption key={filterOption} filterOption={filterOption} />
+            {filterOptions.map((filterOption: string, index) => (
+              <FilterOption
+                key={filterOption}
+                filterOption={filterOption}
+                borderTop={index === borderTop ? borderTop : 'none'}
+              />
             ))}
           </FilterOptionList>
           {isMore && (
@@ -105,6 +109,7 @@ export interface FilterItemProps {
   filterName: string;
   filterOptions: string[];
   isMore: boolean;
+  borderTop: number | string;
 }
 
 export default FilterItem;
