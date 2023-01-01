@@ -7,9 +7,12 @@ export const FilterOption = ({ filterOption, borderTop }: FilterOptionProps) => 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setIsChecked(event.target.checked);
   }
+  function handleListItemClick() {
+    setIsChecked(!isChecked);
+  }
 
   return (
-    <ListItem borderTop={borderTop}>
+    <ListItem borderTop={borderTop} onClick={handleListItemClick}>
       <Wrapper>
         <BoxWrapper>
           <Checkbox checked={isChecked} onChange={handleChange} style={{ appearance: isChecked ? 'auto' : 'none' }} />
