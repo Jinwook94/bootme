@@ -8,9 +8,12 @@ import {
   FilterOptionList,
   CaretUp,
   CaretDown,
+  CostFilterOptionList,
+  TestOptionList,
 } from './style';
 import FilterOption from './FilterOption';
 import React, { useState } from 'react';
+import { RangeBar } from './RangeBar';
 
 type Position = 'absolute' | 'relative' | 'fixed' | 'unset';
 
@@ -53,15 +56,38 @@ const FilterItem = ({ filterName, filterOptions, isMore, borderTop }: FilterItem
       </FilterTitle>
       <FilterBodyWrapper style={{ display: isOpen ? 'block' : 'none', paddingBottom: isMoreOpen ? '0.3rem' : '1rem' }}>
         <FilterBody>
-          <FilterOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '9.25rem' }}>
-            {filterOptions.map((filterOption: string, index) => (
-              <FilterOption
-                key={filterOption}
-                filterOption={filterOption}
-                borderTop={index === borderTop ? borderTop : 'none'}
-              />
-            ))}
-          </FilterOptionList>
+          {filterName === '비용' ? (
+            <>
+              <CostFilterOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.25rem' }}>
+                <FilterOption filterOption={filterOptions[0]} borderTop={'none'} />
+                <FilterOption filterOption={filterOptions[1]} borderTop={'none'} />
+              </CostFilterOptionList>
+              <RangeBar filterName={filterName} />
+            </>
+          ) : null}
+          {filterName === '수강 기간' ? <RangeBar filterName={filterName} /> : null}
+          {filterName === '코딩 테스트' ? (
+            <TestOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.25rem' }}>
+              {filterOptions.map((filterOption: string, index) => (
+                <FilterOption
+                  key={filterOption}
+                  filterOption={filterOption}
+                  borderTop={index === borderTop ? borderTop : 'none'}
+                />
+              ))}
+            </TestOptionList>
+          ) : null}
+          {filterName !== '비용' && filterName !== '수강 기간' && filterName !== '코딩 테스트' ? (
+            <FilterOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.25rem' }}>
+              {filterOptions.map((filterOption: string, index) => (
+                <FilterOption
+                  key={filterOption}
+                  filterOption={filterOption}
+                  borderTop={index === borderTop ? borderTop : 'none'}
+                />
+              ))}
+            </FilterOptionList>
+          ) : null}
           {isMore && (
             <MoreButton
               onClick={handleMoreClick}
