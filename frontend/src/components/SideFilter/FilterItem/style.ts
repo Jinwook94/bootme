@@ -5,6 +5,7 @@ export const Wrapper = styled.div`
   border-radius: 0.9375rem;
   margin-bottom: 1rem;
   overflow: hidden;
+  padding-bottom: 0.5rem;
 `;
 
 export const FilterTitle = styled.div`
@@ -39,8 +40,29 @@ export const FilterBody = styled.div`
 
 export const FilterOptionList = styled.ul`
   overflow: hidden;
-  //transition: all 0.3s linear 0s;
   transition: height 0.2s ease-out;
+  padding-left: 0;
+`;
+
+export const CostFilterOptionList = styled(FilterOptionList)`
+  display: flex;
+  justify-content: space-between;
+  padding-right: 1.5rem;
+
+  @media (max-width: 1200px) {
+    flex-direction: column;
+  }
+`;
+
+export const TestOptionList = styled(FilterOptionList)`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-right: 4rem;
+
+  @media (max-width: 1200px) {
+    padding-right: 2rem;
+  }
 `;
 
 type ButtonProps = {
@@ -64,6 +86,7 @@ export const MoreButton = styled.button<ButtonProps>`
   color: rgb(0, 120, 255);
   position: ${props => props.position};
   padding-top: ${props => props.paddingTop};
+  top: 4.75rem;
   padding-bottom: ${props => props.paddingBottom};
   padding-right: 1rem;
   bottom: -1rem;

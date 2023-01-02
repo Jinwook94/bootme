@@ -1,0 +1,47 @@
+export const courseFilter = [
+  {
+    name: '개발 분야',
+    options: ['웹', '모바일 앱', '게임', '임베디드', '데스크탑 앱', 'AI', '데이터', '데브옵스', '보안'],
+    isMore: true,
+    borderTop: 'none',
+  },
+  {
+    name: '기술 스택',
+    options: [
+      'HTML',
+      'CSS',
+      'JavaScript',
+      'TypeScript',
+      'Java',
+      'Python',
+      'Kotlin',
+      'Swift',
+      'Spring',
+      'Django',
+      'React',
+      'Vue.js',
+      'Node.js',
+      'Angular',
+    ],
+    isMore: true,
+    borderTop: 8,
+  },
+  {
+    name: '비용',
+    options: ['무료', '무료 (국비)'],
+    isMore: false,
+    borderTop: 'none',
+  },
+  {
+    name: '수강 기간',
+    options: [],
+    isMore: false,
+    borderTop: 'none',
+  },
+  {
+    name: '코딩 테스트',
+    options: ['있음', '없음'],
+    isMore: false,
+    borderTop: 'none',
+  },
+];

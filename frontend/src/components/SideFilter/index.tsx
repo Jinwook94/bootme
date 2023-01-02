@@ -1,5 +1,6 @@
 import FilterItem from './FilterItem';
 import { FilterItemWrapper, FilterReset, ResetButton, Wrapper } from './style';
+import { courseFilter } from '../../constants/courseFilter';
 
 const SideFilter = () => {
   return (
@@ -29,13 +30,15 @@ const SideFilter = () => {
         </ResetButton>
       </FilterReset>
       <FilterItemWrapper>
-        <FilterItem
-          filterName={'프로그래밍 언어'}
-          filterOptions={['HTML', 'JavaScript', 'CSS', 'Java', 'Ruby', 'Python', 'TypeScript']}
-          isMore={true}
-        />
-        <FilterItem filterName={'수업 난이도'} filterOptions={['입문', '초급', '중급', '고급']} isMore={false} />
-        <FilterItem filterName={'수강 기간'} filterOptions={['무제한', '30일 이내', '2달', '3달']} isMore={false} />
+        {courseFilter.map(option => (
+          <FilterItem
+            key={option.name}
+            filterName={option.name}
+            filterOptions={option.options}
+            isMore={option.isMore}
+            borderTop={option.borderTop}
+          />
+        ))}
       </FilterItemWrapper>
     </Wrapper>
   );

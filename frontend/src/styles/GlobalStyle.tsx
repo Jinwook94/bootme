@@ -17,10 +17,6 @@ const GlobalStyle = createGlobalStyle`
     color: inherit;
   }
 
-  a {
-    text-decoration: none;
-  }
-
   body {
     max-width: 100%;
     overflow-x: hidden;
@@ -31,6 +27,20 @@ const GlobalStyle = createGlobalStyle`
     word-break: keep-all;
     word-wrap: break-word;
     color: #263747;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  a:hover {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  ul {
+    margin-bottom: 0;
   }
 
   h1 {
