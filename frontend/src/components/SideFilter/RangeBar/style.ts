@@ -4,10 +4,6 @@ export const Wrapper1 = styled.div`
   margin: 0.5rem 0.5rem 0 0.5rem;
 `;
 
-export const BarWrapper = styled.div`
-  padding: 0 0.5rem;
-`;
-
 export const Bar = styled.input.attrs({
   type: 'range',
   className: 'form-range',

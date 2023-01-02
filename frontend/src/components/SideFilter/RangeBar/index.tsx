@@ -59,3 +59,5 @@ export const RangeBar = ({ filterName }: RangeBarProps) => {
 interface RangeBarProps {
   filterName: string;
 }
+
+export default RangeBar;

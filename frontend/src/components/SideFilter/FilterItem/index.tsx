@@ -11,9 +11,9 @@ import {
   CostFilterOptionList,
   TestOptionList,
 } from './style';
-import FilterOption from './FilterOption';
+import FilterOption from '../FilterOption';
 import React, { useState } from 'react';
-import { RangeBar } from './RangeBar';
+import { RangeBar } from '../RangeBar';
 
 type Position = 'absolute' | 'relative' | 'fixed' | 'unset';
 
