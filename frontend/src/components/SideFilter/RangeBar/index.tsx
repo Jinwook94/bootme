@@ -41,7 +41,18 @@ export const RangeBar = ({ filterName }: RangeBarProps) => {
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCurrentValue(Number(event.target.value));
+    const positiveIntegerRegEx = /^\d+$/;
+    if (event.target.value === '') {
+      setCurrentValue(0);
+      removeBeforeAdd(Filter.label, 0);
+      addFilter(`${Filter.label}-0`);
+    } else if (positiveIntegerRegEx.test(event.target.value) && Number(event.target.value) <= Filter.maxValue) {
+      setCurrentValue(Number(event.target.value));
+      removeBeforeAdd(Filter.label, Number(event.target.value));
+      addFilter(`${Filter.label}-${Number(event.target.value)}`);
+    } else {
+      event.target.value = '';
+    }
   };
 
   return (
