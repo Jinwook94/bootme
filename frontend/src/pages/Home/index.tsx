@@ -24,16 +24,33 @@ import usePaging from '../../hooks/usePaging';
 import useCourses from '../../hooks/queries/course/useCourses';
 import Header from '../../components/@common/Header';
 import SideFilter from '../../components/SideFilter';
+import { useFilters } from '../../hooks/useFilters';
 
 const Home = () => {
+  // Fetching data
   const { data, isLoading, isError } = useCourses({});
 
+  // Filtering
+  const { selectedFilters } = useFilters();
+
+  let filteredCourses = data || [];
+
+  const filterCourses = () => {
+    filteredCourses = filteredCourses.filter((course: Course) => {
+      return course.tags.some((tag: string) => selectedFilters.includes(tag));
+    });
+  };
+
+  if (selectedFilters.length > 0) {
+    filterCourses();
+  }
+
+  // Pagination
   const [cardsPerPage] = useState(12);
-  const length = data?.length ?? 10; // 데이터를 받아오지 못한 경우 data.length 를 10으로 설정
+  const length = filteredCourses?.length ?? 10; // 데이터를 받아오지 못한 경우 data.length 를 10으로 설정
   const maxPage = Math.floor(length / cardsPerPage) + 1;
   const { currentPage, handleNumberClick, handleNextClick, handlePrevClick } = usePaging(maxPage);
 
-  // Get current cards
   const indexOfLastCard = currentPage * cardsPerPage;
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
 
@@ -46,7 +63,7 @@ const Home = () => {
   }
 
   // 로딩 되기 전에 data.slice() 호출하면 data = undefined 오류 발생 -> 로딩 후에 data.slice() 호출
-  const currentCards = data!.slice(indexOfFirstCard, indexOfLastCard);
+  const currentCards = filteredCourses!.slice(indexOfFirstCard, indexOfLastCard);
 
   return (
     <>
