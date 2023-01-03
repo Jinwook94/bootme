@@ -1,12 +1,11 @@
 package com.bootme.course.dto;
 
-import com.bootme.course.domain.Course;
-import com.bootme.course.domain.Dates;
-import com.bootme.course.domain.Tag;
+import com.bootme.course.domain.*;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.Map;
 
 @Getter
 public class CourseResponse {
@@ -18,11 +17,12 @@ public class CourseResponse {
     private String url;
     private String location;
     private String onOffline;
-    private List<Tag> tags;
+    private Map<String, List<String>> categories;
+    private Map<String, List<String>> stacks;
     private String prerequisites;
     private int cost;
     private String costType;
-    private String period;
+    private int period;
     private Dates dates;
     private CompanyResponse company;
     private boolean isRecommended;
@@ -34,9 +34,10 @@ public class CourseResponse {
 
     @Builder
     public CourseResponse(Long id, String name, int generation, String title, String url,
-                          String location, String onOffline, List<Tag> tags, String prerequisites,
-                          int cost, String costType, String period, Dates dates, boolean isRecommended,
-                          boolean isTested, boolean isRegisterOpen, CompanyResponse company) {
+                          String location, String onOffline, Map<String, List<String>> categories,
+                          Map<String, List<String>> stacks, String prerequisites, int cost, String costType,
+                          int period, Dates dates, boolean isRecommended, boolean isTested,
+                          boolean isRegisterOpen, CompanyResponse company) {
         this.id = id;
         this.name = name;
         this.generation = generation;
@@ -44,7 +45,8 @@ public class CourseResponse {
         this.url = url;
         this.location = location;
         this.onOffline = onOffline;
-        this.tags = tags;
+        this.categories = categories;
+        this.stacks = stacks;
         this.prerequisites = prerequisites;
         this.cost = cost;
         this.costType = costType;
@@ -65,7 +67,8 @@ public class CourseResponse {
                 .url(course.getUrl())
                 .location(course.getLocation())
                 .onOffline(course.getOnoffline().name())
-                .tags(course.getTags())
+                .categories(course.categoryToMap())
+                .stacks(course.stackToMap())
                 .prerequisites(course.getPrerequisites().name())
                 .cost(course.getCost())
                 .costType(course.getCostType().name())
@@ -77,4 +80,5 @@ public class CourseResponse {
                 .company(CompanyResponse.of(course.getCompany()))
                 .build();
     }
+
 }

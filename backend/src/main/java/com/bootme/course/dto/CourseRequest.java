@@ -6,7 +6,6 @@ import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @Getter
 public class CourseRequest {
@@ -32,7 +31,9 @@ public class CourseRequest {
     @NotBlank(message = "강의 공간을 입해주세요 - 온라인, 오프라인, 온오프라인혼합")
     private String onOffline;
 
-    private List<Tag> tags;
+    private Category categories;
+
+    private Stack stacks;
 
     @NotBlank(message = "선수 조건을 입력해주세요")
     private String prerequisites;
@@ -43,8 +44,8 @@ public class CourseRequest {
     @NotBlank(message = "코스 비용 타입을 입력해주세요. - 무료, 무료국비, 유료")
     private String costType;
 
-    @NotBlank(message = "코스 진행 기간을 입력해주세요")
-    private String period;
+    @NotNull(message = "코스 진행 기간을 입력해주세요")
+    private int period;
 
     private Dates dates;
 
@@ -59,8 +60,8 @@ public class CourseRequest {
 
     @Builder
     public CourseRequest(String title, String name, int generation, String url, String companyName,
-                         String location, String onOffline, List<Tag> tags, String prerequisites,
-                         int cost, String costType, String period, Dates dates, boolean isRecommended, boolean isTested) {
+                         String location, String onOffline, Category categories, Stack stacks, String prerequisites,
+                         int cost, String costType, int period, Dates dates, boolean isRecommended, boolean isTested) {
         this.title = title;
         this.name = name;
         this.generation = generation;
@@ -68,7 +69,8 @@ public class CourseRequest {
         this.companyName = companyName;
         this.location = location;
         this.onOffline = onOffline;
-        this.tags = tags;
+        this.categories = categories;
+        this.stacks = stacks;
         this.prerequisites = prerequisites;
         this.cost = cost;
         this.costType = costType;
