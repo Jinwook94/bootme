@@ -32,7 +32,6 @@ class CourseTest {
                 () -> assertThat(course.getCostType()).isEqualTo(VALID_CostType_2),
                 () -> assertThat(course.getDates().getRegistrationStartDate()).isEqualTo(VALID_DATES_2.getRegistrationStartDate()),
                 () -> assertThat(course.getOnoffline()).isEqualTo(VALID_ONOFFLINE_2),
-                () -> assertThat(course.getTags()).isEqualTo(VALID_TAGS_2),
                 () -> assertThat(course.getPrerequisites()).isEqualTo(VALID_PREREQUISITES_2)
         );
     }

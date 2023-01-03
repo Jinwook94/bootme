@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.bootme.common.exception.ErrorType.NOT_FOUND_COURSE;
-import static com.bootme.course.domain.Tag.*;
 import static com.bootme.util.fixture.CourseFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -75,7 +74,8 @@ class CourseServiceTest extends ServiceTest {
                 .company(company1)
                 .location(VALID_LOCATION_1)
                 .onoffline(VALID_ONOFFLINE_1)
-                .tags(VALID_TAGS_1)
+                .categories(CATEGORY1)
+                .stacks(STACK1)
                 .prerequisites(VALID_PREREQUISITES_1)
                 .cost(VALID_COST_1)
                 .costType(VALID_CostType_1)
@@ -109,7 +109,6 @@ class CourseServiceTest extends ServiceTest {
                 () -> assertThat(foundCourse.getDates()).isEqualTo(VALID_DATES_2),
                 () -> assertThat(foundCourse.getOnoffline()).isEqualTo(VALID_ONOFFLINE_2),
                 // repository 에서 찾아온 리스트는 persistenceBag 에 담겨있기 때문에 아래와 같이 검증
-                () -> assertThat(foundCourse.getTags()).containsExactly(프론트엔드, Javascript, React),
                 () -> assertThat(foundCourse.getPrerequisites()).isEqualTo(VALID_PREREQUISITES_2)
         );
     }
@@ -128,8 +127,7 @@ class CourseServiceTest extends ServiceTest {
                 () -> assertThat(courseResponse.getId()).isEqualTo(course.getId()),
                 () -> assertThat(courseResponse.getUrl()).isEqualTo(course.getUrl()),
                 () -> assertThat(courseResponse.getTitle()).isEqualTo(course.getTitle()),
-                () -> assertThat(courseResponse.getLocation()).isEqualTo(course.getLocation()),
-                () -> assertThat(courseResponse.getTags()).isEqualTo(course.getTags())
+                () -> assertThat(courseResponse.getLocation()).isEqualTo(course.getLocation())
         );
     }
 
@@ -169,7 +167,6 @@ class CourseServiceTest extends ServiceTest {
                 () -> assertThat(foundCourse.getDates()).isEqualTo(VALID_DATES_2),
                 () -> assertThat(foundCourse.getOnoffline()).isEqualTo(VALID_ONOFFLINE_2),
                 // repository 에서 찾아온 리스트는 persistenceBag 에 담겨있기 때문에 아래와 같이 검증
-                () -> assertThat(foundCourse.getTags()).containsExactly(프론트엔드, Javascript, React),
                 () -> assertThat(foundCourse.getPrerequisites()).isEqualTo(VALID_PREREQUISITES_2)
         );
     }
