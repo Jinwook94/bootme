@@ -28,7 +28,9 @@ public class CourseService {
     public Long addCourse(CourseRequest courseRequest){
         Company company = companyRepository.findByName(courseRequest.getCompanyName())
                 .orElseThrow(() -> new CompanyNotFoundException(NOT_FOUND_COMPANY));
-        Course course = Course.of(courseRequest, company);
+        Category category = courseRequest.getCategories();
+        Stack stack = courseRequest.getStacks();
+        Course course = Course.of(courseRequest, company, category, stack);
         Course savedCourse = courseRepository.save(course);
         return savedCourse.getId();
     }
