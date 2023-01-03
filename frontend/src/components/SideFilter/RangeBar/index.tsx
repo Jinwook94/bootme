@@ -32,31 +32,23 @@ export const RangeBar = ({ filterName }: RangeBarProps) => {
   }
 
   const [currentValue, setCurrentValue] = useState(Filter.maxValue);
-  const { addFilter, removeBeforeAdd, removeSpecificLabelFilters } = useFilters();
+  const { addFilter, removeBeforeAdd } = useFilters();
 
   const handleRangeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (Number(event.target.value) === Filter.maxValue) {
-      setCurrentValue(Number(event.target.value));
-      removeSpecificLabelFilters(Filter.label);
-    } else {
-      setCurrentValue(Number(event.target.value));
-      removeBeforeAdd(Filter.label, Number(event.target.value));
-      addFilter(`${Filter.label}-${Number(event.target.value)}`);
-    }
+    setCurrentValue(Number(event.target.value));
+    removeBeforeAdd(Filter.label);
+    addFilter(`${Filter.label}-${Number(event.target.value)}`);
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const positiveIntegerRegEx = /^\d+$/;
     if (event.target.value === '') {
       setCurrentValue(0);
-      removeBeforeAdd(Filter.label, 0);
+      removeBeforeAdd(Filter.label);
       addFilter(`${Filter.label}-0`);
-    } else if (positiveIntegerRegEx.test(event.target.value) && Number(event.target.value) === Filter.maxValue) {
+    } else if (positiveIntegerRegEx.test(event.target.value) && Number(event.target.value) <= Filter.maxValue) {
       setCurrentValue(Number(event.target.value));
-      removeSpecificLabelFilters(Filter.label);
-    } else if (positiveIntegerRegEx.test(event.target.value) && Number(event.target.value) < Filter.maxValue) {
-      setCurrentValue(Number(event.target.value));
-      removeBeforeAdd(Filter.label, Number(event.target.value));
+      removeBeforeAdd(Filter.label);
       addFilter(`${Filter.label}-${Number(event.target.value)}`);
     } else {
       event.target.value = '';

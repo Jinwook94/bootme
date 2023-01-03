@@ -5,7 +5,6 @@ const FilterContext = createContext<FilterContextProps>({
   addFilter: () => {},
   removeBeforeAdd: () => {},
   removeFilter: () => {},
-  removeSpecificLabelFilters: () => {},
 });
 
 export const FilterProvider = ({ children }: FilterProviderProps) => {
@@ -15,10 +14,8 @@ export const FilterProvider = ({ children }: FilterProviderProps) => {
     setSelectedFilters([...selectedFilters, filter]);
   };
 
-  const removeBeforeAdd = (label: string, currentValue: number) => {
-    const newSelectedFilters = selectedFilters.filter(
-      filter => filter.startsWith(label) && Number(filter.split('-')[1]) >= currentValue
-    );
+  const removeBeforeAdd = (label: string) => {
+    const newSelectedFilters = selectedFilters.filter(filter => filter.startsWith(label));
     for (const filter of newSelectedFilters) {
       removeFilter(filter);
     }
@@ -32,22 +29,8 @@ export const FilterProvider = ({ children }: FilterProviderProps) => {
     setSelectedFilters(selectedFilters.filter(f => f !== filter));
   };
 
-  /*
-   * range, text input 필터에서 최댓값이 입력된 경우에,
-   * 해당 필터를 모두 제거하여 모든 코스가 표시될 수 있도록 함
-   * ex) 비용 필터에서 '1000' 이 입력됨 -> 비용 필터 모두 제거
-   * */
-  const removeSpecificLabelFilters = (label: string) => {
-    const newSelectedFilters = selectedFilters.filter(filter => filter.startsWith(label));
-    for (const filter of newSelectedFilters) {
-      removeFilter(filter);
-    }
-  };
-
   return (
-    <FilterContext.Provider
-      value={{ selectedFilters, addFilter, removeBeforeAdd, removeFilter, removeSpecificLabelFilters }}
-    >
+    <FilterContext.Provider value={{ selectedFilters, addFilter, removeBeforeAdd, removeFilter }}>
       {children}
     </FilterContext.Provider>
   );
@@ -57,10 +40,9 @@ export const useFilters = () => useContext(FilterContext);
 
 interface FilterContextProps {
   selectedFilters: string[];
-  removeBeforeAdd: (label: string, currentValue: number) => void;
+  removeBeforeAdd: (label: string) => void;
   addFilter: (filter: string) => void;
   removeFilter: (filter: string) => void;
-  removeSpecificLabelFilters: (label: string) => void;
 }
 
 interface FilterProviderProps {
