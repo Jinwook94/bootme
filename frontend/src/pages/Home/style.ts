@@ -65,6 +65,32 @@ export const SideFilterWrapper = styled.section`
   }
 `;
 
+export const NoResultsMessage = styled.p`
+  margin-top: 5rem;
+  width: 884px;
+  text-align: center;
+  font-size: 1.2rem;
+
+  @media (max-width: 575px) {
+    width: 100%;
+    font-size: 0.9375rem;
+  }
+
+  @media (min-width: 575px) and (max-width: 768px) {
+    width: 508px;
+    font-size: 0.9375rem;
+  }
+
+  @media (min-width: 768px) and (max-width: 991px) {
+    width: 464px;
+    font-size: 1rem;
+  }
+
+  @media (min-width: 991px) and (max-width: 1200px) {
+    width: 704px;
+  }
+`;
+
 export const CourseListWrapper = styled.section`
   flex: 1 1 auto;
   display: flex;

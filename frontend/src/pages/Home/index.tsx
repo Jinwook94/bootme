@@ -8,6 +8,7 @@ import {
   SlideWrapper,
   BodyWrapper,
   SideFilterWrapper,
+  NoResultsMessage,
   CourseListWrapper,
   BodyWrapper2,
   HomeLayout,
@@ -78,22 +79,30 @@ const Home = () => {
               <SideFilter />
             </SideFilterWrapper>
             <CourseListWrapper>
-              <CourseListMenu>
-                <MenuLeft>
-                  <CourseCount>100개의 커리큘럼</CourseCount>
-                </MenuLeft>
-                <MenuRight>
-                  <FilterButton primary>
-                    <span> 검색 필터 </span>
-                  </FilterButton>
-                  <FilterSelect>
-                    <option value={'recent'}> 최신순</option>
-                    <option value={'popular'}> 인기순</option>
-                    <option value={'popular'}> 응답률순</option>
-                  </FilterSelect>
-                </MenuRight>
-              </CourseListMenu>
-              <CourseCardList cards={currentCards} />
+              {filteredCourses.length === 0 ? (
+                <NoResultsMessage>
+                  선택하신 조건에 맞는 코스가 없습니다. <br /> 필터 옵션을 변경해 주세요.
+                </NoResultsMessage>
+              ) : (
+                <>
+                  <CourseListMenu>
+                    <MenuLeft>
+                      <CourseCount>{length}개의 커리큘럼</CourseCount>
+                    </MenuLeft>
+                    <MenuRight>
+                      <FilterButton primary>
+                        <span> 검색 필터 </span>
+                      </FilterButton>
+                      <FilterSelect>
+                        <option value={'recent'}> 최신순</option>
+                        <option value={'popular'}> 인기순</option>
+                        <option value={'popular'}> 응답률순</option>
+                      </FilterSelect>
+                    </MenuRight>
+                  </CourseListMenu>
+                  <CourseCardList cards={currentCards} />
+                </>
+              )}
             </CourseListWrapper>
           </BodyWrapper2>
         </BodyWrapper>
