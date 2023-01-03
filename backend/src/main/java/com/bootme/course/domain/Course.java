@@ -8,8 +8,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -38,9 +39,11 @@ public class Course {
     @Enumerated(EnumType.STRING)
     private OnOffline onoffline;
 
-    @ElementCollection
-    @Enumerated(EnumType.STRING)
-    private List<Tag> tags = new ArrayList<>();
+    @Embedded
+    private Category categories;
+
+    @Embedded
+    private Stack stacks;
 
     @Enumerated(EnumType.STRING)
     private Prerequisites prerequisites;
@@ -50,7 +53,7 @@ public class Course {
     @Enumerated(EnumType.STRING)
     private CostType costType;
 
-    private String period;
+    private int period;
 
     @Embedded
     private Dates dates;
@@ -59,10 +62,11 @@ public class Course {
 
     private boolean isTested;
 
+
     @Builder
     public Course(String title, String name, int generation, String url, Company company,
-                  String location, OnOffline onoffline, List<Tag> tags, Prerequisites prerequisites,
-                  int cost, CostType costType, String period, Dates dates, boolean isRecommended, boolean isTested) {
+                  String location, OnOffline onoffline, Category categories, Stack stacks, Prerequisites prerequisites,
+                  int cost, CostType costType, int period, Dates dates, boolean isRecommended, boolean isTested) {
         this.title = title;
         this.name = name;
         this.generation = generation;
@@ -70,7 +74,8 @@ public class Course {
         this.company = company;
         this.location = location;
         this.onoffline = onoffline;
-        this.tags = tags;
+        this.categories = categories;
+        this.stacks = stacks;
         this.prerequisites = prerequisites;
         this.cost = cost;
         this.costType = costType;
@@ -80,7 +85,7 @@ public class Course {
         this.isTested = isTested;
     }
 
-    public static Course of(CourseRequest courseRequest, Company company){
+    public static Course of(CourseRequest courseRequest, Company company, Category categories, Stack stacks) {
         return Course.builder()
                 .title(courseRequest.getTitle())
                 .name(courseRequest.getName())
@@ -89,7 +94,8 @@ public class Course {
                 .company(company)
                 .location(courseRequest.getLocation())
                 .onoffline(Enum.valueOf(OnOffline.class, courseRequest.getOnOffline()))
-                .tags(courseRequest.getTags())
+                .categories(categories)
+                .stacks(stacks)
                 .prerequisites(Enum.valueOf(Prerequisites.class, courseRequest.getPrerequisites()))
                 .cost(courseRequest.getCost())
                 .costType(Enum.valueOf(CostType.class, courseRequest.getCostType()))
@@ -100,14 +106,33 @@ public class Course {
                 .build();
     }
 
-    public void modifyCourse(CourseRequest courseRequest){
+    public Map<String, List<String>> categoryToMap() {
+        Map<String, List<String>> categories = new HashMap<>();
+        if (this.categories != null) {
+            categories.put("super", this.categories.getSuperCategory());
+            categories.put("sub", this.categories.getSubCategory());
+        }
+        return categories;
+    }
+
+    public Map<String, List<String>> stackToMap() {
+        Map<String, List<String>> stacks = new HashMap<>();
+        if (this.stacks != null) {
+            stacks.put("super", this.stacks.getLanguages());
+            stacks.put("sub", this.stacks.getFrameworks());
+        }
+        return stacks;
+    }
+
+    public void modifyCourse(CourseRequest courseRequest) {
         this.title = courseRequest.getTitle();
         this.name = courseRequest.getName();
         this.generation = courseRequest.getGeneration();
         this.url = courseRequest.getUrl();
         this.location = courseRequest.getLocation();
         this.onoffline = Enum.valueOf(OnOffline.class, courseRequest.getOnOffline());
-        this.tags = courseRequest.getTags();
+        this.categories = courseRequest.getCategories();
+        this.stacks = courseRequest.getStacks();
         this.prerequisites = Enum.valueOf(Prerequisites.class, courseRequest.getPrerequisites());
         this.cost = courseRequest.getCost();
         this.costType = Enum.valueOf(CostType.class, courseRequest.getCostType());
@@ -117,7 +142,7 @@ public class Course {
         this.isTested = courseRequest.isTested();
     }
 
-    public boolean isRegisterOpen(){
+    public boolean isRegisterOpen() {
         boolean afterStart = LocalDate.now().isEqual(dates.getRegistrationStartDate()) || LocalDate.now().isAfter(dates.getRegistrationStartDate());
         boolean beforeEnd = LocalDate.now().isEqual(dates.getRegistrationEndDate()) || LocalDate.now().isBefore(dates.getRegistrationEndDate());
         return afterStart && beforeEnd;
