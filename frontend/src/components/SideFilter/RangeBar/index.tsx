@@ -1,23 +1,27 @@
 import React, { useState } from 'react';
 import { Bar, Input, InputWrapper, Unit, Wrapper1, Wrapper2 } from './style';
+import { useFilters } from '../../../hooks/useFilters';
 
 export const RangeBar = ({ filterName }: RangeBarProps) => {
   let Filter = {
+    label: '',
     minValue: 0,
-    initialState: 0,
+    maxValue: 0,
     step: 0,
     unit: '',
   };
 
   const CostFilter = {
+    label: 'cost',
     minValue: 0,
-    initialState: 1000,
+    maxValue: 1000,
     step: 50,
     unit: '만원 이하',
   };
   const PeriodFilter = {
-    minValue: 1,
-    initialState: 12,
+    label: 'period',
+    minValue: 0,
+    maxValue: 12,
     step: 1,
     unit: '개월 이하',
   };
@@ -27,10 +31,13 @@ export const RangeBar = ({ filterName }: RangeBarProps) => {
     filterName === '수강 기간' ? (Filter = PeriodFilter) : null;
   }
 
-  const [currentValue, setCurrentValue] = useState(Filter.initialState);
+  const [currentValue, setCurrentValue] = useState(Filter.maxValue);
+  const { addFilter, removeBeforeAdd } = useFilters();
 
   const handleRangeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentValue(Number(event.target.value));
+    removeBeforeAdd(Filter.label, Number(event.target.value));
+    addFilter(`${Filter.label}-${Number(event.target.value)}`);
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,7 +49,7 @@ export const RangeBar = ({ filterName }: RangeBarProps) => {
       <Bar
         value={currentValue}
         min={Filter.minValue}
-        max={Filter.initialState}
+        max={Filter.maxValue}
         step={Filter.step}
         onChange={handleRangeChange}
       />
