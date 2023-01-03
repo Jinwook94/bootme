@@ -1,20 +1,18 @@
 package com.bootme.util.fixture;
 
 import com.bootme.course.domain.*;
+import com.bootme.course.domain.Stack;
 import com.bootme.course.dto.CompanyRequest;
 import com.bootme.course.dto.CompanyResponse;
 import com.bootme.course.dto.CourseRequest;
 import com.bootme.course.dto.CourseResponse;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static com.bootme.course.domain.CostType.*;
 import static com.bootme.course.domain.OnOffline.*;
 import static com.bootme.course.domain.Prerequisites.*;
-import static com.bootme.course.domain.Tag.*;
 
 public class CourseFixture {
 
@@ -39,9 +37,9 @@ public class CourseFixture {
     public static final CostType VALID_CostType_1 = 무료;
     public static final CostType VALID_CostType_2 = 무료국비;
     public static final CostType VALID_CostType_3 = 유료;
-    public static final String VALID_PERIOD_1 = "3개월";
-    public static final String VALID_PERIOD_2 = "4주";
-    public static final String VALID_PERIOD_3 = "6개월";
+    public static final int VALID_PERIOD_1 = 90;
+    public static final int VALID_PERIOD_2 = 28;
+    public static final int VALID_PERIOD_3 = 210;
     public static final Dates VALID_DATES_1 = Dates.builder()
             .registrationStartDate(LocalDate.of(2021, 1, 1))
             .registrationEndDate(LocalDate.of(2021, 1, 31))
@@ -63,9 +61,36 @@ public class CourseFixture {
     public static final OnOffline VALID_ONOFFLINE_1 = 온라인;
     public static final OnOffline VALID_ONOFFLINE_2 = 오프라인;
     public static final OnOffline VALID_ONOFFLINE_3 = 온오프라인혼합;
-    public static final List<Tag> VALID_TAGS_1 = new ArrayList<>(Arrays.asList(백엔드, Java, Spring));
-    public static final List<Tag> VALID_TAGS_2 = new ArrayList<>(Arrays.asList(프론트엔드, Javascript, React));
-    public static final List<Tag> VALID_TAGS_3 = new ArrayList<>(Arrays.asList(백엔드, Javascript, Nodejs));
+    public static final Category CATEGORY1 = Category.builder()
+            .superCategory(new ArrayList<>(Arrays.asList("웹", "모바일 앱")))
+            .subCategory(new ArrayList<>(Arrays.asList("백엔드", "안드로이드")))
+            .build();
+    public static final Category CATEGORY2 = Category.builder()
+            .superCategory(new ArrayList<>(Arrays.asList("웹", "게임")))
+            .subCategory(new ArrayList<>(Arrays.asList("프론트엔드", "데이터")))
+            .build();
+    public static final Category CATEGORY3 = Category.builder()
+            .superCategory(new ArrayList<>(Arrays.asList("임베디드", "보안")))
+            .subCategory(new ArrayList<>(Arrays.asList("백엔드", "iOS")))
+            .build();
+    public static final Map<String, List<String>> VALID_CATEGORY_1 = categoryToMap(CATEGORY1);
+    public static final Map<String, List<String>> VALID_CATEGORY_2 = categoryToMap(CATEGORY2);
+    public static final Map<String, List<String>> VALID_CATEGORY_3 = categoryToMap(CATEGORY3);
+    public static final Stack STACK1 = Stack.builder()
+            .languages(new ArrayList<>(Arrays.asList("Java", "Python", "JavaScript")))
+            .frameworks(new ArrayList<>(Arrays.asList("Spring", "Django", "Nodejs")))
+            .build();
+    public static final Stack STACK2 = Stack.builder()
+            .languages(new ArrayList<>(Arrays.asList("JavaScript", "HTML", "CSS")))
+            .frameworks(new ArrayList<>(Arrays.asList("React", "Vue")))
+            .build();
+    public static final Stack STACK3 = Stack.builder()
+            .languages(new ArrayList<>(Arrays.asList("Java", "Python")))
+            .frameworks(new ArrayList<>(Arrays.asList("Spring", "Django")))
+            .build();
+    public static final Map<String, List<String>> VALID_STACK_1 = stackToMap(STACK1);
+    public static final Map<String, List<String>> VALID_STACK_2 = stackToMap(STACK2);
+    public static final Map<String, List<String>> VALID_STACK_3 = stackToMap(STACK3);
     public static final Prerequisites VALID_PREREQUISITES_1 = 노베이스;
     public static final Prerequisites VALID_PREREQUISITES_2 = 프로그래밍언어기초;
     public static final Prerequisites VALID_PREREQUISITES_3 = 코딩테스트풀이가능;
@@ -174,7 +199,8 @@ public class CourseFixture {
             .company(VALID_COMPANY_1)
             .location(VALID_LOCATION_1)
             .onoffline(VALID_ONOFFLINE_1)
-            .tags(VALID_TAGS_1)
+            .categories(CATEGORY1)
+            .stacks(STACK1)
             .prerequisites(VALID_PREREQUISITES_1)
             .cost(VALID_COST_1)
             .costType(VALID_CostType_1)
@@ -192,7 +218,8 @@ public class CourseFixture {
             .company(VALID_COMPANY_2)
             .location(VALID_LOCATION_2)
             .onoffline(VALID_ONOFFLINE_2)
-            .tags(VALID_TAGS_2)
+            .categories(CATEGORY2)
+            .stacks(STACK2)
             .prerequisites(VALID_PREREQUISITES_2)
             .cost(VALID_COST_2)
             .costType(VALID_CostType_2)
@@ -210,7 +237,8 @@ public class CourseFixture {
             .company(VALID_COMPANY_3)
             .location(VALID_LOCATION_3)
             .onoffline(VALID_ONOFFLINE_3)
-            .tags(VALID_TAGS_3)
+            .categories(CATEGORY3)
+            .stacks(STACK3)
             .prerequisites(VALID_PREREQUISITES_3)
             .cost(VALID_COST_3)
             .costType(VALID_CostType_3)
@@ -228,7 +256,8 @@ public class CourseFixture {
             .companyName(VALID_COMPANY_1.getName())
             .location(VALID_LOCATION_1)
             .onOffline(VALID_ONOFFLINE_1.name())
-            .tags(VALID_TAGS_1)
+            .categories(CATEGORY1)
+            .stacks(STACK1)
             .prerequisites(VALID_PREREQUISITES_1.name())
             .cost(VALID_COST_1)
             .costType(VALID_CostType_1.name())
@@ -246,7 +275,8 @@ public class CourseFixture {
             .companyName(VALID_COMPANY_2.getName())
             .location(VALID_LOCATION_2)
             .onOffline(VALID_ONOFFLINE_2.name())
-            .tags(VALID_TAGS_2)
+            .categories(CATEGORY2)
+            .stacks(STACK2)
             .prerequisites(VALID_PREREQUISITES_2.name())
             .cost(VALID_COST_2)
             .costType(VALID_CostType_2.name())
@@ -264,7 +294,8 @@ public class CourseFixture {
             .companyName(VALID_COMPANY_3.getName())
             .location(VALID_LOCATION_3)
             .onOffline(VALID_ONOFFLINE_3.name())
-            .tags(VALID_TAGS_3)
+            .categories(CATEGORY3)
+            .stacks(STACK3)
             .prerequisites(VALID_PREREQUISITES_3.name())
             .cost(VALID_COST_3)
             .costType(VALID_CostType_3.name())
@@ -282,7 +313,8 @@ public class CourseFixture {
             .url(VALID_URL_1)
             .location(VALID_LOCATION_1)
             .onOffline(VALID_ONOFFLINE_1.name())
-            .tags(VALID_TAGS_1)
+            .categories(VALID_CATEGORY_1)
+            .stacks(VALID_STACK_1)
             .prerequisites(VALID_PREREQUISITES_1.name())
             .cost(VALID_COST_1)
             .costType(VALID_CostType_1.name())
@@ -302,7 +334,8 @@ public class CourseFixture {
             .url(VALID_URL_2)
             .location(VALID_LOCATION_2)
             .onOffline(VALID_ONOFFLINE_2.name())
-            .tags(VALID_TAGS_2)
+            .categories(VALID_CATEGORY_2)
+            .stacks(VALID_STACK_2)
             .prerequisites(VALID_PREREQUISITES_2.name())
             .cost(VALID_COST_2)
             .costType(VALID_CostType_2.name())
@@ -322,7 +355,8 @@ public class CourseFixture {
             .url(VALID_URL_3)
             .location(VALID_LOCATION_3)
             .onOffline(VALID_ONOFFLINE_3.name())
-            .tags(VALID_TAGS_3)
+            .categories(VALID_CATEGORY_3)
+            .stacks(VALID_STACK_3)
             .prerequisites(VALID_PREREQUISITES_3.name())
             .cost(VALID_COST_3)
             .costType(VALID_CostType_3.name())
@@ -333,5 +367,19 @@ public class CourseFixture {
             .isTested(true)
             .isRegisterOpen(false)
             .build();
+
+    private static Map<String, List<String>> categoryToMap(Category category){
+        Map<String, List<String>> categories = new HashMap<>();
+        categories.put("super", category.getSuperCategory());
+        categories.put("sub", category.getSubCategory());
+        return categories;
+    }
+
+    public static Map<String, List<String>> stackToMap(Stack stack){
+        Map<String, List<String>> stacks = new HashMap<>();
+        stacks.put("super", stack.getLanguages());
+        stacks.put("sub", stack.getFrameworks());
+        return stacks;
+    }
 
 }
