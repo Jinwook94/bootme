@@ -12,7 +12,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.bootme.common.exception.ErrorType.NOT_FOUND_COURSE;
@@ -39,51 +38,13 @@ class CourseServiceTest extends ServiceTest {
 
     @BeforeEach
     public void setup(){
-        company1 = Company.builder()
-                .name(VALID_COM_NAME_1)
-                .serviceName(VALID_COM_SERVICE_NAME_1)
-                .url(VALID_COM_URL_1)
-                .serviceUrl(VALID_COM_SERVICE_URL_1)
-                .logoUrl(VALID_COM_LOGO_URL_1)
-                .courses(new ArrayList<>())
-                .build();
-        company2 = Company.builder()
-                .name(VALID_COM_NAME_2)
-                .serviceName(VALID_COM_SERVICE_NAME_2)
-                .url(VALID_COM_URL_2)
-                .serviceUrl(VALID_COM_SERVICE_URL_2)
-                .logoUrl(VALID_COM_LOGO_URL_2)
-                .courses(new ArrayList<>())
-                .build();
-        company3 = Company.builder()
-                .name(VALID_COM_NAME_3)
-                .serviceName(VALID_COM_SERVICE_NAME_3)
-                .url(VALID_COM_URL_3)
-                .serviceUrl(VALID_COM_SERVICE_URL_3)
-                .logoUrl(VALID_COM_LOGO_URL_3)
-                .courses(new ArrayList<>())
-                .build();
+        company1 = getCompany(0);
+        company2 = getCompany(1);
+        company3 = getCompany(2);
         companyRepository.save(company1);
         companyRepository.save(company2);
         companyRepository.save(company3);
-        course = Course.builder()
-                .title(VALID_TITLE_1)
-                .name(VALID_NAME_1)
-                .generation(VALID_GENERATION_1)
-                .url(VALID_URL_1)
-                .company(company1)
-                .location(VALID_LOCATION_1)
-                .onoffline(VALID_ONOFFLINE_1)
-                .categories(CATEGORY1)
-                .stacks(STACK1)
-                .prerequisites(VALID_PREREQUISITES_1)
-                .cost(VALID_COST_1)
-                .costType(VALID_CostType_1)
-                .period(VALID_PERIOD_1)
-                .dates(VALID_DATES_1)
-                .isRecommended(true)
-                .isTested(true)
-                .build();
+        course = getCourse(0);
     }
 
     @Test
@@ -93,7 +54,7 @@ class CourseServiceTest extends ServiceTest {
         long count = courseRepository.count();
 
         //when
-        Long id = courseService.addCourse(VALID_COURSE_REQUEST_2);
+        Long id = courseService.addCourse(getCourseRequest(1));
         Course foundCourse = courseRepository.findById(id)
                 .orElseThrow(() -> new CourseNotFoundException(NOT_FOUND_COURSE));
 
@@ -102,7 +63,7 @@ class CourseServiceTest extends ServiceTest {
                 () -> assertThat(courseRepository.count()).isEqualTo(count + 1),
                 () -> assertThat(foundCourse.getTitle()).isEqualTo(VALID_TITLE_2),
                 () -> assertThat(foundCourse.getUrl()).isEqualTo(VALID_URL_2),
-                () -> assertThat(foundCourse.getCompany().getName()).isEqualTo(VALID_COMPANY_2.getName()),
+                () -> assertThat(foundCourse.getCompany().getName()).isEqualTo(getCompany(1).getName()),
                 () -> assertThat(foundCourse.getLocation()).isEqualTo(VALID_LOCATION_2),
                 () -> assertThat(foundCourse.getCost()).isEqualTo(VALID_COST_2),
                 () -> assertThat(foundCourse.getCostType()).isEqualTo(VALID_CostType_2),
@@ -122,6 +83,7 @@ class CourseServiceTest extends ServiceTest {
         //when
         CourseResponse courseResponse = courseService.findById(id);
 
+
         //then
         assertAll(
                 () -> assertThat(courseResponse.getId()).isEqualTo(course.getId()),
@@ -135,9 +97,9 @@ class CourseServiceTest extends ServiceTest {
     @DisplayName("findAll()은 모든 코스 정보를 반환한다.")
     public void findAll (){
         //given
-        courseService.addCourse(VALID_COURSE_REQUEST_1);
-        courseService.addCourse(VALID_COURSE_REQUEST_2);
-        courseService.addCourse(VALID_COURSE_REQUEST_3);
+        courseService.addCourse(getCourseRequest(0));
+        courseService.addCourse(getCourseRequest(1));
+        courseService.addCourse(getCourseRequest(2));
 
         //when
         List<CourseResponse> courseResponses = courseService.findAll();
@@ -153,7 +115,7 @@ class CourseServiceTest extends ServiceTest {
         Long id = courseRepository.save(course).getId();
 
         //when
-        courseService.modifyCourse(id, VALID_COURSE_REQUEST_2);
+        courseService.modifyCourse(id, getCourseRequest(1));
         Course foundCourse = courseRepository.findById(id)
                 .orElseThrow(() -> new CourseNotFoundException(NOT_FOUND_COURSE));
 
