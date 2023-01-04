@@ -21,7 +21,7 @@ class CourseTest {
 
     @Test
     @DisplayName("modifyCourse()는 코스 정보를 변경한다.")
-    void updateUrl() {
+    void modifyCourse() {
         course.modifyCourse(getCourseRequest(1));
 
         assertAll(
@@ -34,6 +34,15 @@ class CourseTest {
                 () -> assertThat(course.getOnoffline()).isEqualTo(VALID_ONOFFLINE_2),
                 () -> assertThat(course.getPrerequisites()).isEqualTo(VALID_PREREQUISITES_2)
         );
+    }
+
+    @Test
+    @DisplayName("modifyCompany()는 코스의 개설 회사를 변경한다.")
+    void modifyCompany(){
+        Company newCompany = getCompany(1);
+        course.modifyCompany(newCompany);
+
+        assertThat(course.getCompany()).isEqualTo(newCompany);
     }
 
 }

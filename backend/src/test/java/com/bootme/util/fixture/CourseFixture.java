@@ -365,7 +365,7 @@ public class CourseFixture {
         return categories;
     }
 
-    public static Map<String, List<String>> stackToMap(Stack stack) {
+    private static Map<String, List<String>> stackToMap(Stack stack) {
         Map<String, List<String>> stacks = new HashMap<>();
         stacks.put("super", stack.getLanguages());
         stacks.put("sub", stack.getFrameworks());

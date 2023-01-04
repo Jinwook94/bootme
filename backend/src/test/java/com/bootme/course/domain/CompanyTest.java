@@ -18,7 +18,27 @@ class CompanyTest {
     void setup(){
         course = getCourse(0);
         company = getCompany(0);
-//        company.addCourse(course);
+        company.addCourse(course);
+    }
+
+    @Test
+    @DisplayName("addCourse()는 회사의 개설 코스 목록에 코스를 추가하고, 해당 코스의 개설 회사를 this 회사로 변경하며 추가된 코스의 id를 반환한다.")
+    void addCourse(){
+        // given
+        Course course = getCourse(1);
+        int size = company.getCourses().size();
+
+        // when
+        Long id = company.addCourse(course);
+
+        // then
+        assertAll(
+                () -> assertThat(company.getCourses()).contains(course),
+                () -> assertThat(company.getCourses().size()).isEqualTo(size + 1),
+                () -> assertThat(course.getCompany()).isEqualTo(company),
+                () -> assertThat(id).isEqualTo(course.getId())
+        );
+
     }
 
     @Test
@@ -38,11 +58,11 @@ class CompanyTest {
     @Test
     @DisplayName("deleteCourse()는 회사의 개설 코스에서 해당 코스를 삭제한다.")
     void deleteCourse(){
-//        int size = company.getCourses().size();
+        int size = company.getCourses().size();
         company.deleteCourse(course);
 
         assertThat(company.getCourses().contains(course)).isFalse();
-//        assertThat(company.getCourses().size()).isEqualTo(size - 1);
+        assertThat(company.getCourses().size()).isEqualTo(size - 1);
     }
 
 }

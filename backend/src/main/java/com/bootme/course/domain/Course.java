@@ -142,6 +142,10 @@ public class Course {
         this.isTested = courseRequest.isTested();
     }
 
+    public void modifyCompany(Company company){
+        this.company = company;
+    }
+
     public boolean isRegisterOpen() {
         boolean afterStart = LocalDate.now().isEqual(dates.getRegistrationStartDate()) || LocalDate.now().isAfter(dates.getRegistrationStartDate());
         boolean beforeEnd = LocalDate.now().isEqual(dates.getRegistrationEndDate()) || LocalDate.now().isBefore(dates.getRegistrationEndDate());

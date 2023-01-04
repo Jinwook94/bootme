@@ -43,6 +43,12 @@ public class Company {
         this.courses = courses;
     }
 
+    public Long addCourse(Course course){
+        course.modifyCompany(this);
+        this.courses.add(course);
+        return course.getId();
+    }
+
     public void modifyCompany(CompanyRequest companyRequest){
         this.name = companyRequest.getName();
         this.serviceName = companyRequest.getServiceName();
