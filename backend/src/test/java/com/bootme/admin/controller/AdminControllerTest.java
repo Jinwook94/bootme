@@ -62,9 +62,9 @@ class AdminControllerTest extends ControllerTest {
     @DisplayName("addCourse()는 정상 요청시 코스를 추가하고 상태코드 201을 반환한다.")
     void addCourse() throws Exception {
         //given
-        String content = objectMapper.writeValueAsString(VALID_COURSE_REQUEST_1);
+        String content = objectMapper.writeValueAsString(getCourseRequest(0));
         given(adminService.addCourse(any())).willReturn(1L);
-        given(adminService.findCourseById(1L)).willReturn(VALID_COURSE_RESPONSE_1);
+        given(adminService.findCourseById(1L)).willReturn(getCourseResponse(0));
 
         //when
         ResultActions perform = mockMvc.perform(post("/admin/courses")
@@ -85,7 +85,7 @@ class AdminControllerTest extends ControllerTest {
     @DisplayName("findCourse()는 정상 요청시 상태코드 200을 반환한다.")
     void findCourse() throws Exception {
         //given
-        given(adminService.findCourseById(any())).willReturn(VALID_COURSE_RESPONSE_1);
+        given(adminService.findCourseById(any())).willReturn(getCourseResponse(0));
 
         //when
         ResultActions perform = mockMvc.perform(get("/admin/courses/1")
@@ -106,9 +106,9 @@ class AdminControllerTest extends ControllerTest {
     public void findCourses() throws Exception {
         //given
         List<CourseResponse> courseResponses = new ArrayList<>();
-        courseResponses.add(VALID_COURSE_RESPONSE_1);
-        courseResponses.add(VALID_COURSE_RESPONSE_2);
-        courseResponses.add(VALID_COURSE_RESPONSE_3);
+        courseResponses.add(getCourseResponse(0));
+        courseResponses.add(getCourseResponse(1));
+        courseResponses.add(getCourseResponse(2));
         given(adminService.findAllCourses()).willReturn(courseResponses);
 
         //when
@@ -130,7 +130,7 @@ class AdminControllerTest extends ControllerTest {
     @DisplayName("modifyCourse()는 정상 요청시 상태코드 204를 반환한다.")
     public void modifyCourse() throws Exception{
         //given
-        String content = objectMapper.writeValueAsString(VALID_COURSE_REQUEST_1);
+        String content = objectMapper.writeValueAsString(getCourseRequest(0));
         willDoNothing().given(adminService).modifyCourse(any(), any());
 
         //when
@@ -172,9 +172,9 @@ class AdminControllerTest extends ControllerTest {
     @DisplayName("addCompany()는 정상 요청시 회사를 추가하고 상태코드 201을 반환한다.")
     void addCompany() throws Exception {
         //given
-        String content = objectMapper.writeValueAsString(VALID_COMPANY_REQUEST_1);
+        String content = objectMapper.writeValueAsString(getCompanyRequest(0));
         given(adminService.addCompany(any())).willReturn(1L);
-        given(adminService.findCompanyById(1L)).willReturn(VALID_COMPANY_RESPONSE_1);
+        given(adminService.findCompanyById(1L)).willReturn(getCompanyResponse(0));
 
         //when
         ResultActions perform = mockMvc.perform(post("/admin/companies")
@@ -195,7 +195,7 @@ class AdminControllerTest extends ControllerTest {
     @DisplayName("findCompany()는 정상 요청시 상태코드 200을 반환한다.")
     void findCompany() throws Exception {
         //given
-        given(adminService.findCompanyById(any())).willReturn(VALID_COMPANY_RESPONSE_1);
+        given(adminService.findCompanyById(any())).willReturn(getCompanyResponse(0));
 
         //when
         ResultActions perform = mockMvc.perform(get("/admin/companies/1")
@@ -216,8 +216,8 @@ class AdminControllerTest extends ControllerTest {
     public void findCompanies() throws Exception {
         //given
         List<CompanyResponse> companyResponses = new ArrayList<>();
-        companyResponses.add(VALID_COMPANY_RESPONSE_1);
-        companyResponses.add(VALID_COMPANY_RESPONSE_2);
+        companyResponses.add(getCompanyResponse(0));
+        companyResponses.add(getCompanyResponse(1));
         given(adminService.findAllCompanies()).willReturn(companyResponses);
 
         //when
@@ -238,7 +238,7 @@ class AdminControllerTest extends ControllerTest {
     @DisplayName("modifyCompany()는 정상 요청시 상태코드 204를 반환한다.")
     public void modifyCompany() throws Exception{
         //given
-        String content = objectMapper.writeValueAsString(VALID_COMPANY_REQUEST_1);
+        String content = objectMapper.writeValueAsString(getCompanyRequest(0));
         willDoNothing().given(adminService).modifyCompany(any(), any());
 
         //when

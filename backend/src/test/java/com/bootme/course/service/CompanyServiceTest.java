@@ -10,7 +10,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.bootme.common.exception.ErrorType.NOT_FOUND_COMPANY;
@@ -32,22 +31,8 @@ class CompanyServiceTest extends ServiceTest {
 
     @BeforeEach
     public void setUp() {
-        company1 = Company.builder()
-                .name(VALID_COM_NAME_1)
-                .serviceName(VALID_COM_SERVICE_NAME_1)
-                .url(VALID_COM_URL_1)
-                .serviceUrl(VALID_COM_SERVICE_URL_1)
-                .logoUrl(VALID_COM_LOGO_URL_1)
-                .courses(new ArrayList<>())
-                .build();
-        company2 = Company.builder()
-                .name(VALID_COM_NAME_2)
-                .serviceName(VALID_COM_SERVICE_NAME_2)
-                .url(VALID_COM_URL_2)
-                .serviceUrl(VALID_COM_SERVICE_URL_2)
-                .logoUrl(VALID_COM_LOGO_URL_2)
-                .courses(new ArrayList<>())
-                .build();
+        company1 = getCompany(1);
+        company2 = getCompany(2);
     }
 
     @Test
@@ -57,14 +42,14 @@ class CompanyServiceTest extends ServiceTest {
         long count = companyRepository.count();
 
         //when
-        Long id = companyService.addCompany(VALID_COMPANY_REQUEST_1);
+        Long id = companyService.addCompany(getCompanyRequest(0));
         Company foundCompany = companyRepository.findById(id).orElseThrow();
 
         //then
         assertAll(
                 () -> assertThat(companyRepository.count()).isEqualTo(count + 1),
-                () -> assertThat(foundCompany.getUrl()).isEqualTo(VALID_COMPANY_REQUEST_1.getUrl()),
-                () -> assertThat(foundCompany.getName()).isEqualTo(VALID_COMPANY_REQUEST_1.getName())
+                () -> assertThat(foundCompany.getUrl()).isEqualTo(getCompanyRequest(0).getUrl()),
+                () -> assertThat(foundCompany.getName()).isEqualTo(getCompanyRequest(0).getName())
         );
     }
 
@@ -111,16 +96,16 @@ class CompanyServiceTest extends ServiceTest {
         Long id = companyRepository.save(company1).getId();
 
         //when
-        companyService.modifyCompany(id, VALID_COMPANY_REQUEST_1);
+        companyService.modifyCompany(id, getCompanyRequest(1));
         Company foundCompany = companyRepository.findById(id)
                 .orElseThrow(() -> new CompanyNotFoundException(NOT_FOUND_COMPANY));
         //then
         assertAll(
-                () -> assertThat(foundCompany.getName()).isEqualTo(VALID_COM_NAME_1),
-                () -> assertThat(foundCompany.getServiceName()).isEqualTo(VALID_COM_SERVICE_NAME_1),
-                () -> assertThat(foundCompany.getUrl()).isEqualTo(VALID_COM_URL_1),
-                () -> assertThat(foundCompany.getServiceUrl()).isEqualTo(VALID_COM_SERVICE_URL_1),
-                () -> assertThat(foundCompany.getLogoUrl()).isEqualTo(VALID_COM_LOGO_URL_1)
+                () -> assertThat(foundCompany.getName()).isEqualTo(VALID_COM_NAME_2),
+                () -> assertThat(foundCompany.getServiceName()).isEqualTo(VALID_COM_SERVICE_NAME_2),
+                () -> assertThat(foundCompany.getUrl()).isEqualTo(VALID_COM_URL_2),
+                () -> assertThat(foundCompany.getServiceUrl()).isEqualTo(VALID_COM_SERVICE_URL_2),
+                () -> assertThat(foundCompany.getLogoUrl()).isEqualTo(VALID_COM_LOGO_URL_2)
         );
     }
 

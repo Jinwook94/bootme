@@ -16,13 +16,13 @@ class CourseTest {
 
     @BeforeEach
     void setUp() {
-        course = VALID_COURSE_1;
+        course = getCourse(0);
     }
 
     @Test
     @DisplayName("modifyCourse()는 코스 정보를 변경한다.")
     void updateUrl() {
-        course.modifyCourse(VALID_COURSE_REQUEST_2);
+        course.modifyCourse(getCourseRequest(1));
 
         assertAll(
                 () -> assertThat(course.getTitle()).isEqualTo(VALID_TITLE_2),

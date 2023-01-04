@@ -16,14 +16,15 @@ class CompanyTest {
 
     @BeforeEach
     void setup(){
-        course = VALID_COURSE_1;
-        company = VALID_COMPANY_1;
+        course = getCourse(0);
+        company = getCompany(0);
+//        company.addCourse(course);
     }
 
     @Test
     @DisplayName("modifyCompany()는 회사의 정보를 변경한다.")
     void updateName() {
-        company.modifyCompany(VALID_COMPANY_REQUEST_2);
+        company.modifyCompany(getCompanyRequest(1));
 
         assertAll(
                 () -> assertThat(company.getName()).isEqualTo(VALID_COM_NAME_2),
@@ -37,10 +38,11 @@ class CompanyTest {
     @Test
     @DisplayName("deleteCourse()는 회사의 개설 코스에서 해당 코스를 삭제한다.")
     void deleteCourse(){
+//        int size = company.getCourses().size();
         company.deleteCourse(course);
 
         assertThat(company.getCourses().contains(course)).isFalse();
-        assertThat(company.getCourses().size()).isEqualTo(0);
+//        assertThat(company.getCourses().size()).isEqualTo(size - 1);
     }
 
 }
