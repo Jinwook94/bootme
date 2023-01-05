@@ -367,8 +367,8 @@ public class CourseFixture {
 
     private static Map<String, List<String>> stackToMap(Stack stack) {
         Map<String, List<String>> stacks = new HashMap<>();
-        stacks.put("super", stack.getLanguages());
-        stacks.put("sub", stack.getFrameworks());
+        stacks.put("languages", stack.getLanguages());
+        stacks.put("frameworks", stack.getFrameworks());
         return stacks;
     }
 

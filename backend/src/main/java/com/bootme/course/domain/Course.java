@@ -118,8 +118,8 @@ public class Course {
     public Map<String, List<String>> stackToMap() {
         Map<String, List<String>> stacks = new HashMap<>();
         if (this.stacks != null) {
-            stacks.put("super", this.stacks.getLanguages());
-            stacks.put("sub", this.stacks.getFrameworks());
+            stacks.put("languages", this.stacks.getLanguages());
+            stacks.put("frameworks", this.stacks.getFrameworks());
         }
         return stacks;
     }
