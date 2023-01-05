@@ -37,9 +37,7 @@ const Home = () => {
   let filteredCourses = data || [];
 
   const filterCourses = () => {
-    filteredCourses = filteredCourses.filter((course: Course) => {
-      return course.tags.some((tag: string) => selectedFilters.includes(tag));
-    });
+    filteredCourses = filteredCourses.filter((course: Course) => {});
   };
 
   if (selectedFilters.length > 0) {

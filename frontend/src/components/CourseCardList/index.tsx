@@ -5,13 +5,14 @@ import React from 'react';
 const CourseCardList = ({ cards }: CourseCardListProps) => {
   return (
     <CourseCardListStyle>
-      {cards.map(({ id, title, url, company, tags, dates, period, cost }: CourseCardProps) => (
+      {cards.map(({ id, title, url, company, categories, stacks, dates, period, cost }: CourseCardProps) => (
         <CourseCard
           key={id}
           title={title}
           url={url}
           company={company}
-          tags={tags}
+          categories={categories}
+          stacks={stacks}
           dates={dates}
           cost={cost}
           period={period}

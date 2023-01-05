@@ -65,6 +65,12 @@ export const TestOptionList = styled(FilterOptionList)`
   }
 `;
 
+export const FilterOptionWrapper = styled.div<{ borderTop: boolean }>`
+  border-top: ${props => (props.borderTop === true ? '0.0625rem solid rgb(215,226,235)' : 0)};
+  margin-top: ${props => (props.borderTop === true ? '0.5rem' : 0)};
+  padding-top: ${props => (props.borderTop === true ? '0.5rem' : 0)};
+`;
+
 type ButtonProps = {
   position: 'absolute' | 'relative' | 'fixed' | 'unset';
   paddingTop: string;

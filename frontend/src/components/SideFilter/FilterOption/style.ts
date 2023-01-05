@@ -1,13 +1,10 @@
 import styled from 'styled-components';
 
-export const ListItem = styled.li<{ borderTop: number | string }>`
+export const ListItem = styled.li`
   padding: 0.1875rem 0;
   letter-spacing: -0.009em;
   line-height: 1.6;
   list-style: none;
-  border-top: ${props => (typeof props.borderTop === 'number' ? '0.0625rem solid rgb(215,226,235)' : 0)};
-  margin-top: ${props => (typeof props.borderTop === 'number' ? '0.5rem' : 0)};
-  padding-top: ${props => (typeof props.borderTop === 'number' ? '0.5rem' : 0)};
 `;
 
 export const Wrapper = styled.div`

@@ -17,9 +17,7 @@ import './style.css';
 import BookmarkIcon from '../../assets/bookmark.svg';
 import DateFormatter from './dateFormatter';
 
-const CourseCard = ({ title, url, company, tags, dates, period, cost }: CourseCardProps) => {
-  const categoryTags = ['백엔드', '프론트엔드', '웹', '앱'];
-
+const CourseCard = ({ title, url, company, categories, stacks, dates, period, cost }: CourseCardProps) => {
   return (
     <Wrapper>
       <link
@@ -73,15 +71,18 @@ const CourseCard = ({ title, url, company, tags, dates, period, cost }: CourseCa
           </ItemWrapper>
         </CourseInfo>
         <CourseTags>
-          {tags?.map((tag: string) => (
-            <TagItem
-              key={tag}
-              style={
-                categoryTags.includes(tag)
-                  ? { backgroundColor: '#e6f7ff', color: '#1c1c1c' }
-                  : { backgroundColor: '#e9ecf3', color: '#44576c' }
-              }
-            >
+          {categories['sub']?.map((tag: string) => (
+            <TagItem key={tag} style={{ backgroundColor: '#e6f7ff', color: '#1c1c1c' }}>
+              {tag}
+            </TagItem>
+          ))}
+          {stacks['languages']?.map((tag: string) => (
+            <TagItem key={tag} style={{ backgroundColor: '#e9ecf3', color: '#44576c' }}>
+              {tag}
+            </TagItem>
+          ))}
+          {stacks['frameworks']?.map((tag: string) => (
+            <TagItem key={tag} style={{ backgroundColor: '#e9ecf3', color: '#44576c' }}>
               {tag}
             </TagItem>
           ))}

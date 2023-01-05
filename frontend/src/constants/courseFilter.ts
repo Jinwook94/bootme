@@ -1,63 +1,45 @@
-export const courseFilter = [
-  {
-    name: '개발 분야',
-    options: [
-      '웹',
-      '모바일 앱',
-      '게임',
-      '임베디드',
-      '데스크탑 앱',
-      'AI',
-      '데이터',
-      '데브옵스',
-      '보안',
-      '프론트엔드',
-      '백엔드',
-      '풀스택',
-      '안드로이드',
-      'iOS',
-      '크로스플랫폼',
-    ],
+export const CourseFilter: { [key: string]: CourseFilterTypes } = {
+  Categories: {
+    filterName: '개발 분야',
+    filterOptions: {
+      super: ['웹', '모바일 앱', '게임', '임베디드', '데스크탑 앱', 'AI', '데이터', '데브옵스', '보안'],
+      sub: ['프론트엔드', '백엔드', '풀스택', '안드로이드', 'iOS', '크로스플랫폼'],
+    },
     isMore: true,
-    borderTop: 9,
+    borderTop: true,
   },
-  {
-    name: '기술 스택',
-    options: [
-      'HTML',
-      'CSS',
-      'JavaScript',
-      'TypeScript',
-      'Java',
-      'Python',
-      'Kotlin',
-      'Swift',
-      'Spring',
-      'Django',
-      'React',
-      'Vue.js',
-      'Node.js',
-      'Angular',
-    ],
+  Stacks: {
+    filterName: '기술 스택',
+    filterOptions: {
+      languages: ['HTML', 'CSS', 'JavaScript', 'TypeScript', 'Java', 'Python', 'Kotlin', 'Swift'],
+      frameworks: ['Spring', 'Django', 'React', 'Vue.js', 'Node.js', 'Angular'],
+    },
     isMore: true,
-    borderTop: 8,
+    borderTop: true,
   },
-  {
-    name: '비용',
-    options: ['무료', '무료 (국비)'],
+  Cost: {
+    filterName: '비용',
+    filterOptions: ['무료', '무료 (국비)'],
     isMore: false,
-    borderTop: 'none',
+    borderTop: false,
   },
-  {
-    name: '수강 기간',
-    options: [],
+  Period: {
+    filterName: '수강 기간',
+    filterOptions: [],
     isMore: false,
-    borderTop: 'none',
+    borderTop: false,
   },
-  {
-    name: '코딩 테스트',
-    options: ['있음', '없음'],
+  Test: {
+    filterName: '코딩 테스트',
+    filterOptions: ['있음', '없음'],
     isMore: false,
-    borderTop: 'none',
+    borderTop: false,
   },
-];
+};
+
+export interface CourseFilterTypes {
+  filterName: string;
+  filterOptions: { [key: string]: string[] } | string[];
+  isMore: boolean;
+  borderTop: boolean;
+}
