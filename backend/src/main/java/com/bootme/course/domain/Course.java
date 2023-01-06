@@ -36,8 +36,7 @@ public class Course {
 
     private String location;
 
-    @Enumerated(EnumType.STRING)
-    private OnOffline onoffline;
+    private String onoffline;
 
     @Embedded
     private Category categories;
@@ -45,13 +44,11 @@ public class Course {
     @Embedded
     private Stack stacks;
 
-    @Enumerated(EnumType.STRING)
-    private Prerequisites prerequisites;
+    private String prerequisites;
+
+    private String costType;
 
     private int cost;
-
-    @Enumerated(EnumType.STRING)
-    private CostType costType;
 
     private int period;
 
@@ -65,8 +62,8 @@ public class Course {
 
     @Builder
     public Course(String title, String name, int generation, String url, Company company,
-                  String location, OnOffline onoffline, Category categories, Stack stacks, Prerequisites prerequisites,
-                  int cost, CostType costType, int period, Dates dates, boolean isRecommended, boolean isTested) {
+                  String location, String onoffline, Category categories, Stack stacks, String prerequisites,
+                  int cost, String costType, int period, Dates dates, boolean isRecommended, boolean isTested) {
         this.title = title;
         this.name = name;
         this.generation = generation;
@@ -93,12 +90,12 @@ public class Course {
                 .url(courseRequest.getUrl())
                 .company(company)
                 .location(courseRequest.getLocation())
-                .onoffline(Enum.valueOf(OnOffline.class, courseRequest.getOnOffline()))
+                .onoffline(courseRequest.getOnOffline())
                 .categories(categories)
                 .stacks(stacks)
-                .prerequisites(Enum.valueOf(Prerequisites.class, courseRequest.getPrerequisites()))
+                .prerequisites(courseRequest.getPrerequisites())
                 .cost(courseRequest.getCost())
-                .costType(Enum.valueOf(CostType.class, courseRequest.getCostType()))
+                .costType(courseRequest.getCostType())
                 .period(courseRequest.getPeriod())
                 .dates(courseRequest.getDates())
                 .isRecommended(courseRequest.isRecommended())
@@ -130,12 +127,12 @@ public class Course {
         this.generation = courseRequest.getGeneration();
         this.url = courseRequest.getUrl();
         this.location = courseRequest.getLocation();
-        this.onoffline = Enum.valueOf(OnOffline.class, courseRequest.getOnOffline());
+        this.onoffline = courseRequest.getOnOffline();
         this.categories = courseRequest.getCategories();
         this.stacks = courseRequest.getStacks();
-        this.prerequisites = Enum.valueOf(Prerequisites.class, courseRequest.getPrerequisites());
+        this.prerequisites = courseRequest.getPrerequisites();
         this.cost = courseRequest.getCost();
-        this.costType = Enum.valueOf(CostType.class, courseRequest.getCostType());
+        this.costType = courseRequest.getCostType();
         this.period = courseRequest.getPeriod();
         this.dates = courseRequest.getDates();
         this.isRecommended = courseRequest.isRecommended();

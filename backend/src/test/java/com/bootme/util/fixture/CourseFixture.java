@@ -10,10 +10,6 @@ import com.bootme.course.dto.CourseResponse;
 import java.time.LocalDate;
 import java.util.*;
 
-import static com.bootme.course.domain.CostType.*;
-import static com.bootme.course.domain.OnOffline.*;
-import static com.bootme.course.domain.Prerequisites.*;
-
 public class CourseFixture {
 
     public static final String VALID_TITLE_1 = "네이버 서버 개발자 부트캠프 1기";
@@ -40,9 +36,9 @@ public class CourseFixture {
     public static final int VALID_COST_1 = 0;
     public static final int VALID_COST_2 = 0;
     public static final int VALID_COST_3 = 1000000;
-    public static final CostType VALID_CostType_1 = 무료;
-    public static final CostType VALID_CostType_2 = 무료국비;
-    public static final CostType VALID_CostType_3 = 유료;
+    public static final String VALID_CostType_1 = "무료";
+    public static final String VALID_CostType_2 = "무료 (국비)";
+    public static final String VALID_CostType_3 = "유료";
     public static final int VALID_PERIOD_1 = 90;
     public static final int VALID_PERIOD_2 = 28;
     public static final int VALID_PERIOD_3 = 210;
@@ -64,9 +60,9 @@ public class CourseFixture {
             .courseStartDate(LocalDate.of(2023, 2, 1))
             .courseEndDate(LocalDate.of(2023, 7, 31))
             .build();
-    public static final OnOffline VALID_ONOFFLINE_1 = 온라인;
-    public static final OnOffline VALID_ONOFFLINE_2 = 오프라인;
-    public static final OnOffline VALID_ONOFFLINE_3 = 온오프라인혼합;
+    public static final String VALID_ONOFFLINE_1 = "온라인";
+    public static final String VALID_ONOFFLINE_2 = "오프라인";
+    public static final String VALID_ONOFFLINE_3 = "온오프라인혼합";
     public static final Category CATEGORY1 = Category.builder()
             .superCategory(new ArrayList<>(Arrays.asList("웹", "모바일 앱")))
             .subCategory(new ArrayList<>(Arrays.asList("백엔드", "안드로이드")))
@@ -97,9 +93,9 @@ public class CourseFixture {
     public static final Map<String, List<String>> VALID_STACK_1 = stackToMap(STACK1);
     public static final Map<String, List<String>> VALID_STACK_2 = stackToMap(STACK2);
     public static final Map<String, List<String>> VALID_STACK_3 = stackToMap(STACK3);
-    public static final Prerequisites VALID_PREREQUISITES_1 = 노베이스;
-    public static final Prerequisites VALID_PREREQUISITES_2 = 프로그래밍언어기초;
-    public static final Prerequisites VALID_PREREQUISITES_3 = 코딩테스트풀이가능;
+    public static final String VALID_PREREQUISITES_1 = "노베이스";
+    public static final String VALID_PREREQUISITES_2 = "프로그래밍언어기초";
+    public static final String VALID_PREREQUISITES_3 = "코딩테스트풀이가능";
     public static final String VALID_COM_NAME_1 = "네이버";
     public static final String VALID_COM_NAME_2 = "카카오";
     public static final String VALID_COM_NAME_3 = "라인";
@@ -162,12 +158,12 @@ public class CourseFixture {
         String[] urls = {VALID_URL_1, VALID_URL_2, VALID_URL_3};
         String[] companies = {VALID_COM_NAME_1, VALID_COM_NAME_2, VALID_COM_NAME_3};
         String[] locations = {VALID_LOCATION_1, VALID_LOCATION_2, VALID_LOCATION_3};
-        OnOffline[] onOfflines = {VALID_ONOFFLINE_1, VALID_ONOFFLINE_2, VALID_ONOFFLINE_3};
+        String[] onOfflines = {VALID_ONOFFLINE_1, VALID_ONOFFLINE_2, VALID_ONOFFLINE_3};
         Category[] categories = {CATEGORY1, CATEGORY2, CATEGORY3};
         Stack[] stacks = {STACK1, STACK2, STACK3};
-        Prerequisites[] prerequisites = {VALID_PREREQUISITES_1, VALID_PREREQUISITES_2, VALID_PREREQUISITES_3};
+        String[] prerequisites = {VALID_PREREQUISITES_1, VALID_PREREQUISITES_2, VALID_PREREQUISITES_3};
         int[] costs = {VALID_COST_1, VALID_COST_2, VALID_COST_3};
-        CostType[] costTypes = {VALID_CostType_1, VALID_CostType_2, VALID_CostType_3};
+        String [] costTypes = {VALID_CostType_1, VALID_CostType_2, VALID_CostType_3};
         int[] periods = {VALID_PERIOD_1, VALID_PERIOD_2, VALID_PERIOD_3};
         Dates[] dates = {VALID_DATES_1, VALID_DATES_2, VALID_DATES_3};
         boolean[] recommendeds = {true, false, true};
@@ -180,12 +176,12 @@ public class CourseFixture {
                 .url(urls[index])
                 .companyName(companies[index])
                 .location(locations[index])
-                .onOffline(onOfflines[index].name())
+                .onOffline(onOfflines[index])
                 .categories(categories[index])
                 .stacks(stacks[index])
-                .prerequisites(prerequisites[index].name())
+                .prerequisites(prerequisites[index])
                 .cost(costs[index])
-                .costType(costTypes[index].name())
+                .costType(costTypes[index])
                 .period(periods[index])
                 .dates(dates[index])
                 .isRecommended(recommendeds[index])
@@ -201,12 +197,12 @@ public class CourseFixture {
         String[] urls = {VALID_URL_1, VALID_URL_2, VALID_URL_3};
         CompanyResponse[] companies = {getCompanyResponse(0), getCompanyResponse(1), getCompanyResponse(2)};
         String[] locations = {VALID_LOCATION_1, VALID_LOCATION_2, VALID_LOCATION_3};
-        OnOffline[] onOfflines = {VALID_ONOFFLINE_1, VALID_ONOFFLINE_2, VALID_ONOFFLINE_3};
+        String[] onOfflines = {VALID_ONOFFLINE_1, VALID_ONOFFLINE_2, VALID_ONOFFLINE_3};
         Map<String, List<String>>[] categories = (Map<String, List<String>>[]) new Map[]{VALID_CATEGORY_1, VALID_CATEGORY_2, VALID_CATEGORY_3};
         Map<String, List<String>>[] stacks = (Map<String, List<String>>[]) new Map[]{VALID_STACK_1, VALID_STACK_2, VALID_STACK_3};
-        Prerequisites[] prerequisites = {VALID_PREREQUISITES_1, VALID_PREREQUISITES_2, VALID_PREREQUISITES_3};
+        String[] prerequisites = {VALID_PREREQUISITES_1, VALID_PREREQUISITES_2, VALID_PREREQUISITES_3};
         int[] costs = {VALID_COST_1, VALID_COST_2, VALID_COST_3};
-        CostType[] costTypes = {VALID_CostType_1, VALID_CostType_2, VALID_CostType_3};
+        String[] costTypes = {VALID_CostType_1, VALID_CostType_2, VALID_CostType_3};
         int[] periods = {VALID_PERIOD_1, VALID_PERIOD_2, VALID_PERIOD_3};
         Dates[] dates = {VALID_DATES_1, VALID_DATES_2, VALID_DATES_3};
         boolean[] recommendeds = {true, false, true};
@@ -220,12 +216,12 @@ public class CourseFixture {
                 .url(urls[index])
                 .company(companies[index])
                 .location(locations[index])
-                .onOffline(onOfflines[index].name())
+                .onOffline(onOfflines[index])
                 .categories(categories[index])
                 .stacks(stacks[index])
-                .prerequisites(prerequisites[index].name())
+                .prerequisites(prerequisites[index])
                 .cost(costs[index])
-                .costType(costTypes[index].name())
+                .costType(costTypes[index])
                 .period(periods[index])
                 .dates(dates[index])
                 .isRecommended(recommendeds[index])
@@ -283,12 +279,12 @@ public class CourseFixture {
         String[] urls = {VALID_URL_1, VALID_URL_2, VALID_URL_3};
         Company[] companies = {getCompany(0), getCompany(1), getCompany(2)};
         String[] locations = {VALID_LOCATION_1, VALID_LOCATION_2, VALID_LOCATION_3};
-        OnOffline[] onofflines = {VALID_ONOFFLINE_1, VALID_ONOFFLINE_2, VALID_ONOFFLINE_3};
+        String[] onofflines = {VALID_ONOFFLINE_1, VALID_ONOFFLINE_2, VALID_ONOFFLINE_3};
         Category[] categories = {CATEGORY1, CATEGORY2, CATEGORY3};
         Stack[] stacks = {STACK1, STACK2, STACK3};
-        Prerequisites[] prerequisites = {VALID_PREREQUISITES_1, VALID_PREREQUISITES_2, VALID_PREREQUISITES_3};
+        String[] prerequisites = {VALID_PREREQUISITES_1, VALID_PREREQUISITES_2, VALID_PREREQUISITES_3};
         int[] costs = {VALID_COST_1, VALID_COST_2, VALID_COST_3};
-        CostType[] costTypes = {VALID_CostType_1, VALID_CostType_2, VALID_CostType_3};
+        String[] costTypes = {VALID_CostType_1, VALID_CostType_2, VALID_CostType_3};
         int[] periods = {VALID_PERIOD_1, VALID_PERIOD_2, VALID_PERIOD_3};
         Dates[] dates = {VALID_DATES_1, VALID_DATES_2, VALID_DATES_3};
         boolean[] recommendeds = {true, false, true};
@@ -322,12 +318,12 @@ public class CourseFixture {
         String[] urls = {VALID_URL_1, VALID_URL_2, VALID_URL_3};
         Company[] companies = {getCompanies()[0], getCompanies()[1], getCompanies()[2]};
         String[] locations = {VALID_LOCATION_1, VALID_LOCATION_2, VALID_LOCATION_3};
-        OnOffline[] onofflines = {VALID_ONOFFLINE_1, VALID_ONOFFLINE_2, VALID_ONOFFLINE_3};
+        String[] onofflines = {VALID_ONOFFLINE_1, VALID_ONOFFLINE_2, VALID_ONOFFLINE_3};
         Category[] categories = {CATEGORY1, CATEGORY2, CATEGORY3};
         Stack[] stacks = {STACK1, STACK2, STACK3};
-        Prerequisites[] prerequisites = {VALID_PREREQUISITES_1, VALID_PREREQUISITES_2, VALID_PREREQUISITES_3};
+        String[] prerequisites = {VALID_PREREQUISITES_1, VALID_PREREQUISITES_2, VALID_PREREQUISITES_3};
         int[] costs = {VALID_COST_1, VALID_COST_2, VALID_COST_3};
-        CostType[] costTypes = {VALID_CostType_1, VALID_CostType_2, VALID_CostType_3};
+        String[] costTypes = {VALID_CostType_1, VALID_CostType_2, VALID_CostType_3};
         int[] periods = {VALID_PERIOD_1, VALID_PERIOD_2, VALID_PERIOD_3};
         Dates[] dates = {VALID_DATES_1, VALID_DATES_2, VALID_DATES_3};
         boolean[] recommendeds = {true, false, true};
