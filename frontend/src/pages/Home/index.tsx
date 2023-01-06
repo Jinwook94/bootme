@@ -33,11 +33,55 @@ const Home = () => {
 
   // Filtering
   const { selectedFilters } = useFilters();
-
   let filteredCourses = data || [];
 
   const filterCourses = () => {
-    filteredCourses = filteredCourses.filter((course: Course) => {});
+    filteredCourses = filteredCourses.filter((course: Course) => {
+      const categories: string[] = [];
+      const stacks: string[] = [];
+      const costTypes: string[] = [];
+      const tested: string[] = [];
+      const costs: string[] = [];
+      const periods: string[] = [];
+
+      selectedFilters.forEach(filter => {
+        const [property, value] = filter.split(':');
+        switch (property) {
+          case '개발 분야':
+            categories.push(value);
+            break;
+          case '기술 스택':
+            stacks.push(value);
+            break;
+          case '비용 타입':
+            costTypes.push(value);
+            break;
+          case '코딩 테스트':
+            tested.push(value);
+            break;
+          case '비용':
+            costs.push(value);
+            break;
+          case '수강 기간':
+            periods.push(value);
+            break;
+        }
+      });
+
+      return (
+        (!categories.length ||
+          categories.some(
+            category => course.categories.super.includes(category) || course.categories.sub.includes(category)
+          )) &&
+        (!stacks.length ||
+          stacks.some(stack => course.stacks.languages.includes(stack) || course.stacks.frameworks.includes(stack))) &&
+        (!costTypes.length || costTypes.some(costType => course.costType === costType)) &&
+        (!costs.length || costs.some(cost => course.cost <= parseInt(cost))) &&
+        (!periods.length || periods.some(period => Math.floor(course.period / 30) + 1 <= parseInt(period))) &&
+        (!tested.length || tested.some(test => (String(course.tested) === 'true' ? '있음' : '없음') === test))
+      );
+    });
+    return filteredCourses;
   };
 
   if (selectedFilters.length > 0) {
@@ -52,6 +96,7 @@ const Home = () => {
 
   const indexOfLastCard = currentPage * cardsPerPage;
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
+  const currentCards = filteredCourses!.slice(indexOfFirstCard, indexOfLastCard);
 
   if (isLoading) {
     return <p>to do: 로딩중 화면 작성</p>;
@@ -60,9 +105,6 @@ const Home = () => {
   if (isError) {
     return <p>to do: 에러 화면 작성</p>;
   }
-
-  // 로딩 되기 전에 data.slice() 호출하면 data = undefined 오류 발생 -> 로딩 후에 data.slice() 호출
-  const currentCards = filteredCourses!.slice(indexOfFirstCard, indexOfLastCard);
 
   return (
     <>
