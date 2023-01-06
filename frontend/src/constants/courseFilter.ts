@@ -1,24 +1,28 @@
+export const Categories = {
+  super: ['웹', '모바일 앱', '게임', '임베디드', '데스크탑 앱', 'AI', '데이터', '데브옵스', '보안'],
+  sub: ['프론트엔드', '백엔드', '풀스택', '안드로이드', 'iOS', '크로스플랫폼'],
+};
+
+export const Stacks = {
+  languages: ['HTML', 'CSS', 'JavaScript', 'TypeScript', 'Java', 'Python', 'Kotlin', 'Swift'],
+  frameworks: ['Spring', 'Django', 'React', 'Vue.js', 'Node.js', 'Angular'],
+};
+
 export const CourseFilter: { [key: string]: CourseFilterTypes } = {
   Categories: {
     filterName: '개발 분야',
-    filterOptions: {
-      super: ['웹', '모바일 앱', '게임', '임베디드', '데스크탑 앱', 'AI', '데이터', '데브옵스', '보안'],
-      sub: ['프론트엔드', '백엔드', '풀스택', '안드로이드', 'iOS', '크로스플랫폼'],
-    },
+    filterOptions: [...Categories.super, ...Categories.sub],
     isMore: true,
     borderTop: true,
   },
   Stacks: {
     filterName: '기술 스택',
-    filterOptions: {
-      languages: ['HTML', 'CSS', 'JavaScript', 'TypeScript', 'Java', 'Python', 'Kotlin', 'Swift'],
-      frameworks: ['Spring', 'Django', 'React', 'Vue.js', 'Node.js', 'Angular'],
-    },
+    filterOptions: [...Stacks.languages, ...Stacks.frameworks],
     isMore: true,
     borderTop: true,
   },
-  Cost: {
-    filterName: '비용',
+  CostType: {
+    filterName: '비용 타입',
     filterOptions: ['무료', '무료 (국비)'],
     isMore: false,
     borderTop: false,
@@ -39,7 +43,7 @@ export const CourseFilter: { [key: string]: CourseFilterTypes } = {
 
 export interface CourseFilterTypes {
   filterName: string;
-  filterOptions: { [key: string]: string[] } | string[];
+  filterOptions: string[];
   isMore: boolean;
   borderTop: boolean;
 }

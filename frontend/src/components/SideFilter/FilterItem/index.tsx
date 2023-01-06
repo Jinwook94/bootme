@@ -10,7 +10,6 @@ import {
   CaretDown,
   CostFilterOptionList,
   TestOptionList,
-  FilterOptionWrapper,
 } from './style';
 import FilterOption from '../FilterOption';
 import React, { useState } from 'react';
@@ -19,7 +18,7 @@ import { CourseFilterTypes } from '../../../constants/courseFilter';
 
 type Position = 'absolute' | 'relative' | 'fixed' | 'unset';
 
-const FilterItem = ({ filterName, filterOptions, isMore, borderTop }: FilterItemProps) => {
+const FilterItem = ({ filterName, filterOptions, isMore }: FilterItemProps) => {
   const [isOpen, setIsOpen] = useState(true);
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const [position, setPosition] = useState<Position | undefined>('absolute');
@@ -58,11 +57,11 @@ const FilterItem = ({ filterName, filterOptions, isMore, borderTop }: FilterItem
       </FilterTitle>
       <FilterBodyWrapper style={{ display: isOpen ? 'block' : 'none', paddingBottom: isMoreOpen ? '0.3rem' : '1rem' }}>
         <FilterBody>
-          {filterName === '비용' ? (
+          {filterName === '비용 타입' ? (
             <>
               <CostFilterOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.25rem' }}>
-                <FilterOption filterOption={Object.values(filterOptions)[0]} />
-                <FilterOption filterOption={Object.values(filterOptions)[1]} />
+                <FilterOption filterName={filterName} filterOption={filterOptions[0]} />
+                <FilterOption filterName={filterName} filterOption={filterOptions[1]} />
               </CostFilterOptionList>
               <RangeBar filterName={filterName} />
             </>
@@ -70,23 +69,16 @@ const FilterItem = ({ filterName, filterOptions, isMore, borderTop }: FilterItem
           {filterName === '수강 기간' ? <RangeBar filterName={filterName} /> : null}
           {filterName === '코딩 테스트' ? (
             <TestOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.25rem' }}>
-              {Object.values(filterOptions).map((filterOption: string) => (
-                <FilterOption key={filterOption} filterOption={filterOption} />
+              {filterOptions.map((filterOption: string) => (
+                <FilterOption key={filterOption} filterName={filterName} filterOption={filterOption} />
               ))}
             </TestOptionList>
           ) : null}
-          {filterName !== '비용' && filterName !== '수강 기간' && filterName !== '코딩 테스트' ? (
+          {filterName !== '비용 타입' && filterName !== '수강 기간' && filterName !== '코딩 테스트' ? (
             <FilterOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.5rem' }}>
-              <FilterOptionWrapper borderTop={false}>
-                {Object.values(filterOptions)[0].map((filterOption: string) => (
-                  <FilterOption key={filterOption} filterOption={filterOption} />
-                ))}
-              </FilterOptionWrapper>
-              <FilterOptionWrapper borderTop={borderTop}>
-                {Object.values(filterOptions)[1].map((filterOption: string) => (
-                  <FilterOption key={filterOption} filterOption={filterOption} />
-                ))}
-              </FilterOptionWrapper>
+              {filterOptions.map((filterOption: string, index) => (
+                <FilterOption key={index} filterName={filterName} filterOption={filterOption} />
+              ))}
             </FilterOptionList>
           ) : null}
           {isMore && (

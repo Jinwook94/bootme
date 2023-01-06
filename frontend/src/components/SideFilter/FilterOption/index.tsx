@@ -2,7 +2,7 @@ import { BoxWrapper, Checkbox, ListItem, Option, Wrapper } from './style';
 import React, { useState } from 'react';
 import { useFilters } from '../../../hooks/useFilters';
 
-export const FilterOption = ({ filterOption }: FilterOptionProps) => {
+export const FilterOption = ({ filterName, filterOption }: FilterOptionProps) => {
   const [isChecked, setIsChecked] = useState(false);
   const { addFilter, removeFilter } = useFilters();
 
@@ -11,7 +11,7 @@ export const FilterOption = ({ filterOption }: FilterOptionProps) => {
   }
   function handleListItemClick() {
     setIsChecked(!isChecked);
-    isChecked ? removeFilter(filterOption) : addFilter(filterOption);
+    isChecked ? removeFilter(filterName, filterOption) : addFilter(filterName, filterOption);
   }
 
   return (
@@ -27,6 +27,7 @@ export const FilterOption = ({ filterOption }: FilterOptionProps) => {
 };
 
 export interface FilterOptionProps {
+  filterName: string;
   filterOption: string;
 }
 

@@ -14,9 +14,9 @@ interface Course {
   period: number;
   dates: datesType;
   company: Company;
-  isRecommended: boolean;
-  isTested: boolean;
-  isRegisterOpen: boolean;
+  recommended: boolean;
+  tested: boolean;
+  registerOpen: boolean;
 }
 
 type Categories = {

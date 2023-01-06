@@ -10,18 +10,24 @@ const FilterContext = createContext<FilterContextProps>({
 export const FilterProvider = ({ children }: FilterProviderProps) => {
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
 
-  const addFilter = (filter: string) => {
+  const addFilter = (filterName: string, filterOption: string) => {
+    const filter = filterName + ':' + filterOption;
     setSelectedFilters([...selectedFilters, filter]);
   };
 
-  const removeBeforeAdd = (label: string) => {
-    const newSelectedFilters = selectedFilters.filter(filter => filter.startsWith(label));
+  const removeBeforeAdd = (filterName: string) => {
+    const newSelectedFilters = selectedFilters.filter(filter => filter.startsWith(filterName));
     for (const filter of newSelectedFilters) {
-      removeFilter(filter);
+      const index = selectedFilters.indexOf(filter);
+      if (index !== -1) {
+        selectedFilters.splice(index, 1);
+      }
+      setSelectedFilters(selectedFilters.filter(f => f !== filter));
     }
   };
 
-  const removeFilter = (filter: string) => {
+  const removeFilter = (filterName: string, filterOption: string) => {
+    const filter = `${filterName}:${filterOption}`;
     const index = selectedFilters.indexOf(filter);
     if (index !== -1) {
       selectedFilters.splice(index, 1);
@@ -41,8 +47,8 @@ export const useFilters = () => useContext(FilterContext);
 interface FilterContextProps {
   selectedFilters: string[];
   removeBeforeAdd: (label: string) => void;
-  addFilter: (filter: string) => void;
-  removeFilter: (filter: string) => void;
+  addFilter: (filterName: string, filterOption: string) => void;
+  removeFilter: (filterName: string, filterOption: string) => void;
 }
 
 interface FilterProviderProps {

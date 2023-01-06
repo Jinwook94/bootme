@@ -17,7 +17,7 @@ import './style.css';
 import BookmarkIcon from '../../assets/bookmark.svg';
 import DateFormatter from './dateFormatter';
 
-const CourseCard = ({ title, url, company, categories, stacks, dates, period, cost }: CourseCardProps) => {
+const CourseCard = ({ title, url, company, categories, stacks, dates, period, cost, costType }: CourseCardProps) => {
   return (
     <Wrapper>
       <link
@@ -67,7 +67,7 @@ const CourseCard = ({ title, url, company, categories, stacks, dates, period, co
             >
               credit_card
             </span>
-            <span>{cost === 0 ? '무료' : cost}</span>
+            <span>{cost === 0 ? costType : cost}</span>
           </ItemWrapper>
         </CourseInfo>
         <CourseTags>
@@ -97,15 +97,7 @@ const CourseCard = ({ title, url, company, categories, stacks, dates, period, co
 
 export type CourseCardProps = Omit<
   Course,
-  | 'name'
-  | 'generation'
-  | 'onOffline'
-  | 'prerequisites'
-  | 'costType'
-  | 'isRecommended'
-  | 'isTested'
-  | 'isRegisterOpen'
-  | 'location'
+  'name' | 'generation' | 'onOffline' | 'prerequisites' | 'recommended' | 'tested' | 'registerOpen' | 'location'
 >;
 
 export default CourseCard;

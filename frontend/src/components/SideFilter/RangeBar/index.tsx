@@ -4,7 +4,7 @@ import { useFilters } from '../../../hooks/useFilters';
 
 export const RangeBar = ({ filterName }: RangeBarProps) => {
   let Filter = {
-    label: '',
+    filterName: '',
     minValue: 0,
     maxValue: 0,
     step: 0,
@@ -12,14 +12,14 @@ export const RangeBar = ({ filterName }: RangeBarProps) => {
   };
 
   const CostFilter = {
-    label: 'cost',
+    filterName: '비용',
     minValue: 0,
     maxValue: 1000,
     step: 50,
     unit: '만원 이하',
   };
   const PeriodFilter = {
-    label: 'period',
+    filterName: filterName,
     minValue: 0,
     maxValue: 12,
     step: 1,
@@ -27,7 +27,7 @@ export const RangeBar = ({ filterName }: RangeBarProps) => {
   };
 
   {
-    filterName === '비용' ? (Filter = CostFilter) : null;
+    filterName === '비용 타입' ? (Filter = CostFilter) : null;
     filterName === '수강 기간' ? (Filter = PeriodFilter) : null;
   }
 
@@ -36,20 +36,20 @@ export const RangeBar = ({ filterName }: RangeBarProps) => {
 
   const handleRangeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentValue(Number(event.target.value));
-    removeBeforeAdd(Filter.label);
-    addFilter(`${Filter.label}-${Number(event.target.value)}`);
+    removeBeforeAdd(Filter.filterName);
+    addFilter(Filter.filterName, event.target.value);
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const positiveIntegerRegEx = /^\d+$/;
     if (event.target.value === '') {
       setCurrentValue(0);
-      removeBeforeAdd(Filter.label);
-      addFilter(`${Filter.label}-0`);
+      removeBeforeAdd(Filter.filterName);
+      addFilter(Filter.filterName, '0');
     } else if (positiveIntegerRegEx.test(event.target.value) && Number(event.target.value) <= Filter.maxValue) {
       setCurrentValue(Number(event.target.value));
-      removeBeforeAdd(Filter.label);
-      addFilter(`${Filter.label}-${Number(event.target.value)}`);
+      removeBeforeAdd(Filter.filterName);
+      addFilter(Filter.filterName, event.target.value);
     } else {
       event.target.value = '';
     }
