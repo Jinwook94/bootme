@@ -6,8 +6,6 @@ import {
   FilterBody,
   MoreButton,
   FilterOptionList,
-  CaretUp,
-  CaretDown,
   CostFilterOptionList,
   TestOptionList,
 } from './style';
@@ -15,6 +13,7 @@ import FilterOption from '../FilterOption';
 import React, { useState } from 'react';
 import { RangeBar } from '../RangeBar';
 import { CourseFilterTypes } from '../../../constants/courseFilter';
+import { CaretDownIcon, CaretIcon, CaretUpIcon } from '../../../constants/icons';
 
 type Position = 'absolute' | 'relative' | 'fixed' | 'unset';
 
@@ -79,16 +78,7 @@ const FilterItem = ({ filterName, filterOptions, isMore, isReset }: FilterItemPr
       <FilterTitle>
         {filterName}
         <CaretWrapper onClick={handleClick}>
-          <svg
-            style={{ verticalAlign: 'middle', transform: `rotate(${rotation}deg)`, transition: 'all 0.3s linear 0s' }}
-            xmlns="http://www.w3.org/2000/svg"
-            fill="currentColor"
-            viewBox="0 0 24 24"
-            width="1rem"
-            height="1rem"
-          >
-            <path d="m2 8 1.775-1.77L12 14.45l8.225-8.22L22 8 12 18 2 8Z"></path>
-          </svg>
+          <CaretIcon rotation={rotation} />
         </CaretWrapper>
       </FilterTitle>
       <FilterBodyWrapper style={{ display: isOpen ? 'block' : 'none', paddingBottom: isMoreOpen ? '0.3rem' : '1rem' }}>
@@ -98,35 +88,16 @@ const FilterItem = ({ filterName, filterOptions, isMore, isReset }: FilterItemPr
             <MoreButton
               onClick={handleMoreClick}
               style={{ position: position, paddingTop: paddingTop, paddingBottom: paddingBottom }}
-              paddingBottom={'0.875rem'}
-              paddingTop={'2rem'}
-              position={'absolute'}
             >
               {isMoreOpen ? (
                 <>
                   <span>접기</span>
-                  <CaretUp
-                    xmlns={'http://www.w3.org/2000/svg'}
-                    fill={'#0078FF'}
-                    viewBox={'0 0 24 24'}
-                    width={'0.875rem'}
-                    height={'0.875rem'}
-                  >
-                    <path d="m2 8 1.775-1.77L12 14.45l8.225-8.22L22 8 12 18 2 8Z"></path>
-                  </CaretUp>
+                  <CaretUpIcon />
                 </>
               ) : (
                 <>
                   <span>더 보기</span>
-                  <CaretDown
-                    xmlns={'http://www.w3.org/2000/svg'}
-                    fill={'#0078FF'}
-                    viewBox={'0 0 24 24'}
-                    width={'0.875rem'}
-                    height={'0.875rem'}
-                  >
-                    <path d="m2 8 1.775-1.77L12 14.45l8.225-8.22L22 8 12 18 2 8Z"></path>
-                  </CaretDown>
+                  <CaretDownIcon />
                 </>
               )}
             </MoreButton>
