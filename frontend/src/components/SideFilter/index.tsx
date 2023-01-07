@@ -1,6 +1,6 @@
 import FilterItem from './FilterItem';
 import { FilterItemWrapper, FilterReset, ResetButton, Wrapper } from './style';
-import { CourseFilter } from '../../constants/courseFilter';
+import { COURSE_FILTER } from '../../constants/courseFilter';
 import { useFilters } from '../../hooks/useFilters';
 
 const SideFilter = () => {
@@ -35,7 +35,7 @@ const SideFilter = () => {
         </ResetButton>
       </FilterReset>
       <FilterItemWrapper>
-        {Object.values(CourseFilter).map(filterGroup => (
+        {Object.values(COURSE_FILTER).map(filterGroup => (
           <FilterItem
             key={filterGroup.filterName}
             filterName={filterGroup.filterName}
