@@ -65,19 +65,7 @@ export const TestOptionList = styled(FilterOptionList)`
   }
 `;
 
-export const FilterOptionWrapper = styled.div<{ borderTop: boolean }>`
-  border-top: ${props => (props.borderTop === true ? '0.0625rem solid rgb(215,226,235)' : 0)};
-  margin-top: ${props => (props.borderTop === true ? '0.5rem' : 0)};
-  padding-top: ${props => (props.borderTop === true ? '0.5rem' : 0)};
-`;
-
-type ButtonProps = {
-  position: 'absolute' | 'relative' | 'fixed' | 'unset';
-  paddingTop: string;
-  paddingBottom: string;
-};
-
-export const MoreButton = styled.button<ButtonProps>`
+export const MoreButton = styled.button`
   border: 0;
   cursor: pointer;
   display: flex;
@@ -90,21 +78,7 @@ export const MoreButton = styled.button<ButtonProps>`
   line-height: 1.0625rem;
   background: linear-gradient(rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 100%);
   color: rgb(0, 120, 255);
-  position: ${props => props.position};
-  padding-top: ${props => props.paddingTop};
   top: 4.75rem;
-  padding-bottom: ${props => props.paddingBottom};
   padding-right: 1rem;
   bottom: -1rem;
-`;
-
-export const CaretUp = styled.svg`
-  margin-left: 0.25rem;
-  overflow: hidden;
-  vertical-align: middle;
-  transform: rotate(180deg);
-`;
-
-export const CaretDown = styled(CaretUp)`
-  transform: rotate(0deg);
 `;

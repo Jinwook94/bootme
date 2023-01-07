@@ -6,19 +6,18 @@ import {
   FilterBody,
   MoreButton,
   FilterOptionList,
-  CaretUp,
-  CaretDown,
   CostFilterOptionList,
   TestOptionList,
 } from './style';
 import FilterOption from '../FilterOption';
 import React, { useState } from 'react';
 import { RangeBar } from '../RangeBar';
-import { CourseFilterTypes } from '../../../constants/courseFilter';
+import { CourseFilterTypes, CATEGORIES, COST_TYPE, PERIOD, STACKS, TEST } from '../../../constants/courseFilter';
+import { CaretDownIcon, CaretIcon, CaretUpIcon } from '../../../constants/icons';
 
 type Position = 'absolute' | 'relative' | 'fixed' | 'unset';
 
-const FilterItem = ({ filterName, filterOptions, isMore, isReset }: FilterItemProps) => {
+const FilterItem = ({ filter, filterName, filterOptions, isMore, isReset }: FilterItemProps) => {
   const [isOpen, setIsOpen] = useState(true);
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const [position, setPosition] = useState<Position | undefined>('absolute');
@@ -38,87 +37,85 @@ const FilterItem = ({ filterName, filterOptions, isMore, isReset }: FilterItemPr
     setPaddingBottom(paddingBottom === '0.875rem' ? '0.5rem' : '0.875rem');
   }
 
+  const renderFilterOptionList = () => {
+    switch (filter) {
+      case CATEGORIES:
+        return (
+          <FilterOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.5rem' }}>
+            {filterOptions.map((filterOption: string, index) => (
+              <FilterOption
+                key={index}
+                filterName={filterName}
+                filterOption={filterOption}
+                isReset={isReset}
+                borderTop={index === 9}
+              />
+            ))}
+          </FilterOptionList>
+        );
+      case STACKS:
+        return (
+          <FilterOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.5rem' }}>
+            {filterOptions.map((filterOption: string, index) => (
+              <FilterOption
+                key={index}
+                filterName={filterName}
+                filterOption={filterOption}
+                isReset={isReset}
+                borderTop={index === 8}
+              />
+            ))}
+          </FilterOptionList>
+        );
+      case COST_TYPE:
+        return (
+          <>
+            <CostFilterOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.25rem' }}>
+              <FilterOption filterName={filterName} filterOption={filterOptions[0]} isReset={isReset} />
+              <FilterOption filterName={filterName} filterOption={filterOptions[1]} isReset={isReset} />
+            </CostFilterOptionList>
+            <RangeBar filterName={filterName} isReset={isReset} />
+          </>
+        );
+      case PERIOD:
+        return <RangeBar filterName={filterName} isReset={isReset} />;
+      case TEST:
+        return (
+          <TestOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.25rem' }}>
+            <FilterOption filterName={filterName} filterOption={filterOptions[0]} isReset={isReset} />
+            <FilterOption filterName={filterName} filterOption={filterOptions[1]} isReset={isReset} />
+          </TestOptionList>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <Wrapper>
       <FilterTitle>
         {filterName}
         <CaretWrapper onClick={handleClick}>
-          <svg
-            style={{ verticalAlign: 'middle', transform: `rotate(${rotation}deg)`, transition: 'all 0.3s linear 0s' }}
-            xmlns="http://www.w3.org/2000/svg"
-            fill="currentColor"
-            viewBox="0 0 24 24"
-            width="1rem"
-            height="1rem"
-          >
-            <path d="m2 8 1.775-1.77L12 14.45l8.225-8.22L22 8 12 18 2 8Z"></path>
-          </svg>
+          <CaretIcon rotation={rotation} />
         </CaretWrapper>
       </FilterTitle>
       <FilterBodyWrapper style={{ display: isOpen ? 'block' : 'none', paddingBottom: isMoreOpen ? '0.3rem' : '1rem' }}>
         <FilterBody>
-          {filterName === '비용 타입' ? (
-            <>
-              <CostFilterOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.25rem' }}>
-                <FilterOption filterName={filterName} filterOption={filterOptions[0]} isReset={isReset} />
-                <FilterOption filterName={filterName} filterOption={filterOptions[1]} isReset={isReset} />
-              </CostFilterOptionList>
-              <RangeBar filterName={filterName} isReset={isReset} />
-            </>
-          ) : null}
-          {filterName === '수강 기간' ? <RangeBar filterName={filterName} isReset={isReset} /> : null}
-          {filterName === '코딩 테스트' ? (
-            <TestOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.25rem' }}>
-              {filterOptions.map((filterOption: string) => (
-                <FilterOption
-                  key={filterOption}
-                  filterName={filterName}
-                  filterOption={filterOption}
-                  isReset={isReset}
-                />
-              ))}
-            </TestOptionList>
-          ) : null}
-          {filterName !== '비용 타입' && filterName !== '수강 기간' && filterName !== '코딩 테스트' ? (
-            <FilterOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.5rem' }}>
-              {filterOptions.map((filterOption: string, index) => (
-                <FilterOption key={index} filterName={filterName} filterOption={filterOption} isReset={isReset} />
-              ))}
-            </FilterOptionList>
-          ) : null}
+          {renderFilterOptionList()}
           {isMore && (
             <MoreButton
               onClick={handleMoreClick}
               style={{ position: position, paddingTop: paddingTop, paddingBottom: paddingBottom }}
-              paddingBottom={'0.875rem'}
-              paddingTop={'2rem'}
-              position={'absolute'}
             >
               {isMoreOpen ? (
                 <>
                   <span>접기</span>
-                  <CaretUp
-                    xmlns={'http://www.w3.org/2000/svg'}
-                    fill={'#0078FF'}
-                    viewBox={'0 0 24 24'}
-                    width={'0.875rem'}
-                    height={'0.875rem'}
-                  >
-                    <path d="m2 8 1.775-1.77L12 14.45l8.225-8.22L22 8 12 18 2 8Z"></path>
-                  </CaretUp>
+                  <CaretUpIcon />
                 </>
               ) : (
                 <>
                   <span>더 보기</span>
-                  <CaretDown
-                    xmlns={'http://www.w3.org/2000/svg'}
-                    fill={'#0078FF'}
-                    viewBox={'0 0 24 24'}
-                    width={'0.875rem'}
-                    height={'0.875rem'}
-                  >
-                    <path d="m2 8 1.775-1.77L12 14.45l8.225-8.22L22 8 12 18 2 8Z"></path>
-                  </CaretDown>
+                  <CaretDownIcon />
                 </>
               )}
             </MoreButton>
@@ -130,6 +127,7 @@ const FilterItem = ({ filterName, filterOptions, isMore, isReset }: FilterItemPr
 };
 
 export type FilterItemProps = CourseFilterTypes & {
+  filter: CourseFilterTypes;
   isReset: boolean;
 };
 
