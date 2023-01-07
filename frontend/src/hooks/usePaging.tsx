@@ -35,7 +35,13 @@ const usePaging = (maxPage: number) => {
     });
   };
 
-  return { currentPage, handleNumberClick, handleNextClick, handlePrevClick };
+  const getCurrentItems = (itemPerPage: number, items: Course[]) => {
+    const indexOfLastCard = currentPage * itemPerPage;
+    const indexOfFirstCard = indexOfLastCard - itemPerPage;
+    return items!.slice(indexOfFirstCard, indexOfLastCard);
+  };
+
+  return { currentPage, handleNumberClick, handleNextClick, handlePrevClick, getCurrentItems };
 };
 
 export default usePaging;

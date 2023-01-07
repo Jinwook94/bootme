@@ -43,11 +43,8 @@ const Home = () => {
   const [cardsPerPage] = useState(12);
   const length = filteredCourses?.length ?? 10; // 데이터를 받아오지 못한 경우 data.length 를 10으로 설정
   const maxPage = Math.floor(length / cardsPerPage) + 1;
-  const { currentPage, handleNumberClick, handleNextClick, handlePrevClick } = usePaging(maxPage);
-
-  const indexOfLastCard = currentPage * cardsPerPage;
-  const indexOfFirstCard = indexOfLastCard - cardsPerPage;
-  const currentCards = filteredCourses!.slice(indexOfFirstCard, indexOfLastCard);
+  const { currentPage, handleNumberClick, handleNextClick, handlePrevClick, getCurrentItems } = usePaging(maxPage);
+  const currentCards = getCurrentItems(cardsPerPage, filteredCourses);
 
   if (isLoading) {
     return <p>to do: 로딩중 화면 작성</p>;
