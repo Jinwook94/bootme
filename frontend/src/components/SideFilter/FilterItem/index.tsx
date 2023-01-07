@@ -18,7 +18,7 @@ import { CourseFilterTypes } from '../../../constants/courseFilter';
 
 type Position = 'absolute' | 'relative' | 'fixed' | 'unset';
 
-const FilterItem = ({ filterName, filterOptions, isMore }: FilterItemProps) => {
+const FilterItem = ({ filterName, filterOptions, isMore, isReset }: FilterItemProps) => {
   const [isOpen, setIsOpen] = useState(true);
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const [position, setPosition] = useState<Position | undefined>('absolute');
@@ -60,24 +60,29 @@ const FilterItem = ({ filterName, filterOptions, isMore }: FilterItemProps) => {
           {filterName === '비용 타입' ? (
             <>
               <CostFilterOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.25rem' }}>
-                <FilterOption filterName={filterName} filterOption={filterOptions[0]} />
-                <FilterOption filterName={filterName} filterOption={filterOptions[1]} />
+                <FilterOption filterName={filterName} filterOption={filterOptions[0]} isReset={isReset} />
+                <FilterOption filterName={filterName} filterOption={filterOptions[1]} isReset={isReset} />
               </CostFilterOptionList>
-              <RangeBar filterName={filterName} />
+              <RangeBar filterName={filterName} isReset={isReset} />
             </>
           ) : null}
-          {filterName === '수강 기간' ? <RangeBar filterName={filterName} /> : null}
+          {filterName === '수강 기간' ? <RangeBar filterName={filterName} isReset={isReset} /> : null}
           {filterName === '코딩 테스트' ? (
             <TestOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.25rem' }}>
               {filterOptions.map((filterOption: string) => (
-                <FilterOption key={filterOption} filterName={filterName} filterOption={filterOption} />
+                <FilterOption
+                  key={filterOption}
+                  filterName={filterName}
+                  filterOption={filterOption}
+                  isReset={isReset}
+                />
               ))}
             </TestOptionList>
           ) : null}
           {filterName !== '비용 타입' && filterName !== '수강 기간' && filterName !== '코딩 테스트' ? (
             <FilterOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.5rem' }}>
               {filterOptions.map((filterOption: string, index) => (
-                <FilterOption key={index} filterName={filterName} filterOption={filterOption} />
+                <FilterOption key={index} filterName={filterName} filterOption={filterOption} isReset={isReset} />
               ))}
             </FilterOptionList>
           ) : null}
@@ -124,6 +129,8 @@ const FilterItem = ({ filterName, filterOptions, isMore }: FilterItemProps) => {
   );
 };
 
-export type FilterItemProps = CourseFilterTypes;
+export type FilterItemProps = CourseFilterTypes & {
+  isReset: boolean;
+};
 
 export default FilterItem;

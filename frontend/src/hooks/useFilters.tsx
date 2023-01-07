@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 const FilterContext = createContext<FilterContextProps>({
   selectedFilters: [],
@@ -6,10 +6,13 @@ const FilterContext = createContext<FilterContextProps>({
   removeBeforeAdd: () => {},
   removeFilter: () => {},
   filterCourses: () => [],
+  resetFilters: () => {},
+  isReset: false,
 });
 
 export const FilterProvider = ({ children }: FilterProviderProps) => {
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+  const [isReset, setIsReset] = useState<boolean>(false);
 
   const addFilter = (filterName: string, filterOption: string) => {
     const filter = filterName + ':' + filterOption;
@@ -84,8 +87,21 @@ export const FilterProvider = ({ children }: FilterProviderProps) => {
     });
   };
 
+  const resetFilters = () => {
+    setSelectedFilters([]);
+    setIsReset(true);
+  };
+
+  useEffect(() => {
+    if (isReset) {
+      setIsReset(false);
+    }
+  }, [isReset]);
+
   return (
-    <FilterContext.Provider value={{ selectedFilters, addFilter, removeBeforeAdd, removeFilter, filterCourses }}>
+    <FilterContext.Provider
+      value={{ selectedFilters, addFilter, removeBeforeAdd, removeFilter, filterCourses, isReset, resetFilters }}
+    >
       {children}
     </FilterContext.Provider>
   );
@@ -99,6 +115,8 @@ interface FilterContextProps {
   addFilter: (filterName: string, filterOption: string) => void;
   removeFilter: (filterName: string, filterOption: string) => void;
   filterCourses: (courses: Course[]) => Course[];
+  isReset: boolean;
+  resetFilters: () => void;
 }
 
 interface FilterProviderProps {

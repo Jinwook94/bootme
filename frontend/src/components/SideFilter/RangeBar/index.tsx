@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Bar, Input, InputWrapper, Unit, Wrapper1, Wrapper2 } from './style';
 import { useFilters } from '../../../hooks/useFilters';
 
-export const RangeBar = ({ filterName }: RangeBarProps) => {
+export const RangeBar = ({ filterName, isReset }: RangeBarProps) => {
   let Filter = {
     filterName: '',
     minValue: 0,
@@ -10,7 +10,6 @@ export const RangeBar = ({ filterName }: RangeBarProps) => {
     step: 0,
     unit: '',
   };
-
   const CostFilter = {
     filterName: '비용',
     minValue: 0,
@@ -33,6 +32,12 @@ export const RangeBar = ({ filterName }: RangeBarProps) => {
 
   const [currentValue, setCurrentValue] = useState(Filter.maxValue);
   const { addFilter, removeBeforeAdd } = useFilters();
+
+  useEffect(() => {
+    if (isReset) {
+      setCurrentValue(Filter.maxValue);
+    }
+  }, [isReset]);
 
   const handleRangeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentValue(Number(event.target.value));
@@ -76,6 +81,7 @@ export const RangeBar = ({ filterName }: RangeBarProps) => {
 
 interface RangeBarProps {
   filterName: string;
+  isReset: boolean;
 }
 
 export default RangeBar;
