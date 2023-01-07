@@ -57,7 +57,7 @@ export const FilterProvider = ({ children }: FilterProviderProps) => {
           case '기술 스택':
             stacks.push(value);
             break;
-          case '비용 타입':
+          case '수강 비용':
             costTypes.push(value);
             break;
           case '코딩 테스트':
