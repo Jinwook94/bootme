@@ -60,5 +60,22 @@ export const useRangeBar = (filterName: string, isReset: boolean) => {
     }
   }, [isReset]);
 
+  // 무료, 무료 (국비) 체크박스 선택되면 -> 1. range bar, text input 값을 0으로 변경 2. 선택된 필터 중 비용 필터를 삭제
+  useEffect(() => {
+    const isFreeSelected =
+      selectedFilters.includes('수강 비용:무료') || selectedFilters.includes('수강 비용:무료 (국비)');
+
+    if (isFreeSelected && filterName === '수강 비용') {
+      setIsFree(true);
+      setCurrentValue(0);
+      const costFilters = selectedFilters.filter(filter => filter.startsWith('비용'));
+      costFilters.forEach(filter => {
+        const [property, value] = filter.split(':');
+        removeFilter(property, value);
+      });
+      setIsFree(false);
+    }
+  }, [selectedFilters]);
+
   return { Filter, currentValue, handleRangeChange, handleInputChange };
 };
