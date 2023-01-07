@@ -12,12 +12,12 @@ import {
 import FilterOption from '../FilterOption';
 import React, { useState } from 'react';
 import { RangeBar } from '../RangeBar';
-import { CourseFilterTypes } from '../../../constants/courseFilter';
+import { CourseFilterTypes, CATEGORIES, COST_TYPE, PERIOD, STACKS, TEST } from '../../../constants/courseFilter';
 import { CaretDownIcon, CaretIcon, CaretUpIcon } from '../../../constants/icons';
 
 type Position = 'absolute' | 'relative' | 'fixed' | 'unset';
 
-const FilterItem = ({ filterName, filterOptions, isMore, isReset }: FilterItemProps) => {
+const FilterItem = ({ filter, filterName, filterOptions, isMore, isReset }: FilterItemProps) => {
   const [isOpen, setIsOpen] = useState(true);
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const [position, setPosition] = useState<Position | undefined>('absolute');
@@ -38,8 +38,8 @@ const FilterItem = ({ filterName, filterOptions, isMore, isReset }: FilterItemPr
   }
 
   const renderFilterOptionList = () => {
-    switch (filterName) {
-      case '개발 분야':
+    switch (filter) {
+      case CATEGORIES:
         return (
           <FilterOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.5rem' }}>
             {filterOptions.map((filterOption: string, index) => (
@@ -53,7 +53,7 @@ const FilterItem = ({ filterName, filterOptions, isMore, isReset }: FilterItemPr
             ))}
           </FilterOptionList>
         );
-      case '기술 스택':
+      case STACKS:
         return (
           <FilterOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.5rem' }}>
             {filterOptions.map((filterOption: string, index) => (
@@ -67,7 +67,7 @@ const FilterItem = ({ filterName, filterOptions, isMore, isReset }: FilterItemPr
             ))}
           </FilterOptionList>
         );
-      case '수강 비용':
+      case COST_TYPE:
         return (
           <>
             <CostFilterOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.25rem' }}>
@@ -77,9 +77,9 @@ const FilterItem = ({ filterName, filterOptions, isMore, isReset }: FilterItemPr
             <RangeBar filterName={filterName} isReset={isReset} />
           </>
         );
-      case '수강 기간':
+      case PERIOD:
         return <RangeBar filterName={filterName} isReset={isReset} />;
-      case '코딩 테스트':
+      case TEST:
         return (
           <TestOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.25rem' }}>
             <FilterOption filterName={filterName} filterOption={filterOptions[0]} isReset={isReset} />
@@ -127,6 +127,7 @@ const FilterItem = ({ filterName, filterOptions, isMore, isReset }: FilterItemPr
 };
 
 export type FilterItemProps = CourseFilterTypes & {
+  filter: CourseFilterTypes;
   isReset: boolean;
 };
 

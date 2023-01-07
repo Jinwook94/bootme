@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { CATEGORIES, COST_INPUT, COST_TYPE, PERIOD, STACKS, TEST } from '../constants/courseFilter';
 
 const FilterContext = createContext<FilterContextProps>({
   selectedFilters: [],
@@ -51,23 +52,23 @@ export const FilterProvider = ({ children }: FilterProviderProps) => {
       selectedFilters.forEach(filter => {
         const [property, value] = filter.split(':');
         switch (property) {
-          case '개발 분야':
+          case CATEGORIES.filterName:
             categories.push(value);
             break;
-          case '기술 스택':
+          case STACKS.filterName:
             stacks.push(value);
             break;
-          case '수강 비용':
+          case COST_TYPE.filterName:
             costTypes.push(value);
             break;
-          case '코딩 테스트':
-            tested.push(value);
-            break;
-          case '비용':
+          case COST_INPUT.filterName:
             costs.push(value);
             break;
-          case '수강 기간':
+          case PERIOD.filterName:
             periods.push(value);
+            break;
+          case TEST.filterName:
+            tested.push(value);
             break;
         }
       });

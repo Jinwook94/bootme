@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useFilters } from './useFilters';
+import { COST_TYPE, COST_INPUT, PERIOD_INPUT } from '../constants/courseFilter';
 
 export const useRangeBar = (filterName: string, isReset: boolean) => {
   let Filter = {
@@ -9,24 +10,10 @@ export const useRangeBar = (filterName: string, isReset: boolean) => {
     step: 0,
     unit: '',
   };
-  const CostFilter = {
-    filterName: '비용',
-    minValue: 0,
-    maxValue: 1000,
-    step: 50,
-    unit: '만원 이하',
-  };
-  const PeriodFilter = {
-    filterName: filterName,
-    minValue: 0,
-    maxValue: 12,
-    step: 1,
-    unit: '개월 이하',
-  };
 
   {
-    filterName === '수강 비용' ? (Filter = CostFilter) : null;
-    filterName === '수강 기간' ? (Filter = PeriodFilter) : null;
+    filterName === COST_TYPE.filterName ? (Filter = COST_INPUT) : null;
+    filterName === PERIOD_INPUT.filterName ? (Filter = PERIOD_INPUT) : null;
   }
 
   const [currentValue, setCurrentValue] = useState(Filter.maxValue);
@@ -63,9 +50,10 @@ export const useRangeBar = (filterName: string, isReset: boolean) => {
   // 무료, 무료 (국비) 체크박스 선택되면 -> 1. range bar, text input 값을 0으로 변경 2. 선택된 필터 중 비용 필터를 삭제
   useEffect(() => {
     const isFreeSelected =
-      selectedFilters.includes('수강 비용:무료') || selectedFilters.includes('수강 비용:무료 (국비)');
+      selectedFilters.includes(COST_TYPE.filterName + ':' + COST_TYPE.filterOptions[0]) ||
+      selectedFilters.includes(COST_TYPE.filterName + ':' + COST_TYPE.filterOptions[1]);
 
-    if (isFreeSelected && filterName === '수강 비용') {
+    if (isFreeSelected && filterName === COST_TYPE.filterName) {
       setIsFree(true);
       setCurrentValue(0);
       const costFilters = selectedFilters.filter(filter => filter.startsWith('비용'));
