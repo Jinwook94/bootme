@@ -38,6 +38,42 @@ const FilterItem = ({ filterName, filterOptions, isMore, isReset }: FilterItemPr
     setPaddingBottom(paddingBottom === '0.875rem' ? '0.5rem' : '0.875rem');
   }
 
+  const renderFilterOptionList = () => {
+    switch (filterName) {
+      case '개발 분야':
+      case '기술 스택':
+        return (
+          <FilterOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.5rem' }}>
+            {filterOptions.map((filterOption: string, index) => (
+              <FilterOption key={index} filterName={filterName} filterOption={filterOption} isReset={isReset} />
+            ))}
+          </FilterOptionList>
+        );
+      case '비용 타입':
+        return (
+          <>
+            <CostFilterOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.25rem' }}>
+              <FilterOption filterName={filterName} filterOption={filterOptions[0]} isReset={isReset} />
+              <FilterOption filterName={filterName} filterOption={filterOptions[1]} isReset={isReset} />
+            </CostFilterOptionList>
+            <RangeBar filterName={filterName} isReset={isReset} />
+          </>
+        );
+      case '수강 기간':
+        return <RangeBar filterName={filterName} isReset={isReset} />;
+      case '코딩 테스트':
+        return (
+          <TestOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.25rem' }}>
+            {filterOptions.map((filterOption: string) => (
+              <FilterOption key={filterOption} filterName={filterName} filterOption={filterOption} isReset={isReset} />
+            ))}
+          </TestOptionList>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <Wrapper>
       <FilterTitle>
@@ -57,35 +93,7 @@ const FilterItem = ({ filterName, filterOptions, isMore, isReset }: FilterItemPr
       </FilterTitle>
       <FilterBodyWrapper style={{ display: isOpen ? 'block' : 'none', paddingBottom: isMoreOpen ? '0.3rem' : '1rem' }}>
         <FilterBody>
-          {filterName === '비용 타입' ? (
-            <>
-              <CostFilterOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.25rem' }}>
-                <FilterOption filterName={filterName} filterOption={filterOptions[0]} isReset={isReset} />
-                <FilterOption filterName={filterName} filterOption={filterOptions[1]} isReset={isReset} />
-              </CostFilterOptionList>
-              <RangeBar filterName={filterName} isReset={isReset} />
-            </>
-          ) : null}
-          {filterName === '수강 기간' ? <RangeBar filterName={filterName} isReset={isReset} /> : null}
-          {filterName === '코딩 테스트' ? (
-            <TestOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.25rem' }}>
-              {filterOptions.map((filterOption: string) => (
-                <FilterOption
-                  key={filterOption}
-                  filterName={filterName}
-                  filterOption={filterOption}
-                  isReset={isReset}
-                />
-              ))}
-            </TestOptionList>
-          ) : null}
-          {filterName !== '비용 타입' && filterName !== '수강 기간' && filterName !== '코딩 테스트' ? (
-            <FilterOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.5rem' }}>
-              {filterOptions.map((filterOption: string, index) => (
-                <FilterOption key={index} filterName={filterName} filterOption={filterOption} isReset={isReset} />
-              ))}
-            </FilterOptionList>
-          ) : null}
+          {renderFilterOptionList()}
           {isMore && (
             <MoreButton
               onClick={handleMoreClick}
