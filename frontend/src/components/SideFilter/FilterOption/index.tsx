@@ -1,24 +1,31 @@
 import { BoxWrapper, Checkbox, ListItem, Option, Wrapper } from './style';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFilters } from '../../../hooks/useFilters';
 
-export const FilterOption = ({ filterName, filterOption }: FilterOptionProps) => {
+export const FilterOption = ({ filterName, filterOption, isReset }: FilterOptionProps) => {
   const [isChecked, setIsChecked] = useState(false);
   const { addFilter, removeFilter } = useFilters();
 
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setIsChecked(event.target.checked);
-  }
-  function handleListItemClick() {
+  const handleListItemClick = () => {
     setIsChecked(!isChecked);
     isChecked ? removeFilter(filterName, filterOption) : addFilter(filterName, filterOption);
-  }
+  };
+
+  useEffect(() => {
+    if (isReset) {
+      setIsChecked(false);
+    }
+  }, [isReset]);
 
   return (
     <ListItem onClick={handleListItemClick}>
       <Wrapper>
         <BoxWrapper>
-          <Checkbox checked={isChecked} onChange={handleChange} style={{ appearance: isChecked ? 'auto' : 'none' }} />
+          <Checkbox
+            checked={isChecked}
+            onChange={handleListItemClick}
+            style={{ appearance: isChecked ? 'auto' : 'none' }}
+          />
         </BoxWrapper>
         <Option>{filterOption}</Option>
       </Wrapper>
@@ -29,6 +36,7 @@ export const FilterOption = ({ filterName, filterOption }: FilterOptionProps) =>
 export interface FilterOptionProps {
   filterName: string;
   filterOption: string;
+  isReset: boolean;
 }
 
 export default FilterOption;
