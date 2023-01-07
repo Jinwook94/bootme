@@ -18,6 +18,8 @@ import BookmarkIcon from '../../assets/bookmark.svg';
 import DateFormatter from './dateFormatter';
 
 const CourseCard = ({ title, url, company, categories, stacks, dates, period, cost, costType }: CourseCardProps) => {
+  const weeks = Math.round(period / 7);
+  const months = Math.round(period / 30);
   return (
     <Wrapper>
       <link
@@ -58,7 +60,7 @@ const CourseCard = ({ title, url, company, categories, stacks, dates, period, co
             >
               calendar_month
             </span>
-            <span>{period}</span>
+            {months >= 4 ? <span>{months}개월</span> : <span>{weeks}주</span>}
           </ItemWrapper>
           <ItemWrapper>
             <span
@@ -67,7 +69,7 @@ const CourseCard = ({ title, url, company, categories, stacks, dates, period, co
             >
               credit_card
             </span>
-            <span>{cost === 0 ? costType : cost}</span>
+            <span>{cost === 0 ? costType : cost + '만원'} </span>
           </ItemWrapper>
         </CourseInfo>
         <CourseTags>
