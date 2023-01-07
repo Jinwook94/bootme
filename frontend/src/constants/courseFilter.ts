@@ -13,31 +13,26 @@ export const COURSE_FILTER: { [key: string]: CourseFilterTypes } = {
     filterName: '개발 분야',
     filterOptions: [...CATEGORIES.SUPER, ...CATEGORIES.SUB],
     isMore: true,
-    borderTop: true,
   },
   STACKS: {
     filterName: '기술 스택',
     filterOptions: [...STACKS.LANGUAGES, ...STACKS.FRAMEWORKS],
     isMore: true,
-    borderTop: true,
   },
   CostType: {
     filterName: '수강 비용',
     filterOptions: ['무료', '무료 (국비)'],
     isMore: false,
-    borderTop: false,
   },
   Period: {
     filterName: '수강 기간',
     filterOptions: [],
     isMore: false,
-    borderTop: false,
   },
   Test: {
     filterName: '코딩 테스트',
     filterOptions: ['있음', '없음'],
     isMore: false,
-    borderTop: false,
   },
 };
 
@@ -45,5 +40,4 @@ export interface CourseFilterTypes {
   filterName: string;
   filterOptions: string[];
   isMore: boolean;
-  borderTop: boolean;
 }

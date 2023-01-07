@@ -25,7 +25,6 @@ const SideFilter = () => {
             filterOptions={filterGroup.filterOptions}
             isMore={filterGroup.isMore}
             isReset={isReset}
-            borderTop={filterGroup.borderTop}
           />
         ))}
       </FilterItemWrapper>

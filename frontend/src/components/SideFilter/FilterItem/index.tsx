@@ -40,11 +40,30 @@ const FilterItem = ({ filterName, filterOptions, isMore, isReset }: FilterItemPr
   const renderFilterOptionList = () => {
     switch (filterName) {
       case '개발 분야':
+        return (
+          <FilterOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.5rem' }}>
+            {filterOptions.map((filterOption: string, index) => (
+              <FilterOption
+                key={index}
+                filterName={filterName}
+                filterOption={filterOption}
+                isReset={isReset}
+                borderTop={index === 9}
+              />
+            ))}
+          </FilterOptionList>
+        );
       case '기술 스택':
         return (
           <FilterOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.5rem' }}>
             {filterOptions.map((filterOption: string, index) => (
-              <FilterOption key={index} filterName={filterName} filterOption={filterOption} isReset={isReset} />
+              <FilterOption
+                key={index}
+                filterName={filterName}
+                filterOption={filterOption}
+                isReset={isReset}
+                borderTop={index === 8}
+              />
             ))}
           </FilterOptionList>
         );
@@ -63,9 +82,8 @@ const FilterItem = ({ filterName, filterOptions, isMore, isReset }: FilterItemPr
       case '코딩 테스트':
         return (
           <TestOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.25rem' }}>
-            {filterOptions.map((filterOption: string) => (
-              <FilterOption key={filterOption} filterName={filterName} filterOption={filterOption} isReset={isReset} />
-            ))}
+            <FilterOption filterName={filterName} filterOption={filterOptions[0]} isReset={isReset} />
+            <FilterOption filterName={filterName} filterOption={filterOptions[1]} isReset={isReset} />
           </TestOptionList>
         );
       default:
