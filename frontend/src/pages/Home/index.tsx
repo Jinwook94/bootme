@@ -32,60 +32,11 @@ const Home = () => {
   const { data, isLoading, isError } = useCourses({});
 
   // Filtering
-  const { selectedFilters } = useFilters();
+  const { selectedFilters, filterCourses } = useFilters();
   let filteredCourses = data || [];
 
-  const filterCourses = () => {
-    filteredCourses = filteredCourses.filter((course: Course) => {
-      const categories: string[] = [];
-      const stacks: string[] = [];
-      const costTypes: string[] = [];
-      const tested: string[] = [];
-      const costs: string[] = [];
-      const periods: string[] = [];
-
-      selectedFilters.forEach(filter => {
-        const [property, value] = filter.split(':');
-        switch (property) {
-          case '개발 분야':
-            categories.push(value);
-            break;
-          case '기술 스택':
-            stacks.push(value);
-            break;
-          case '비용 타입':
-            costTypes.push(value);
-            break;
-          case '코딩 테스트':
-            tested.push(value);
-            break;
-          case '비용':
-            costs.push(value);
-            break;
-          case '수강 기간':
-            periods.push(value);
-            break;
-        }
-      });
-
-      return (
-        (!categories.length ||
-          categories.some(
-            category => course.categories.super.includes(category) || course.categories.sub.includes(category)
-          )) &&
-        (!stacks.length ||
-          stacks.some(stack => course.stacks.languages.includes(stack) || course.stacks.frameworks.includes(stack))) &&
-        (!costTypes.length || costTypes.some(costType => course.costType === costType)) &&
-        (!costs.length || costs.some(cost => course.cost <= parseInt(cost))) &&
-        (!periods.length || periods.some(period => Math.floor(course.period / 30) + 1 <= parseInt(period))) &&
-        (!tested.length || tested.some(test => (String(course.tested) === 'true' ? '있음' : '없음') === test))
-      );
-    });
-    return filteredCourses;
-  };
-
-  if (selectedFilters.length > 0) {
-    filterCourses();
+  if (selectedFilters.length > 0 && data) {
+    filteredCourses = filterCourses(data);
   }
 
   // Pagination
