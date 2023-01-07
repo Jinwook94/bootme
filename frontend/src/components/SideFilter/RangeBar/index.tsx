@@ -26,7 +26,7 @@ export const RangeBar = ({ filterName, isReset }: RangeBarProps) => {
   };
 
   {
-    filterName === '비용 타입' ? (Filter = CostFilter) : null;
+    filterName === '수강 비용' ? (Filter = CostFilter) : null;
     filterName === '수강 기간' ? (Filter = PeriodFilter) : null;
   }
 

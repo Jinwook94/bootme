@@ -49,7 +49,7 @@ const FilterItem = ({ filterName, filterOptions, isMore, isReset }: FilterItemPr
             ))}
           </FilterOptionList>
         );
-      case '비용 타입':
+      case '수강 비용':
         return (
           <>
             <CostFilterOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.25rem' }}>

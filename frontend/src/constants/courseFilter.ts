@@ -22,7 +22,7 @@ export const CourseFilter: { [key: string]: CourseFilterTypes } = {
     borderTop: true,
   },
   CostType: {
-    filterName: '비용 타입',
+    filterName: '수강 비용',
     filterOptions: ['무료', '무료 (국비)'],
     isMore: false,
     borderTop: false,
