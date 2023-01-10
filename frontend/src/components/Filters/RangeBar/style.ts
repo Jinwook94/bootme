@@ -1,7 +1,23 @@
 import styled from 'styled-components';
+import { SIDE_FILTER } from '../../../constants/courseFilter';
 
-export const Wrapper1 = styled.div`
+export const Wrapper = styled.div`
   margin: 0.5rem 0.5rem 0 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+`;
+
+export const BarWrapper = styled.div<{ filterType: string }>`
+  width: ${props => (props.filterType === SIDE_FILTER ? '90%' : '90%')};
+  align-self: center;
+`;
+
+export const CustomRangeBar = styled.div`
+  .bg-secondary {
+    background-color: #777272;
+  }
 `;
 
 export const Bar = styled.input.attrs({
@@ -9,17 +25,18 @@ export const Bar = styled.input.attrs({
   className: 'form-range',
   id: 'customRange3',
 })`
-  width: 90%;
+  display: block;
 `;
 
-export const Wrapper2 = styled.div`
+export const InputWrapper1 = styled.div`
   display: flex;
   -webkit-box-pack: justify;
   justify-content: flex-start;
   position: relative;
+  align-self: flex-end;
 `;
 
-export const InputWrapper = styled.div`
+export const InputWrapper2 = styled.div`
   height: 2rem;
   position: relative;
   width: 4rem;

@@ -92,11 +92,11 @@ const SideFilterItem = ({ filter, filterName, filterOptions, isMore, isReset }: 
                 isReset={isReset}
               />
             </CostFilterOptionList>
-            <RangeBar filterName={filterName} isReset={isReset} />
+            <RangeBar filterType={SIDE_FILTER} filterName={filterName} isReset={isReset} />
           </>
         );
       case PERIOD:
-        return <RangeBar filterName={filterName} isReset={isReset} />;
+        return <RangeBar filterType={SIDE_FILTER} filterName={filterName} isReset={isReset} />;
       case TEST:
         return (
           <TestOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.25rem' }}>

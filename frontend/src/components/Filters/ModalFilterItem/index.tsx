@@ -123,14 +123,14 @@ const ModalFilterItem = ({ filter, filterName, filterOptions, isMore, isReset }:
             filterOption={filterOptions[1]}
             isReset={isReset}
           />
-          <RangeBar filterName={filterName} isReset={isReset} />
+          <RangeBar filterType={MODAL_FILTER} filterName={filterName} isReset={isReset} />
         </Wrapper>
       );
     case PERIOD:
       return (
         <Wrapper ref={wrapperRef}>
           <Title>{filterName}</Title>
-          <RangeBar filterName={filterName} isReset={isReset} />
+          <RangeBar filterType={MODAL_FILTER} filterName={filterName} isReset={isReset} />
         </Wrapper>
       );
     case TEST:
