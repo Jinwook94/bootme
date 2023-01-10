@@ -1,24 +1,85 @@
-import { BoxWrapper, Checkbox, ListItem, Option, Wrapper } from './style';
+import {
+  BoxWrapper,
+  CheckBoxWrapper1,
+  CheckBoxWrapper2,
+  CheckedWrapper1,
+  CheckedWrapper2,
+  ListItem,
+  ModalFilterCheckbox,
+  ModalWrapper,
+  Name,
+  Option,
+  SideFilterCheckbox,
+  Unchecked,
+  Wrapper,
+} from './style';
 import React from 'react';
 import { useCheckbox } from '../../../hooks/useCheckbox';
+import { CheckIcon } from '../../../constants/icons';
 
-export const FilterOption = ({ filterName, filterOption, isReset, borderTop }: FilterOptionProps) => {
-  const { isChecked, handleClick, resetFilter } = useCheckbox(filterName, filterOption, isReset);
-  resetFilter();
+export const FilterOption = ({ filterType, filterName, filterOption, isReset, borderTop }: FilterOptionProps) => {
+  const { isChecked, handleClick } = useCheckbox(filterName, filterOption, isReset);
 
-  return (
-    <ListItem onClick={handleClick} borderTop={borderTop}>
-      <Wrapper>
-        <BoxWrapper>
-          <Checkbox checked={isChecked} onChange={handleClick} style={{ appearance: isChecked ? 'auto' : 'none' }} />
-        </BoxWrapper>
-        <Option>{filterOption}</Option>
-      </Wrapper>
-    </ListItem>
-  );
+  switch (filterType) {
+    case 'SIDE_FILTER':
+      return (
+        <ListItem onClick={handleClick} borderTop={borderTop}>
+          <Wrapper>
+            <BoxWrapper>
+              <SideFilterCheckbox
+                checked={isChecked}
+                onChange={handleClick}
+                style={{ appearance: isChecked ? 'auto' : 'none' }}
+              />
+            </BoxWrapper>
+            <Option>{filterOption}</Option>
+          </Wrapper>
+        </ListItem>
+      );
+    case 'MODAL_FILTER':
+      return (
+        <ModalWrapper onClick={handleClick}>
+          <Name>{filterOption}</Name>
+          <CheckBoxWrapper1>
+            <CheckBoxWrapper2>
+              <ModalFilterCheckbox
+                checked={isChecked}
+                onChange={handleClick}
+                style={{ appearance: isChecked ? 'auto' : 'none' }}
+              />
+              {isChecked ? (
+                <CheckedWrapper1>
+                  <CheckedWrapper2>
+                    <CheckIcon />
+                  </CheckedWrapper2>
+                </CheckedWrapper1>
+              ) : (
+                <Unchecked />
+              )}
+            </CheckBoxWrapper2>
+          </CheckBoxWrapper1>
+        </ModalWrapper>
+      );
+    default:
+      return (
+        <ListItem onClick={handleClick} borderTop={borderTop}>
+          <Wrapper>
+            <BoxWrapper>
+              <SideFilterCheckbox
+                checked={isChecked}
+                onChange={handleClick}
+                style={{ appearance: isChecked ? 'auto' : 'none' }}
+              />
+            </BoxWrapper>
+            <Option>{filterOption}</Option>
+          </Wrapper>
+        </ListItem>
+      );
+  }
 };
 
 export interface FilterOptionProps {
+  filterType: string;
   filterName: string;
   filterOption: string;
   isReset: boolean;

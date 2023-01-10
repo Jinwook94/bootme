@@ -1,8 +1,9 @@
+import FilterOption from '../FilterOption';
 import { CourseFilterTypes } from '../../../constants/courseFilter';
 import React, { useRef, useState } from 'react';
 import { Wrapper, Title, MoreButton, MoreOptions } from './style';
 
-const ModalFilterItem = ({ filter, filterName, filterOptions, isMore, isReset }: ModalFilterItemProps) => {
+const ModalFilterItem = ({ filterName, filterOptions, isMore, isReset }: ModalFilterItemProps) => {
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -19,14 +20,33 @@ const ModalFilterItem = ({ filter, filterName, filterOptions, isMore, isReset }:
   return (
     <Wrapper ref={wrapperRef}>
       <Title>{filterName}</Title>
-      필터 옵션들이이 들어갈 자리
+      {filterOptions.slice(0, 5).map((filterOption: string, index) => (
+        <FilterOption
+          key={index}
+          filterType={'MODAL_FILTER'}
+          filterName={filterName}
+          filterOption={filterOption}
+          isReset={isReset}
+        />
+      ))}
       {isMore && !isMoreOpen ? (
         <MoreButton onClick={handleMoreClick}>
           <span>더 표시</span>
         </MoreButton>
       ) : null}
       <MoreOptions isMoreOpen={isMoreOpen}>
-        {isMoreOpen && <p>필터 옵션들이 들어갈 자리</p>}
+        {isMoreOpen &&
+          filterOptions
+            .slice(5)
+            .map((filterOption: string, index) => (
+              <FilterOption
+                key={index}
+                filterType={'MODAL_FILTER'}
+                filterName={filterName}
+                filterOption={filterOption}
+                isReset={isReset}
+              />
+            ))}
         {isMore && isMoreOpen ? (
           <MoreButton onClick={handleMoreClick}>
             <span onClick={handleHideClick}>숨기기</span>

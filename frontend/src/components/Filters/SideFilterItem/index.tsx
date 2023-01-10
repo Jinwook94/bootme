@@ -45,6 +45,7 @@ const SideFilterItem = ({ filter, filterName, filterOptions, isMore, isReset }: 
             {filterOptions.map((filterOption: string, index) => (
               <FilterOption
                 key={index}
+                filterType={'SIDE_FILTER'}
                 filterName={filterName}
                 filterOption={filterOption}
                 isReset={isReset}
@@ -59,6 +60,7 @@ const SideFilterItem = ({ filter, filterName, filterOptions, isMore, isReset }: 
             {filterOptions.map((filterOption: string, index) => (
               <FilterOption
                 key={index}
+                filterType={'SIDE_FILTER'}
                 filterName={filterName}
                 filterOption={filterOption}
                 isReset={isReset}
@@ -71,8 +73,18 @@ const SideFilterItem = ({ filter, filterName, filterOptions, isMore, isReset }: 
         return (
           <>
             <CostFilterOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.25rem' }}>
-              <FilterOption filterName={filterName} filterOption={filterOptions[0]} isReset={isReset} />
-              <FilterOption filterName={filterName} filterOption={filterOptions[1]} isReset={isReset} />
+              <FilterOption
+                filterType={'SIDE_FILTER'}
+                filterName={filterName}
+                filterOption={filterOptions[0]}
+                isReset={isReset}
+              />
+              <FilterOption
+                filterType={'SIDE_FILTER'}
+                filterName={filterName}
+                filterOption={filterOptions[1]}
+                isReset={isReset}
+              />
             </CostFilterOptionList>
             <RangeBar filterName={filterName} isReset={isReset} />
           </>
@@ -82,8 +94,18 @@ const SideFilterItem = ({ filter, filterName, filterOptions, isMore, isReset }: 
       case TEST:
         return (
           <TestOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.25rem' }}>
-            <FilterOption filterName={filterName} filterOption={filterOptions[0]} isReset={isReset} />
-            <FilterOption filterName={filterName} filterOption={filterOptions[1]} isReset={isReset} />
+            <FilterOption
+              filterType={'SIDE_FILTER'}
+              filterName={filterName}
+              filterOption={filterOptions[0]}
+              isReset={isReset}
+            />
+            <FilterOption
+              filterType={'SIDE_FILTER'}
+              filterName={filterName}
+              filterOption={filterOptions[1]}
+              isReset={isReset}
+            />
           </TestOptionList>
         );
       default:
