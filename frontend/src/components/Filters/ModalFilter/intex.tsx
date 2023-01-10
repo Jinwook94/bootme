@@ -4,9 +4,11 @@ import React from 'react';
 import './style.css';
 import { HeaderText, IconWrapper, ModalBody, ModalFooter, ModalHeader, ResetFilter, ShowCourse } from './style';
 import { CloseIcon } from '../../../constants/icons';
+import ModalFilterItem from '../ModalFilterItem';
+import { COURSE_FILTERS } from '../../../constants/courseFilter';
 
 const ModalFilter = () => {
-  const { isModal, handleModal, resetFilters } = useFilters();
+  const { isModal, handleModal, resetFilters, isReset } = useFilters();
   ReactModal.setAppElement('#root');
 
   return (
@@ -53,7 +55,18 @@ const ModalFilter = () => {
         </HeaderText>
         <div></div>
       </ModalHeader>
-      <ModalBody>바디</ModalBody>
+      <ModalBody>
+        {Object.values(COURSE_FILTERS).map(filterGroup => (
+          <ModalFilterItem
+            key={filterGroup.filterName}
+            filter={filterGroup}
+            filterName={filterGroup.filterName}
+            filterOptions={filterGroup.filterOptions}
+            isMore={filterGroup.isMore}
+            isReset={isReset}
+          />
+        ))}
+      </ModalBody>
       <ModalFooter>
         <ResetFilter onClick={resetFilters}>전체 해제</ResetFilter>
         <ShowCourse onClick={handleModal}>코스 N개 표시</ShowCourse>
