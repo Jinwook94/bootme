@@ -13,13 +13,21 @@ import {
   Unchecked,
   Wrapper,
 } from './style';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useCheckbox } from '../../../hooks/useCheckbox';
-import { CheckIcon } from '../../../constants/icons';
 import { MODAL_FILTER, SIDE_FILTER } from '../../../constants/courseFilter';
+import { CheckIcon } from '../../../constants/icons';
+import { useFilters } from '../../../hooks/useFilters';
 
 export const FilterOption = ({ filterType, filterName, filterOption, isReset, borderTop }: FilterOptionProps) => {
-  const { isChecked, handleClick } = useCheckbox(filterName, filterOption, isReset);
+  const { isChecked, handleClick, handleChecked } = useCheckbox(filterName, filterOption, isReset);
+  const { isModal } = useFilters();
+
+  useEffect(() => {
+    if (filterType === MODAL_FILTER) {
+      handleChecked();
+    }
+  }, [isModal]);
 
   switch (filterType) {
     case SIDE_FILTER:
