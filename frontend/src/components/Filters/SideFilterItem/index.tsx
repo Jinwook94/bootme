@@ -17,7 +17,7 @@ import { CaretDownIcon, CaretIcon, CaretUpIcon } from '../../../constants/icons'
 
 type Position = 'absolute' | 'relative' | 'fixed' | 'unset';
 
-const FilterItem = ({ filter, filterName, filterOptions, isMore, isReset }: FilterItemProps) => {
+const SideFilterItem = ({ filter, filterName, filterOptions, isMore, isReset }: SideFilterItemProps) => {
   const [isOpen, setIsOpen] = useState(true);
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const [position, setPosition] = useState<Position | undefined>('absolute');
@@ -126,9 +126,9 @@ const FilterItem = ({ filter, filterName, filterOptions, isMore, isReset }: Filt
   );
 };
 
-export type FilterItemProps = CourseFilterTypes & {
+export type SideFilterItemProps = CourseFilterTypes & {
   filter: CourseFilterTypes;
   isReset: boolean;
 };
 
-export default FilterItem;
+export default SideFilterItem;

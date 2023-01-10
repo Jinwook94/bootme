@@ -24,7 +24,7 @@ import CourseCardList from '../../components/CourseCardList';
 import usePaging from '../../hooks/usePaging';
 import useCourses from '../../hooks/queries/course/useCourses';
 import Header from '../../components/@common/Header';
-import SideFilter from '../../components/SideFilter';
+import SideFilter from '../../components/Filters/SideFilter';
 import { useFilters } from '../../hooks/useFilters';
 
 const Home = () => {
