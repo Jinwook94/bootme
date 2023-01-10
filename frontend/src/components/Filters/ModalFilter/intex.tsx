@@ -1,10 +1,12 @@
 import ReactModal from 'react-modal';
+import { useFilters } from '../../../hooks/useFilters';
 import React from 'react';
 import './style.css';
-import { useFilters } from '../../../hooks/useFilters';
+import { HeaderText, IconWrapper, ModalBody, ModalFooter, ModalHeader, ResetFilter, ShowCourse } from './style';
+import { CloseIcon } from '../../../constants/icons';
 
 const ModalFilter = () => {
-  const { isModal, handleModal } = useFilters();
+  const { isModal, handleModal, resetFilters } = useFilters();
   ReactModal.setAppElement('#root');
 
   return (
@@ -37,12 +39,25 @@ const ModalFilter = () => {
           WebkitOverflowScrolling: 'touch',
           borderRadius: '4px',
           outline: 'none',
-          padding: '20px',
+          padding: '0',
         },
       }}
     >
-      <span> 컨텐츠 </span>
-      <button onClick={handleModal}>닫기</button>
+      <ModalHeader>
+        <div></div>
+        <IconWrapper onClick={handleModal}>
+          <CloseIcon />
+        </IconWrapper>
+        <HeaderText>
+          <span> 필터 </span>
+        </HeaderText>
+        <div></div>
+      </ModalHeader>
+      <ModalBody>바디</ModalBody>
+      <ModalFooter>
+        <ResetFilter onClick={resetFilters}>전체 해제</ResetFilter>
+        <ShowCourse onClick={handleModal}>코스 N개 표시</ShowCourse>
+      </ModalFooter>
     </ReactModal>
   );
 };
