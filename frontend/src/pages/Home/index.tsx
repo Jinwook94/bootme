@@ -26,13 +26,14 @@ import useCourses from '../../hooks/queries/course/useCourses';
 import Header from '../../components/@common/Header';
 import SideFilter from '../../components/Filters/SideFilter';
 import { useFilters } from '../../hooks/useFilters';
+import ModalFilter from '../../components/Filters/ModalFilter/intex';
 
 const Home = () => {
   // Fetching data
   const { data, isLoading, isError } = useCourses({});
 
   // Filtering
-  const { selectedFilters, filterCourses } = useFilters();
+  const { selectedFilters, filterCourses, handleModal } = useFilters();
   let filteredCourses = data || [];
 
   if (selectedFilters.length > 0 && data) {
@@ -56,6 +57,7 @@ const Home = () => {
 
   return (
     <>
+      <ModalFilter />
       <Header />
       <SlideWrapper style={{ marginTop: '1.5rem' }}>
         <SlideBanner />
@@ -78,7 +80,7 @@ const Home = () => {
                       <CourseCount>{length}개의 커리큘럼</CourseCount>
                     </MenuLeft>
                     <MenuRight>
-                      <FilterButton primary>
+                      <FilterButton primary onClick={handleModal}>
                         <span> 검색 필터 </span>
                       </FilterButton>
                       <FilterSelect>
