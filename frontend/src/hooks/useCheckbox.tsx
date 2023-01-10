@@ -3,7 +3,7 @@ import { useFilters } from './useFilters';
 
 export const useCheckbox = (filterName: string, filterOption: string, isReset: boolean) => {
   const [isChecked, setIsChecked] = useState(false);
-  const { addFilter, removeFilter } = useFilters();
+  const { selectedFilters, addFilter, removeFilter } = useFilters();
 
   const handleClick = () => {
     setIsChecked(!isChecked);
@@ -11,13 +11,17 @@ export const useCheckbox = (filterName: string, filterOption: string, isReset: b
     return true;
   };
 
-  const resetFilter = () => {
-    useEffect(() => {
-      if (isReset) {
-        setIsChecked(false);
-      }
-    }, [isReset]);
+  const handleChecked = () => {
+    if (selectedFilters.includes(filterName + ':' + filterOption)) {
+      setIsChecked(true);
+    }
   };
 
-  return { isChecked, handleClick, resetFilter };
+  useEffect(() => {
+    if (isReset) {
+      setIsChecked(false);
+    }
+  }, [isReset]);
+
+  return { isChecked, handleClick, handleChecked };
 };

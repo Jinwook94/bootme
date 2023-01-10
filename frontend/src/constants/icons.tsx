@@ -1,5 +1,40 @@
 import React from 'react';
 
+// https://fonts.google.com/icons
+
+// eslint-disable-next-line react/prop-types
+export const CloseIcon = () => {
+  return (
+    <>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,300,0,0"
+      />
+      <span className="material-symbols-outlined">close</span>
+    </>
+  );
+};
+
+export const CheckIcon = () => (
+  <svg
+    viewBox="0 0 32 32"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+    role="presentation"
+    focusable="false"
+    style={{
+      display: 'block',
+      fill: 'none',
+      height: '16px',
+      width: '16px',
+      stroke: 'white',
+      strokeWidth: '4',
+      overflow: 'visible',
+    }}
+  >
+    <path fill="none" d="m4 16.5 8 8 16-16"></path>
+  </svg>
+);
 export const ResetIcon = () => (
   <svg
     style={{

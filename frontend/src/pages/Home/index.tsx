@@ -19,20 +19,21 @@ import {
 
 import SlideBanner from '../../components/SlideBanner';
 import PaginationBar from '../../components/PaginationBar';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CourseCardList from '../../components/CourseCardList';
 import usePaging from '../../hooks/usePaging';
 import useCourses from '../../hooks/queries/course/useCourses';
 import Header from '../../components/@common/Header';
-import SideFilter from '../../components/SideFilter';
+import SideFilter from '../../components/Filters/SideFilter';
 import { useFilters } from '../../hooks/useFilters';
+import ModalFilter from '../../components/Filters/ModalFilter';
 
 const Home = () => {
   // Fetching data
   const { data, isLoading, isError } = useCourses({});
 
   // Filtering
-  const { selectedFilters, filterCourses } = useFilters();
+  const { selectedFilters, filterCourses, handleModal, filteredLength, handleLength } = useFilters();
   let filteredCourses = data || [];
 
   if (selectedFilters.length > 0 && data) {
@@ -41,10 +42,13 @@ const Home = () => {
 
   // Pagination
   const [cardsPerPage] = useState(12);
-  const length = filteredCourses?.length ?? 10; // 데이터를 받아오지 못한 경우 data.length 를 10으로 설정
   const maxPage = Math.floor(length / cardsPerPage) + 1;
   const { currentPage, handleNumberClick, handleNextClick, handlePrevClick, getCurrentItems } = usePaging(maxPage);
   const currentCards = getCurrentItems(cardsPerPage, filteredCourses);
+
+  useEffect(() => {
+    handleLength(filteredCourses.length);
+  }, [filteredCourses]);
 
   if (isLoading) {
     return <p>to do: 로딩중 화면 작성</p>;
@@ -56,6 +60,7 @@ const Home = () => {
 
   return (
     <>
+      <ModalFilter />
       <Header />
       <SlideWrapper style={{ marginTop: '1.5rem' }}>
         <SlideBanner />
@@ -75,10 +80,10 @@ const Home = () => {
                 <>
                   <CourseListMenu>
                     <MenuLeft>
-                      <CourseCount>{length}개의 커리큘럼</CourseCount>
+                      <CourseCount>{filteredLength}개의 커리큘럼</CourseCount>
                     </MenuLeft>
                     <MenuRight>
-                      <FilterButton primary>
+                      <FilterButton primary onClick={handleModal}>
                         <span> 검색 필터 </span>
                       </FilterButton>
                       <FilterSelect>
@@ -97,7 +102,7 @@ const Home = () => {
         <PaginationWrapper>
           <PaginationBar
             itemsPerPage={cardsPerPage}
-            totalItems={length}
+            totalItems={filteredLength}
             handleNumberClick={handleNumberClick}
             currentPage={currentPage}
             handlePrevClick={handlePrevClick}
