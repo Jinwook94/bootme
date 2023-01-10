@@ -1,5 +1,5 @@
 import FilterOption from '../FilterOption';
-import { CourseFilterTypes } from '../../../constants/courseFilter';
+import { CourseFilterTypes, MODAL_FILTER } from '../../../constants/courseFilter';
 import React, { useRef, useState } from 'react';
 import { Wrapper, Title, MoreButton, MoreOptions } from './style';
 
@@ -23,7 +23,7 @@ const ModalFilterItem = ({ filterName, filterOptions, isMore, isReset }: ModalFi
       {filterOptions.slice(0, 5).map((filterOption: string, index) => (
         <FilterOption
           key={index}
-          filterType={'MODAL_FILTER'}
+          filterType={MODAL_FILTER}
           filterName={filterName}
           filterOption={filterOption}
           isReset={isReset}
@@ -41,7 +41,7 @@ const ModalFilterItem = ({ filterName, filterOptions, isMore, isReset }: ModalFi
             .map((filterOption: string, index) => (
               <FilterOption
                 key={index}
-                filterType={'MODAL_FILTER'}
+                filterType={MODAL_FILTER}
                 filterName={filterName}
                 filterOption={filterOption}
                 isReset={isReset}

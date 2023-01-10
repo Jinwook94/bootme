@@ -16,12 +16,13 @@ import {
 import React from 'react';
 import { useCheckbox } from '../../../hooks/useCheckbox';
 import { CheckIcon } from '../../../constants/icons';
+import { MODAL_FILTER, SIDE_FILTER } from '../../../constants/courseFilter';
 
 export const FilterOption = ({ filterType, filterName, filterOption, isReset, borderTop }: FilterOptionProps) => {
   const { isChecked, handleClick } = useCheckbox(filterName, filterOption, isReset);
 
   switch (filterType) {
-    case 'SIDE_FILTER':
+    case SIDE_FILTER:
       return (
         <ListItem onClick={handleClick} borderTop={borderTop}>
           <Wrapper>
@@ -36,7 +37,7 @@ export const FilterOption = ({ filterType, filterName, filterOption, isReset, bo
           </Wrapper>
         </ListItem>
       );
-    case 'MODAL_FILTER':
+    case MODAL_FILTER:
       return (
         <ModalWrapper onClick={handleClick}>
           <Name>{filterOption}</Name>

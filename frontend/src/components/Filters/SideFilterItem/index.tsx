@@ -12,10 +12,16 @@ import {
 import FilterOption from '../FilterOption';
 import React, { useState } from 'react';
 import { RangeBar } from '../RangeBar';
-import { CourseFilterTypes, CATEGORIES, COST_TYPE, PERIOD, STACKS, TEST } from '../../../constants/courseFilter';
+import {
+  CourseFilterTypes,
+  CATEGORIES,
+  COST_TYPE,
+  PERIOD,
+  STACKS,
+  TEST,
+  SIDE_FILTER,
+} from '../../../constants/courseFilter';
 import { CaretDownIcon, CaretIcon, CaretUpIcon } from '../../../constants/icons';
-
-type Position = 'absolute' | 'relative' | 'fixed' | 'unset';
 
 const SideFilterItem = ({ filter, filterName, filterOptions, isMore, isReset }: SideFilterItemProps) => {
   const [isOpen, setIsOpen] = useState(true);
@@ -45,7 +51,7 @@ const SideFilterItem = ({ filter, filterName, filterOptions, isMore, isReset }: 
             {filterOptions.map((filterOption: string, index) => (
               <FilterOption
                 key={index}
-                filterType={'SIDE_FILTER'}
+                filterType={SIDE_FILTER}
                 filterName={filterName}
                 filterOption={filterOption}
                 isReset={isReset}
@@ -60,7 +66,7 @@ const SideFilterItem = ({ filter, filterName, filterOptions, isMore, isReset }: 
             {filterOptions.map((filterOption: string, index) => (
               <FilterOption
                 key={index}
-                filterType={'SIDE_FILTER'}
+                filterType={SIDE_FILTER}
                 filterName={filterName}
                 filterOption={filterOption}
                 isReset={isReset}
@@ -74,13 +80,13 @@ const SideFilterItem = ({ filter, filterName, filterOptions, isMore, isReset }: 
           <>
             <CostFilterOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.25rem' }}>
               <FilterOption
-                filterType={'SIDE_FILTER'}
+                filterType={SIDE_FILTER}
                 filterName={filterName}
                 filterOption={filterOptions[0]}
                 isReset={isReset}
               />
               <FilterOption
-                filterType={'SIDE_FILTER'}
+                filterType={SIDE_FILTER}
                 filterName={filterName}
                 filterOption={filterOptions[1]}
                 isReset={isReset}
@@ -95,13 +101,13 @@ const SideFilterItem = ({ filter, filterName, filterOptions, isMore, isReset }: 
         return (
           <TestOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.25rem' }}>
             <FilterOption
-              filterType={'SIDE_FILTER'}
+              filterType={SIDE_FILTER}
               filterName={filterName}
               filterOption={filterOptions[0]}
               isReset={isReset}
             />
             <FilterOption
-              filterType={'SIDE_FILTER'}
+              filterType={SIDE_FILTER}
               filterName={filterName}
               filterOption={filterOptions[1]}
               isReset={isReset}
@@ -147,6 +153,8 @@ const SideFilterItem = ({ filter, filterName, filterOptions, isMore, isReset }: 
     </Wrapper>
   );
 };
+
+type Position = 'absolute' | 'relative' | 'fixed' | 'unset';
 
 export type SideFilterItemProps = CourseFilterTypes & {
   filter: CourseFilterTypes;

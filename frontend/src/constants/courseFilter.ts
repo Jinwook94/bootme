@@ -1,3 +1,6 @@
+export const SIDE_FILTER = 'SIDE_FILTER';
+export const MODAL_FILTER = 'MODAL_FILTER';
+
 const CATEGORIES_OPTIONS = {
   SUPER: ['웹', '모바일 앱', '게임', '임베디드', '데스크탑 앱', 'AI', '데이터', '데브옵스', '보안'],
   SUB: ['프론트엔드', '백엔드', '풀스택', '안드로이드', 'iOS', '크로스플랫폼'],
