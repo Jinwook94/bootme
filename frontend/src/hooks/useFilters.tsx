@@ -11,15 +11,15 @@ const FilterContext = createContext<FilterContextProps>({
   isReset: false,
   isModal: false,
   handleModal: () => {},
+  filteredLength: 1,
+  handleLength: () => {},
 });
 
 export const FilterProvider = ({ children }: FilterProviderProps) => {
-  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
-  const [isReset, setIsReset] = useState<boolean>(false);
-
   /**
    * 필터링 함수 (필터 추가, 제거 ...)
    * */
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
 
   const addFilter = (filterName: string, filterOption: string) => {
     const filter = filterName + ':' + filterOption;
@@ -97,7 +97,7 @@ export const FilterProvider = ({ children }: FilterProviderProps) => {
   /**
    * 필터 초기화
    * */
-
+  const [isReset, setIsReset] = useState<boolean>(false);
   const resetFilters = () => {
     setSelectedFilters([]);
     setIsReset(true);
@@ -118,6 +118,14 @@ export const FilterProvider = ({ children }: FilterProviderProps) => {
     isModal ? setIsModal(false) : setIsModal(true);
   };
 
+  /**
+   * 필터링 된 아이템 개수
+   * */
+  const [filteredLength, setFilteredLength] = useState<number>(1);
+  const handleLength = (length: number) => {
+    setFilteredLength(length);
+  };
+
   return (
     <FilterContext.Provider
       value={{
@@ -130,6 +138,8 @@ export const FilterProvider = ({ children }: FilterProviderProps) => {
         resetFilters,
         isModal,
         handleModal,
+        filteredLength,
+        handleLength,
       }}
     >
       {children}
@@ -149,6 +159,8 @@ interface FilterContextProps {
   resetFilters: () => void;
   isModal: boolean;
   handleModal: () => void;
+  filteredLength: number;
+  handleLength: (length: number) => void;
 }
 
 interface FilterProviderProps {
