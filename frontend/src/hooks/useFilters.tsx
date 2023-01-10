@@ -9,11 +9,17 @@ const FilterContext = createContext<FilterContextProps>({
   filterCourses: () => [],
   resetFilters: () => {},
   isReset: false,
+  isModal: false,
+  handleModal: () => {},
 });
 
 export const FilterProvider = ({ children }: FilterProviderProps) => {
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   const [isReset, setIsReset] = useState<boolean>(false);
+
+  /**
+   * 필터링 함수 (필터 추가, 제거 ...)
+   * */
 
   const addFilter = (filterName: string, filterOption: string) => {
     const filter = filterName + ':' + filterOption;
@@ -88,6 +94,10 @@ export const FilterProvider = ({ children }: FilterProviderProps) => {
     });
   };
 
+  /**
+   * 필터 초기화
+   * */
+
   const resetFilters = () => {
     setSelectedFilters([]);
     setIsReset(true);
@@ -99,9 +109,28 @@ export const FilterProvider = ({ children }: FilterProviderProps) => {
     }
   }, [isReset]);
 
+  /**
+   * 모달 필터 (모바일 스크린에서 사용됨)
+   * */
+
+  const [isModal, setIsModal] = useState(false);
+  const handleModal = () => {
+    isModal ? setIsModal(false) : setIsModal(true);
+  };
+
   return (
     <FilterContext.Provider
-      value={{ selectedFilters, addFilter, removeBeforeAdd, removeFilter, filterCourses, isReset, resetFilters }}
+      value={{
+        selectedFilters,
+        addFilter,
+        removeBeforeAdd,
+        removeFilter,
+        filterCourses,
+        isReset,
+        resetFilters,
+        isModal,
+        handleModal,
+      }}
     >
       {children}
     </FilterContext.Provider>
@@ -118,6 +147,8 @@ interface FilterContextProps {
   filterCourses: (courses: Course[]) => Course[];
   isReset: boolean;
   resetFilters: () => void;
+  isModal: boolean;
+  handleModal: () => void;
 }
 
 interface FilterProviderProps {
