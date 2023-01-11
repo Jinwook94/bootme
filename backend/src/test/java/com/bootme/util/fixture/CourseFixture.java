@@ -113,6 +113,7 @@ public class CourseFixture {
     public static final String VALID_COM_LOGO_URL_3 = "https://vos.line-scdn.net/strapi-cluster-instance-bucket-84/brand_02_8089c34e51.jpeg";
 
     public static CompanyRequest getCompanyRequest(int index) {
+        index--;
         String[] names = {VALID_COM_NAME_1, VALID_COM_NAME_2, VALID_COM_NAME_3};
         String[] serviceNames = {VALID_COM_SERVICE_NAME_1, VALID_COM_SERVICE_NAME_2, VALID_COM_SERVICE_NAME_3};
         String[] urls = {VALID_COM_URL_1, VALID_COM_URL_2, VALID_COM_URL_3};
@@ -129,6 +130,7 @@ public class CourseFixture {
     }
 
     public static CompanyResponse getCompanyResponse(int index) {
+        index--;
         Long[] ids = {1L, 2L, 3L};
         String[] names = {VALID_COM_NAME_1, VALID_COM_NAME_2, VALID_COM_NAME_3};
         String[] serviceNames = {VALID_COM_SERVICE_NAME_1, VALID_COM_SERVICE_NAME_2, VALID_COM_SERVICE_NAME_3};
@@ -152,6 +154,7 @@ public class CourseFixture {
     }
 
     public static CourseRequest getCourseRequest(int index) {
+        index--;
         String[] titles = {VALID_TITLE_1, VALID_TITLE_2, VALID_TITLE_3};
         String[] names = {VALID_NAME_1, VALID_NAME_2, VALID_NAME_3};
         int[] generations = {VALID_GENERATION_1, VALID_GENERATION_2, VALID_GENERATION_3};
@@ -190,12 +193,13 @@ public class CourseFixture {
     }
 
     public static CourseResponse getCourseResponse(int index) {
+        index--;
         Long[] ids = {1L, 2L, 3L};
         String[] titles = {VALID_TITLE_1, VALID_TITLE_2, VALID_TITLE_3};
         String[] names = {VALID_NAME_1, VALID_NAME_2, VALID_NAME_3};
         int[] generations = {VALID_GENERATION_1, VALID_GENERATION_2, VALID_GENERATION_3};
         String[] urls = {VALID_URL_1, VALID_URL_2, VALID_URL_3};
-        CompanyResponse[] companies = {getCompanyResponse(0), getCompanyResponse(1), getCompanyResponse(2)};
+        CompanyResponse[] companies = {getCompanyResponse(1), getCompanyResponse(2), getCompanyResponse(3)};
         String[] locations = {VALID_LOCATION_1, VALID_LOCATION_2, VALID_LOCATION_3};
         String[] onOfflines = {VALID_ONOFFLINE_1, VALID_ONOFFLINE_2, VALID_ONOFFLINE_3};
         Map<String, List<String>>[] categories = (Map<String, List<String>>[]) new Map[]{VALID_CATEGORY_1, VALID_CATEGORY_2, VALID_CATEGORY_3};
@@ -230,6 +234,7 @@ public class CourseFixture {
     }
 
     public static Company getCompany(int index) {
+        index--;
         String[] names = {VALID_COM_NAME_1, VALID_COM_NAME_2, VALID_COM_NAME_3};
         String[] serviceNames = {VALID_COM_SERVICE_NAME_1, VALID_COM_SERVICE_NAME_2, VALID_COM_SERVICE_NAME_3};
         String[] urls = {VALID_COM_URL_1, VALID_COM_URL_2, VALID_COM_URL_3};
@@ -273,11 +278,12 @@ public class CourseFixture {
     }
 
     public static Course getCourse(int index) {
+        index--;
         String[] titles = {VALID_TITLE_1, VALID_TITLE_2, VALID_TITLE_3};
         String[] names = {VALID_NAME_1, VALID_NAME_2, VALID_NAME_3};
         int[] generations = {VALID_GENERATION_1, VALID_GENERATION_2, VALID_GENERATION_3};
         String[] urls = {VALID_URL_1, VALID_URL_2, VALID_URL_3};
-        Company[] companies = {getCompany(0), getCompany(1), getCompany(2)};
+        Company[] companies = {getCompany(1), getCompany(2), getCompany(3)};
         String[] locations = {VALID_LOCATION_1, VALID_LOCATION_2, VALID_LOCATION_3};
         String[] onofflines = {VALID_ONOFFLINE_1, VALID_ONOFFLINE_2, VALID_ONOFFLINE_3};
         Category[] categories = {CATEGORY1, CATEGORY2, CATEGORY3};

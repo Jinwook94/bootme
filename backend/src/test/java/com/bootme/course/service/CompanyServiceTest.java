@@ -42,14 +42,14 @@ class CompanyServiceTest extends ServiceTest {
         long count = companyRepository.count();
 
         //when
-        Long id = companyService.addCompany(getCompanyRequest(0));
+        Long id = companyService.addCompany(getCompanyRequest(1));
         Company foundCompany = companyRepository.findById(id).orElseThrow();
 
         //then
         assertAll(
                 () -> assertThat(companyRepository.count()).isEqualTo(count + 1),
-                () -> assertThat(foundCompany.getUrl()).isEqualTo(getCompanyRequest(0).getUrl()),
-                () -> assertThat(foundCompany.getName()).isEqualTo(getCompanyRequest(0).getName())
+                () -> assertThat(foundCompany.getUrl()).isEqualTo(getCompanyRequest(1).getUrl()),
+                () -> assertThat(foundCompany.getName()).isEqualTo(getCompanyRequest(1).getName())
         );
     }
 
@@ -96,7 +96,7 @@ class CompanyServiceTest extends ServiceTest {
         Long id = companyRepository.save(company1).getId();
 
         //when
-        companyService.modifyCompany(id, getCompanyRequest(1));
+        companyService.modifyCompany(id, getCompanyRequest(2));
         Company foundCompany = companyRepository.findById(id)
                 .orElseThrow(() -> new CompanyNotFoundException(NOT_FOUND_COMPANY));
         //then

@@ -16,13 +16,13 @@ class CourseTest {
 
     @BeforeEach
     void setUp() {
-        course = getCourse(0);
+        course = getCourse(1);
     }
 
     @Test
     @DisplayName("modifyCourse()는 코스 정보를 변경한다.")
     void modifyCourse() {
-        course.modifyCourse(getCourseRequest(1));
+        course.modifyCourse(getCourseRequest(2));
 
         assertAll(
                 () -> assertThat(course.getTitle()).isEqualTo(VALID_TITLE_2),
@@ -39,7 +39,7 @@ class CourseTest {
     @Test
     @DisplayName("modifyCompany()는 코스의 개설 회사를 변경한다.")
     void modifyCompany(){
-        Company newCompany = getCompany(1);
+        Company newCompany = getCompany(2);
         course.modifyCompany(newCompany);
 
         assertThat(course.getCompany()).isEqualTo(newCompany);

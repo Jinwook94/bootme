@@ -16,8 +16,8 @@ class CompanyTest {
 
     @BeforeEach
     void setup(){
-        course = getCourse(0);
-        company = getCompany(0);
+        course = getCourse(1);
+        company = getCompany(1);
         company.addCourse(course);
     }
 
@@ -44,7 +44,7 @@ class CompanyTest {
     @Test
     @DisplayName("modifyCompany()는 회사의 정보를 변경한다.")
     void updateName() {
-        company.modifyCompany(getCompanyRequest(1));
+        company.modifyCompany(getCompanyRequest(2));
 
         assertAll(
                 () -> assertThat(company.getName()).isEqualTo(VALID_COM_NAME_2),
