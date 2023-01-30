@@ -1,0 +1,6 @@
+.LoginModal .ReactModal__Content {
+    animation: 3000ms cubic-bezier(0.25, 0.1, 0.25, 1) 0s 3 normal forwards running k2;
+}
+
+.ReactModal__Content--before-close {
+}
