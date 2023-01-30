@@ -16,11 +16,11 @@
     }
 }
 
-.ReactModal__Content {
+.FilterModal .ReactModal__Content {
     animation: slideInFromBottom 300ms ease-in-out;
 }
 
-.ReactModal__Content--before-close {
+.FilterModal .ReactModal__Content--before-close {
     animation: slideOutFromTop 300ms ease-in-out;
 }
 

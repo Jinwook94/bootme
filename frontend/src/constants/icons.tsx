@@ -15,6 +15,25 @@ export const CloseIcon = () => {
   );
 };
 
+export const CloseIconBlack = () => (
+  <svg className="mw ap" width="29" height="29">
+    <path
+      d="M20.13 8.11l-5.61 5.61-5.6-5.61-.81.8 5.61 5.61-5.61 5.61.8.8 5.61-5.6 5.61 5.6.8-.8-5.6-5.6 5.6-5.62"
+      fillRule="evenodd"
+    ></path>
+  </svg>
+);
+
+export const CloseIconGray = () => (
+  <svg className="mw ap" width="29" height="29">
+    <path
+      d="M20.13 8.11l-5.61 5.61-5.6-5.61-.81.8 5.61 5.61-5.61 5.61.8.8 5.61-5.6 5.61 5.6.8-.8-5.6-5.6 5.6-5.62"
+      fillRule="evenodd"
+      style={{ fill: 'rgba(117, 117, 117, 1)' }}
+    ></path>
+  </svg>
+);
+
 export const CheckIcon = () => (
   <svg
     viewBox="0 0 32 32"
