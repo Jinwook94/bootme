@@ -2,7 +2,9 @@ import { HeaderLeft, HeaderRight, Wrapper, LogIn, SignIn, HeaderItem, Logo, Dot,
 
 import GitHubIcon from '../../../assets/github.svg';
 import { Layout } from '../Layout';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { useLogin } from '../../../hooks/useLogin';
+import LoginModal from '../../LoginModal';
 
 const Header = () => {
   const isLogin = false;
@@ -12,6 +14,7 @@ const Header = () => {
   const handleClick = () => {
     setDisplaySpan(displaySpan === 1 ? 2 : 1);
   };
+  const { handleLoginModal } = useLogin();
 
   return (
     <>
@@ -36,7 +39,7 @@ const Header = () => {
               <>로그인됨</>
             ) : (
               <>
-                <LogIn>로그인</LogIn>
+                <LogIn onClick={handleLoginModal}>로그인</LogIn>
                 <Dot
                   width="4"
                   height="4"
@@ -78,6 +81,7 @@ const Header = () => {
           </HeaderRight>
         </Wrapper>
       </Layout>
+      <LoginModal />
     </>
   );
 };
