@@ -2,6 +2,10 @@ import ReactModal from 'react-modal';
 import { useLogin } from '../../hooks/useLogin';
 import './style.css';
 import React, { useState } from 'react';
+import { CloseIconBlack, CloseIconGray } from '../../constants/icons';
+import { GoogleLogin } from '@react-oauth/google';
+import NaverLogin from './NaverLogin';
+import KakaoLogin from './KakaoLogin';
 import {
   CloseButton,
   CloseButtonWrapper,
@@ -14,10 +18,6 @@ import {
   Wrapper4,
   Wrapper5,
 } from './style';
-import { CloseIconBlack, CloseIconGray } from '../../constants/icons';
-import { GoogleLogin } from '@react-oauth/google';
-import NaverLogin from './NaverLogin';
-import KakaoLogin from './KakaoLogin';
 
 const LoginModal = () => {
   ReactModal.setAppElement('#root');
@@ -86,9 +86,9 @@ const LoginModal = () => {
                     onError={() => {
                       alert('구글 로그인 실패');
                     }}
-                    text={'continue_with'}
+                    text={'signin_with'}
                     shape={'rectangular'}
-                    width={'185px'}
+                    width={'300px'}
                     auto_select
                   />
                   <NaverLogin />
