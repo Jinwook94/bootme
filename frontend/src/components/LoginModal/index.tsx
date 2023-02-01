@@ -39,7 +39,7 @@ const LoginModal = () => {
       shouldCloseOnOverlayClick
       shouldCloseOnEsc
       preventScroll
-      closeTimeoutMS={300}
+      closeTimeoutMS={0}
       style={{
         overlay: {
           position: 'fixed',
@@ -50,7 +50,7 @@ const LoginModal = () => {
         },
         content: {
           position: 'absolute',
-          // top: '12px',
+          top: '0',
           left: '0',
           right: '0',
           bottom: '0',
