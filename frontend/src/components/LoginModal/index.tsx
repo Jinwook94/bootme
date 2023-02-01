@@ -17,6 +17,7 @@ import {
 import { CloseIconBlack, CloseIconGray } from '../../constants/icons';
 import { GoogleLogin } from '@react-oauth/google';
 import NaverLogin from './NaverLogin';
+import KakaoLogin from './KakaoLogin';
 
 const LoginModal = () => {
   ReactModal.setAppElement('#root');
@@ -91,6 +92,7 @@ const LoginModal = () => {
                     auto_select
                   />
                   <NaverLogin />
+                  <KakaoLogin />
                 </LoginOptions>
                 <TermsOfService>약관</TermsOfService>
               </Wrapper5>
