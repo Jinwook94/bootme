@@ -15,6 +15,7 @@ import {
   Wrapper5,
 } from './style';
 import { CloseIconBlack, CloseIconGray } from '../../constants/icons';
+import { GoogleLogin } from '@react-oauth/google';
 
 const LoginModal = () => {
   ReactModal.setAppElement('#root');
@@ -66,8 +67,29 @@ const LoginModal = () => {
           <Wrapper3>
             <Wrapper4>
               <Wrapper5 onClick={preventClose}>
-                <WelcomeText>부트미에 오신것을 환영합니다.</WelcomeText>
-                <LoginOptions>로그인 옵션</LoginOptions>
+                <WelcomeText>부트미에 오신것을 환영합니다. </WelcomeText>
+                <LoginOptions>
+                  <GoogleLogin
+                    onSuccess={credentialResponse => {
+                      console.log(
+                        '< Google Login > \n\nclientId: ' +
+                          credentialResponse.clientId +
+                          '\n\ncredential: ' +
+                          credentialResponse.credential
+                      );
+                      console.log('---- 구글 로그인 응답 ----');
+                      console.log(credentialResponse);
+                      console.log('----------------------');
+                    }}
+                    onError={() => {
+                      alert('구글 로그인 실패');
+                    }}
+                    text={'continue_with'}
+                    shape={'rectangular'}
+                    width={'185px'}
+                    auto_select
+                  />
+                </LoginOptions>
                 <TermsOfService>약관</TermsOfService>
               </Wrapper5>
             </Wrapper4>
