@@ -1,7 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+import LoginButton from '../LoginButton';
 
 const NaverLogin = () => {
   const { naver } = window;
+  const naverRef = useRef<HTMLDivElement>(null);
   const NAVER_CLIENT_ID = process.env.REACT_APP_NAVER_CLIENT_ID;
   const NAVER_CALLBACK_URL = process.env.REACT_APP_REDIRECT_URI;
 
@@ -51,7 +53,18 @@ const NaverLogin = () => {
     isAccessToken();
   }, []);
 
-  return <div id="naverIdLogin"></div>;
+  const handleNaverLogin = () => {
+    (naverRef.current?.children[0] as HTMLButtonElement).click();
+  };
+
+  return (
+    <>
+      <div ref={naverRef} id="naverIdLogin" style={{ display: 'none' }} />
+      <div onClick={handleNaverLogin}>
+        <LoginButton client={'naver'} />
+      </div>
+    </>
+  );
 };
 
 export default NaverLogin;
