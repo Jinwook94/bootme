@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import axios from 'axios';
 import qs from 'qs';
+import LoginButton from '../LoginButton';
 
 const KakaoLogin = () => {
   const REST_API_KEY = process.env.REACT_APP_KAKAO_API_KEY;
@@ -52,21 +53,23 @@ const KakaoLogin = () => {
     }
   }, []);
 
+  const handleClick = () => {
+    window.location.href = KAKAO_AUTH_URL;
+  };
+
   return (
     <>
-      <h1>
-        <a href={KAKAO_AUTH_URL}>
-          <img src={'/kakao_login_medium_narrow.png'} alt="Kakao Login" />
-        </a>
-      </h1>
+      <div onClick={handleClick}>
+        <LoginButton client={'kakao'} />
+      </div>
     </>
   );
 };
 
 export default KakaoLogin;
 
-declare global {
-  interface Window {
-    Kakao: any;
-  }
-}
+// declare global {
+//   interface Window {
+//     Kakao: any;
+//   }
+// }
