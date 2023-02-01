@@ -16,6 +16,7 @@ import {
 } from './style';
 import { CloseIconBlack, CloseIconGray } from '../../constants/icons';
 import { GoogleLogin } from '@react-oauth/google';
+import NaverLogin from './NaverLogin';
 
 const LoginModal = () => {
   ReactModal.setAppElement('#root');
@@ -89,6 +90,7 @@ const LoginModal = () => {
                     width={'185px'}
                     auto_select
                   />
+                  <NaverLogin />
                 </LoginOptions>
                 <TermsOfService>약관</TermsOfService>
               </Wrapper5>
