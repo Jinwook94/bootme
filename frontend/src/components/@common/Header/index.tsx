@@ -5,6 +5,7 @@ import { Layout } from '../Layout';
 import React, { useState } from 'react';
 import { useLogin } from '../../../hooks/useLogin';
 import LoginModal from '../../LoginModal';
+import { useGoogleOneTapLogin } from '@react-oauth/google';
 
 const Header = () => {
   const isLogin = false;
@@ -15,6 +16,19 @@ const Header = () => {
     setDisplaySpan(displaySpan === 1 ? 2 : 1);
   };
   const { handleLoginModal } = useLogin();
+  useGoogleOneTapLogin({
+    onSuccess: credentialResponse => {
+      console.log(
+        '< Google One Tap Login > \n\nclientId: ' +
+          credentialResponse.clientId +
+          '\n\ncredential: ' +
+          credentialResponse.credential
+      );
+    },
+    onError: () => {
+      alert('구글 로그인 실패');
+    },
+  });
 
   return (
     <>

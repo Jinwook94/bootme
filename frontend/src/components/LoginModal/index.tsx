@@ -15,6 +15,9 @@ import {
   Wrapper5,
 } from './style';
 import { CloseIconBlack, CloseIconGray } from '../../constants/icons';
+import { GoogleLogin } from '@react-oauth/google';
+import NaverLogin from './NaverLogin';
+import KakaoLogin from './KakaoLogin';
 
 const LoginModal = () => {
   ReactModal.setAppElement('#root');
@@ -36,7 +39,7 @@ const LoginModal = () => {
       shouldCloseOnOverlayClick
       shouldCloseOnEsc
       preventScroll
-      closeTimeoutMS={300}
+      closeTimeoutMS={0}
       style={{
         overlay: {
           position: 'fixed',
@@ -47,7 +50,7 @@ const LoginModal = () => {
         },
         content: {
           position: 'absolute',
-          // top: '12px',
+          top: '0',
           left: '0',
           right: '0',
           bottom: '0',
@@ -66,8 +69,31 @@ const LoginModal = () => {
           <Wrapper3>
             <Wrapper4>
               <Wrapper5 onClick={preventClose}>
-                <WelcomeText>부트미에 오신것을 환영합니다.</WelcomeText>
-                <LoginOptions>로그인 옵션</LoginOptions>
+                <WelcomeText>부트미에 오신것을 환영합니다. </WelcomeText>
+                <LoginOptions>
+                  <GoogleLogin
+                    onSuccess={credentialResponse => {
+                      console.log(
+                        '< Google Login > \n\nclientId: ' +
+                          credentialResponse.clientId +
+                          '\n\ncredential: ' +
+                          credentialResponse.credential
+                      );
+                      console.log('---- 구글 로그인 응답 ----');
+                      console.log(credentialResponse);
+                      console.log('----------------------');
+                    }}
+                    onError={() => {
+                      alert('구글 로그인 실패');
+                    }}
+                    text={'continue_with'}
+                    shape={'rectangular'}
+                    width={'185px'}
+                    auto_select
+                  />
+                  <NaverLogin />
+                  <KakaoLogin />
+                </LoginOptions>
                 <TermsOfService>약관</TermsOfService>
               </Wrapper5>
             </Wrapper4>
