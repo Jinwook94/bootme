@@ -68,9 +68,3 @@ const NaverLogin = () => {
 };
 
 export default NaverLogin;
-
-declare global {
-  interface Window {
-    naver: any;
-  }
-}

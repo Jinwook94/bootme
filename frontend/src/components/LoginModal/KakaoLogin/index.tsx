@@ -68,8 +68,8 @@ const KakaoLogin = () => {
 
 export default KakaoLogin;
 
-declare global {
-  interface Window {
-    Kakao: any;
-  }
-}
+// declare global {
+//   interface Window {
+//     Kakao: any;
+//   }
+// }
