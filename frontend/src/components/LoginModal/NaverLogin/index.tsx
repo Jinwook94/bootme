@@ -1,10 +1,13 @@
 import { useEffect, useRef } from 'react';
 import LoginButton from '../LoginButton';
+import * as jose from 'jose';
+import axios from 'axios';
 
 const NaverLogin = () => {
   const { naver } = window;
   const naverRef = useRef<HTMLDivElement>(null);
   const NAVER_CLIENT_ID = process.env.REACT_APP_NAVER_CLIENT_ID;
+  const NAVER_CLIENT_SECRET = process.env.REACT_APP_NAVER_CLIENT_SECRET;
   const NAVER_CALLBACK_URL = process.env.REACT_APP_REDIRECT_URI;
 
   const initializeNaverLogin = () => {
@@ -32,9 +35,57 @@ const NaverLogin = () => {
         console.log('---- 네이버 로그인 응답 ----');
         console.log(naverLogin);
         console.log('-----------------------');
+        generateIdToken(naverLogin).then(idToken => sendIdTokenToServer(idToken));
       }
     });
   };
+
+  const generateIdToken = async (naverLogin: naverTokenTypes) => {
+    // todo: 추후 보다 안전한 RS256 알고리즘으로 업데이트
+    const alg = 'HS256';
+    const typ = 'JWT';
+    const secret = new TextEncoder().encode(NAVER_CLIENT_SECRET);
+    const payload = {
+      ageRange: naverLogin.user.age,
+      birthDay: naverLogin.user.birthday,
+      birthYear: naverLogin.user.birthyear,
+      email: naverLogin.user.email,
+      gender: naverLogin.user.gender,
+      phoneNumber: naverLogin.user.mobile,
+      name: naverLogin.user.name,
+      nickName: naverLogin.user.nickname,
+      profileImage: naverLogin.user.profile_image,
+    };
+    return await new jose.SignJWT(payload)
+      .setProtectedHeader({ alg, typ })
+      .setIssuedAt()
+      .setExpirationTime(naverLogin.accessToken.expires)
+      .setIssuer('bootMe.frontend.naverLogin')
+      .setAudience('urn:example:audience')
+      .setSubject('testSubject')
+      .sign(secret);
+  };
+
+  const sendIdTokenToServer = (idToken: string) => {
+    axios
+      .post('http://localhost:8080/login', null, {
+        headers: {
+          Authorization: 'Bearer ' + idToken,
+        },
+      })
+      .then(response => {
+        console.log('==== Axios response ====');
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    initializeNaverLogin();
+    isAccessToken();
+  }, []);
 
   const isAccessToken = () => {
     window.location.href.includes('access_token') && getToken();
@@ -47,11 +98,6 @@ const NaverLogin = () => {
     // localStorage.setItem('access_token', token)
     // setGetToken(token)
   };
-
-  useEffect(() => {
-    initializeNaverLogin();
-    isAccessToken();
-  }, []);
 
   const handleNaverLogin = () => {
     (naverRef.current?.children[0] as HTMLButtonElement).click();
@@ -68,3 +114,18 @@ const NaverLogin = () => {
 };
 
 export default NaverLogin;
+
+interface naverTokenTypes {
+  user: {
+    age: string;
+    birthday: string;
+    birthyear: string;
+    email: string;
+    gender: string;
+    mobile: string;
+    name: string;
+    nickname: string;
+    profile_image: string;
+  };
+  accessToken: { expires: string };
+}
