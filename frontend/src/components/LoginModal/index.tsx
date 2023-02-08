@@ -3,7 +3,7 @@ import { useLogin } from '../../hooks/useLogin';
 import './style.css';
 import React, { useState } from 'react';
 import { CloseIconBlack, CloseIconGray } from '../../constants/icons';
-import { GoogleLogin } from '@react-oauth/google';
+import { GoogleLoginButton } from './GoogleLogin';
 import NaverLogin from './NaverLogin';
 import KakaoLogin from './KakaoLogin';
 import {
@@ -71,26 +71,7 @@ const LoginModal = () => {
               <Wrapper5 onClick={preventClose}>
                 <WelcomeText>부트미에 오신것을 환영합니다. </WelcomeText>
                 <LoginOptions>
-                  <GoogleLogin
-                    onSuccess={credentialResponse => {
-                      console.log(
-                        '< Google Login > \n\nclientId: ' +
-                          credentialResponse.clientId +
-                          '\n\ncredential: ' +
-                          credentialResponse.credential
-                      );
-                      console.log('---- 구글 로그인 응답 ----');
-                      console.log(credentialResponse);
-                      console.log('----------------------');
-                    }}
-                    onError={() => {
-                      alert('구글 로그인 실패');
-                    }}
-                    text={'signin_with'}
-                    shape={'rectangular'}
-                    width={'300px'}
-                    auto_select
-                  />
+                  <GoogleLoginButton />
                   <NaverLogin />
                   <KakaoLogin />
                 </LoginOptions>
