@@ -42,9 +42,27 @@ const KakaoLogin = () => {
       console.log('---- 카카오 로그인 응답 ----');
       console.log(res);
       console.log('-----------------------');
+      const idToken = res.data.id_token;
+      sendIdTokenToServer(idToken);
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const sendIdTokenToServer = (idToken: string) => {
+    axios
+      .post('http://localhost:8080/login', null, {
+        headers: {
+          Authorization: 'Bearer ' + idToken,
+        },
+      })
+      .then(response => {
+        console.log('==== Axios response ====');
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   useEffect(() => {
@@ -67,9 +85,3 @@ const KakaoLogin = () => {
 };
 
 export default KakaoLogin;
-
-// declare global {
-//   interface Window {
-//     Kakao: any;
-//   }
-// }
