@@ -53,7 +53,7 @@ const NaverLogin = () => {
       gender: naverLogin.user.gender,
       phoneNumber: naverLogin.user.mobile,
       name: naverLogin.user.name,
-      nickName: naverLogin.user.nickname,
+      nickname: naverLogin.user.nickname,
       profileImage: naverLogin.user.profile_image,
     };
     return await new jose.SignJWT(payload)
