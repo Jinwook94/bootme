@@ -1,8 +1,6 @@
 package com.bootme.admin.controller;
 
-import com.bootme.admin.dto.AdminLoginRequest;
 import com.bootme.admin.service.AdminService;
-import com.bootme.auth.dto.TokenResponse;
 import com.bootme.course.dto.CompanyResponse;
 import com.bootme.course.dto.CourseResponse;
 import com.bootme.util.ControllerTest;
@@ -34,29 +32,6 @@ class AdminControllerTest extends ControllerTest {
     private AdminService adminService;
 
     private static final String BASE_SNIPPET_PATH = "admin/";
-
-    @Test
-    @DisplayName("login()은 정상 요청시 HTTP Status Code 200을 반환한다")
-    void login() throws Exception {
-        //given
-        TokenResponse tokenResponse = new TokenResponse("tokenValue");
-        String content = objectMapper.writeValueAsString(new AdminLoginRequest("id", "password"));
-        given(adminService.login(any())).willReturn(tokenResponse);
-
-        //when
-        ResultActions perform = mockMvc.perform(post("/admin/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(content));
-
-        //then
-        perform.andExpect(status().isOk());
-
-        //docs
-        perform.andDo(print())
-                .andDo(document(BASE_SNIPPET_PATH + "login/success",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())));
-    }
 
     @Test
     @DisplayName("addCourse()는 정상 요청시 코스를 추가하고 상태코드 201을 반환한다.")

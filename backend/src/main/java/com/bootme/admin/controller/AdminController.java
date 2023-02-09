@@ -1,8 +1,6 @@
 package com.bootme.admin.controller;
 
-import com.bootme.admin.dto.AdminLoginRequest;
 import com.bootme.admin.service.AdminService;
-import com.bootme.auth.dto.TokenResponse;
 import com.bootme.course.dto.CompanyRequest;
 import com.bootme.course.dto.CompanyResponse;
 import com.bootme.course.dto.CourseRequest;
@@ -22,11 +20,6 @@ import java.util.List;
 public class AdminController {
 
     private final AdminService adminService;
-
-    @PostMapping("/login")
-    public ResponseEntity<TokenResponse> login(@Valid @RequestBody AdminLoginRequest adminLoginRequest) {
-        return ResponseEntity.ok(adminService.login(adminLoginRequest));
-    }
 
     @PostMapping("/courses")
     public ResponseEntity<CourseResponse> addCourse(@Valid @RequestBody CourseRequest courseRequest){

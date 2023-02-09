@@ -1,6 +1,5 @@
 package com.bootme.util;
 
-import com.bootme.admin.domain.AdminAccount;
 import com.bootme.admin.service.AdminService;
 import com.bootme.auth.token.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
