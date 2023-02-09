@@ -54,7 +54,7 @@ const NaverLogin = () => {
       phoneNumber: naverLogin.user.mobile,
       name: naverLogin.user.name,
       nickname: naverLogin.user.nickname,
-      profileImage: naverLogin.user.profile_image,
+      picture: naverLogin.user.profile_image,
     };
     return await new jose.SignJWT(payload)
       .setProtectedHeader({ alg, typ })

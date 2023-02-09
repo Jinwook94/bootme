@@ -1,8 +1,5 @@
 == Admin (관리자)
 
-=== 관리자 로그인 - 성공
-operation::admin/login/success[snippets='http-request,http-response']
-
 === 코스 추가 - 성공
 operation::admin/courses/add/success[snippets='http-request,http-response']
 
