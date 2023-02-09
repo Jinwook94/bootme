@@ -1,6 +1,8 @@
 package com.bootme.auth.token;
 
-import com.bootme.auth.dto.AuthInfo;
+import com.bootme.auth.dto.JwtVo;
+import com.bootme.member.domain.Member;
+import com.bootme.member.repository.MemberRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,67 +13,58 @@ import java.security.Key;
 import java.util.Date;
 
 @Component
-public class JwtTokenProvider implements TokenManager {
+public class JwtTokenProvider {
 
+    private final String issuer;
     private final Key signingKey;
     private final long validityInMilliseconds;
     private final long refreshTokenValidityMilliseconds;
+    private final MemberRepository memberRepository;
 
-    public JwtTokenProvider(@Value("${security.jwt.token.secret-key}") String secretKey,
-                            @Value("${security.jwt.token.expire-length.access}") long validityInMilliseconds,
-                            @Value("${security.jwt.token.expire-length.refresh}") long refreshTokenValidityMilliseconds) {
+    public JwtTokenProvider(@Value("${security.jwt.issuer}") String issuer,
+                            @Value("${security.jwt.secret-key}") String secretKey,
+                            @Value("${security.jwt.exp.millisecond.access}") long validityInMilliseconds,
+                            @Value("${security.jwt.exp.millisecond.refresh}") long refreshTokenValidityMilliseconds,
+                            MemberRepository memberRepository) {
         byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
+        this.issuer = issuer;
         this.signingKey = Keys.hmacShaKeyFor(keyBytes);
         this.validityInMilliseconds = validityInMilliseconds;
         this.refreshTokenValidityMilliseconds = refreshTokenValidityMilliseconds;
+        this.memberRepository = memberRepository;
     }
 
-    @Override
-    public String createAccessToken(AuthInfo authInfo) {
+    public String createAccessToken(JwtVo.Body body) {
+        // todo: 예외처리
+        Member member = memberRepository.findByEmail(body.getEmail()).orElseThrow();
         Date now = new Date();
-        Date validity = new Date(now.getTime() + validityInMilliseconds);
+        Date expiration = new Date(now.getTime() + validityInMilliseconds);
 
         return Jwts.builder()
-                .claim("id", authInfo.getId())
-                .claim("role", authInfo.getRole())
-                .claim("nickname", authInfo.getNickname())
+                .setHeaderParam("typ", "JWT")
+                .claim("id", member.getId())
+                .claim("email", member.getEmail())
+                .setIssuer(issuer)
                 .setIssuedAt(now)
-                .setExpiration(validity)
+                .setExpiration(expiration)
                 .signWith(signingKey)
                 .compact();
     }
 
-    @Override
-    public String createRefreshToken() {
+    public String createRefreshToken(JwtVo.Body body) {
+        // todo: 예외처리
+        Member member = memberRepository.findByEmail(body.getEmail()).orElseThrow();
         Date now = new Date();
-        Date validity = new Date(now.getTime() + refreshTokenValidityMilliseconds);
+        Date expiration = new Date(now.getTime() + refreshTokenValidityMilliseconds);
 
         return Jwts.builder()
+                .setHeaderParam("typ", "JWT")
+                .claim("id", member.getId())
+                .setIssuer(issuer)
                 .setIssuedAt(now)
-                .setExpiration(validity)
+                .setExpiration(expiration)
                 .signWith(signingKey)
                 .compact();
     }
 
-    @Override
-    public AuthInfo getPayload(String token) {
-        Claims payload;
-        try {
-            payload = Jwts.parserBuilder()
-                .setSigningKey(signingKey)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-        } catch (ExpiredJwtException ex) {
-            Long id = ex.getClaims().get("id", Long.class);
-            String role = ex.getClaims().get("role", String.class);
-            String nickname = ex.getClaims().get("nickname", String.class);
-            return new AuthInfo(id, role, nickname);
-        }
-
-        Long id = payload.get("id", Long.class);
-        String role = payload.get("role", String.class);
-        String nickname = payload.get("nickname", String.class);
-        return new AuthInfo(id, role, nickname);
-    }
 }
