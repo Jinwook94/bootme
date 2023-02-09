@@ -1,6 +1,6 @@
 package com.bootme.admin.service;
 
-import com.bootme.auth.token.JwtTokenProvider;
+import com.bootme.auth.token.TokenProvider;
 import com.bootme.course.dto.CompanyRequest;
 import com.bootme.course.dto.CompanyResponse;
 import com.bootme.course.dto.CourseRequest;
@@ -18,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminService {
 
-    public final JwtTokenProvider jwtTokenProvider;
+    public final TokenProvider tokenProvider;
     public final CourseService courseService;
     public final CompanyService companyService;
 

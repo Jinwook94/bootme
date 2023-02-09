@@ -13,7 +13,7 @@ import java.security.Key;
 import java.util.Date;
 
 @Component
-public class JwtTokenProvider {
+public class TokenProvider {
 
     private final String issuer;
     private final Key signingKey;
@@ -21,11 +21,11 @@ public class JwtTokenProvider {
     private final long refreshTokenValidityMilliseconds;
     private final MemberRepository memberRepository;
 
-    public JwtTokenProvider(@Value("${security.jwt.issuer}") String issuer,
-                            @Value("${security.jwt.secret-key}") String secretKey,
-                            @Value("${security.jwt.exp.millisecond.access}") long validityInMilliseconds,
-                            @Value("${security.jwt.exp.millisecond.refresh}") long refreshTokenValidityMilliseconds,
-                            MemberRepository memberRepository) {
+    public TokenProvider(@Value("${security.jwt.issuer}") String issuer,
+                         @Value("${security.jwt.secret-key}") String secretKey,
+                         @Value("${security.jwt.exp.millisecond.access}") long validityInMilliseconds,
+                         @Value("${security.jwt.exp.millisecond.refresh}") long refreshTokenValidityMilliseconds,
+                         MemberRepository memberRepository) {
         byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
         this.issuer = issuer;
         this.signingKey = Keys.hmacShaKeyFor(keyBytes);

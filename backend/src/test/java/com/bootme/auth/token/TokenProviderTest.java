@@ -1,10 +1,6 @@
 package com.bootme.auth.token;
 
-import com.bootme.auth.dto.JwtVo;
-
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -12,10 +8,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @DisplayName("JwtTokenProvider 클래스의")
-class JwtTokenProviderTest {
+class TokenProviderTest {
 
     @Autowired
-    private JwtTokenProvider tokenProvider;
+    private TokenProvider tokenProvider;
 
     // todo: 테스트코드 수정 필요
 //    @Nested
