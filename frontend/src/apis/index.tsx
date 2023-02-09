@@ -6,3 +6,5 @@ const fetcher = axios.create();
 fetcher.defaults.baseURL = API_URL;
 
 export default fetcher;
+
+axios.defaults.withCredentials = true;

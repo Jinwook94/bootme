@@ -66,7 +66,7 @@ public class AuthController {
     private ResponseCookie getCookie(String tokenName, String token, long expireTime) {
         return ResponseCookie.from(tokenName, token)
                 .sameSite("Lax")
-                .domain("bootme.co.kr")
+                .domain("localhost")
                 .maxAge(expireTime)
                 .path("/")
                 .secure(true)
