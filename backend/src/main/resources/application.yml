@@ -19,12 +19,12 @@ logging:
 
 security:
   jwt:
-    token:
-      secret-key: ldrbJJuMmonBU4HNNjTkbftNYAtqVhxNC5P1b03KDiHckxnkeP4JHAHubg8tvLe2qekysibScVbegm_OVS0pL3OOQfUHaf-iiyjfM0UF5FPZqE9y693-voPz43XDBwbnAJErWEiER934V8kiJwiHfTQgFmOXM88A3H4eKf8eRo68RZHBhfKfdihB15kKG9e0C5Qyo43WktrE6UR-OoWRZdzk8hir5k7FYElv_JEFzOUCxqpMUW9PcQLBqfveuLsAswm2NPDfCdYS2nnSy4bASjvWxlWlG5uYHIVofD2yNeBuN1tCl3TLuZwzAumXoo5xrq8i2lTZh8sMrBq3oTLMOw
-      expire-length:
+    issuer: bootme
+    secret-key: ldrbJJuMmonBU4HNNjTkbftNYAtqVhxNC5P1b03KDiHckxnkeP4JHAHubg8tvLe2qekysibScVbegm_OVS0pL3OOQfUHaf-iiyjfM0UF5FPZqE9y693-voPz43XDBwbnAJErWEiER934V8kiJwiHfTQgFmOXM88A3H4eKf8eRo68RZHBhfKfdihB15kKG9e0C5Qyo43WktrE6UR-OoWRZdzk8hir5k7FYElv_JEFzOUCxqpMUW9PcQLBqfveuLsAswm2NPDfCdYS2nnSy4bASjvWxlWlG5uYHIVofD2yNeBuN1tCl3TLuZwzAumXoo5xrq8i2lTZh8sMrBq3oTLMOw
+    exp:
+      millisecond:
         access: 3600000
-        refresh: 1210000000
-
-admin:
-  id: test_id
-  password: test_password
+        refresh: 2592000000
+      second:
+        access: 3600
+        refresh: 2592000
