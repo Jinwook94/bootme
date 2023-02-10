@@ -1,11 +1,12 @@
 import { GoogleLogin } from '@react-oauth/google';
 import { useGoogleOneTapLogin } from '@react-oauth/google';
-import axios from 'axios';
+import { useLogin } from '../../../hooks/useLogin';
+import fetcher from '../../../api/fetcher';
 
 export const GoogleLoginButton = () => {
+  const { sendIdTokenToServer } = useLogin();
   return (
     <GoogleLogin
-      // @ts-ignore
       onSuccess={credentialResponse => {
         console.log(
           '< Google Login > \n\nclientId: ' +
@@ -31,6 +32,18 @@ export const GoogleLoginButton = () => {
 };
 
 export const GoogleLoginOneTap = () => {
+  const sendIdTokenToServer = (idToken: string | undefined) => {
+    fetcher
+      .post('/login', null, {
+        headers: {
+          Authorization: 'Bearer ' + idToken,
+        },
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   useGoogleOneTapLogin({
     onSuccess: credentialResponse => {
       console.log(
@@ -47,20 +60,4 @@ export const GoogleLoginOneTap = () => {
     },
   });
   return null;
-};
-
-const sendIdTokenToServer = (idToken: string | undefined) => {
-  axios
-    .post('http://localhost:8080/login', null, {
-      headers: {
-        Authorization: 'Bearer ' + idToken,
-      },
-    })
-    .then(response => {
-      console.log('==== Axios response ====');
-      console.log(response);
-    })
-    .catch(error => {
-      console.log(error);
-    });
 };
