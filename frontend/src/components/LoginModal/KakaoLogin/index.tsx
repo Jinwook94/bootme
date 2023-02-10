@@ -2,8 +2,10 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import qs from 'qs';
 import LoginButton from '../LoginButton';
+import { useLogin } from '../../../hooks/useLogin';
 
 const KakaoLogin = () => {
+  const { sendIdTokenToServer } = useLogin();
   const REST_API_KEY = process.env.REACT_APP_KAKAO_API_KEY;
   const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
   const STATE = process.env.REACT_KAKAO_STATE;
@@ -47,22 +49,6 @@ const KakaoLogin = () => {
     } catch (err) {
       console.log(err);
     }
-  };
-
-  const sendIdTokenToServer = (idToken: string) => {
-    axios
-      .post('http://localhost:8080/login', null, {
-        headers: {
-          Authorization: 'Bearer ' + idToken,
-        },
-      })
-      .then(response => {
-        console.log('==== Axios response ====');
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-      });
   };
 
   useEffect(() => {

@@ -1,9 +1,10 @@
 import { useEffect, useRef } from 'react';
 import LoginButton from '../LoginButton';
 import * as jose from 'jose';
-import axios from 'axios';
+import { useLogin } from '../../../hooks/useLogin';
 
 const NaverLogin = () => {
+  const { sendIdTokenToServer } = useLogin();
   const { naver } = window;
   const naverRef = useRef<HTMLDivElement>(null);
   const NAVER_CLIENT_ID = process.env.REACT_APP_NAVER_CLIENT_ID;
@@ -66,38 +67,9 @@ const NaverLogin = () => {
       .sign(secret);
   };
 
-  const sendIdTokenToServer = (idToken: string) => {
-    axios
-      .post('http://localhost:8080/login', null, {
-        headers: {
-          Authorization: 'Bearer ' + idToken,
-        },
-      })
-      .then(response => {
-        console.log('==== Axios response ====');
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-
   useEffect(() => {
     initializeNaverLogin();
-    isAccessToken();
   }, []);
-
-  const isAccessToken = () => {
-    window.location.href.includes('access_token') && getToken();
-  };
-
-  const getToken = () => {
-    const token = window.location.href.split('=')[1].split('&')[0];
-
-    // 이후 로컬 스토리지 또는 state 에 저장하여 사용하자
-    // localStorage.setItem('access_token', token)
-    // setGetToken(token)
-  };
 
   const handleNaverLogin = () => {
     (naverRef.current?.children[0] as HTMLButtonElement).click();

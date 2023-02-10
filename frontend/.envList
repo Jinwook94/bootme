@@ -1,5 +1,7 @@
 < 각 환경 변수 발급 방법 >
 
+REACT_APP_API_URL=http://localhost:8080
+
 REACT_APP_GOOGLE_CLIENT_ID
     1. https://console.developers.google.com/apis
     2. bootMe 프로젝트 선택
