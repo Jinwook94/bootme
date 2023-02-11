@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
+
 @RestController
 public class AuthController {
 
@@ -74,4 +76,10 @@ public class AuthController {
                 .build();
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logOut(HttpServletResponse response) {
+        response.addHeader(HttpHeaders.SET_COOKIE, "accessToken=; Max-Age=0;");
+        response.addHeader(HttpHeaders.SET_COOKIE, "refreshToken=; Max-Age=0;");
+        return ResponseEntity.noContent().build();
+    }
 }
