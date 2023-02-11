@@ -1,4 +1,17 @@
-import { HeaderLeft, HeaderRight, Wrapper, LogIn, SignIn, HeaderItem, Logo, Dot, ServiceName, Menu } from './style';
+import {
+  HeaderLeft,
+  HeaderRight,
+  Wrapper,
+  LogIn,
+  SignIn,
+  HeaderItem,
+  Logo,
+  ServiceName,
+  NotiButton,
+  MenuButton,
+  DotWrapper,
+  NickNameButton,
+} from './style';
 
 import GitHubIcon from '../../../assets/github.svg';
 import { Layout } from '../Layout';
@@ -6,23 +19,20 @@ import React, { useState } from 'react';
 import { useLogin } from '../../../hooks/useLogin';
 import LoginModal from '../../LoginModal';
 import { GoogleLoginOneTap } from '../../LoginModal/GoogleLogin';
+import { DotIcon, MenuIcon, MenuCloseIcon, NotificationIcon } from '../../../constants/icons';
 
 const Header = () => {
-  const { handleLoginModal, handleLogOut } = useLogin();
+  const { handleLoginModal } = useLogin();
   const isLogin: boolean = JSON.parse(localStorage.getItem('Login') || 'false');
-  const [displaySpan, setDisplaySpan] = useState(1);
+  const [isMenu, setIsMenu] = useState(false);
 
-  const handleClick = () => {
-    setDisplaySpan(displaySpan === 1 ? 2 : 1);
+  const handleMenuClick = () => {
+    setIsMenu(!isMenu);
   };
 
   return (
     <>
-      <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0"
-      />
-      <GoogleLoginOneTap />
+      {!isLogin && <GoogleLoginOneTap />}{' '}
       <Layout>
         <Wrapper>
           <HeaderLeft>
@@ -37,47 +47,20 @@ const Header = () => {
           <HeaderRight>
             {isLogin ? (
               <>
-                <div onClick={handleLogOut}>로그아웃</div>
+                <NickNameButton>{localStorage.getItem('HeaderNickName')}님</NickNameButton>
+                <NotiButton>
+                  <NotificationIcon />
+                </NotiButton>
+                <MenuButton onClick={handleMenuClick}>{isMenu ? <MenuCloseIcon /> : <MenuIcon />}</MenuButton>
               </>
             ) : (
               <>
                 <LogIn onClick={handleLoginModal}>로그인</LogIn>
-                <Dot
-                  width="4"
-                  height="4"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="G0E1OVA5O87wEsrH564S"
-                  style={{ margin: '0 0.5rem' }}
-                >
-                  <circle r="2" transform="matrix(1 0 0 -1 2 2)" fill="#C4C4C4"></circle>
-                </Dot>
+                <DotWrapper>
+                  <DotIcon />
+                </DotWrapper>
                 <SignIn onClick={handleLoginModal}>회원가입</SignIn>
-                <Menu onClick={handleClick}>
-                  {displaySpan === 1 ? (
-                    <span
-                      className="material-symbols-outlined"
-                      style={{
-                        fontSize: '1.5rem',
-                        verticalAlign: 'sub',
-                        marginLeft: '1rem',
-                      }}
-                    >
-                      menu
-                    </span>
-                  ) : (
-                    <span
-                      className="material-symbols-outlined"
-                      style={{
-                        fontSize: '1.5rem',
-                        verticalAlign: 'sub',
-                        marginLeft: '1rem',
-                      }}
-                    >
-                      close
-                    </span>
-                  )}
-                </Menu>
+                <MenuButton onClick={handleMenuClick}>{isMenu ? <MenuCloseIcon /> : <MenuIcon />}</MenuButton>
               </>
             )}
           </HeaderRight>

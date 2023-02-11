@@ -54,9 +54,21 @@ export const HeaderRight = styled.div`
   font-size: 1rem;
   font-weight: 400;
   justify-content: space-between;
+`;
+
+export const NotiButton = styled.button`
+  background: none;
+`;
+
+export const NickNameButton = styled.button`
+  color: rgb(0, 132, 255);
+  font-size: 14px;
+  font-weight: 500;
+  background: none;
+  margin-right: 7px;
 
   @media (max-width: 768px) {
-    font-size: 14px;
+    display: none;
   }
 `;
 
@@ -65,13 +77,13 @@ export const LogIn = styled.a`
   text-decoration: none;
 `;
 
-export const Dot = styled.svg`
+export const DotWrapper = styled.div`
   @media (max-width: 1200px) {
     display: none;
   }
 `;
 
-export const SignIn = styled.div`
+export const SignIn = styled.a`
   color: #6b6b6b;
   text-decoration: none;
   @media (max-width: 1200px) {
@@ -79,7 +91,7 @@ export const SignIn = styled.div`
   }
 `;
 
-export const Menu = styled.div`
+export const MenuButton = styled.div`
   display: none;
   @media (max-width: 768px) {
     display: inline-block;

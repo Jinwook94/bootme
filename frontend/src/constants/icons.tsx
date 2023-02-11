@@ -2,7 +2,6 @@ import React from 'react';
 
 // https://fonts.google.com/icons
 
-// eslint-disable-next-line react/prop-types
 export const CloseIcon = () => {
   return (
     <>
@@ -135,4 +134,148 @@ c160 -19 558 -19 723 2 537 66 1015 250 1400 539 115 86 300 263 384 367 418
       />
     </g>
   </svg>
+);
+
+export const NotificationIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    strokeWidth="1.5"
+    stroke="rgb(156 163 175)"
+    aria-hidden="true"
+    height="1.5rem"
+    width="1.5rem"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
+    ></path>
+  </svg>
+);
+
+export const DotIcon = () => (
+  <svg
+    width="4"
+    height="4"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className="G0E1OVA5O87wEsrH564S"
+    style={{ margin: '0 0.5rem' }}
+  >
+    <circle r="2" transform="matrix(1 0 0 -1 2 2)" fill="#C4C4C4"></circle>
+  </svg>
+);
+
+export const MenuIcon = () => (
+  <div
+    style={{
+      cursor: 'pointer',
+      height: '48px',
+      position: 'relative',
+      transition: 'all 0.4s cubic-bezier(0, 0, 0, 1) 0s',
+      userSelect: 'none',
+      width: '48px',
+      outline: 'none',
+      transform: 'none',
+      boxSizing: 'border-box',
+    }}
+  >
+    <div
+      style={{
+        background: 'rgb(146, 153, 184)',
+        height: '2px',
+        left: '12px',
+        position: 'absolute',
+        width: '25px',
+        top: '15px',
+        transition: 'all 0.4s cubic-bezier(0, 0, 0, 1) 0s',
+        transform: 'none',
+        boxSizing: 'border-box',
+      }}
+    ></div>
+    <div
+      style={{
+        background: 'rgb(146, 153, 184)',
+        height: '2px',
+        left: '12px',
+        position: 'absolute',
+        width: '25px',
+        top: '23px',
+        transition: 'all 0.4s cubic-bezier(0, 0, 0, 1) 0s',
+        transform: 'none',
+        boxSizing: 'border-box',
+      }}
+    ></div>
+    <div
+      style={{
+        background: 'rgb(146, 153, 184)',
+        height: '2px',
+        left: '12px',
+        position: 'absolute',
+        width: '25px',
+        top: '31px',
+        transition: 'all 0.4s cubic-bezier(0, 0, 0, 1) 0s',
+        transform: 'none',
+        boxSizing: 'border-box',
+      }}
+    ></div>
+  </div>
+);
+
+export const MenuCloseIcon = () => (
+  <div
+    style={{
+      cursor: 'pointer',
+      height: '48px',
+      position: 'relative',
+      transition: 'all 0.4s cubic-bezier(0, 0, 0, 1) 0s',
+      userSelect: 'none',
+      width: '48px',
+      outline: 'none',
+      transform: 'rotate(-90deg)',
+      boxSizing: 'border-box',
+    }}
+  >
+    <div
+      style={{
+        background: 'rgb(146, 153, 184)',
+        height: '2px',
+        left: '12px',
+        position: 'absolute',
+        width: '25px',
+        top: '15px',
+        transition: 'all 0.4s cubic-bezier(0, 0, 0, 1) 0s',
+        transform: 'rotate(-45deg) translate(-5.67px, 5.67px)',
+        boxSizing: 'border-box',
+      }}
+    ></div>
+    <div
+      style={{
+        background: 'rgb(146, 153, 184)',
+        height: '2px',
+        left: '12px',
+        position: 'absolute',
+        width: '25px',
+        top: '23px',
+        transition: 'all 0.4s cubic-bezier(0, 0, 0, 1) 0s',
+        transform: 'scaleX(0)',
+        boxSizing: 'border-box',
+      }}
+    ></div>
+    <div
+      style={{
+        background: 'rgb(146, 153, 184)',
+        height: '2px',
+        left: '12px',
+        position: 'absolute',
+        width: '25px',
+        top: '31px',
+        transition: 'all 0.4s cubic-bezier(0, 0, 0, 1) 0s',
+        transform: 'rotate(45deg) translate(-5.67px, -5.67px)',
+        boxSizing: 'border-box',
+      }}
+    ></div>
+  </div>
 );
