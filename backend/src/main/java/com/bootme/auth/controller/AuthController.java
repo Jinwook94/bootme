@@ -37,7 +37,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@RequestHeader("Authorization") String authHeader) throws Exception {
+    public ResponseEntity<String> login(@RequestHeader("Authorization") String authHeader) throws Exception {
         String idToken = authService.getIdToken(authHeader);
         JwtVo jwtVo = authService.copyTokenToVo(idToken);
         JwtVo.Body jwtBody = jwtVo.getBody();
@@ -45,7 +45,6 @@ public class AuthController {
         // todo: 검증 로직 추가
         authService.verifyToken(jwtVo);
 
-        // todo: 회원 정보 업데이트한지 30일 이상 지났으면 다시 업데이트 하는 로직 추가
         boolean isRegistered = memberService.isMemberRegistered(jwtBody.getEmail());
         if (isRegistered) {
             authService.updateLastLogin(jwtBody);
@@ -59,10 +58,12 @@ public class AuthController {
         ResponseCookie accessTokenCookie = getCookie("accessToken", accessToken, accessTokenExpireTimeInSeconds);
         ResponseCookie refreshTokenCookie = getCookie("refreshToken", refreshToken, refreshTokenExpireTimeInSeconds);
 
+        String nickName = authService.getNickNameForHeader(jwtBody);
+
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, accessTokenCookie.toString())
                 .header(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString())
-                .build();
+                .body(nickName);
     }
 
     private ResponseCookie getCookie(String tokenName, String token, long expireTime) {
