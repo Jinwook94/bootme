@@ -8,14 +8,13 @@ import LoginModal from '../../LoginModal';
 import { GoogleLoginOneTap } from '../../LoginModal/GoogleLogin';
 
 const Header = () => {
+  const { handleLoginModal, handleLogOut } = useLogin();
   const isLogin: boolean = JSON.parse(localStorage.getItem('Login') || 'false');
-  const username = '로그인 됨';
-
   const [displaySpan, setDisplaySpan] = useState(1);
+
   const handleClick = () => {
     setDisplaySpan(displaySpan === 1 ? 2 : 1);
   };
-  const { handleLoginModal } = useLogin();
 
   return (
     <>
@@ -36,8 +35,10 @@ const Header = () => {
             <HeaderItem> 커뮤니티 </HeaderItem>
           </HeaderLeft>
           <HeaderRight>
-            {isLogin && username ? (
-              <>{username}</>
+            {isLogin ? (
+              <>
+                <div onClick={handleLogOut}>로그아웃</div>
+              </>
             ) : (
               <>
                 <LogIn onClick={handleLoginModal}>로그인</LogIn>
