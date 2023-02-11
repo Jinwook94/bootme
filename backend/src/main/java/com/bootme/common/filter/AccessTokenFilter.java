@@ -15,12 +15,18 @@ public class AccessTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        if (request.getHeader("Cookie") != null && request.getHeader("Cookie").contains("accessToken")) {
-            response.addHeader("Login", "true");
-        } else {
-            response.addHeader("Login", "false");
+        String cookie = request.getHeader("Cookie");
+        String login = "false";
+        if (cookie != null) {
+            boolean isAccessToken = cookie.contains("accessToken");
+            boolean inValidToken = cookie.contains("accessToken=;");
+
+            if (isAccessToken && !inValidToken) {
+                login = "true";
+            }
         }
 
+        response.addHeader("Login", login);
         response.addHeader("Access-Control-Expose-Headers", "Login");
 
         filterChain.doFilter(request, response);
