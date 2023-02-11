@@ -37,7 +37,7 @@ const Header = () => {
           <HeaderRight>
             {isLogin ? (
               <>
-                <div onClick={handleLogOut}>로그아웃</div>
+                <div>{localStorage.getItem('HeaderNickName')}님</div>
               </>
             ) : (
               <>
