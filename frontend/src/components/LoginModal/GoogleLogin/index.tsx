@@ -1,7 +1,6 @@
 import { GoogleLogin } from '@react-oauth/google';
 import { useGoogleOneTapLogin } from '@react-oauth/google';
 import { useLogin } from '../../../hooks/useLogin';
-import fetcher from '../../../api/fetcher';
 
 export const GoogleLoginButton = () => {
   const { sendIdTokenToServer } = useLogin();
@@ -32,17 +31,7 @@ export const GoogleLoginButton = () => {
 };
 
 export const GoogleLoginOneTap = () => {
-  const sendIdTokenToServer = (idToken: string | undefined) => {
-    fetcher
-      .post('/login', null, {
-        headers: {
-          Authorization: 'Bearer ' + idToken,
-        },
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
+  const { sendIdTokenToServer } = useLogin();
 
   useGoogleOneTapLogin({
     onSuccess: credentialResponse => {
