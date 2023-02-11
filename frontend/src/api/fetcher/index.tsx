@@ -12,7 +12,6 @@ axios.defaults.withCredentials = true;
  * */
 fetcher.interceptors.response.use(response => {
   const loginHeaderValue = response.headers['login'];
-  console.log(loginHeaderValue);
   if (loginHeaderValue) {
     localStorage.setItem('Login', loginHeaderValue);
   }
