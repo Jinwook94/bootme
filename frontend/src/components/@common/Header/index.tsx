@@ -8,8 +8,8 @@ import LoginModal from '../../LoginModal';
 import { GoogleLoginOneTap } from '../../LoginModal/GoogleLogin';
 
 const Header = () => {
-  const isLogin = false;
-  const username = false;
+  const isLogin: boolean = JSON.parse(localStorage.getItem('Login') || 'false');
+  const username = '로그인 됨';
 
   const [displaySpan, setDisplaySpan] = useState(1);
   const handleClick = () => {
@@ -37,7 +37,7 @@ const Header = () => {
           </HeaderLeft>
           <HeaderRight>
             {isLogin && username ? (
-              <>로그인됨</>
+              <>{username}</>
             ) : (
               <>
                 <LogIn onClick={handleLoginModal}>로그인</LogIn>
@@ -51,7 +51,7 @@ const Header = () => {
                 >
                   <circle r="2" transform="matrix(1 0 0 -1 2 2)" fill="#C4C4C4"></circle>
                 </Dot>
-                <SignIn>회원가입</SignIn>
+                <SignIn onClick={handleLoginModal}>회원가입</SignIn>
                 <Menu onClick={handleClick}>
                   {displaySpan === 1 ? (
                     <span
