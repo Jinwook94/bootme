@@ -5,10 +5,12 @@ const LoginContext = createContext<LoginContextProps>({
   isLoginModal: false,
   handleLoginModal: () => {},
   sendIdTokenToServer: () => {},
+  handleLogOut: () => {},
 });
 
 export const LoginProvider = ({ children }: LoginProviderProps) => {
   const [isLoginModal, setIsLoginModal] = useState(false);
+
   const handleLoginModal = () => {
     isLoginModal ? setIsLoginModal(false) : setIsLoginModal(true);
   };
@@ -25,12 +27,24 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
       });
   };
 
+  const handleLogOut = () => {
+    fetcher
+      .post('/logout', null, {})
+      .then(() => {
+        location.reload();
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   return (
     <LoginContext.Provider
       value={{
         isLoginModal,
         handleLoginModal,
         sendIdTokenToServer,
+        handleLogOut,
       }}
     >
       {children}
@@ -44,6 +58,7 @@ interface LoginContextProps {
   isLoginModal: boolean;
   handleLoginModal: () => void;
   sendIdTokenToServer: (idToken: string | undefined) => void;
+  handleLogOut: () => void;
 }
 
 interface LoginProviderProps {
