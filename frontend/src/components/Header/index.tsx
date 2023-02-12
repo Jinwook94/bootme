@@ -9,23 +9,32 @@ import {
   ServiceName,
   NotiButton,
   DotWrapper,
-  NickNameButton,
   MenuButton,
 } from './style';
 
 import GitHubIcon from '../../assets/github.svg';
 import { Layout } from '../@common/Layout';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLogin } from '../../hooks/useLogin';
 import LoginModal from '../LoginModal';
 import { GoogleLoginOneTap } from '../LoginModal/GoogleLogin';
 import { DotIcon, NotificationIcon } from '../../constants/icons';
 import Hamburger from 'hamburger-react';
+import UserDropDown from './UserDropDown';
 
 const Header = () => {
   const { handleLoginModal } = useLogin();
-  const isLogin: boolean = JSON.parse(localStorage.getItem('Login') || 'false');
+  const [isLogin, setIsLogin] = useState(JSON.parse(localStorage.getItem('Login') || 'false'));
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [nickName, setNickName] = useState(localStorage.getItem('HeaderNickName'));
+
+  useEffect(() => {
+    setIsLogin(JSON.parse(localStorage.getItem('Login') || 'false'));
+  }, [localStorage.getItem('Login')]);
+
+  useEffect(() => {
+    setNickName(localStorage.getItem('HeaderNickName'));
+  }, [localStorage.getItem('HeaderNickName')]);
 
   return (
     <>
@@ -44,7 +53,7 @@ const Header = () => {
           <HeaderRight>
             {isLogin ? (
               <>
-                <NickNameButton>{localStorage.getItem('HeaderNickName')}님</NickNameButton>
+                <UserDropDown nickName={nickName} />
                 <NotiButton>
                   <NotificationIcon />
                 </NotiButton>

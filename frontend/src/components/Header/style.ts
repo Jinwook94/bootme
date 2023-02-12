@@ -67,18 +67,6 @@ export const MenuButton = styled.div`
   }
 `;
 
-export const NickNameButton = styled.button`
-  color: rgb(0, 132, 255);
-  font-size: 14px;
-  font-weight: 500;
-  background: none;
-  margin-right: 7px;
-
-  @media (max-width: 768px) {
-    display: none;
-  }
-`;
-
 export const LogIn = styled.a`
   color: #6b6b6b;
   text-decoration: none;
