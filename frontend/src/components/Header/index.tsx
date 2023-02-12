@@ -13,13 +13,13 @@ import {
   NickNameButton,
 } from './style';
 
-import GitHubIcon from '../../../assets/github.svg';
-import { Layout } from '../Layout';
+import GitHubIcon from '../../assets/github.svg';
+import { Layout } from '../@common/Layout';
 import React, { useState } from 'react';
-import { useLogin } from '../../../hooks/useLogin';
-import LoginModal from '../../LoginModal';
-import { GoogleLoginOneTap } from '../../LoginModal/GoogleLogin';
-import { DotIcon, MenuIcon, MenuCloseIcon, NotificationIcon } from '../../../constants/icons';
+import { useLogin } from '../../hooks/useLogin';
+import LoginModal from '../LoginModal';
+import { GoogleLoginOneTap } from '../LoginModal/GoogleLogin';
+import { DotIcon, MenuIcon, MenuCloseIcon, NotificationIcon } from '../../constants/icons';
 
 const Header = () => {
   const { handleLoginModal } = useLogin();
