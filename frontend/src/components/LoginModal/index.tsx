@@ -32,7 +32,7 @@ const LoginModal = () => {
 
   return (
     <ReactModal
-      className={'LoginModal'}
+      id={'LoginModal'}
       isOpen={isLoginModal}
       onRequestClose={handleLoginModal}
       shouldFocusAfterRender

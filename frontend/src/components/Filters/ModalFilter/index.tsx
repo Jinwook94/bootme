@@ -13,7 +13,7 @@ const ModalFilter = () => {
 
   return (
     <ReactModal
-      className={'FilterModal'}
+      id={'FilterModal'}
       isOpen={isModal}
       onRequestClose={handleModal}
       shouldFocusAfterRender
