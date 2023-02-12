@@ -8,9 +8,9 @@ import {
   Logo,
   ServiceName,
   NotiButton,
-  MenuButton,
   DotWrapper,
   NickNameButton,
+  MenuButton,
 } from './style';
 
 import GitHubIcon from '../../assets/github.svg';
@@ -19,16 +19,13 @@ import React, { useState } from 'react';
 import { useLogin } from '../../hooks/useLogin';
 import LoginModal from '../LoginModal';
 import { GoogleLoginOneTap } from '../LoginModal/GoogleLogin';
-import { DotIcon, MenuIcon, MenuCloseIcon, NotificationIcon } from '../../constants/icons';
+import { DotIcon, NotificationIcon } from '../../constants/icons';
+import Hamburger from 'hamburger-react';
 
 const Header = () => {
   const { handleLoginModal } = useLogin();
   const isLogin: boolean = JSON.parse(localStorage.getItem('Login') || 'false');
-  const [isMenu, setIsMenu] = useState(false);
-
-  const handleMenuClick = () => {
-    setIsMenu(!isMenu);
-  };
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <>
@@ -51,7 +48,16 @@ const Header = () => {
                 <NotiButton>
                   <NotificationIcon />
                 </NotiButton>
-                <MenuButton onClick={handleMenuClick}>{isMenu ? <MenuCloseIcon /> : <MenuIcon />}</MenuButton>
+                <MenuButton>
+                  <Hamburger
+                    toggled={isMenuOpen}
+                    toggle={setIsMenuOpen}
+                    size={20}
+                    direction="left"
+                    color={'#9CA3AF'}
+                    rounded
+                  />
+                </MenuButton>
               </>
             ) : (
               <>
@@ -60,7 +66,16 @@ const Header = () => {
                   <DotIcon />
                 </DotWrapper>
                 <SignIn onClick={handleLoginModal}>회원가입</SignIn>
-                <MenuButton onClick={handleMenuClick}>{isMenu ? <MenuCloseIcon /> : <MenuIcon />}</MenuButton>
+                <MenuButton>
+                  <Hamburger
+                    toggled={isMenuOpen}
+                    toggle={setIsMenuOpen}
+                    size={20}
+                    direction="left"
+                    color={'#9CA3AF'}
+                    rounded
+                  />
+                </MenuButton>
               </>
             )}
           </HeaderRight>

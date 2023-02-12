@@ -60,6 +60,13 @@ export const NotiButton = styled.button`
   background: none;
 `;
 
+export const MenuButton = styled.div`
+  display: none;
+  @media (max-width: 768px) {
+    display: inline-block;
+  }
+`;
+
 export const NickNameButton = styled.button`
   color: rgb(0, 132, 255);
   font-size: 14px;
@@ -88,12 +95,5 @@ export const SignIn = styled.a`
   text-decoration: none;
   @media (max-width: 1200px) {
     display: none;
-  }
-`;
-
-export const MenuButton = styled.div`
-  display: none;
-  @media (max-width: 768px) {
-    display: inline-block;
   }
 `;
