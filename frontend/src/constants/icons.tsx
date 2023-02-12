@@ -168,114 +168,61 @@ export const DotIcon = () => (
   </svg>
 );
 
-export const MenuIcon = () => (
-  <div
-    style={{
-      cursor: 'pointer',
-      height: '48px',
-      position: 'relative',
-      transition: 'all 0.4s cubic-bezier(0, 0, 0, 1) 0s',
-      userSelect: 'none',
-      width: '48px',
-      outline: 'none',
-      transform: 'none',
-      boxSizing: 'border-box',
-    }}
+export const ProfileIcon = () => (
+  <svg
+    width="100%"
+    height="100%"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="feather feather-user "
   >
-    <div
-      style={{
-        background: 'rgb(146, 153, 184)',
-        height: '2px',
-        left: '12px',
-        position: 'absolute',
-        width: '25px',
-        top: '15px',
-        transition: 'all 0.4s cubic-bezier(0, 0, 0, 1) 0s',
-        transform: 'none',
-        boxSizing: 'border-box',
-      }}
-    ></div>
-    <div
-      style={{
-        background: 'rgb(146, 153, 184)',
-        height: '2px',
-        left: '12px',
-        position: 'absolute',
-        width: '25px',
-        top: '23px',
-        transition: 'all 0.4s cubic-bezier(0, 0, 0, 1) 0s',
-        transform: 'none',
-        boxSizing: 'border-box',
-      }}
-    ></div>
-    <div
-      style={{
-        background: 'rgb(146, 153, 184)',
-        height: '2px',
-        left: '12px',
-        position: 'absolute',
-        width: '25px',
-        top: '31px',
-        transition: 'all 0.4s cubic-bezier(0, 0, 0, 1) 0s',
-        transform: 'none',
-        boxSizing: 'border-box',
-      }}
-    ></div>
-  </div>
+    <g>
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+      <circle cx="12" cy="7" r="4"></circle>
+    </g>
+  </svg>
 );
 
-export const MenuCloseIcon = () => (
-  <div
-    style={{
-      cursor: 'pointer',
-      height: '48px',
-      position: 'relative',
-      transition: 'all 0.4s cubic-bezier(0, 0, 0, 1) 0s',
-      userSelect: 'none',
-      width: '48px',
-      outline: 'none',
-      transform: 'rotate(-90deg)',
-      boxSizing: 'border-box',
-    }}
+export const BookmarkIcon = () => (
+  <svg
+    width="100%"
+    height="100%"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    strokeWidth="1.5"
+    stroke="currentColor"
+    aria-hidden="true"
+    className="h-5 w-5 text-gray-400 hover:cursor-pointer hover:text-blue-500 dark:hover:text-blue-200"
   >
-    <div
-      style={{
-        background: 'rgb(146, 153, 184)',
-        height: '2px',
-        left: '12px',
-        position: 'absolute',
-        width: '25px',
-        top: '15px',
-        transition: 'all 0.4s cubic-bezier(0, 0, 0, 1) 0s',
-        transform: 'rotate(-45deg) translate(-5.67px, 5.67px)',
-        boxSizing: 'border-box',
-      }}
-    ></div>
-    <div
-      style={{
-        background: 'rgb(146, 153, 184)',
-        height: '2px',
-        left: '12px',
-        position: 'absolute',
-        width: '25px',
-        top: '23px',
-        transition: 'all 0.4s cubic-bezier(0, 0, 0, 1) 0s',
-        transform: 'scaleX(0)',
-        boxSizing: 'border-box',
-      }}
-    ></div>
-    <div
-      style={{
-        background: 'rgb(146, 153, 184)',
-        height: '2px',
-        left: '12px',
-        position: 'absolute',
-        width: '25px',
-        top: '31px',
-        transition: 'all 0.4s cubic-bezier(0, 0, 0, 1) 0s',
-        transform: 'rotate(45deg) translate(-5.67px, -5.67px)',
-        boxSizing: 'border-box',
-      }}
-    ></div>
-  </div>
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
+    ></path>
+  </svg>
+);
+
+export const LogoutIcon = () => (
+  <svg
+    width="100%"
+    height="100%"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="feather feather-log-out "
+  >
+    <g>
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+      <polyline points="16 17 21 12 16 7"></polyline>
+      <line x1="21" y1="12" x2="9" y2="12"></line>
+    </g>
+  </svg>
 );
