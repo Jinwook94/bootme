@@ -1,5 +1,6 @@
 package com.bootme.course.domain;
 
+import com.bootme.common.domain.BaseEntity;
 import com.bootme.course.dto.CourseRequest;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -15,7 +16,7 @@ import java.util.Map;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Course {
+public class Course extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
