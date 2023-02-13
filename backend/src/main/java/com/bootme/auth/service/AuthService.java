@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.Objects;
 
@@ -48,14 +47,6 @@ public class AuthService {
         return OAuthProvider;
     }
 
-    // todo: 라스트 세션으로 수정해야할듯
-    public void updateLastLogin(JwtVo.Body jwtBody) throws Exception {
-        int rowsAffected = memberRepository.updateLastLoginTime(jwtBody.getEmail(), LocalDateTime.now());
-        // todo: 예외처리
-        if (rowsAffected != 1){
-            throw new Exception();
-        }
-    }
 
     // todo: 세션 카운트로 수정해야할듯
     public void incrementVisitsCount(JwtVo.Body jwtBody) throws Exception {

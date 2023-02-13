@@ -47,7 +47,6 @@ public class AuthController {
 
         boolean isRegistered = memberService.isMemberRegistered(jwtBody.getEmail());
         if (isRegistered) {
-            authService.updateLastLogin(jwtBody);
             authService.incrementVisitsCount(jwtBody);
         } else {
             authService.registerMember(jwtBody);
