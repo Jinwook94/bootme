@@ -31,7 +31,7 @@ public class Company extends BaseEntity {
 
     private String logoUrl;
 
-    @OneToMany(mappedBy = "company")
+    @OneToMany(mappedBy = "company", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<Course> courses = new ArrayList<>();
 
     @Builder

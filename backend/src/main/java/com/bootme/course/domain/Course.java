@@ -31,7 +31,7 @@ public class Course extends BaseEntity {
 
     private String url;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "company_id")
     private Company company;
 
