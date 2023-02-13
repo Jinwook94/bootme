@@ -22,7 +22,13 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
           Authorization: 'Bearer ' + idToken,
         },
       })
-      .then(r => localStorage.setItem('HeaderNickName', r.data))
+      .then(r => {
+        const data = r.data.split(', ');
+        data.forEach((item: string) => {
+          const [key, value] = item.split('=');
+          localStorage.setItem(key, value);
+        });
+      })
       .catch(error => {
         console.log(error);
       });
@@ -32,7 +38,8 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
     fetcher
       .post('/logout', null, {})
       .then(() => {
-        localStorage.removeItem('HeaderNickName');
+        localStorage.removeItem('NickName');
+        localStorage.removeItem('ProfileImage');
         location.reload();
       })
       .catch(error => {

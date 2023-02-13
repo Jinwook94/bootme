@@ -27,15 +27,20 @@ const Header = () => {
   const { handleLoginModal } = useLogin();
   const [isLogin, setIsLogin] = useState(JSON.parse(localStorage.getItem('Login') || 'false'));
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [nickName, setNickName] = useState(localStorage.getItem('HeaderNickName'));
+  const [profileImage, setProfileImage] = useState(localStorage.getItem('ProfileImage'));
+  const [nickName, setNickName] = useState(localStorage.getItem('NickName'));
 
   useEffect(() => {
     setIsLogin(JSON.parse(localStorage.getItem('Login') || 'false'));
   }, [localStorage.getItem('Login')]);
 
   useEffect(() => {
-    setNickName(localStorage.getItem('HeaderNickName'));
-  }, [localStorage.getItem('HeaderNickName')]);
+    setNickName(localStorage.getItem('NickName'));
+  }, [localStorage.getItem('NickName')]);
+
+  useEffect(() => {
+    setProfileImage(localStorage.getItem('ProfileImage'));
+  }, [localStorage.getItem('ProfileImage')]);
 
   return (
     <>
@@ -54,7 +59,7 @@ const Header = () => {
           <HeaderRight>
             {isLogin ? (
               <>
-                <UserDropDown nickName={nickName} />
+                <UserDropDown profileImage={profileImage} nickName={nickName} />
                 <NotiButton>
                   <NotificationIcon />
                 </NotiButton>
@@ -92,7 +97,12 @@ const Header = () => {
         </Wrapper>
       </Layout>
       <LoginModal />
-      <MenuModal isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} nickName={nickName} />
+      <MenuModal
+        isMenuOpen={isMenuOpen}
+        setIsMenuOpen={setIsMenuOpen}
+        profileImage={profileImage}
+        nickName={nickName}
+      />
     </>
   );
 };

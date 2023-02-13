@@ -21,7 +21,7 @@ import {
 } from './style';
 import { CloseIconBlack, CloseIconGray } from '../../../constants/icons';
 import { useLogin } from '../../../hooks/useLogin';
-const MenuModal = ({ isMenuOpen, setIsMenuOpen, nickName }: MenuModalProps) => {
+const MenuModal = ({ isMenuOpen, setIsMenuOpen, nickName, profileImage }: MenuModalProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isLogin, setIsLogin] = useState(JSON.parse(localStorage.getItem('Login') || 'false'));
   const { handleLogOut, handleLoginModal } = useLogin();
@@ -93,7 +93,7 @@ const MenuModal = ({ isMenuOpen, setIsMenuOpen, nickName }: MenuModalProps) => {
               <img
                 width="42"
                 height="42"
-                src="https://ssl.pstatic.net/static/pwe/address/img_profile.png"
+                src={profileImage ?? ''}
                 alt="profile"
                 style={{ borderRadius: '8px', objectFit: 'cover', marginRight: '15px' }}
               />
@@ -129,5 +129,6 @@ export default MenuModal;
 interface MenuModalProps {
   isMenuOpen: boolean;
   setIsMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  profileImage: string | null;
   nickName: string | null;
 }

@@ -17,7 +17,7 @@ import {
 import { BookmarkIcon, LogoutIcon, ProfileIcon } from '../../../constants/icons';
 import { useLogin } from '../../../hooks/useLogin';
 
-const UserDropDown = ({ nickName }: UserDropDownProps) => {
+const UserDropDown = ({ nickName, profileImage }: UserDropDownProps) => {
   const content = () => {
     const { handleLogOut } = useLogin();
     return (
@@ -26,7 +26,7 @@ const UserDropDown = ({ nickName }: UserDropDownProps) => {
           <img
             width="42"
             height="42"
-            src="https://ssl.pstatic.net/static/pwe/address/img_profile.png"
+            src={profileImage ?? ''}
             alt="profile"
             style={{ borderRadius: '8px', objectFit: 'cover', marginRight: '15px' }}
           />
@@ -75,5 +75,6 @@ const UserDropDown = ({ nickName }: UserDropDownProps) => {
 export default UserDropDown;
 
 interface UserDropDownProps {
+  profileImage: string | null;
   nickName: string | null;
 }
