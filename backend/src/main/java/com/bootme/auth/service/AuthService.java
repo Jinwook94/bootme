@@ -65,17 +65,17 @@ public class AuthService {
         memberRepository.save(member);
     }
 
-    // 로그인 후 웹사이트 헤더에 렌더링할 멤버의 닉네임 설정
-    public String getNickNameForHeader(JwtVo.Body jwtBody){
+    public String getUserInfo(JwtVo.Body jwtBody) {
         String nickname = jwtBody.getNickname();
         String name = jwtBody.getName();
         String idInEmail = jwtBody.getEmail().split("@")[0];
 
         if (nickname != null) {
-            return nickname;
+            return "NickName=" + nickname + ", ProfileImage=" + jwtBody.getPicture();
         } else if (name != null) {
-            return name;
-        } else return Objects.requireNonNullElse(idInEmail, "");
+            return "NickName=" + name + ", ProfileImage=" + jwtBody.getPicture();
+        } else
+            return "NickName=" + idInEmail + ", ProfileImage=" + jwtBody.getPicture();
     }
 
 }

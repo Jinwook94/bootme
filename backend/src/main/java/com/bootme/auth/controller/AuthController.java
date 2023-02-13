@@ -57,12 +57,12 @@ public class AuthController {
         ResponseCookie accessTokenCookie = getCookie("accessToken", accessToken, accessTokenExpireTimeInSeconds);
         ResponseCookie refreshTokenCookie = getCookie("refreshToken", refreshToken, refreshTokenExpireTimeInSeconds);
 
-        String nickName = authService.getNickNameForHeader(jwtBody);
+        String userInfo = authService.getUserInfo(jwtBody);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, accessTokenCookie.toString())
                 .header(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString())
-                .body(nickName);
+                .body(userInfo);
     }
 
     private ResponseCookie getCookie(String tokenName, String token, long expireTime) {
