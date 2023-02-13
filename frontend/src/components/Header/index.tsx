@@ -21,6 +21,7 @@ import { GoogleLoginOneTap } from '../LoginModal/GoogleLogin';
 import { DotIcon, NotificationIcon } from '../../constants/icons';
 import Hamburger from 'hamburger-react';
 import UserDropDown from './UserDropDown';
+import MenuModal from './MenuModal';
 
 const Header = () => {
   const { handleLoginModal } = useLogin();
@@ -57,7 +58,7 @@ const Header = () => {
                 <NotiButton>
                   <NotificationIcon />
                 </NotiButton>
-                <MenuButton>
+                <MenuButton onClick={() => setIsMenuOpen(!isMenuOpen)}>
                   <Hamburger
                     toggled={isMenuOpen}
                     toggle={setIsMenuOpen}
@@ -75,7 +76,7 @@ const Header = () => {
                   <DotIcon />
                 </DotWrapper>
                 <SignIn onClick={handleLoginModal}>회원가입</SignIn>
-                <MenuButton>
+                <MenuButton onClick={() => setIsMenuOpen(!isMenuOpen)}>
                   <Hamburger
                     toggled={isMenuOpen}
                     toggle={setIsMenuOpen}
@@ -91,6 +92,7 @@ const Header = () => {
         </Wrapper>
       </Layout>
       <LoginModal />
+      <MenuModal isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} nickName={nickName} />
     </>
   );
 };

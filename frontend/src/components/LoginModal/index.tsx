@@ -27,8 +27,6 @@ const LoginModal = () => {
     event.stopPropagation();
   };
   const [isHovered, setIsHovered] = useState(false);
-  const handleMouseEnter = () => setIsHovered(true);
-  const handleMouseLeave = () => setIsHovered(false);
 
   return (
     <ReactModal
@@ -79,7 +77,11 @@ const LoginModal = () => {
               </Wrapper5>
             </Wrapper4>
             <CloseButtonWrapper>
-              <CloseButton onClick={handleLoginModal} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+              <CloseButton
+                onClick={handleLoginModal}
+                onMouseOver={() => setIsHovered(true)}
+                onMouseOut={() => setIsHovered(false)}
+              >
                 {isHovered ? <CloseIconBlack /> : <CloseIconGray />}
               </CloseButton>
             </CloseButtonWrapper>
