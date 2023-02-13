@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
@@ -18,13 +17,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     @Modifying
     @Transactional
-    @Query("UPDATE Member m SET m.lastLoginAt = :lastLoginAt WHERE m.email = :email")
-    int updateLastLoginTime(@Param("email") String email, @Param("lastLoginAt") LocalDateTime lastLoginAt);
-
-    @Modifying
-    @Transactional
-    @Query("UPDATE Member m SET m.visitsCount = m.visitsCount + 1 WHERE m.email = :email")
+    @Query("UPDATE Member m SET m.visitsCount = m.visitsCount + 1, m.modifiedAt = CURRENT_TIMESTAMP WHERE m.email = :email")
     int incrementVisits(@Param("email") String email);
 
 }
-
