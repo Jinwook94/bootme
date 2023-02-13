@@ -5,6 +5,9 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -12,6 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Member {
 
     @Id
@@ -47,14 +51,16 @@ public class Member {
 
     private Long visitsCount;
 
+    @CreatedDate
     private LocalDateTime createdAt;
 
-    private LocalDateTime lastLoginAt;
+    @LastModifiedDate
+    private LocalDateTime modifiedAt;
 
     @Builder
     public Member(String email, String password, String OAuthProvider, String name, String profileImage,
                   String birthday, String birthYear, String ageRange, String gender, String nickname,
-                  String phoneNumber, RoleType roleType, Long visitsCount, LocalDateTime createdAt, LocalDateTime lastLoginAt) {
+                  String phoneNumber, RoleType roleType, Long visitsCount) {
         this.email = email;
         this.password = password;
         this.OAuthProvider = OAuthProvider;
@@ -68,12 +74,9 @@ public class Member {
         this.phoneNumber = phoneNumber;
         this.roleType = roleType;
         this.visitsCount = visitsCount;
-        this.createdAt = createdAt;
-        this.lastLoginAt = lastLoginAt;
     }
 
     public static Member of(JwtVo.Body body) {
-        LocalDateTime now = LocalDateTime.now();
         return Member.builder()
                 .email(body.getEmail())
 //                .password()
@@ -88,8 +91,6 @@ public class Member {
                 .phoneNumber(body.getPhoneNumber())
                 .roleType(RoleType.USER)
                 .visitsCount(1L)
-                .createdAt(now)
-                .lastLoginAt(now)
                 .build();
     }
 }
