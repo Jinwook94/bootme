@@ -8,6 +8,10 @@ export const Wrapper = styled.div`
   padding: 0 1.25rem;
   word-break: keep-all;
   border-bottom: 1px solid #f2f2f2;
+
+  @media (max-width: 991px) {
+    padding: 0;
+  }
 `;
 
 export const HeaderLeft = styled.div`
@@ -62,14 +66,30 @@ export const NotiButton = styled.button`
 
 export const MenuButton = styled.div`
   display: none;
+  position: relative;
+  cursor: pointer;
+  height: 45px;
   @media (max-width: 768px) {
     display: inline-block;
+  }
+  &:hover {
+    &:before {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      background-color: #f2f2f2;
+    }
   }
 `;
 
 export const LogIn = styled.a`
   color: #6b6b6b;
   text-decoration: none;
+  cursor: pointer;
 `;
 
 export const DotWrapper = styled.div`
@@ -81,6 +101,7 @@ export const DotWrapper = styled.div`
 export const SignIn = styled.a`
   color: #6b6b6b;
   text-decoration: none;
+  cursor: pointer;
   @media (max-width: 1200px) {
     display: none;
   }
