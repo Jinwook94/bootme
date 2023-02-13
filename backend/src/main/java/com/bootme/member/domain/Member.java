@@ -18,11 +18,12 @@ public class Member extends BaseEntity {
     @Column(name = "member_id")
     private Long id;
 
-    @Column(name = "email", unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
 
     private String password;
 
+    @Column(nullable = false)
     private String OAuthProvider;
 
     private String name;
@@ -42,8 +43,10 @@ public class Member extends BaseEntity {
     private String phoneNumber;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private RoleType roleType;
 
+    @Column(nullable = false)
     private Long visitsCount;
 
     @Builder

@@ -23,12 +23,15 @@ public class Course extends BaseEntity {
     @Column(name = "course_id")
     private Long id;
 
+    @Column(nullable = false)
     private String title;
 
+    @Column(nullable = false)
     private String name;
 
     private int generation;
 
+    @Column(nullable = false)
     private String url;
 
     @ManyToOne

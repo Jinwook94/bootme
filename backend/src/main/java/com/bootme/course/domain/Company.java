@@ -21,6 +21,7 @@ public class Company extends BaseEntity {
     @Column(name = "company_id")
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
     private String serviceName;
