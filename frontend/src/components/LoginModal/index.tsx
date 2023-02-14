@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { CloseIconBlack, CloseIconGray } from '../../constants/icons';
 import { GoogleLoginButton } from './GoogleLogin';
 import NaverLogin from './NaverLogin';
-import KakaoLogin from './KakaoLogin';
+import { KakaoLoginButton } from './KakaoLogin';
 import {
   CloseButton,
   CloseButtonWrapper,
@@ -71,7 +71,7 @@ const LoginModal = () => {
                 <LoginOptions>
                   <GoogleLoginButton />
                   <NaverLogin />
-                  <KakaoLogin />
+                  <KakaoLoginButton />
                 </LoginOptions>
                 <TermsOfService>약관</TermsOfService>
               </Wrapper5>
