@@ -1,8 +1,13 @@
 import axios from 'axios';
 
-const fetcher = axios.create({
+export const fetcher = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
   withCredentials: true,
+});
+
+export const noCredentialsFetcher = axios.create({
+  baseURL: process.env.REACT_APP_API_URL,
+  withCredentials: false,
 });
 
 axios.defaults.withCredentials = true;
@@ -18,4 +23,10 @@ fetcher.interceptors.response.use(response => {
   return response;
 });
 
-export default fetcher;
+noCredentialsFetcher.interceptors.response.use(response => {
+  const loginHeaderValue = response.headers['login'];
+  if (loginHeaderValue) {
+    localStorage.setItem('Login', loginHeaderValue);
+  }
+  return response;
+});

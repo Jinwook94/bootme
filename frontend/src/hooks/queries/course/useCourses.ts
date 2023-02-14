@@ -1,7 +1,7 @@
 import { useQuery, UseQueryOptions } from 'react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 import { courseKeys } from '../queryKeys';
-import fetcher from '../../../api/fetcher';
+import { fetcher } from '../../../api/fetcher';
 
 const useCourses = ({
   filters,

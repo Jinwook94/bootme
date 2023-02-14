@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
-import fetcher from '../api/fetcher';
+import { fetcher } from '../api/fetcher';
 
 const LoginContext = createContext<LoginContextProps>({
   isLoginModal: false,
