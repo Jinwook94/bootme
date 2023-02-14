@@ -13,18 +13,18 @@ const rootElement = document.getElementById('root') as Element;
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(rootElement).render(
-  <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID as string}>
+  <BrowserRouter>
     <LoginProvider>
-      <FilterProvider>
-        <BrowserRouter>
+      <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID as string}>
+        <FilterProvider>
           <QueryClientProvider client={queryClient}>
             <ThemeProvider theme={theme}>
               <GlobalStyle />
               <App />
             </ThemeProvider>
           </QueryClientProvider>
-        </BrowserRouter>
-      </FilterProvider>
+        </FilterProvider>
+      </GoogleOAuthProvider>
     </LoginProvider>
-  </GoogleOAuthProvider>
+  </BrowserRouter>
 );

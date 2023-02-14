@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import ReactModal from 'react-modal';
 import { Button } from 'antd';
 import GitHubIcon from '../../../assets/github.svg';
@@ -21,14 +21,9 @@ import {
 } from './style';
 import { CloseIconBlack, CloseIconGray } from '../../../constants/icons';
 import { useLogin } from '../../../hooks/useLogin';
-const MenuModal = ({ isMenuOpen, setIsMenuOpen, nickName, profileImage }: MenuModalProps) => {
+const MenuModal = ({ isLogin, isMenuOpen, setIsMenuOpen, nickName, profileImage }: MenuModalProps) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [isLogin, setIsLogin] = useState(JSON.parse(localStorage.getItem('Login') || 'false'));
   const { handleLogOut, handleLoginModal } = useLogin();
-
-  useEffect(() => {
-    setIsLogin(JSON.parse(localStorage.getItem('Login') || 'false'));
-  }, [localStorage.getItem('Login')]);
 
   return (
     <ReactModal
@@ -127,6 +122,7 @@ const MenuModal = ({ isMenuOpen, setIsMenuOpen, nickName, profileImage }: MenuMo
 export default MenuModal;
 
 interface MenuModalProps {
+  isLogin: boolean;
   isMenuOpen: boolean;
   setIsMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
   profileImage: string | null;

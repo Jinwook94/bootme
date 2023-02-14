@@ -3,21 +3,13 @@ import { useGoogleOneTapLogin } from '@react-oauth/google';
 import { useLogin } from '../../../hooks/useLogin';
 
 export const GoogleLoginButton = () => {
-  const { sendIdTokenToServer } = useLogin();
+  const { sendIdTokenToServer, handleLoginSuccess } = useLogin();
   return (
     <GoogleLogin
       onSuccess={credentialResponse => {
-        console.log(
-          '< Google Login > \n\nclientId: ' +
-            credentialResponse.clientId +
-            '\n\ncredential: ' +
-            credentialResponse.credential
-        );
-        console.log('---- 구글 로그인 응답 ----');
-        console.log(credentialResponse);
-        console.log('----------------------');
-        const idToken = credentialResponse.credential;
-        sendIdTokenToServer(idToken);
+        sendIdTokenToServer(credentialResponse.credential).then(() => {
+          handleLoginSuccess('google');
+        });
       }}
       onError={() => {
         alert('구글 로그인 실패');
@@ -31,18 +23,13 @@ export const GoogleLoginButton = () => {
 };
 
 export const GoogleLoginOneTap = () => {
-  const { sendIdTokenToServer } = useLogin();
+  const { sendIdTokenToServer, handleLoginSuccess } = useLogin();
 
   useGoogleOneTapLogin({
     onSuccess: credentialResponse => {
-      console.log(
-        '< Google One Tap Login > \n\nclientId: ' +
-          credentialResponse.clientId +
-          '\n\ncredential: ' +
-          credentialResponse.credential
-      );
-      const idToken = credentialResponse.credential;
-      sendIdTokenToServer(idToken);
+      sendIdTokenToServer(credentialResponse.credential).then(() => {
+        handleLoginSuccess('google');
+      });
     },
     onError: () => {
       alert('구글 로그인 실패');

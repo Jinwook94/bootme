@@ -24,15 +24,10 @@ import UserDropDown from './UserDropDown';
 import MenuModal from './MenuModal';
 
 const Header = () => {
-  const { handleLoginModal } = useLogin();
-  const [isLogin, setIsLogin] = useState(JSON.parse(localStorage.getItem('Login') || 'false'));
+  const { isLogin, handleLoginModal } = useLogin();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [profileImage, setProfileImage] = useState(localStorage.getItem('ProfileImage'));
   const [nickName, setNickName] = useState(localStorage.getItem('NickName'));
-
-  useEffect(() => {
-    setIsLogin(JSON.parse(localStorage.getItem('Login') || 'false'));
-  }, [localStorage.getItem('Login')]);
 
   useEffect(() => {
     setNickName(localStorage.getItem('NickName'));
@@ -48,6 +43,7 @@ const Header = () => {
       <Layout>
         <Wrapper>
           <HeaderLeft>
+            <div onClick={() => console.log(isLogin)}>isLogin</div>
             <Logo>
               <GitHubIcon />
               <ServiceName>BootMe</ServiceName>
@@ -98,6 +94,7 @@ const Header = () => {
       </Layout>
       <LoginModal />
       <MenuModal
+        isLogin={isLogin}
         isMenuOpen={isMenuOpen}
         setIsMenuOpen={setIsMenuOpen}
         profileImage={profileImage}
