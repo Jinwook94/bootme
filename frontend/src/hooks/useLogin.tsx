@@ -4,7 +4,7 @@ import { fetcher } from '../api/fetcher';
 const LoginContext = createContext<LoginContextProps>({
   isLoginModal: false,
   handleLoginModal: () => {},
-  sendIdTokenToServer: () => {},
+  sendIdTokenToServer: () => Promise.resolve(),
   handleLogOut: () => {},
 });
 
@@ -16,7 +16,7 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
   };
 
   const sendIdTokenToServer = (idToken: string | undefined) => {
-    fetcher
+    return fetcher
       .post('/login', null, {
         headers: {
           Authorization: 'Bearer ' + idToken,
@@ -38,6 +38,7 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
     fetcher
       .post('/logout', null, {})
       .then(() => {
+        localStorage.setItem('Login', 'false');
         localStorage.removeItem('NickName');
         localStorage.removeItem('ProfileImage');
         location.reload();
@@ -66,7 +67,7 @@ export const useLogin = () => useContext(LoginContext);
 interface LoginContextProps {
   isLoginModal: boolean;
   handleLoginModal: () => void;
-  sendIdTokenToServer: (idToken: string | undefined) => void;
+  sendIdTokenToServer: (idToken: string | undefined) => Promise<void>;
   handleLogOut: () => void;
 }
 
