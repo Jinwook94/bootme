@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import qs from 'qs';
 import LoginButton from '../LoginButton';
 import { useLogin } from '../../../hooks/useLogin';
-import { useNavigate } from 'react-router-dom';
 import { noCredentialsFetcher } from '../../../api/fetcher';
 
 const REST_API_KEY = process.env.REACT_APP_KAKAO_API_KEY;
@@ -46,8 +45,7 @@ export const KakaoLogin = () => {
         console.log(error);
       });
   };
-  const { sendIdTokenToServer } = useLogin();
-  const navigate = useNavigate();
+  const { sendIdTokenToServer, handleLoginSuccess } = useLogin();
 
   /**
    *  1. KakaoLoginButton: 카카오 인증 서버로 Access Token 받기를 요청하면, 카카오 인증 서버가 사용자에게 카카오계정 로그인을 통한 인증을 요청
@@ -59,8 +57,7 @@ export const KakaoLogin = () => {
   useEffect(() => {
     sendAccessTokenToKakao().then(idToken =>
       sendIdTokenToServer(idToken).then(() => {
-        localStorage.setItem('Login', 'true');
-        navigate(-1);
+        handleLoginSuccess('kakao');
       })
     );
   }, []);
