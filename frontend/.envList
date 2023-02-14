@@ -1,6 +1,11 @@
-< 각 환경 변수 발급 방법 >
+<URL>
 
 REACT_APP_API_URL=http://localhost:8080
+REACT_APP_REDIRECT_URI_KAKAO=http://localhost:3000/oauth/kakao
+    1. https://developers.kakao.com/console/app/ > 앱 선택
+    2. 제품 설정 > 카카오 로그인 > Redirect URI
+
+<Secrets>
 
 REACT_APP_GOOGLE_CLIENT_ID
     1. https://console.developers.google.com/apis
@@ -23,5 +28,3 @@ REACT_APP_KAKAO_CLIENT_SECRET
 
 REACT_APP_KAKAO_STATE
     - 자율 설정
-
-REACT_APP_REDIRECT_URI=http://localhost:3000
