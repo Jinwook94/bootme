@@ -6,7 +6,16 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 module.exports = {
-  entry: './src/index.tsx',
+  entry: {
+    main: path.join(__dirname, '../src/index.tsx'),
+  },
+  output: {
+    path: path.join(__dirname, '../dist'),
+    publicPath: '/',
+    filename: '[name].[contenthash].js',
+    chunkFilename: '[name].[contenthash].chunk.js',
+    clean: true,
+  },
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
   },
@@ -39,11 +48,6 @@ module.exports = {
         use: ["source-map-loader"],
       },
     ],
-  },
-
-  output: {
-    path: path.join(__dirname, '/dist'),
-    filename: 'bundle.js',
   },
   plugins: [
     new HtmlWebpackPlugin({
