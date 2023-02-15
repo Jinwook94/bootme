@@ -1,9 +1,28 @@
+REACT_APP_API_URL=http://localhost:8080/
+REACT_APP_REDIRECT_URI_KAKAO=http://localhost:3000/oauth/kakao
+REACT_APP_REDIRECT_URI_NAVER=http://localhost:3000
+
+REACT_APP_GOOGLE_CLIENT_ID=
+REACT_APP_NAVER_CLIENT_ID=
+REACT_APP_NAVER_CLIENT_SECRET=
+REACT_APP_KAKAO_API_KEY=
+REACT_APP_KAKAO_CLIENT_SECRET=
+REACT_APP_KAKAO_STATE=testState
+
+
+
 <URL>
 
 REACT_APP_API_URL=http://localhost:8080
+
 REACT_APP_REDIRECT_URI_KAKAO=http://localhost:3000/oauth/kakao
     1. https://developers.kakao.com/console/app/ > 앱 선택
     2. 제품 설정 > 카카오 로그인 > Redirect URI
+
+REACT_APP_REDIRECT_URI_NAVER=http://localhost:3000/oauth/naver
+    1. https://developers.naver.com/
+    2. Application > 내 애플리케이션 > API 설정
+    3. 네이버 로그인 Callback URL (PC/모바일)
 
 <Secrets>
 

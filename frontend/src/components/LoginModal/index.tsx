@@ -4,7 +4,7 @@ import './style.css';
 import React, { useState } from 'react';
 import { CloseIconBlack, CloseIconGray } from '../../constants/icons';
 import { GoogleLoginButton } from './GoogleLogin';
-import NaverLogin from './NaverLogin';
+import { NaverLoginButton } from './NaverLogin';
 import { KakaoLoginButton } from './KakaoLogin';
 import {
   CloseButton,
@@ -70,7 +70,7 @@ const LoginModal = () => {
                 <WelcomeText>부트미에 오신것을 환영합니다. </WelcomeText>
                 <LoginOptions>
                   <GoogleLoginButton />
-                  <NaverLogin />
+                  <NaverLoginButton />
                   <KakaoLoginButton />
                 </LoginOptions>
                 <TermsOfService>약관</TermsOfService>
