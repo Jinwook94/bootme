@@ -19,7 +19,7 @@ export const KakaoLoginButton = () => {
   );
 };
 
-export const KakaoLogin = () => {
+export const KakaoLoginRedirect = () => {
   const sendAccessTokenToKakao = async () => {
     const code = new URL(window.location.href).searchParams.get('code');
     const payload = qs.stringify({
