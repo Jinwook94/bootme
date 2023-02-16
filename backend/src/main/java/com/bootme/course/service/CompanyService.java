@@ -5,6 +5,7 @@ import com.bootme.course.dto.CompanyRequest;
 import com.bootme.course.dto.CompanyResponse;
 import com.bootme.course.exception.CompanyNotFoundException;
 import com.bootme.course.repository.CompanyRepository;
+import com.bootme.course.repository.CourseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,7 @@ import static com.bootme.common.exception.ErrorType.NOT_FOUND_COMPANY;
 public class CompanyService {
 
     private final CompanyRepository companyRepository;
+    private final CourseRepository courseRepository;
 
     public Long addCompany(CompanyRequest companyRequest){
         Company company = Company.builder()
@@ -52,7 +54,10 @@ public class CompanyService {
     }
 
     public void deleteCompany(Long companyId){
-        companyRepository.deleteById(companyId);
+        Company company = companyRepository.findById(companyId)
+                .orElseThrow(() -> new CompanyNotFoundException(NOT_FOUND_COMPANY));
+        courseRepository.deleteAll(company.getCourses());
+        companyRepository.delete(company);
     }
 
 }
