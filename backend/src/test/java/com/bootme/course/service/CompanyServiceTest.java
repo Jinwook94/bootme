@@ -1,6 +1,7 @@
 package com.bootme.course.service;
 
 import com.bootme.course.domain.Company;
+import com.bootme.course.domain.Course;
 import com.bootme.course.dto.CompanyResponse;
 import com.bootme.course.exception.CompanyNotFoundException;
 import com.bootme.course.repository.CompanyRepository;
@@ -33,6 +34,12 @@ class CompanyServiceTest extends ServiceTest {
     public void setUp() {
         company1 = getCompany(1);
         company2 = getCompany(2);
+        Course course1 = getCourse(1);
+        Course course2 = getCourse(2);
+        Course course3 = getCourse(3);
+        company1.addCourse(course1);
+        company1.addCourse(course2);
+        company2.addCourse(course3);
     }
 
     @Test
