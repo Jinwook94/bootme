@@ -240,11 +240,7 @@ public class CourseFixture {
         String[] urls = {VALID_COM_URL_1, VALID_COM_URL_2, VALID_COM_URL_3};
         String[] serviceUrls = {VALID_COM_SERVICE_URL_1, VALID_COM_SERVICE_URL_2, VALID_COM_SERVICE_URL_3};
         String[] logoUrls = {VALID_COM_LOGO_URL_1, VALID_COM_LOGO_URL_2, VALID_COM_LOGO_URL_3};
-        List[] courses = new ArrayList[]{
-                new ArrayList<>(Arrays.asList(getCourses()[0], getCourses()[1], getCourses()[2])),
-                new ArrayList<>(Arrays.asList(getCourses()[0], getCourses()[1], getCourses()[2])),
-                new ArrayList<>(Arrays.asList(getCourses()[0], getCourses()[1], getCourses()[2])),
-        };
+        List<Course> courses = new ArrayList<>();
 
         return Company.builder()
                 .name(names[index])
@@ -252,7 +248,7 @@ public class CourseFixture {
                 .url(urls[index])
                 .serviceUrl(serviceUrls[index])
                 .logoUrl(logoUrls[index])
-                .courses(courses[index])
+                .courses(courses)
                 .build();
     }
 
