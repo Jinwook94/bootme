@@ -15,6 +15,7 @@ public enum ErrorType {
     ALREADY_AUTHENTICATED   (UNAUTHORIZED, 1002, "이미 인증정보가 존재합니다."),
     INVALID_TOKEN           (BAD_REQUEST,  1003, "유효하지 않은 토큰입니다."),
     FORBIDDEN_REQUEST       (FORBIDDEN,    1004, "권한이 없습니다."),
+    Invalid_Issuer          (UNAUTHORIZED, 1005, "유효하지 않은 토큰 발급자입니다."),
 
     NOT_FOUND_COURSE        (BAD_REQUEST,  3001, "존재하지 않는 코스입니다."),
 
@@ -23,5 +24,9 @@ public enum ErrorType {
     final HttpStatus httpStatus;
     final int errorCode;
     final String message;
+
+    public String getMessage(String invalidInput) {
+        return String.format(getMessage() +" : " + invalidInput);
+    }
 
 }
