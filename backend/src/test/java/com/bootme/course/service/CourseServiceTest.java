@@ -45,6 +45,7 @@ class CourseServiceTest extends ServiceTest {
         companyRepository.save(company2);
         companyRepository.save(company3);
         course = getCourse(1);
+        company1.addCourse(course);
     }
 
     @Test
@@ -54,23 +55,23 @@ class CourseServiceTest extends ServiceTest {
         long count = courseRepository.count();
 
         //when
-        Long id = courseService.addCourse(getCourseRequest(1));
+        Long id = courseService.addCourse(getCourseRequest(2));
         Course foundCourse = courseRepository.findById(id)
                 .orElseThrow(() -> new CourseNotFoundException(NOT_FOUND_COURSE));
 
         //then
         assertAll(
                 () -> assertThat(courseRepository.count()).isEqualTo(count + 1),
-                () -> assertThat(foundCourse.getTitle()).isEqualTo(VALID_TITLE_1),
-                () -> assertThat(foundCourse.getUrl()).isEqualTo(VALID_URL_1),
-                () -> assertThat(foundCourse.getCompany().getName()).isEqualTo(getCompany(1).getName()),
-                () -> assertThat(foundCourse.getLocation()).isEqualTo(VALID_LOCATION_1),
-                () -> assertThat(foundCourse.getCost()).isEqualTo(VALID_COST_1),
-                () -> assertThat(foundCourse.getCostType()).isEqualTo(VALID_CostType_1),
-                () -> assertThat(foundCourse.getDates()).isEqualTo(VALID_DATES_1),
-                () -> assertThat(foundCourse.getOnoffline()).isEqualTo(VALID_ONOFFLINE_1),
+                () -> assertThat(foundCourse.getTitle()).isEqualTo(VALID_TITLE_2),
+                () -> assertThat(foundCourse.getUrl()).isEqualTo(VALID_URL_2),
+                () -> assertThat(foundCourse.getCompany().getName()).isEqualTo(getCompany(2).getName()),
+                () -> assertThat(foundCourse.getLocation()).isEqualTo(VALID_LOCATION_2),
+                () -> assertThat(foundCourse.getCost()).isEqualTo(VALID_COST_2),
+                () -> assertThat(foundCourse.getCostType()).isEqualTo(VALID_CostType_2),
+                () -> assertThat(foundCourse.getDates()).isEqualTo(VALID_DATES_2),
+                () -> assertThat(foundCourse.getOnoffline()).isEqualTo(VALID_ONOFFLINE_2),
                 // repository 에서 찾아온 리스트는 persistenceBag 에 담겨있기 때문에 아래와 같이 검증
-                () -> assertThat(foundCourse.getPrerequisites()).isEqualTo(VALID_PREREQUISITES_1)
+                () -> assertThat(foundCourse.getPrerequisites()).isEqualTo(VALID_PREREQUISITES_2)
         );
     }
 
@@ -97,14 +98,13 @@ class CourseServiceTest extends ServiceTest {
     @DisplayName("findAll()은 모든 코스 정보를 반환한다.")
     public void findAll (){
         //given
-        courseService.addCourse(getCourseRequest(1));
         courseService.addCourse(getCourseRequest(2));
         courseService.addCourse(getCourseRequest(3));
 
         //when
         List<CourseResponse> courseResponses = courseService.findAll();
 
-        //then
+        //then: setUp()의 company1.addCourse(course)에서 코스 한 개 등록되었으므로 총 3개의 코스
         assertThat(courseResponses.size()).isEqualTo(3);
     }
 
