@@ -9,7 +9,7 @@ public class AuthFixture {
                                                             .typ("JWT")
                                                             .build();
     public static final Long VALID_IAT = 1675313707L;
-    public static final Long VALID_EXP = 1675313707L;
+    public static final Long VALID_EXP = 2524608000L;
     public static final String VALID_EMAIL = "valid@email.com";
 
     public static JwtVo getJwtVo(String issuer, String audience){
@@ -29,6 +29,17 @@ public class AuthFixture {
                 .aud(audience)
                 .iat(issuedAt)
                 .exp(VALID_EXP)
+                .email(VALID_EMAIL)
+                .build();
+        return new JwtVo(VALID_JWT_HEADER, body);
+    }
+
+    public static JwtVo getJwtVo_exp(String issuer, String audience, Long expirationTime){
+        JwtVo.Body body = JwtVo.Body.builder()
+                .iss(issuer)
+                .aud(audience)
+                .iat(VALID_IAT)
+                .exp(expirationTime)
                 .email(VALID_EMAIL)
                 .build();
         return new JwtVo(VALID_JWT_HEADER, body);
