@@ -4,6 +4,7 @@ import static com.bootme.util.fixture.AuthFixture.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.bootme.auth.dto.JwtVo;
+import com.bootme.auth.exception.InvalidAudienceException;
 import com.bootme.auth.exception.InvalidIssuerException;
 import com.bootme.util.ServiceTest;
 import org.junit.jupiter.api.DisplayName;
@@ -35,12 +36,12 @@ class AuthServiceTest extends ServiceTest {
     @Value("${security.jwt.kakao.audience}")
     private String validKakaoAud;
 
-    @DisplayName("verifyIssuer()는 ID 토큰 발행자가 유효한 경우 예외를 발생시키지 않는다.")
+    @DisplayName("verifyToken()은 ID 토큰이 유효한 경우 예외를 발생시키지 않는다.")
     @Test
-    void verifyIssuer_valid() {
-        JwtVo jwtVoGoogle = getJwtVo_issuer(validGoogleIss);
-        JwtVo jwtVoNaver = getJwtVo_issuer(validNaverIss);
-        JwtVo jwtVoKakao = getJwtVo_issuer(validKakaoIss);
+    void verifyToken() {
+        JwtVo jwtVoGoogle = getJwtVo(validGoogleIss, validGoogleAud);
+        JwtVo jwtVoNaver = getJwtVo(validNaverIss, validNaverAud);
+        JwtVo jwtVoKakao = getJwtVo(validKakaoIss, validKakaoAud);
 
         assertAll(
                 () -> assertDoesNotThrow(() -> authService.verifyToken(jwtVoGoogle)),
@@ -51,9 +52,16 @@ class AuthServiceTest extends ServiceTest {
 
     @DisplayName("verifyIssuer()는 ID 토큰의 발행자가 유효하지 않을 경우 예외를 발생시킨다.")
     @Test
-    void verifyIssuer_invalid() {
-        JwtVo jwtVo = getJwtVo_issuer("https://invalid.issuer.com");
+    void verifyToken_verifyIssuer() {
+        JwtVo jwtVo = getJwtVo("https://invalid.issuer.com", validGoogleAud);
         assertThrows(InvalidIssuerException.class, () -> authService.verifyToken(jwtVo));
+    }
+
+    @DisplayName("verifyAudience()는 ID 토큰 Audience 값이 유효하지 않을 경우 예외를 발생시킨다.")
+    @Test
+    void verifyToken_verifyAudience(){
+        JwtVo jwtVo = getJwtVo(validGoogleIss, "invalidAudience");
+        assertThrows(InvalidAudienceException.class, () -> authService.verifyToken(jwtVo));
     }
 
 }
