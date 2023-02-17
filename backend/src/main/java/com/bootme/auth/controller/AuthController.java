@@ -42,8 +42,7 @@ public class AuthController {
         JwtVo jwtVo = authService.copyTokenToVo(idToken);
         JwtVo.Body jwtBody = jwtVo.getBody();
 
-        // todo: 검증 로직 추가
-        authService.verifyToken(jwtVo);
+        authService.verifyToken(idToken);
 
         boolean isRegistered = memberService.isMemberRegistered(jwtBody.getEmail());
         if (isRegistered) {
