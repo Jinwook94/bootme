@@ -2,6 +2,7 @@ package com.bootme.auth.service;
 
 import com.bootme.auth.dto.JwtVo;
 import com.bootme.auth.exception.InvalidAudienceException;
+import com.bootme.auth.exception.InvalidIssuedAtException;
 import com.bootme.auth.exception.InvalidIssuerException;
 import com.bootme.member.domain.Member;
 import com.bootme.member.repository.MemberRepository;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Base64;
 import java.util.Objects;
 
@@ -66,6 +69,7 @@ public class AuthService {
 
         String issuer = verifyIssuer(body);
         verifyAudience(body, issuer);
+        verifyIssuedAt(body);
 
     }
 
@@ -98,6 +102,16 @@ public class AuthService {
         String actualAud = body.getAud();
         if (!Objects.equals(expectedAud, actualAud)) {
             throw new InvalidAudienceException(INVALID_AUDIENCE, actualAud);
+        }
+    }
+
+    private void verifyIssuedAt(JwtVo.Body body){
+        long iat = body.getIat();
+        long now = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);
+        long clockSkewTolerance = 300;
+
+        if (iat > (now + clockSkewTolerance)) {
+            throw new InvalidIssuedAtException(INVALID_ISSUED_AT, String.valueOf(iat));
         }
     }
 

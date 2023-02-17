@@ -23,4 +23,15 @@ public class AuthFixture {
         return new JwtVo(VALID_JWT_HEADER, body);
     }
 
+    public static JwtVo getJwtVo(String issuer, String audience, Long issuedAt){
+        JwtVo.Body body = JwtVo.Body.builder()
+                .iss(issuer)
+                .aud(audience)
+                .iat(issuedAt)
+                .exp(VALID_EXP)
+                .email(VALID_EMAIL)
+                .build();
+        return new JwtVo(VALID_JWT_HEADER, body);
+    }
+
 }
