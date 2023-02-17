@@ -14,8 +14,6 @@ import com.bootme.member.repository.MemberRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.http.javanet.NetHttpTransport;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,9 +25,9 @@ import java.security.GeneralSecurityException;
 import java.security.interfaces.RSAPublicKey;
 import java.time.Instant;
 import java.util.Base64;
-import java.util.Collections;
 import java.util.Objects;
 
+import static com.bootme.auth.token.GoogleIdTokenVerifierSingleton.getVerifier;
 import static com.bootme.common.exception.ErrorType.*;
 
 
@@ -160,11 +158,7 @@ public class AuthService {
     }
 
     private void verifyGoogleSignature(String idToken) throws GeneralSecurityException, IOException {
-        JacksonFactory jacksonFactory = new JacksonFactory();
-        GoogleIdTokenVerifier verifier =
-                new GoogleIdTokenVerifier.Builder((new NetHttpTransport()), jacksonFactory)
-                        .setAudience(Collections.singletonList(googleAud))
-                        .build();
+        GoogleIdTokenVerifier verifier = getVerifier(googleAud);
 
         // Signature 정상이면 ID Token 반환, 비정상이면 null 반환함
         GoogleIdToken returnedIdToken = verifier.verify(idToken);
