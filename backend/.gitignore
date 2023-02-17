@@ -38,3 +38,6 @@ out/
 
 ### Docs ###
 src/main/resources/static/docs/
+
+### Config ###
+application.yml

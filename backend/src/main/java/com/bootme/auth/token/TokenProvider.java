@@ -21,10 +21,10 @@ public class TokenProvider {
     private final long refreshTokenValidityMilliseconds;
     private final MemberRepository memberRepository;
 
-    public TokenProvider(@Value("${security.jwt.issuer}") String issuer,
-                         @Value("${security.jwt.secret-key}") String secretKey,
-                         @Value("${security.jwt.exp.millisecond.access}") long validityInMilliseconds,
-                         @Value("${security.jwt.exp.millisecond.refresh}") long refreshTokenValidityMilliseconds,
+    public TokenProvider(@Value("${security.jwt.bootme.issuer}") String issuer,
+                         @Value("${security.jwt.bootme.secret-key}") String secretKey,
+                         @Value("${security.jwt.bootme.exp.millisecond.access}") long validityInMilliseconds,
+                         @Value("${security.jwt.bootme.exp.millisecond.refresh}") long refreshTokenValidityMilliseconds,
                          MemberRepository memberRepository) {
         byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
         this.issuer = issuer;

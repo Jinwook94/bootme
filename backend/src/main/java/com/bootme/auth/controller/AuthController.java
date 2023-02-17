@@ -27,8 +27,8 @@ public class AuthController {
     public AuthController(AuthService authService,
                           MemberService memberService,
                           TokenProvider tokenProvider,
-                          @Value("${security.jwt.exp.second.access}") long accessTokenExpireTimeInSeconds,
-                          @Value("${security.jwt.exp.second.refresh}") long refreshTokenExpireTimeInSeconds) {
+                          @Value("${security.jwt.bootme.exp.second.access}") long accessTokenExpireTimeInSeconds,
+                          @Value("${security.jwt.bootme.exp.second.refresh}") long refreshTokenExpireTimeInSeconds) {
         this.authService = authService;
         this.memberService = memberService;
         this.tokenProvider = tokenProvider;

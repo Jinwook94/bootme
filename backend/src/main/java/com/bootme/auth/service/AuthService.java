@@ -6,6 +6,7 @@ import com.bootme.member.domain.Member;
 import com.bootme.member.repository.MemberRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,15 @@ public class AuthService {
     private final String GOOGLE = "google";
     private final String NAVER = "naver";
     private final String KAKAO = "kakao";
+
+    @Value("${security.jwt.google.issuer}")
+    private String googleIss;
+
+    @Value("${security.jwt.naver.issuer}")
+    private String naverIss;
+
+    @Value("${security.jwt.kakao.issuer}")
+    private String kakaoIss;
 
     public String getIdToken(String authHeader){
         return authHeader.replace("Bearer ", "");
@@ -47,16 +57,13 @@ public class AuthService {
     }
 
     private String verifyIssuer(JwtVo.Body body){
-        final String GOOGLE_ISS = "https://accounts.google.com";
-        final String NAVER_ISS = "bootMe.frontend.naverLogin";
-        final String KAKAO_ISS = "https://kauth.kakao.com";
         final String iss = body.getIss();
 
-        if (Objects.equals(iss, GOOGLE_ISS)){
+        if (Objects.equals(iss, googleIss)){
             return GOOGLE;
-        } else if (Objects.equals(iss, NAVER_ISS)){
+        } else if (Objects.equals(iss, naverIss)){
             return NAVER;
-        } else if (Objects.equals(iss, KAKAO_ISS)){
+        } else if (Objects.equals(iss, kakaoIss)){
             return KAKAO;
         }
         throw new InvalidIssuerException(Invalid_Issuer, iss);
