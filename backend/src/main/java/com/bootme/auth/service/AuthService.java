@@ -1,11 +1,11 @@
 package com.bootme.auth.service;
 
 import com.bootme.auth.dto.JwtVo;
+import com.bootme.auth.exception.InvalidAudienceException;
 import com.bootme.auth.exception.InvalidIssuerException;
 import com.bootme.member.domain.Member;
 import com.bootme.member.repository.MemberRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,12 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Base64;
 import java.util.Objects;
 
-import static com.bootme.common.exception.ErrorType.Invalid_Issuer;
+import static com.bootme.common.exception.ErrorType.*;
 
 
 @Service
 @Transactional
-@RequiredArgsConstructor
 public class AuthService {
 
     private final MemberRepository memberRepository;
@@ -26,15 +25,28 @@ public class AuthService {
     private final String GOOGLE = "google";
     private final String NAVER = "naver";
     private final String KAKAO = "kakao";
+    private final String googleIss;
+    private final String naverIss;
+    private final String kakaoIss;
+    private final String googleAud;
+    private final String naverAud;
+    private final String kakaoAud;
 
-    @Value("${security.jwt.google.issuer}")
-    private String googleIss;
-
-    @Value("${security.jwt.naver.issuer}")
-    private String naverIss;
-
-    @Value("${security.jwt.kakao.issuer}")
-    private String kakaoIss;
+    public AuthService(MemberRepository memberRepository,
+                       @Value("${security.jwt.google.issuer}") String googleIss,
+                       @Value("${security.jwt.naver.issuer}") String naverIss,
+                       @Value("${security.jwt.kakao.issuer}") String kakaoIss,
+                       @Value("${security.jwt.google.audience}") String googleAud,
+                       @Value("${security.jwt.naver.audience}") String naverAud,
+                       @Value("${security.jwt.kakao.audience}") String kakaoAud) {
+        this.memberRepository = memberRepository;
+        this.googleIss = googleIss;
+        this.naverIss = naverIss;
+        this.kakaoIss = kakaoIss;
+        this.googleAud = googleAud;
+        this.naverAud = naverAud;
+        this.kakaoAud = kakaoAud;
+    }
 
     public String getIdToken(String authHeader){
         return authHeader.replace("Bearer ", "");
@@ -53,6 +65,7 @@ public class AuthService {
         JwtVo.Body body = jwtVo.getBody();
 
         String issuer = verifyIssuer(body);
+        verifyAudience(body, issuer);
 
     }
 
@@ -66,7 +79,26 @@ public class AuthService {
         } else if (Objects.equals(iss, kakaoIss)){
             return KAKAO;
         }
-        throw new InvalidIssuerException(Invalid_Issuer, iss);
+        throw new InvalidIssuerException(INVALID_ISSUER, iss);
+    }
+
+    private void verifyAudience(JwtVo.Body body, String issuer) {
+        String expectedAud = null;
+        switch (issuer) {
+            case GOOGLE:
+                expectedAud = googleAud;
+                break;
+            case NAVER:
+                expectedAud = naverAud;
+                break;
+            case KAKAO:
+                expectedAud = kakaoAud;
+                break;
+        }
+        String actualAud = body.getAud();
+        if (!Objects.equals(expectedAud, actualAud)) {
+            throw new InvalidAudienceException(INVALID_AUDIENCE, actualAud);
+        }
     }
 
 
