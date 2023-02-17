@@ -2,6 +2,7 @@ package com.bootme.auth.service;
 
 import com.bootme.auth.dto.JwtVo;
 import com.bootme.auth.exception.InvalidAudienceException;
+import com.bootme.auth.exception.TokenExpiredException;
 import com.bootme.auth.exception.InvalidIssuedAtException;
 import com.bootme.auth.exception.InvalidIssuerException;
 import com.bootme.member.domain.Member;
@@ -11,8 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.Instant;
 import java.util.Base64;
 import java.util.Objects;
 
@@ -70,6 +70,7 @@ public class AuthService {
         String issuer = verifyIssuer(body);
         verifyAudience(body, issuer);
         verifyIssuedAt(body);
+        verifyExpiration(body);
 
     }
 
@@ -107,11 +108,21 @@ public class AuthService {
 
     private void verifyIssuedAt(JwtVo.Body body){
         long iat = body.getIat();
-        long now = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);
+        long now = Instant.now().getEpochSecond();
         long clockSkewTolerance = 300;
 
         if (iat > (now + clockSkewTolerance)) {
             throw new InvalidIssuedAtException(INVALID_ISSUED_AT, String.valueOf(iat));
+        }
+    }
+
+    private void verifyExpiration(JwtVo.Body body) {
+        long exp = body.getExp();
+        long now = Instant.now().getEpochSecond();
+        long clockSkewTolerance = 300;
+
+        if (exp < (now - clockSkewTolerance)) {
+            throw new TokenExpiredException(TOKEN_EXPIRED, String.valueOf(exp));
         }
     }
 
