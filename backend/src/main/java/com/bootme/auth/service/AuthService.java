@@ -1,10 +1,14 @@
 package com.bootme.auth.service;
 
+import com.auth0.jwk.*;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.SignatureVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.bootme.auth.dto.JwtVo;
-import com.bootme.auth.exception.InvalidAudienceException;
-import com.bootme.auth.exception.TokenExpiredException;
-import com.bootme.auth.exception.InvalidIssuedAtException;
-import com.bootme.auth.exception.InvalidIssuerException;
+import com.bootme.auth.exception.*;
+import com.bootme.auth.token.JwkProviderSingleton;
 import com.bootme.member.domain.Member;
 import com.bootme.member.repository.MemberRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.interfaces.RSAPublicKey;
 import java.time.Instant;
 import java.util.Base64;
 import java.util.Objects;
@@ -64,13 +69,15 @@ public class AuthService {
         return new JwtVo(header, body);
     }
 
-    public void verifyToken(JwtVo jwtVo){
+    public void verifyToken(String idToken) throws Exception {
+        JwtVo jwtVo = copyTokenToVo(idToken);
         JwtVo.Body body = jwtVo.getBody();
 
         String issuer = verifyIssuer(body);
         verifyAudience(body, issuer);
         verifyIssuedAt(body);
         verifyExpiration(body);
+        verifySignature(idToken, issuer);
 
     }
 
@@ -123,6 +130,38 @@ public class AuthService {
 
         if (exp < (now - clockSkewTolerance)) {
             throw new TokenExpiredException(TOKEN_EXPIRED, String.valueOf(exp));
+        }
+    }
+
+    private void verifySignature(String idToken, String issuer) {
+        switch (issuer) {
+            case GOOGLE:
+                break;
+            case NAVER:
+                break;
+            case KAKAO:
+                verifyKakaoSignature(idToken);
+                break;
+        }
+    }
+
+    private void verifyKakaoSignature(String idToken){
+        try {
+            // 1. 서명 검증없이 디코딩
+            DecodedJWT jwtOrigin = JWT.decode(idToken);
+
+            // 2. 공개키 프로바이더 준비 (싱글톤)
+            JwkProvider provider = JwkProviderSingleton.getInstance();
+
+            Jwk jwk = provider.get(jwtOrigin.getKeyId());
+
+            // 3. 서명 검증
+            Algorithm algorithm = Algorithm.RSA256((RSAPublicKey) jwk.getPublicKey(), null);
+            JWTVerifier verifier = JWT.require(algorithm).build();
+            verifier.verify(idToken);
+
+        } catch (SignatureVerificationException | JwkException e) {
+            throw new InvalidSignatureException(INVALID_SIGNATURE);
         }
     }
 
