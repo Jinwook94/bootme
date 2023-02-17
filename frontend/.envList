@@ -1,34 +1,23 @@
+<.env>
+
 REACT_APP_API_URL=http://localhost:8080/
 
-REACT_APP_KAKAO_REDIRECT_URI=http://localhost:3000/oauth/kakao
-REACT_APP_NAVER_REDIRECT_URI=http://localhost:3000
-
-REACT_APP_NAVER_ISSUER=https://bootme.front.com
-REACT_APP_NAVER_AUDIENCE=EN
-
 REACT_APP_GOOGLE_CLIENT_ID=
+
+REACT_APP_NAVER_REDIRECT_URI=
 REACT_APP_NAVER_CLIENT_ID=
 REACT_APP_NAVER_CLIENT_SECRET=
+REACT_APP_NAVER_ISSUER=
+REACT_APP_NAVER_AUDIENCE=
+REACT_APP_NAVER_SIGNING_KEY=
+
+REACT_APP_KAKAO_REDIRECT_URI=
 REACT_APP_KAKAO_API_KEY=
 REACT_APP_KAKAO_CLIENT_SECRET=
-REACT_APP_KAKAO_STATE=testState
+REACT_APP_KAKAO_STATE=
 
 
-
-<URL>
-
-REACT_APP_API_URL=http://localhost:8080
-
-REACT_APP_REDIRECT_URI_KAKAO=http://localhost:3000/oauth/kakao
-    1. https://developers.kakao.com/console/app/ > 앱 선택
-    2. 제품 설정 > 카카오 로그인 > Redirect URI
-
-REACT_APP_REDIRECT_URI_NAVER=http://localhost:3000/oauth/naver
-    1. https://developers.naver.com/
-    2. Application > 내 애플리케이션 > API 설정
-    3. 네이버 로그인 Callback URL (PC/모바일)
-
-<Secrets>
+<Google>
 
 REACT_APP_GOOGLE_CLIENT_ID
     1. https://console.developers.google.com/apis
@@ -36,10 +25,27 @@ REACT_APP_GOOGLE_CLIENT_ID
     3. Credentials
     4. OAuth 2.0 Client IDs > BootMe > Copay OAuth Client
 
+<Naver>
+
+REACT_APP_REDIRECT_URI_NAVER=http://localhost:3000/oauth/naver
+    1. https://developers.naver.com/
+    2. Application > 내 애플리케이션 > API 설정
+    3. 네이버 로그인 Callback URL (PC/모바일)
+
 REACT_APP_NAVER_CLIENT_ID
 REACT_APP_NAVER_CLIENT_SECRET
     1. https://developers.naver.com/apps/#/list
     2. BootMe > Client ID, Client Secret
+
+REACT_APP_NAVER_SIGNING_KEY
+    - 직접 생성, EN 저장
+    - https://www.allkeysgenerator.com/Random/Security-Encryption-Key-Generator.aspx
+
+<Kakao>
+
+REACT_APP_REDIRECT_URI_KAKAO=http://localhost:3000/oauth/kakao
+    1. https://developers.kakao.com/console/app/ > 앱 선택
+    2. 제품 설정 > 카카오 로그인 > Redirect URI
 
 REACT_APP_KAKAO_API_KEY
     1. https://developers.kakao.com/console/app
@@ -50,4 +56,4 @@ REACT_APP_KAKAO_CLIENT_SECRET
     2. BootMe > 제품 설정 > 카카오 로그인 > 보안 > Client Secret
 
 REACT_APP_KAKAO_STATE
-    - 자율 설정
+    - 직접 생성, EN 저장

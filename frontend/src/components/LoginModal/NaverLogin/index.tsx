@@ -5,7 +5,7 @@ import { useLogin } from '../../../hooks/useLogin';
 
 const { naver } = window;
 const CLIENT_ID = process.env.REACT_APP_NAVER_CLIENT_ID;
-const CLIENT_SECRET = process.env.REACT_APP_NAVER_CLIENT_SECRET;
+const SIGNING_KEY = process.env.REACT_APP_NAVER_SIGNING_KEY;
 const CALLBACK_URL = process.env.REACT_APP_NAVER_REDIRECT_URI;
 const ISSUER = process.env.REACT_APP_NAVER_ISSUER ?? '';
 const AUDIENCE = process.env.REACT_APP_NAVER_AUDIENCE ?? '';
@@ -52,7 +52,7 @@ export const NaverLoginButton = () => {
 const generateIdToken = async (naverLogin: naverTokenTypes) => {
   const alg = 'HS256';
   const typ = 'JWT';
-  const secret = new TextEncoder().encode(CLIENT_SECRET);
+  const signingKey = new TextEncoder().encode(SIGNING_KEY);
   const payload = {
     ageRange: naverLogin.user.age,
     birthDay: naverLogin.user.birthday,
@@ -70,7 +70,7 @@ const generateIdToken = async (naverLogin: naverTokenTypes) => {
     .setExpirationTime(naverLogin.accessToken.expires)
     .setIssuer(ISSUER)
     .setAudience(AUDIENCE)
-    .sign(secret);
+    .sign(signingKey);
 };
 
 interface naverTokenTypes {
