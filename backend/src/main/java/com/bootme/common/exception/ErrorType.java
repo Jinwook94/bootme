@@ -17,6 +17,7 @@ public enum ErrorType {
     FORBIDDEN_REQUEST       (FORBIDDEN,    1004, "권한이 없습니다."),
     INVALID_ISSUER          (UNAUTHORIZED, 1005, "유효하지 않은 토큰 발급자입니다."),
     INVALID_AUDIENCE        (UNAUTHORIZED, 1006, "토큰의 Audience 값이 유효하지 않습니다."),
+    INVALID_ISSUED_AT        (UNAUTHORIZED, 1007, "토큰의 발행시간이 올바르지 않습니다. "),
 
     NOT_FOUND_COURSE        (BAD_REQUEST,  3001, "존재하지 않는 코스입니다."),
 
