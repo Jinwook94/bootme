@@ -6,7 +6,9 @@ import { useLogin } from '../../../hooks/useLogin';
 const { naver } = window;
 const CLIENT_ID = process.env.REACT_APP_NAVER_CLIENT_ID;
 const CLIENT_SECRET = process.env.REACT_APP_NAVER_CLIENT_SECRET;
-const CALLBACK_URL = process.env.REACT_APP_REDIRECT_URI_NAVER;
+const CALLBACK_URL = process.env.REACT_APP_NAVER_REDIRECT_URI;
+const ISSUER = process.env.REACT_APP_NAVER_ISSUER ?? '';
+const AUDIENCE = process.env.REACT_APP_NAVER_AUDIENCE ?? '';
 
 const naverLogin = new naver.LoginWithNaverId({
   clientId: CLIENT_ID,
@@ -66,9 +68,8 @@ const generateIdToken = async (naverLogin: naverTokenTypes) => {
     .setProtectedHeader({ alg, typ })
     .setIssuedAt()
     .setExpirationTime(naverLogin.accessToken.expires)
-    .setIssuer('bootMe.frontend.naverLogin')
-    .setAudience('urn:example:audience')
-    .setSubject('testSubject')
+    .setIssuer(ISSUER)
+    .setAudience(AUDIENCE)
     .sign(secret);
 };
 
