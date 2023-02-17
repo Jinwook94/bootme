@@ -16,6 +16,8 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.http.javanet.NetHttpTransport;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,6 +48,7 @@ public class AuthService {
     private final String googleAud;
     private final String naverAud;
     private final String kakaoAud;
+    private final String naverSecret;
 
     public AuthService(MemberRepository memberRepository,
                        @Value("${security.jwt.google.issuer}") String googleIss,
@@ -53,7 +56,8 @@ public class AuthService {
                        @Value("${security.jwt.kakao.issuer}") String kakaoIss,
                        @Value("${security.jwt.google.audience}") String googleAud,
                        @Value("${security.jwt.naver.audience}") String naverAud,
-                       @Value("${security.jwt.kakao.audience}") String kakaoAud) {
+                       @Value("${security.jwt.kakao.audience}") String kakaoAud,
+                       @Value("${security.jwt.naver.secret}") String naverSecret) {
         this.memberRepository = memberRepository;
         this.googleIss = googleIss;
         this.naverIss = naverIss;
@@ -61,6 +65,7 @@ public class AuthService {
         this.googleAud = googleAud;
         this.naverAud = naverAud;
         this.kakaoAud = kakaoAud;
+        this.naverSecret = naverSecret;
     }
 
     public String getIdToken(String authHeader){
@@ -144,7 +149,9 @@ public class AuthService {
         switch (issuer) {
             case GOOGLE:
                 verifyGoogleSignature(idToken);
+                break;
             case NAVER:
+                verifyNaverSignature(idToken, naverSecret);
                 break;
             case KAKAO:
                 verifyKakaoSignature(idToken);
@@ -165,7 +172,18 @@ public class AuthService {
         if (returnedIdToken == null) {
             throw new InvalidSignatureException(INVALID_SIGNATURE, "verifyGoogleSignature()");
         }
+    }
 
+    private void verifyNaverSignature(String jwt, String naverSecret){
+        try {
+            Jwts.parserBuilder()
+                    .setSigningKey(Keys.hmacShaKeyFor(naverSecret.getBytes()))
+                    .build()
+                    .parseClaimsJws(jwt);
+
+        } catch (JwtException e) {
+            throw new InvalidSignatureException(INVALID_SIGNATURE, "verifyNaverSignature()");
+        }
     }
 
     private void verifyKakaoSignature(String idToken){
