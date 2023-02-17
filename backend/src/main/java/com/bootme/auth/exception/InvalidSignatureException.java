@@ -5,8 +5,8 @@ import com.bootme.common.exception.UnauthorizedException;
 
 public class InvalidSignatureException extends UnauthorizedException {
 
-    public InvalidSignatureException(final ErrorType errorType) {
-        super(errorType);
+    public InvalidSignatureException(final ErrorType errorType, final String OAuthProvider) {
+        super(errorType, OAuthProvider);
     }
 
 }

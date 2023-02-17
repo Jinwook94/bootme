@@ -5,7 +5,7 @@ import com.bootme.common.exception.UnauthorizedException;
 
 public class InvalidAudienceException extends UnauthorizedException {
 
-    public InvalidAudienceException(final ErrorType errorType, final String issuer) {
-        super(errorType, issuer);
+    public InvalidAudienceException(final ErrorType errorType, final String audience) {
+        super(errorType, audience);
     }
 }
