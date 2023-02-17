@@ -7,6 +7,7 @@ import com.bootme.auth.dto.JwtVo;
 import com.bootme.auth.exception.InvalidAudienceException;
 import com.bootme.auth.exception.InvalidIssuedAtException;
 import com.bootme.auth.exception.InvalidIssuerException;
+import com.bootme.auth.exception.TokenExpiredException;
 import com.bootme.util.ServiceTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -71,6 +72,14 @@ class AuthServiceTest extends ServiceTest {
         // 발행 시간이 미래인 토큰
         JwtVo jwtVo = getJwtVo(validGoogleIss, validGoogleAud, 2524608000L);
         assertThrows(InvalidIssuedAtException.class, () -> authService.verifyToken(jwtVo));
+    }
+
+    @DisplayName("verifyExpiration()은 ID 토큰의 exp 값이 유효하지 않을 경우 예외를 발생시킨다.")
+    @Test
+    void verifyToken_verifyExpiration(){
+        // 만료 된 토큰 (exp: 23-02-17 00:00:00 GMT+0900)
+        JwtVo jwtVo = getJwtVo_exp(validGoogleIss, validGoogleAud, 1676559600L);
+        assertThrows(TokenExpiredException.class, () -> authService.verifyToken(jwtVo));
     }
 
 }
