@@ -12,13 +12,20 @@ import com.bootme.auth.token.JwkProviderSingleton;
 import com.bootme.member.domain.Member;
 import com.bootme.member.repository.MemberRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.http.javanet.NetHttpTransport;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.security.interfaces.RSAPublicKey;
 import java.time.Instant;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.Objects;
 
 import static com.bootme.common.exception.ErrorType.*;
@@ -133,16 +140,32 @@ public class AuthService {
         }
     }
 
-    private void verifySignature(String idToken, String issuer) {
+    private void verifySignature(String idToken, String issuer) throws GeneralSecurityException, IOException {
         switch (issuer) {
             case GOOGLE:
-                break;
+                verifyGoogleSignature(idToken);
             case NAVER:
                 break;
             case KAKAO:
                 verifyKakaoSignature(idToken);
                 break;
         }
+    }
+
+    private void verifyGoogleSignature(String idToken) throws GeneralSecurityException, IOException {
+        JacksonFactory jacksonFactory = new JacksonFactory();
+        GoogleIdTokenVerifier verifier =
+                new GoogleIdTokenVerifier.Builder((new NetHttpTransport()), jacksonFactory)
+                        .setAudience(Collections.singletonList(googleAud))
+                        .build();
+
+        // Signature 정상이면 ID Token 반환, 비정상이면 null 반환함
+        GoogleIdToken returnedIdToken = verifier.verify(idToken);
+
+        if (returnedIdToken == null) {
+            throw new InvalidSignatureException(INVALID_SIGNATURE, "verifyGoogleSignature()");
+        }
+
     }
 
     private void verifyKakaoSignature(String idToken){
@@ -161,7 +184,7 @@ public class AuthService {
             verifier.verify(idToken);
 
         } catch (SignatureVerificationException | JwkException e) {
-            throw new InvalidSignatureException(INVALID_SIGNATURE);
+            throw new InvalidSignatureException(INVALID_SIGNATURE, "verifyKakaoSignature()");
         }
     }
 

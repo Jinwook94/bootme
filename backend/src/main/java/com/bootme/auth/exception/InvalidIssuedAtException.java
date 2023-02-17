@@ -5,8 +5,8 @@ import com.bootme.common.exception.UnauthorizedException;
 
 public class InvalidIssuedAtException extends UnauthorizedException {
 
-    public InvalidIssuedAtException(final ErrorType errorType, final String issuer) {
-        super(errorType, issuer);
+    public InvalidIssuedAtException(final ErrorType errorType, final String issuedAt) {
+        super(errorType, issuedAt);
     }
 
 }
