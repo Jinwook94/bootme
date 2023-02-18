@@ -43,7 +43,6 @@ const Header = () => {
       <Layout>
         <Wrapper>
           <HeaderLeft>
-            <div onClick={() => console.log(isLogin)}>isLogin</div>
             <Logo>
               <GitHubIcon />
               <ServiceName>BootMe</ServiceName>

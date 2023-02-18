@@ -190,3 +190,6 @@ sketch
 # Front-end ignore settings.
 build
 storybook-static
+
+### Config ###
+application.yml

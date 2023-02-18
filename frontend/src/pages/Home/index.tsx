@@ -62,7 +62,6 @@ const Home = () => {
       top: 0,
       behavior: 'smooth',
     });
-    console.log('하');
   }, [sortOption]);
 
   if (isLoading) {
