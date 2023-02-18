@@ -1,48 +1,42 @@
 package com.bootme.util.fixture;
 
-import com.bootme.auth.dto.JwtVo;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
+import java.util.Date;
 
 public class AuthFixture {
-    public static final JwtVo.Header VALID_JWT_HEADER = JwtVo.Header.builder()
-                                                            .alg("RS256")
-                                                            .kid("274052a2b6448745764e72c359091d90cfb585a")
-                                                            .typ("JWT")
-                                                            .build();
-    public static final Long VALID_IAT = 1675313707L;
-    public static final Long VALID_EXP = 2524608000L;
-    public static final String VALID_EMAIL = "valid@email.com";
+    public static final String VALID_NAVER_ISSUER = "https://bootme.front.com";
+    public static final String VALID_NAVER_AUDIENCE = "bootme.com";
+    public static final Date VALID_IAT = new Date(new Date().getTime());
+    public static final Date VALID_EXP = new Date(new Date().getTime() + 86400000);
+    private static final String SECRET_KEY = "secretKeyForTesting:KeysUsedWithHMAC-SHA-AlgorithmsMustHaveASize>=256bits";
+    private static final Key SIGNING_KEY = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
 
-    public static JwtVo getJwtVo(String issuer, String audience){
-        JwtVo.Body body = JwtVo.Body.builder()
-                .iss(issuer)
-                .aud(audience)
-                .iat(VALID_IAT)
-                .exp(VALID_EXP)
-                .email(VALID_EMAIL)
-                .build();
-        return new JwtVo(VALID_JWT_HEADER, body);
+    // 토큰의 issuer, audience 검증시 사용
+    public static String getJwt(String issuer, String audience) {
+        return Jwts.builder()
+                .setHeaderParam("typ", "JWT")
+                .setIssuer(issuer)
+                .setAudience(audience)
+                .setIssuedAt(VALID_IAT)
+                .setExpiration(VALID_EXP)
+                .signWith(SIGNING_KEY)
+                .compact();
     }
 
-    public static JwtVo getJwtVo(String issuer, String audience, Long issuedAt){
-        JwtVo.Body body = JwtVo.Body.builder()
-                .iss(issuer)
-                .aud(audience)
-                .iat(issuedAt)
-                .exp(VALID_EXP)
-                .email(VALID_EMAIL)
-                .build();
-        return new JwtVo(VALID_JWT_HEADER, body);
-    }
-
-    public static JwtVo getJwtVo_exp(String issuer, String audience, Long expirationTime){
-        JwtVo.Body body = JwtVo.Body.builder()
-                .iss(issuer)
-                .aud(audience)
-                .iat(VALID_IAT)
-                .exp(expirationTime)
-                .email(VALID_EMAIL)
-                .build();
-        return new JwtVo(VALID_JWT_HEADER, body);
+    // 토큰의 발행시간, 만료시간 검증시 사용
+    public static String getJwt(Date issuedAt, Date expirationTime) {
+        return Jwts.builder()
+                .setHeaderParam("typ", "JWT")
+                .setIssuer(VALID_NAVER_ISSUER)
+                .setAudience(VALID_NAVER_AUDIENCE)
+                .setIssuedAt(issuedAt)
+                .setExpiration(expirationTime)
+                .signWith(SIGNING_KEY)
+                .compact();
     }
 
 }
