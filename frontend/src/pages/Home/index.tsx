@@ -1,7 +1,7 @@
 import {
   CourseCount,
   FilterButton,
-  FilterSelect,
+  SortSelect,
   PaginationWrapper,
   FooterWrapper,
   Footer,
@@ -27,6 +27,7 @@ import Header from '../../components/Header';
 import SideFilter from '../../components/Filters/SideFilter';
 import { useFilters } from '../../hooks/useFilters';
 import ModalFilter from '../../components/Filters/ModalFilter';
+import { Select } from 'antd';
 
 const Home = () => {
   // Fetching data
@@ -86,11 +87,17 @@ const Home = () => {
                       <FilterButton primary onClick={handleModal}>
                         <span> 검색 필터 </span>
                       </FilterButton>
-                      <FilterSelect>
-                        <option value={'recent'}> 최신순</option>
-                        <option value={'popular'}> 인기순</option>
-                        <option value={'popular'}> 응답률순</option>
-                      </FilterSelect>
+                      <SortSelect>
+                        <Select
+                          defaultValue="인기순"
+                          style={{ width: 94 }}
+                          options={[
+                            { value: 'popular', label: '인기순' },
+                            { value: 'newest', label: '등록순' },
+                            { value: 'bookmark', label: '북마크순' },
+                          ]}
+                        />
+                      </SortSelect>
                     </MenuRight>
                   </CourseListMenu>
                   <CourseCardList cards={currentCards} />
