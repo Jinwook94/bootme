@@ -9,14 +9,17 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.bootme.auth.dto.JwtVo;
 import com.bootme.auth.exception.*;
 import com.bootme.auth.token.JwkProviderSingleton;
+import com.bootme.auth.token.TokenProvider;
 import com.bootme.member.domain.Member;
 import com.bootme.member.repository.MemberRepository;
+import com.bootme.member.service.MemberService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,42 +39,58 @@ import static com.bootme.common.exception.ErrorType.*;
 public class AuthService {
 
     private final MemberRepository memberRepository;
+    private final MemberService memberService;
+    private final TokenProvider tokenProvider;
 
+    private final long ACCESS_TOKEN_EXPIRE_TIME_IN_SECONDS;
+    private final long REFRESH_TOKEN_EXPIRE_TIME_IN_SECONDS;
     private final String GOOGLE = "google";
     private final String NAVER = "naver";
     private final String KAKAO = "kakao";
-    private final String googleIss;
-    private final String naverIss;
-    private final String kakaoIss;
-    private final String googleAud;
-    private final String naverAud;
-    private final String kakaoAud;
-    private final String naverSecret;
+    private final String GOOGLE_ISSUER;
+    private final String NAVER_ISSUER;
+    private final String KAKAO_ISSUER;
+    private final String GOOGLE_AUDIENCE;
+    private final String NAVER_AUDIENCE;
+    private final String KAKAO_AUDIENCE;
+    private final String NAVER_SECRET;
+
 
     public AuthService(MemberRepository memberRepository,
-                       @Value("${security.jwt.google.issuer}") String googleIss,
-                       @Value("${security.jwt.naver.issuer}") String naverIss,
-                       @Value("${security.jwt.kakao.issuer}") String kakaoIss,
-                       @Value("${security.jwt.google.audience}") String googleAud,
-                       @Value("${security.jwt.naver.audience}") String naverAud,
-                       @Value("${security.jwt.kakao.audience}") String kakaoAud,
-                       @Value("${security.jwt.naver.secret}") String naverSecret) {
+                       MemberService memberService,
+                       TokenProvider tokenProvider,
+                       @Value("${security.jwt.bootme.exp.second.access}") long ACCESS_TOKEN_EXPIRE_TIME_IN_SECONDS,
+                       @Value("${security.jwt.bootme.exp.second.refresh}") long REFRESH_TOKEN_EXPIRE_TIME_IN_SECONDS,
+                       @Value("${security.jwt.google.issuer}") String GOOGLE_ISSUER,
+                       @Value("${security.jwt.naver.issuer}") String NAVER_ISSUER,
+                       @Value("${security.jwt.kakao.issuer}") String KAKAO_ISSUER,
+                       @Value("${security.jwt.google.audience}") String GOOGLE_AUDIENCE,
+                       @Value("${security.jwt.naver.audience}") String NAVER_AUDIENCE,
+                       @Value("${security.jwt.kakao.audience}") String KAKAO_AUDIENCE,
+                       @Value("${security.jwt.naver.secret}") String NAVER_SECRET) {
         this.memberRepository = memberRepository;
-        this.googleIss = googleIss;
-        this.naverIss = naverIss;
-        this.kakaoIss = kakaoIss;
-        this.googleAud = googleAud;
-        this.naverAud = naverAud;
-        this.kakaoAud = kakaoAud;
-        this.naverSecret = naverSecret;
+        this.memberService = memberService;
+        this.tokenProvider = tokenProvider;
+        this.ACCESS_TOKEN_EXPIRE_TIME_IN_SECONDS = ACCESS_TOKEN_EXPIRE_TIME_IN_SECONDS;
+        this.REFRESH_TOKEN_EXPIRE_TIME_IN_SECONDS = REFRESH_TOKEN_EXPIRE_TIME_IN_SECONDS;
+        this.GOOGLE_ISSUER = GOOGLE_ISSUER;
+        this.NAVER_ISSUER = NAVER_ISSUER;
+        this.KAKAO_ISSUER = KAKAO_ISSUER;
+        this.GOOGLE_AUDIENCE = GOOGLE_AUDIENCE;
+        this.NAVER_AUDIENCE = NAVER_AUDIENCE;
+        this.KAKAO_AUDIENCE = KAKAO_AUDIENCE;
+        this.NAVER_SECRET = NAVER_SECRET;
     }
 
     public String getIdToken(String authHeader){
         return authHeader.replace("Bearer ", "");
     }
 
-    // JWT 스트링을 파싱하여 JwtVo 인스턴스에 복사하고 해당 인스턴스를 반환함
-    public JwtVo copyTokenToVo(String token) throws Exception {
+    /**
+     * JWT 스트링을 파싱하여 JwoVO 인스턴스에 복사한다.
+     * @return JWT 에 포함된 정보(헤더, 바디)를 복사한 JwtVo 인스턴스
+     */
+    public JwtVo parseToken(String token) throws IOException {
         String[] jwtParts = token.split("\\.");
         ObjectMapper mapper = new ObjectMapper();
         JwtVo.Header header = mapper.readValue(Base64.getDecoder().decode(jwtParts[0]), JwtVo.Header.class);
@@ -79,8 +98,11 @@ public class AuthService {
         return new JwtVo(header, body);
     }
 
-    public void verifyToken(String idToken) throws Exception {
-        JwtVo jwtVo = copyTokenToVo(idToken);
+    /**
+     * ID 토큰의 발급자, Audience, 발행 시간, 만료 시간, 서명을 검증한다.
+     * */
+    public void verifyToken(String idToken) throws IOException, GeneralSecurityException {
+        JwtVo jwtVo = parseToken(idToken);
         JwtVo.Body body = jwtVo.getBody();
 
         String issuer = verifyIssuer(body);
@@ -88,17 +110,16 @@ public class AuthService {
         verifyIssuedAt(body);
         verifyExpiration(body);
         verifySignature(idToken, issuer);
-
     }
 
     private String verifyIssuer(JwtVo.Body body){
         final String iss = body.getIss();
 
-        if (Objects.equals(iss, googleIss)){
+        if (Objects.equals(iss, GOOGLE_ISSUER)){
             return GOOGLE;
-        } else if (Objects.equals(iss, naverIss)){
+        } else if (Objects.equals(iss, NAVER_ISSUER)){
             return NAVER;
-        } else if (Objects.equals(iss, kakaoIss)){
+        } else if (Objects.equals(iss, KAKAO_ISSUER)){
             return KAKAO;
         }
         throw new InvalidIssuerException(INVALID_ISSUER, iss);
@@ -108,13 +129,13 @@ public class AuthService {
         String expectedAud = null;
         switch (issuer) {
             case GOOGLE:
-                expectedAud = googleAud;
+                expectedAud = GOOGLE_AUDIENCE;
                 break;
             case NAVER:
-                expectedAud = naverAud;
+                expectedAud = NAVER_AUDIENCE;
                 break;
             case KAKAO:
-                expectedAud = kakaoAud;
+                expectedAud = KAKAO_AUDIENCE;
                 break;
         }
         String actualAud = body.getAud();
@@ -149,7 +170,7 @@ public class AuthService {
                 verifyGoogleSignature(idToken);
                 break;
             case NAVER:
-                verifyNaverSignature(idToken, naverSecret);
+                verifyNaverSignature(idToken, NAVER_SECRET);
                 break;
             case KAKAO:
                 verifyKakaoSignature(idToken);
@@ -158,7 +179,7 @@ public class AuthService {
     }
 
     private void verifyGoogleSignature(String idToken) throws GeneralSecurityException, IOException {
-        GoogleIdTokenVerifier verifier = getVerifier(googleAud);
+        GoogleIdTokenVerifier verifier = getVerifier(GOOGLE_AUDIENCE);
 
         // Signature 정상이면 ID Token 반환, 비정상이면 null 반환함
         GoogleIdToken returnedIdToken = verifier.verify(idToken);
@@ -200,9 +221,25 @@ public class AuthService {
         }
     }
 
+    /**
+     * 가입된 유저는 방문 횟수를 증가, 가입되지 않은 유저는 가입
+     * */
+    public void registerMember(JwtVo.Body jwtBody) throws Exception {
+        boolean isRegistered = memberService.isMemberRegistered(jwtBody.getEmail());
+
+        if (isRegistered) {
+            incrementVisitsCount(jwtBody);
+        } else {
+            String issuer = verifyIssuer(jwtBody);
+            jwtBody.setOAuthProvider(issuer);
+
+            Member member = Member.of(jwtBody);
+            memberRepository.save(member);
+        }
+    }
 
     // todo: 세션 카운트로 수정해야할듯
-    public void incrementVisitsCount(JwtVo.Body jwtBody) throws Exception {
+    private void incrementVisitsCount(JwtVo.Body jwtBody) throws Exception {
         int rowsAffected = memberRepository.incrementVisits(jwtBody.getEmail());
         // todo: 예외처리
         if (rowsAffected != 1){
@@ -210,14 +247,29 @@ public class AuthService {
         }
     }
 
-    public void registerMember(JwtVo.Body jwtBody){
-        String issuer = verifyIssuer(jwtBody);
-        jwtBody.setOAuthProvider(issuer);
-
-        Member member = Member.of(jwtBody);
-        memberRepository.save(member);
+    public String[] createTokenCookies(JwtVo.Body jwtBody){
+        String accessToken = tokenProvider.createAccessToken(jwtBody);
+        String refreshToken = tokenProvider.createRefreshToken(jwtBody);
+        String accessTokenCookie = getCookie("accessToken", accessToken, ACCESS_TOKEN_EXPIRE_TIME_IN_SECONDS);
+        String refreshTokenCookie = getCookie("refreshToken", refreshToken, REFRESH_TOKEN_EXPIRE_TIME_IN_SECONDS);
+        return new String[] { accessTokenCookie, refreshTokenCookie };
     }
 
+    private String getCookie(String tokenName, String token, long expireTime) {
+        return ResponseCookie.from(tokenName, token)
+                .sameSite("Lax")
+                .domain("localhost")
+                .maxAge(expireTime)
+                .path("/")
+                .secure(true)
+                .httpOnly(true)
+                .build()
+                .toString();
+    }
+
+    /**
+     * 프론트엔드의 헤더와 메뉴 모달, 유저 드롭다운 컴포넌트에 사용될 유저정보를 전달
+     * */
     public String getUserInfo(JwtVo.Body jwtBody) {
         String nickname = jwtBody.getNickname();
         String name = jwtBody.getName();

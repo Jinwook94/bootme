@@ -2,11 +2,8 @@ package com.bootme.auth.controller;
 
 import com.bootme.auth.dto.JwtVo;
 import com.bootme.auth.service.AuthService;
-import com.bootme.auth.token.TokenProvider;
-import com.bootme.member.service.MemberService;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -14,65 +11,27 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 
+@RequiredArgsConstructor
 @RestController
 public class AuthController {
 
     private final AuthService authService;
-    private final MemberService memberService;
-    private final TokenProvider tokenProvider;
-
-    private final long accessTokenExpireTimeInSeconds;
-    private final long refreshTokenExpireTimeInSeconds;
-
-    public AuthController(AuthService authService,
-                          MemberService memberService,
-                          TokenProvider tokenProvider,
-                          @Value("${security.jwt.bootme.exp.second.access}") long accessTokenExpireTimeInSeconds,
-                          @Value("${security.jwt.bootme.exp.second.refresh}") long refreshTokenExpireTimeInSeconds) {
-        this.authService = authService;
-        this.memberService = memberService;
-        this.tokenProvider = tokenProvider;
-        this.accessTokenExpireTimeInSeconds = accessTokenExpireTimeInSeconds;
-        this.refreshTokenExpireTimeInSeconds = refreshTokenExpireTimeInSeconds;
-    }
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestHeader("Authorization") String authHeader) throws Exception {
         String idToken = authService.getIdToken(authHeader);
-        JwtVo jwtVo = authService.copyTokenToVo(idToken);
+        JwtVo jwtVo = authService.parseToken(idToken);
         JwtVo.Body jwtBody = jwtVo.getBody();
 
         authService.verifyToken(idToken);
-
-        boolean isRegistered = memberService.isMemberRegistered(jwtBody.getEmail());
-        if (isRegistered) {
-            authService.incrementVisitsCount(jwtBody);
-        } else {
-            authService.registerMember(jwtBody);
-        }
-
-        String accessToken = tokenProvider.createAccessToken(jwtBody);
-        String refreshToken = tokenProvider.createRefreshToken(jwtBody);
-        ResponseCookie accessTokenCookie = getCookie("accessToken", accessToken, accessTokenExpireTimeInSeconds);
-        ResponseCookie refreshTokenCookie = getCookie("refreshToken", refreshToken, refreshTokenExpireTimeInSeconds);
-
+        authService.registerMember(jwtBody);
+        String[] tokenCookies = authService.createTokenCookies(jwtBody);
         String userInfo = authService.getUserInfo(jwtBody);
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.SET_COOKIE, accessTokenCookie.toString())
-                .header(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString())
+                .header(HttpHeaders.SET_COOKIE, tokenCookies[0])
+                .header(HttpHeaders.SET_COOKIE, tokenCookies[1])
                 .body(userInfo);
-    }
-
-    private ResponseCookie getCookie(String tokenName, String token, long expireTime) {
-        return ResponseCookie.from(tokenName, token)
-                .sameSite("Lax")
-                .domain("localhost")
-                .maxAge(expireTime)
-                .path("/")
-                .secure(true)
-                .httpOnly(true)
-                .build();
     }
 
     @PostMapping("/logout")
