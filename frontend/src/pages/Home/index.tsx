@@ -43,17 +43,27 @@ const Home = () => {
   }
 
   // Sorting
-  const { sortedCards, handleSorting } = useSorting(filteredCourses);
+  const { sortOption, sortedCards, handleSorting } = useSorting(filteredCourses);
 
   // Pagination
   const [cardsPerPage] = useState(12);
   const maxPage = Math.floor(length / cardsPerPage) + 1;
-  const { currentPage, handleNumberClick, handleNextClick, handlePrevClick, getCurrentItems } = usePaging(maxPage);
+  const { currentPage, setCurrentPage, handleNumberClick, handleNextClick, handlePrevClick, getCurrentItems } =
+    usePaging(maxPage);
   const currentCards = getCurrentItems(cardsPerPage, sortedCards);
 
   useEffect(() => {
     handleLength(filteredCourses.length);
   }, [filteredCourses]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+    console.log('하');
+  }, [sortOption]);
 
   if (isLoading) {
     return <p>to do: 로딩중 화면 작성</p>;
