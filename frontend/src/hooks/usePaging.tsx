@@ -41,7 +41,7 @@ const usePaging = (maxPage: number) => {
     return items!.slice(indexOfFirstCard, indexOfLastCard);
   };
 
-  return { currentPage, handleNumberClick, handleNextClick, handlePrevClick, getCurrentItems };
+  return { currentPage, setCurrentPage, handleNumberClick, handleNextClick, handlePrevClick, getCurrentItems };
 };
 
 export default usePaging;

@@ -110,32 +110,26 @@ export const CourseListMenu = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 0;
   vertical-align: middle;
 
   @media (max-width: 575px) {
     align-items: center;
-    padding: 0.5rem 0;
-  }
-
-  @media (min-width: 767px) {
-    display: none;
   }
 `;
 
-export const MenuLeft = styled.div``;
+export const MenuLeft = styled.div`
+  height: 32px;
+  display: flex;
+  align-items: flex-end;
+`;
 
-export const CourseCount = styled.h6`
-  display: block;
+export const CourseCount = styled.span`
   margin-left: 1rem;
-  margin-bottom: 0.25rem;
-  font-size: 1rem;
   font-weight: 700;
-  vertical-align: top;
   line-height: 1.5;
-  margin-top: 0;
+  font-size: 14px;
 
-  @media (max-width: 767px) {
+  @media (max-width: 575px) {
     font-size: 13px;
   }
 `;
@@ -146,45 +140,22 @@ export const FilterButton = styled(Button)`
   display: inline-flex;
   align-items: center;
   max-height: 1.9375rem;
-  font-size: 15px;
+  font-size: 14px;
 
   span {
     display: inline-block;
     vertical-align: middle;
   }
 
-  @media (max-width: 767px) {
-    font-size: 14px;
+  @media (min-width: 768px) {
+    display: none;
   }
 `;
 
-export const FilterSelect = styled.select`
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-image: url(https://career.programmers.co.kr/assets/toggle-black-3ebb19a240c1ef57dac0b24e19fd00eff32a7e32ff8f2b87cfa2eb399c193c3a.png);
-  background-position: calc(100% - 0.5rem) 49%;
-  background-repeat: no-repeat;
-  background-size: 0.625rem 0.3125rem;
-  border: 1px solid #d7e2eb;
-  border-radius: 0.25rem;
-  color: #263747;
-  padding: 0.3125rem 1.5rem 0.3125rem 0.8125rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  line-height: 1.25rem;
-  background-color: transparent;
-  display: inline-block;
-  text-align: center;
-  vertical-align: middle;
-  user-select: none;
-  word-wrap: normal;
-  text-transform: none;
+export const SortSelect = styled.div`
+  display: inline-flex;
   margin-left: 4.5px;
-
-  @media (max-width: 767px) {
-    font-size: 0.8125rem;
-    line-height: 1.125rem;
-  }
+  vertical-align: middle;
 `;
 
 export const PaginationWrapper = styled.div`

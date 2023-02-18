@@ -1,7 +1,7 @@
 import {
   CourseCount,
   FilterButton,
-  FilterSelect,
+  SortSelect,
   PaginationWrapper,
   FooterWrapper,
   Footer,
@@ -27,6 +27,8 @@ import Header from '../../components/Header';
 import SideFilter from '../../components/Filters/SideFilter';
 import { useFilters } from '../../hooks/useFilters';
 import ModalFilter from '../../components/Filters/ModalFilter';
+import { Select } from 'antd';
+import useSorting from '../../hooks/useSorting';
 
 const Home = () => {
   // Fetching data
@@ -40,15 +42,28 @@ const Home = () => {
     filteredCourses = filterCourses(data);
   }
 
+  // Sorting
+  const { sortOption, sortedCards, handleSorting } = useSorting(filteredCourses);
+
   // Pagination
   const [cardsPerPage] = useState(12);
   const maxPage = Math.floor(length / cardsPerPage) + 1;
-  const { currentPage, handleNumberClick, handleNextClick, handlePrevClick, getCurrentItems } = usePaging(maxPage);
-  const currentCards = getCurrentItems(cardsPerPage, filteredCourses);
+  const { currentPage, setCurrentPage, handleNumberClick, handleNextClick, handlePrevClick, getCurrentItems } =
+    usePaging(maxPage);
+  const currentCards = getCurrentItems(cardsPerPage, sortedCards);
 
   useEffect(() => {
     handleLength(filteredCourses.length);
   }, [filteredCourses]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+    console.log('하');
+  }, [sortOption]);
 
   if (isLoading) {
     return <p>to do: 로딩중 화면 작성</p>;
@@ -86,14 +101,21 @@ const Home = () => {
                       <FilterButton primary onClick={handleModal}>
                         <span> 검색 필터 </span>
                       </FilterButton>
-                      <FilterSelect>
-                        <option value={'recent'}> 최신순</option>
-                        <option value={'popular'}> 인기순</option>
-                        <option value={'popular'}> 응답률순</option>
-                      </FilterSelect>
+                      <SortSelect>
+                        <Select
+                          defaultValue="인기순"
+                          style={{ width: 94 }}
+                          options={[
+                            { value: 'popular', label: '인기순' },
+                            { value: 'newest', label: '등록순' },
+                            { value: 'bookmark', label: '북마크순' },
+                          ]}
+                          onSelect={handleSorting}
+                        />
+                      </SortSelect>
                     </MenuRight>
                   </CourseListMenu>
-                  <CourseCardList cards={currentCards} />
+                  <CourseCardList currentCards={currentCards} />
                 </>
               )}
             </CourseListWrapper>
