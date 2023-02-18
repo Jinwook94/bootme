@@ -28,6 +28,7 @@ import SideFilter from '../../components/Filters/SideFilter';
 import { useFilters } from '../../hooks/useFilters';
 import ModalFilter from '../../components/Filters/ModalFilter';
 import { Select } from 'antd';
+import useSorting from '../../hooks/useSorting';
 
 const Home = () => {
   // Fetching data
@@ -41,11 +42,14 @@ const Home = () => {
     filteredCourses = filterCourses(data);
   }
 
+  // Sorting
+  const { sortedCards, handleSorting } = useSorting(filteredCourses);
+
   // Pagination
   const [cardsPerPage] = useState(12);
   const maxPage = Math.floor(length / cardsPerPage) + 1;
   const { currentPage, handleNumberClick, handleNextClick, handlePrevClick, getCurrentItems } = usePaging(maxPage);
-  const currentCards = getCurrentItems(cardsPerPage, filteredCourses);
+  const currentCards = getCurrentItems(cardsPerPage, sortedCards);
 
   useEffect(() => {
     handleLength(filteredCourses.length);
@@ -96,11 +100,12 @@ const Home = () => {
                             { value: 'newest', label: '등록순' },
                             { value: 'bookmark', label: '북마크순' },
                           ]}
+                          onSelect={handleSorting}
                         />
                       </SortSelect>
                     </MenuRight>
                   </CourseListMenu>
-                  <CourseCardList cards={currentCards} />
+                  <CourseCardList currentCards={currentCards} />
                 </>
               )}
             </CourseListWrapper>
