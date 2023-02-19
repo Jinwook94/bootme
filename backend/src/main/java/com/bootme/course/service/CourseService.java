@@ -66,4 +66,16 @@ public class CourseService {
         courseRepository.delete(course);
     }
 
+    public void incrementClicks(Long id){
+        courseRepository.findById(id)
+                .orElseThrow(() -> new CourseNotFoundException(NOT_FOUND_COURSE));
+        courseRepository.incrementClicks(id);
+    }
+
+    public void incrementBookmarks(Long id){
+        courseRepository.findById(id)
+                .orElseThrow(() -> new CourseNotFoundException(NOT_FOUND_COURSE));
+        courseRepository.incrementBookmarks(id);
+    }
+
 }
