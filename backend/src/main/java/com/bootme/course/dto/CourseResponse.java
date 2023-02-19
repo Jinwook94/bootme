@@ -4,6 +4,7 @@ import com.bootme.course.domain.*;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Map;
@@ -88,10 +89,14 @@ public class CourseResponse {
                 .isRegisterOpen(course.isRegisterOpen())
                 .clicks(course.getClicks())
                 .bookmarks(course.getBookmarks())
-                .createdAt(course.getCreatedAt().toInstant(ZoneOffset.UTC).toEpochMilli())
-                .modifiedAt(course.getModifiedAt().toInstant(ZoneOffset.UTC).toEpochMilli())
+                .createdAt(convertLocalDateTimeToLong(course.getCreatedAt()))
+                .modifiedAt(convertLocalDateTimeToLong(course.getModifiedAt()))
                 .company(CompanyResponse.of(course.getCompany()))
                 .build();
+    }
+
+    private static long convertLocalDateTimeToLong(LocalDateTime localDateTime){
+        return localDateTime.toInstant(ZoneOffset.ofHours(9)).toEpochMilli();
     }
 
 }
