@@ -283,4 +283,15 @@ public class AuthService {
             return "NickName=" + idInEmail + ", ProfileImage=" + jwtBody.getPicture();
     }
 
+    public void verifyWebhookJwt(String jwt, String webhookSecret){
+        try {
+            Jwts.parserBuilder()
+                    .setSigningKey(Keys.hmacShaKeyFor(webhookSecret.getBytes()))
+                    .build()
+                    .parseClaimsJws(jwt);
+        } catch (JwtException e) {
+            throw new InvalidSignatureException(INVALID_SIGNATURE, "verifyWebhookSecret()");
+        }
+    }
+
 }
