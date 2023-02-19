@@ -96,6 +96,12 @@ public class CourseFixture {
     public static final String VALID_PREREQUISITES_1 = "노베이스";
     public static final String VALID_PREREQUISITES_2 = "프로그래밍언어기초";
     public static final String VALID_PREREQUISITES_3 = "코딩테스트풀이가능";
+    public static final int VALID_CLICKS_1 = 1;
+    public static final int VALID_CLICKS_2 = 2;
+    public static final int VALID_CLICKS_3 = 3;
+    public static final int VALID_BOOKMARKS_1 = 4;
+    public static final int VALID_BOOKMARKS_2 = 5;
+    public static final int VALID_BOOKMARKS_3 = 6;
     public static final String VALID_COM_NAME_1 = "네이버";
     public static final String VALID_COM_NAME_2 = "카카오";
     public static final String VALID_COM_NAME_3 = "라인";
@@ -211,6 +217,8 @@ public class CourseFixture {
         Dates[] dates = {VALID_DATES_1, VALID_DATES_2, VALID_DATES_3};
         boolean[] recommendeds = {true, false, true};
         boolean[] testeds = {true, true, false};
+        int[] clicks = {VALID_CLICKS_1, VALID_CLICKS_2, VALID_CLICKS_3};
+        int[] bookmarks = {VALID_BOOKMARKS_1, VALID_BOOKMARKS_2, VALID_BOOKMARKS_3};
 
         return CourseResponse.builder()
                 .id(ids[index])
@@ -230,6 +238,8 @@ public class CourseFixture {
                 .dates(dates[index])
                 .isRecommended(recommendeds[index])
                 .isTested(testeds[index])
+                .clicks(clicks[index])
+                .bookmarks(bookmarks[index])
                 .build();
     }
 
@@ -291,6 +301,8 @@ public class CourseFixture {
         Dates[] dates = {VALID_DATES_1, VALID_DATES_2, VALID_DATES_3};
         boolean[] recommendeds = {true, false, true};
         boolean[] testeds = {true, true, false};
+        int[] clicks = {VALID_CLICKS_1, VALID_CLICKS_2, VALID_CLICKS_3};
+        int[] bookmarks = {VALID_BOOKMARKS_1, VALID_BOOKMARKS_2, VALID_BOOKMARKS_3};
 
         return Course.builder()
                 .title(titles[index])
@@ -309,6 +321,8 @@ public class CourseFixture {
                 .dates(dates[index])
                 .isRecommended(recommendeds[index])
                 .isTested(testeds[index])
+                .clicks(clicks[index])
+                .bookmarks(bookmarks[index])
                 .build();
 
     }
@@ -330,6 +344,8 @@ public class CourseFixture {
         Dates[] dates = {VALID_DATES_1, VALID_DATES_2, VALID_DATES_3};
         boolean[] recommendeds = {true, false, true};
         boolean[] testeds = {true, true, false};
+        int[] clicks = {VALID_CLICKS_1, VALID_CLICKS_2, VALID_CLICKS_3};
+        int[] bookmarks = {VALID_BOOKMARKS_1, VALID_BOOKMARKS_2, VALID_BOOKMARKS_3};
 
         Course[] courses = new Course[titles.length];
         for (int i = 0; i < titles.length; i++) {
@@ -350,6 +366,8 @@ public class CourseFixture {
                     .dates(dates[i])
                     .isRecommended(recommendeds[i])
                     .isTested(testeds[i])
+                    .clicks(clicks[i])
+                    .bookmarks(bookmarks[i])
                     .build();
         }
 

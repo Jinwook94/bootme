@@ -63,11 +63,16 @@ public class Course extends BaseEntity {
 
     private boolean isTested;
 
+    private int clicks;
+
+    private int bookmarks;
+
 
     @Builder
     public Course(String title, String name, int generation, String url, Company company,
                   String location, String onoffline, Category categories, Stack stacks, String prerequisites,
-                  int cost, String costType, int period, Dates dates, boolean isRecommended, boolean isTested) {
+                  int cost, String costType, int period, Dates dates, boolean isRecommended, boolean isTested,
+                  int clicks, int bookmarks) {
         this.title = title;
         this.name = name;
         this.generation = generation;
@@ -84,6 +89,8 @@ public class Course extends BaseEntity {
         this.dates = dates;
         this.isRecommended = isRecommended;
         this.isTested = isTested;
+        this.clicks = clicks;
+        this.bookmarks = bookmarks;
     }
 
     public static Course of(CourseRequest courseRequest, Company company, Category categories, Stack stacks) {
@@ -104,6 +111,8 @@ public class Course extends BaseEntity {
                 .dates(courseRequest.getDates())
                 .isRecommended(courseRequest.isRecommended())
                 .isTested(courseRequest.isTested())
+                .clicks(0)
+                .bookmarks(0)
                 .build();
     }
 

@@ -90,7 +90,9 @@ class CourseServiceTest extends ServiceTest {
                 () -> assertThat(courseResponse.getId()).isEqualTo(course.getId()),
                 () -> assertThat(courseResponse.getUrl()).isEqualTo(course.getUrl()),
                 () -> assertThat(courseResponse.getTitle()).isEqualTo(course.getTitle()),
-                () -> assertThat(courseResponse.getLocation()).isEqualTo(course.getLocation())
+                () -> assertThat(courseResponse.getLocation()).isEqualTo(course.getLocation()),
+                () -> assertThat(courseResponse.getClicks()).isEqualTo(course.getClicks()),
+                () -> assertThat(courseResponse.getBookmarks()).isEqualTo(course.getBookmarks())
         );
     }
 
