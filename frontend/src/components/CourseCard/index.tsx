@@ -99,7 +99,18 @@ const CourseCard = ({ title, url, company, categories, stacks, dates, period, co
 
 export type CourseCardProps = Omit<
   Course,
-  'name' | 'generation' | 'onOffline' | 'prerequisites' | 'recommended' | 'tested' | 'registerOpen' | 'location'
+  | 'name'
+  | 'generation'
+  | 'onOffline'
+  | 'prerequisites'
+  | 'recommended'
+  | 'tested'
+  | 'registerOpen'
+  | 'location'
+  | 'clicks'
+  | 'bookmarks'
+  | 'createdAt'
+  | 'modifiedAt'
 >;
 
 export default CourseCard;

@@ -14,8 +14,12 @@ interface Course {
   period: number;
   dates: datesType;
   company: Company;
-  recommended: boolean;
+  clicks: number;
+  bookmarks: number;
+  createdAt: bigint;
+  modifiedAt: bigint;
   tested: boolean;
+  recommended: boolean;
   registerOpen: boolean;
 }
 
