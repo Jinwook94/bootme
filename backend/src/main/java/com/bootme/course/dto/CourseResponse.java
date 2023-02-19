@@ -4,6 +4,7 @@ import com.bootme.course.domain.*;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +29,10 @@ public class CourseResponse {
     private boolean isRecommended;
     private boolean isTested;
     private boolean isRegisterOpen;
+    private int clicks;
+    private int bookmarks;
+    private long createdAt;
+    private long modifiedAt;
 
     public CourseResponse() {
     }
@@ -36,8 +41,8 @@ public class CourseResponse {
     public CourseResponse(Long id, String name, int generation, String title, String url,
                           String location, String onOffline, Map<String, List<String>> categories,
                           Map<String, List<String>> stacks, String prerequisites, int cost, String costType,
-                          int period, Dates dates, boolean isRecommended, boolean isTested,
-                          boolean isRegisterOpen, CompanyResponse company) {
+                          int period, Dates dates, boolean isRecommended, boolean isTested, boolean isRegisterOpen,
+                          int clicks, int bookmarks, long createdAt, long modifiedAt, CompanyResponse company) {
         this.id = id;
         this.name = name;
         this.generation = generation;
@@ -55,6 +60,10 @@ public class CourseResponse {
         this.isRecommended = isRecommended;
         this.isTested = isTested;
         this.isRegisterOpen = isRegisterOpen;
+        this.clicks = clicks;
+        this.bookmarks = bookmarks;
+        this.createdAt = createdAt;
+        this.modifiedAt = modifiedAt;
         this.company = company;
     }
 
@@ -77,6 +86,10 @@ public class CourseResponse {
                 .isRecommended(course.isRecommended())
                 .isTested(course.isTested())
                 .isRegisterOpen(course.isRegisterOpen())
+                .clicks(course.getClicks())
+                .bookmarks(course.getBookmarks())
+                .createdAt(course.getCreatedAt().toInstant(ZoneOffset.UTC).toEpochMilli())
+                .modifiedAt(course.getModifiedAt().toInstant(ZoneOffset.UTC).toEpochMilli())
                 .company(CompanyResponse.of(course.getCompany()))
                 .build();
     }
