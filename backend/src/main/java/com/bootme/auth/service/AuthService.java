@@ -44,15 +44,19 @@ public class AuthService {
 
     private final long ACCESS_TOKEN_EXPIRE_TIME_IN_SECONDS;
     private final long REFRESH_TOKEN_EXPIRE_TIME_IN_SECONDS;
+    private final String BOOTME = "bootme";
     private final String GOOGLE = "google";
     private final String NAVER = "naver";
     private final String KAKAO = "kakao";
+    private final String BOOTME_ISSUER;
     private final String GOOGLE_ISSUER;
     private final String NAVER_ISSUER;
     private final String KAKAO_ISSUER;
+    private final String BOOTME_AUDIENCE;
     private final String GOOGLE_AUDIENCE;
     private final String NAVER_AUDIENCE;
     private final String KAKAO_AUDIENCE;
+    private final String BOOTME_SECRET;
     private final String NAVER_SECRET;
 
 
@@ -61,24 +65,30 @@ public class AuthService {
                        TokenProvider tokenProvider,
                        @Value("${security.jwt.bootme.exp.second.access}") long ACCESS_TOKEN_EXPIRE_TIME_IN_SECONDS,
                        @Value("${security.jwt.bootme.exp.second.refresh}") long REFRESH_TOKEN_EXPIRE_TIME_IN_SECONDS,
+                       @Value("${security.jwt.bootme_front.issuer}") String BOOTME_ISSUER,
                        @Value("${security.jwt.google.issuer}") String GOOGLE_ISSUER,
                        @Value("${security.jwt.naver.issuer}") String NAVER_ISSUER,
                        @Value("${security.jwt.kakao.issuer}") String KAKAO_ISSUER,
+                       @Value("${security.jwt.bootme_front.audience}") String BOOTME_AUDIENCE,
                        @Value("${security.jwt.google.audience}") String GOOGLE_AUDIENCE,
                        @Value("${security.jwt.naver.audience}") String NAVER_AUDIENCE,
                        @Value("${security.jwt.kakao.audience}") String KAKAO_AUDIENCE,
+                       @Value("${security.jwt.bootme_front.secret-key}") String BOOTME_SECRET,
                        @Value("${security.jwt.naver.secret}") String NAVER_SECRET) {
         this.memberRepository = memberRepository;
         this.memberService = memberService;
         this.tokenProvider = tokenProvider;
         this.ACCESS_TOKEN_EXPIRE_TIME_IN_SECONDS = ACCESS_TOKEN_EXPIRE_TIME_IN_SECONDS;
         this.REFRESH_TOKEN_EXPIRE_TIME_IN_SECONDS = REFRESH_TOKEN_EXPIRE_TIME_IN_SECONDS;
+        this.BOOTME_ISSUER = BOOTME_ISSUER;
         this.GOOGLE_ISSUER = GOOGLE_ISSUER;
         this.NAVER_ISSUER = NAVER_ISSUER;
         this.KAKAO_ISSUER = KAKAO_ISSUER;
+        this.BOOTME_AUDIENCE = BOOTME_AUDIENCE;
         this.GOOGLE_AUDIENCE = GOOGLE_AUDIENCE;
         this.NAVER_AUDIENCE = NAVER_AUDIENCE;
         this.KAKAO_AUDIENCE = KAKAO_AUDIENCE;
+        this.BOOTME_SECRET = BOOTME_SECRET;
         this.NAVER_SECRET = NAVER_SECRET;
     }
 
@@ -115,7 +125,9 @@ public class AuthService {
     private String verifyIssuer(JwtVo.Body body){
         final String iss = body.getIss();
 
-        if (Objects.equals(iss, GOOGLE_ISSUER)){
+        if (Objects.equals(iss, BOOTME_ISSUER)){
+            return BOOTME;
+        } else if (Objects.equals(iss, GOOGLE_ISSUER)){
             return GOOGLE;
         } else if (Objects.equals(iss, NAVER_ISSUER)){
             return NAVER;
@@ -128,6 +140,9 @@ public class AuthService {
     private void verifyAudience(JwtVo.Body body, String issuer) {
         String expectedAud = null;
         switch (issuer) {
+            case BOOTME:
+                expectedAud = BOOTME_AUDIENCE;
+                break;
             case GOOGLE:
                 expectedAud = GOOGLE_AUDIENCE;
                 break;
@@ -164,17 +179,32 @@ public class AuthService {
         }
     }
 
-    private void verifySignature(String idToken, String issuer) throws GeneralSecurityException, IOException {
+    private void verifySignature(String jwt, String issuer) throws GeneralSecurityException, IOException {
         switch (issuer) {
+            case BOOTME:
+                verifyBootmeSignature(jwt, BOOTME_SECRET);
+                break;
             case GOOGLE:
-                verifyGoogleSignature(idToken);
+                verifyGoogleSignature(jwt);
                 break;
             case NAVER:
-                verifyNaverSignature(idToken, NAVER_SECRET);
+                verifyNaverSignature(jwt, NAVER_SECRET);
                 break;
             case KAKAO:
-                verifyKakaoSignature(idToken);
+                verifyKakaoSignature(jwt);
                 break;
+        }
+    }
+
+    private void verifyBootmeSignature(String jwt, String bootmeSecret){
+        try {
+            Jwts.parserBuilder()
+                    .setSigningKey(Keys.hmacShaKeyFor(bootmeSecret.getBytes()))
+                    .build()
+                    .parseClaimsJws(jwt);
+
+        } catch (JwtException e) {
+            throw new InvalidSignatureException(INVALID_SIGNATURE, "verifyBootmeSignature()");
         }
     }
 
@@ -281,17 +311,6 @@ public class AuthService {
             return "NickName=" + name + ", ProfileImage=" + jwtBody.getPicture();
         } else
             return "NickName=" + idInEmail + ", ProfileImage=" + jwtBody.getPicture();
-    }
-
-    public void verifyWebhookJwt(String jwt, String webhookSecret){
-        try {
-            Jwts.parserBuilder()
-                    .setSigningKey(Keys.hmacShaKeyFor(webhookSecret.getBytes()))
-                    .build()
-                    .parseClaimsJws(jwt);
-        } catch (JwtException e) {
-            throw new InvalidSignatureException(INVALID_SIGNATURE, "verifyWebhookSecret()");
-        }
     }
 
 }
