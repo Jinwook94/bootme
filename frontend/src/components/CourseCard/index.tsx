@@ -16,10 +16,25 @@ import {
 import './style.css';
 import BookmarkIcon from '../../assets/bookmark.svg';
 import DateFormatter from './dateFormatter';
+import useWebhook from '../../hooks/useWebhook';
+import { COURSE_CLICKED } from '../../constants/webhook';
 
-const CourseCard = ({ title, url, company, categories, stacks, dates, period, cost, costType }: CourseCardProps) => {
+const CourseCard = ({
+  id,
+  title,
+  url,
+  company,
+  categories,
+  stacks,
+  dates,
+  period,
+  cost,
+  costType,
+}: CourseCardProps) => {
   const weeks = Math.round(period / 7);
   const months = Math.round(period / 30);
+  const { sendWebhookNoti } = useWebhook();
+
   return (
     <Wrapper>
       <link
@@ -29,16 +44,16 @@ const CourseCard = ({ title, url, company, categories, stacks, dates, period, co
 
       <ItemHeader>
         <a href={url} target="_blank" rel="noreferrer">
-          <CompanyLogo src={company.logoUrl} alt={company.name} />
+          <CompanyLogo src={company.logoUrl} alt={company.name} onClick={() => sendWebhookNoti(COURSE_CLICKED, id)} />
         </a>
       </ItemHeader>
       <ItemBody>
         <CourseTitleWrapper>
-          <CourseTitle as="a" href={url} target="_blank">
+          <CourseTitle as="a" href={url} target="_blank" onClick={() => sendWebhookNoti(COURSE_CLICKED, id)}>
             {title}
           </CourseTitle>
         </CourseTitleWrapper>
-        <CompanyName href={company.url} target="_blank">
+        <CompanyName href={company.url} target="_blank" onClick={() => sendWebhookNoti(COURSE_CLICKED, id)}>
           {company.name}
         </CompanyName>
         <CourseInfo>
@@ -90,7 +105,7 @@ const CourseCard = ({ title, url, company, categories, stacks, dates, period, co
           ))}
         </CourseTags>
       </ItemBody>
-      <Bookmark>
+      <Bookmark onClick={() => sendWebhookNoti(COURSE_CLICKED, id)}>
         <BookmarkIcon />
       </Bookmark>
     </Wrapper>
