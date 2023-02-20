@@ -82,7 +82,7 @@ public class AuthService {
         this.NAVER_SECRET = NAVER_SECRET;
     }
 
-    public String getIdToken(String authHeader){
+    public String getToken(String authHeader){
         return authHeader.replace("Bearer ", "");
     }
 

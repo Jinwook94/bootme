@@ -19,7 +19,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestHeader("Authorization") String authHeader) throws Exception {
-        String idToken = authService.getIdToken(authHeader);
+        String idToken = authService.getToken(authHeader);
         JwtVo jwtVo = authService.parseToken(idToken);
         JwtVo.Body jwtBody = jwtVo.getBody();
 
