@@ -17,7 +17,7 @@ import './style.css';
 import BookmarkIcon from '../../assets/bookmark.svg';
 import DateFormatter from './dateFormatter';
 import useWebhook from '../../hooks/useWebhook';
-import { COURSE_CLICKED } from '../../constants/webhook';
+import { COURSE_BOOKMARKED, COURSE_CLICKED } from '../../constants/webhook';
 
 const CourseCard = ({
   id,
@@ -105,7 +105,12 @@ const CourseCard = ({
           ))}
         </CourseTags>
       </ItemBody>
-      <Bookmark onClick={() => sendWebhookNoti(COURSE_CLICKED, id)}>
+      <Bookmark
+        onClick={() => {
+          sendWebhookNoti(COURSE_CLICKED, id);
+          sendWebhookNoti(COURSE_BOOKMARKED, id);
+        }}
+      >
         <BookmarkIcon />
       </Bookmark>
     </Wrapper>
