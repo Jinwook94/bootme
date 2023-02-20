@@ -17,6 +17,12 @@ const useCourses = ({
 }) =>
   useQuery([courseKeys.list(filters)], () => fetcher.get(`/admin/courses`), {
     select: data => data.data,
+    refetchOnWindowFocus: false, // disable automatic refetch on window focus
+    refetchInterval: 24 * 60 * 60 * 1000, // refetch every 24 hours
+    staleTime: 24 * 60 * 60 * 1000, // consider data fresh for 24 hours
+    cacheTime: 23 * 60 * 60 * 1000, // maximum time to cache data (23 hours)
+    keepPreviousData: true, // keep previous data while fetching new data
+    enabled: true, // todo: 조건부로 true 설정되도록 수정 필요함 (현재는 페이지 refresh 하면 refetch)
     ...options,
   });
 
