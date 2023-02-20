@@ -16,7 +16,7 @@ interface Course {
   company: Company;
   clicks: number;
   bookmarks: number;
-  createdAt: bigint;
+  createdAt: number;
   modifiedAt: bigint;
   tested: boolean;
   recommended: boolean;
