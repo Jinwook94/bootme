@@ -14,7 +14,7 @@ import {
 } from './style';
 
 import './style.css';
-import BookmarkIcon from '../../assets/bookmark.svg';
+import { HeartFilled, HeartOutlined } from '@ant-design/icons';
 import DateFormatter from './dateFormatter';
 import useWebhook from '../../hooks/useWebhook';
 import { COURSE_BOOKMARKED, COURSE_CLICKED } from '../../constants/webhook';
@@ -111,7 +111,7 @@ const CourseCard = ({
           sendWebhookNoti(COURSE_BOOKMARKED, id);
         }}
       >
-        <BookmarkIcon />
+        {isBookmarked ? <HeartFilled /> : <HeartOutlined />}
       </Bookmark>
     </Wrapper>
   );
