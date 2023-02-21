@@ -32,6 +32,12 @@ public class MemberService {
         return memberRepository.existsMemberByEmail(email);
     }
 
+    @Transactional(readOnly = true)
+    public Member findByEmail(String email) {
+        return memberRepository.findByEmail(email)
+                .orElseThrow(() -> new MemberNotFoundException(NOT_FOUND_MEMBER));
+    }
+
     public Long addBookmarkCourse(Long memberId, Long courseId) {
         boolean isExist = bookmarkCourseRepository.existsByMemberIdAndCourseId(memberId, courseId);
 

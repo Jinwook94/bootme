@@ -301,16 +301,17 @@ public class AuthService {
      * 프론트엔드의 헤더와 메뉴 모달, 유저 드롭다운 컴포넌트에 사용될 유저정보를 전달
      * */
     public String getUserInfo(JwtVo.Body jwtBody) {
+        Long memberId = memberService.findByEmail(jwtBody.getEmail()).getId();
         String nickname = jwtBody.getNickname();
         String name = jwtBody.getName();
         String idInEmail = jwtBody.getEmail().split("@")[0];
 
         if (nickname != null) {
-            return "NickName=" + nickname + ", ProfileImage=" + jwtBody.getPicture();
+            return "MemberId=" + memberId + ", NickName=" + nickname + ", ProfileImage=" + jwtBody.getPicture();
         } else if (name != null) {
-            return "NickName=" + name + ", ProfileImage=" + jwtBody.getPicture();
+            return "MemberId=" + memberId + ", NickName=" + name + ", ProfileImage=" + jwtBody.getPicture();
         } else
-            return "NickName=" + idInEmail + ", ProfileImage=" + jwtBody.getPicture();
+            return "MemberId=" + memberId + ", NickName=" + idInEmail + ", ProfileImage=" + jwtBody.getPicture();
     }
 
 }
