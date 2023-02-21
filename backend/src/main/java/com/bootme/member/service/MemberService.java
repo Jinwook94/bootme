@@ -14,6 +14,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static com.bootme.common.exception.ErrorType.*;
 
 @Service
@@ -51,6 +54,15 @@ public class MemberService {
         BookmarkCourse bookmarkCourse = bookmarkCourseRepository.findByMemberIdAndCourseId(memberId, courseId)
                 .orElseThrow(() -> new BookmarkCourseNotFoundException(NOT_FOUND_BOOKMARK));
         bookmarkCourseRepository.delete(bookmarkCourse);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Long> findBookmarkCourseByMemberId(Long memberId) {
+        List<BookmarkCourse> bookmarkCourseList = bookmarkCourseRepository.findByMemberId(memberId);
+        return bookmarkCourseList.stream()
+                .map(BookmarkCourse::getCourse)
+                .map(Course::getId)
+                .collect(Collectors.toList());
     }
 
 }

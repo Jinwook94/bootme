@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RequestMapping("/member")
 @RequiredArgsConstructor
@@ -24,6 +25,12 @@ public class MemberController {
     public ResponseEntity<Void> deleteBookmarkCourse(@PathVariable Long memberId, @PathVariable Long courseId) {
         memberService.deleteBookmarkCourse(memberId, courseId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{memberId}/bookmarks")
+    public ResponseEntity<List<Long>> findAllBookmarkCourses(@PathVariable Long memberId){
+        List<Long> bookmarkCourses = memberService.findBookmarkCourseByMemberId(memberId);
+        return ResponseEntity.ok().body(bookmarkCourses);
     }
 
 }
