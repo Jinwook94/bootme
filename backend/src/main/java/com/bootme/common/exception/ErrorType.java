@@ -23,6 +23,9 @@ public enum ErrorType {
     INVALID_EVENT           (UNAUTHORIZED, 1010, "유효하지 않은 webhook 이벤트입니다."),
 
     NOT_FOUND_COURSE        (BAD_REQUEST,  3001, "존재하지 않는 코스입니다."),
+    NOT_FOUND_MEMBER        (BAD_REQUEST,  3002, "존재하지 않는 회원입니다."),
+    NOT_FOUND_BOOKMARK      (BAD_REQUEST,  3003, "해당 북마크 코스가 존재하지 않습니다."),
+    ALREADY_BOOKMARKED      (BAD_REQUEST,  3004, "이미 북마크 저장된 코스입니다.."),
 
     NOT_FOUND_COMPANY       (BAD_REQUEST,  4001, "존재하지 않는 회사입니다.");
 

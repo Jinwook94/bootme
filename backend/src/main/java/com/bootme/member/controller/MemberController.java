@@ -1,0 +1,36 @@
+package com.bootme.member.controller;
+
+import com.bootme.member.service.MemberService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
+import java.util.List;
+
+@RequestMapping("/member")
+@RequiredArgsConstructor
+@RestController
+public class MemberController {
+
+    private final MemberService memberService;
+
+    @PostMapping("/{memberId}/bookmarks/{courseId}")
+    public ResponseEntity<Void> addBookmarkCourse(@PathVariable Long memberId, @PathVariable Long courseId){
+        Long bookmarkCourseId = memberService.addBookmarkCourse(memberId, courseId);
+        return ResponseEntity.created(URI.create("/member/" + memberId + "/bookmarks" + bookmarkCourseId)).build();
+    }
+
+    @DeleteMapping("/{memberId}/bookmarks/{courseId}")
+    public ResponseEntity<Void> deleteBookmarkCourse(@PathVariable Long memberId, @PathVariable Long courseId) {
+        memberService.deleteBookmarkCourse(memberId, courseId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{memberId}/bookmarks")
+    public ResponseEntity<List<Long>> findAllBookmarkCourses(@PathVariable Long memberId){
+        List<Long> bookmarkCourses = memberService.findBookmarkCourseByMemberId(memberId);
+        return ResponseEntity.ok().body(bookmarkCourses);
+    }
+
+}
