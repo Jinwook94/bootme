@@ -53,6 +53,7 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
       .post('/logout', null, {})
       .then(() => {
         setIsLogin(false);
+        localStorage.removeItem('MemberId');
         localStorage.removeItem('NickName');
         localStorage.removeItem('ProfileImage');
         location.reload();

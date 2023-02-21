@@ -14,10 +14,12 @@ import {
 } from './style';
 
 import './style.css';
-import BookmarkIcon from '../../assets/bookmark.svg';
+import { HeartFilled, HeartOutlined } from '@ant-design/icons';
 import DateFormatter from './dateFormatter';
 import useWebhook from '../../hooks/useWebhook';
 import { COURSE_BOOKMARKED, COURSE_CLICKED } from '../../constants/webhook';
+import { useEffect } from 'react';
+import useBookmarks from '../../hooks/useBookmarks';
 
 const CourseCard = ({
   id,
@@ -30,10 +32,16 @@ const CourseCard = ({
   period,
   cost,
   costType,
-}: CourseCardProps) => {
+  bookmarked,
+}: CourseCardProps & { bookmarked: boolean }) => {
   const weeks = Math.round(period / 7);
   const months = Math.round(period / 30);
   const { sendWebhookNoti } = useWebhook();
+  const { isBookmarked, setIsBookmarked, handleBookmark } = useBookmarks();
+
+  useEffect(() => {
+    setIsBookmarked(bookmarked);
+  }, []);
 
   return (
     <Wrapper>
@@ -107,11 +115,12 @@ const CourseCard = ({
       </ItemBody>
       <Bookmark
         onClick={() => {
+          handleBookmark(id);
           sendWebhookNoti(COURSE_CLICKED, id);
           sendWebhookNoti(COURSE_BOOKMARKED, id);
         }}
       >
-        <BookmarkIcon />
+        {isBookmarked ? <HeartFilled /> : <HeartOutlined />}
       </Bookmark>
     </Wrapper>
   );

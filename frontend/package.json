@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Jinwook94/bootme",
   "dependencies": {
+    "@ant-design/icons": "^5.0.1",
     "antd": "^5.2.0",
     "axios": "^1.2.1",
     "dotenv": "^16.0.3",
