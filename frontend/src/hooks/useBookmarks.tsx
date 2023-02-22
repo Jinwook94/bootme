@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 import { fetcher } from '../api/fetcher';
+import { useLogin } from './useLogin';
 
 const BookmarkContext = createContext<BookmarkContextProps>({
   isBookmarked: {},
@@ -13,6 +14,7 @@ const BookmarkContext = createContext<BookmarkContextProps>({
 });
 
 export const BookmarkProvider = ({ children }: BookmarkProviderProps) => {
+  const { isLogin, handleLoginModal } = useLogin();
   const memberId = localStorage.getItem('MemberId');
   const [isBookmarked, setIsBookmarked] = useState<{ [key: string]: boolean }>({});
   const [bookmarkedCourses, setBookmarkedCourses] = useState<number[]>([]);
@@ -34,16 +36,19 @@ export const BookmarkProvider = ({ children }: BookmarkProviderProps) => {
   const handleBookmark = async (id: number) => {
     const endpoint = `/member/${memberId}/bookmarks/${id}`;
     const method = isBookmarked[id] ? 'DELETE' : 'POST';
-
-    try {
-      await fetcher(endpoint, {
-        method: method,
-      });
-      setIsBookmarked(prevState => {
-        return { ...prevState, [id]: !prevState[id] };
-      });
-    } catch (error) {
-      console.error(`Failed to ${method} bookmark for course ${id}:`, error);
+    if (isLogin) {
+      try {
+        await fetcher(endpoint, {
+          method: method,
+        });
+        setIsBookmarked(prevState => {
+          return { ...prevState, [id]: !prevState[id] };
+        });
+      } catch (error) {
+        console.error(`Failed to ${method} bookmark for course ${id}:`, error);
+      }
+    } else if (!isLogin) {
+      handleLoginModal();
     }
   };
 
