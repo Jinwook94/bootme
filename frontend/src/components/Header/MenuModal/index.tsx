@@ -21,6 +21,8 @@ import {
 } from './style';
 import { CloseIconBlack, CloseIconGray } from '../../../constants/icons';
 import { useLogin } from '../../../hooks/useLogin';
+import PATH from '../../../constants/path';
+import { Link } from 'react-router-dom';
 const MenuModal = ({ isLogin, isMenuOpen, setIsMenuOpen, nickName, profileImage }: MenuModalProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const { handleLogOut, handleLoginModal } = useLogin();
@@ -98,7 +100,9 @@ const MenuModal = ({ isLogin, isMenuOpen, setIsMenuOpen, nickName, profileImage 
               </Figcaption>
             </Figure>
             <Item>프로필 관리</Item>
-            <Item>북마크</Item>
+            <Item onClick={() => console.log('클릭')}>
+              <Link to={PATH.BOOKMARKS}>북마크 코스</Link>
+            </Item>
             <div style={{ borderTop: '1px solid rgb(235, 235, 235)', height: '0.5rem' }}></div>
             <Item onClick={handleLogOut}>로그아웃</Item>
           </UserInfo>

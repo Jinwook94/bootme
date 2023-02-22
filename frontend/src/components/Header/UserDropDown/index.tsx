@@ -7,7 +7,7 @@ import {
   IconWrapper,
   Item,
   Items,
-  Link,
+  LinkItem,
   LogoutButton,
   NickName,
   NickNameButton,
@@ -16,6 +16,8 @@ import {
 } from './style';
 import { BookmarkIcon, LogoutIcon, ProfileIcon } from '../../../constants/icons';
 import { useLogin } from '../../../hooks/useLogin';
+import PATH from '../../../constants/path';
+import { Link } from 'react-router-dom';
 
 const UserDropDown = ({ nickName, profileImage }: UserDropDownProps) => {
   const content = () => {
@@ -37,20 +39,20 @@ const UserDropDown = ({ nickName, profileImage }: UserDropDownProps) => {
         </Figure>
         <Items>
           <Item>
-            <Link>
+            <LinkItem>
               <IconWrapper>
                 <ProfileIcon />
               </IconWrapper>
               프로필 관리
-            </Link>
+            </LinkItem>
           </Item>
           <Item>
-            <Link>
+            <LinkItem>
               <IconWrapper>
                 <BookmarkIcon />
               </IconWrapper>
-              북마크
-            </Link>
+              <Link to={PATH.BOOKMARKS}>북마크 코스</Link>
+            </LinkItem>
           </Item>
         </Items>
         <LogoutButton>

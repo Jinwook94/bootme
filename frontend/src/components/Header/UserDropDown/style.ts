@@ -58,7 +58,7 @@ export const Item = styled.li`
   text-align: -webkit-match-parent;
 `;
 
-export const Link = styled.a`
+export const LinkItem = styled.a`
   width: 100%;
   display: inline-flex;
   -webkit-box-align: center;
