@@ -33,6 +33,7 @@ import useSorting from '../../hooks/useSorting';
 const Home = () => {
   // Fetching data
   const { data, isLoading, isError } = useCourses({});
+  const allCards = data || [];
 
   // Filtering
   const { selectedFilters, filterCourses, handleModal, filteredLength, handleLength } = useFilters();
@@ -114,7 +115,7 @@ const Home = () => {
                       </SortSelect>
                     </MenuRight>
                   </CourseListMenu>
-                  <CourseCardList currentCards={currentCards} />
+                  <CourseCardList allCards={allCards} currentCards={currentCards} />
                 </>
               )}
             </CourseListWrapper>
