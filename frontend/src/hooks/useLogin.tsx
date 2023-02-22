@@ -14,7 +14,10 @@ const LoginContext = createContext<LoginContextProps>({
 });
 
 export const LoginProvider = ({ children }: LoginProviderProps) => {
-  const [isLogin, setIsLogin] = useState(false);
+  const memberId = localStorage.getItem('MemberId');
+  const [isLogin, setIsLogin] = useState(() => {
+    return !!memberId;
+  });
   const navigate = useNavigate();
 
   const handleLoginSuccess = async (oAuthProvider: string) => {
