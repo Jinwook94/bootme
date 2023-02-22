@@ -3,7 +3,7 @@ import { CourseCardListStyle } from './style';
 import React, { useEffect, useRef } from 'react';
 import { useBookmarks } from '../../hooks/useBookmarks';
 
-const CourseCardList = ({ allCards, currentCards }: CourseCardListProps) => {
+const CourseCardList = ({ allCards, currentCards, displayBookmarked }: CourseCardListProps) => {
   const isMounted = useRef(false);
   const {
     isBookmarked,
@@ -45,8 +45,11 @@ const CourseCardList = ({ allCards, currentCards }: CourseCardListProps) => {
       {isLoading ? (
         <p>Loading...</p>
       ) : (
-        currentCards.map(
-          ({ id, title, url, company, categories, stacks, dates, period, cost, costType }: CourseCardProps) => (
+        currentCards
+          .filter(course => {
+            return displayBookmarked ? isBookmarked[course.id] : true;
+          })
+          .map(({ id, title, url, company, categories, stacks, dates, period, cost, costType }: CourseCardProps) => (
             <CourseCard
               key={id}
               id={id}
@@ -60,8 +63,7 @@ const CourseCardList = ({ allCards, currentCards }: CourseCardListProps) => {
               costType={costType}
               period={period}
             />
-          )
-        )
+          ))
       )}
     </CourseCardListStyle>
   );
@@ -70,6 +72,7 @@ const CourseCardList = ({ allCards, currentCards }: CourseCardListProps) => {
 interface CourseCardListProps {
   allCards: Course[];
   currentCards: Course[];
+  displayBookmarked?: boolean;
 }
 
 export default CourseCardList;
