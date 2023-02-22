@@ -90,18 +90,18 @@ const CourseCard = ({
           </ItemWrapper>
         </CourseInfo>
         <CourseTags>
-          {categories['sub']?.map((tag: string) => (
-            <TagItem key={tag} style={{ backgroundColor: '#e6f7ff', color: '#1c1c1c' }}>
+          {categories['sub']?.map((tag: string, index: number) => (
+            <TagItem key={index} style={{ backgroundColor: '#e6f7ff', color: '#1c1c1c' }}>
               {tag}
             </TagItem>
           ))}
-          {stacks['languages']?.map((tag: string) => (
-            <TagItem key={tag} style={{ backgroundColor: '#e9ecf3', color: '#44576c' }}>
+          {stacks['languages']?.map((tag: string, index: number) => (
+            <TagItem key={index} style={{ backgroundColor: '#e9ecf3', color: '#44576c' }}>
               {tag}
             </TagItem>
           ))}
-          {stacks['frameworks']?.map((tag: string) => (
-            <TagItem key={tag} style={{ backgroundColor: '#e9ecf3', color: '#44576c' }}>
+          {stacks['frameworks']?.map((tag: string, index: number) => (
+            <TagItem key={index} style={{ backgroundColor: '#e9ecf3', color: '#44576c' }}>
               {tag}
             </TagItem>
           ))}

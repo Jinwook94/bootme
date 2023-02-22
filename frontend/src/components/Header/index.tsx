@@ -22,6 +22,8 @@ import { DotIcon, NotificationIcon } from '../../constants/icons';
 import Hamburger from 'hamburger-react';
 import UserDropDown from './UserDropDown';
 import MenuModal from './MenuModal';
+import { Link } from 'react-router-dom';
+import PATH from '../../constants/path';
 
 const Header = () => {
   const { isLogin, handleLoginModal } = useLogin();
@@ -43,10 +45,13 @@ const Header = () => {
       <Layout>
         <Wrapper>
           <HeaderLeft>
-            <Logo>
-              <GitHubIcon />
-              <ServiceName>BootMe</ServiceName>
-            </Logo>
+            <Link to={PATH.HOME}>
+              {' '}
+              <Logo>
+                <GitHubIcon />
+                <ServiceName>BootMe</ServiceName>
+              </Logo>
+            </Link>
             <HeaderItem> 부트캠프 </HeaderItem>
             <HeaderItem> 회사 </HeaderItem>
             <HeaderItem> 커뮤니티 </HeaderItem>
