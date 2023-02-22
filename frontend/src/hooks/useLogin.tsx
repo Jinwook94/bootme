@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetcher, noCredentialsFetcher } from '../api/fetcher';
+import PATH from '../constants/path';
 
 const LoginContext = createContext<LoginContextProps>({
   isLogin: false,
@@ -18,9 +19,12 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
 
   const handleLoginSuccess = async (oAuthProvider: string) => {
     await setIsLogin(true);
-    if (oAuthProvider == 'google') window.location.reload();
-    if (oAuthProvider == 'kakao') navigate(-1);
-    if (oAuthProvider == 'naver') navigate(-1);
+    if (oAuthProvider == 'google') {
+      navigate(PATH.HOME);
+      setIsLoginModal(false);
+    }
+    if (oAuthProvider == 'kakao') navigate(PATH.HOME);
+    if (oAuthProvider == 'naver') navigate(PATH.HOME);
   };
 
   const [isLoginModal, setIsLoginModal] = useState(false);
@@ -56,7 +60,8 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
         localStorage.removeItem('MemberId');
         localStorage.removeItem('NickName');
         localStorage.removeItem('ProfileImage');
-        location.reload();
+        navigate(PATH.HOME);
+        window.location.reload();
       })
       .catch(error => {
         console.log(error);
