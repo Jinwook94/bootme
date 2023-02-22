@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import FlexBox from '../@common/FlexBox';
 
 export const Wrapper = styled.li`
+  background: white;
   position: relative;
   display: flex;
   width: calc(50% - 0.5rem);
