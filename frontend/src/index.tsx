@@ -8,6 +8,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import ReactDOM from 'react-dom/client';
+import { BookmarkProvider } from './hooks/useBookmarks';
 
 const rootElement = document.getElementById('root') as Element;
 const queryClient = new QueryClient();
@@ -16,14 +17,16 @@ ReactDOM.createRoot(rootElement).render(
   <BrowserRouter>
     <LoginProvider>
       <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID as string}>
-        <FilterProvider>
-          <QueryClientProvider client={queryClient}>
-            <ThemeProvider theme={theme}>
-              <GlobalStyle />
-              <App />
-            </ThemeProvider>
-          </QueryClientProvider>
-        </FilterProvider>
+        <BookmarkProvider>
+          <FilterProvider>
+            <QueryClientProvider client={queryClient}>
+              <ThemeProvider theme={theme}>
+                <GlobalStyle />
+                <App />
+              </ThemeProvider>
+            </QueryClientProvider>
+          </FilterProvider>
+        </BookmarkProvider>
       </GoogleOAuthProvider>
     </LoginProvider>
   </BrowserRouter>

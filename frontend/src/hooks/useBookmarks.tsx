@@ -1,58 +1,83 @@
-import { useCallback, useEffect, useState } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import { fetcher } from '../api/fetcher';
 
-const useBookmarks = () => {
-  const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
+const BookmarkContext = createContext<BookmarkContextProps>({
+  isBookmarked: {},
+  setIsBookmarked: () => {},
+  bookmarkedCourses: [],
+  setBookmarkedCourses: () => {},
+  isLoading: true,
+  setIsLoading: () => {},
+  getBookmarkedCourses: async () => [],
+  handleBookmark: () => {},
+});
+
+export const BookmarkProvider = ({ children }: BookmarkProviderProps) => {
   const memberId = localStorage.getItem('MemberId');
+  const [isBookmarked, setIsBookmarked] = useState<{ [key: string]: boolean }>({});
   const [bookmarkedCourses, setBookmarkedCourses] = useState<number[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const getBookmarkedCourses = () => {
     const endpoint = `/member/${memberId}/bookmarks`;
-    fetcher
+    return fetcher
       .get(endpoint, {})
       .then(response => {
-        setBookmarkedCourses(response.data);
+        return response.data;
       })
       .catch(error => {
         console.log(error);
-      })
-      .finally(() => {
-        setIsLoading(false);
+        return [];
       });
   };
 
-  useEffect(() => {
-    getBookmarkedCourses();
-  }, []);
+  const handleBookmark = async (id: number) => {
+    const endpoint = `/member/${memberId}/bookmarks/${id}`;
+    const method = isBookmarked[id] ? 'DELETE' : 'POST';
 
-  const handleBookmark = useCallback(
-    async (id: number) => {
-      const endpoint = `/member/${memberId}/bookmarks/${id}`;
-      const method = isBookmarked ? 'DELETE' : 'POST';
-
-      try {
-        await fetcher(endpoint, {
-          method: method,
-        });
-        setIsBookmarked(!isBookmarked);
-        getBookmarkedCourses(); // call the function to update bookmarked courses
-      } catch (error) {
-        console.error(`Failed to ${method} bookmark for course ${id}:`, error);
-      }
-    },
-    [isBookmarked, memberId]
-  );
-
-  return {
-    isBookmarked,
-    setBookmarkedCourses,
-    isLoading,
-    getBookmarkedCourses,
-    setIsBookmarked,
-    bookmarkedCourses,
-    handleBookmark,
+    try {
+      await fetcher(endpoint, {
+        method: method,
+      });
+      setIsBookmarked(prevState => {
+        return { ...prevState, [id]: !prevState[id] };
+      });
+    } catch (error) {
+      console.error(`Failed to ${method} bookmark for course ${id}:`, error);
+    }
   };
+
+  return (
+    <BookmarkContext.Provider
+      value={{
+        isBookmarked,
+        setIsBookmarked,
+        setBookmarkedCourses,
+        isLoading,
+        setIsLoading,
+        getBookmarkedCourses,
+        bookmarkedCourses,
+        handleBookmark,
+      }}
+    >
+      {children}
+    </BookmarkContext.Provider>
+  );
 };
 
-export default useBookmarks;
+export const useBookmarks = () => useContext(BookmarkContext);
+
+interface BookmarkContextProps {
+  isBookmarked: { [key: string]: boolean };
+  setIsBookmarked: React.Dispatch<React.SetStateAction<{ [key: string]: boolean }>>;
+  bookmarkedCourses: number[];
+  setBookmarkedCourses: React.Dispatch<number[]>;
+  isLoading: boolean;
+  setIsLoading: React.Dispatch<boolean>;
+  getBookmarkedCourses: () => Promise<number[]>;
+  handleBookmark: (id: number) => void;
+}
+
+interface BookmarkProviderProps {
+  children: React.ReactNode;
+}
