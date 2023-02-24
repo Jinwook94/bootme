@@ -62,6 +62,7 @@ export const HeaderRight = styled.div`
 
 export const NotiButton = styled.button`
   background: none;
+  margin-top: 5px;
 `;
 
 export const MenuButton = styled.div`

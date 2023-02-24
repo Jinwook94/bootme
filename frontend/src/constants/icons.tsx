@@ -139,19 +139,25 @@ c160 -19 558 -19 723 2 537 66 1015 250 1400 539 115 86 300 263 384 367 418
 export const NotificationIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    strokeWidth="1.5"
-    stroke="rgb(156 163 175)"
-    aria-hidden="true"
-    height="1.5rem"
-    width="1.5rem"
+    height="1.7rem"
+    width="1.7rem"
+    viewBox="0 96 960 960"
+    style={{ fill: 'rgb(156 163 175)' }}
   >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
-    ></path>
+    <path d="M160 856v-60h84V490q0-84 49.5-149.5T424 258v-29q0-23 16.5-38t39.5-15q23 0 39.5 15t16.5 38v29q81 17 131 82.5T717 490v306h83v60H160Zm320-295Zm0 415q-32 0-56-23.5T400 896h160q0 33-23.5 56.5T480 976ZM304 796h353V490q0-74-51-126t-125-52q-74 0-125.5 52T304 490v306Z" />
+  </svg>
+);
+
+export const NotificationActiveIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    height="1.7rem"
+    width="1.7rem"
+    viewBox="0 96 960 960"
+    style={{ fill: 'rgb(156 163 175)' }}
+  >
+    <path d="M160 856v-60h84V490q0-84 49.5-149.5T424 258v-29q0-23 16.5-38t39.5-15q23 0 39.5 15t16.5 38v29q81 17 131 82.5T717 490v306h83v60H160Zm320-295Zm0 415q-32 0-56-23.5T400 896h160q0 33-23.5 56.5T480 976ZM304 796h353V490q0-74-51-126t-125-52q-74 0-125.5 52T304 490v306Z" />
+    <ellipse style={{ fill: '#c51616', strokeWidth: '20' }} id="redDot" cx="650" cy="380" rx="100" ry="100" />
   </svg>
 );
 
