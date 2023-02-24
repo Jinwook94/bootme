@@ -18,7 +18,7 @@ import React, { useEffect, useState } from 'react';
 import { useLogin } from '../../hooks/useLogin';
 import LoginModal from '../LoginModal';
 import { GoogleLoginOneTap } from '../LoginModal/GoogleLogin';
-import { DotIcon, NotificationIcon } from '../../constants/icons';
+import { DotIcon, NotificationIcon, NotificationActiveIcon } from '../../constants/icons';
 import Hamburger from 'hamburger-react';
 import UserDropDown from './UserDropDown';
 import MenuModal from './MenuModal';
@@ -62,6 +62,7 @@ const Header = () => {
                 <UserDropDown profileImage={profileImage} nickName={nickName} />
                 <NotiButton>
                   <NotificationIcon />
+                  <NotificationActiveIcon />
                 </NotiButton>
                 <MenuButton onClick={() => setIsMenuOpen(!isMenuOpen)}>
                   <Hamburger
