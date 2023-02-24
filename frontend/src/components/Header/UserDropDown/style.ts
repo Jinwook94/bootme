@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const NickNameButton = styled.button`
   color: rgb(0, 132, 255);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   background: none;
   margin-right: 7px;
