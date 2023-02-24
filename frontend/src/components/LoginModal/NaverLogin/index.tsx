@@ -31,8 +31,8 @@ export const NaverLoginButton = () => {
     naverLogin.getLoginStatus(function (status: never) {
       if (status) {
         generateIdToken(naverLogin).then(idToken => {
-          sendIdTokenToServer(idToken).then(() => {
-            handleLoginSuccess('naver');
+          sendIdTokenToServer(idToken).then(initialUserInfo => {
+            handleLoginSuccess('naver', initialUserInfo);
           });
         });
       }

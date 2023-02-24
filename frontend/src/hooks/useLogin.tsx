@@ -8,7 +8,7 @@ const LoginContext = createContext<LoginContextProps>({
   setIsLogin: () => {},
   isLoginModal: false,
   handleLoginModal: () => {},
-  sendIdTokenToServer: () => Promise.resolve(),
+  sendIdTokenToServer: () => Promise.resolve({}),
   handleLogOut: () => {},
   handleLoginSuccess: () => {},
 });
@@ -44,14 +44,18 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
         },
       })
       .then(r => {
+        const initialUserInfo: Record<string, string> = {};
         const data = r.data.split(', ');
         data.forEach((item: string) => {
           const [key, value] = item.split('=');
           localStorage.setItem(key, value);
+          initialUserInfo[key] = value;
         });
+        return initialUserInfo;
       })
       .catch(error => {
         console.log(error);
+        return Promise.reject(error);
       });
   };
 
@@ -107,9 +111,9 @@ interface LoginContextProps {
   setIsLogin: React.Dispatch<boolean>;
   isLoginModal: boolean;
   handleLoginModal: () => void;
-  sendIdTokenToServer: (idToken: string | undefined) => Promise<void>;
+  sendIdTokenToServer: (idToken: string | undefined) => Promise<Record<string, string>>;
   handleLogOut: () => void;
-  handleLoginSuccess: (oAuthProvider: string) => void;
+  handleLoginSuccess: (oAuthProvider: string, initialUserInfo: Record<string, string>) => void;
 }
 
 interface LoginProviderProps {

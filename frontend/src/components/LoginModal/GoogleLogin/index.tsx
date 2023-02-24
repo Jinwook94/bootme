@@ -7,8 +7,8 @@ export const GoogleLoginButton = () => {
   return (
     <GoogleLogin
       onSuccess={credentialResponse => {
-        sendIdTokenToServer(credentialResponse.credential).then(() => {
-          handleLoginSuccess('google');
+        sendIdTokenToServer(credentialResponse.credential).then(initialUserInfo => {
+          handleLoginSuccess('google', initialUserInfo);
         });
       }}
       onError={() => {
@@ -27,8 +27,8 @@ export const GoogleLoginOneTap = () => {
 
   useGoogleOneTapLogin({
     onSuccess: credentialResponse => {
-      sendIdTokenToServer(credentialResponse.credential).then(() => {
-        handleLoginSuccess('google');
+      sendIdTokenToServer(credentialResponse.credential).then(initialUserInfo => {
+        handleLoginSuccess('google', initialUserInfo);
       });
     },
     onError: () => {
