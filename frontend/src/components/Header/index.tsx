@@ -20,7 +20,7 @@ import LoginModal from '../LoginModal';
 import { GoogleLoginOneTap } from '../LoginModal/GoogleLogin';
 import { DotIcon, NotificationIcon, NotificationActiveIcon } from '../../constants/icons';
 import Hamburger from 'hamburger-react';
-import UserDropDown from './UserDropDown';
+import UserDropDown from './UserDropdown';
 import MenuModal from './MenuModal';
 import { Link } from 'react-router-dom';
 import PATH from '../../constants/path';
