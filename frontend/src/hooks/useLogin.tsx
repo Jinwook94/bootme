@@ -82,6 +82,7 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
         localStorage.removeItem('MemberId');
         localStorage.removeItem('NickName');
         localStorage.removeItem('ProfileImage');
+        localStorage.removeItem('Notifications');
         navigate(PATH.HOME);
         window.location.reload();
       })
