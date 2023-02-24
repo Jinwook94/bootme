@@ -9,43 +9,16 @@ const LoginContext = createContext<LoginContextProps>({
   isLoginModal: false,
   handleLoginModal: () => {},
   sendIdTokenToServer: () => Promise.resolve({}),
-  handleLogOut: () => {},
   handleLoginSuccess: () => {},
+  handleLogOut: () => {},
 });
 
 export const LoginProvider = ({ children }: LoginProviderProps) => {
+  const navigate = useNavigate();
   const memberId = localStorage.getItem('MemberId');
   const [isLogin, setIsLogin] = useState(() => {
     return !!memberId;
   });
-  const navigate = useNavigate();
-
-  const fetchNotifications = (initialUserInfo: Record<string, string>) => {
-    const memberId = initialUserInfo.MemberId;
-    const endpoint = `/notifications/${memberId}`;
-    return fetcher
-      .get(endpoint, {})
-      .then(r => {
-        localStorage.setItem('Notifications', JSON.stringify(r.data));
-      })
-      .catch(error => {
-        console.log(error);
-        return [];
-      });
-  };
-
-  const handleLoginSuccess = async (oAuthProvider: string, initialUserInfo: Record<string, string>) => {
-    await setIsLogin(true);
-    if (oAuthProvider == 'google') {
-      fetchNotifications(initialUserInfo).then(() => {
-        navigate(PATH.HOME);
-        window.location.reload();
-      });
-    }
-    if (oAuthProvider == 'kakao') navigate(PATH.HOME);
-    if (oAuthProvider == 'naver') navigate(PATH.HOME);
-  };
-
   const [isLoginModal, setIsLoginModal] = useState(false);
 
   const handleLoginModal = () => {
@@ -72,6 +45,32 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
       .catch(error => {
         console.log(error);
         return Promise.reject(error);
+      });
+  };
+
+  const handleLoginSuccess = async (oAuthProvider: string, initialUserInfo: Record<string, string>) => {
+    await setIsLogin(true);
+    if (oAuthProvider == 'google') {
+      fetchNotifications(initialUserInfo).then(() => {
+        navigate(PATH.HOME);
+        window.location.reload();
+      });
+    }
+    if (oAuthProvider == 'kakao') navigate(PATH.HOME);
+    if (oAuthProvider == 'naver') navigate(PATH.HOME);
+  };
+
+  const fetchNotifications = (initialUserInfo: Record<string, string>) => {
+    const memberId = initialUserInfo.MemberId;
+    const endpoint = `/notifications/${memberId}`;
+    return fetcher
+      .get(endpoint, {})
+      .then(r => {
+        localStorage.setItem('Notifications', JSON.stringify(r.data));
+      })
+      .catch(error => {
+        console.log(error);
+        return [];
       });
   };
 
@@ -111,8 +110,8 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
         isLoginModal,
         handleLoginModal,
         sendIdTokenToServer,
-        handleLogOut,
         handleLoginSuccess,
+        handleLogOut,
       }}
     >
       {children}
@@ -128,8 +127,8 @@ interface LoginContextProps {
   isLoginModal: boolean;
   handleLoginModal: () => void;
   sendIdTokenToServer: (idToken: string | undefined) => Promise<Record<string, string>>;
-  handleLogOut: () => void;
   handleLoginSuccess: (oAuthProvider: string, initialUserInfo: Record<string, string>) => void;
+  handleLogOut: () => void;
 }
 
 interface LoginProviderProps {
