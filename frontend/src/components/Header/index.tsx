@@ -18,19 +18,19 @@ import React, { useEffect, useState } from 'react';
 import { useLogin } from '../../hooks/useLogin';
 import LoginModal from '../LoginModal';
 import { GoogleLoginOneTap } from '../LoginModal/GoogleLogin';
-import { DotIcon, NotificationIcon, NotificationActiveIcon } from '../../constants/icons';
+import { DotIcon } from '../../constants/icons';
 import Hamburger from 'hamburger-react';
-import UserDropDown from './UserDropDown';
+import UserDropDown from './UserDropdown';
 import MenuModal from './MenuModal';
 import { Link } from 'react-router-dom';
 import PATH from '../../constants/path';
+import NotificationDropdown from './NotificationDropdown';
 
 const Header = () => {
   const { isLogin, handleLoginModal } = useLogin();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [profileImage, setProfileImage] = useState(localStorage.getItem('ProfileImage'));
   const [nickName, setNickName] = useState(localStorage.getItem('NickName'));
-  const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
     setNickName(localStorage.getItem('NickName'));
@@ -39,10 +39,6 @@ const Header = () => {
   useEffect(() => {
     setProfileImage(localStorage.getItem('ProfileImage'));
   }, [localStorage.getItem('ProfileImage')]);
-
-  useEffect(() => {
-    setNotifications(JSON.parse(localStorage.getItem('Notifications') || '[]'));
-  }, [localStorage.getItem('Notifications')]);
 
   return (
     <>
@@ -66,7 +62,7 @@ const Header = () => {
               <>
                 <UserDropDown profileImage={profileImage} nickName={nickName} />
                 <NotiButton>
-                  {notifications.length === 0 ? <NotificationIcon /> : <NotificationActiveIcon />}
+                  <NotificationDropdown />
                 </NotiButton>
                 <MenuButton onClick={() => setIsMenuOpen(!isMenuOpen)}>
                   <Hamburger

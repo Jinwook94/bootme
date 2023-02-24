@@ -1,5 +1,10 @@
 import { Popover } from 'antd';
 import React from 'react';
+
+import { BookmarkIcon, LogoutIcon, ProfileIcon } from '../../../constants/icons';
+import { useLogin } from '../../../hooks/useLogin';
+import PATH from '../../../constants/path';
+import { Link } from 'react-router-dom';
 import {
   ContentWrapper,
   Figcaption,
@@ -14,10 +19,6 @@ import {
   Occupation,
   TextWrapper,
 } from './style';
-import { BookmarkIcon, LogoutIcon, ProfileIcon } from '../../../constants/icons';
-import { useLogin } from '../../../hooks/useLogin';
-import PATH from '../../../constants/path';
-import { Link } from 'react-router-dom';
 
 const UserDropDown = ({ nickName, profileImage }: UserDropDownProps) => {
   const content = () => {
