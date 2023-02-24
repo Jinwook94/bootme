@@ -30,6 +30,7 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [profileImage, setProfileImage] = useState(localStorage.getItem('ProfileImage'));
   const [nickName, setNickName] = useState(localStorage.getItem('NickName'));
+  const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
     setNickName(localStorage.getItem('NickName'));
@@ -38,6 +39,10 @@ const Header = () => {
   useEffect(() => {
     setProfileImage(localStorage.getItem('ProfileImage'));
   }, [localStorage.getItem('ProfileImage')]);
+
+  useEffect(() => {
+    setNotifications(JSON.parse(localStorage.getItem('Notifications') || '[]'));
+  }, [localStorage.getItem('Notifications')]);
 
   return (
     <>
@@ -61,8 +66,7 @@ const Header = () => {
               <>
                 <UserDropDown profileImage={profileImage} nickName={nickName} />
                 <NotiButton>
-                  <NotificationIcon />
-                  <NotificationActiveIcon />
+                  {notifications.length === 0 ? <NotificationIcon /> : <NotificationActiveIcon />}
                 </NotiButton>
                 <MenuButton onClick={() => setIsMenuOpen(!isMenuOpen)}>
                   <Hamburger
