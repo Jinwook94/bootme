@@ -20,11 +20,27 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
   });
   const navigate = useNavigate();
 
-  const handleLoginSuccess = async (oAuthProvider: string) => {
+  const fetchNotifications = (initialUserInfo: Record<string, string>) => {
+    const memberId = initialUserInfo.MemberId;
+    const endpoint = `/notifications/${memberId}`;
+    return fetcher
+      .get(endpoint, {})
+      .then(r => {
+        localStorage.setItem('Notifications', JSON.stringify(r.data));
+      })
+      .catch(error => {
+        console.log(error);
+        return [];
+      });
+  };
+
+  const handleLoginSuccess = async (oAuthProvider: string, initialUserInfo: Record<string, string>) => {
     await setIsLogin(true);
     if (oAuthProvider == 'google') {
-      navigate(PATH.HOME);
-      setIsLoginModal(false);
+      fetchNotifications(initialUserInfo).then(() => {
+        navigate(PATH.HOME);
+        window.location.reload();
+      });
     }
     if (oAuthProvider == 'kakao') navigate(PATH.HOME);
     if (oAuthProvider == 'naver') navigate(PATH.HOME);
