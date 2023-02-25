@@ -24,9 +24,9 @@ public class AuthController {
         JwtVo.Body jwtBody = jwtVo.getBody();
 
         authService.verifyToken(idToken);
-        authService.registerMember(jwtBody);
+        boolean isRegistered = authService.registerMember(jwtBody);
         String[] tokenCookies = authService.createTokenCookies(jwtBody);
-        String userInfo = authService.getUserInfo(jwtBody);
+        String userInfo = authService.getUserInfo(jwtBody, isRegistered);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, tokenCookies[0])
