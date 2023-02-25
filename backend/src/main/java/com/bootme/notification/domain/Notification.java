@@ -3,12 +3,15 @@ package com.bootme.notification.domain;
 import com.bootme.common.domain.BaseEntity;
 import com.bootme.member.domain.BookmarkCourse;
 import com.bootme.member.domain.Member;
+import com.bootme.notification.exception.NotificationEventNotFoundException;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
+import static com.bootme.common.exception.ErrorType.NOT_FOUND_EVENT;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -45,9 +48,7 @@ public class Notification extends BaseEntity {
                 message = "환영합니다! 다양한 소프트웨어 커리큘럼들을 비교하고 선택할 수 있도록 도와드릴게요 :) \uD83D\uDE0A \uD83D\uDE00 \uD83D\uDE04 ☺️";
                 break;
             default:
-                // todo: 예외 throw
-                message = "";
-                break;
+                throw new NotificationEventNotFoundException(NOT_FOUND_EVENT);
         }
         return Notification.builder()
                 .member(member)
@@ -72,9 +73,7 @@ public class Notification extends BaseEntity {
                 message = "북마크하신 코스 **" + courseTitle + "**의 접수 마감일이에요. 놓치지 마시고 신청하세요 \uD83D\uDE04";
                 break;
             default:
-                // todo: 예외 throw
-                message = "";
-                break;
+                throw new NotificationEventNotFoundException(NOT_FOUND_EVENT);
         }
         return Notification.builder()
                 .member(member)
