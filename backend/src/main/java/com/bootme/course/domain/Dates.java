@@ -19,10 +19,19 @@ public class Dates {
     private LocalDate courseEndDate;
 
     @Builder
-    public Dates(LocalDate registrationStartDate, LocalDate registrationEndDate, LocalDate courseStartDate, LocalDate courseEndDate, boolean isOpen, Long coursePeriod) {
+    public Dates(LocalDate registrationStartDate, LocalDate registrationEndDate, LocalDate courseStartDate, LocalDate courseEndDate) {
         this.registrationStartDate = registrationStartDate;
         this.registrationEndDate = registrationEndDate;
         this.courseStartDate = courseStartDate;
         this.courseEndDate = courseEndDate;
     }
+
+    public boolean isRegistrationStartsOn(LocalDate date) {
+        return registrationStartDate.equals(date);
+    }
+
+    public boolean isRegistrationEndsOn(LocalDate date) {
+        return registrationEndDate.equals(date);
+    }
+
 }
