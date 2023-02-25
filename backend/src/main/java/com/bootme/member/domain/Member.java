@@ -2,11 +2,14 @@ package com.bootme.member.domain;
 
 import com.bootme.auth.dto.JwtVo;
 import com.bootme.common.domain.BaseEntity;
+import com.bootme.notification.domain.Notification;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -42,6 +45,9 @@ public class Member extends BaseEntity {
 
     private String phoneNumber;
 
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Notification> notifications = new ArrayList<>();
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private RoleType roleType;
@@ -52,7 +58,7 @@ public class Member extends BaseEntity {
     @Builder
     public Member(String email, String password, String OAuthProvider, String name, String profileImage,
                   String birthday, String birthYear, String ageRange, String gender, String nickname,
-                  String phoneNumber, RoleType roleType, Long visitsCount) {
+                  String phoneNumber, List<Notification> notifications, RoleType roleType, Long visitsCount) {
         this.email = email;
         this.password = password;
         this.OAuthProvider = OAuthProvider;
@@ -64,6 +70,7 @@ public class Member extends BaseEntity {
         this.gender = gender;
         this.nickname = nickname;
         this.phoneNumber = phoneNumber;
+        this.notifications = notifications;
         this.roleType = roleType;
         this.visitsCount = visitsCount;
     }
