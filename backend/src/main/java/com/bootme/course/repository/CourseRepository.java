@@ -21,4 +21,9 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     @Query("UPDATE Course c SET c.bookmarks = c.bookmarks + 1 WHERE c.id = :id")
     void incrementBookmarks(@Param("id") Long id);
 
+    @Modifying
+    @Transactional
+    @Query("UPDATE Course c SET c.isRegisterOpen = :isOpen WHERE c.id = :id")
+    void updateIsRegisterOpen(@Param("id") Long id, @Param("isOpen") boolean isOpen);
+
 }

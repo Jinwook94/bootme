@@ -43,10 +43,10 @@ public class CourseFixture {
     public static final int VALID_PERIOD_2 = 28;
     public static final int VALID_PERIOD_3 = 210;
     public static final Dates VALID_DATES_1 = Dates.builder()
-            .registrationStartDate(LocalDate.of(2021, 1, 1))
-            .registrationEndDate(LocalDate.of(2021, 1, 31))
-            .courseStartDate(LocalDate.of(2021, 2, 1))
-            .courseEndDate(LocalDate.of(2021, 4, 30))
+            .registrationStartDate(LocalDate.of(2023, 1, 1))
+            .registrationEndDate(LocalDate.of(2024, 1, 31))
+            .courseStartDate(LocalDate.of(2024, 2, 1))
+            .courseEndDate(LocalDate.of(2024, 4, 30))
             .build();
     public static final Dates VALID_DATES_2 = Dates.builder()
             .registrationStartDate(LocalDate.of(2022, 1, 1))
@@ -55,10 +55,10 @@ public class CourseFixture {
             .courseEndDate(LocalDate.of(2022, 2, 28))
             .build();
     public static final Dates VALID_DATES_3 = Dates.builder()
-            .registrationStartDate(LocalDate.of(2023, 1, 1))
-            .registrationEndDate(LocalDate.of(2023, 1, 31))
-            .courseStartDate(LocalDate.of(2023, 2, 1))
-            .courseEndDate(LocalDate.of(2023, 7, 31))
+            .registrationStartDate(LocalDate.of(2023, 2, 23))
+            .registrationEndDate(LocalDate.of(2024, 1, 1))
+            .courseStartDate(LocalDate.of(2024, 2, 1))
+            .courseEndDate(LocalDate.of(2024, 7, 31))
             .build();
     public static final String VALID_ONOFFLINE_1 = "온라인";
     public static final String VALID_ONOFFLINE_2 = "오프라인";

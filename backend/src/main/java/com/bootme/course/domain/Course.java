@@ -63,6 +63,8 @@ public class Course extends BaseEntity {
 
     private boolean isTested;
 
+    private boolean isRegisterOpen;
+
     private int clicks;
 
     private int bookmarks;
@@ -91,6 +93,7 @@ public class Course extends BaseEntity {
         this.isTested = isTested;
         this.clicks = clicks;
         this.bookmarks = bookmarks;
+        this.isRegisterOpen = checkRegisterOpen();
     }
 
     public static Course of(CourseRequest courseRequest, Company company, Category categories, Stack stacks) {
@@ -156,7 +159,7 @@ public class Course extends BaseEntity {
         this.company = company;
     }
 
-    public boolean isRegisterOpen() {
+    public boolean checkRegisterOpen() {
         boolean afterStart = LocalDate.now().isEqual(dates.getRegistrationStartDate()) || LocalDate.now().isAfter(dates.getRegistrationStartDate());
         boolean beforeEnd = LocalDate.now().isEqual(dates.getRegistrationEndDate()) || LocalDate.now().isBefore(dates.getRegistrationEndDate());
         return afterStart && beforeEnd;

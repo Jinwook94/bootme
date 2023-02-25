@@ -254,7 +254,7 @@ public class AuthService {
     /**
      * 가입된 유저는 방문 횟수를 증가, 가입되지 않은 유저는 가입
      * */
-    public void registerMember(JwtVo.Body jwtBody) throws Exception {
+    public boolean registerMember(JwtVo.Body jwtBody) throws Exception {
         boolean isRegistered = memberService.isMemberRegistered(jwtBody.getEmail());
 
         if (isRegistered) {
@@ -266,6 +266,7 @@ public class AuthService {
             Member member = Member.of(jwtBody);
             memberRepository.save(member);
         }
+        return isRegistered;
     }
 
     // todo: 세션 카운트로 수정해야할듯
@@ -300,18 +301,18 @@ public class AuthService {
     /**
      * 프론트엔드의 헤더와 메뉴 모달, 유저 드롭다운 컴포넌트에 사용될 유저정보를 전달
      * */
-    public String getUserInfo(JwtVo.Body jwtBody) {
+    public String getUserInfo(JwtVo.Body jwtBody, boolean isRegistered) {
         Long memberId = memberService.findByEmail(jwtBody.getEmail()).getId();
         String nickname = jwtBody.getNickname();
         String name = jwtBody.getName();
         String idInEmail = jwtBody.getEmail().split("@")[0];
 
         if (nickname != null) {
-            return "MemberId=" + memberId + ", NickName=" + nickname + ", ProfileImage=" + jwtBody.getPicture();
+            return "IsNewMember=" + !isRegistered + ", MemberId=" + memberId + ", NickName=" + nickname + ", ProfileImage=" + jwtBody.getPicture();
         } else if (name != null) {
-            return "MemberId=" + memberId + ", NickName=" + name + ", ProfileImage=" + jwtBody.getPicture();
+            return "IsNewMember=" + !isRegistered + ", MemberId=" + memberId + ", NickName=" + name + ", ProfileImage=" + jwtBody.getPicture();
         } else
-            return "MemberId=" + memberId + ", NickName=" + idInEmail + ", ProfileImage=" + jwtBody.getPicture();
+            return "IsNewMember=" + !isRegistered + ", MemberId=" + memberId + ", NickName=" + idInEmail + ", ProfileImage=" + jwtBody.getPicture();
     }
 
 }
