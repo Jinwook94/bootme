@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { fetcher } from '../api/fetcher';
+import { SIGN_UP } from '../constants/notifications';
 
 const NotificationContext = createContext<NotificationContextProps>({
   notifications: [],
@@ -7,6 +8,7 @@ const NotificationContext = createContext<NotificationContextProps>({
   isAllChecked: true,
   setIsAllChecked: () => {},
   getNotifications: () => {},
+  sendNotification: () => {},
   updateNotifications: () => Promise.resolve(),
 });
 
@@ -31,6 +33,12 @@ export const NotificationProvider = ({ children }: NotificationProviderProps) =>
       });
   };
 
+  const sendNotification = (memberId: number, event: string) => {
+    fetcher.post(`/notifications/${memberId}?event=${event}`).catch(error => {
+      console.log(error);
+    });
+  };
+
   const updateNotifications = (memberId: number) => {
     return fetcher
       .put(`/notifications/${memberId}/checked`)
@@ -43,6 +51,15 @@ export const NotificationProvider = ({ children }: NotificationProviderProps) =>
       });
   };
 
+  useEffect(() => {
+    const isNewMember: boolean = localStorage.getItem('IsNewMember') === 'true';
+    const memberId = Number(localStorage.getItem('MemberId'));
+    if (isNewMember) {
+      sendNotification(memberId, SIGN_UP);
+      localStorage.removeItem('IsNewMember');
+    }
+  }, [localStorage.getItem('IsNewMember')]);
+
   return (
     <NotificationContext.Provider
       value={{
@@ -51,6 +68,7 @@ export const NotificationProvider = ({ children }: NotificationProviderProps) =>
         isAllChecked,
         setIsAllChecked,
         getNotifications,
+        sendNotification,
         updateNotifications,
       }}
     >
@@ -67,6 +85,7 @@ interface NotificationContextProps {
   isAllChecked: boolean;
   setIsAllChecked: React.Dispatch<boolean>;
   getNotifications: (memberId: number) => void;
+  sendNotification: (memberId: number, event: string) => void;
   updateNotifications: (memberId: number) => Promise<void>;
 }
 
