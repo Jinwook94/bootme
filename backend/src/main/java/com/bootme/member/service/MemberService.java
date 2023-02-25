@@ -33,6 +33,12 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
+    public Member findById(Long id) {
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new MemberNotFoundException(NOT_FOUND_MEMBER));
+    }
+
+    @Transactional(readOnly = true)
     public Member findByEmail(String email) {
         return memberRepository.findByEmail(email)
                 .orElseThrow(() -> new MemberNotFoundException(NOT_FOUND_MEMBER));
