@@ -56,8 +56,8 @@ export const KakaoLoginRedirect = () => {
    * */
   useEffect(() => {
     sendAccessTokenToKakao().then(idToken =>
-      sendIdTokenToServer(idToken).then(initialUserInfo => {
-        handleLoginSuccess('kakao', initialUserInfo);
+      sendIdTokenToServer(idToken).then(() => {
+        handleLoginSuccess('kakao');
       })
     );
   }, []);

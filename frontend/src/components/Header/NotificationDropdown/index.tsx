@@ -1,18 +1,25 @@
 import { Popover } from 'antd';
 import { ItemWrapper, NoResult, NotificationDate, NotificationItemWrapper, Title, Wrapper } from './style';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NotificationActiveIcon, NotificationIcon } from '../../../constants/icons';
 import { useNotification } from '../../../hooks/useNotification';
 
 const NotificationDropdown = () => {
-  const { notifications } = useNotification();
+  const { notifications, isAllChecked, getNotifications, updateNotifications } = useNotification();
   const recentNotifications = notifications.sort((a, b) => b.createdAt - a.createdAt).slice(0, 3);
+  const memberId = Number(localStorage.getItem('MemberId'));
+
+  useEffect(() => {
+    getNotifications(memberId);
+  }, []);
 
   return (
-    <Popover content={content} trigger="click" placement="bottomRight">
-      {notifications.length === 0 ? <NotificationIcon /> : <NotificationActiveIcon />}
-      <div style={{ width: 0, height: 0 }} />
-    </Popover>
+    <div onClick={() => updateNotifications(memberId)}>
+      <Popover content={content} trigger="click" placement="bottomRight">
+        {isAllChecked ? <NotificationIcon /> : <NotificationActiveIcon />}
+        <div style={{ width: 0, height: 0 }} />
+      </Popover>
+    </div>
   );
 
   function content() {
@@ -99,5 +106,6 @@ interface Notification {
   memberId?: number;
   courseId?: number;
   courseTitle: string;
+  checked?: boolean;
   createdAt: number;
 }

@@ -8,7 +8,7 @@ const LoginContext = createContext<LoginContextProps>({
   setIsLogin: () => {},
   isLoginModal: false,
   handleLoginModal: () => {},
-  sendIdTokenToServer: () => Promise.resolve({}),
+  sendIdTokenToServer: () => Promise.resolve(),
   handleLoginSuccess: () => {},
   handleLogOut: () => {},
 });
@@ -33,14 +33,11 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
         },
       })
       .then(r => {
-        const initialUserInfo: Record<string, string> = {};
         const data = r.data.split(', ');
         data.forEach((item: string) => {
           const [key, value] = item.split('=');
           localStorage.setItem(key, value);
-          initialUserInfo[key] = value;
         });
-        return initialUserInfo;
       })
       .catch(error => {
         console.log(error);
@@ -48,30 +45,14 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
       });
   };
 
-  const handleLoginSuccess = async (oAuthProvider: string, initialUserInfo: Record<string, string>) => {
+  const handleLoginSuccess = async (oAuthProvider: string) => {
     await setIsLogin(true);
     if (oAuthProvider == 'google') {
-      fetchNotifications(initialUserInfo).then(() => {
-        navigate(PATH.HOME);
-        window.location.reload();
-      });
+      navigate(PATH.HOME);
+      window.location.reload();
     }
     if (oAuthProvider == 'kakao') navigate(PATH.HOME);
     if (oAuthProvider == 'naver') navigate(PATH.HOME);
-  };
-
-  const fetchNotifications = (initialUserInfo: Record<string, string>) => {
-    const memberId = initialUserInfo.MemberId;
-    const endpoint = `/notifications/${memberId}`;
-    return fetcher
-      .get(endpoint, {})
-      .then(r => {
-        localStorage.setItem('Notifications', JSON.stringify(r.data));
-      })
-      .catch(error => {
-        console.log(error);
-        return [];
-      });
   };
 
   const handleLogOut = () => {
@@ -82,7 +63,6 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
         localStorage.removeItem('MemberId');
         localStorage.removeItem('NickName');
         localStorage.removeItem('ProfileImage');
-        localStorage.removeItem('Notifications');
         navigate(PATH.HOME);
         window.location.reload();
       })
@@ -127,8 +107,8 @@ interface LoginContextProps {
   setIsLogin: React.Dispatch<boolean>;
   isLoginModal: boolean;
   handleLoginModal: () => void;
-  sendIdTokenToServer: (idToken: string | undefined) => Promise<Record<string, string>>;
-  handleLoginSuccess: (oAuthProvider: string, initialUserInfo: Record<string, string>) => void;
+  sendIdTokenToServer: (idToken: string | undefined) => Promise<void>;
+  handleLoginSuccess: (oAuthProvider: string) => void;
   handleLogOut: () => void;
 }
 
