@@ -11,7 +11,7 @@ const NotificationContext = createContext<NotificationContextProps>({
 });
 
 export const NotificationProvider = ({ children }: NotificationProviderProps) => {
-  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [notifications, setNotifications] = useState<NotificationTypes[]>([]);
   const [isAllChecked, setIsAllChecked] = useState<boolean>(true);
 
   useEffect(() => {
@@ -62,8 +62,8 @@ export const NotificationProvider = ({ children }: NotificationProviderProps) =>
 export const useNotification = () => useContext(NotificationContext);
 
 interface NotificationContextProps {
-  notifications: Notification[];
-  setNotifications: React.Dispatch<Notification[]>;
+  notifications: NotificationTypes[];
+  setNotifications: React.Dispatch<NotificationTypes[]>;
   isAllChecked: boolean;
   setIsAllChecked: React.Dispatch<boolean>;
   getNotifications: (memberId: number) => void;
@@ -74,13 +74,11 @@ interface NotificationProviderProps {
   children: React.ReactNode;
 }
 
-interface Notification {
+export interface NotificationTypes {
   notificationId: number;
-  event: string;
-  bookmarkCourseId: number;
   memberId: number;
-  courseId: number;
-  courseTitle: string;
+  event: string;
+  message: string;
   checked: boolean;
   createdAt: number;
 }

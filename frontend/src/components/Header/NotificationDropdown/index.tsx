@@ -2,7 +2,7 @@ import { Popover } from 'antd';
 import { ItemWrapper, NoResult, NotificationDate, NotificationItemWrapper, Title, Wrapper } from './style';
 import React, { useEffect } from 'react';
 import { NotificationActiveIcon, NotificationIcon } from '../../../constants/icons';
-import { useNotification } from '../../../hooks/useNotification';
+import { NotificationTypes, useNotification } from '../../../hooks/useNotification';
 
 const NotificationDropdown = () => {
   const { notifications, isAllChecked, getNotifications, updateNotifications } = useNotification();
@@ -29,8 +29,8 @@ const NotificationDropdown = () => {
         {notifications.length === 0 ? (
           <NoResult>새로운 알림이 없습니다.</NoResult>
         ) : (
-          recentNotifications.map(({ notificationId, event, courseTitle, createdAt }: Notification) => (
-            <NotificationItem key={notificationId} event={event} courseTitle={courseTitle} createdAt={createdAt} />
+          recentNotifications.map(({ notificationId, message, createdAt }: NotificationTypes) => (
+            <NotificationItem key={notificationId} message={message} createdAt={createdAt} />
           ))
         )}
       </Wrapper>
@@ -38,34 +38,16 @@ const NotificationDropdown = () => {
   }
 };
 
-const NotificationItem = ({ event, courseTitle, createdAt }: Notification) => {
-  let message = '';
-  switch (event) {
-    case 'registrationStart':
-      message = `북마크하신 코스 ${courseTitle}의 접수가 시작되었어요. 놓치지 마시고 신청하세요 😄`;
-      break;
-    case 'registrationEndInThreeDays':
-      message = `북마크하신 코스 ${courseTitle}의 접수 마감이 3일 남았어요. 놓치지 마시고 신청하세요 😊`;
-      break;
-    case 'registrationEnd':
-      message = `북마크하신 코스 ${courseTitle}의 접수 마감일이에요. 놓치지 마시고 신청하세요 ☺️`;
-      break;
-  }
+const NotificationItem = ({ createdAt, message }: Pick<NotificationTypes, 'message' | 'createdAt'>) => {
   const timeSinceNotification = getTimeSinceNotification(createdAt);
 
-  // 코스 타이틀만 굵은 글씨로 표시하기 위해 인덱싱
-  const index = message.indexOf(courseTitle);
-  const beforeCourseTitle = message.substring(0, index);
-  const afterCourseTitle = message.substring(index + courseTitle.length);
+  // Find the part of the message to be bolded and wrap it in a <span> tag with a fontWeight style
+  const boldedMessage = message.replace(/\*\*(.*?)\*\*/g, '<span style="font-weight: 600">$1</span>');
 
   return (
     <NotificationItemWrapper>
       <ItemWrapper>
-        <div style={{ marginBottom: '6px' }}>
-          {beforeCourseTitle}
-          <strong>{courseTitle}</strong>
-          {afterCourseTitle}
-        </div>
+        <div style={{ marginBottom: '6px' }} dangerouslySetInnerHTML={{ __html: boldedMessage }} />
         <NotificationDate>{timeSinceNotification}</NotificationDate>
       </ItemWrapper>
     </NotificationItemWrapper>
@@ -98,14 +80,3 @@ const getTimeSinceNotification = (createdAt: number) => {
 };
 
 export default NotificationDropdown;
-
-interface Notification {
-  notificationId?: number;
-  event: string;
-  bookmarkCourseId?: number;
-  memberId?: number;
-  courseId?: number;
-  courseTitle: string;
-  checked?: boolean;
-  createdAt: number;
-}
