@@ -5,8 +5,8 @@ import com.bootme.common.exception.ErrorType;
 
 public class AlreadyBookmarkedException extends BadRequestException {
 
-    public AlreadyBookmarkedException(final ErrorType errorType) {
-        super(errorType);
+    public AlreadyBookmarkedException(final ErrorType errorType, final String invalidInput) {
+        super(errorType, invalidInput);
     }
 
 }

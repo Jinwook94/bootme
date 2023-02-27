@@ -35,26 +35,26 @@ public class MemberService {
     @Transactional(readOnly = true)
     public Member findById(Long id) {
         return memberRepository.findById(id)
-                .orElseThrow(() -> new MemberNotFoundException(NOT_FOUND_MEMBER));
+                .orElseThrow(() -> new MemberNotFoundException(NOT_FOUND_MEMBER, id.toString()));
     }
 
     @Transactional(readOnly = true)
     public Member findByEmail(String email) {
         return memberRepository.findByEmail(email)
-                .orElseThrow(() -> new MemberNotFoundException(NOT_FOUND_MEMBER));
+                .orElseThrow(() -> new MemberNotFoundException(NOT_FOUND_MEMBER, email));
     }
 
     public Long addBookmarkCourse(Long memberId, Long courseId) {
         boolean isExist = bookmarkCourseRepository.existsByMemberIdAndCourseId(memberId, courseId);
 
         if (isExist){
-            throw new AlreadyBookmarkedException(ALREADY_BOOKMARKED);
+            throw new AlreadyBookmarkedException(ALREADY_BOOKMARKED, "memberId=" + memberId + ", courseId="+courseId);
         }
 
         Member foundMember = memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberNotFoundException(NOT_FOUND_MEMBER));
+                .orElseThrow(() -> new MemberNotFoundException(NOT_FOUND_MEMBER, memberId.toString()));
         Course foundCourse = courseRepository.findById(courseId)
-                .orElseThrow(() -> new CourseNotFoundException(NOT_FOUND_COURSE));
+                .orElseThrow(() -> new CourseNotFoundException(NOT_FOUND_COURSE, courseId.toString()));
 
         BookmarkCourse bookmarkCourses = new BookmarkCourse(foundMember, foundCourse);
         BookmarkCourse savedBookmarkCourse = bookmarkCourseRepository.save(bookmarkCourses);
@@ -64,7 +64,7 @@ public class MemberService {
 
     public void deleteBookmarkCourse(Long memberId, Long courseId) {
         BookmarkCourse bookmarkCourse = bookmarkCourseRepository.findByMemberIdAndCourseId(memberId, courseId)
-                .orElseThrow(() -> new BookmarkCourseNotFoundException(NOT_FOUND_BOOKMARK));
+                .orElseThrow(() -> new BookmarkCourseNotFoundException(NOT_FOUND_BOOKMARK, "memberId=" + memberId + ", courseId="+courseId));
         bookmarkCourseRepository.delete(bookmarkCourse);
     }
 
