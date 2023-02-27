@@ -8,4 +8,9 @@ public class CompanyNotFoundException extends BadRequestException {
     public CompanyNotFoundException(final ErrorType errorType) {
         super(errorType);
     }
+
+    public CompanyNotFoundException(final ErrorType errorType, final String invalidInput) {
+        super(errorType, invalidInput);
+    }
+
 }

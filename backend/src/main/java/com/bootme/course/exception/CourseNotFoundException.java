@@ -8,4 +8,9 @@ public class CourseNotFoundException extends BadRequestException {
     public CourseNotFoundException(final ErrorType errorType) {
         super(errorType);
     }
+
+    public CourseNotFoundException(final ErrorType errorType,  final String invalidInput) {
+        super(errorType, invalidInput);
+    }
+
 }

@@ -5,8 +5,8 @@ import com.bootme.common.exception.ErrorType;
 
 public class BookmarkCourseNotFoundException extends BadRequestException {
 
-    public BookmarkCourseNotFoundException(final ErrorType errorType) {
-        super(errorType);
+    public BookmarkCourseNotFoundException(final ErrorType errorType, final String invalidInput) {
+        super(errorType, invalidInput);
     }
 
 }
