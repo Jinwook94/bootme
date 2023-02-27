@@ -1,12 +1,16 @@
 package com.bootme.common.exception;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
-public class BadRequestException extends RuntimeException {
+public abstract class BadRequestException extends BusinessException {
 
-    private final ErrorType errorType;
+    public BadRequestException(ErrorType errorType){
+        super(errorType);
+    }
+
+    public BadRequestException(ErrorType errorType, String invalidInput){
+        super(errorType, invalidInput);
+    }
 
 }

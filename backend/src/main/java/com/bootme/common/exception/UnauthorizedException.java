@@ -3,18 +3,14 @@ package com.bootme.common.exception;
 import lombok.Getter;
 
 @Getter
-public class UnauthorizedException extends RuntimeException{
-
-    private final ErrorType errorType;
-    private String invalidInput;
+public abstract class UnauthorizedException extends BusinessException {
 
     public UnauthorizedException(ErrorType errorType) {
-        this.errorType = errorType;
+        super(errorType);
     }
 
     public UnauthorizedException(ErrorType errorType, String invalidInput) {
-        this.errorType = errorType;
-        this.invalidInput = errorType.getMessage(invalidInput);
+        super(errorType, invalidInput);
     }
 
 }
