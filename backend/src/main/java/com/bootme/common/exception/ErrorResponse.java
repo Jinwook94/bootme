@@ -1,6 +1,5 @@
-package com.bootme.common.exception.dto;
+package com.bootme.common.exception;
 
-import com.bootme.common.exception.ErrorType;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

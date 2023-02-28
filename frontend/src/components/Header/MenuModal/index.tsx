@@ -27,6 +27,7 @@ const MenuModal = ({ isLogin, isMenuOpen, setIsMenuOpen, nickName, profileImage 
   const [isHovered, setIsHovered] = useState(false);
   const { handleLogOut, handleLoginModal } = useLogin();
 
+  // todo: 북마크 코스 클릭해도 이동 안됨
   return (
     <ReactModal
       className={'MenuModal'}
@@ -100,7 +101,7 @@ const MenuModal = ({ isLogin, isMenuOpen, setIsMenuOpen, nickName, profileImage 
               </Figcaption>
             </Figure>
             <Item>프로필 관리</Item>
-            <Item onClick={() => console.log('클릭')}>
+            <Item>
               <Link to={PATH.BOOKMARKS}>북마크 코스</Link>
             </Item>
             <div style={{ borderTop: '1px solid rgb(235, 235, 235)', height: '0.5rem' }}></div>
