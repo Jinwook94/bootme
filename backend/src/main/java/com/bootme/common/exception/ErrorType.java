@@ -16,6 +16,7 @@ public enum ErrorType {
     INVALID_ISSUED_AT       (1006, "토큰의 발행시간이 올바르지 않습니다."),
     TOKEN_EXPIRED           (1007, "토큰이 만료되었습니다."),
     INVALID_SIGNATURE       (1008, "토큰이 서명이 올바르지 않습니다."),
+    GOOGLE_LOGIN_FAIL       (1009, "구글 로그인에 실패했습니다."),
 
     // Authorization
     FORBIDDEN_REQUEST       (2001, "권한이 없습니다."),
