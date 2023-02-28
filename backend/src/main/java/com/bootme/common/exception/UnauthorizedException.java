@@ -13,4 +13,8 @@ public abstract class UnauthorizedException extends BusinessException {
         super(errorType, invalidInput);
     }
 
+    public UnauthorizedException(ErrorType errorType, String invalidInput, Throwable e) {
+        super(errorType, invalidInput, e);
+    }
+
 }

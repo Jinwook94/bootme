@@ -17,4 +17,9 @@ public abstract class BusinessException extends RuntimeException {
         this.errorType = errorType;
     }
 
+    public BusinessException(ErrorType errorType, String invalidInput, Throwable cause) {
+        super(errorType.getMessage(invalidInput), cause);
+        this.errorType = errorType;
+    }
+
 }

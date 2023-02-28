@@ -10,12 +10,13 @@ public enum ErrorType {
     // Authentication errors
     NOT_AUTHENTICATED       (1001, "인증에 실패했습니다."),
     ALREADY_AUTHENTICATED   (1002, "이미 인증정보가 존재합니다."),
-    INVALID_TOKEN           (1003, "유효하지 않은 토큰입니다."),
+    TOKEN_PARSING_FAIL      (1003, "토큰 파싱에 실패했습니다."),
     INVALID_ISSUER          (1004, "유효하지 않은 토큰 발급자입니다."),
     INVALID_AUDIENCE        (1005, "토큰의 Audience 값이 유효하지 않습니다."),
     INVALID_ISSUED_AT       (1006, "토큰의 발행시간이 올바르지 않습니다."),
     TOKEN_EXPIRED           (1007, "토큰이 만료되었습니다."),
     INVALID_SIGNATURE       (1008, "토큰이 서명이 올바르지 않습니다."),
+    GOOGLE_LOGIN_FAIL       (1009, "구글 로그인에 실패했습니다."),
 
     // Authorization
     FORBIDDEN_REQUEST       (2001, "권한이 없습니다."),

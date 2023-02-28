@@ -13,4 +13,8 @@ public abstract class BadRequestException extends BusinessException {
         super(errorType, invalidInput);
     }
 
+    public BadRequestException(ErrorType errorType, String invalidInput, Throwable cause){
+        super(errorType, invalidInput, cause);
+    }
+
 }
