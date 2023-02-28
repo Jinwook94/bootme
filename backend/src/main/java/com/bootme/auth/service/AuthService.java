@@ -251,7 +251,7 @@ public class AuthService {
     /**
      * 가입된 유저는 방문 횟수를 증가, 가입되지 않은 유저는 가입
      */
-    public boolean registerMember(JwtVo.Body jwtBody) throws Exception {
+    public boolean registerMember(JwtVo.Body jwtBody) {
         boolean isRegistered = memberService.isMemberRegistered(jwtBody.getEmail());
 
         if (isRegistered) {
@@ -266,13 +266,8 @@ public class AuthService {
         return isRegistered;
     }
 
-    // todo: 세션 카운트로 수정해야할듯
-    private void incrementVisitsCount(JwtVo.Body jwtBody) throws Exception {
-        int rowsAffected = memberRepository.incrementVisits(jwtBody.getEmail());
-        // todo: 예외처리
-        if (rowsAffected != 1) {
-            throw new Exception();
-        }
+    private void incrementVisitsCount(JwtVo.Body jwtBody) {
+        memberRepository.incrementVisits(jwtBody.getEmail());
     }
 
     public String[] createTokenCookies(JwtVo.Body jwtBody) {
