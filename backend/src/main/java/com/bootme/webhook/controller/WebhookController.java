@@ -8,8 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.util.Map;
 
 import static com.bootme.common.exception.ErrorType.INVALID_EVENT;
@@ -30,7 +28,7 @@ public class WebhookController {
 
     @PostMapping
     public ResponseEntity<?> handleWebhook(@RequestHeader(name = "Bootme_Secret") String secret,
-                                           @RequestBody WebhookRequest webhookRequest) throws GeneralSecurityException, IOException {
+                                           @RequestBody WebhookRequest webhookRequest) {
         final String COURSE_CLICKED = "courseClicked";
         final String COURSE_BOOKMARKED = "courseBookmarked";
         final String EVENT = webhookRequest.getEvent();
