@@ -99,18 +99,22 @@ public class AuthService {
      *
      * @return JWT 에 포함된 정보(헤더, 바디)를 복사한 JwtVo 인스턴스
      */
-    public JwtVo parseToken(String token) throws IOException {
-        String[] jwtParts = token.split("\\.");
-        ObjectMapper mapper = new ObjectMapper();
-        JwtVo.Header header = mapper.readValue(Base64.getDecoder().decode(jwtParts[0]), JwtVo.Header.class);
-        JwtVo.Body body = mapper.readValue(Base64.getDecoder().decode(jwtParts[1]), JwtVo.Body.class);
-        return new JwtVo(header, body);
+    public JwtVo parseToken(String token) {
+        try {
+            String[] jwtParts = token.split("\\.");
+            ObjectMapper mapper = new ObjectMapper();
+            JwtVo.Header header = mapper.readValue(Base64.getDecoder().decode(jwtParts[0]), JwtVo.Header.class);
+            JwtVo.Body body = mapper.readValue(Base64.getDecoder().decode(jwtParts[1]), JwtVo.Body.class);
+            return new JwtVo(header, body);
+        } catch (IOException e) {
+            throw new TokenParseException(TOKEN_PARSING_FAIL, token, e);
+        }
     }
 
     /**
      * ID 토큰의 발급자, Audience, 발행 시간, 만료 시간, 서명을 검증한다.
      */
-    public void verifyToken(String idToken) throws IOException {
+    public void verifyToken(String idToken) {
         JwtVo jwtVo = parseToken(idToken);
         JwtVo.Body body = jwtVo.getBody();
 
