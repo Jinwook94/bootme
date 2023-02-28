@@ -1,5 +1,6 @@
 package com.bootme.common.exception.dto;
 
+import com.bootme.common.exception.ErrorType;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,4 +22,12 @@ public class ErrorResponse {
                 ", message='" + message + '\'' +
                 '}';
     }
+
+    public static ErrorResponse of(ErrorType errorType){
+        return ErrorResponse.builder().
+                errorCode(errorType.getErrorCode()).
+                message(errorType.getMessage()).
+                build();
+    }
+
 }

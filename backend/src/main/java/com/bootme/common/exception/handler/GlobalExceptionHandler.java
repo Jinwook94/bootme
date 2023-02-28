@@ -20,28 +20,21 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ErrorResponse> badRequestExceptionHandler(final BadRequestException e) {
         log.warn("Bad Request Exception", e);
         ErrorType errorType = e.getErrorType();
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(makeErrorResponse(errorType));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponse.of(errorType));
     }
 
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<ErrorResponse> unauthorizedExceptionHandler(final UnauthorizedException e) {
         log.warn("Unauthorized Exception", e);
         ErrorType errorType = e.getErrorType();
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(makeErrorResponse(errorType));
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ErrorResponse.of(errorType));
     }
 
     @ExceptionHandler(ForbiddenException.class)
     public ResponseEntity<ErrorResponse> forbiddenExceptionHandler(final ForbiddenException e) {
         log.warn("Forbidden Exception", e);
         ErrorType errorType = e.getErrorType();
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(makeErrorResponse(errorType));
-    }
-
-    private ErrorResponse makeErrorResponse(ErrorType errorType) {
-        return ErrorResponse.builder().
-                errorCode(errorType.getErrorCode()).
-                message(errorType.getMessage()).
-                build();
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ErrorResponse.of(errorType));
     }
 
 }
