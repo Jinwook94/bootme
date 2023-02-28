@@ -24,7 +24,9 @@ public enum ErrorType {
     NOT_FOUND_MEMBER        (5002, "존재하지 않는 회원입니다."),
     NOT_FOUND_BOOKMARK      (6003, "해당 북마크 코스가 존재하지 않습니다."),
     ALREADY_BOOKMARKED      (6004, "이미 북마크 저장된 코스입니다."),
-    NOT_FOUND_EVENT         (7005, "존재하지 않는 알림 이벤트입니다.");
+    NOT_FOUND_EVENT         (7005, "존재하지 않는 알림 이벤트입니다."),
+
+    RUNTIME_EXCEPTION       (8001, "서버에 알 수 없는 문제가 발생했습니다.");
 
     final int errorCode;
     final String message;

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import static com.bootme.common.exception.ErrorType.RUNTIME_EXCEPTION;
+
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
@@ -35,6 +37,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         log.warn("Forbidden Exception", e);
         ErrorType errorType = e.getErrorType();
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ErrorResponse.of(errorType));
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException e) {
+        log.warn("Runtime Exception", e);
+        return ResponseEntity.internalServerError().body(ErrorResponse.of(RUNTIME_EXCEPTION));
     }
 
 }
