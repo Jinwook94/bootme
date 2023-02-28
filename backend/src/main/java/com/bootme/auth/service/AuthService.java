@@ -92,12 +92,13 @@ public class AuthService {
         this.NAVER_SECRET = NAVER_SECRET;
     }
 
-    public String getToken(String authHeader){
+    public String getToken(String authHeader) {
         return authHeader.replace("Bearer ", "");
     }
 
     /**
      * JWT 스트링을 파싱하여 JwoVO 인스턴스에 복사한다.
+     *
      * @return JWT 에 포함된 정보(헤더, 바디)를 복사한 JwtVo 인스턴스
      */
     public JwtVo parseToken(String token) throws IOException {
@@ -110,8 +111,8 @@ public class AuthService {
 
     /**
      * ID 토큰의 발급자, Audience, 발행 시간, 만료 시간, 서명을 검증한다.
-     * */
-    public void verifyToken(String idToken) throws IOException, GeneralSecurityException {
+     */
+    public void verifyToken(String idToken) throws IOException {
         JwtVo jwtVo = parseToken(idToken);
         JwtVo.Body body = jwtVo.getBody();
 
@@ -122,16 +123,16 @@ public class AuthService {
         verifySignature(idToken, issuer);
     }
 
-    private String verifyIssuer(JwtVo.Body body){
+    private String verifyIssuer(JwtVo.Body body) {
         final String iss = body.getIss();
 
-        if (Objects.equals(iss, BOOTME_ISSUER)){
+        if (Objects.equals(iss, BOOTME_ISSUER)) {
             return BOOTME;
-        } else if (Objects.equals(iss, GOOGLE_ISSUER)){
+        } else if (Objects.equals(iss, GOOGLE_ISSUER)) {
             return GOOGLE;
-        } else if (Objects.equals(iss, NAVER_ISSUER)){
+        } else if (Objects.equals(iss, NAVER_ISSUER)) {
             return NAVER;
-        } else if (Objects.equals(iss, KAKAO_ISSUER)){
+        } else if (Objects.equals(iss, KAKAO_ISSUER)) {
             return KAKAO;
         }
         throw new InvalidIssuerException(INVALID_ISSUER, iss);
@@ -159,7 +160,7 @@ public class AuthService {
         }
     }
 
-    private void verifyIssuedAt(JwtVo.Body body){
+    private void verifyIssuedAt(JwtVo.Body body) {
         long iat = body.getIat();
         long now = Instant.now().getEpochSecond();
         long clockSkewTolerance = 300;
@@ -179,7 +180,7 @@ public class AuthService {
         }
     }
 
-    private void verifySignature(String jwt, String issuer) throws GeneralSecurityException, IOException {
+    private void verifySignature(String jwt, String issuer) {
         switch (issuer) {
             case BOOTME:
                 verifyBootmeSignature(jwt, BOOTME_SECRET);
@@ -196,7 +197,7 @@ public class AuthService {
         }
     }
 
-    private void verifyBootmeSignature(String jwt, String bootmeSecret){
+    private void verifyBootmeSignature(String jwt, String bootmeSecret) {
         try {
             Jwts.parserBuilder()
                     .setSigningKey(Keys.hmacShaKeyFor(bootmeSecret.getBytes()))
@@ -219,7 +220,7 @@ public class AuthService {
         }
     }
 
-    private void verifyNaverSignature(String jwt, String naverSecret){
+    private void verifyNaverSignature(String jwt, String naverSecret) {
         try {
             Jwts.parserBuilder()
                     .setSigningKey(Keys.hmacShaKeyFor(naverSecret.getBytes()))
@@ -231,7 +232,7 @@ public class AuthService {
         }
     }
 
-    private void verifyKakaoSignature(String idToken){
+    private void verifyKakaoSignature(String idToken) {
         try {
             // 1. 서명 검증없이 디코딩
             DecodedJWT jwtOrigin = JWT.decode(idToken);
@@ -253,7 +254,7 @@ public class AuthService {
 
     /**
      * 가입된 유저는 방문 횟수를 증가, 가입되지 않은 유저는 가입
-     * */
+     */
     public boolean registerMember(JwtVo.Body jwtBody) throws Exception {
         boolean isRegistered = memberService.isMemberRegistered(jwtBody.getEmail());
 
@@ -273,17 +274,17 @@ public class AuthService {
     private void incrementVisitsCount(JwtVo.Body jwtBody) throws Exception {
         int rowsAffected = memberRepository.incrementVisits(jwtBody.getEmail());
         // todo: 예외처리
-        if (rowsAffected != 1){
+        if (rowsAffected != 1) {
             throw new Exception();
         }
     }
 
-    public String[] createTokenCookies(JwtVo.Body jwtBody){
+    public String[] createTokenCookies(JwtVo.Body jwtBody) {
         String accessToken = tokenProvider.createAccessToken(jwtBody);
         String refreshToken = tokenProvider.createRefreshToken(jwtBody);
         String accessTokenCookie = getCookie("accessToken", accessToken, ACCESS_TOKEN_EXPIRE_TIME_IN_SECONDS);
         String refreshTokenCookie = getCookie("refreshToken", refreshToken, REFRESH_TOKEN_EXPIRE_TIME_IN_SECONDS);
-        return new String[] { accessTokenCookie, refreshTokenCookie };
+        return new String[]{accessTokenCookie, refreshTokenCookie};
     }
 
     private String getCookie(String tokenName, String token, long expireTime) {
@@ -300,7 +301,7 @@ public class AuthService {
 
     /**
      * 프론트엔드의 헤더와 메뉴 모달, 유저 드롭다운 컴포넌트에 사용될 유저정보를 전달
-     * */
+     */
     public String getUserInfo(JwtVo.Body jwtBody, boolean isRegistered) {
         Long memberId = memberService.findByEmail(jwtBody.getEmail()).getId();
         String nickname = jwtBody.getNickname();
