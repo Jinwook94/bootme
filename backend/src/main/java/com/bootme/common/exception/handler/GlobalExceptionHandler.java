@@ -6,6 +6,7 @@ import com.bootme.common.exception.ForbiddenException;
 import com.bootme.common.exception.dto.ErrorResponse;
 import com.bootme.common.exception.ErrorType;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -19,25 +20,21 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ErrorResponse> badRequestExceptionHandler(final BadRequestException e) {
         log.warn("Bad Request Exception", e);
         ErrorType errorType = e.getErrorType();
-        return handleExceptionInternal(errorType);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(makeErrorResponse(errorType));
     }
 
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<ErrorResponse> unauthorizedExceptionHandler(final UnauthorizedException e) {
         log.warn("Unauthorized Exception", e);
         ErrorType errorType = e.getErrorType();
-        return handleExceptionInternal(errorType);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(makeErrorResponse(errorType));
     }
 
     @ExceptionHandler(ForbiddenException.class)
     public ResponseEntity<ErrorResponse> forbiddenExceptionHandler(final ForbiddenException e) {
         log.warn("Forbidden Exception", e);
         ErrorType errorType = e.getErrorType();
-        return handleExceptionInternal(errorType);
-    }
-
-    private ResponseEntity<ErrorResponse> handleExceptionInternal(ErrorType errorType) {
-        return ResponseEntity.status(errorType.getHttpStatus()).body(makeErrorResponse(errorType));
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(makeErrorResponse(errorType));
     }
 
     private ErrorResponse makeErrorResponse(ErrorType errorType) {
