@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { fetcher, noCredentialsFetcher } from '../api/fetcher';
+import { fetcher } from '../api/fetcher';
 import PATH from '../constants/path';
 
 const LoginContext = createContext<LoginContextProps>({
@@ -71,18 +71,6 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
         console.log(error);
       });
   };
-
-  fetcher.interceptors.response.use(response => {
-    const loginHeaderValue: boolean = response.headers['login'] === 'true';
-    setIsLogin(loginHeaderValue);
-    return response;
-  });
-
-  noCredentialsFetcher.interceptors.response.use(response => {
-    const loginHeaderValue: boolean = response.headers['login'] === 'true';
-    setIsLogin(loginHeaderValue);
-    return response;
-  });
 
   return (
     <LoginContext.Provider
