@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --config webpack/webpack.dev.js --open --hot",
-    "build": "webpack --config webpack/webpack.prod.js",
+    "build": "NODE_ENV=production webpack --config webpack/webpack.prod.js",
     "start": "webpack --config webpack/webpack.dev.js",
     "storybook": "start-storybook ... -s ./src",
     "build-storybook": "build-storybook -s ./src",

@@ -3,7 +3,12 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const path = require('path');
 const webpack = require("webpack");
 const dotenv = require("dotenv");
-dotenv.config();
+
+if (process.env.NODE_ENV === 'production') {
+  dotenv.config({ path: '.env.production' });
+} else {
+  dotenv.config({ path: '.env' });
+}
 
 module.exports = {
   entry: {
