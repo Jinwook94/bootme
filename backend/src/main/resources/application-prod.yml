@@ -1,17 +1,19 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/bootme;MODE=MySQL
-    username: sa
+    url: ENC(+B82IYn9TDkwOSl+SmRAeFTYmjFa8qBfehFDjYn47fyJM82ia/JOuxRfKsG/jjLrK8XuwJZrKwIlGkVuXuz6sQFFoRijOxa059w+yJM1Iq1OL+dCdRfKs38t/7GxkS80PoLjHZvUJo3YaBHdJsgtIz3KchuVmEzyxeNaNU9Z2kwX8wmpHdFM/tIgMwFIAaT6t4Wyn7vrTL0=)
+    username: ENC(q69jN1aqXbgjCdEI2ozMaA==)
+    password: ENC(u3Rxvut+RMCgja+DfNtYu4yD2S0LnBSp)
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 6
   jpa:
-    hibernate:
-      ddl-auto: create
     properties:
       hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
         format_sql: true
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
+      connection:
+        characterEncoding: utf8mb4
+        charSet: utf8mb4
 
 logging:
   level:
