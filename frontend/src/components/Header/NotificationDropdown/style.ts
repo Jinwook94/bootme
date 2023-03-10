@@ -8,6 +8,14 @@ export const Wrapper = styled.div`
   @media (max-width: 575px) {
     width: 300px;
   }
+
+  @media (max-width: 400px) {
+    width: 250px;
+  }
+
+  @media (max-width: 340px) {
+    width: 200px;
+  }
 `;
 
 export const Title = styled.h3`
