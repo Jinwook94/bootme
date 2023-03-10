@@ -5,7 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -96,7 +97,8 @@ public class CourseResponse {
     }
 
     private static long convertLocalDateTimeToLong(LocalDateTime localDateTime){
-        return localDateTime.toInstant(ZoneOffset.ofHours(9)).toEpochMilli();
+        ZonedDateTime zonedDateTime = localDateTime.atZone(ZoneId.of("Asia/Seoul"));
+        return zonedDateTime.toInstant().toEpochMilli();
     }
 
 }
