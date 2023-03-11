@@ -21,7 +21,7 @@ security:
   jwt:
     bootme:
       issuer: https://bootme.back.com
-      secret-key: ENC(rlImVm9fzUb1EqNtYZRJH4FGwUya2/D3bEb+NhKJZN9K0bn94FmgY1OHhHpDJIXzLjaSLjx9zhnnfFKc9ohfPj1nHjCEC22vuU99L9ykazUoJBNbueBuMYc1mCFYJ9sTp3tSXxlTIm0gx5uzBeZA0ICvXtMUF2WgHlAbV1FQtEadd67Xz17blVjO5cydHM1O/kDRWzn7E912Fg3HbZk/BnhSgvgSkSbpPBcK2rJ8lLGv6pkuXfYSh6p9RHWiG9HLlCNMYYYlL9KkSZ0QL+/yk0WeS9EGluaPO55rd7aDjiAO9eyHn0iBedsFp2J7Uf1to9Kejnl1Alp3a+T8XLLGtPBbWjmPgyxUZN3bJoztfk4UOqD5aRZVDy7GdAvouB0KKOYZ6pd8wPkWrurvda6uDTAjj8uThTWWaoUpm9lkDvhYfmjnKHBS0D9DWJtyeXvES0VprypaaMVV0ZunDT06sg==)
+      secret-key: ENC(zfPuFyzYA9XcPlEq0ntmMKo7kicPkh+lFL515nXcS72A8sqk0F4015ZPGb26Rj5i7j91yP4/SVSPPXt8M/DgumpXZf4999tKH0zv9tHF9nBvuKlYofc2nqUG3/+edaRP9F3VwpGCwtbNlO0Ob35dIkEd7le7oA+6rSrHlIUKDWSFe2ZNiDJf/h/sTV1bztHN40JYQ0VYbGYtMfWqxsHEH/BHg/NPJ5ASlPypJtFWJPvjtKxaQRoELaK/ubTdU9O2FAGmAI27Ry6LRT21tP68a6Yrw7AoTo5mz13cX8SaWKlXtWEi0th5QaTftsQKqZm6D6rkw1xDnuWDzTGvdG4eowUPN9VIwAz+VK8fJ/3H0EuhSVh8fTp6zHun1LuwqO8/7oyHtP8zljFc7I2kctpv3HaJMK0vr+tFUB+umDTRP2/tw8Bxrvy1rYVfDuwYYU4vU76r+oujHP5twxn3h1NW2g==)
       exp:
         millisecond:
           access: 3600000
@@ -32,14 +32,14 @@ security:
     bootme_front:
       issuer: https://bootme.front.com
       audience: bootme.com
-      secret-key: ENC(BrEF2f0GGDgw0Xb4Cq7IrgAglTAZ+3TEU8tzbliMNpQNFYlKJA4x5/idQVBVPgXML4ACP50a4BH+10a2qflMIZpplBcabA2VWoN4FhXc4xQ=)
+      secret-key: ENC(VmdR1XXp7UZ2vfrrhyOFpNydC+s76kzXroDXmG5GDzKBO61SFvLDyQrig7LkXoFSGwnb4hCzVm8wFxlbnNFZWlSnHhIfHUV1jYjhdwn/KEc=)
     google:
       issuer: https://accounts.google.com
-      audience: ENC(6TdBK3LK0iP2VZOLqbZdvSuwkVZkKrht1mc+As2cpPqMTg0GBrmuXWKOYK2w1lZrwf3LnWdX+j6ht1eAQ4JzyFISGP5PuGoaAmNaysBpODl1XIdLCuDucw==)
+      audience: ENC(MO/U9kPW/lSGM4vglHPQXNBMnlRLIwh8RlYlCYslxzaf86QdTm6iOiKAtMYHtrsAR0wE18Sk55SEZjBjK2ATSTqDRq6pzH9DLG+UozTzHTN+SwtU7nXpqA==)
     naver:
       issuer: https://bootme.front.com
-      audience: ENC(z7nCen3/a+zpHL7MjZc85KeTD32QmOLs)
-      secret: ENC(lQRPVAASRWotG1LvS/MxnmnNvyejt3Wg9GI3JFSDvsPGcV/vyVCigdNvTdMiPHLx247nBtFf6RIWFoK86l+jC2EtQPkhpLGP9qCg97oU8Ik=)
+      audience: ENC(ja0CnEC8rd485VzLWHaloyYk3fIU4kFxMfo3Ukxdpl7DbyVjiQygIg==)
+      secret: ENC(EYkGqmVhUiOqcuNRl02ha0e5QHDb1+VlSDT31sZd+GaCfcoILVcGrFDoJNDBHQzO75fapRsHe533wkzX2G6x0sKf6JREwKKmBTLKmMQPePc8Z196MlyLm9nqVB4YYT+K)
     kakao:
       issuer: https://kauth.kakao.com
-      audience: ENC(DnzQeaN8f5SxPL/FmfnRygzgIZbVqw7qPLw4ZxnbT8xkD77X3PamZsZVDhWQZhEd)
+      audience: ENC(WK+mtafbv9GqIik6dY/LxpenM4CF7T5zz1z6MA0G4ysfdS5EBRcamVJwfGU+QaIv)
