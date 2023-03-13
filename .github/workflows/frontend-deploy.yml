@@ -1,0 +1,64 @@
+name: frontend deployment
+
+on:
+  push:
+    branches: [main]
+    paths: ["frontend/**"]
+
+defaults:
+  run:
+    working-directory: frontend
+
+env:
+  S3_BUCKET_NAME: ${{ secrets.AWS_S3_BUCKET_NAME_FRONTEND }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # 소스 코드의 string 을 깃허브 리포지토리 시크릿에 저장된 값으로 교체
+      #   aws-sdk 자격증명을 위한 시크릿: IAM 사용자 aws_sdk_credentials_client-secrets-manager 엑세스 키, 시크릿 키 사용
+      #   구글 클라이언트 아이디는 동시성 문제로 AWS Secrets Manager 값을 사용하지 않고 리포지토리 시크릿에 값을 저장하여 교체함
+      #     src/index.tsx 에서는 동시성 문제로 useSecret 의 시크릿 값을 사용하기 번거로워서 사용하지 않고 리포지토리 시크릿을 사용함
+      - name: Replace secrets
+        run: |
+          sed -i "s/AWS_SDK_CREDENTIAL_ACCESS_KEY/${{ secrets.AWS_SDK_CREDENTIAL_ACCESS_KEY }}/g" ./src/hooks/useSecret.tsx
+          sed -i "s/AWS_SDK_CREDENTIAL_SECRET_KEY/${{ secrets.AWS_SDK_CREDENTIAL_SECRET_KEY }}/g" ./src/hooks/useSecret.tsx
+          sed -i "s/GOOGLE_CLIENT_ID/${{ secrets.GOOGLE_CLIENT_ID }}/g" ./src/index.tsx
+
+      - name: Install dependencies and Build
+        run: |
+          npm install
+          npm run build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Delete files from S3 root
+        run: |
+          aws s3 rm s3://${S3_BUCKET_NAME}/ --recursive --exclude="naver_logo.svg" --exclude="favicon.ico" --exclude="build/*"
+
+      # 기존 배포파일들을 보관하기 위해 S3 버킷 root 경로에 더해 ./build 폴더에도 빌드파일 저장
+      - name: Create new folder in S3 and Upload build files to the folder
+        run: |
+          folder_name=$(TZ=Asia/Seoul date +"%Y%m%d_%H%M%S")_${GITHUB_SHA}
+          aws s3api put-object --bucket ${S3_BUCKET_NAME} --key build/${folder_name}/
+          aws s3 cp dist/ s3://${S3_BUCKET_NAME}/build/${folder_name}/ --recursive
+
+      - name: Upload new build files to S3 bucket root
+        run: |
+          aws s3 cp dist/ s3://${S3_BUCKET_NAME}/ --recursive
+          sleep 10
+
+      # 새로 업로드 된 index.html 파일을 호스팅 하도록 CloudFront 캐시 삭제
+      - name: Invalidate CloudFront cache
+        run: |
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID }} --paths '/*'
