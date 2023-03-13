@@ -44,7 +44,7 @@ public class CourseFixture {
     public static final int VALID_PERIOD_3 = 210;
     public static final Dates VALID_DATES_1 = Dates.builder()
             .registrationStartDate(LocalDate.of(2023, 1, 1))
-            .registrationEndDate(LocalDate.of(2024, 2, 31))
+            .registrationEndDate(LocalDate.of(2024, 1, 31))
             .courseStartDate(LocalDate.of(2024, 2, 1))
             .courseEndDate(LocalDate.of(2024, 4, 30))
             .build();
