@@ -3,15 +3,14 @@ import qs from 'qs';
 import LoginButton from '../LoginButton';
 import { useLogin } from '../../../hooks/useLogin';
 import { noCredentialsFetcher } from '../../../api/fetcher';
-
-const REST_API_KEY = process.env.REACT_APP_KAKAO_API_KEY;
-const REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URI;
-const STATE = process.env.REACT_KAKAO_STATE;
-const KAKAO_OAUTH_ACCESS_TOKEN_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code&state=${STATE}`;
-const KAKAO_OAUTH_ID_TOKEN_URL = 'https://kauth.kakao.com/oauth/token';
-const CLIENT_SECRET = process.env.REACT_APP_KAKAO_CLIENT_SECRET;
+import { useSecret } from '../../../hooks/useSecret';
 
 export const KakaoLoginButton = () => {
+  const { secrets } = useSecret();
+  const REST_API_KEY = secrets['kakao-rest-api-key'];
+  const REDIRECT_URI = secrets['kakao-redirect-uri'];
+  const KAKAO_OAUTH_ACCESS_TOKEN_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+
   return (
     <div onClick={() => (window.location.href = KAKAO_OAUTH_ACCESS_TOKEN_URL)}>
       <LoginButton client={'kakao'} />
@@ -20,6 +19,12 @@ export const KakaoLoginButton = () => {
 };
 
 export const KakaoLoginRedirect = () => {
+  const { secrets } = useSecret();
+  const REST_API_KEY = secrets['kakao-rest-api-key'];
+  const REDIRECT_URI = secrets['kakao-redirect-uri'];
+  const KAKAO_OAUTH_ID_TOKEN_URL = 'https://kauth.kakao.com/oauth/token';
+  const CLIENT_SECRET = secrets[''];
+
   const sendAccessTokenToKakao = async () => {
     const code = new URL(window.location.href).searchParams.get('code');
     const payload = qs.stringify({

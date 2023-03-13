@@ -1,10 +1,7 @@
 import { fetcher } from '../api/fetcher';
 import * as jose from 'jose';
 import { COURSE_BOOKMARKED, COURSE_CLICKED, COURSE_ID } from '../constants/webhook';
-
-const ISSUER = process.env.REACT_APP_WEBHOOK_ISSUER ?? '';
-const AUDIENCE = process.env.REACT_APP_WEBHOOK_AUDIENCE ?? '';
-const SIGNING_KEY = process.env.REACT_APP_WEBHOOK_SIGNING_KEY;
+import { useSecret } from './useSecret';
 
 const useWebhook = (): useWebhookProps => {
   /**
@@ -29,6 +26,10 @@ const useWebhook = (): useWebhookProps => {
   };
 
   function generateJwt() {
+    const { secrets } = useSecret();
+    const ISSUER = secrets['webhook-issuer'];
+    const AUDIENCE = secrets['webhook-audience'];
+    const SIGNING_KEY = secrets['webhook-signing-key'];
     const alg = 'HS256';
     const typ = 'JWT';
     const signingKey = new TextEncoder().encode(SIGNING_KEY);
