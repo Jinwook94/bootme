@@ -10,27 +10,30 @@ import App from './App';
 import ReactDOM from 'react-dom/client';
 import { BookmarkProvider } from './hooks/useBookmarks';
 import { NotificationProvider } from './hooks/useNotification';
+import { SecretProvider } from './hooks/useSecret';
 
 const rootElement = document.getElementById('root') as Element;
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(rootElement).render(
   <BrowserRouter>
-    <NotificationProvider>
-      <LoginProvider>
-        <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID as string}>
-          <BookmarkProvider>
-            <FilterProvider>
-              <QueryClientProvider client={queryClient}>
-                <ThemeProvider theme={theme}>
-                  <GlobalStyle />
-                  <App />
-                </ThemeProvider>
-              </QueryClientProvider>
-            </FilterProvider>
-          </BookmarkProvider>
-        </GoogleOAuthProvider>
-      </LoginProvider>
-    </NotificationProvider>
+    <SecretProvider>
+      <NotificationProvider>
+        <LoginProvider>
+          <GoogleOAuthProvider clientId={'GOOGLE_CLIENT_ID'}>
+            <BookmarkProvider>
+              <FilterProvider>
+                <QueryClientProvider client={queryClient}>
+                  <ThemeProvider theme={theme}>
+                    <GlobalStyle />
+                    <App />
+                  </ThemeProvider>
+                </QueryClientProvider>
+              </FilterProvider>
+            </BookmarkProvider>
+          </GoogleOAuthProvider>
+        </LoginProvider>
+      </NotificationProvider>
+    </SecretProvider>
   </BrowserRouter>
 );
