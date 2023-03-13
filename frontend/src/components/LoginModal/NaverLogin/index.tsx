@@ -2,23 +2,23 @@ import { useEffect, useRef } from 'react';
 import LoginButton from '../LoginButton';
 import * as jose from 'jose';
 import { useLogin } from '../../../hooks/useLogin';
+import { useSecret } from '../../../hooks/useSecret';
 
 const { naver } = window;
-const CLIENT_ID = process.env.REACT_APP_NAVER_CLIENT_ID;
-const SIGNING_KEY = process.env.REACT_APP_NAVER_SIGNING_KEY;
-const CALLBACK_URL = process.env.REACT_APP_NAVER_REDIRECT_URI;
-const ISSUER = process.env.REACT_APP_NAVER_ISSUER ?? '';
-const AUDIENCE = process.env.REACT_APP_NAVER_AUDIENCE ?? '';
-
-const naverLogin = new naver.LoginWithNaverId({
-  clientId: CLIENT_ID,
-  callbackUrl: CALLBACK_URL,
-  isPopup: false,
-  loginButton: { color: 'green', type: 3, height: 40 },
-  callbackHandle: true,
-});
 
 export const NaverLoginButton = () => {
+  const { secrets } = useSecret();
+  const CLIENT_ID = secrets['naver-client-id'];
+  const REDIRECT_URL = secrets['naver-redirect-uri'];
+
+  const naverLogin = new naver.LoginWithNaverId({
+    clientId: CLIENT_ID,
+    callbackUrl: REDIRECT_URL,
+    isPopup: false,
+    loginButton: { color: 'green', type: 3, height: 40 },
+    callbackHandle: true,
+  });
+
   const { sendIdTokenToServer, handleLoginSuccess } = useLogin();
   const naverRef = useRef<HTMLDivElement>(null);
   const handleNaverLogin = () => {
@@ -50,6 +50,10 @@ export const NaverLoginButton = () => {
 };
 
 const generateIdToken = async (naverLogin: naverTokenTypes) => {
+  const { secrets } = useSecret();
+  const ISSUER = secrets['naver-issuer'];
+  const AUDIENCE = secrets['naver-audience'];
+  const SIGNING_KEY = secrets['naver-signing-key'];
   const alg = 'HS256';
   const typ = 'JWT';
   const signingKey = new TextEncoder().encode(SIGNING_KEY);

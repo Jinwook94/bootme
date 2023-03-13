@@ -1,14 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const path = require('path');
-const webpack = require("webpack");
-const dotenv = require("dotenv");
-
-if (process.env.NODE_ENV === 'production') {
-  dotenv.config({ path: '.env.production' });
-} else {
-  dotenv.config({ path: '.env' });
-}
+const webpack = require('webpack');
 
 module.exports = {
   entry: {
@@ -60,7 +53,9 @@ module.exports = {
     }),
     new CleanWebpackPlugin(),
     new webpack.DefinePlugin({
-      "process.env": JSON.stringify(process.env),
+      'process.env.BASE_URL': JSON.stringify(
+          process.env.NODE_ENV === 'production' ? 'https://api.bootme.co.kr/' : 'http://localhost:8080'
+      ),
     }),
   ],
 };
