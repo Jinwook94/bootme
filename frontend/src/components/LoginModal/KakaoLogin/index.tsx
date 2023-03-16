@@ -65,7 +65,7 @@ export const KakaoLoginRedirect = () => {
         handleLoginSuccess('kakao');
       })
     );
-  }, []);
+  }, [secrets]);
 
   return <></>;
 };
