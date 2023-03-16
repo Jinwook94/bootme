@@ -104,6 +104,10 @@ export const CourseTitle = styled.h5`
   }
 `;
 
+export const CompanyNameWrapper = styled(FlexBox)`
+  align-items: center;
+`;
+
 export const CompanyName = styled.a`
   &:hover {
     text-decoration: underline;
@@ -174,6 +178,9 @@ export const TagItem = styled.li`
 `;
 
 export const Bookmark = styled.button`
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -202,5 +209,19 @@ export const Bookmark = styled.button`
       width: 1.3rem;
       height: 1.3rem;
     }
+  }
+  @media (max-width: 575px) {
+    top: 0.6rem;
+    right: 1rem;
+  }
+
+  @media (min-width: 576px) and (max-width: 991px) {
+    top: 1.2rem;
+    right: 1.2rem;
+  }
+
+  @media (min-width: 992px) and (max-width: 1200px) {
+    top: 1.3rem;
+    right: 0.3rem;
   }
 `;

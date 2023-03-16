@@ -11,6 +11,7 @@ import {
   CourseTags,
   TagItem,
   Bookmark,
+  CompanyNameWrapper,
 } from './style';
 
 import './style.css';
@@ -55,9 +56,11 @@ const CourseCard = ({
             {title}
           </CourseTitle>
         </CourseTitleWrapper>
-        <CompanyName href={company.url} target="_blank" onClick={() => sendWebhookNoti(COURSE_CLICKED, id)}>
-          {company.name}
-        </CompanyName>
+        <CompanyNameWrapper>
+          <CompanyName href={company.url} target="_blank" onClick={() => sendWebhookNoti(COURSE_CLICKED, id)}>
+            {company.name}
+          </CompanyName>
+        </CompanyNameWrapper>
         <CourseInfo>
           <ItemWrapper>
             <span
