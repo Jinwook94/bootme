@@ -23,7 +23,7 @@ export const KakaoLoginRedirect = () => {
   const REST_API_KEY = secrets['kakao-rest-api-key'];
   const REDIRECT_URI = secrets['kakao-redirect-uri'];
   const KAKAO_OAUTH_ID_TOKEN_URL = 'https://kauth.kakao.com/oauth/token';
-  const CLIENT_SECRET = secrets[''];
+  const CLIENT_SECRET = secrets['kakao-client-secret'];
 
   const sendAccessTokenToKakao = async () => {
     const code = new URL(window.location.href).searchParams.get('code');
