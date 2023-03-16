@@ -47,7 +47,6 @@ export const BodyWrapper2 = styled.div`
   justify-content: space-between;
   align-items: flex-start;
   max-width: 75rem;
-  margin: 0 auto;
 `;
 
 export const SideFilterWrapper = styled.section`
