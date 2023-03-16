@@ -1,4 +1,4 @@
-name: Post Backend Test Results as PR Comment
+name: backend PR comment
 
 on:
   pull_request:
@@ -42,7 +42,7 @@ jobs:
         run: ./gradlew bootJar
         
       - name: Post Test Results as PR Comment
-        uses: EnricoMi/publish-unit-test-result-action@v1
+        uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
         with:
           files: '**/build/test-results/test/TEST-*.xml'
