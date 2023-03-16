@@ -20,6 +20,8 @@ import {
   STACKS,
   TEST,
   SIDE_FILTER,
+  CATEGORIES_OPTIONS,
+  STACKS_OPTIONS,
 } from '../../../constants/courseFilter';
 import { CaretDownIcon, CaretIcon, CaretUpIcon } from '../../../constants/icons';
 
@@ -55,7 +57,7 @@ const SideFilterItem = ({ filter, filterName, filterOptions, isMore, isReset }: 
                 filterName={filterName}
                 filterOption={filterOption}
                 isReset={isReset}
-                borderTop={index === 9}
+                borderTop={index === CATEGORIES_OPTIONS.SUPER.length}
               />
             ))}
           </FilterOptionList>
@@ -70,7 +72,7 @@ const SideFilterItem = ({ filter, filterName, filterOptions, isMore, isReset }: 
                 filterName={filterName}
                 filterOption={filterOption}
                 isReset={isReset}
-                borderTop={index === 8}
+                borderTop={index === STACKS_OPTIONS.LANGUAGES.length}
               />
             ))}
           </FilterOptionList>
