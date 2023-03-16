@@ -150,7 +150,11 @@ export const ItemWrapper = styled.li`
   letter-spacing: -0.009em;
   list-style: none;
 
-  @media (max-width: 767px) {
+  @media (max-width: 360px) {
+    font-size: 12.5px;
+  }
+
+  @media (min-width: 361px) and (max-width: 767px) {
     font-size: 13px;
   }
 `;
