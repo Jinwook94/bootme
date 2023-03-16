@@ -132,7 +132,7 @@ const Home = () => {
           />
         </PaginationWrapper>
         <FooterWrapper>
-          <Footer style={{ textAlign: 'center' }}> Footer 작성 필요</Footer>
+          <Footer style={{ textAlign: 'center' }}></Footer>
         </FooterWrapper>
       </HomeLayout>
     </>

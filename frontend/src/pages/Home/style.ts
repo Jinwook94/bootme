@@ -32,12 +32,12 @@ export const SlideWrapper = styled.div`
 
 export const BodyWrapper = styled.div`
   padding-top: 0.5rem;
-  padding-bottom: 12.875rem;
+  padding-bottom: 0;
   display: flex;
   flex-direction: column;
 
   @media (max-width: 991px) {
-    padding-bottom: 10.6875rem;
+    padding-bottom: 0;
   }
 `;
 
@@ -164,6 +164,7 @@ export const PaginationWrapper = styled.div`
   flex-wrap: nowrap;
   align-items: center;
   justify-content: center;
+  margin-bottom: 4rem;
 `;
 
 export const FooterWrapper = styled.div``;
