@@ -45,18 +45,16 @@ export const ItemHeader = styled(FlexBox)`
 `;
 
 export const CompanyLogo = styled.img`
-  width: auto;
-  max-width: 4.5rem;
-  height: auto;
-  max-height: 4.5rem;
+  width: 4.5rem;
+  height: 4.5rem;
   margin: 0.375rem auto 0;
   border-radius: 0.25rem;
   vertical-align: middle;
   border-style: none;
 
   @media (max-width: 575px) {
-    max-width: 2.5rem;
-    max-height: 2.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
   }
 `;
 
