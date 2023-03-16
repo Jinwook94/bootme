@@ -87,36 +87,34 @@ const Home = () => {
               <SideFilter />
             </SideFilterWrapper>
             <CourseListWrapper>
+              <CourseListMenu>
+                <MenuLeft>
+                  <CourseCount>{filteredLength}개의 커리큘럼</CourseCount>
+                </MenuLeft>
+                <MenuRight>
+                  <FilterButton primary onClick={handleModal}>
+                    <span> 검색 필터 </span>
+                  </FilterButton>
+                  <SortSelect>
+                    <Select
+                      defaultValue="인기순"
+                      style={{ width: 94 }}
+                      options={[
+                        { value: 'popular', label: '인기순' },
+                        { value: 'newest', label: '등록순' },
+                        { value: 'bookmark', label: '북마크순' },
+                      ]}
+                      onSelect={handleSorting}
+                    />
+                  </SortSelect>
+                </MenuRight>
+              </CourseListMenu>
               {filteredCourses.length === 0 ? (
                 <NoResultsMessage>
                   선택하신 조건에 맞는 코스가 없습니다. <br /> 필터 옵션을 변경해 주세요.
                 </NoResultsMessage>
               ) : (
-                <>
-                  <CourseListMenu>
-                    <MenuLeft>
-                      <CourseCount>{filteredLength}개의 커리큘럼</CourseCount>
-                    </MenuLeft>
-                    <MenuRight>
-                      <FilterButton primary onClick={handleModal}>
-                        <span> 검색 필터 </span>
-                      </FilterButton>
-                      <SortSelect>
-                        <Select
-                          defaultValue="인기순"
-                          style={{ width: 94 }}
-                          options={[
-                            { value: 'popular', label: '인기순' },
-                            { value: 'newest', label: '등록순' },
-                            { value: 'bookmark', label: '북마크순' },
-                          ]}
-                          onSelect={handleSorting}
-                        />
-                      </SortSelect>
-                    </MenuRight>
-                  </CourseListMenu>
-                  <CourseCardList allCards={allCards} currentCards={currentCards} />
-                </>
+                <CourseCardList allCards={allCards} currentCards={currentCards} />
               )}
             </CourseListWrapper>
           </BodyWrapper2>
