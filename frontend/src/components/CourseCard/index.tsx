@@ -90,6 +90,11 @@ const CourseCard = ({
           </ItemWrapper>
         </CourseInfo>
         <CourseTags>
+          {categories['super']?.map((tag: string, index: number) => (
+            <TagItem key={index} style={{ backgroundColor: '#e6f7ff', color: '#1c1c1c' }}>
+              {tag}
+            </TagItem>
+          ))}
           {categories['sub']?.map((tag: string, index: number) => (
             <TagItem key={index} style={{ backgroundColor: '#e6f7ff', color: '#1c1c1c' }}>
               {tag}
