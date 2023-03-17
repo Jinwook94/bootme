@@ -13,6 +13,7 @@ import com.bootme.auth.token.TokenProvider;
 import com.bootme.member.domain.Member;
 import com.bootme.member.repository.MemberRepository;
 import com.bootme.member.service.MemberService;
+import com.bootme.notification.service.NotificationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -37,6 +38,7 @@ public class AuthService {
     private final MemberRepository memberRepository;
     private final MemberService memberService;
     private final TokenProvider tokenProvider;
+    private final NotificationService notificationService;
 
     private final long ACCESS_TOKEN_EXPIRE_TIME_IN_SECONDS;
     private final long REFRESH_TOKEN_EXPIRE_TIME_IN_SECONDS;
@@ -59,6 +61,7 @@ public class AuthService {
     public AuthService(MemberRepository memberRepository,
                        MemberService memberService,
                        TokenProvider tokenProvider,
+                       NotificationService notificationService,
                        @Value("${security.jwt.bootme.exp.second.access}") long ACCESS_TOKEN_EXPIRE_TIME_IN_SECONDS,
                        @Value("${security.jwt.bootme.exp.second.refresh}") long REFRESH_TOKEN_EXPIRE_TIME_IN_SECONDS,
                        @Value("${security.jwt.bootme_front.issuer}") String BOOTME_ISSUER,
@@ -74,6 +77,7 @@ public class AuthService {
         this.memberRepository = memberRepository;
         this.memberService = memberService;
         this.tokenProvider = tokenProvider;
+        this.notificationService = notificationService;
         this.ACCESS_TOKEN_EXPIRE_TIME_IN_SECONDS = ACCESS_TOKEN_EXPIRE_TIME_IN_SECONDS;
         this.REFRESH_TOKEN_EXPIRE_TIME_IN_SECONDS = REFRESH_TOKEN_EXPIRE_TIME_IN_SECONDS;
         this.BOOTME_ISSUER = BOOTME_ISSUER;
@@ -253,7 +257,7 @@ public class AuthService {
     /**
      * 가입된 유저는 방문 횟수를 증가, 가입되지 않은 유저는 가입
      */
-    public boolean registerMember(JwtVo.Body jwtBody) {
+    public void registerMember(JwtVo.Body jwtBody) {
         boolean isRegistered = memberService.isMemberRegistered(jwtBody.getEmail());
 
         if (isRegistered) {
@@ -263,9 +267,9 @@ public class AuthService {
             jwtBody.setOAuthProvider(issuer);
 
             Member member = Member.of(jwtBody);
-            memberRepository.save(member);
+            Member savedMember = memberRepository.save(member);
+            notificationService.sendNotification(savedMember, "signUp");
         }
-        return isRegistered;
     }
 
     private void incrementVisitsCount(JwtVo.Body jwtBody) {
@@ -295,18 +299,18 @@ public class AuthService {
     /**
      * 프론트엔드의 헤더와 메뉴 모달, 유저 드롭다운 컴포넌트에 사용될 유저정보를 전달
      */
-    public String getUserInfo(JwtVo.Body jwtBody, boolean isRegistered) {
+    public String getUserInfo(JwtVo.Body jwtBody) {
         Long memberId = memberService.findByEmail(jwtBody.getEmail()).getId();
         String nickname = jwtBody.getNickname();
         String name = jwtBody.getName();
         String idInEmail = jwtBody.getEmail().split("@")[0];
 
         if (nickname != null) {
-            return "IsNewMember=" + !isRegistered + ", MemberId=" + memberId + ", NickName=" + nickname + ", ProfileImage=" + jwtBody.getPicture();
+            return "MemberId=" + memberId + ", NickName=" + nickname + ", ProfileImage=" + jwtBody.getPicture();
         } else if (name != null) {
-            return "IsNewMember=" + !isRegistered + ", MemberId=" + memberId + ", NickName=" + name + ", ProfileImage=" + jwtBody.getPicture();
+            return "MemberId=" + memberId + ", NickName=" + name + ", ProfileImage=" + jwtBody.getPicture();
         } else
-            return "IsNewMember=" + !isRegistered + ", MemberId=" + memberId + ", NickName=" + idInEmail + ", ProfileImage=" + jwtBody.getPicture();
+            return "MemberId=" + memberId + ", NickName=" + idInEmail + ", ProfileImage=" + jwtBody.getPicture();
     }
 
 }
