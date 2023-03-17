@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { fetcher } from '../api/fetcher';
-import { SIGN_UP } from '../constants/notifications';
+import { SIGN_UP } from '../constants/webhook';
 
 const NotificationContext = createContext<NotificationContextProps>({
   notifications: [],
