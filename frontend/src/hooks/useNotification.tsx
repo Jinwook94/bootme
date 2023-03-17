@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { fetcher } from '../api/fetcher';
-import { SIGN_UP } from '../constants/webhook';
 
 const NotificationContext = createContext<NotificationContextProps>({
   notifications: [],
@@ -50,15 +49,6 @@ export const NotificationProvider = ({ children }: NotificationProviderProps) =>
         console.log(error);
       });
   };
-
-  useEffect(() => {
-    const isNewMember: boolean = localStorage.getItem('IsNewMember') === 'true';
-    const memberId = Number(localStorage.getItem('MemberId'));
-    if (isNewMember) {
-      sendNotification(memberId, SIGN_UP);
-      localStorage.removeItem('IsNewMember');
-    }
-  }, [localStorage.getItem('IsNewMember')]);
 
   return (
     <NotificationContext.Provider
