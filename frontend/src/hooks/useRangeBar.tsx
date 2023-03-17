@@ -18,7 +18,7 @@ export const useRangeBar = (filterName: string, isReset: boolean) => {
 
   const [currentValue, setCurrentValue] = useState(Filter.maxValue);
   const { selectedFilters, addFilter, removeBeforeAdd, removeFilter } = useFilters();
-  const [, setIsFree] = useState(false);
+  const [isFreeSelected, setIsFreeSelected] = useState(false);
 
   const handleRangeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentValue(Number(event.target.value));
@@ -53,17 +53,24 @@ export const useRangeBar = (filterName: string, isReset: boolean) => {
       selectedFilters.includes(COST_TYPE.filterName + ':' + COST_TYPE.filterOptions[0]) ||
       selectedFilters.includes(COST_TYPE.filterName + ':' + COST_TYPE.filterOptions[1]);
 
+    setIsFreeSelected(isFreeSelected);
+
     if (isFreeSelected && filterName === COST_TYPE.filterName) {
-      setIsFree(true);
       setCurrentValue(0);
       const costFilters = selectedFilters.filter(filter => filter.startsWith('비용'));
       costFilters.forEach(filter => {
         const [property, value] = filter.split(':');
         removeFilter(property, value);
       });
-      setIsFree(false);
     }
   }, [selectedFilters]);
+
+  // 무료 옵션 해제시 RangeBar 값 1000으로 설정
+  useEffect(() => {
+    if (!isFreeSelected && filterName === COST_TYPE.filterName) {
+      setCurrentValue(1000);
+    }
+  }, [isFreeSelected]);
 
   return { Filter, currentValue, handleRangeChange, handleInputChange };
 };
