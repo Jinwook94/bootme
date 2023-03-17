@@ -23,7 +23,7 @@ export const STACKS = {
   isMore: true,
 };
 
-export const COST_TYPE = { filterName: '수강 비용', filterOptions: ['무료', '무료 (국비)'], isMore: false };
+export const COST_TYPE = { filterName: '수강 비용', filterOptions: ['무료', '무료(국비)'], isMore: false };
 export const PERIOD = { filterName: '수강 기간', filterOptions: [], isMore: false };
 export const TEST = { filterName: '코딩 테스트', filterOptions: ['있음', '없음'], isMore: false };
 
