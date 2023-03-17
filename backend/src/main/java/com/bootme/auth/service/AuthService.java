@@ -13,6 +13,7 @@ import com.bootme.auth.token.TokenProvider;
 import com.bootme.member.domain.Member;
 import com.bootme.member.repository.MemberRepository;
 import com.bootme.member.service.MemberService;
+import com.bootme.notification.service.NotificationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -37,6 +38,7 @@ public class AuthService {
     private final MemberRepository memberRepository;
     private final MemberService memberService;
     private final TokenProvider tokenProvider;
+    private final NotificationService notificationService;
 
     private final long ACCESS_TOKEN_EXPIRE_TIME_IN_SECONDS;
     private final long REFRESH_TOKEN_EXPIRE_TIME_IN_SECONDS;
@@ -59,6 +61,7 @@ public class AuthService {
     public AuthService(MemberRepository memberRepository,
                        MemberService memberService,
                        TokenProvider tokenProvider,
+                       NotificationService notificationService,
                        @Value("${security.jwt.bootme.exp.second.access}") long ACCESS_TOKEN_EXPIRE_TIME_IN_SECONDS,
                        @Value("${security.jwt.bootme.exp.second.refresh}") long REFRESH_TOKEN_EXPIRE_TIME_IN_SECONDS,
                        @Value("${security.jwt.bootme_front.issuer}") String BOOTME_ISSUER,
@@ -74,6 +77,7 @@ public class AuthService {
         this.memberRepository = memberRepository;
         this.memberService = memberService;
         this.tokenProvider = tokenProvider;
+        this.notificationService = notificationService;
         this.ACCESS_TOKEN_EXPIRE_TIME_IN_SECONDS = ACCESS_TOKEN_EXPIRE_TIME_IN_SECONDS;
         this.REFRESH_TOKEN_EXPIRE_TIME_IN_SECONDS = REFRESH_TOKEN_EXPIRE_TIME_IN_SECONDS;
         this.BOOTME_ISSUER = BOOTME_ISSUER;
@@ -263,7 +267,8 @@ public class AuthService {
             jwtBody.setOAuthProvider(issuer);
 
             Member member = Member.of(jwtBody);
-            memberRepository.save(member);
+            Member savedMember = memberRepository.save(member);
+            notificationService.sendNotification(savedMember, "signUp");
         }
         return isRegistered;
     }
