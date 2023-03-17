@@ -30,7 +30,7 @@ const SideFilterItem = ({ filter, filterName, filterOptions, isMore, isReset }: 
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const [rotation, setRotation] = useState(0);
 
-  function handleClick() {
+  function handleCaretClick() {
     setIsOpen(!isOpen);
     setRotation(rotation === 0 ? 180 : 0);
   }
@@ -119,11 +119,11 @@ const SideFilterItem = ({ filter, filterName, filterOptions, isMore, isReset }: 
     <Wrapper>
       <FilterTitle>
         {filterName}
-        <CaretWrapper onClick={handleClick}>
+        <CaretWrapper onClick={handleCaretClick}>
           <CaretIcon rotation={rotation} />
         </CaretWrapper>
       </FilterTitle>
-      <FilterBodyWrapper style={{ display: isOpen ? 'block' : 'none', paddingBottom: isMoreOpen ? '0.3rem' : '1rem' }}>
+      <FilterBodyWrapper style={{ display: isOpen ? 'block' : 'none' }}>
         <FilterBody>
           {renderFilterOptionList()}
           {isMore && (

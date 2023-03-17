@@ -5,7 +5,6 @@ export const Wrapper = styled.div`
   border-radius: 0.9375rem;
   margin-bottom: 1rem;
   overflow: hidden;
-  padding-bottom: 0.5rem;
 `;
 
 export const FilterTitle = styled.div`
@@ -35,7 +34,6 @@ export const FilterBodyWrapper = styled.div`
 export const FilterBody = styled.div`
   position: relative;
   padding: 0 0.5rem;
-  transition: all 0.3s linear 0s;
 `;
 
 export const FilterOptionList = styled.ul`
