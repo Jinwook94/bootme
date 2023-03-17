@@ -40,7 +40,7 @@ export const FilterBody = styled.div`
 
 export const FilterOptionList = styled.ul`
   overflow: hidden;
-  transition: height 0.2s ease-out;
+  transition: max-height 0.3s ease-out;
   padding-left: 0;
 `;
 

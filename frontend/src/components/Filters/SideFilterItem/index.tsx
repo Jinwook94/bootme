@@ -28,9 +28,6 @@ import { CaretDownIcon, CaretIcon, CaretUpIcon } from '../../../constants/icons'
 const SideFilterItem = ({ filter, filterName, filterOptions, isMore, isReset }: SideFilterItemProps) => {
   const [isOpen, setIsOpen] = useState(true);
   const [isMoreOpen, setIsMoreOpen] = useState(false);
-  const [position, setPosition] = useState<Position | undefined>('absolute');
-  const [paddingTop, setPaddingTop] = useState('2rem');
-  const [paddingBottom, setPaddingBottom] = useState('0.875rem');
   const [rotation, setRotation] = useState(0);
 
   function handleClick() {
@@ -40,16 +37,13 @@ const SideFilterItem = ({ filter, filterName, filterOptions, isMore, isReset }: 
 
   function handleMoreClick() {
     setIsMoreOpen(!isMoreOpen);
-    setPosition(position === 'absolute' ? 'unset' : 'absolute');
-    setPaddingTop(paddingTop === '2.25rem' ? '0.75rem' : '2.25rem');
-    setPaddingBottom(paddingBottom === '0.875rem' ? '0.5rem' : '0.875rem');
   }
 
   const renderFilterOptionList = () => {
     switch (filter) {
       case CATEGORIES:
         return (
-          <FilterOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.5rem' }}>
+          <FilterOptionList style={{ maxHeight: isMoreOpen ? '20rem' : '6.5rem' }}>
             {filterOptions.map((filterOption: string, index) => (
               <FilterOption
                 key={index}
@@ -64,7 +58,7 @@ const SideFilterItem = ({ filter, filterName, filterOptions, isMore, isReset }: 
         );
       case STACKS:
         return (
-          <FilterOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.5rem' }}>
+          <FilterOptionList style={{ maxHeight: isMoreOpen ? '20rem' : '6.5rem' }}>
             {filterOptions.map((filterOption: string, index) => (
               <FilterOption
                 key={index}
@@ -80,7 +74,7 @@ const SideFilterItem = ({ filter, filterName, filterOptions, isMore, isReset }: 
       case COST_TYPE:
         return (
           <>
-            <CostFilterOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.25rem' }}>
+            <CostFilterOptionList style={{ maxHeight: isMoreOpen ? '20rem' : '6.25rem' }}>
               <FilterOption
                 filterType={SIDE_FILTER}
                 filterName={filterName}
@@ -133,10 +127,7 @@ const SideFilterItem = ({ filter, filterName, filterOptions, isMore, isReset }: 
         <FilterBody>
           {renderFilterOptionList()}
           {isMore && (
-            <MoreButton
-              onClick={handleMoreClick}
-              style={{ position: position, paddingTop: paddingTop, paddingBottom: paddingBottom }}
-            >
+            <MoreButton onClick={handleMoreClick}>
               {isMoreOpen ? (
                 <>
                   <span>접기</span>
@@ -155,8 +146,6 @@ const SideFilterItem = ({ filter, filterName, filterOptions, isMore, isReset }: 
     </Wrapper>
   );
 };
-
-type Position = 'absolute' | 'relative' | 'fixed' | 'unset';
 
 export type SideFilterItemProps = CourseFilterTypes & {
   filter: CourseFilterTypes;
