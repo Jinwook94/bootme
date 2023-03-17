@@ -4,6 +4,7 @@ import { COURSE_BOOKMARKED, COURSE_CLICKED, COURSE_ID } from '../constants/webho
 import { useSecret } from './useSecret';
 
 const useWebhook = (): useWebhookProps => {
+  const { secrets } = useSecret();
   /**
    * 지정된 이벤트 발생시 서버로 웹훅 요청을 보내는 함수
    * 웹훅 요청 검증 목적으로 헤더에 JWT 첨부
@@ -26,7 +27,6 @@ const useWebhook = (): useWebhookProps => {
   };
 
   function generateJwt() {
-    const { secrets } = useSecret();
     const ISSUER = secrets['webhook-issuer'];
     const AUDIENCE = secrets['webhook-audience'];
     const SIGNING_KEY = secrets['webhook-signing-key'];

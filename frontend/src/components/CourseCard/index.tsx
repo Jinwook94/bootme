@@ -46,8 +46,8 @@ const CourseCard = ({
       />
 
       <ItemHeader>
-        <a href={url} target="_blank" rel="noreferrer">
-          <CompanyLogo src={company.logoUrl} alt={company.name} onClick={() => sendWebhookNoti(COURSE_CLICKED, id)} />
+        <a href={url} target="_blank" rel="noreferrer" onClick={() => sendWebhookNoti(COURSE_CLICKED, id)}>
+          <CompanyLogo src={company.logoUrl} alt={company.name} />
         </a>
       </ItemHeader>
       <ItemBody>
