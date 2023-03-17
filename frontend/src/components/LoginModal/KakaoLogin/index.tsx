@@ -4,6 +4,7 @@ import LoginButton from '../LoginButton';
 import { useLogin } from '../../../hooks/useLogin';
 import { noCredentialsFetcher } from '../../../api/fetcher';
 import { useSecret } from '../../../hooks/useSecret';
+import { KAKAO } from '../../../constants/others';
 
 export const KakaoLoginButton = () => {
   const { secrets } = useSecret();
@@ -13,7 +14,7 @@ export const KakaoLoginButton = () => {
 
   return (
     <div onClick={() => (window.location.href = KAKAO_OAUTH_ACCESS_TOKEN_URL)}>
-      <LoginButton client={'kakao'} />
+      <LoginButton client={KAKAO} />
     </div>
   );
 };
@@ -62,7 +63,7 @@ export const KakaoLoginRedirect = () => {
   useEffect(() => {
     sendAccessTokenToKakao().then(idToken =>
       sendIdTokenToServer(idToken).then(() => {
-        handleLoginSuccess('kakao');
+        handleLoginSuccess(KAKAO);
       })
     );
   }, [secrets]);

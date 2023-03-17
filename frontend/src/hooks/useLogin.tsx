@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetcher } from '../api/fetcher';
 import PATH from '../constants/path';
+import { GOOGLE, NAVER, KAKAO } from '../constants/others';
 
 const LoginContext = createContext<LoginContextProps>({
   isLogin: false,
@@ -47,12 +48,12 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
 
   const handleLoginSuccess = async (oAuthProvider: string) => {
     await setIsLogin(true);
-    if (oAuthProvider == 'google') {
+    if (oAuthProvider == GOOGLE) {
       navigate(PATH.HOME);
       window.location.reload();
     }
-    if (oAuthProvider == 'kakao') navigate(PATH.HOME);
-    if (oAuthProvider == 'naver') navigate(PATH.HOME);
+    if (oAuthProvider == NAVER) navigate(PATH.HOME);
+    if (oAuthProvider == KAKAO) navigate(PATH.HOME);
   };
 
   const handleLogOut = () => {

@@ -3,6 +3,7 @@ import LoginButton from '../LoginButton';
 import * as jose from 'jose';
 import { useLogin } from '../../../hooks/useLogin';
 import { useSecret } from '../../../hooks/useSecret';
+import { NAVER } from '../../../constants/others';
 
 const { naver } = window;
 
@@ -31,7 +32,7 @@ export const NaverLoginButton = () => {
     <>
       <div ref={naverRef} id="naverIdLogin" style={{ display: 'none' }} />
       <div onClick={handleNaverLogin}>
-        <LoginButton client={'naver'} />
+        <LoginButton client={NAVER} />
       </div>
     </>
   );
@@ -99,7 +100,7 @@ export const NaverLoginRedirect = () => {
       if (status) {
         generateIdToken(naverLogin).then(idToken => {
           sendIdTokenToServer(idToken).then(() => {
-            handleLoginSuccess('naver');
+            handleLoginSuccess(NAVER);
           });
         });
       }
