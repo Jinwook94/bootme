@@ -257,7 +257,7 @@ public class AuthService {
     /**
      * 가입된 유저는 방문 횟수를 증가, 가입되지 않은 유저는 가입
      */
-    public boolean registerMember(JwtVo.Body jwtBody) {
+    public void registerMember(JwtVo.Body jwtBody) {
         boolean isRegistered = memberService.isMemberRegistered(jwtBody.getEmail());
 
         if (isRegistered) {
@@ -270,7 +270,6 @@ public class AuthService {
             Member savedMember = memberRepository.save(member);
             notificationService.sendNotification(savedMember, "signUp");
         }
-        return isRegistered;
     }
 
     private void incrementVisitsCount(JwtVo.Body jwtBody) {
@@ -300,18 +299,18 @@ public class AuthService {
     /**
      * 프론트엔드의 헤더와 메뉴 모달, 유저 드롭다운 컴포넌트에 사용될 유저정보를 전달
      */
-    public String getUserInfo(JwtVo.Body jwtBody, boolean isRegistered) {
+    public String getUserInfo(JwtVo.Body jwtBody) {
         Long memberId = memberService.findByEmail(jwtBody.getEmail()).getId();
         String nickname = jwtBody.getNickname();
         String name = jwtBody.getName();
         String idInEmail = jwtBody.getEmail().split("@")[0];
 
         if (nickname != null) {
-            return "IsNewMember=" + !isRegistered + ", MemberId=" + memberId + ", NickName=" + nickname + ", ProfileImage=" + jwtBody.getPicture();
+            return "MemberId=" + memberId + ", NickName=" + nickname + ", ProfileImage=" + jwtBody.getPicture();
         } else if (name != null) {
-            return "IsNewMember=" + !isRegistered + ", MemberId=" + memberId + ", NickName=" + name + ", ProfileImage=" + jwtBody.getPicture();
+            return "MemberId=" + memberId + ", NickName=" + name + ", ProfileImage=" + jwtBody.getPicture();
         } else
-            return "IsNewMember=" + !isRegistered + ", MemberId=" + memberId + ", NickName=" + idInEmail + ", ProfileImage=" + jwtBody.getPicture();
+            return "MemberId=" + memberId + ", NickName=" + idInEmail + ", ProfileImage=" + jwtBody.getPicture();
     }
 
 }
