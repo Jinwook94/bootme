@@ -26,6 +26,7 @@ export const PageItem = styled.li`
   letter-spacing: -0.009em;
   line-height: 1.6;
   list-style: none;
+  cursor: pointer;
 
   @media (max-width: 767px) {
     font-size: 15px;
