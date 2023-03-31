@@ -121,8 +121,7 @@ const Home = () => {
         </BodyWrapper>
         <PaginationWrapper>
           <PaginationBar
-            itemsPerPage={cardsPerPage}
-            totalItems={filteredLength}
+            maxPage={maxPage}
             handleNumberClick={handleNumberClick}
             currentPage={currentPage}
             handlePrevClick={handlePrevClick}

@@ -2,16 +2,14 @@ import React from 'react';
 import { PageItem, PageNumb, Pagination } from './style';
 
 const PaginationBar = ({
-  itemsPerPage,
-  totalItems,
+  maxPage,
   currentPage,
   handleNumberClick,
   handlePrevClick,
   handleNextClick,
 }: PaginationBarProps) => {
   const pageNumbers = [];
-
-  for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
+  for (let i = 1; i <= maxPage; i++) {
     pageNumbers.push(i);
   }
 
@@ -40,9 +38,7 @@ const PaginationBar = ({
 };
 
 interface PaginationBarProps {
-  itemsPerPage: number;
-  totalItems: number;
-  paginate?: any;
+  maxPage: number;
   handleNumberClick?: (number: number) => React.MouseEventHandler;
   currentPage: number;
   handleNextClick: React.MouseEventHandler;
