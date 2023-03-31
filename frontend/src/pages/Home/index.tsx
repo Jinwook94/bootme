@@ -48,13 +48,14 @@ const Home = () => {
 
   // Pagination
   const [cardsPerPage] = useState(12);
-  const maxPage = Math.floor(length / cardsPerPage) + 1;
+  const maxPage = Math.floor(filteredCourses.length / cardsPerPage) + 1;
   const { currentPage, setCurrentPage, handleNumberClick, handleNextClick, handlePrevClick, getCurrentItems } =
     usePaging(maxPage);
   const currentCards = getCurrentItems(cardsPerPage, sortedCards);
 
   useEffect(() => {
     handleLength(filteredCourses.length);
+    setCurrentPage(1);
   }, [filteredCourses]);
 
   useEffect(() => {
@@ -121,8 +122,7 @@ const Home = () => {
         </BodyWrapper>
         <PaginationWrapper>
           <PaginationBar
-            itemsPerPage={cardsPerPage}
-            totalItems={filteredLength}
+            maxPage={maxPage}
             handleNumberClick={handleNumberClick}
             currentPage={currentPage}
             handlePrevClick={handlePrevClick}

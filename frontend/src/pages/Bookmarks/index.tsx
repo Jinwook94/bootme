@@ -53,8 +53,7 @@ const Bookmarks = () => {
         </BodyWrapper2>
       </BodyWrapper>
       <PaginationBar
-        itemsPerPage={cardsPerPage}
-        totalItems={bookmarkCount}
+        maxPage={maxPage}
         handleNumberClick={handleNumberClick}
         currentPage={currentPage}
         handlePrevClick={handlePrevClick}
