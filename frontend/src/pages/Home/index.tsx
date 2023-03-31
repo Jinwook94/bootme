@@ -55,6 +55,7 @@ const Home = () => {
 
   useEffect(() => {
     handleLength(filteredCourses.length);
+    setCurrentPage(1);
   }, [filteredCourses]);
 
   useEffect(() => {
