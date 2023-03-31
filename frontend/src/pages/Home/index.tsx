@@ -48,7 +48,7 @@ const Home = () => {
 
   // Pagination
   const [cardsPerPage] = useState(12);
-  const maxPage = Math.floor(length / cardsPerPage) + 1;
+  const maxPage = Math.floor(filteredCourses.length / cardsPerPage) + 1;
   const { currentPage, setCurrentPage, handleNumberClick, handleNextClick, handlePrevClick, getCurrentItems } =
     usePaging(maxPage);
   const currentCards = getCurrentItems(cardsPerPage, sortedCards);
