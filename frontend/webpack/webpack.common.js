@@ -53,8 +53,11 @@ module.exports = {
     }),
     new CleanWebpackPlugin(),
     new webpack.DefinePlugin({
-      'process.env.BASE_URL': JSON.stringify(
-          process.env.NODE_ENV === 'production' ? 'https://api.bootme.co.kr/' : 'http://localhost:8080'
+      'process.env.CLIENT_URL': JSON.stringify(
+          process.env.NODE_ENV === 'production' ? 'https://bootme.co.kr/' : 'http://localhost:3000/'
+      ),
+      'process.env.SERVER_URL': JSON.stringify(
+          process.env.NODE_ENV === 'production' ? 'https://api.bootme.co.kr/' : 'http://localhost:8080/'
       ),
     }),
   ],

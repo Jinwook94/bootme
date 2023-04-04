@@ -10,7 +10,7 @@ const { naver } = window;
 export const NaverLoginButton = () => {
   const { secrets } = useSecret();
   const CLIENT_ID = secrets['naver-client-id'];
-  const REDIRECT_URL = secrets['naver-redirect-uri'];
+  const REDIRECT_URL = process.env.CLIENT_URL + 'oauth/naver';
   const naverLogin = new naver.LoginWithNaverId({
     clientId: CLIENT_ID,
     callbackUrl: REDIRECT_URL,
@@ -42,7 +42,7 @@ export const NaverLoginRedirect = () => {
   const { sendIdTokenToServer, handleLoginSuccess } = useLogin();
   const { secrets } = useSecret();
   const CLIENT_ID = secrets['naver-client-id'];
-  const REDIRECT_URL = secrets['naver-redirect-uri'];
+  const REDIRECT_URL = process.env.CLIENT_URL + 'oauth/naver';
 
   const naverLogin = new naver.LoginWithNaverId({
     clientId: CLIENT_ID,
