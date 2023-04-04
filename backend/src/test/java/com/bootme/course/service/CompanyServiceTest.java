@@ -22,16 +22,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class CompanyServiceTest extends ServiceTest {
 
     @Autowired
-    private CompanyService companyService;
-
-    @Autowired
     private CompanyRepository companyRepository;
 
     private Company company1;
     private Company company2;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         company1 = getCompany(1);
         company2 = getCompany(2);
         Course course1 = getCourse(1);
@@ -44,7 +41,7 @@ class CompanyServiceTest extends ServiceTest {
 
     @Test
     @DisplayName("addCompany()는 회사를 추가한다.")
-    public void addCompany(){
+    void addCompany(){
         //given
         long count = companyRepository.count();
 
@@ -62,7 +59,7 @@ class CompanyServiceTest extends ServiceTest {
 
     @Test
     @DisplayName("findById()는 회사 정보를 반환한다.")
-    public void findById(){
+    void findById(){
         //given
         Long id = companyRepository.save(company1).getId();
 
@@ -82,7 +79,7 @@ class CompanyServiceTest extends ServiceTest {
 
     @Test
     @DisplayName("findAll()은 모든 회사 정보를 반환한다.")
-    public void findAll(){
+    void findAll(){
         //given
         companyRepository.save(company1);
         companyRepository.save(company2);
@@ -92,13 +89,13 @@ class CompanyServiceTest extends ServiceTest {
 
         //then
         assertAll(
-                () -> assertThat(companyResponses.size()).isEqualTo(2)
+                () -> assertThat(companyResponses).hasSize(2)
         );
     }
 
     @Test
     @DisplayName("modifyCompany()는 회사 정보를 변경한다.")
-    public void modifyCompany() {
+    void modifyCompany() {
         //given
         Long id = companyRepository.save(company1).getId();
 
@@ -118,7 +115,7 @@ class CompanyServiceTest extends ServiceTest {
 
     @Test
     @DisplayName("deleteCompany()는 회사 정보를 삭제한다.")
-    public void deleteCompany(){
+    void deleteCompany(){
         //given
         Long id = companyRepository.save(company1).getId();
         long count = companyRepository.count();
@@ -128,7 +125,7 @@ class CompanyServiceTest extends ServiceTest {
 
         //then
         assertAll(
-                () -> assertThat(companyRepository.findById(id).isEmpty()).isTrue(),
+                () -> assertThat(companyRepository.findById(id)).isNotPresent(),
                 () -> assertThat(companyRepository.count()).isEqualTo(count - 1)
         );
     }

@@ -15,7 +15,7 @@ const useCourses = ({
     (readonly ['courses', 'list', { readonly filters: string | undefined }])[]
   >;
 }) =>
-  useQuery([courseKeys.list(filters)], () => fetcher.get(`/admin/courses`), {
+  useQuery([courseKeys.list(filters)], () => fetcher.get(`/courses`), {
     select: data => data.data,
     refetchOnWindowFocus: false, // disable automatic refetch on window focus
     refetchInterval: 24 * 60 * 60 * 1000, // refetch every 24 hours

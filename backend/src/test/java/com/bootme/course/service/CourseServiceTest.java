@@ -23,9 +23,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class CourseServiceTest extends ServiceTest {
 
     @Autowired
-    private CourseService courseService;
-
-    @Autowired
     private CourseRepository courseRepository;
 
     @Autowired
@@ -37,7 +34,7 @@ class CourseServiceTest extends ServiceTest {
     private Company company3;
 
     @BeforeEach
-    public void setup(){
+    void setup(){
         company1 = getCompany(1);
         company2 = getCompany(2);
         company3 = getCompany(3);
@@ -50,7 +47,7 @@ class CourseServiceTest extends ServiceTest {
 
     @Test
     @DisplayName("addCourse()는 코스를 추가한다.")
-    public void addCourse() {
+    void addCourse() {
         //given
         long count = courseRepository.count();
 
@@ -77,7 +74,7 @@ class CourseServiceTest extends ServiceTest {
 
     @Test
     @DisplayName("findById()는 코스 정보를 반환한다.")
-    public void findById() {
+    void findById() {
         //given
         Long id = courseRepository.save(course).getId();
 
@@ -98,7 +95,7 @@ class CourseServiceTest extends ServiceTest {
 
     @Test
     @DisplayName("findAll()은 모든 코스 정보를 반환한다.")
-    public void findAll (){
+    void findAll (){
         //given
         courseService.addCourse(getCourseRequest(2));
         courseService.addCourse(getCourseRequest(3));
@@ -107,12 +104,12 @@ class CourseServiceTest extends ServiceTest {
         List<CourseResponse> courseResponses = courseService.findAll();
 
         //then: setUp()의 company1.addCourse(course)에서 코스 한 개 등록되었으므로 총 3개의 코스
-        assertThat(courseResponses.size()).isEqualTo(3);
+        assertThat(courseResponses).hasSize(3);
     }
 
     @Test
     @DisplayName("modifyCourse()는 코스 정보를 변경한다.")
-    public void modifyCourse(){
+    void modifyCourse(){
         //given
         Long id = courseRepository.save(course).getId();
 
@@ -137,7 +134,7 @@ class CourseServiceTest extends ServiceTest {
 
     @Test
     @DisplayName("deleteCourse()는 코스를 삭제한다.")
-    public void deleteCourse(){
+    void deleteCourse(){
         //given
         courseRepository.save(course);
         Long id = course.getId();
@@ -148,9 +145,9 @@ class CourseServiceTest extends ServiceTest {
 
         //then
         assertAll(
-                () -> assertThat(courseRepository.findById(id).isEmpty()).isTrue(),
+                () -> assertThat(courseRepository.findById(id)).isNotPresent(),
                 () -> assertThat(courseRepository.count()).isEqualTo(count - 1),
-                () -> assertThat(company1.getCourses().contains(course)).isFalse()
+                () -> assertThat(company1.getCourses()).doesNotContain(course)
         );
     }
 
