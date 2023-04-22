@@ -48,19 +48,21 @@ const UserDropDown = ({ nickName, profileImage }: UserDropDownProps) => {
             </LinkItem>
           </Item>
           <Item>
-            <LinkItem>
-              <IconWrapper>
-                <BookmarkIcon />
-              </IconWrapper>
-              <Link to={PATH.BOOKMARKS}>북마크 코스</Link>
-            </LinkItem>
+            <Link to={PATH.BOOKMARKS}>
+              <LinkItem>
+                <IconWrapper>
+                  <BookmarkIcon />
+                </IconWrapper>
+                북마크 코스
+              </LinkItem>
+            </Link>
           </Item>
         </Items>
-        <LogoutButton>
+        <LogoutButton onClick={handleLogOut}>
           <IconWrapper>
             <LogoutIcon />
           </IconWrapper>
-          <TextWrapper onClick={handleLogOut}>로그아웃</TextWrapper>
+          <TextWrapper>로그아웃</TextWrapper>
         </LogoutButton>
       </ContentWrapper>
     );
