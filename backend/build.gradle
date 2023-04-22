@@ -82,20 +82,10 @@ task buildDocument(type: Copy) {
 }
 
 bootJar {
-    // 스프링 프로필이 'prod' 아니면 빌드되지 않도록 설정
-    Properties properties = new Properties()
-    InputStream inputStream = new FileInputStream(project.rootProject.file('src/main/resources/application.yml'))
-    properties.load(inputStream)
-    def activeProfile = properties.getProperty("active")
+    def dateTime = new Date().format('yyyy-MMdd-HHmm')
+    archivesBaseName = 'bootme-' + dateTime
+    archiveFileName = archivesBaseName + '.jar'
 
-    if (activeProfile == 'prod') {
-        def dateTime = new Date().format('yyyy-MMdd-HHmm')
-        archivesBaseName = 'bootme-' + dateTime
-        archiveFileName = archivesBaseName + '.jar'
-    } else {
-        throw new StopExecutionException("스프링 프로필이 'prod'로 설정되어 있지 않아 빌드를 취소했습니다. (현재 프로필: $activeProfile) \n" +
-                'application.yml 파일의 "spring.profiles.active" 값을 확인하세요.')
-    }
     dependsOn buildDocument
     enabled = true
 }
