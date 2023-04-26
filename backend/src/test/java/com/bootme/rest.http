@@ -1,0 +1,51 @@
+POST localhost:8080/companies HTTP/1.1
+Content-Type: application/json
+Host: api.bootMe.app
+
+{
+  "name" : "다음",
+  "serviceName" : "네이버앱",
+  "url" : "www.naver.com",
+  "serviceUrl" : "www.app.naver.com",
+  "logoUrl" : "https://api.bootMe.app/img/img_story_renewal.png"
+}
+
+###
+GET localhost:8080/companies/1 HTTP/1.1
+Content-Type: application/json
+Host: api.bootMe.app
+
+###
+POST localhost:8080/courses HTTP/1.1
+Content-Type: application/json
+Host: api.bootMe.app
+
+{
+"title" : "네이버 서버 개발자 부트캠프 1기",
+"name" : "네이버 서버 개발자 부트캠프",
+"generation" : 1,
+"url" : "www.boot.naver.com",
+"companyName" : "네이버",
+"location" : "서울시 강남구",
+"onOffline" : "온라인",
+"categories" : {
+"superCategory" : [ "웹", "모바일 앱" ],
+"subCategory" : [ "백엔드", "안드로이드" ]
+},
+"stacks" : {
+"languages" : [ "Java", "Python", "JavaScript" ],
+"frameworks" : [ "Spring", "Django", "Nodejs" ]
+},
+"prerequisites" : "노베이스",
+"cost" : 0,
+"costType" : "무료",
+"period" : 90,
+"dates" : {
+"registrationStartDate" : "2023-01-01",
+"registrationEndDate" : "2024-01-31",
+"courseStartDate" : "2024-02-01",
+"courseEndDate" : "2024-04-30"
+},
+"recommended" : true,
+"tested" : true
+}
