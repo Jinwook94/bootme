@@ -32,7 +32,8 @@ public enum ErrorType {
     ALREADY_BOOKMARKED      (4001, "이미 북마크 저장된 코스입니다."),
 
     // Invalid input errors
-    INVALID_EVENT           (5001, "유효하지 않은 webhook 이벤트입니다."),
+    INVALID_METHOD_ARGUMENT (5001, ""), // 인자에 따라 다른 에러 메시지 출력되도록 설정함
+    INVALID_EVENT           (5002, "유효하지 않은 webhook 이벤트입니다."),
 
     // Internal server errors
     RUNTIME_EXCEPTION       (9001, "서버에 알 수 없는 문제가 발생했습니다.");

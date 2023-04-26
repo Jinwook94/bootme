@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import static com.bootme.common.exception.ErrorType.INVALID_METHOD_ARGUMENT;
+
 
 @Getter
 @Builder
@@ -26,6 +28,13 @@ public class ErrorResponse {
         return ErrorResponse.builder().
                 errorCode(errorType.getErrorCode()).
                 message(errorType.getMessage()).
+                build();
+    }
+
+    public static ErrorResponse of(String message){
+        return ErrorResponse.builder().
+                errorCode(INVALID_METHOD_ARGUMENT.errorCode).
+                message(message).
                 build();
     }
 
