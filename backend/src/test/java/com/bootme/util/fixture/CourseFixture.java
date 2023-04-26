@@ -24,24 +24,24 @@ public class CourseFixture {
     public static final String VALID_NAME_1 = "네이버 서버 개발자 부트캠프";
     public static final String VALID_NAME_2 = "카카오 프론트엔드 개발자 부트캠프";
     public static final String VALID_NAME_3 = "라인 서버 개발자 부트캠프 부트캠프";
-    public static final int VALID_GENERATION_1 = 1;
-    public static final int VALID_GENERATION_2 = 2;
-    public static final int VALID_GENERATION_3 = 3;
+    public static final Integer VALID_GENERATION_1 = 1;
+    public static final Integer VALID_GENERATION_2 = 2;
+    public static final Integer VALID_GENERATION_3 = 3;
     public static final String VALID_URL_1 = "www.boot.naver.com";
     public static final String VALID_URL_2 = "www.boot.kakao.com";
     public static final String VALID_URL_3 = "www.boot.line.com";
     public static final String VALID_LOCATION_1 = "서울시 강남구";
     public static final String VALID_LOCATION_2 = "서울시 관악구";
     public static final String VALID_LOCATION_3 = "서울시 중구";
-    public static final int VALID_COST_1 = 0;
-    public static final int VALID_COST_2 = 0;
-    public static final int VALID_COST_3 = 1000000;
+    public static final Integer VALID_COST_1 = 0;
+    public static final Integer VALID_COST_2 = 0;
+    public static final Integer VALID_COST_3 = 1000000;
     public static final String VALID_CostType_1 = "무료";
     public static final String VALID_CostType_2 = "무료 (국비)";
     public static final String VALID_CostType_3 = "유료";
-    public static final int VALID_PERIOD_1 = 90;
-    public static final int VALID_PERIOD_2 = 28;
-    public static final int VALID_PERIOD_3 = 210;
+    public static final Integer VALID_PERIOD_1 = 90;
+    public static final Integer VALID_PERIOD_2 = 28;
+    public static final Integer VALID_PERIOD_3 = 210;
     public static final Dates VALID_DATES_1 = Dates.builder()
             .registrationStartDate(LocalDate.of(2023, 1, 1))
             .registrationEndDate(LocalDate.of(2024, 1, 31))
@@ -163,7 +163,7 @@ public class CourseFixture {
         index--;
         String[] titles = {VALID_TITLE_1, VALID_TITLE_2, VALID_TITLE_3};
         String[] names = {VALID_NAME_1, VALID_NAME_2, VALID_NAME_3};
-        int[] generations = {VALID_GENERATION_1, VALID_GENERATION_2, VALID_GENERATION_3};
+        Integer[] generations = {VALID_GENERATION_1, VALID_GENERATION_2, VALID_GENERATION_3};
         String[] urls = {VALID_URL_1, VALID_URL_2, VALID_URL_3};
         String[] companies = {VALID_COM_NAME_1, VALID_COM_NAME_2, VALID_COM_NAME_3};
         String[] locations = {VALID_LOCATION_1, VALID_LOCATION_2, VALID_LOCATION_3};
@@ -171,9 +171,9 @@ public class CourseFixture {
         Category[] categories = {CATEGORY1, CATEGORY2, CATEGORY3};
         Stack[] stacks = {STACK1, STACK2, STACK3};
         String[] prerequisites = {VALID_PREREQUISITES_1, VALID_PREREQUISITES_2, VALID_PREREQUISITES_3};
-        int[] costs = {VALID_COST_1, VALID_COST_2, VALID_COST_3};
+        Integer[] costs = {VALID_COST_1, VALID_COST_2, VALID_COST_3};
         String [] costTypes = {VALID_CostType_1, VALID_CostType_2, VALID_CostType_3};
-        int[] periods = {VALID_PERIOD_1, VALID_PERIOD_2, VALID_PERIOD_3};
+        Integer[] periods = {VALID_PERIOD_1, VALID_PERIOD_2, VALID_PERIOD_3};
         Dates[] dates = {VALID_DATES_1, VALID_DATES_2, VALID_DATES_3};
         boolean[] recommendeds = {true, false, true};
         boolean[] testeds = {true, true, false};

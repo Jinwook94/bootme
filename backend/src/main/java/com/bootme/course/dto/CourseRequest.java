@@ -17,7 +17,7 @@ public class CourseRequest {
     private String name;
 
     @NotNull(message = "코스 회차를 입력해주세요.")
-    private int generation;
+    private Integer generation;
 
     @NotBlank(message = "코스 URL을 입력해주세요.")
     private String url;
@@ -39,29 +39,27 @@ public class CourseRequest {
     private String prerequisites;
 
     @NotNull(message = "코스 참여 비용을 입력해주세요.")
-    private int cost;
+    private Integer cost;
 
     @NotBlank(message = "코스 비용 타입을 입력해주세요. - 무료, 무료국비, 유료")
     private String costType;
 
     @NotNull(message = "코스 진행 기간을 입력해주세요")
-    private int period;
+    private Integer period;
 
     private Dates dates;
 
-    @NotNull(message = "추천 코스 여부를 입력해주세요")
     private boolean isRecommended;
 
-    @NotNull(message = "코딩테스트 진행 여부를 입력해주세요")
     private boolean isTested;
 
     public CourseRequest() {
     }
 
     @Builder
-    public CourseRequest(String title, String name, int generation, String url, String companyName,
+    public CourseRequest(String title, String name, Integer generation, String url, String companyName,
                          String location, String onOffline, Category categories, Stack stacks, String prerequisites,
-                         int cost, String costType, int period, Dates dates, boolean isRecommended, boolean isTested) {
+                         Integer cost, String costType, Integer period, Dates dates, boolean isRecommended, boolean isTested) {
         this.title = title;
         this.name = name;
         this.generation = generation;
