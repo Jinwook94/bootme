@@ -26,8 +26,11 @@ public class CompanyService {
 
     public Long addCompany(CompanyRequest companyRequest){
         Company company = Company.builder()
-                .url(companyRequest.getUrl())
                 .name(companyRequest.getName())
+                .serviceName(companyRequest.getServiceName())
+                .url(companyRequest.getUrl())
+                .serviceUrl(companyRequest.getServiceUrl())
+                .logoUrl(companyRequest.getLogoUrl())
                 .courses(new ArrayList<>())
                 .build();
         Company savedCompany = companyRepository.save(company);

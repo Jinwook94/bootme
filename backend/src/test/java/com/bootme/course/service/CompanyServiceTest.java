@@ -52,8 +52,11 @@ class CompanyServiceTest extends ServiceTest {
         //then
         assertAll(
                 () -> assertThat(companyRepository.count()).isEqualTo(count + 1),
+                () -> assertThat(foundCompany.getServiceName()).isEqualTo(getCompanyRequest(1).getServiceName()),
+                () -> assertThat(foundCompany.getName()).isEqualTo(getCompanyRequest(1).getName()),
                 () -> assertThat(foundCompany.getUrl()).isEqualTo(getCompanyRequest(1).getUrl()),
-                () -> assertThat(foundCompany.getName()).isEqualTo(getCompanyRequest(1).getName())
+                () -> assertThat(foundCompany.getServiceUrl()).isEqualTo(getCompanyRequest(1).getServiceUrl()),
+                () -> assertThat(foundCompany.getLogoUrl()).isEqualTo(getCompanyRequest(1).getLogoUrl())
         );
     }
 
