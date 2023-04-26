@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Embeddable;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -13,9 +14,16 @@ import java.time.LocalDate;
 @Embeddable
 public class Dates {
 
+    @NotNull
     private LocalDate registrationStartDate;
+
+    @NotNull
     private LocalDate registrationEndDate;
+
+    @NotNull
     private LocalDate courseStartDate;
+
+    @NotNull
     private LocalDate courseEndDate;
 
     @Builder
