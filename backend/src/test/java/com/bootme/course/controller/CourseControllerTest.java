@@ -63,7 +63,7 @@ class CourseControllerTest extends ControllerTest {
 
         //when
         ResultActions perform = mockMvc.perform(get("/courses/1")
-                .contentType(MediaType.APPLICATION_JSON));
+                .accept(MediaType.APPLICATION_JSON));
 
         //then
         perform.andExpect(status().isOk());
@@ -87,7 +87,7 @@ class CourseControllerTest extends ControllerTest {
 
         //when
         ResultActions perform = mockMvc.perform(get("/courses")
-                .contentType(MediaType.APPLICATION_JSON));
+                .accept(MediaType.APPLICATION_JSON));
 
         //then
         perform.andExpect(status().isOk());

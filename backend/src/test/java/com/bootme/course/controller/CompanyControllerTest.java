@@ -64,7 +64,7 @@ class CompanyControllerTest extends ControllerTest {
 
         //when
         ResultActions perform = mockMvc.perform(get("/companies/1")
-                .contentType(MediaType.APPLICATION_JSON));
+                .accept(MediaType.APPLICATION_JSON));
 
         //then
         perform.andExpect(status().isOk());
@@ -87,7 +87,7 @@ class CompanyControllerTest extends ControllerTest {
 
         //when
         ResultActions perform = mockMvc.perform(get("/companies")
-                .contentType(MediaType.APPLICATION_JSON));
+                .accept(MediaType.APPLICATION_JSON));
 
         //then
         perform.andExpect(status().isOk());
