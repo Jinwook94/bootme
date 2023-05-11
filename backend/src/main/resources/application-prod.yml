@@ -15,6 +15,10 @@ spring:
         characterEncoding: utf8mb4
         charSet: utf8mb4
 
+logback:
+  access:
+    config: classpath:logback-access.xml
+
 management:
   endpoints:
     web:
