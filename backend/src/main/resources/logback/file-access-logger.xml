@@ -2,6 +2,12 @@
 <included>
     <property name="DIR" value="/home/ec2-user/logs/access/"/>
     <appender name="file-access-logger" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+            <evaluator>
+                <expression>!requestURI.contains("/actuator/health")</expression>
+            </evaluator>
+            <OnMismatch>DENY</OnMismatch>
+        </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${DIR}bootme-backend-access-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
