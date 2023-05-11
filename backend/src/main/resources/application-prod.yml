@@ -21,10 +21,6 @@ management:
       exposure:
         include: health
 
-logging:
-  level:
-    org.hibernate.SQL: debug
-
 security:
   jwt:
     bootme:
