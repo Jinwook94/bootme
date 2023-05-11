@@ -9,5 +9,4 @@ sudo chmod 777 /home/ec2-user/logs
 sudo chmod 777 /home/ec2-user/logs/general
 sudo chmod 777 /home/ec2-user/logs/access
 echo "$(date '+%Y-%m-%dT%H:%M:%S') INFO [deploy.sh] Starting Spring Boot Application: $JAR_PATH" >> /var/log/user-data.log
-nohup java -jar $JAR_PATH > /home/ec2-user/logs/nohup.out 2>&1 &&
-echo "$(date '+%Y-%m-%dT%H:%M:%S') INFO [deploy.sh] Spring Boot Application has been started: $JAR_PATH " >> /var/log/user-data.log
+nohup java -jar $JAR_PATH > /home/ec2-user/logs/nohup.out 2>&1 &
