@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+    <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener" />
     <springProfile name="dev">
         <include resource="logback/console-access-logger.xml"/>
         <appender-ref ref="console-access-logger"/>
@@ -7,6 +8,7 @@
 
     <springProfile name="prod">
         <include resource="logback/file-access-logger.xml"/>
-        <appender-ref ref="file-access-logger"/>
+        <appender-ref ref="file-access-text"/>
+        <appender-ref ref="file-access-json"/>
     </springProfile>
 </configuration>

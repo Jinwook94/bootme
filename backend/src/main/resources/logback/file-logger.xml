@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <included>
-    <property name="DIR" value="/home/ec2-user/logs/general/"/>
-    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <property name="DIR_TEXT" value="/home/ec2-user/logs/general/text/"/>
+    <appender name="file-general-text" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${DIR}bootme-backend-general-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>${DIR_TEXT}bootme-springboot-general-text-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxFileSize>10MB</maxFileSize>
         </rollingPolicy>
         <encoder>
-            <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
-<!--            <immediateFlush>true</immediateFlush>-->
+            <Pattern>%date{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} [%thread] %-5level %logger{36} - [requestId:%X{requestId:-none}] %msg%n</Pattern>
+        </encoder>
+    </appender>
+
+    <property name="DIR_JSON" value="/home/ec2-user/logs/general/json/"/>
+    <appender name="file-general-json" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${DIR_JSON}bootme-springboot-general-json-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+        </rollingPolicy>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <includeCallerData>true</includeCallerData>
+            <includeMdcKeyName>requestId</includeMdcKeyName>
         </encoder>
     </appender>
 </included>
