@@ -48,11 +48,7 @@ public class LoggingAspect {
                 .findAny()
                 .orElse("");
 
-        try {
-            log.info("[HTTP Request] \"{}\" {}", requestUrl, objectMapper.writeValueAsString(parameters));
-        } catch (JsonProcessingException exception) {
-            log.warn("logging failed");
-        }
+        log.info("[HTTP Request] \"{}\"", requestUrl);
     }
 
     private String extractBaseUrl(Class<?> clazz) {
@@ -106,10 +102,6 @@ public class LoggingAspect {
     }
 
     private void printResponse(ResponseEntity<?> responseEntity) {
-        try {
-            log.info("[HTTP Response] \"{}\" {}", responseEntity.getStatusCode(), objectMapper.writeValueAsString(responseEntity.getBody()));
-        } catch (JsonProcessingException exception) {
-            log.warn("logging failed.");
-        }
+        log.info("[HTTP Response] \"{}\"", responseEntity.getStatusCode());
     }
 }
