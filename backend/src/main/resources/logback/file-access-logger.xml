@@ -2,12 +2,9 @@
 <included>
     <property name="DIR_TEXT" value="/home/ec2-user/logs/access/text/"/>
     <appender name="file-access-text" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${DIR_TEXT}bootme-backend-access-text-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-                <maxFileSize>10MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
-            <maxHistory>30</maxHistory>
+            <maxFileSize>10MB</maxFileSize>
         </rollingPolicy>
         <encoder>
             <charset>utf8</charset>
@@ -19,12 +16,9 @@
 
     <property name="DIR_JSON" value="/home/ec2-user/logs/access/json/"/>
     <appender name="file-access-json" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${DIR_JSON}bootme-backend-access-json-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-                <maxFileSize>10MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
-            <maxHistory>30</maxHistory>
+            <maxFileSize>10MB</maxFileSize>
         </rollingPolicy>
         <encoder>
             <charset>utf8</charset>
