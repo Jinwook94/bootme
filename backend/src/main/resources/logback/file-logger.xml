@@ -18,6 +18,16 @@
             <maxFileSize>10MB</maxFileSize>
         </rollingPolicy>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <prefix class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+                <layout class="ch.qos.logback.classic.PatternLayout">
+                    <pattern>[</pattern>
+                </layout>
+            </prefix>
+            <suffix class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+                <layout class="ch.qos.logback.classic.PatternLayout">
+                    <pattern>]</pattern>
+                </layout>
+            </suffix>
             <includeCallerData>true</includeCallerData>
             <includeMdcKeyName>requestId</includeMdcKeyName>
         </encoder>

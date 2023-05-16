@@ -23,7 +23,7 @@
         <encoder>
             <charset>utf8</charset>
             <Pattern>
-                {"@timestamp":"%date{yyyy-MM-dd'T'HH:mm:ss.SSSXXX}","localIP":"%localIP","remoteIP":"%remoteIP","userIP":"%header{x-forwarded-for}","clientHost":"%clientHost","user":"%user","requestURL":"%requestURL","statusCode":"%statusCode","bytesSent":"%bytesSent","elapsedTime":"%elapsedTime","threadName":"%threadName","request headers":"%header","response headers":"{Content-Type: %responseHeader{Content-Type}, Date: %responseHeader{Date}, Set-Cookie: %responseHeader{Set-Cookie}}"}
+                [{"@timestamp":"%date{yyyy-MM-dd'T'HH:mm:ss.SSSXXX}","localIP":"%localIP","remoteIP":"%remoteIP","userIP":"%header{x-forwarded-for}","clientHost":"%clientHost","user":"%user","requestURL":"%requestURL","statusCode":"%statusCode","bytesSent":"%bytesSent","elapsedTime":"%elapsedTime","threadName":"%threadName","request headers":"%header","response headers":"{Content-Type: %responseHeader{Content-Type}, Date: %responseHeader{Date}, Set-Cookie: %responseHeader{Set-Cookie}}"}]
             </Pattern>
         </encoder>
     </appender>
