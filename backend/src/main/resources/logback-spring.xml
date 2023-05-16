@@ -33,19 +33,23 @@
         <include resource="logback/file-logger.xml"/>
 
         <logger name="com.bootme" level="INFO" additivity="false">
-            <appender-ref ref="FILE"/>
+            <appender-ref ref="file-general-text"/>
+            <appender-ref ref="file-general-json"/>
         </logger>
 
         <logger name="org.springframework" level="INFO" additivity="false">
-            <appender-ref ref="FILE"/>
+            <appender-ref ref="file-general-text"/>
+            <appender-ref ref="file-general-json"/>
         </logger>
 
         <logger name="org.hibernate.SQL" level="INFO" additivity="false">
-            <appender-ref ref="FILE"/>
+            <appender-ref ref="file-general-text"/>
+            <appender-ref ref="file-general-json"/>
         </logger>
 
         <root level="INFO">
-            <appender-ref ref="FILE"/>
+            <appender-ref ref="file-general-text"/>
+            <appender-ref ref="file-general-json"/>
         </root>
     </springProfile>
 </configuration>
