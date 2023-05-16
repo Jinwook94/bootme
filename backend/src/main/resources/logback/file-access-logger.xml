@@ -9,7 +9,7 @@
         <encoder>
             <charset>utf8</charset>
             <Pattern>
-                %date{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} [%threadName] [%localIP:%localPort %remoteIP "%clientHost"] "%requestURL" %statusCode %bytesSent %elapsedTime Request Headers: %header, Response Headers: {Content-Type: %responseHeader{Content-Type}, Date: %responseHeader{Date}, Set-Cookie: %responseHeader{Set-Cookie}}, Response Body: %responseContent
+                %date{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} [%threadName] [%localIP %remoteIP %header{x-forwarded-for}] "%requestURL" %statusCode %bytesSent %elapsedTime Request Headers: %header, Response Headers: {Content-Type: %responseHeader{Content-Type}, Date: %responseHeader{Date}, Set-Cookie: %responseHeader{Set-Cookie}}, Response Body: %responseContent
             </Pattern>
         </encoder>
     </appender>
@@ -23,7 +23,7 @@
         <encoder>
             <charset>utf8</charset>
             <Pattern>
-                {"@timestamp":"%date{yyyy-MM-dd'T'HH:mm:ss.SSSXXX}","localIP":"%localIP:%localPort","remoteIP":"%remoteIP","clientHost":"%clientHost","user":"%user","requestURL":"%requestURL","statusCode":"%statusCode","bytesSent":"%bytesSent","elapsedTime":"%elapsedTime","threadName":"%threadName","request headers":"%header","response headers":"{Content-Type: %responseHeader{Content-Type}, Date: %responseHeader{Date}, Set-Cookie: %responseHeader{Set-Cookie}}"}
+                {"@timestamp":"%date{yyyy-MM-dd'T'HH:mm:ss.SSSXXX}","localIP":"%localIP","remoteIP":"%remoteIP","userIP":"%header{x-forwarded-for}","clientHost":"%clientHost","user":"%user","requestURL":"%requestURL","statusCode":"%statusCode","bytesSent":"%bytesSent","elapsedTime":"%elapsedTime","threadName":"%threadName","request headers":"%header","response headers":"{Content-Type: %responseHeader{Content-Type}, Date: %responseHeader{Date}, Set-Cookie: %responseHeader{Set-Cookie}}"}
             </Pattern>
         </encoder>
     </appender>
