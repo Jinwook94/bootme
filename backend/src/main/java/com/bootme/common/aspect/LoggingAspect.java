@@ -49,8 +49,7 @@ public class LoggingAspect {
                 .orElse("");
 
         try {
-            log.info("\n=======\nurl: {}, body: {} \n=======",
-                    requestUrl, objectMapper.writeValueAsString(parameters));
+            log.info("[HTTP Request] \"{}\" {}", requestUrl, objectMapper.writeValueAsString(parameters));
         } catch (JsonProcessingException exception) {
             log.warn("logging failed");
         }
@@ -108,7 +107,7 @@ public class LoggingAspect {
 
     private void printResponse(ResponseEntity<?> responseEntity) {
         try {
-            log.info("\n=======\nresponse : {} \n=======", objectMapper.writeValueAsString(responseEntity.getBody()));
+            log.info("[HTTP Response] \"{}\" {}", responseEntity.getStatusCode(), objectMapper.writeValueAsString(responseEntity.getBody()));
         } catch (JsonProcessingException exception) {
             log.warn("logging failed.");
         }
