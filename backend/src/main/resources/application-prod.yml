@@ -1,3 +1,5 @@
+domain: api.bootme.co.kr
+
 spring:
   datasource:
     url: ENC(j/ZDTGjL6xygc17oMFcG/Bx6YnYyiF40RK4I/+Ng4JgXM5Rg2zNnyXcotZgLWJQs70Lnup+K+JdbBp/ORbarlTWkrOh/8nfdiMDVA1XW6fzg39S01cB50ebF1KoSW4s+IHdU7atWB2hvdvLPBT6W75A59mhECzIsdQiihZMrzO1aS+EmdL0UAKqo0r7LuGmHmE8Ix2VNzu0=)

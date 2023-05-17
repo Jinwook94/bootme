@@ -40,6 +40,7 @@ public class AuthService {
     private final TokenProvider tokenProvider;
     private final NotificationService notificationService;
 
+    private final String COOKIE_DOMAIN;
     private final long ACCESS_TOKEN_EXPIRE_TIME_IN_SECONDS;
     private final long REFRESH_TOKEN_EXPIRE_TIME_IN_SECONDS;
     private final String BOOTME = "bootme";
@@ -57,11 +58,11 @@ public class AuthService {
     private final String BOOTME_SECRET;
     private final String NAVER_SECRET;
 
-
     public AuthService(MemberRepository memberRepository,
                        MemberService memberService,
                        TokenProvider tokenProvider,
                        NotificationService notificationService,
+                       @Value("${domain}") String COOKIE_DOMAIN,
                        @Value("${security.jwt.bootme.exp.second.access}") long ACCESS_TOKEN_EXPIRE_TIME_IN_SECONDS,
                        @Value("${security.jwt.bootme.exp.second.refresh}") long REFRESH_TOKEN_EXPIRE_TIME_IN_SECONDS,
                        @Value("${security.jwt.bootme_front.issuer}") String BOOTME_ISSUER,
@@ -78,6 +79,7 @@ public class AuthService {
         this.memberService = memberService;
         this.tokenProvider = tokenProvider;
         this.notificationService = notificationService;
+        this.COOKIE_DOMAIN = COOKIE_DOMAIN;
         this.ACCESS_TOKEN_EXPIRE_TIME_IN_SECONDS = ACCESS_TOKEN_EXPIRE_TIME_IN_SECONDS;
         this.REFRESH_TOKEN_EXPIRE_TIME_IN_SECONDS = REFRESH_TOKEN_EXPIRE_TIME_IN_SECONDS;
         this.BOOTME_ISSUER = BOOTME_ISSUER;
@@ -279,15 +281,15 @@ public class AuthService {
     public String[] createTokenCookies(JwtVo.Body jwtBody) {
         String accessToken = tokenProvider.createAccessToken(jwtBody);
         String refreshToken = tokenProvider.createRefreshToken(jwtBody);
-        String accessTokenCookie = getCookie("accessToken", accessToken, ACCESS_TOKEN_EXPIRE_TIME_IN_SECONDS);
-        String refreshTokenCookie = getCookie("refreshToken", refreshToken, REFRESH_TOKEN_EXPIRE_TIME_IN_SECONDS);
+        String accessTokenCookie = getCookie("accessToken", accessToken, COOKIE_DOMAIN, ACCESS_TOKEN_EXPIRE_TIME_IN_SECONDS);
+        String refreshTokenCookie = getCookie("refreshToken", refreshToken, COOKIE_DOMAIN, REFRESH_TOKEN_EXPIRE_TIME_IN_SECONDS);
         return new String[]{accessTokenCookie, refreshTokenCookie};
     }
 
-    private String getCookie(String tokenName, String token, long expireTime) {
+    private String getCookie(String tokenName, String token, String domain, long expireTime) {
         return ResponseCookie.from(tokenName, token)
                 .sameSite("Lax")
-                .domain("localhost")
+                .domain(domain)
                 .maxAge(expireTime)
                 .path("/")
                 .secure(true)
