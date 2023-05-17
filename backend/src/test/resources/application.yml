@@ -1,3 +1,5 @@
+domain: localhost
+
 jasypt:
   encryptor:
     password: encryptKey
