@@ -1,9 +1,9 @@
 package com.bootme.course.service;
 
+import com.bootme.common.exception.ResourceNotFoundException;
 import com.bootme.course.domain.Company;
 import com.bootme.course.domain.Course;
 import com.bootme.course.dto.CompanyResponse;
-import com.bootme.course.exception.CompanyNotFoundException;
 import com.bootme.course.repository.CompanyRepository;
 import com.bootme.util.ServiceTest;
 import org.junit.jupiter.api.BeforeEach;
@@ -105,7 +105,7 @@ class CompanyServiceTest extends ServiceTest {
         //when
         companyService.modifyCompany(id, getCompanyRequest(2));
         Company foundCompany = companyRepository.findById(id)
-                .orElseThrow(() -> new CompanyNotFoundException(NOT_FOUND_COMPANY));
+                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COMPANY, String.valueOf(id)));
         //then
         assertAll(
                 () -> assertThat(foundCompany.getName()).isEqualTo(VALID_COM_NAME_2),

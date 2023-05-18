@@ -1,8 +1,8 @@
 package com.bootme.auth.token;
 
 import com.bootme.auth.dto.JwtVo;
+import com.bootme.common.exception.ResourceNotFoundException;
 import com.bootme.member.domain.Member;
-import com.bootme.member.exception.MemberNotFoundException;
 import com.bootme.member.repository.MemberRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -49,7 +49,7 @@ public class TokenProvider {
 
     private String createToken(JwtVo.Body body, long validityInMilliseconds) {
         Member member = memberRepository.findByEmail(body.getEmail())
-                .orElseThrow(() -> new MemberNotFoundException(NOT_FOUND_MEMBER, body.getEmail()));
+                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_MEMBER, body.getEmail()));
         Date now = new Date();
         Date expiration = new Date(now.getTime() + validityInMilliseconds);
 

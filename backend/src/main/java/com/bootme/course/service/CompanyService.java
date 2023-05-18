@@ -1,9 +1,9 @@
 package com.bootme.course.service;
 
+import com.bootme.common.exception.ResourceNotFoundException;
 import com.bootme.course.domain.Company;
 import com.bootme.course.dto.CompanyRequest;
 import com.bootme.course.dto.CompanyResponse;
-import com.bootme.course.exception.CompanyNotFoundException;
 import com.bootme.course.repository.CompanyRepository;
 import com.bootme.course.repository.CourseRepository;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +40,7 @@ public class CompanyService {
     @Transactional(readOnly = true)
     public CompanyResponse findById(Long id) {
         Company foundCompany = companyRepository.findById(id)
-                .orElseThrow(() -> new CompanyNotFoundException(NOT_FOUND_COMPANY));
+                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COMPANY, String.valueOf(id)));
         return CompanyResponse.of(foundCompany);
     }
 
@@ -50,15 +50,15 @@ public class CompanyService {
         return companyList.stream().map(CompanyResponse::of).collect(Collectors.toList());
     }
 
-    public void modifyCompany(Long companyId, CompanyRequest companyRequest){
-        Company foundCompany = companyRepository.findById(companyId)
-                                .orElseThrow(() -> new CompanyNotFoundException(NOT_FOUND_COMPANY));
+    public void modifyCompany(Long id, CompanyRequest companyRequest){
+        Company foundCompany = companyRepository.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COMPANY, String.valueOf(id)));
         foundCompany.modifyCompany(companyRequest);
     }
 
-    public void deleteCompany(Long companyId){
-        Company company = companyRepository.findById(companyId)
-                .orElseThrow(() -> new CompanyNotFoundException(NOT_FOUND_COMPANY));
+    public void deleteCompany(Long id){
+        Company company = companyRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COMPANY, String.valueOf(id)));
         courseRepository.deleteAll(company.getCourses());
         companyRepository.delete(company);
     }

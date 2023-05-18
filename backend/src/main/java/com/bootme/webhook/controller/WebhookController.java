@@ -1,9 +1,9 @@
 package com.bootme.webhook.controller;
 
 import com.bootme.auth.service.AuthService;
+import com.bootme.common.exception.ValidationException;
 import com.bootme.course.service.CourseService;
 import com.bootme.webhook.dto.WebhookRequest;
-import com.bootme.webhook.exception.InvalidEventException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -47,9 +47,9 @@ public class WebhookController {
                     courseService.incrementBookmarks(COURSE_ID);
                     break;
                 default:
-                    throw new InvalidEventException(INVALID_EVENT, webhookRequest.getEvent());
+                    throw new ValidationException(INVALID_EVENT, webhookRequest.getEvent());
             }
-        } catch (InvalidEventException e) {
+        } catch (ValidationException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(HttpStatus.OK);
