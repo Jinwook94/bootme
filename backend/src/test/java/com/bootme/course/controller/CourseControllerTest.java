@@ -1,5 +1,6 @@
 package com.bootme.course.controller;
 
+import com.bootme.auth.token.TokenProvider;
 import com.bootme.course.dto.CourseResponse;
 import com.bootme.course.service.CourseService;
 import com.bootme.util.ControllerTest;
@@ -31,6 +32,9 @@ class CourseControllerTest extends ControllerTest {
 
     @MockBean
     private CourseService courseService;
+
+    @MockBean
+    private TokenProvider tokenProvider;
 
     @Test
     @DisplayName("addCourse()는 정상 요청시 코스를 추가하고 상태코드 201을 반환한다.")

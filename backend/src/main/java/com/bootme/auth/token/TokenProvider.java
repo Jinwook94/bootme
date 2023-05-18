@@ -5,6 +5,7 @@ import com.bootme.member.domain.Member;
 import com.bootme.member.repository.MemberRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +14,7 @@ import java.security.Key;
 import java.util.Date;
 
 @Component
+@Slf4j
 public class TokenProvider {
 
     private final String issuer;
@@ -35,7 +37,6 @@ public class TokenProvider {
     }
 
     public String createAccessToken(JwtVo.Body body) {
-        // todo: 예외처리
         Member member = memberRepository.findByEmail(body.getEmail()).orElseThrow();
         Date now = new Date();
         Date expiration = new Date(now.getTime() + validityInMilliseconds);
@@ -52,7 +53,6 @@ public class TokenProvider {
     }
 
     public String createRefreshToken(JwtVo.Body body) {
-        // todo: 예외처리
         Member member = memberRepository.findByEmail(body.getEmail()).orElseThrow();
         Date now = new Date();
         Date expiration = new Date(now.getTime() + refreshTokenValidityMilliseconds);
@@ -60,11 +60,57 @@ public class TokenProvider {
         return Jwts.builder()
                 .setHeaderParam("typ", "JWT")
                 .claim("id", member.getId())
+                .claim("email", member.getEmail())
                 .setIssuer(issuer)
                 .setIssuedAt(now)
                 .setExpiration(expiration)
                 .signWith(signingKey)
                 .compact();
+    }
+
+    public String reissueAccessToken(String refreshToken){
+        Long memberId = parseToken(refreshToken).get("id", Long.class);
+        String memberEmail = parseToken(refreshToken).get("email", String.class);
+        Date now = new Date();
+        Date expiration = new Date(now.getTime() + validityInMilliseconds);
+
+        return Jwts.builder()
+                .setHeaderParam("typ", "JWT")
+                .claim("id", memberId)
+                .claim("email", memberEmail)
+                .setIssuer(issuer)
+                .setIssuedAt(now)
+                .setExpiration(expiration)
+                .signWith(signingKey)
+                .compact();
+    }
+
+    public Claims parseToken(String token){
+        return Jwts.parserBuilder()
+                .setSigningKey(signingKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
+    public boolean isValid(String token) {
+        try {
+            Jws<Claims> claims = Jwts.parserBuilder()
+                    .setSigningKey(signingKey)
+                    .build()
+                    .parseClaimsJws(token);
+
+            return !claims.getBody().getExpiration().before(new Date());
+        } catch (MalformedJwtException e) {
+            log.error("Malformed JWT: {}", e.getMessage());
+            return false;
+        } catch (ExpiredJwtException e) {
+            log.warn("Expired JWT: {}", e.getMessage());
+            return false;
+        } catch (JwtException e) {
+            log.warn("JWT Exception: {}", e.getMessage());
+            return false;
+        }
     }
 
 }

@@ -1,5 +1,6 @@
 package com.bootme.course.controller;
 
+import com.bootme.auth.token.TokenProvider;
 import com.bootme.course.dto.CompanyResponse;
 import com.bootme.course.service.CompanyService;
 import com.bootme.util.ControllerTest;
@@ -32,6 +33,9 @@ class CompanyControllerTest extends ControllerTest {
 
     @MockBean
     private CompanyService companyService;
+
+    @MockBean
+    private TokenProvider tokenProvider;
 
     @Test
     @DisplayName("addCompany()는 정상 요청시 회사를 추가하고 상태코드 201을 반환한다.")
