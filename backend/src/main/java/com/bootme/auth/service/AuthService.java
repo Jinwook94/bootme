@@ -10,6 +10,7 @@ import com.bootme.auth.dto.JwtVo;
 import com.bootme.auth.exception.*;
 import com.bootme.auth.token.JwkProviderSingleton;
 import com.bootme.auth.token.TokenProvider;
+import com.bootme.common.exception.AuthenticationException;
 import com.bootme.member.domain.Member;
 import com.bootme.member.repository.MemberRepository;
 import com.bootme.member.service.MemberService;
@@ -141,7 +142,7 @@ public class AuthService {
         } else if (Objects.equals(iss, KAKAO_ISSUER)) {
             return KAKAO;
         }
-        throw new InvalidIssuerException(INVALID_ISSUER, iss);
+        throw new AuthenticationException(INVALID_ISSUER, iss);
     }
 
     private void verifyAudience(JwtVo.Body body, String issuer) {
@@ -162,7 +163,7 @@ public class AuthService {
         }
         String actualAud = body.getAud();
         if (!Objects.equals(expectedAud, actualAud)) {
-            throw new InvalidAudienceException(INVALID_AUDIENCE, actualAud);
+            throw new AuthenticationException(INVALID_AUDIENCE, actualAud);
         }
     }
 
@@ -172,7 +173,7 @@ public class AuthService {
         long clockSkewTolerance = 300;
 
         if (iat > (now + clockSkewTolerance)) {
-            throw new InvalidIssuedAtException(INVALID_ISSUED_AT, String.valueOf(iat));
+            throw new AuthenticationException(INVALID_ISSUED_AT, String.valueOf(iat));
         }
     }
 
@@ -182,7 +183,7 @@ public class AuthService {
         long clockSkewTolerance = 300;
 
         if (exp < (now - clockSkewTolerance)) {
-            throw new TokenExpiredException(TOKEN_EXPIRED, String.valueOf(exp));
+            throw new AuthenticationException(TOKEN_EXPIRED, String.valueOf(exp));
         }
     }
 
@@ -211,7 +212,7 @@ public class AuthService {
                     .parseClaimsJws(jwt);
 
         } catch (JwtException e) {
-            throw new InvalidSignatureException(INVALID_SIGNATURE, "verifyBootmeSignature()");
+            throw new AuthenticationException(INVALID_SIGNATURE);
         }
     }
 
@@ -232,7 +233,7 @@ public class AuthService {
                     .parseClaimsJws(jwt);
 
         } catch (JwtException e) {
-            throw new InvalidSignatureException(INVALID_SIGNATURE, "verifyNaverSignature()");
+            throw new AuthenticationException(INVALID_SIGNATURE);
         }
     }
 
@@ -252,7 +253,7 @@ public class AuthService {
             verifier.verify(idToken);
 
         } catch (SignatureVerificationException | JwkException e) {
-            throw new InvalidSignatureException(INVALID_SIGNATURE, "verifyKakaoSignature()");
+            throw new AuthenticationException(INVALID_SIGNATURE);
         }
     }
 

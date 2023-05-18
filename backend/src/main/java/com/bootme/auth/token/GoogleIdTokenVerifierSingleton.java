@@ -1,6 +1,6 @@
 package com.bootme.auth.token;
 
-import com.bootme.auth.exception.GoogleLoginFailedException;
+import com.bootme.common.exception.AuthenticationException;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.HttpTransport;
@@ -44,14 +44,13 @@ public class GoogleIdTokenVerifierSingleton {
      * @param googleAud the audience of the Google ID token
      * @param idToken the Google ID token to verify
      * @return the verified Google ID token
-     * @throws GoogleLoginFailedException if the verification fails
      */
     public static GoogleIdToken verifyGoogleIdToken(String googleAud, String idToken) {
         GoogleIdTokenVerifier verifier = getVerifier(googleAud);
         try {
             return verifier.verify(idToken);
         } catch (GeneralSecurityException | IOException e) {
-            throw new GoogleLoginFailedException(GOOGLE_LOGIN_FAIL, idToken, e);
+            throw new AuthenticationException(GOOGLE_LOGIN_FAIL, idToken, e);
         }
     }
 

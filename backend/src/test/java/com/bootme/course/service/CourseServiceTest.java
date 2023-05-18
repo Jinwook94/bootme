@@ -1,9 +1,9 @@
 package com.bootme.course.service;
 
+import com.bootme.common.exception.ResourceNotFoundException;
 import com.bootme.course.domain.Company;
 import com.bootme.course.domain.Course;
 import com.bootme.course.dto.CourseResponse;
-import com.bootme.course.exception.CourseNotFoundException;
 import com.bootme.course.repository.CompanyRepository;
 import com.bootme.course.repository.CourseRepository;
 import com.bootme.util.ServiceTest;
@@ -54,7 +54,7 @@ class CourseServiceTest extends ServiceTest {
         //when
         Long id = courseService.addCourse(getCourseRequest(2));
         Course foundCourse = courseRepository.findById(id)
-                .orElseThrow(() -> new CourseNotFoundException(NOT_FOUND_COURSE));
+                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COURSE, String.valueOf(id)));
 
         //then
         assertAll(
@@ -116,7 +116,7 @@ class CourseServiceTest extends ServiceTest {
         //when
         courseService.modifyCourse(id, getCourseRequest(2));
         Course foundCourse = courseRepository.findById(id)
-                .orElseThrow(() -> new CourseNotFoundException(NOT_FOUND_COURSE));
+                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COURSE, String.valueOf(id)));
 
         //then
         assertAll(

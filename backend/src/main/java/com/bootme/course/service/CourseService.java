@@ -1,10 +1,9 @@
 package com.bootme.course.service;
 
+import com.bootme.common.exception.ResourceNotFoundException;
 import com.bootme.course.domain.*;
 import com.bootme.course.dto.CourseRequest;
 import com.bootme.course.dto.CourseResponse;
-import com.bootme.course.exception.CompanyNotFoundException;
-import com.bootme.course.exception.CourseNotFoundException;
 import com.bootme.course.repository.CompanyRepository;
 import com.bootme.course.repository.CourseRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +25,9 @@ public class CourseService {
     private final CompanyRepository companyRepository;
 
     public Long addCourse(CourseRequest courseRequest){
-        Company company = companyRepository.findByName(courseRequest.getCompanyName())
-                .orElseThrow(() -> new CompanyNotFoundException(NOT_FOUND_COMPANY));
+        String companyName = courseRequest.getCompanyName();
+        Company company = companyRepository.findByName(companyName)
+                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COMPANY, companyName));
         Category category = courseRequest.getCategories();
         Stack stack = courseRequest.getStacks();
         Course course = Course.of(courseRequest, company, category, stack);
@@ -38,7 +38,7 @@ public class CourseService {
     @Transactional(readOnly = true)
     public CourseResponse findById(Long id) {
         Course foundCourse = courseRepository.findById(id)
-                .orElseThrow(() -> new CourseNotFoundException(NOT_FOUND_COURSE));
+                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COURSE, String.valueOf(id)));
         return CourseResponse.of(foundCourse);
     }
 
@@ -50,17 +50,17 @@ public class CourseService {
 
     public void modifyCourse(Long id, CourseRequest courseRequest){
         Course course = courseRepository.findById(id)
-                .orElseThrow(() -> new CourseNotFoundException(NOT_FOUND_COURSE));
+                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COURSE, String.valueOf(id)));
 
         course.modifyCourse(courseRequest);
     }
 
     public void deleteCourse(Long id){
         Course course = courseRepository.findById(id)
-                .orElseThrow(() -> new CourseNotFoundException(NOT_FOUND_COURSE));
+                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COURSE, String.valueOf(id)));
         Long companyId = course.getCompany().getId();
         Company company = this.companyRepository.findById(companyId)
-                .orElseThrow(() -> new CompanyNotFoundException(NOT_FOUND_COMPANY));
+                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COMPANY, String.valueOf(id)));
 
         company.deleteCourse(course);
         courseRepository.delete(course);
@@ -68,13 +68,13 @@ public class CourseService {
 
     public void incrementClicks(Long id){
         courseRepository.findById(id)
-                .orElseThrow(() -> new CourseNotFoundException(NOT_FOUND_COURSE));
+                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COURSE, String.valueOf(id)));
         courseRepository.incrementClicks(id);
     }
 
     public void incrementBookmarks(Long id){
         courseRepository.findById(id)
-                .orElseThrow(() -> new CourseNotFoundException(NOT_FOUND_COURSE));
+                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COURSE, String.valueOf(id)));
         courseRepository.incrementBookmarks(id);
     }
 
