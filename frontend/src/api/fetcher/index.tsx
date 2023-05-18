@@ -11,3 +11,15 @@ export const noCredentialsFetcher = axios.create({
 });
 
 axios.defaults.withCredentials = true;
+
+fetcher.interceptors.response.use(
+  response => {
+    if (response.headers['login'] === 'false') {
+      localStorage.clear();
+    }
+    return response;
+  },
+  error => {
+    return Promise.reject(error);
+  }
+);
