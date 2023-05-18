@@ -41,8 +41,8 @@ public class AuthService {
     private final NotificationService notificationService;
 
     private final String COOKIE_DOMAIN;
-    private final long ACCESS_TOKEN_EXPIRE_TIME_IN_SECONDS;
-    private final long REFRESH_TOKEN_EXPIRE_TIME_IN_SECONDS;
+    private final long ACCESS_TOKEN_EXPIRE_TIME_IN_MILLISECONDS;
+    private final long REFRESH_TOKEN_EXPIRE_TIME_IN_MILLISECONDS;
     private final String BOOTME = "bootme";
     private final String GOOGLE = "google";
     private final String NAVER = "naver";
@@ -63,8 +63,8 @@ public class AuthService {
                        TokenProvider tokenProvider,
                        NotificationService notificationService,
                        @Value("${domain}") String COOKIE_DOMAIN,
-                       @Value("${security.jwt.bootme.exp.second.access}") long ACCESS_TOKEN_EXPIRE_TIME_IN_SECONDS,
-                       @Value("${security.jwt.bootme.exp.second.refresh}") long REFRESH_TOKEN_EXPIRE_TIME_IN_SECONDS,
+                       @Value("${security.jwt.bootme.exp.millisecond.access}") long ACCESS_TOKEN_EXPIRE_TIME_IN_MILLISECONDS,
+                       @Value("${security.jwt.bootme.exp.millisecond.refresh}") long REFRESH_TOKEN_EXPIRE_TIME_IN_MILLISECONDS,
                        @Value("${security.jwt.bootme_front.issuer}") String BOOTME_ISSUER,
                        @Value("${security.jwt.google.issuer}") String GOOGLE_ISSUER,
                        @Value("${security.jwt.naver.issuer}") String NAVER_ISSUER,
@@ -80,8 +80,8 @@ public class AuthService {
         this.tokenProvider = tokenProvider;
         this.notificationService = notificationService;
         this.COOKIE_DOMAIN = COOKIE_DOMAIN;
-        this.ACCESS_TOKEN_EXPIRE_TIME_IN_SECONDS = ACCESS_TOKEN_EXPIRE_TIME_IN_SECONDS;
-        this.REFRESH_TOKEN_EXPIRE_TIME_IN_SECONDS = REFRESH_TOKEN_EXPIRE_TIME_IN_SECONDS;
+        this.ACCESS_TOKEN_EXPIRE_TIME_IN_MILLISECONDS = ACCESS_TOKEN_EXPIRE_TIME_IN_MILLISECONDS;
+        this.REFRESH_TOKEN_EXPIRE_TIME_IN_MILLISECONDS = REFRESH_TOKEN_EXPIRE_TIME_IN_MILLISECONDS;
         this.BOOTME_ISSUER = BOOTME_ISSUER;
         this.GOOGLE_ISSUER = GOOGLE_ISSUER;
         this.NAVER_ISSUER = NAVER_ISSUER;
@@ -281,8 +281,8 @@ public class AuthService {
     public String[] createTokenCookies(JwtVo.Body jwtBody) {
         String accessToken = tokenProvider.createAccessToken(jwtBody);
         String refreshToken = tokenProvider.createRefreshToken(jwtBody);
-        String accessTokenCookie = getCookie("accessToken", accessToken, COOKIE_DOMAIN, ACCESS_TOKEN_EXPIRE_TIME_IN_SECONDS);
-        String refreshTokenCookie = getCookie("refreshToken", refreshToken, COOKIE_DOMAIN, REFRESH_TOKEN_EXPIRE_TIME_IN_SECONDS);
+        String accessTokenCookie = getCookie("accessToken", accessToken, COOKIE_DOMAIN, ACCESS_TOKEN_EXPIRE_TIME_IN_MILLISECONDS/1000);
+        String refreshTokenCookie = getCookie("refreshToken", refreshToken, COOKIE_DOMAIN, REFRESH_TOKEN_EXPIRE_TIME_IN_MILLISECONDS/1000);
         return new String[]{accessTokenCookie, refreshTokenCookie};
     }
 
