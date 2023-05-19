@@ -21,13 +21,13 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestHeader("Authorization") String authHeader) {
         String[] userInfo = authService.login(authHeader);
-        String accessToken = tokenProvider.createAccessToken(userInfo[0], userInfo[1]);
-        String refreshToken = tokenProvider.createRefreshToken(userInfo[0], userInfo[1]);
+        String accessTokenCookie = tokenProvider.getAccessTokenCookie(userInfo[0], userInfo[1]);
+        String refreshTokenCookie = tokenProvider.getRefreshTokenCookie(userInfo[0], userInfo[1]);
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.SET_COOKIE, accessToken)
-                .header(HttpHeaders.SET_COOKIE, refreshToken)
-                .body(userInfo[3]);
+                .header(HttpHeaders.SET_COOKIE, accessTokenCookie)
+                .header(HttpHeaders.SET_COOKIE, refreshTokenCookie)
+                .body(userInfo[2]);
     }
 
     @PostMapping("/logout")
