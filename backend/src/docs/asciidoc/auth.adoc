@@ -1,0 +1,7 @@
+== Auth
+
+=== 로그인 - 성공
+operation::auth/login/success[snippets='http-request,http-response']
+
+=== 로그아웃 - 성공
+operation::auth/logout/success[snippets='http-request,http-response']

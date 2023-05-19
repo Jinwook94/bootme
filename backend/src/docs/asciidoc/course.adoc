@@ -1,4 +1,4 @@
-== Course (코스)
+== Course
 
 === 코스 추가 - 성공
 operation::courses/add/success[snippets='http-request,http-response']

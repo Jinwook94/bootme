@@ -6,5 +6,6 @@
 :toclevels: 2
 :sectlinks:
 
+include::auth.adoc[]
 include::company.adoc[]
 include::course.adoc[]
