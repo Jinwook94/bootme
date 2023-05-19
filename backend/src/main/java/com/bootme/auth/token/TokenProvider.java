@@ -1,9 +1,5 @@
 package com.bootme.auth.token;
 
-import com.bootme.auth.dto.JwtVo;
-import com.bootme.common.exception.ResourceNotFoundException;
-import com.bootme.member.domain.Member;
-import com.bootme.member.repository.MemberRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
@@ -14,8 +10,6 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 
-import static com.bootme.common.exception.ErrorType.NOT_FOUND_MEMBER;
-
 @Component
 @Slf4j
 public class TokenProvider {
@@ -24,39 +18,33 @@ public class TokenProvider {
     private final Key signingKey;
     private final long accessTokenExpireTimeInMilliseconds;
     private final long refreshTokenExpireTimeInMilliseconds;
-    private final MemberRepository memberRepository;
 
     public TokenProvider(@Value("${security.jwt.bootme.issuer}") String issuer,
                          @Value("${security.jwt.bootme.secret-key}") String secretKey,
                          @Value("${security.jwt.bootme.exp.millisecond.access}") long accessTokenExpireTimeInMilliseconds,
-                         @Value("${security.jwt.bootme.exp.millisecond.refresh}") long refreshTokenExpireTimeInMilliseconds,
-                         MemberRepository memberRepository) {
+                         @Value("${security.jwt.bootme.exp.millisecond.refresh}") long refreshTokenExpireTimeInMilliseconds) {
         byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
         this.issuer = issuer;
         this.signingKey = Keys.hmacShaKeyFor(keyBytes);
         this.accessTokenExpireTimeInMilliseconds = accessTokenExpireTimeInMilliseconds;
         this.refreshTokenExpireTimeInMilliseconds = refreshTokenExpireTimeInMilliseconds;
-        this.memberRepository = memberRepository;
     }
 
-    public String createAccessToken(JwtVo.Body body) {
-        return createToken(body, accessTokenExpireTimeInMilliseconds);
+    public String createAccessToken(String id, String email) {
+        return createToken(id, email, accessTokenExpireTimeInMilliseconds);
     }
 
-    public String createRefreshToken(JwtVo.Body body) {
-        return createToken(body, refreshTokenExpireTimeInMilliseconds);
+    public String createRefreshToken(String id, String email) {
+        return createToken(id, email, refreshTokenExpireTimeInMilliseconds);
     }
 
-    private String createToken(JwtVo.Body body, long validityInMilliseconds) {
-        Member member = memberRepository.findByEmail(body.getEmail())
-                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_MEMBER, body.getEmail()));
+    private String createToken(String id, String email, long validityInMilliseconds) {
         Date now = new Date();
         Date expiration = new Date(now.getTime() + validityInMilliseconds);
-
         return Jwts.builder()
                 .setHeaderParam("typ", "JWT")
-                .claim("id", member.getId())
-                .claim("email", member.getEmail())
+                .claim("id", id)
+                .claim("email", email)
                 .setIssuer(issuer)
                 .setIssuedAt(now)
                 .setExpiration(expiration)

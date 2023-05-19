@@ -9,7 +9,6 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.bootme.auth.dto.JwtVo;
 import com.bootme.auth.exception.*;
 import com.bootme.auth.token.JwkProviderSingleton;
-import com.bootme.auth.token.TokenProvider;
 import com.bootme.common.exception.AuthenticationException;
 import com.bootme.member.domain.Member;
 import com.bootme.member.repository.MemberRepository;
@@ -19,7 +18,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,12 +36,8 @@ public class AuthService {
 
     private final MemberRepository memberRepository;
     private final MemberService memberService;
-    private final TokenProvider tokenProvider;
     private final NotificationService notificationService;
 
-    private final String COOKIE_DOMAIN;
-    private final long ACCESS_TOKEN_EXPIRE_TIME_IN_MILLISECONDS;
-    private final long REFRESH_TOKEN_EXPIRE_TIME_IN_MILLISECONDS;
     private final String BOOTME = "bootme";
     private final String GOOGLE = "google";
     private final String NAVER = "naver";
@@ -61,11 +55,7 @@ public class AuthService {
 
     public AuthService(MemberRepository memberRepository,
                        MemberService memberService,
-                       TokenProvider tokenProvider,
                        NotificationService notificationService,
-                       @Value("${domain}") String COOKIE_DOMAIN,
-                       @Value("${security.jwt.bootme.exp.millisecond.access}") long ACCESS_TOKEN_EXPIRE_TIME_IN_MILLISECONDS,
-                       @Value("${security.jwt.bootme.exp.millisecond.refresh}") long REFRESH_TOKEN_EXPIRE_TIME_IN_MILLISECONDS,
                        @Value("${security.jwt.bootme_front.issuer}") String BOOTME_ISSUER,
                        @Value("${security.jwt.google.issuer}") String GOOGLE_ISSUER,
                        @Value("${security.jwt.naver.issuer}") String NAVER_ISSUER,
@@ -78,11 +68,7 @@ public class AuthService {
                        @Value("${security.jwt.naver.secret}") String NAVER_SECRET) {
         this.memberRepository = memberRepository;
         this.memberService = memberService;
-        this.tokenProvider = tokenProvider;
         this.notificationService = notificationService;
-        this.COOKIE_DOMAIN = COOKIE_DOMAIN;
-        this.ACCESS_TOKEN_EXPIRE_TIME_IN_MILLISECONDS = ACCESS_TOKEN_EXPIRE_TIME_IN_MILLISECONDS;
-        this.REFRESH_TOKEN_EXPIRE_TIME_IN_MILLISECONDS = REFRESH_TOKEN_EXPIRE_TIME_IN_MILLISECONDS;
         this.BOOTME_ISSUER = BOOTME_ISSUER;
         this.GOOGLE_ISSUER = GOOGLE_ISSUER;
         this.NAVER_ISSUER = NAVER_ISSUER;
@@ -93,6 +79,16 @@ public class AuthService {
         this.KAKAO_AUDIENCE = KAKAO_AUDIENCE;
         this.BOOTME_SECRET = BOOTME_SECRET;
         this.NAVER_SECRET = NAVER_SECRET;
+    }
+
+    public String[] login(String authHeader){
+        String idToken = getToken(authHeader);
+        JwtVo jwtVo = parseToken(idToken);
+        JwtVo.Body jwtBody = jwtVo.getBody();
+
+        verifyToken(idToken);
+        registerMember(jwtBody);
+        return getUserInfo(jwtBody);
     }
 
     public String getToken(String authHeader) {
@@ -279,41 +275,23 @@ public class AuthService {
         memberRepository.incrementVisits(jwtBody.getEmail());
     }
 
-    public String[] createTokenCookies(JwtVo.Body jwtBody) {
-        String accessToken = tokenProvider.createAccessToken(jwtBody);
-        String refreshToken = tokenProvider.createRefreshToken(jwtBody);
-        String accessTokenCookie = getCookie("accessToken", accessToken, COOKIE_DOMAIN, ACCESS_TOKEN_EXPIRE_TIME_IN_MILLISECONDS/1000);
-        String refreshTokenCookie = getCookie("refreshToken", refreshToken, COOKIE_DOMAIN, REFRESH_TOKEN_EXPIRE_TIME_IN_MILLISECONDS/1000);
-        return new String[]{accessTokenCookie, refreshTokenCookie};
-    }
-
-    private String getCookie(String tokenName, String token, String domain, long expireTime) {
-        return ResponseCookie.from(tokenName, token)
-                .sameSite("Lax")
-                .domain(domain)
-                .maxAge(expireTime)
-                .path("/")
-                .secure(true)
-                .httpOnly(true)
-                .build()
-                .toString();
-    }
-
-    /**
-     * 프론트엔드의 헤더와 메뉴 모달, 유저 드롭다운 컴포넌트에 사용될 유저정보를 전달
-     */
-    public String getUserInfo(JwtVo.Body jwtBody) {
+    // 반환값: id, email, userInfo(프론트엔드의 헤더 UI 등에 사용될 유저 정보)
+    public String[] getUserInfo(JwtVo.Body jwtBody) {
         Long memberId = memberService.findByEmail(jwtBody.getEmail()).getId();
         String nickname = jwtBody.getNickname();
         String name = jwtBody.getName();
-        String idInEmail = jwtBody.getEmail().split("@")[0];
+        String email = jwtBody.getEmail();
+        String idInEmail = email.split("@")[0];
 
+        String userInfo;
         if (nickname != null) {
-            return "MemberId=" + memberId + ", NickName=" + nickname + ", ProfileImage=" + jwtBody.getPicture();
+            userInfo = "MemberId=" + memberId + ", NickName=" + nickname + ", ProfileImage=" + jwtBody.getPicture();
         } else if (name != null) {
-            return "MemberId=" + memberId + ", NickName=" + name + ", ProfileImage=" + jwtBody.getPicture();
+            userInfo = "MemberId=" + memberId + ", NickName=" + name + ", ProfileImage=" + jwtBody.getPicture();
         } else
-            return "MemberId=" + memberId + ", NickName=" + idInEmail + ", ProfileImage=" + jwtBody.getPicture();
+            userInfo ="MemberId=" + memberId + ", NickName=" + idInEmail + ", ProfileImage=" + jwtBody.getPicture();
+
+        return new String[]{String.valueOf(memberId), email, userInfo};
     }
 
 }

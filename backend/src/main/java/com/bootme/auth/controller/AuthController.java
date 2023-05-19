@@ -1,7 +1,7 @@
 package com.bootme.auth.controller;
 
-import com.bootme.auth.dto.JwtVo;
 import com.bootme.auth.service.AuthService;
+import com.bootme.auth.token.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -16,22 +16,18 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthController {
 
     private final AuthService authService;
+    private final TokenProvider tokenProvider;
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestHeader("Authorization") String authHeader) {
-        String idToken = authService.getToken(authHeader);
-        JwtVo jwtVo = authService.parseToken(idToken);
-        JwtVo.Body jwtBody = jwtVo.getBody();
-
-        authService.verifyToken(idToken);
-        authService.registerMember(jwtBody);
-        String[] tokenCookies = authService.createTokenCookies(jwtBody);
-        String userInfo = authService.getUserInfo(jwtBody);
+        String[] userInfo = authService.login(authHeader);
+        String accessToken = tokenProvider.createAccessToken(userInfo[0], userInfo[1]);
+        String refreshToken = tokenProvider.createRefreshToken(userInfo[0], userInfo[1]);
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.SET_COOKIE, tokenCookies[0])
-                .header(HttpHeaders.SET_COOKIE, tokenCookies[1])
-                .body(userInfo);
+                .header(HttpHeaders.SET_COOKIE, accessToken)
+                .header(HttpHeaders.SET_COOKIE, refreshToken)
+                .body(userInfo[3]);
     }
 
     @PostMapping("/logout")
