@@ -7,5 +7,6 @@
 :sectlinks:
 
 include::auth.adoc[]
+include::member.adoc[]
 include::company.adoc[]
 include::course.adoc[]
