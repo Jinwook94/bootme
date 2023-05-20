@@ -205,7 +205,7 @@ class CompanyControllerTest extends ControllerTest {
                 .given(companyService).deleteCompany(any());
 
         //when
-        ResultActions perform = mockMvc.perform(delete("/companies/1")
+        ResultActions perform = mockMvc.perform(delete("/companies/2")
                 .contentType(MediaType.APPLICATION_JSON));
 
         //then

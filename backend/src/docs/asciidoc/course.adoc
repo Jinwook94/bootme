@@ -4,9 +4,17 @@
 ==== 성공
 operation::courses/add/success[snippets='http-request,http-response']
 
+==== 실패
+===== 등록되지 않은 회사의 코스인 경우
+operation::courses/add/fail/not-found-company[snippets='http-request,http-response']
+
 === 코스 조회
 ==== 성공
 operation::courses/find/success[snippets='http-request,http-response']
+
+==== 실패
+===== 해당 id의 코스가 존재하지 않는 경우
+operation::courses/find/fail/not-found-course[snippets='http-request,http-response']
 
 === 코스 전체 조회
 ==== 성공
@@ -16,6 +24,14 @@ operation::courses/findAll/success[snippets='http-request,http-response']
 ==== 성공
 operation::courses/modify/success[snippets='http-request,http-response']
 
+==== 실패
+===== 해당 id의 코스가 존재하지 않는 경우
+operation::courses/modify/fail/not-found-course[snippets='http-request,http-response']
+
 === 코스 삭제
 ==== 성공
 operation::courses/delete/success[snippets='http-request,http-response']
+
+==== 실패
+===== 해당 id의 코스가 존재하지 않는 경우
+operation::courses/delete/fail/not-found-course[snippets='http-request,http-response']

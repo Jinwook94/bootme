@@ -1,6 +1,7 @@
 package com.bootme.course.controller;
 
 import com.bootme.auth.token.TokenProvider;
+import com.bootme.common.exception.ResourceNotFoundException;
 import com.bootme.course.dto.CourseResponse;
 import com.bootme.course.service.CourseService;
 import com.bootme.util.ControllerTest;
@@ -14,16 +15,18 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.bootme.common.exception.ErrorType.NOT_FOUND_COMPANY;
+import static com.bootme.common.exception.ErrorType.NOT_FOUND_COURSE;
 import static com.bootme.util.fixture.CourseFixture.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.BDDMockito.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(CourseController.class)
@@ -60,6 +63,32 @@ class CourseControllerTest extends ControllerTest {
     }
 
     @Test
+    @DisplayName("addCourse()는 등록되지 않은 회사의 코스인 경우 400 Bad Request 를 반환한다.")
+    void addCourse_NOT_FOUND_COMPANY() throws Exception {
+        //given
+        String content = objectMapper.writeValueAsString(getCourseRequest(2));
+        willThrow(new ResourceNotFoundException(NOT_FOUND_COMPANY, "2"))
+                .given(courseService).addCourse(any());
+
+        //when
+        ResultActions perform = mockMvc.perform(post("/courses")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content));
+
+        //then
+        perform.andExpectAll(
+                status().isBadRequest(),
+                jsonPath("message").value(NOT_FOUND_COMPANY.getMessage())
+        );
+
+        //docs
+        perform.andDo(print())
+                .andDo(document("courses/add/fail/not-found-company",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())));
+    }
+
+    @Test
     @DisplayName("findCourse()는 정상 요청시 상태코드 200을 반환한다.")
     void findCourse() throws Exception {
         //given
@@ -75,6 +104,30 @@ class CourseControllerTest extends ControllerTest {
         //docs
         perform.andDo(print())
                 .andDo(document("courses/find/success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())));
+    }
+
+    @Test
+    @DisplayName("findCourse()는 해당 id의 코스가 존재하지 않는 경우 400 Bad Request 를 반환한다.")
+    void findCourse_NOT_FOUND_COURSE() throws Exception {
+        //given
+        willThrow(new ResourceNotFoundException(NOT_FOUND_COURSE, "2"))
+                .given(courseService).findById(any());
+
+        //when
+        ResultActions perform = mockMvc.perform(get("/courses/2")
+                .accept(MediaType.APPLICATION_JSON));
+
+        //then
+        perform.andExpectAll(
+                status().isBadRequest(),
+                jsonPath("message").value(NOT_FOUND_COURSE.getMessage())
+        );
+
+        //docs
+        perform.andDo(print())
+                .andDo(document("courses/find/fail/not-found-course",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint())));
     }
@@ -127,6 +180,32 @@ class CourseControllerTest extends ControllerTest {
     }
 
     @Test
+    @DisplayName("modifyCourse()는 해당 id의 코스가 존재하지 않는 경우 400 Bad Request 를 반환한다.")
+    void modifyCourse_NOT_FOUND_COURSE() throws Exception {
+        //given
+        String content = objectMapper.writeValueAsString(getCourseRequest(2));
+        willThrow(new ResourceNotFoundException(NOT_FOUND_COURSE, "2"))
+                .given(courseService).modifyCourse(any(),any());
+
+        //when
+        ResultActions perform = mockMvc.perform(put("/courses/2")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content));
+
+        //then
+        perform.andExpectAll(
+                status().isBadRequest(),
+                jsonPath("message").value(NOT_FOUND_COURSE.getMessage())
+        );
+
+        //docs
+        perform.andDo(print())
+                .andDo(document("courses/modify/fail/not-found-course",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())));
+    }
+
+    @Test
     @DisplayName("deleteCourse()는 정상 요청시 상태코드 204를 반환한다.")
     void deleteCourse() throws Exception {
         //given
@@ -142,6 +221,30 @@ class CourseControllerTest extends ControllerTest {
         //docs
         perform.andDo(print())
                 .andDo(document("courses/delete/success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())));
+    }
+
+    @Test
+    @DisplayName("deleteCourse()는 해당 id의 코스가 존재하지 않는 경우 400 Bad Request 를 반환한다.")
+    void deleteCourse_NOT_FOUND_COURSE() throws Exception {
+        //given
+        willThrow(new ResourceNotFoundException(NOT_FOUND_COURSE, "2"))
+                .given(courseService).deleteCourse(any());
+
+        //when
+        ResultActions perform = mockMvc.perform(delete("/courses/2")
+                .contentType(MediaType.APPLICATION_JSON));
+
+        //then
+        perform.andExpectAll(
+                status().isBadRequest(),
+                jsonPath("message").value(NOT_FOUND_COURSE.getMessage())
+        );
+
+        //docs
+        perform.andDo(print())
+                .andDo(document("courses/delete/fail/not-found-course",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint())));
     }
