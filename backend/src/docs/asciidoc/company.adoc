@@ -1,16 +1,21 @@
 == Company
 
-=== 회사 추가 - 성공
+=== 회사 추가
+==== 성공
 operation::companies/add/success[snippets='http-request,http-response']
 
-=== 회사 조회 - 성공
+=== 회사 조회
+==== 성공
 operation::companies/find/success[snippets='http-request,http-response']
 
-=== 회사 전체 조회 - 성공
+=== 회사 전체 조회
+==== 성공
 operation::companies/findAll/success[snippets='http-request,http-response']
 
-=== 회사 수정 - 성공
+=== 회사 수정
+==== 성공
 operation::companies/modify/success[snippets='http-request,http-response']
 
-=== 회사 삭제 - 성공
+=== 회사 삭제
+==== 성공
 operation::companies/delete/success[snippets='http-request,http-response']

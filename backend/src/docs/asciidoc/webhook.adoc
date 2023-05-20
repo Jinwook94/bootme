@@ -1,4 +1,5 @@
 == Webhook
 
-=== 웹훅 처리 - 성공
+=== 웹훅 처리
+==== 성공
 operation::webhook/handleWebhook/success[snippets='http-request,http-response']

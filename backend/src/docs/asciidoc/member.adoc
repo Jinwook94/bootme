@@ -1,11 +1,14 @@
 == Member
 
-=== 북마크 코스 추가 - 성공
+=== 북마크 코스 추가
+==== 성공
 operation::member/addBookmarkCourse/success[snippets='http-request,http-response']
 
-=== 북마크 코스 삭제 - 성공
+=== 북마크 코스 삭제
+==== 성공
 operation::member/deleteBookmarkCourse/success[snippets='http-request,http-response']
 
-=== 북마크 코스 전체 조회 - 성공
+=== 북마크 코스 전체 조회
+==== 성공
 operation::member/findAllBookmarkCourses/success[snippets='http-request,http-response']
 
