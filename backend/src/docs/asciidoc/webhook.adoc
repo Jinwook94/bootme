@@ -3,3 +3,7 @@
 === 웹훅 처리
 ==== 성공
 operation::webhook/handleWebhook/success[snippets='http-request,http-response']
+
+==== 실패
+===== 유효한 웹훅 이벤트가 아닌 경우
+operation::webhook/handleWebhook/fail/invalid-event[snippets='http-request,http-response']
