@@ -72,7 +72,7 @@ public class TokenProvider {
 
     public String reissueAccessToken(String refreshToken){
         Claims claims = parseToken(refreshToken);
-        Long memberId = claims.get("id", Long.class);
+        String memberId = claims.get("id", String.class);
         String memberEmail = claims.get("email", String.class);
 
         Date now = new Date();
