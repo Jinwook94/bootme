@@ -58,7 +58,7 @@ public class Member extends BaseEntity {
     @Builder
     public Member(String email, String password, String oAuthProvider, String name, String profileImage,
                   String birthday, String birthYear, String ageRange, String gender, String nickname,
-                  String phoneNumber, RoleType roleType) {
+                  String phoneNumber, RoleType roleType, Long visitsCount) {
         this.email = email;
         this.password = password;
         this.oAuthProvider = oAuthProvider;
@@ -71,6 +71,7 @@ public class Member extends BaseEntity {
         this.nickname = nickname;
         this.phoneNumber = phoneNumber;
         this.roleType = roleType;
+        this.visitsCount = visitsCount;
     }
 
     public static Member of(JwtVo.Body body) {
@@ -87,6 +88,7 @@ public class Member extends BaseEntity {
                 .nickname(body.getNickname())
                 .phoneNumber(body.getPhoneNumber())
                 .roleType(RoleType.USER)
+                .visitsCount(1L)
                 .build();
     }
 }
