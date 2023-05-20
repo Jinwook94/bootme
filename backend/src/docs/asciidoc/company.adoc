@@ -8,6 +8,10 @@ operation::companies/add/success[snippets='http-request,http-response']
 ==== 성공
 operation::companies/find/success[snippets='http-request,http-response']
 
+==== 실패
+===== 해당 id의 회사가 존재하지 않는 경우
+operation::companies/find/fail/not-found-company[snippets='http-request,http-response']
+
 === 회사 전체 조회
 ==== 성공
 operation::companies/findAll/success[snippets='http-request,http-response']
@@ -16,6 +20,14 @@ operation::companies/findAll/success[snippets='http-request,http-response']
 ==== 성공
 operation::companies/modify/success[snippets='http-request,http-response']
 
+==== 실패
+===== 해당 id의 회사가 존재하지 않는 경우
+operation::companies/modify/fail/not-found-company[snippets='http-request,http-response']
+
 === 회사 삭제
 ==== 성공
 operation::companies/delete/success[snippets='http-request,http-response']
+
+==== 실패
+===== 해당 id의 회사가 존재하지 않는 경우
+operation::companies/delete/fail/not-found-company[snippets='http-request,http-response']
