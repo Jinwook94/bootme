@@ -27,13 +27,13 @@ public class WebhookController {
     }
 
     @PostMapping
-    public ResponseEntity<?> handleWebhook(@RequestHeader(name = "Bootme_Secret") String secret,
+    public ResponseEntity<String> handleWebhook(@RequestHeader(name = "Bootme_Secret") String secret,
                                            @RequestBody WebhookRequest webhookRequest) {
         final String COURSE_CLICKED = "courseClicked";
         final String COURSE_BOOKMARKED = "courseBookmarked";
         final String EVENT = webhookRequest.getEvent();
-        final Map<String, String> DATA = webhookRequest.getData();
-        final Long COURSE_ID = Long.parseLong(DATA.get("courseId"));
+        final Map<String, String> data = webhookRequest.getData();
+        final Long COURSE_ID = Long.parseLong(data.get("courseId"));
         final String jwt = authService.getToken(secret);
 
         authService.verifyToken(jwt);
