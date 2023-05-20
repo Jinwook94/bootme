@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CourseController {
 
-    public final CourseService courseService;
+    private final CourseService courseService;
 
     @PostMapping
     public ResponseEntity<CourseResponse> addCourse(@Valid @RequestBody CourseRequest courseRequest){

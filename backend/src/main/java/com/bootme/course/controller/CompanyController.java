@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CompanyController {
 
-    public final CompanyService companyService;
+    private final CompanyService companyService;
 
     @PostMapping
     public ResponseEntity<CompanyResponse> addCompany(@Valid @RequestBody CompanyRequest companyRequest){

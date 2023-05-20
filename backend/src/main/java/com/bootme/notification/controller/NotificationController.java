@@ -15,12 +15,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class NotificationController {
 
-    public final NotificationService notificationService;
-    public final MemberService memberService;
+    private final NotificationService notificationService;
+    private final MemberService memberService;
 
     @GetMapping("/notifications/{memberId}")
     public ResponseEntity<List<NotificationResponse>> findNotificationsByMemberId(@PathVariable Long memberId) {
-        List<NotificationResponse> notificationResponseList = notificationService.findByMemberId(memberId);
+        List<NotificationResponse> notificationResponseList = notificationService.findNotificationsByMemberId(memberId);
         return ResponseEntity.ok().body(notificationResponseList);
     }
 
@@ -35,7 +35,7 @@ public class NotificationController {
     @PutMapping("/notifications/{memberId}/checked")
     public ResponseEntity<List<NotificationResponse>> markAllNotificationsAsCheckedForMember(@PathVariable Long memberId) {
         notificationService.markAllAsCheckedForMember(memberId);
-        List<NotificationResponse> notificationResponseList = notificationService.findByMemberId(memberId);
+        List<NotificationResponse> notificationResponseList = notificationService.findNotificationsByMemberId(memberId);
         return ResponseEntity.ok().body(notificationResponseList);
     }
 

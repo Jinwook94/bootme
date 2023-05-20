@@ -27,7 +27,7 @@ public class Member extends BaseEntity {
     private String password;
 
     @Column(nullable = false)
-    private String OAuthProvider;
+    private String oAuthProvider;
 
     private String name;
 
@@ -56,12 +56,12 @@ public class Member extends BaseEntity {
     private Long visitsCount;
 
     @Builder
-    public Member(String email, String password, String OAuthProvider, String name, String profileImage,
+    public Member(String email, String password, String oAuthProvider, String name, String profileImage,
                   String birthday, String birthYear, String ageRange, String gender, String nickname,
-                  String phoneNumber, List<Notification> notifications, RoleType roleType, Long visitsCount) {
+                  String phoneNumber, RoleType roleType) {
         this.email = email;
         this.password = password;
-        this.OAuthProvider = OAuthProvider;
+        this.oAuthProvider = oAuthProvider;
         this.name = name;
         this.profileImage = profileImage;
         this.birthday = birthday;
@@ -70,16 +70,14 @@ public class Member extends BaseEntity {
         this.gender = gender;
         this.nickname = nickname;
         this.phoneNumber = phoneNumber;
-        this.notifications = notifications;
         this.roleType = roleType;
-        this.visitsCount = visitsCount;
     }
 
     public static Member of(JwtVo.Body body) {
         return Member.builder()
                 .email(body.getEmail())
 //                .password()
-                .OAuthProvider(body.getOAuthProvider())
+                .oAuthProvider(body.getOAuthProvider())
                 .name(body.getName())
                 .profileImage(body.getPicture())
                 .birthday(body.getBirthDay())
@@ -89,7 +87,6 @@ public class Member extends BaseEntity {
                 .nickname(body.getNickname())
                 .phoneNumber(body.getPhoneNumber())
                 .roleType(RoleType.USER)
-                .visitsCount(1L)
                 .build();
     }
 }

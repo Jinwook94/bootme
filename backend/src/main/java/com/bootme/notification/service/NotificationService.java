@@ -19,7 +19,7 @@ public class NotificationService {
     private final NotificationRepository notificationRepository;
 
     @Transactional(readOnly = true)
-    public List<NotificationResponse> findByMemberId(Long memberId){
+    public List<NotificationResponse> findNotificationsByMemberId(Long memberId){
         List<Notification> notificationList = notificationRepository.findByMemberId(memberId);
         return notificationList.stream().map(NotificationResponse::of).collect(Collectors.toList());
     }
