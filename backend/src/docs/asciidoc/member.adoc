@@ -4,9 +4,20 @@
 ==== 성공
 operation::member/addBookmarkCourse/success[snippets='http-request,http-response']
 
+==== 실패
+===== 해당 id의 멤버가 존재하지 않는 경우
+operation::member/addBookmarkCourse/fail/not-found-member[snippets='http-request,http-response']
+
+==== 실패
+===== 해당 id의 코스가 존재하지 않는 경우
+operation::member/addBookmarkCourse/fail/not-found-course[snippets='http-request,http-response']
+
 === 북마크 코스 삭제
 ==== 성공
 operation::member/deleteBookmarkCourse/success[snippets='http-request,http-response']
+
+==== 실패
+operation::member/deleteBookmarkCourse/fail/not-found-bookmark[snippets='http-request,http-response']
 
 === 북마크 코스 전체 조회
 ==== 성공
