@@ -26,7 +26,7 @@ public class Member extends BaseEntity {
 
     private String password;
 
-    @Column(nullable = false)
+    @Column(name="oauth_provider", nullable = false)
     private String oAuthProvider;
 
     private String name;
