@@ -21,6 +21,22 @@ public class GoogleIdTokenVerifierSingleton {
     }
 
     /**
+     * Verifies the specified Google ID token with the specified audience.
+     *
+     * @param googleAud the audience of the Google ID token
+     * @param idToken the Google ID token to verify
+     * @return the verified Google ID token
+     */
+    public static GoogleIdToken verifyGoogleIdToken(String googleAud, String idToken) {
+        GoogleIdTokenVerifier verifier = getVerifier(googleAud);
+        try {
+            return verifier.verify(idToken);
+        } catch (GeneralSecurityException | IOException e) {
+            throw new AuthenticationException(GOOGLE_LOGIN_FAIL, idToken, e);
+        }
+    }
+
+    /**
      * Gets a singleton instance of {@link GoogleIdTokenVerifier} with the specified audience.
      *
      * @param googleAud the audience of the Google ID token
@@ -36,22 +52,6 @@ public class GoogleIdTokenVerifierSingleton {
                     .build();
         }
         return verifier;
-    }
-
-    /**
-     * Verifies the specified Google ID token with the specified audience.
-     *
-     * @param googleAud the audience of the Google ID token
-     * @param idToken the Google ID token to verify
-     * @return the verified Google ID token
-     */
-    public static GoogleIdToken verifyGoogleIdToken(String googleAud, String idToken) {
-        GoogleIdTokenVerifier verifier = getVerifier(googleAud);
-        try {
-            return verifier.verify(idToken);
-        } catch (GeneralSecurityException | IOException e) {
-            throw new AuthenticationException(GOOGLE_LOGIN_FAIL, idToken, e);
-        }
     }
 
 }
