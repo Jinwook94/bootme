@@ -7,13 +7,13 @@
 <br>
 
 ## 기술 스택
-- **TypeScript React**, Webpack, Styled-components, React Query 
+- **TypeScript, React**, Webpack, Styled-components, React Query 
 - **Java11, Spring Boot, Spring Data JPA**, Spring REST Docs, Logback, Mockito, Mockmvc, JUnit5
 - AWS CodeDeploy, CloudWatch, EC2 (ALB, Auto Scaling), S3, RDS(Aurora), Secrets Manager
 
 <br>
 
-## 아키텍처
+## 인프라
 ### HTTP 요청 처리 과정
 <img src="https://github.com/Jinwook94/bootme/assets/44575214/3a080bea-3e11-4b79-b883-bef65aa48c31">
 
@@ -64,7 +64,7 @@ classDef cloudwatch fill:#f2d5e0, stroke:#FFF
 
 <details>
   <summary>로그인 요청</summary>
-   <img width="800" alt="image" src="https://github.com/Jinwook94/bootme/assets/44575214/84627f69-daa4-4267-ada9-56597f54c316">
+  <img width="800" alt="image" src="https://github.com/Jinwook94/bootme/assets/44575214/23e2cf53-9460-4b2c-8010-705c602b3205">
 </details>
 <details>
     <summary>엑세스 토큰 검증 및 재발급</summary>
