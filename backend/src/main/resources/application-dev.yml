@@ -15,6 +15,11 @@ spring:
       enabled: true
       path: /h2-console
 
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type: TRACE
+
 logback:
   access:
     config: classpath:logback-access.xml
