@@ -15,11 +15,14 @@ const CourseCardList = ({ allCards, currentCards, displayBookmarked }: CourseCar
     setBookmarkedCourses,
   } = useBookmarks();
 
-  // 1. onMount 시점에 해당 회원이 저장한 북마크 코스 정보를 가져온다
+  // 1. onMount 시점에 해당 회원이 저장한 북마크 코스 정보를 가져온다 (로그인 된 경우만)
   useEffect(() => {
-    getBookmarkedCourses().then(response => {
-      setBookmarkedCourses(response);
-    });
+    const memberId = localStorage.getItem('MemberId');
+    if (memberId) {
+      getBookmarkedCourses().then(response => {
+        setBookmarkedCourses(response);
+      });
+    }
   }, []);
 
   // 2. 회원이 북마크 저장한 코스의 isBookmarked 값을 true 설정한다.
