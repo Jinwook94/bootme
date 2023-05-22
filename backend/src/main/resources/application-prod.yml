@@ -2,16 +2,16 @@ domain: bootme.co.kr
 
 spring:
   datasource:
-    url: ENC(j/ZDTGjL6xygc17oMFcG/Bx6YnYyiF40RK4I/+Ng4JgXM5Rg2zNnyXcotZgLWJQs70Lnup+K+JdbBp/ORbarlTWkrOh/8nfdiMDVA1XW6fzg39S01cB50ebF1KoSW4s+IHdU7atWB2hvdvLPBT6W75A59mhECzIsdQiihZMrzO1aS+EmdL0UAKqo0r7LuGmHmE8Ix2VNzu0=)
-    username: ENC(vkHrR7So7NJxHyjHF8Irig==)
-    password: ENC(OD0J7f1dvxrCcX/BQdNKM3q028KMcW7K)
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ENC(JoHdCFrKeEyA1Yq44Lsu2jMfmqSySBsGgrjUhR/FX5syBNfD07Z77M0rFBcOKV5Ehg+09KSrknpGv3Ni3tTgbgHZwnYNfIoGWGGZpiAfoDTeCFhhQBJmJnb9J8k6JNEWCYPpNI9bXCU=)
+    username: ENC(Me7JQ99ri7Ufbh9eNwhY8Q==)
+    password: ENC(0Jv/q2l5mIo6wOjZLyf/wZqVybziuXme)
+    driver-class-name: org.mariadb.jdbc.Driver
     hikari:
       maximum-pool-size: 6
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL5Dialect
+        dialect: org.hibernate.dialect.MariaDB103Dialect
         format_sql: true
       connection:
         characterEncoding: utf8mb4
