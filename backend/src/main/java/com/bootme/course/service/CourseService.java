@@ -6,11 +6,13 @@ import com.bootme.course.dto.CourseRequest;
 import com.bootme.course.dto.CourseResponse;
 import com.bootme.course.repository.CompanyRepository;
 import com.bootme.course.repository.CourseRepository;
+import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.MultiValueMap;
 
 import static com.bootme.common.exception.ErrorType.NOT_FOUND_COMPANY;
 import static com.bootme.common.exception.ErrorType.NOT_FOUND_COURSE;
@@ -22,6 +24,7 @@ public class CourseService {
 
     private final CourseRepository courseRepository;
     private final CompanyRepository companyRepository;
+    private final CoursePredicateBuilder coursePredicateBuilder;
 
     public Long addCourse(CourseRequest courseRequest){
         String companyName = courseRequest.getCompanyName();
@@ -42,8 +45,9 @@ public class CourseService {
     }
 
     @Transactional(readOnly = true)
-    public Page<CourseResponse> findAll(Pageable pageable) {
-        Page<Course> coursePage = courseRepository.findAll(pageable);
+    public Page<CourseResponse> findAll(MultiValueMap<String, String> parameters, Pageable pageable) {
+        Predicate predicate = coursePredicateBuilder.build(parameters);
+        Page<Course> coursePage = courseRepository.findAll(predicate, pageable);
         return coursePage.map(CourseResponse::of);
     }
 
