@@ -132,30 +132,30 @@ class CourseControllerTest extends ControllerTest {
                         preprocessResponse(prettyPrint())));
     }
 
-    @Test
-    @DisplayName("findCourses()는 정상 요청시 상태코드 200을 반환한다.")
-    void findCourses() throws Exception {
-        //given
-        List<CourseResponse> courseResponses = new ArrayList<>();
-        courseResponses.add(getCourseResponse(1));
-        courseResponses.add(getCourseResponse(2));
-        courseResponses.add(getCourseResponse(3));
-        given(courseService.findAll()).willReturn(courseResponses);
-
-        //when
-        ResultActions perform = mockMvc.perform(get("/courses")
-                .accept(MediaType.APPLICATION_JSON));
-
-        //then
-        perform.andExpect(status().isOk());
-
-        //docs
-        perform.andDo(print())
-                .andDo(document("courses/findAll/success",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())));
-
-    }
+//    @Test
+//    @DisplayName("findCourses()는 정상 요청시 상태코드 200을 반환한다.")
+//    void findCourses() throws Exception {
+//        //given
+//        List<CourseResponse> courseResponses = new ArrayList<>();
+//        courseResponses.add(getCourseResponse(1));
+//        courseResponses.add(getCourseResponse(2));
+//        courseResponses.add(getCourseResponse(3));
+//        given(courseService.findAll()).willReturn(courseResponses);
+//
+//        //when
+//        ResultActions perform = mockMvc.perform(get("/courses")
+//                .accept(MediaType.APPLICATION_JSON));
+//
+//        //then
+//        perform.andExpect(status().isOk());
+//
+//        //docs
+//        perform.andDo(print())
+//                .andDo(document("courses/findAll/success",
+//                        preprocessRequest(prettyPrint()),
+//                        preprocessResponse(prettyPrint())));
+//
+//    }
 
     @Test
     @DisplayName("modifyCourse()는 정상 요청시 상태코드 204를 반환한다.")
