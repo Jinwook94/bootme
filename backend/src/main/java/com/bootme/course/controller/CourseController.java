@@ -49,9 +49,18 @@ public class CourseController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Access-Control-Expose-Headers", "X-Total-Count");
         headers.add("X-Total-Count", String.valueOf(coursePage.getTotalElements()));
-        headers.add("Content-Range", "courses " + coursePage.getNumber() * coursePage.getSize() + "-" + (coursePage.getNumber() * coursePage.getSize() + coursePage.getNumberOfElements()) + "/" + coursePage.getTotalElements());
+        headers.add("Content-Range", getContentRange(coursePage));
 
         return ResponseEntity.ok().headers(headers).body(coursePage);
+    }
+
+
+    private String getContentRange(Page<CourseResponse> coursePage) {
+        int startRange = coursePage.getNumber() * coursePage.getSize();
+        int endRange = startRange + coursePage.getNumberOfElements();
+        long totalElements = coursePage.getTotalElements();
+
+        return String.format("courses %d-%d/%d", startRange, endRange, totalElements);
     }
 
     @PutMapping("/{id}")
