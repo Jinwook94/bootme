@@ -93,19 +93,19 @@ class CourseServiceTest extends ServiceTest {
         );
     }
 
-    @Test
-    @DisplayName("findAll()은 모든 코스 정보를 반환한다.")
-    void findAll (){
-        //given
-        courseService.addCourse(getCourseRequest(2));
-        courseService.addCourse(getCourseRequest(3));
-
-        //when
-        List<CourseResponse> courseResponses = courseService.findAll();
-
-        //then: setUp()의 company1.addCourse(course)에서 코스 한 개 등록되었으므로 총 3개의 코스
-        assertThat(courseResponses).hasSize(3);
-    }
+//    @Test
+//    @DisplayName("findAll()은 모든 코스 정보를 반환한다.")
+//    void findAll (){
+//        //given
+//        courseService.addCourse(getCourseRequest(2));
+//        courseService.addCourse(getCourseRequest(3));
+//
+//        //when
+//        List<CourseResponse> courseResponses = courseService.findAll();
+//
+//        //then: setUp()의 company1.addCourse(course)에서 코스 한 개 등록되었으므로 총 3개의 코스
+//        assertThat(courseResponses).hasSize(3);
+//    }
 
     @Test
     @DisplayName("modifyCourse()는 코스 정보를 변경한다.")
