@@ -9,7 +9,9 @@ import com.bootme.course.repository.CourseRepository;
 import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
@@ -49,6 +51,25 @@ public class CourseService {
         Predicate predicate = coursePredicateBuilder.build(parameters);
         Page<Course> coursePage = courseRepository.findAll(predicate, pageable);
         return coursePage.map(CourseResponse::of);
+    }
+
+    public Pageable getSortedPageable(int page, int size, String sort) {
+        Sort sorting;
+        switch(sort) {
+            case "newest":
+                sorting = Sort.by("createdAt").ascending();
+                break;
+            case "popular":
+                sorting = Sort.by("clicks").descending();
+                break;
+            case "bookmark":
+                sorting = Sort.by("bookmarks").descending();
+                break;
+            default:
+                sorting = Sort.by("clicks").descending();
+                break;
+        }
+        return PageRequest.of(page, size, sorting);
     }
 
     public void modifyCourse(Long id, CourseRequest courseRequest){
