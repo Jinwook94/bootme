@@ -5,7 +5,6 @@ import com.bootme.course.dto.CourseResponse;
 import com.bootme.course.service.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -41,9 +40,10 @@ public class CourseController {
     public ResponseEntity<Page<CourseResponse>> findAllCourses(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "12") int size,
+            @RequestParam(defaultValue = "popular") String sort,
             @RequestParam MultiValueMap<String, String> parameters
     ) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = courseService.getSortedPageable(page, size, sort);
         Page<CourseResponse> coursePage = courseService.findAll(parameters, pageable);
 
         HttpHeaders headers = new HttpHeaders();
