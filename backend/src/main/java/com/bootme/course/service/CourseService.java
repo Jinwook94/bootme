@@ -7,11 +7,10 @@ import com.bootme.course.dto.CourseResponse;
 import com.bootme.course.repository.CompanyRepository;
 import com.bootme.course.repository.CourseRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.bootme.common.exception.ErrorType.NOT_FOUND_COMPANY;
 import static com.bootme.common.exception.ErrorType.NOT_FOUND_COURSE;
@@ -43,9 +42,9 @@ public class CourseService {
     }
 
     @Transactional(readOnly = true)
-    public List<CourseResponse> findAll() {
-        List<Course> courseList = courseRepository.findAll();
-        return courseList.stream().map(CourseResponse::of).collect(Collectors.toList());
+    public Page<CourseResponse> findAll(Pageable pageable) {
+        Page<Course> coursePage = courseRepository.findAll(pageable);
+        return coursePage.map(CourseResponse::of);
     }
 
     public void modifyCourse(Long id, CourseRequest courseRequest){
