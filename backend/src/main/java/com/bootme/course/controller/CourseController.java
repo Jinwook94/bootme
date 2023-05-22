@@ -4,13 +4,15 @@ import com.bootme.course.dto.CourseRequest;
 import com.bootme.course.dto.CourseResponse;
 import com.bootme.course.service.CourseService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/courses")
@@ -35,16 +37,19 @@ public class CourseController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CourseResponse>> findAllCourses(){
-        List<CourseResponse> courseResponses = courseService.findAll();
-        int size = courseResponses.size();
+    public ResponseEntity<Page<CourseResponse>> findAllCourses(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "12") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<CourseResponse> coursePage = courseService.findAll(pageable);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Access-Control-Expose-Headers", "X-Total-Count");
-        headers.add("X-Total-Count", String.valueOf(size));
-        headers.add("Content-Range", "courses 0-"+size+"/"+size);
+        headers.add("X-Total-Count", String.valueOf(coursePage.getTotalElements()));
+        headers.add("Content-Range", "courses " + coursePage.getNumber() * coursePage.getSize() + "-" + (coursePage.getNumber() * coursePage.getSize() + coursePage.getNumberOfElements()) + "/" + coursePage.getTotalElements());
 
-        return ResponseEntity.ok().headers(headers).body(courseResponses);
+        return ResponseEntity.ok().headers(headers).body(coursePage);
     }
 
     @PutMapping("/{id}")
