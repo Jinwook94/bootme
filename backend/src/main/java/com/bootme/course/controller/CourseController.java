@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -39,10 +40,11 @@ public class CourseController {
     @GetMapping
     public ResponseEntity<Page<CourseResponse>> findAllCourses(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "12") int size
+            @RequestParam(defaultValue = "12") int size,
+            @RequestParam MultiValueMap<String, String> parameters
     ) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<CourseResponse> coursePage = courseService.findAll(pageable);
+        Page<CourseResponse> coursePage = courseService.findAll(parameters, pageable);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Access-Control-Expose-Headers", "X-Total-Count");
