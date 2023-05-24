@@ -7,17 +7,19 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Getter
-    public class WebhookRequest {
+public class WebhookRequest {
 
-    private final long sessionId;
-    private final long memberId;
-    private final String event;
-    private final Map<String, String> data;
-    private final String currentUrl;
-    private final long createdAt;
+    private Long sessionId;
+    private Long memberId;
+    private String event;
+    private Map<String, String> data;
+    private String currentUrl;
+    private long createdAt;
+
+    public WebhookRequest() {}
 
     @Builder
-    public WebhookRequest(long sessionId, long memberId, String event,
+    public WebhookRequest(Long sessionId, Long memberId, String event,
                           Map<String, String> data, String currentUrl, long createdAt) {
         this.sessionId = sessionId;
         this.memberId = memberId;
@@ -26,5 +28,4 @@ import java.util.concurrent.ConcurrentHashMap;
         this.currentUrl = currentUrl;
         this.createdAt = createdAt;
     }
-
 }
