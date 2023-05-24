@@ -28,7 +28,7 @@ public class MemberController {
     public ResponseEntity<Page<CourseResponse>> findBookmarkCourses(
             @PathVariable Long memberId,
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "8") int size
+            @RequestParam(defaultValue = "10") int size
     ) {
         Page<CourseResponse> bookmarkCoursePage = memberService.findBookmarkCourses(memberId, page, size);
 

@@ -37,7 +37,7 @@ export const BookmarkProvider = ({ children }: BookmarkProviderProps) => {
       .get(endpoint, {
         params: {
           page: page,
-          size: 8,
+          size: 10,
         },
       })
       .then(r => {

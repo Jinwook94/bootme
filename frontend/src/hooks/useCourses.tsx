@@ -38,7 +38,7 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
         params: {
           sort: sort,
           page: page,
-          size: 8,
+          size: 10,
         },
       })
       .then(r => {
