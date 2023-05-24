@@ -18,7 +18,7 @@ export const COURSE_FILTERS: { [key: string]: CourseFilterTypes } = {
     filterName: 'frameworks',
     filterOptions: ['React', 'Vue.js', 'Spring', 'Node.js', 'Django'],
   },
-  COST_TYPE: { filterName: 'costType', filterOptions: ['무료', '무료(국비)'], isMore: false },
+  COST_TYPE: { filterName: 'isFree', filterOptions: ['무료', '무료(국비)'], isMore: false },
   PERIOD: { filterName: 'period', filterOptions: [], isMore: false },
   TEST: { filterName: 'isTested', filterOptions: ['있음', '없음'], isMore: false },
 };

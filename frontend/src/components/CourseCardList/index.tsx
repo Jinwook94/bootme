@@ -52,7 +52,7 @@ const CourseCardList = ({ courses, displayBookmarked }: CourseCardListProps) => 
           .filter(course => {
             return displayBookmarked ? isBookmarked[course.id] : true;
           })
-          .map(({ id, title, url, company, categories, stacks, dates, period, cost, costType }: CourseCardProps) => (
+          .map(({ id, title, url, company, categories, stacks, dates, cost, period, free, kdt }: CourseCardProps) => (
             <CourseCard
               key={id}
               id={id}
@@ -63,8 +63,9 @@ const CourseCardList = ({ courses, displayBookmarked }: CourseCardListProps) => 
               stacks={stacks}
               dates={dates}
               cost={cost}
-              costType={costType}
               period={period}
+              free={free}
+              kdt={kdt}
             />
           ))
       )}

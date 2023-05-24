@@ -34,12 +34,9 @@ interface Course {
   generation: number;
   url: string;
   location: string;
-  onOffline: string;
   categories: Categories;
   stacks: Stacks;
-  prerequisites: string;
   cost: number;
-  costType: string;
   period: number;
   dates: datesType;
   company: Company;
@@ -47,7 +44,11 @@ interface Course {
   bookmarks: number;
   createdAt: number;
   modifiedAt: bigint;
+  free: boolean;
+  kdt: boolean;
+  online: boolean;
   tested: boolean;
+  prerequisiteRequired: boolean;
   recommended: boolean;
   registerOpen: boolean;
 }

@@ -21,11 +21,12 @@ export const FilterProvider = ({ children }: FilterProviderProps) => {
     subCategory: [],
     languages: [],
     frameworks: [],
-    costType: [],
+    isFree: [],
+    isKdt: [],
+    isTested: [],
     costInput: [],
     period: [],
     periodInput: [],
-    test: [],
   });
 
   const addFilter = (filterName: string, filterOption: string) => {
@@ -140,9 +141,10 @@ export interface FiltersState {
   subCategory?: string[];
   languages?: string[];
   frameworks?: string[];
-  costType?: string[];
+  isFree?: string[];
+  isKdt?: string[];
+  isTested?: string[];
   costInput?: string[];
   period?: string[];
   periodInput?: string[];
-  test?: string[];
 }

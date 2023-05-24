@@ -31,7 +31,8 @@ const CourseCard = ({
   dates,
   period,
   cost,
-  costType,
+  free,
+  kdt,
 }: CourseCardProps) => {
   const weeks = Math.round(period / 7);
   const months = Math.round(period / 30);
@@ -89,15 +90,7 @@ const CourseCard = ({
             >
               credit_card
             </span>
-            <span>
-              {costType === 'free'
-                ? '무료'
-                : costType === 'freeKdt'
-                ? '무료(국비)'
-                : costType === 'paid'
-                ? `${cost}만원`
-                : ''}
-            </span>
+            <span>{free && !kdt ? '무료' : free && kdt ? '무료(국비)' : !free ? `${cost}만원` : ''}</span>
           </ItemWrapper>
         </CourseInfo>
         <CourseTags>
@@ -140,12 +133,12 @@ export type CourseCardProps = Omit<
   Course,
   | 'name'
   | 'generation'
-  | 'onOffline'
-  | 'prerequisites'
+  | 'prerequisiteRequired'
   | 'recommended'
   | 'tested'
   | 'registerOpen'
   | 'location'
+  | 'online'
   | 'clicks'
   | 'bookmarks'
   | 'createdAt'

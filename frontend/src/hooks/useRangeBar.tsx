@@ -46,10 +46,10 @@ export const useRangeBar = (filterName: string, isReset: boolean) => {
 
   // 무료, 무료 (국비) 체크박스 선택되면 -> 1. range bar, text input 값을 0으로 변경 2. 선택된 필터 중 비용 필터를 삭제
   useEffect(() => {
-    const isFreeSelected =
-      selectedFilters.costType?.some(option =>
-        [COURSE_FILTERS.COST_TYPE.filterOptions[0], COURSE_FILTERS.COST_TYPE.filterOptions[1]].includes(option)
-      ) ?? false;
+    const isFreeFilterSelected = selectedFilters.isFree?.includes(String(true)) ?? false;
+    const isKdtFilterSelected = selectedFilters.isKdt?.includes(String(true)) ?? false;
+
+    const isFreeSelected = isFreeFilterSelected || isKdtFilterSelected;
     setIsFreeSelected(isFreeSelected);
 
     if (
