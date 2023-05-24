@@ -49,9 +49,9 @@ public class CourseRequest {
 
     private Dates dates;
 
-    private boolean isRecommended;
+    private boolean recommended;
 
-    private boolean isTested;
+    private boolean tested;
 
     public CourseRequest() {
     }
@@ -59,7 +59,7 @@ public class CourseRequest {
     @Builder
     public CourseRequest(String title, String name, Integer generation, String url, String companyName,
                          String location, String onOffline, Category categories, Stack stacks, String prerequisites,
-                         Integer cost, String costType, Integer period, Dates dates, boolean isRecommended, boolean isTested) {
+                         Integer cost, String costType, Integer period, Dates dates, boolean recommended, boolean tested) {
         this.title = title;
         this.name = name;
         this.generation = generation;
@@ -74,7 +74,7 @@ public class CourseRequest {
         this.costType = costType;
         this.period = period;
         this.dates = dates;
-        this.isRecommended = isRecommended;
-        this.isTested = isTested;
+        this.recommended = recommended;
+        this.tested = tested;
     }
 }

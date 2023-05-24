@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Long>, QuerydslPredicateExecutor<Course> {
 
+    boolean existsById(Long id);
+
     @Modifying
     @Transactional
     @Query("UPDATE Course c SET c.clicks = c.clicks + 1 WHERE c.id = :id")

@@ -5,7 +5,6 @@ import com.bootme.course.dto.CourseResponse;
 import com.bootme.course.service.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,13 +37,12 @@ public class CourseController {
 
     @GetMapping
     public ResponseEntity<Page<CourseResponse>> findAllCourses(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "12") int size,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "8") int size,
             @RequestParam(defaultValue = "popular") String sort,
             @RequestParam MultiValueMap<String, String> parameters
     ) {
-        Pageable pageable = courseService.getSortedPageable(page, size, sort);
-        Page<CourseResponse> coursePage = courseService.findAll(parameters, pageable);
+        Page<CourseResponse> coursePage = courseService.findAll(page-1, size, sort, parameters);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Access-Control-Expose-Headers", "X-Total-Count");
@@ -53,7 +51,6 @@ public class CourseController {
 
         return ResponseEntity.ok().headers(headers).body(coursePage);
     }
-
 
     private String getContentRange(Page<CourseResponse> coursePage) {
         int startRange = coursePage.getNumber() * coursePage.getSize();

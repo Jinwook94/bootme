@@ -73,6 +73,27 @@ public class CoursePredicateBuilder {
             builder.and(frameworkBuilder);
         }
 
+        String costType = parameters.getFirst("costType");
+        String isTested = parameters.getFirst("isTested");
+        String costInput = parameters.getFirst("costInput");
+        String periodInput = parameters.getFirst("periodInput");
+
+        if (costType != null && !costType.isEmpty()) {
+            builder.and(course.costType.eq(costType));
+        }
+
+        if (isTested != null && !isTested.isEmpty()) {
+            builder.and(course.isTested.eq(Boolean.valueOf(isTested)));
+        }
+
+        if (costInput != null && !costInput.isEmpty()) {
+            builder.and(course.cost.loe(Integer.valueOf(costInput)));
+        }
+
+        if (periodInput != null && !periodInput.isEmpty()) {
+            builder.and(course.period.loe(Integer.parseInt(periodInput) * 30));
+        }
+
         if (builder.hasValue()) {
             return builder.getValue();
         } else {

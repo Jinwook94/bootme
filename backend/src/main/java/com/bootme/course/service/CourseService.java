@@ -28,6 +28,10 @@ public class CourseService {
     private final CompanyRepository companyRepository;
     private final CoursePredicateBuilder coursePredicateBuilder;
 
+    private static final String CREATED_AT = "createdAt";
+    private static final String CLICKS = "clicks";
+    private static final String BOOKMARKS = "bookmarks";
+
     public Long addCourse(CourseRequest courseRequest){
         String companyName = courseRequest.getCompanyName();
         Company company = companyRepository.findByName(companyName)
@@ -47,29 +51,12 @@ public class CourseService {
     }
 
     @Transactional(readOnly = true)
-    public Page<CourseResponse> findAll(MultiValueMap<String, String> parameters, Pageable pageable) {
+    public Page<CourseResponse> findAll(int page, int size, String sort, MultiValueMap<String, String> parameters) {
         Predicate predicate = coursePredicateBuilder.build(parameters);
+        Pageable pageable = getSortedPageable(page-1, size, sort);
+
         Page<Course> coursePage = courseRepository.findAll(predicate, pageable);
         return coursePage.map(CourseResponse::of);
-    }
-
-    public Pageable getSortedPageable(int page, int size, String sort) {
-        Sort sorting;
-        switch(sort) {
-            case "newest":
-                sorting = Sort.by("createdAt").ascending();
-                break;
-            case "popular":
-                sorting = Sort.by("clicks").descending();
-                break;
-            case "bookmark":
-                sorting = Sort.by("bookmarks").descending();
-                break;
-            default:
-                sorting = Sort.by("clicks").descending();
-                break;
-        }
-        return PageRequest.of(page, size, sorting);
     }
 
     public void modifyCourse(Long id, CourseRequest courseRequest){
@@ -90,16 +77,50 @@ public class CourseService {
         courseRepository.delete(course);
     }
 
-    public void incrementClicks(Long id){
-        courseRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COURSE, String.valueOf(id)));
-        courseRepository.incrementClicks(id);
+    public void incrementClicks(Long id) {
+        boolean exists = courseRepository.existsById(id);
+        if (exists) {
+            courseRepository.incrementClicks(id);
+        } else {
+            throw new ResourceNotFoundException(NOT_FOUND_COURSE, String.valueOf(id));
+        }
     }
 
     public void incrementBookmarks(Long id){
-        courseRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COURSE, String.valueOf(id)));
-        courseRepository.incrementBookmarks(id);
+        boolean exists = courseRepository.existsById(id);
+        if (exists) {
+            courseRepository.incrementBookmarks(id);
+        } else {
+            throw new ResourceNotFoundException(NOT_FOUND_COURSE, String.valueOf(id));
+        }
+    }
+
+    private Pageable getSortedPageable(int page, int size, String sort) {
+        Sort sorting;
+        switch(sort) {
+            case "newest":
+                sorting = Sort.by(
+                        Sort.Order.asc(CREATED_AT),
+                        Sort.Order.desc(CLICKS),
+                        Sort.Order.desc(BOOKMARKS)
+                );
+                break;
+            case "bookmark":
+                sorting = Sort.by(
+                        Sort.Order.desc(BOOKMARKS),
+                        Sort.Order.desc(CLICKS),
+                        Sort.Order.asc(CREATED_AT)
+                );
+                break;
+            default:
+                sorting = Sort.by(
+                        Sort.Order.desc(CLICKS),
+                        Sort.Order.desc(BOOKMARKS),
+                        Sort.Order.asc(CREATED_AT)
+                );
+                break;
+        }
+        return PageRequest.of(page, size, sorting);
     }
 
 }
