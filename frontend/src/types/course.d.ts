@@ -1,3 +1,32 @@
+interface CoursesResponse {
+  content: Course[];
+  pageable: Pageable;
+  totalElements: number;
+  totalPages: number;
+  last: boolean;
+  numberOfElements: number;
+  size: number;
+  first: boolean;
+  number: number;
+  sort: Sort;
+  empty: boolean;
+}
+
+interface Pageable {
+  sort: Sort;
+  pageNumber: number;
+  pageSize: number;
+  offset: number;
+  paged: boolean;
+  unpaged: boolean;
+}
+
+interface Sort {
+  unsorted: boolean;
+  sorted: boolean;
+  empty: boolean;
+}
+
 interface Course {
   id: number;
   title: string;

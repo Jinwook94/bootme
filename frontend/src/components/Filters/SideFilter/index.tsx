@@ -17,16 +17,36 @@ const SideFilter = () => {
         </ResetButton>
       </FilterReset>
       <FilterItemWrapper>
-        {Object.values(COURSE_FILTERS).map(filterGroup => (
-          <SideFilterItem
-            key={filterGroup.filterName}
-            filter={filterGroup}
-            filterName={filterGroup.filterName}
-            filterOptions={filterGroup.filterOptions}
-            isMore={filterGroup.isMore}
-            isReset={isReset}
-          />
-        ))}
+        <SideFilterItem
+          filterName={'개발 분야'}
+          filterOptions={[...COURSE_FILTERS.SUPER_CATEGORY.filterOptions, ...COURSE_FILTERS.SUB_CATEGORY.filterOptions]}
+          isMore={true}
+          isReset={isReset}
+        />
+        <SideFilterItem
+          filterName={'기술 스택'}
+          filterOptions={[...COURSE_FILTERS.LANGUAGES.filterOptions, ...COURSE_FILTERS.FRAMEWORKS.filterOptions]}
+          isMore={true}
+          isReset={isReset}
+        />
+        <SideFilterItem
+          filterName={'수강 비용'}
+          filterOptions={COURSE_FILTERS.COST_TYPE.filterOptions}
+          isMore={false}
+          isReset={isReset}
+        />
+        <SideFilterItem
+          filterName={'수강 기간'}
+          filterOptions={COURSE_FILTERS.PERIOD.filterOptions}
+          isMore={false}
+          isReset={isReset}
+        />
+        <SideFilterItem
+          filterName={'코딩 테스트'}
+          filterOptions={COURSE_FILTERS.TEST.filterOptions}
+          isMore={false}
+          isReset={isReset}
+        />
       </FilterItemWrapper>
     </Wrapper>
   );

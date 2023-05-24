@@ -19,44 +19,29 @@ import {
 
 import SlideBanner from '../../components/SlideBanner';
 import PaginationBar from '../../components/PaginationBar';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import CourseCardList from '../../components/CourseCardList';
 import usePaging from '../../hooks/usePaging';
-import useCourses from '../../hooks/queries/course/useCourses';
+import { useCourses } from '../../hooks/useCourses';
 import Header from '../../components/Header';
 import SideFilter from '../../components/Filters/SideFilter';
 import { useFilters } from '../../hooks/useFilters';
 import ModalFilter from '../../components/Filters/ModalFilter';
 import { Select } from 'antd';
-import useSorting from '../../hooks/useSorting';
+import { useRecoilState } from 'recoil';
+import { currentPageHome, currentView } from '../../recoilState';
+import { HOME } from '../../constants/pages';
 
 const Home = () => {
-  // Fetching data
-  const { data, isLoading, isError } = useCourses({});
-  const allCards = data || [];
-
-  // Filtering
-  const { selectedFilters, filterCourses, handleModal, filteredLength, handleLength } = useFilters();
-  let filteredCourses = data || [];
-
-  if (selectedFilters.length > 0 && data) {
-    filteredCourses = filterCourses(data);
-  }
-
-  // Sorting
-  const { sortOption, sortedCards, handleSorting } = useSorting(filteredCourses);
-
-  // Pagination
-  const [cardsPerPage] = useState(12);
-  const maxPage = Math.floor(filteredCourses.length / cardsPerPage) + 1;
-  const { currentPage, setCurrentPage, handleNumberClick, handleNextClick, handlePrevClick, getCurrentItems } =
-    usePaging(maxPage);
-  const currentCards = getCurrentItems(cardsPerPage, sortedCards);
+  const [, setView] = useRecoilState(currentView);
+  const { handleModal } = useFilters();
+  const { courseCount, maxPage, currentCourses, sortOption, handleSorting } = useCourses();
+  const { handleNumberClick, handleNextClick, handlePrevClick } = usePaging(HOME, maxPage);
+  const [currentPage, setCurrentPage] = useRecoilState(currentPageHome);
 
   useEffect(() => {
-    handleLength(filteredCourses.length);
-    setCurrentPage(1);
-  }, [filteredCourses]);
+    setView(HOME);
+  }, []);
 
   useEffect(() => {
     setCurrentPage(1);
@@ -65,14 +50,6 @@ const Home = () => {
       behavior: 'smooth',
     });
   }, [sortOption]);
-
-  if (isLoading) {
-    return <p>to do: 로딩중 화면 작성</p>;
-  }
-
-  if (isError) {
-    return <p>to do: 에러 화면 작성</p>;
-  }
 
   return (
     <>
@@ -90,7 +67,7 @@ const Home = () => {
             <CourseListWrapper>
               <CourseListMenu>
                 <MenuLeft>
-                  <CourseCount>{filteredLength}개의 커리큘럼</CourseCount>
+                  <CourseCount>{courseCount}개의 커리큘럼</CourseCount>
                 </MenuLeft>
                 <MenuRight>
                   <FilterButton primary onClick={handleModal}>
@@ -110,23 +87,23 @@ const Home = () => {
                   </SortSelect>
                 </MenuRight>
               </CourseListMenu>
-              {filteredCourses.length === 0 ? (
+              {courseCount === 0 ? (
                 <NoResultsMessage>
                   선택하신 조건에 맞는 코스가 없습니다. <br /> 필터 옵션을 변경해 주세요.
                 </NoResultsMessage>
               ) : (
-                <CourseCardList allCards={allCards} currentCards={currentCards} />
+                <CourseCardList courses={currentCourses} />
               )}
             </CourseListWrapper>
           </BodyWrapper2>
         </BodyWrapper>
         <PaginationWrapper>
           <PaginationBar
-            maxPage={maxPage}
-            handleNumberClick={handleNumberClick}
             currentPage={currentPage}
+            maxPage={maxPage}
             handlePrevClick={handlePrevClick}
             handleNextClick={handleNextClick}
+            handleNumberClick={handleNumberClick}
           />
         </PaginationWrapper>
         <FooterWrapper>

@@ -1,18 +1,32 @@
 import { useEffect, useState } from 'react';
 import { useFilters } from './useFilters';
+import { COURSE_FILTERS } from '../constants/courseFilter';
 
-export const useCheckbox = (filterName: string, filterOption: string, isReset: boolean) => {
+export const useCheckbox = (filterOption: string, isReset: boolean) => {
   const [isChecked, setIsChecked] = useState(false);
-  const { selectedFilters, addFilter, removeFilter } = useFilters();
+  const { addFilter, removeFilter, isFilterSelected, getFilterName } = useFilters();
+  const filterName = getFilterName(filterOption);
 
   const handleClick = () => {
     setIsChecked(!isChecked);
-    isChecked ? removeFilter(filterName, filterOption) : addFilter(filterName, filterOption);
+
+    let transformedFilterOption = filterOption;
+    if (filterName === COURSE_FILTERS.TEST.filterName) {
+      if (filterOption === '있음') transformedFilterOption = 'true';
+      if (filterOption === '없음') transformedFilterOption = 'false';
+    }
+
+    if (filterName === COURSE_FILTERS.COST_TYPE.filterName) {
+      if (filterOption === '무료') transformedFilterOption = 'free';
+      if (filterOption === '무료(국비)') transformedFilterOption = 'freeKdt';
+    }
+
+    isChecked ? removeFilter(filterName, transformedFilterOption) : addFilter(filterName, transformedFilterOption);
     return true;
   };
 
   const handleChecked = () => {
-    if (selectedFilters.includes(filterName + ':' + filterOption)) {
+    if (isFilterSelected(filterOption)) {
       setIsChecked(true);
     }
   };

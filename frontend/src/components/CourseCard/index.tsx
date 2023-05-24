@@ -89,7 +89,15 @@ const CourseCard = ({
             >
               credit_card
             </span>
-            <span>{cost === 0 ? costType : cost + '만원'} </span>
+            <span>
+              {costType === 'free'
+                ? '무료'
+                : costType === 'freeKdt'
+                ? '무료(국비)'
+                : costType === 'paid'
+                ? `${cost}만원`
+                : ''}
+            </span>
           </ItemWrapper>
         </CourseInfo>
         <CourseTags>

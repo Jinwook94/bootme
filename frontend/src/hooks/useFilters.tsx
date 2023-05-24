@@ -1,106 +1,85 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { CATEGORIES, COST_INPUT, COST_TYPE, PERIOD, STACKS, TEST } from '../constants/courseFilter';
+import { COURSE_FILTERS } from '../constants/courseFilter';
 
 const FilterContext = createContext<FilterContextProps>({
-  selectedFilters: [],
+  selectedFilters: {},
   addFilter: () => {},
-  removeBeforeAdd: () => {},
   removeFilter: () => {},
-  filterCourses: () => [],
-  resetFilters: () => {},
+  clearAndAddFilter: () => {},
+  clearFilterGroup: () => {},
   isReset: false,
+  resetFilters: () => {},
+  isFilterSelected: () => false,
+  getFilterName: () => '',
   isModal: false,
   handleModal: () => {},
-  filteredLength: 1,
-  handleLength: () => {},
 });
 
 export const FilterProvider = ({ children }: FilterProviderProps) => {
-  /**
-   * 필터링 함수 (필터 추가, 제거 ...)
-   * */
-  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+  const [selectedFilters, setSelectedFilters] = useState<FiltersState>({
+    superCategory: [],
+    subCategory: [],
+    languages: [],
+    frameworks: [],
+    costType: [],
+    costInput: [],
+    period: [],
+    periodInput: [],
+    test: [],
+  });
 
   const addFilter = (filterName: string, filterOption: string) => {
-    const filter = filterName + ':' + filterOption;
-    setSelectedFilters([...selectedFilters, filter]);
-  };
-
-  const removeBeforeAdd = (filterName: string) => {
-    const newSelectedFilters = selectedFilters.filter(filter => filter.startsWith(filterName));
-    for (const filter of newSelectedFilters) {
-      const index = selectedFilters.indexOf(filter);
-      if (index !== -1) {
-        selectedFilters.splice(index, 1);
+    setSelectedFilters(prevState => {
+      if (!prevState[filterName]?.includes(filterOption)) {
+        return {
+          ...prevState,
+          [filterName]: [...(prevState[filterName] || []), filterOption],
+        };
       }
-      setSelectedFilters(selectedFilters.filter(f => f !== filter));
-    }
-  };
-
-  const removeFilter = (filterName: string, filterOption: string) => {
-    const filter = `${filterName}:${filterOption}`;
-    const index = selectedFilters.indexOf(filter);
-    if (index !== -1) {
-      selectedFilters.splice(index, 1);
-    }
-    setSelectedFilters(selectedFilters.filter(f => f !== filter));
-  };
-
-  const filterCourses = (courses: Course[]) => {
-    return courses.filter((course: Course) => {
-      const categories: string[] = [];
-      const stacks: string[] = [];
-      const costTypes: string[] = [];
-      const tested: string[] = [];
-      const costs: string[] = [];
-      const periods: string[] = [];
-
-      selectedFilters.forEach(filter => {
-        const [property, value] = filter.split(':');
-        switch (property) {
-          case CATEGORIES.filterName:
-            categories.push(value);
-            break;
-          case STACKS.filterName:
-            stacks.push(value);
-            break;
-          case COST_TYPE.filterName:
-            costTypes.push(value);
-            break;
-          case COST_INPUT.filterName:
-            costs.push(value);
-            break;
-          case PERIOD.filterName:
-            periods.push(value);
-            break;
-          case TEST.filterName:
-            tested.push(value);
-            break;
-        }
-      });
-
-      return (
-        (!categories.length ||
-          categories.some(
-            category => course.categories.super.includes(category) || course.categories.sub.includes(category)
-          )) &&
-        (!stacks.length ||
-          stacks.some(stack => course.stacks.languages.includes(stack) || course.stacks.frameworks.includes(stack))) &&
-        (!costTypes.length || costTypes.some(costType => course.costType === costType)) &&
-        (!costs.length || costs.some(cost => course.cost <= parseInt(cost))) &&
-        (!periods.length || periods.some(period => Math.floor(course.period / 30) + 1 <= parseInt(period))) &&
-        (!tested.length || tested.some(test => (String(course.tested) === 'true' ? '있음' : '없음') === test))
-      );
+      return prevState;
     });
   };
 
-  /**
-   * 필터 초기화
-   * */
+  const removeFilter = (filterName: string, filterOption: string) => {
+    setSelectedFilters(prevState => ({
+      ...prevState,
+      [filterName]: prevState[filterName]?.filter(option => option !== filterOption),
+    }));
+  };
+
+  const clearAndAddFilter = (filterName: string, filterOption: string) => {
+    setSelectedFilters(prevState => ({
+      ...prevState,
+      [filterName]: [filterOption],
+    }));
+  };
+
+  const clearFilterGroup = (filterName: string) => {
+    setSelectedFilters(prevState => ({
+      ...prevState,
+      [filterName]: [],
+    }));
+  };
+
   const [isReset, setIsReset] = useState<boolean>(false);
   const resetFilters = () => {
-    setSelectedFilters([]);
+    setSelectedFilters({});
     setIsReset(true);
+  };
+
+  const isFilterSelected = (filterOption: string): boolean => {
+    const filterKeys = Object.keys(selectedFilters);
+    return filterKeys.some(key => selectedFilters[key]?.includes(filterOption));
+  };
+
+  const getFilterName = (filterOption: string): string => {
+    const filterKeys = Object.keys(COURSE_FILTERS);
+    for (const key of filterKeys) {
+      if (COURSE_FILTERS[key].filterOptions.includes(filterOption)) {
+        return COURSE_FILTERS[key].filterName;
+      }
+    }
+    return '';
   };
 
   useEffect(() => {
@@ -109,21 +88,9 @@ export const FilterProvider = ({ children }: FilterProviderProps) => {
     }
   }, [isReset]);
 
-  /**
-   * 모달 필터 (모바일 스크린에서 사용됨)
-   * */
-
   const [isModal, setIsModal] = useState(false);
   const handleModal = () => {
     isModal ? setIsModal(false) : setIsModal(true);
-  };
-
-  /**
-   * 필터링 된 아이템 개수
-   * */
-  const [filteredLength, setFilteredLength] = useState<number>(1);
-  const handleLength = (length: number) => {
-    setFilteredLength(length);
   };
 
   return (
@@ -131,15 +98,15 @@ export const FilterProvider = ({ children }: FilterProviderProps) => {
       value={{
         selectedFilters,
         addFilter,
-        removeBeforeAdd,
         removeFilter,
-        filterCourses,
+        clearAndAddFilter,
+        clearFilterGroup,
         isReset,
         resetFilters,
+        isFilterSelected,
+        getFilterName,
         isModal,
         handleModal,
-        filteredLength,
-        handleLength,
       }}
     >
       {children}
@@ -150,19 +117,32 @@ export const FilterProvider = ({ children }: FilterProviderProps) => {
 export const useFilters = () => useContext(FilterContext);
 
 interface FilterContextProps {
-  selectedFilters: string[];
-  removeBeforeAdd: (label: string) => void;
+  selectedFilters: FiltersState;
   addFilter: (filterName: string, filterOption: string) => void;
   removeFilter: (filterName: string, filterOption: string) => void;
-  filterCourses: (courses: Course[]) => Course[];
+  clearAndAddFilter: (filterName: string, filterOption: string) => void;
+  clearFilterGroup: (filterName: string) => void;
   isReset: boolean;
   resetFilters: () => void;
+  isFilterSelected: (filterOption: string) => boolean;
+  getFilterName: (filterOption: string) => string;
   isModal: boolean;
   handleModal: () => void;
-  filteredLength: number;
-  handleLength: (length: number) => void;
 }
 
 interface FilterProviderProps {
   children: React.ReactNode;
+}
+
+export interface FiltersState {
+  [key: string]: string[] | undefined;
+  superCategory?: string[];
+  subCategory?: string[];
+  languages?: string[];
+  frameworks?: string[];
+  costType?: string[];
+  costInput?: string[];
+  period?: string[];
+  periodInput?: string[];
+  test?: string[];
 }

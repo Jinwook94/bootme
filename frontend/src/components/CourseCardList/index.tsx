@@ -3,24 +3,24 @@ import { CourseCardListStyle } from './style';
 import React, { useEffect, useRef } from 'react';
 import { useBookmarks } from '../../hooks/useBookmarks';
 
-const CourseCardList = ({ allCards, currentCards, displayBookmarked }: CourseCardListProps) => {
+const CourseCardList = ({ courses, displayBookmarked }: CourseCardListProps) => {
   const isMounted = useRef(false);
   const {
     isBookmarked,
     setIsBookmarked,
-    bookmarkedCourses,
+    bookmarkedCourseIds,
+    setBookmarkedCourseIds,
     isLoading,
     setIsLoading,
-    getBookmarkedCourses,
-    setBookmarkedCourses,
+    fetchBookmarkCourseIds,
   } = useBookmarks();
 
   // 1. onMount 시점에 해당 회원이 저장한 북마크 코스 정보를 가져온다 (로그인 된 경우만)
   useEffect(() => {
     const memberId = localStorage.getItem('MemberId');
     if (memberId) {
-      getBookmarkedCourses().then(response => {
-        setBookmarkedCourses(response);
+      fetchBookmarkCourseIds().then(response => {
+        setBookmarkedCourseIds(response);
       });
     }
   }, []);
@@ -29,14 +29,14 @@ const CourseCardList = ({ allCards, currentCards, displayBookmarked }: CourseCar
   useEffect(() => {
     if (isMounted.current) {
       const states = { ...isBookmarked };
-      for (const id of allCards.map(card => card.id)) {
-        states[id] = bookmarkedCourses.includes(id);
+      for (const id of courses.map(course => course.id)) {
+        states[id] = bookmarkedCourseIds.includes(id);
       }
       setIsBookmarked(states);
     } else {
       isMounted.current = true;
     }
-  }, [bookmarkedCourses]);
+  }, [bookmarkedCourseIds]);
 
   //3. isBookmarked 값 설정이 완료되면 isLoading 값을 변경하여 CourseCard 랜더링 될 수 있도록 한다.
   useEffect(() => {
@@ -48,7 +48,7 @@ const CourseCardList = ({ allCards, currentCards, displayBookmarked }: CourseCar
       {isLoading ? (
         <p>Loading...</p>
       ) : (
-        currentCards
+        courses
           .filter(course => {
             return displayBookmarked ? isBookmarked[course.id] : true;
           })
@@ -73,8 +73,7 @@ const CourseCardList = ({ allCards, currentCards, displayBookmarked }: CourseCar
 };
 
 interface CourseCardListProps {
-  allCards: Course[];
-  currentCards: Course[];
+  courses: Course[];
   displayBookmarked?: boolean;
 }
 

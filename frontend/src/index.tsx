@@ -11,29 +11,35 @@ import ReactDOM from 'react-dom/client';
 import { BookmarkProvider } from './hooks/useBookmarks';
 import { NotificationProvider } from './hooks/useNotification';
 import { SecretProvider } from './hooks/useSecret';
+import { CourseProvider } from './hooks/useCourses';
+import { RecoilRoot } from 'recoil';
 
 const rootElement = document.getElementById('root') as Element;
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(rootElement).render(
-  <BrowserRouter>
-    <SecretProvider>
-      <NotificationProvider>
-        <LoginProvider>
-          <GoogleOAuthProvider clientId={'GOOGLE_CLIENT_ID'}>
-            <BookmarkProvider>
-              <FilterProvider>
-                <QueryClientProvider client={queryClient}>
-                  <ThemeProvider theme={theme}>
-                    <GlobalStyle />
-                    <App />
-                  </ThemeProvider>
-                </QueryClientProvider>
-              </FilterProvider>
-            </BookmarkProvider>
-          </GoogleOAuthProvider>
-        </LoginProvider>
-      </NotificationProvider>
-    </SecretProvider>
-  </BrowserRouter>
+  <RecoilRoot>
+    <BrowserRouter>
+      <SecretProvider>
+        <NotificationProvider>
+          <LoginProvider>
+            <GoogleOAuthProvider clientId={'GOOGLE_CLIENT_ID'}>
+              <BookmarkProvider>
+                <FilterProvider>
+                  <CourseProvider>
+                    <QueryClientProvider client={queryClient}>
+                      <ThemeProvider theme={theme}>
+                        <GlobalStyle />
+                        <App />
+                      </ThemeProvider>
+                    </QueryClientProvider>
+                  </CourseProvider>
+                </FilterProvider>
+              </BookmarkProvider>
+            </GoogleOAuthProvider>
+          </LoginProvider>
+        </NotificationProvider>
+      </SecretProvider>
+    </BrowserRouter>
+  </RecoilRoot>
 );

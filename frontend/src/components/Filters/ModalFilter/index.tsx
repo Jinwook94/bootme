@@ -6,9 +6,11 @@ import { HeaderText, IconWrapper, ModalBody, ModalFooter, ModalHeader, ResetFilt
 import { CloseIcon } from '../../../constants/icons';
 import { COURSE_FILTERS } from '../../../constants/courseFilter';
 import ModalFilterItem from '../ModalFilterItem';
+import { useCourses } from '../../../hooks/useCourses';
 
 const ModalFilter = () => {
-  const { isModal, handleModal, isReset, resetFilters, filteredLength } = useFilters();
+  const { isModal, handleModal, isReset, resetFilters } = useFilters();
+  const { courseCount } = useCourses();
   ReactModal.setAppElement('#root');
 
   return (
@@ -57,20 +59,40 @@ const ModalFilter = () => {
         <div></div>
       </ModalHeader>
       <ModalBody>
-        {Object.values(COURSE_FILTERS).map(filterGroup => (
-          <ModalFilterItem
-            key={filterGroup.filterName}
-            filter={filterGroup}
-            filterName={filterGroup.filterName}
-            filterOptions={filterGroup.filterOptions}
-            isMore={filterGroup.isMore}
-            isReset={isReset}
-          />
-        ))}
+        <ModalFilterItem
+          filterName={'개발 분야'}
+          filterOptions={[...COURSE_FILTERS.SUPER_CATEGORY.filterOptions, ...COURSE_FILTERS.SUB_CATEGORY.filterOptions]}
+          isMore={true}
+          isReset={isReset}
+        />
+        <ModalFilterItem
+          filterName={'기술 스택'}
+          filterOptions={[...COURSE_FILTERS.LANGUAGES.filterOptions, ...COURSE_FILTERS.FRAMEWORKS.filterOptions]}
+          isMore={true}
+          isReset={isReset}
+        />
+        <ModalFilterItem
+          filterName={'수강 비용'}
+          filterOptions={COURSE_FILTERS.COST_TYPE.filterOptions}
+          isMore={false}
+          isReset={isReset}
+        />
+        <ModalFilterItem
+          filterName={'수강 기간'}
+          filterOptions={COURSE_FILTERS.PERIOD.filterOptions}
+          isMore={false}
+          isReset={isReset}
+        />
+        <ModalFilterItem
+          filterName={'코딩 테스트'}
+          filterOptions={COURSE_FILTERS.TEST.filterOptions}
+          isMore={false}
+          isReset={isReset}
+        />
       </ModalBody>
       <ModalFooter>
         <ResetFilter onClick={resetFilters}>전체 해제</ResetFilter>
-        <ShowCourse onClick={handleModal}>코스 {filteredLength}개 표시</ShowCourse>
+        <ShowCourse onClick={handleModal}>코스 {courseCount}개 표시</ShowCourse>
       </ModalFooter>
     </ReactModal>
   );

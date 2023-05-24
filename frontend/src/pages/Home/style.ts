@@ -103,6 +103,10 @@ export const CourseListWrapper = styled.section`
     grid-template-columns: repeat(2, minmax(0px, 1fr));
     width: 100%;
   }
+
+  @media (min-width: 1200px) {
+    height: 1009px;
+  }
 `;
 
 export const CourseListMenu = styled.div`

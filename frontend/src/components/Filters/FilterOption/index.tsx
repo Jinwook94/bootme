@@ -19,8 +19,8 @@ import { MODAL_FILTER, SIDE_FILTER } from '../../../constants/courseFilter';
 import { CheckIcon } from '../../../constants/icons';
 import { useFilters } from '../../../hooks/useFilters';
 
-export const FilterOption = ({ filterType, filterName, filterOption, isReset, borderTop }: FilterOptionProps) => {
-  const { isChecked, handleClick, handleChecked } = useCheckbox(filterName, filterOption, isReset);
+export const FilterOption = ({ filterType, filterOption, isReset, borderTop }: FilterOptionProps) => {
+  const { isChecked, handleClick, handleChecked } = useCheckbox(filterOption, isReset);
   const { isModal } = useFilters();
 
   useEffect(() => {
@@ -89,7 +89,6 @@ export const FilterOption = ({ filterType, filterName, filterOption, isReset, bo
 
 export interface FilterOptionProps {
   filterType: string;
-  filterName: string;
   filterOption: string;
   isReset: boolean;
   borderTop?: boolean | undefined;

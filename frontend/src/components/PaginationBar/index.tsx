@@ -9,7 +9,7 @@ const PaginationBar = ({
   handleNextClick,
 }: PaginationBarProps) => {
   const pageNumbers = [];
-  for (let i = 1; i <= maxPage; i++) {
+  for (let i = 1; i <= Math.max(maxPage, 1); i++) {
     pageNumbers.push(i);
   }
 
