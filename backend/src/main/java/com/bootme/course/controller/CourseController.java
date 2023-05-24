@@ -40,9 +40,9 @@ public class CourseController {
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "popular") String sort,
-            @RequestParam MultiValueMap<String, String> parameters
+            @RequestParam MultiValueMap<String, String> filters
     ) {
-        Page<CourseResponse> coursePage = courseService.findAll(page, size, sort, parameters);
+        Page<CourseResponse> coursePage = courseService.findAll(page, size, sort, filters);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Access-Control-Expose-Headers", "X-Total-Count");

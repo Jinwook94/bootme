@@ -31,12 +31,12 @@ import java.util.List;
 @Component
 public class CoursePredicateBuilder {
 
-    public Predicate build(MultiValueMap<String, String> parameters) {
+    public Predicate build(MultiValueMap<String, String> filters) {
         QCourse course = QCourse.course;
         BooleanBuilder builder = new BooleanBuilder();
 
-        List<String> superCategories = parameters.get("superCategory");
-        List<String> subCategories = parameters.get("subCategory");
+        List<String> superCategories = filters.get("superCategory");
+        List<String> subCategories = filters.get("subCategory");
 
         if (superCategories != null && !superCategories.isEmpty()) {
             BooleanBuilder superCategoryBuilder = new BooleanBuilder();
@@ -54,8 +54,8 @@ public class CoursePredicateBuilder {
             builder.and(subCategoryBuilder);
         }
 
-        List<String> languages = parameters.get("languages");
-        List<String> frameworks = parameters.get("frameworks");
+        List<String> languages = filters.get("languages");
+        List<String> frameworks = filters.get("frameworks");
 
         if (languages != null && !languages.isEmpty()) {
             BooleanBuilder languageBuilder = new BooleanBuilder();
@@ -73,18 +73,14 @@ public class CoursePredicateBuilder {
             builder.and(frameworkBuilder);
         }
 
-        String costType = parameters.getFirst("costType");
-        String isTested = parameters.getFirst("isTested");
-        String costInput = parameters.getFirst("costInput");
-        String periodInput = parameters.getFirst("periodInput");
-
-        if (costType != null && !costType.isEmpty()) {
-            builder.and(course.costType.eq(costType));
-        }
-
-        if (isTested != null && !isTested.isEmpty()) {
-            builder.and(course.isTested.eq(Boolean.valueOf(isTested)));
-        }
+        String costInput = filters.getFirst("costInput");
+        String periodInput = filters.getFirst("periodInput");
+        String isRecommended = filters.getFirst("isRecommended");
+        String isFree = filters.getFirst("isFree");
+        String isKdt = filters.getFirst("isKdt");
+        String isOnline = filters.getFirst("isOnline");
+        String isTested = filters.getFirst("isTested");
+        String isPrerequisiteRequired = filters.getFirst("isPrerequisiteRequired");
 
         if (costInput != null && !costInput.isEmpty()) {
             builder.and(course.cost.loe(Integer.valueOf(costInput)));
@@ -94,10 +90,35 @@ public class CoursePredicateBuilder {
             builder.and(course.period.loe(Integer.parseInt(periodInput) * 30));
         }
 
+        if (isRecommended != null && !isRecommended.isEmpty()) {
+            builder.and(course.isRecommended.eq(Boolean.valueOf(isRecommended)));
+        }
+
+        if (isFree != null && !isFree.isEmpty()) {
+            builder.and(course.isFree.eq(Boolean.valueOf(isFree)));
+        }
+
+        if (isKdt != null && !isKdt.isEmpty()) {
+            builder.and(course.isKdt.eq(Boolean.valueOf(isKdt)));
+        }
+
+        if (isOnline != null && !isOnline.isEmpty()) {
+            builder.and(course.isOnline.eq(Boolean.valueOf(isOnline)));
+        }
+
+        if (isTested != null && !isTested.isEmpty()) {
+            builder.and(course.isTested.eq(Boolean.valueOf(isTested)));
+        }
+
+        if (isPrerequisiteRequired != null && !isPrerequisiteRequired.isEmpty()) {
+            builder.and(course.isPrerequisiteRequired.eq(Boolean.valueOf(isPrerequisiteRequired)));
+        }
+
         if (builder.hasValue()) {
             return builder.getValue();
         } else {
             return course.isNotNull();
         }
     }
+
 }

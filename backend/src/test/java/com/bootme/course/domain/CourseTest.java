@@ -29,10 +29,13 @@ class CourseTest {
                 () -> assertThat(course.getUrl()).isEqualTo(VALID_URL_2),
                 () -> assertThat(course.getLocation()).isEqualTo(VALID_LOCATION_2),
                 () -> assertThat(course.getCost()).isEqualTo(VALID_COST_2),
-                () -> assertThat(course.getCostType()).isEqualTo(VALID_CostType_2),
                 () -> assertThat(course.getDates().getRegistrationStartDate()).isEqualTo(VALID_DATES_2.getRegistrationStartDate()),
-                () -> assertThat(course.getOnoffline()).isEqualTo(VALID_ONOFFLINE_2),
-                () -> assertThat(course.getPrerequisites()).isEqualTo(VALID_PREREQUISITES_2)
+                () -> assertThat(course.isRecommended()).isFalse(),
+                () -> assertThat(course.isFree()).isFalse(),
+                () -> assertThat(course.isKdt()).isFalse(),
+                () -> assertThat(course.isOnline()).isFalse(),
+                () -> assertThat(course.isTested()).isFalse(),
+                () -> assertThat(course.isPrerequisiteRequired()).isFalse()
         );
     }
 

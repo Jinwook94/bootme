@@ -28,21 +28,12 @@ public class CourseRequest {
     @NotBlank(message = "코스 진행 장소를 입력해주세요.")
     private String location;
 
-    @NotBlank(message = "강의 공간을 입해주세요 - 온라인, 오프라인, 온오프라인혼합")
-    private String onOffline;
-
     private Category categories;
 
     private Stack stacks;
 
-    @NotBlank(message = "선수 조건을 입력해주세요")
-    private String prerequisites;
-
     @NotNull(message = "코스 참여 비용을 입력해주세요.")
     private Integer cost;
-
-    @NotBlank(message = "코스 비용 타입을 입력해주세요. - 무료, 무료국비, 유료")
-    private String costType;
 
     @NotNull(message = "코스 진행 기간을 입력해주세요")
     private Integer period;
@@ -51,30 +42,41 @@ public class CourseRequest {
 
     private boolean recommended;
 
+    private boolean free;
+
+    private boolean kdt;
+
+    private boolean online;
+
     private boolean tested;
+
+    private boolean prerequisiteRequired;
 
     public CourseRequest() {
     }
 
     @Builder
     public CourseRequest(String title, String name, Integer generation, String url, String companyName,
-                         String location, String onOffline, Category categories, Stack stacks, String prerequisites,
-                         Integer cost, String costType, Integer period, Dates dates, boolean recommended, boolean tested) {
+                         String location, Category categories, Stack stacks, Integer cost,
+                         Integer period, Dates dates, boolean recommended, boolean free, boolean kdt,
+                         boolean online, boolean tested, boolean prerequisiteRequired) {
         this.title = title;
         this.name = name;
         this.generation = generation;
         this.url = url;
         this.companyName = companyName;
         this.location = location;
-        this.onOffline = onOffline;
         this.categories = categories;
         this.stacks = stacks;
-        this.prerequisites = prerequisites;
         this.cost = cost;
-        this.costType = costType;
         this.period = period;
         this.dates = dates;
         this.recommended = recommended;
+        this.free = free;
+        this.kdt = kdt;
+        this.online = online;
         this.tested = tested;
+        this.prerequisiteRequired = prerequisiteRequired;
     }
+
 }

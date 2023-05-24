@@ -40,17 +40,11 @@ public class Course extends BaseEntity {
 
     private String location;
 
-    private String onoffline;
-
     @Embedded
     private Category categories;
 
     @Embedded
     private Stack stacks;
-
-    private String prerequisites;
-
-    private String costType;
 
     private int cost;
 
@@ -61,7 +55,15 @@ public class Course extends BaseEntity {
 
     private boolean isRecommended;
 
+    private boolean isFree;
+
+    private boolean isKdt;
+
+    private boolean isOnline;
+
     private boolean isTested;
+
+    private boolean isPrerequisiteRequired;
 
     private boolean isRegisterOpen;
 
@@ -71,26 +73,27 @@ public class Course extends BaseEntity {
 
 
     @Builder
-    public Course(String title, String name, int generation, String url, Company company,
-                  String location, String onoffline, Category categories, Stack stacks, String prerequisites,
-                  int cost, String costType, int period, Dates dates, boolean isRecommended, boolean isTested,
-                  int clicks, int bookmarks) {
+    public Course(String title, String name, int generation, String url, Company company, String location,
+                  Category categories, Stack stacks, int cost, int period, Dates dates,
+                  boolean isRecommended, boolean isFree, boolean isKdt, boolean isOnline,
+                  boolean isTested, boolean isPrerequisiteRequired, int clicks, int bookmarks) {
         this.title = title;
         this.name = name;
         this.generation = generation;
         this.url = url;
         this.company = company;
         this.location = location;
-        this.onoffline = onoffline;
         this.categories = categories;
         this.stacks = stacks;
-        this.prerequisites = prerequisites;
         this.cost = cost;
-        this.costType = costType;
         this.period = period;
         this.dates = dates;
         this.isRecommended = isRecommended;
+        this.isFree = isFree;
+        this.isKdt = isKdt;
+        this.isOnline = isOnline;
         this.isTested = isTested;
+        this.isPrerequisiteRequired = isPrerequisiteRequired;
         this.clicks = clicks;
         this.bookmarks = bookmarks;
         this.isRegisterOpen = checkRegisterOpen();
@@ -104,16 +107,17 @@ public class Course extends BaseEntity {
                 .url(courseRequest.getUrl())
                 .company(company)
                 .location(courseRequest.getLocation())
-                .onoffline(courseRequest.getOnOffline())
                 .categories(categories)
                 .stacks(stacks)
-                .prerequisites(courseRequest.getPrerequisites())
                 .cost(courseRequest.getCost())
-                .costType(courseRequest.getCostType())
                 .period(courseRequest.getPeriod())
                 .dates(courseRequest.getDates())
                 .isRecommended(courseRequest.isRecommended())
+                .isFree(courseRequest.isFree())
+                .isKdt(courseRequest.isKdt())
+                .isOnline(courseRequest.isOnline())
                 .isTested(courseRequest.isTested())
+                .isPrerequisiteRequired(courseRequest.isPrerequisiteRequired())
                 .clicks(0)
                 .bookmarks(0)
                 .build();
@@ -143,16 +147,17 @@ public class Course extends BaseEntity {
         this.generation = courseRequest.getGeneration();
         this.url = courseRequest.getUrl();
         this.location = courseRequest.getLocation();
-        this.onoffline = courseRequest.getOnOffline();
         this.categories = courseRequest.getCategories();
         this.stacks = courseRequest.getStacks();
-        this.prerequisites = courseRequest.getPrerequisites();
         this.cost = courseRequest.getCost();
-        this.costType = courseRequest.getCostType();
         this.period = courseRequest.getPeriod();
         this.dates = courseRequest.getDates();
         this.isRecommended = courseRequest.isRecommended();
+        this.isFree = courseRequest.isFree();
+        this.isKdt = courseRequest.isKdt();
+        this.isOnline = courseRequest.isOnline();
         this.isTested = courseRequest.isTested();
+        this.isPrerequisiteRequired = courseRequest.isPrerequisiteRequired();
     }
 
     public void modifyCompany(Company company){

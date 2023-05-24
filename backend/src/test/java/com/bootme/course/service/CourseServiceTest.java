@@ -11,8 +11,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import static com.bootme.common.exception.ErrorType.NOT_FOUND_COURSE;
 import static com.bootme.util.fixture.CourseFixture.*;
@@ -64,11 +65,13 @@ class CourseServiceTest extends ServiceTest {
                 () -> assertThat(foundCourse.getCompany().getName()).isEqualTo(getCompany(2).getName()),
                 () -> assertThat(foundCourse.getLocation()).isEqualTo(VALID_LOCATION_2),
                 () -> assertThat(foundCourse.getCost()).isEqualTo(VALID_COST_2),
-                () -> assertThat(foundCourse.getCostType()).isEqualTo(VALID_CostType_2),
                 () -> assertThat(foundCourse.getDates()).isEqualTo(VALID_DATES_2),
-                () -> assertThat(foundCourse.getOnoffline()).isEqualTo(VALID_ONOFFLINE_2),
-                // repository 에서 찾아온 리스트는 persistenceBag 에 담겨있기 때문에 아래와 같이 검증
-                () -> assertThat(foundCourse.getPrerequisites()).isEqualTo(VALID_PREREQUISITES_2)
+                () -> assertThat(foundCourse.isRecommended()).isFalse(),
+                () -> assertThat(foundCourse.isFree()).isFalse(),
+                () -> assertThat(foundCourse.isKdt()).isFalse(),
+                () -> assertThat(foundCourse.isOnline()).isFalse(),
+                () -> assertThat(foundCourse.isTested()).isFalse(),
+                () -> assertThat(foundCourse.isPrerequisiteRequired()).isFalse()
         );
     }
 
@@ -89,23 +92,32 @@ class CourseServiceTest extends ServiceTest {
                 () -> assertThat(courseResponse.getTitle()).isEqualTo(course.getTitle()),
                 () -> assertThat(courseResponse.getLocation()).isEqualTo(course.getLocation()),
                 () -> assertThat(courseResponse.getClicks()).isEqualTo(course.getClicks()),
-                () -> assertThat(courseResponse.getBookmarks()).isEqualTo(course.getBookmarks())
+                () -> assertThat(courseResponse.getBookmarks()).isEqualTo(course.getBookmarks()),
+                () -> assertThat(courseResponse.isRecommended()).isTrue(),
+                () -> assertThat(courseResponse.isFree()).isTrue(),
+                () -> assertThat(courseResponse.isKdt()).isTrue(),
+                () -> assertThat(courseResponse.isOnline()).isTrue(),
+                () -> assertThat(courseResponse.isTested()).isTrue(),
+                () -> assertThat(courseResponse.isPrerequisiteRequired()).isTrue()
         );
     }
 
-//    @Test
-//    @DisplayName("findAll()은 모든 코스 정보를 반환한다.")
-//    void findAll (){
-//        //given
-//        courseService.addCourse(getCourseRequest(2));
-//        courseService.addCourse(getCourseRequest(3));
-//
-//        //when
-//        List<CourseResponse> courseResponses = courseService.findAll();
-//
-//        //then: setUp()의 company1.addCourse(course)에서 코스 한 개 등록되었으므로 총 3개의 코스
-//        assertThat(courseResponses).hasSize(3);
-//    }
+    @Test
+    @DisplayName("findAll()은 모든 코스 정보를 반환한다.")
+    void findAll (){
+        //given
+        courseService.addCourse(getCourseRequest(2));
+        courseService.addCourse(getCourseRequest(3));
+        MultiValueMap<String, String> filters = new LinkedMultiValueMap<>();
+
+        //when
+        Page<CourseResponse> courseResponses = courseService.findAll(1, 10, "popular", filters);
+
+        //then: setUp()의 company1.addCourse(course)에서 코스 한 개 등록되었으므로 총 3개의 코스
+        assertThat(courseResponses).hasSize(3);
+    }
+
+    // todo: findAll() 필터링, 정렬, 페이징 단위테스트 코드 추가
 
     @Test
     @DisplayName("modifyCourse()는 코스 정보를 변경한다.")
@@ -124,11 +136,7 @@ class CourseServiceTest extends ServiceTest {
                 () -> assertThat(foundCourse.getUrl()).isEqualTo(VALID_URL_2),
                 () -> assertThat(foundCourse.getLocation()).isEqualTo(VALID_LOCATION_2),
                 () -> assertThat(foundCourse.getCost()).isEqualTo(VALID_COST_2),
-                () -> assertThat(foundCourse.getCostType()).isEqualTo(VALID_CostType_2),
-                () -> assertThat(foundCourse.getDates()).isEqualTo(VALID_DATES_2),
-                () -> assertThat(foundCourse.getOnoffline()).isEqualTo(VALID_ONOFFLINE_2),
-                // repository 에서 찾아온 리스트는 persistenceBag 에 담겨있기 때문에 아래와 같이 검증
-                () -> assertThat(foundCourse.getPrerequisites()).isEqualTo(VALID_PREREQUISITES_2)
+                () -> assertThat(foundCourse.getDates()).isEqualTo(VALID_DATES_2)
         );
     }
 

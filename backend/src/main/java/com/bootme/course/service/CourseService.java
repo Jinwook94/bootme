@@ -51,8 +51,8 @@ public class CourseService {
     }
 
     @Transactional(readOnly = true)
-    public Page<CourseResponse> findAll(int page, int size, String sort, MultiValueMap<String, String> parameters) {
-        Predicate predicate = coursePredicateBuilder.build(parameters);
+    public Page<CourseResponse> findAll(int page, int size, String sort, MultiValueMap<String, String> filters) {
+        Predicate predicate = coursePredicateBuilder.build(filters);
         Pageable pageable = getSortedPageable(page, size, sort);
 
         Page<Course> coursePage = courseRepository.findAll(predicate, pageable);

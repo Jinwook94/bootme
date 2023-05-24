@@ -38,7 +38,7 @@ Host: api.bootMe.app
   "serviceName" : "네이버앱",
   "url" : "www.naver.com",
   "serviceUrl" : "www.app.naver.com",
-  "logoUrl" : "https://api.bootMe.app/img/img_story_renewal.png"
+  "logoUrl" : "https://bootme-images.s3.ap-northeast-2.amazonaws.com/logo/postech_apple.png"
 }
 
 ### 회사 조회
@@ -90,27 +90,40 @@ Host: api.bootMe.app
     "languages" : [ "Java", "Python", "JavaScript" ],
     "frameworks" : [ "Spring", "Django", "Nodejs" ]
   },
-  "prerequisites" : "노베이스",
-  "cost" : 0,
-  "costType" : "무료",
-  "period" : 90,
+  "cost" : 500,
+  "period" : 330,
   "dates" : {
     "registrationStartDate" : "2023-01-01",
     "registrationEndDate" : "2024-01-31",
     "courseStartDate" : "2024-02-01",
     "courseEndDate" : "2024-04-30"
   },
-  "recommended" : true,
-  "tested" : true
+  "recommended" : false,
+  "free" : true,
+  "kdt" : true,
+  "online" : true,
+  "tested" : false,
+  "prerequisiteRequired" : false
 }
 
 ### 코스 조회
+
 GET localhost:8080/courses/1 HTTP/1.1
 Accept: application/json
 Host: api.bootMe.app
 
-### 코스 전체 조회
-GET localhost:8080/courses HTTP/1.1
+### 코스 1페이지 조회
+GET localhost:8080/courses?sort=popular&page=1&size=10 HTTP/1.1
+Accept: application/json
+Host: api.bootMe.app
+
+### 코스 필터링 조회
+GET localhost:8080/courses?superCategory=%EC%9B%B9,%EC%9B%B9&sort=popular&page=1&size=10 HTTP/1.1
+Accept: application/json
+Host: api.bootMe.app
+
+### 북마크 코스 조회
+GET localhost:8080/member/1/bookmarks
 Accept: application/json
 Host: api.bootMe.app
 
@@ -120,7 +133,7 @@ Content-Type: application/json
 Host: api.bootMe.app
 
 {
-  "title" : "네이버 서버 개발자 부트캠프 1기",
+  "title" : "네이버 서버 개발자 부트캠프 2기",
   "name" : "네이버 서버 개발자 부트캠프",
   "generation" : 1,
   "url" : "www.boot.naver.com",
@@ -135,18 +148,20 @@ Host: api.bootMe.app
     "languages" : [ "Java", "Python", "JavaScript" ],
     "frameworks" : [ "Spring", "Django", "Nodejs" ]
   },
-  "prerequisites" : "노베이스",
-  "cost" : 0,
-  "costType" : "무료",
-  "period" : 90,
+  "cost" : 500,
+  "period" : 330,
   "dates" : {
     "registrationStartDate" : "2023-01-01",
     "registrationEndDate" : "2024-01-31",
     "courseStartDate" : "2024-02-01",
     "courseEndDate" : "2024-04-30"
   },
-  "recommended" : true,
-  "tested" : true
+  "recommended" : false,
+  "free" : true,
+  "kdt" : true,
+  "online" : true,
+  "tested" : false,
+  "prerequisiteRequired" : false
 }
 
 ### 코스 삭제

@@ -19,17 +19,18 @@ public class CourseResponse {
     private int generation;
     private String url;
     private String location;
-    private String onOffline;
     private Map<String, List<String>> categories;
     private Map<String, List<String>> stacks;
-    private String prerequisites;
     private int cost;
-    private String costType;
     private int period;
     private Dates dates;
     private CompanyResponse company;
     private boolean isRecommended;
+    private boolean isFree;
+    private boolean isKdt;
+    private boolean isOnline;
     private boolean isTested;
+    private boolean isPrerequisiteRequired;
     private boolean isRegisterOpen;
     private int clicks;
     private int bookmarks;
@@ -40,10 +41,10 @@ public class CourseResponse {
     }
 
     @Builder
-    public CourseResponse(Long id, String name, int generation, String title, String url,
-                          String location, String onOffline, Map<String, List<String>> categories,
-                          Map<String, List<String>> stacks, String prerequisites, int cost, String costType,
-                          int period, Dates dates, boolean isRecommended, boolean isTested, boolean isRegisterOpen,
+    public CourseResponse(Long id, String name, int generation, String title, String url, String location,
+                          Map<String, List<String>> categories, Map<String, List<String>> stacks, int cost,
+                          int period, Dates dates, boolean isRecommended, boolean isFree, boolean isKdt,
+                          boolean isOnline, boolean isTested, boolean isPrerequisiteRequired, boolean isRegisterOpen,
                           int clicks, int bookmarks, long createdAt, long modifiedAt, CompanyResponse company) {
         this.id = id;
         this.name = name;
@@ -51,16 +52,17 @@ public class CourseResponse {
         this.title = title;
         this.url = url;
         this.location = location;
-        this.onOffline = onOffline;
         this.categories = categories;
         this.stacks = stacks;
-        this.prerequisites = prerequisites;
         this.cost = cost;
-        this.costType = costType;
         this.period = period;
         this.dates = dates;
         this.isRecommended = isRecommended;
+        this.isFree = isFree;
+        this.isKdt = isKdt;
+        this.isOnline = isOnline;
         this.isTested = isTested;
+        this.isPrerequisiteRequired = isPrerequisiteRequired;
         this.isRegisterOpen = isRegisterOpen;
         this.clicks = clicks;
         this.bookmarks = bookmarks;
@@ -77,16 +79,17 @@ public class CourseResponse {
                 .title(course.getTitle())
                 .url(course.getUrl())
                 .location(course.getLocation())
-                .onOffline(course.getOnoffline())
                 .categories(course.categoryToMap())
                 .stacks(course.stackToMap())
-                .prerequisites(course.getPrerequisites())
                 .cost(course.getCost())
-                .costType(course.getCostType())
                 .period(course.getPeriod())
                 .dates(course.getDates())
                 .isRecommended(course.isRecommended())
+                .isFree(course.isFree())
+                .isKdt(course.isKdt())
+                .isOnline(course.isOnline())
                 .isTested(course.isTested())
+                .isPrerequisiteRequired(course.isPrerequisiteRequired())
                 .isRegisterOpen(course.isRegisterOpen())
                 .clicks(course.getClicks())
                 .bookmarks(course.getBookmarks())
