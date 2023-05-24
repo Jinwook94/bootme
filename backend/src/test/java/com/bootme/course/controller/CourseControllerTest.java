@@ -9,6 +9,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -132,30 +134,32 @@ class CourseControllerTest extends ControllerTest {
                         preprocessResponse(prettyPrint())));
     }
 
-//    @Test
-//    @DisplayName("findCourses()는 정상 요청시 상태코드 200을 반환한다.")
-//    void findCourses() throws Exception {
-//        //given
-//        List<CourseResponse> courseResponses = new ArrayList<>();
-//        courseResponses.add(getCourseResponse(1));
-//        courseResponses.add(getCourseResponse(2));
-//        courseResponses.add(getCourseResponse(3));
-//        given(courseService.findAll()).willReturn(courseResponses);
-//
-//        //when
-//        ResultActions perform = mockMvc.perform(get("/courses")
-//                .accept(MediaType.APPLICATION_JSON));
-//
-//        //then
-//        perform.andExpect(status().isOk());
-//
-//        //docs
-//        perform.andDo(print())
-//                .andDo(document("courses/findAll/success",
-//                        preprocessRequest(prettyPrint()),
-//                        preprocessResponse(prettyPrint())));
-//
-//    }
+    @Test
+    @DisplayName("findCourses()는 정상 요청시 상태코드 200을 반환한다.")
+    void findCourses() throws Exception {
+        //given
+        List<CourseResponse> courseResponses = new ArrayList<>();
+        courseResponses.add(getCourseResponse(1));
+        courseResponses.add(getCourseResponse(2));
+        courseResponses.add(getCourseResponse(3));
+        Page<CourseResponse> coursePage = new PageImpl<>(courseResponses);
+
+        given(courseService.findAll(anyInt(),anyInt(),anyString(),any())).willReturn(coursePage);
+
+        //when
+        ResultActions perform = mockMvc.perform(get("/courses")
+                .accept(MediaType.APPLICATION_JSON));
+
+        //then
+        perform.andExpect(status().isOk());
+
+        //docs
+        perform.andDo(print())
+                .andDo(document("courses/findAll/success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())));
+
+    }
 
     @Test
     @DisplayName("modifyCourse()는 정상 요청시 상태코드 204를 반환한다.")

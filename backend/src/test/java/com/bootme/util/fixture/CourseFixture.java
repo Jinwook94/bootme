@@ -193,8 +193,8 @@ public class CourseFixture {
                 .costType(costTypes[index])
                 .period(periods[index])
                 .dates(dates[index])
-                .isRecommended(recommendeds[index])
-                .isTested(testeds[index])
+                .recommended(recommendeds[index])
+                .tested(testeds[index])
                 .build();
     }
 

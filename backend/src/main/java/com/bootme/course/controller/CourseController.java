@@ -42,7 +42,7 @@ public class CourseController {
             @RequestParam(defaultValue = "popular") String sort,
             @RequestParam MultiValueMap<String, String> parameters
     ) {
-        Page<CourseResponse> coursePage = courseService.findAll(page-1, size, sort, parameters);
+        Page<CourseResponse> coursePage = courseService.findAll(page, size, sort, parameters);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Access-Control-Expose-Headers", "X-Total-Count");

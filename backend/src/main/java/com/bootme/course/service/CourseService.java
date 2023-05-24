@@ -53,7 +53,7 @@ public class CourseService {
     @Transactional(readOnly = true)
     public Page<CourseResponse> findAll(int page, int size, String sort, MultiValueMap<String, String> parameters) {
         Predicate predicate = coursePredicateBuilder.build(parameters);
-        Pageable pageable = getSortedPageable(page-1, size, sort);
+        Pageable pageable = getSortedPageable(page, size, sort);
 
         Page<Course> coursePage = courseRepository.findAll(predicate, pageable);
         return coursePage.map(CourseResponse::of);
@@ -120,7 +120,7 @@ public class CourseService {
                 );
                 break;
         }
-        return PageRequest.of(page, size, sorting);
+        return PageRequest.of(page-1, size, sorting);
     }
 
 }

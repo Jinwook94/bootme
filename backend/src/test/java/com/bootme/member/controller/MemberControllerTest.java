@@ -2,19 +2,24 @@ package com.bootme.member.controller;
 
 import com.bootme.auth.token.TokenProvider;
 import com.bootme.common.exception.ResourceNotFoundException;
+import com.bootme.course.dto.CourseResponse;
 import com.bootme.member.service.MemberService;
 import com.bootme.util.ControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import static com.bootme.common.exception.ErrorType.*;
+import static com.bootme.util.fixture.CourseFixture.getCourseResponse;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -103,6 +108,53 @@ class MemberControllerTest extends ControllerTest {
     }
 
     @Test
+    @DisplayName("findBookmarkCourses()는 정상 요청시 상태코드 200을 반환한다.")
+    void findBookmarkCourses() throws Exception {
+        //given
+        List<CourseResponse> courseResponses = new ArrayList<>();
+        courseResponses.add(getCourseResponse(1));
+        courseResponses.add(getCourseResponse(2));
+        courseResponses.add(getCourseResponse(3));
+        Page<CourseResponse> coursePage = new PageImpl<>(courseResponses);
+        given(memberService.findBookmarkCourses(anyLong(), anyInt(), anyInt())).willReturn(coursePage);
+
+        //when
+        ResultActions perform = mockMvc.perform(get("/member/1/bookmarks")
+                .accept(MediaType.APPLICATION_JSON));
+
+        //then
+        perform.andExpect(status().isOk());
+
+        //docs
+        perform.andDo(print())
+                .andDo(document("member/findBookmarkCourses/success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())));
+    }
+
+
+    @Test
+    @DisplayName("findBookmarkCourseIds()는 정상 요청시 상태코드 200을 반환한다.")
+    void findBookmarkCourseIds() throws Exception {
+        //given
+        List<Long> bookmarkCourses = Arrays.asList(1L, 2L, 3L);
+        given(memberService.findBookmarkCourseIds(anyLong())).willReturn(bookmarkCourses);
+
+        //when
+        ResultActions perform = mockMvc.perform(get("/member/1/bookmarks/courseIds")
+                .accept(MediaType.APPLICATION_JSON));
+
+        //then
+        perform.andExpect(status().isOk());
+
+        //docs
+        perform.andDo(print())
+                .andDo(document("member/findBookmarkCourseIds/success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())));
+    }
+
+    @Test
     @DisplayName("deleteBookmarkCourse()는 정상 요청시 상태코드 204를 반환한다.")
     void deleteBookmarkCourse() throws Exception {
         //given
@@ -146,24 +198,4 @@ class MemberControllerTest extends ControllerTest {
                         preprocessResponse(prettyPrint())));
     }
 
-    @Test
-    @DisplayName("findAllBookmarkCourses()는 정상 요청시 상태코드 200을 반환한다.")
-    void findAllBookmarkCourses() throws Exception {
-        //given
-        List<Long> bookmarkCourses = Arrays.asList(1L, 2L, 3L);
-        given(memberService.findBookmarkCourseByMemberId(anyLong())).willReturn(bookmarkCourses);
-
-        //when
-        ResultActions perform = mockMvc.perform(get("/member/1/bookmarks")
-                .accept(MediaType.APPLICATION_JSON));
-
-        //then
-        perform.andExpect(status().isOk());
-
-        //docs
-        perform.andDo(print())
-                .andDo(document("member/findAllBookmarkCourses/success",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())));
-    }
 }

@@ -3,12 +3,16 @@ package com.bootme.member.service;
 import com.bootme.common.exception.ConflictException;
 import com.bootme.common.exception.ResourceNotFoundException;
 import com.bootme.course.domain.Course;
+import com.bootme.course.dto.CourseResponse;
 import com.bootme.course.repository.CourseRepository;
 import com.bootme.member.domain.BookmarkCourse;
 import com.bootme.member.domain.Member;
 import com.bootme.member.repository.BookmarkCourseRepository;
 import com.bootme.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,19 +64,28 @@ public class MemberService {
 
     }
 
-    public void deleteBookmarkCourse(Long memberId, Long courseId) {
-        BookmarkCourse bookmarkCourse = bookmarkCourseRepository.findByMemberIdAndCourseId(memberId, courseId)
-                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_BOOKMARK, "memberId=" + memberId + ", courseId="+courseId));
-        bookmarkCourseRepository.delete(bookmarkCourse);
+    @Transactional(readOnly = true)
+    public Page<CourseResponse> findBookmarkCourses(Long memberId, int page, int size){
+        List<Long> bookmarkCourseIds = findBookmarkCourseIds(memberId);
+        Pageable pageable = PageRequest.of(page-1, size);
+
+        Page<Course> courses = courseRepository.findByIdIn(bookmarkCourseIds, pageable);
+        return courses.map(CourseResponse::of);
     }
 
     @Transactional(readOnly = true)
-    public List<Long> findBookmarkCourseByMemberId(Long memberId) {
+    public List<Long> findBookmarkCourseIds(Long memberId) {
         List<BookmarkCourse> bookmarkCourseList = bookmarkCourseRepository.findByMemberId(memberId);
         return bookmarkCourseList.stream()
                 .map(BookmarkCourse::getCourse)
                 .map(Course::getId)
                 .collect(Collectors.toList());
+    }
+
+    public void deleteBookmarkCourse(Long memberId, Long courseId) {
+        BookmarkCourse bookmarkCourse = bookmarkCourseRepository.findByMemberIdAndCourseId(memberId, courseId)
+                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_BOOKMARK, "memberId=" + memberId + ", courseId="+courseId));
+        bookmarkCourseRepository.delete(bookmarkCourse);
     }
 
 }
