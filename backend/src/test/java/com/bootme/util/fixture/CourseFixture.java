@@ -62,12 +62,36 @@ public class CourseFixture {
     public static final List<String> VALID_SUB_CATEGORIES_1 = new ArrayList<>(Arrays.asList("백엔드", "안드로이드"));
     public static final List<String> VALID_SUB_CATEGORIES_2 = new ArrayList<>(Arrays.asList("프론트엔드", "안드로이드", "iOS"));
     public static final List<String> VALID_SUB_CATEGORIES_3 = new ArrayList<>(List.of("풀스택"));
-    public static final List<String> VALID_LANGUAGES_1 = new ArrayList<>(Arrays.asList("Java", "Python", "JavaScript"));
-    public static final List<String> VALID_LANGUAGES_2 = new ArrayList<>(Arrays.asList("JavaScript", "TypeScript"));
-    public static final List<String> VALID_LANGUAGES_3 = new ArrayList<>(Arrays.asList("Swift", "Kotlin"));
-    public static final List<String> VALID_FRAMEWORKS_1 = new ArrayList<>(Arrays.asList("Spring", "Django", "Nodejs"));
-    public static final List<String> VALID_FRAMEWORKS_2 = new ArrayList<>(Arrays.asList("React", "Vue"));
-    public static final List<String> VALID_FRAMEWORKS_3 = new ArrayList<>(Arrays.asList("Spring", "Django"));
+    public static final List<String> VALID_CATEGORIES_1 = new ArrayList<>() {{
+        addAll(VALID_SUPER_CATEGORIES_1);
+        addAll(VALID_SUB_CATEGORIES_1);
+    }};
+    public static final List<String> VALID_CATEGORIES_2 = new ArrayList<>() {{
+        addAll(VALID_SUPER_CATEGORIES_2);
+        addAll(VALID_SUB_CATEGORIES_2);
+    }};
+    public static final List<String> VALID_CATEGORIES_3 = new ArrayList<>() {{
+        addAll(VALID_SUPER_CATEGORIES_3);
+        addAll(VALID_SUB_CATEGORIES_3);
+    }};
+    public static final List<String> VALID_LANGUAGES_1 = new ArrayList<>(Arrays.asList("JavaScript", "Java"));
+    public static final List<String> VALID_LANGUAGES_2 = new ArrayList<>(Arrays.asList("TypeScript", "Kotlin"));
+    public static final List<String> VALID_LANGUAGES_3 = new ArrayList<>(Arrays.asList("Kotlin", "Swift"));
+    public static final List<String> VALID_FRAMEWORKS_1 = new ArrayList<>(Arrays.asList("React", "Spring"));
+    public static final List<String> VALID_FRAMEWORKS_2 = new ArrayList<>(Arrays.asList("Django", "Spring"));
+    public static final List<String> VALID_FRAMEWORKS_3 = new ArrayList<>(Arrays.asList("Node.js", "Vue.js"));
+    public static final List<String> VALID_STACKS_1 = new ArrayList<>() {{
+        addAll(VALID_LANGUAGES_1);
+        addAll(VALID_FRAMEWORKS_1);
+    }};
+    public static final List<String> VALID_STACKS_2 = new ArrayList<>() {{
+        addAll(VALID_LANGUAGES_2);
+        addAll(VALID_FRAMEWORKS_2);
+    }};
+    public static final List<String> VALID_STACKS_3 = new ArrayList<>() {{
+        addAll(VALID_LANGUAGES_3);
+        addAll(VALID_FRAMEWORKS_3);
+    }};
     public static final int VALID_CLICKS_1 = 1;
     public static final int VALID_CLICKS_2 = 2;
     public static final int VALID_CLICKS_3 = 3;
@@ -140,7 +164,7 @@ public class CourseFixture {
         String[] companies = {VALID_COM_NAME_1, VALID_COM_NAME_2, VALID_COM_NAME_3};
         String[] locations = {VALID_LOCATION_1, VALID_LOCATION_2, VALID_LOCATION_3};
         List<List<String>> superCategories = List.of(VALID_SUPER_CATEGORIES_1, VALID_SUPER_CATEGORIES_2, VALID_SUPER_CATEGORIES_3);
-        List<List<String>> subCategories = List.of(VALID_SUB_CATEGORIES_1, VALID_SUB_CATEGORIES_2, VALID_SUB_CATEGORIES_3);
+        List<List<String>> subCategories = List.of(VALID_SUPER_CATEGORIES_1, VALID_SUPER_CATEGORIES_2, VALID_SUPER_CATEGORIES_3);
         List<List<String>> languages = List.of(VALID_LANGUAGES_1, VALID_LANGUAGES_2, VALID_LANGUAGES_3);
         List<List<String>> frameworks = List.of(VALID_FRAMEWORKS_1, VALID_FRAMEWORKS_2, VALID_FRAMEWORKS_3);
         Integer[] costs = {VALID_COST_1, VALID_COST_2, VALID_COST_3};
@@ -254,10 +278,7 @@ public class CourseFixture {
         String[] urls = {VALID_URL_1, VALID_URL_2, VALID_URL_3};
         Company[] companies = {getCompany(1), getCompany(2), getCompany(3)};
         String[] locations = {VALID_LOCATION_1, VALID_LOCATION_2, VALID_LOCATION_3};
-        List<List<String>> superCategories = List.of(VALID_SUPER_CATEGORIES_1, VALID_SUPER_CATEGORIES_2, VALID_SUPER_CATEGORIES_3);
-        List<List<String>> subCategories = List.of(VALID_SUB_CATEGORIES_1, VALID_SUB_CATEGORIES_2, VALID_SUB_CATEGORIES_3);
-        List<List<String>> languages = List.of(VALID_LANGUAGES_1, VALID_LANGUAGES_2, VALID_LANGUAGES_3);
-        List<List<String>> frameworks = List.of(VALID_FRAMEWORKS_1, VALID_FRAMEWORKS_2, VALID_FRAMEWORKS_3);
+        List<List<String>> categories = List.of(VALID_CATEGORIES_1, VALID_CATEGORIES_2, VALID_CATEGORIES_3);
         int[] costs = {VALID_COST_1, VALID_COST_2, VALID_COST_3};
         int[] periods = {VALID_PERIOD_1, VALID_PERIOD_2, VALID_PERIOD_3};
         Dates[] dates = {VALID_DATES_1, VALID_DATES_2, VALID_DATES_3};
@@ -277,10 +298,7 @@ public class CourseFixture {
                 .url(urls[index])
                 .company(companies[index])
                 .location(locations[index])
-                .superCategories(superCategories.get(index))
-                .subCategories(subCategories.get(index))
-                .languages(languages.get(index))
-                .frameworks(frameworks.get(index))
+                .categories(categories.get(index))
                 .cost(costs[index])
                 .period(periods[index])
                 .dates(dates[index])
@@ -293,6 +311,6 @@ public class CourseFixture {
                 .clicks(clicks[index])
                 .bookmarks(bookmarks[index])
                 .build();
-
     }
+
 }
