@@ -40,21 +40,8 @@ public class Course extends BaseEntity {
     private String location;
 
     @ElementCollection
-    @CollectionTable(name = "super_category", joinColumns = @JoinColumn(name = "course_id"))
-    private List<String> superCategories = new ArrayList<>();
-
-    @ElementCollection
-    @CollectionTable(name = "sub_category", joinColumns = @JoinColumn(name = "course_id"))
-    private List<String> subCategories = new ArrayList<>();
-
-    @ElementCollection
-    @CollectionTable(name = "language", joinColumns = @JoinColumn(name = "course_id"))
-    private List<String> languages = new ArrayList<>();
-
-    @ElementCollection
-    @CollectionTable(name = "framework", joinColumns = @JoinColumn(name = "course_id"))
-    private List<String> frameworks = new ArrayList<>();
-
+    @CollectionTable(name = "category", joinColumns = @JoinColumn(name = "course_id"))
+    private List<String> categories = new ArrayList<>();
 
     private int cost;
 
@@ -84,19 +71,15 @@ public class Course extends BaseEntity {
 
     @Builder
     public Course(String title, String name, int generation, String url, Company company, String location,
-                  List<String> superCategories, List<String> subCategories, List<String> languages, List<String> frameworks,
-                  int cost, int period, Dates dates, boolean isRecommended, boolean isFree, boolean isKdt,
-                  boolean isOnline, boolean isTested, boolean isPrerequisiteRequired, int clicks, int bookmarks) {
+                  List<String> categories, int cost, int period, Dates dates, boolean isRecommended, boolean isFree,
+                  boolean isKdt, boolean isOnline, boolean isTested, boolean isPrerequisiteRequired, int clicks, int bookmarks) {
         this.title = title;
         this.name = name;
         this.generation = generation;
         this.url = url;
         this.company = company;
         this.location = location;
-        this.superCategories = superCategories;
-        this.subCategories = subCategories;
-        this.languages = languages;
-        this.frameworks = frameworks;
+        this.categories = categories;
         this.cost = cost;
         this.period = period;
         this.dates = dates;
@@ -119,10 +102,7 @@ public class Course extends BaseEntity {
                 .url(courseRequest.getUrl())
                 .company(company)
                 .location(courseRequest.getLocation())
-                .superCategories(courseRequest.getSuperCategories())
-                .subCategories(courseRequest.getSubCategories())
-                .languages(courseRequest.getLanguages())
-                .frameworks(courseRequest.getFrameworks())
+                .categories(courseRequest.getCategories())
                 .cost(courseRequest.getCost())
                 .period(courseRequest.getPeriod())
                 .dates(courseRequest.getDates())
@@ -143,10 +123,7 @@ public class Course extends BaseEntity {
         this.generation = courseRequest.getGeneration();
         this.url = courseRequest.getUrl();
         this.location = courseRequest.getLocation();
-        this.superCategories = courseRequest.getSuperCategories();
-        this.subCategories = courseRequest.getSubCategories();
-        this.languages = courseRequest.getLanguages();
-        this.frameworks = courseRequest.getFrameworks();
+        this.categories = courseRequest.getCategories();
         this.cost = courseRequest.getCost();
         this.period = courseRequest.getPeriod();
         this.dates = courseRequest.getDates();
