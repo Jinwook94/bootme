@@ -6,6 +6,9 @@ import com.bootme.course.domain.Course;
 import com.bootme.course.dto.CourseResponse;
 import com.bootme.course.repository.CompanyRepository;
 import com.bootme.course.repository.CourseRepository;
+import com.bootme.course.repository.CourseStackRepository;
+import com.bootme.stack.domain.Stack;
+import com.bootme.stack.repository.StackRepository;
 import com.bootme.util.ServiceTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+
+import java.util.List;
 
 import static com.bootme.common.exception.ErrorType.NOT_FOUND_COURSE;
 import static com.bootme.util.fixture.CourseFixture.*;
@@ -28,6 +33,12 @@ class CourseServiceTest extends ServiceTest {
 
     @Autowired
     private CompanyRepository companyRepository;
+
+    @Autowired
+    private CourseStackRepository courseStackRepository;
+
+    @Autowired
+    private StackRepository stackRepository;
 
     private Course course;
     private Company company1;
@@ -44,6 +55,13 @@ class CourseServiceTest extends ServiceTest {
         companyRepository.save(company3);
         course = getCourse(1);
         company1.addCourse(course);
+        stackRepository.save(Stack.of("TypeScript"));
+        stackRepository.save(Stack.of("Kotlin"));
+        stackRepository.save(Stack.of("Swift"));
+        stackRepository.save(Stack.of("Django"));
+        stackRepository.save(Stack.of("Spring"));
+        stackRepository.save(Stack.of("Node.js"));
+        stackRepository.save(Stack.of("Vue.js"));
     }
 
     @Test
@@ -56,6 +74,7 @@ class CourseServiceTest extends ServiceTest {
         Long id = courseService.addCourse(getCourseRequest(2));
         Course foundCourse = courseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COURSE, String.valueOf(id)));
+        List<Stack> stacks = courseStackRepository.findStacksByCourseId(id);
 
         //then
         assertAll(
@@ -71,7 +90,9 @@ class CourseServiceTest extends ServiceTest {
                 () -> assertThat(foundCourse.isKdt()).isFalse(),
                 () -> assertThat(foundCourse.isOnline()).isFalse(),
                 () -> assertThat(foundCourse.isTested()).isFalse(),
-                () -> assertThat(foundCourse.isPrerequisiteRequired()).isFalse()
+                () -> assertThat(foundCourse.isPrerequisiteRequired()).isFalse(),
+                () -> assertThat(Stack.getLanguages(stacks)).isEqualTo(VALID_LANGUAGES_2),
+                () -> assertThat(Stack.getFrameworks(stacks)).isEqualTo(VALID_FRAMEWORKS_2)
         );
     }
 
@@ -83,7 +104,7 @@ class CourseServiceTest extends ServiceTest {
 
         //when
         CourseResponse courseResponse = courseService.findById(id);
-
+        List<Stack> stacks = courseStackRepository.findStacksByCourseId(id);
 
         //then
         assertAll(
@@ -98,7 +119,11 @@ class CourseServiceTest extends ServiceTest {
                 () -> assertThat(courseResponse.isKdt()).isTrue(),
                 () -> assertThat(courseResponse.isOnline()).isTrue(),
                 () -> assertThat(courseResponse.isTested()).isTrue(),
-                () -> assertThat(courseResponse.isPrerequisiteRequired()).isTrue()
+                () -> assertThat(courseResponse.isPrerequisiteRequired()).isTrue(),
+                () -> assertThat(courseResponse.getSuperCategory()).isEqualTo(course.getCategories().getSuperCategories()),
+                () -> assertThat(courseResponse.getSubCategory()).isEqualTo(course.getCategories().getSubCategories()),
+                () -> assertThat(courseResponse.getLanguages()).isEqualTo(Stack.getLanguages(stacks)),
+                () -> assertThat(courseResponse.getFrameworks()).isEqualTo(Stack.getFrameworks(stacks))
         );
     }
 

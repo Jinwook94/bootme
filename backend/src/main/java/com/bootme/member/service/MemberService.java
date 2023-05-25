@@ -5,6 +5,7 @@ import com.bootme.common.exception.ResourceNotFoundException;
 import com.bootme.course.domain.Course;
 import com.bootme.course.dto.CourseResponse;
 import com.bootme.course.repository.CourseRepository;
+import com.bootme.course.repository.CourseStackRepository;
 import com.bootme.member.domain.BookmarkCourse;
 import com.bootme.member.domain.Member;
 import com.bootme.member.repository.BookmarkCourseRepository;
@@ -28,6 +29,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final CourseRepository courseRepository;
+    private final CourseStackRepository courseStackRepository;
     private final BookmarkCourseRepository bookmarkCourseRepository;
 
     public boolean isMemberRegistered(String email){
@@ -70,7 +72,7 @@ public class MemberService {
         Pageable pageable = PageRequest.of(page-1, size);
 
         Page<Course> courses = courseRepository.findByIdIn(bookmarkCourseIds, pageable);
-        return courses.map(CourseResponse::of);
+        return courses.map(course -> CourseResponse.of(course, courseStackRepository.findStacksByCourseId(course.getId())));
     }
 
     @Transactional(readOnly = true)

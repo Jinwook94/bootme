@@ -53,7 +53,7 @@ public class CourseFilterPredicate {
         if (!CollectionUtils.isEmpty(superCategories)) {
             BooleanBuilder superCategoryBuilder = new BooleanBuilder();
             for (String superCategory : superCategories) {
-                superCategoryBuilder.or(course.categories.contains(superCategory));
+                superCategoryBuilder.or(course.categories.values.contains(superCategory));
             }
             builder.and(superCategoryBuilder);
         }
@@ -61,7 +61,7 @@ public class CourseFilterPredicate {
         if (!CollectionUtils.isEmpty(subCategories)) {
             BooleanBuilder subCategoryBuilder = new BooleanBuilder();
             for (String subCategory : subCategories) {
-                subCategoryBuilder.or(course.categories.contains(subCategory));
+                subCategoryBuilder.or(course.categories.values.contains(subCategory));
             }
             builder.and(subCategoryBuilder);
         }

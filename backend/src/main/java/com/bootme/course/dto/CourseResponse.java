@@ -1,6 +1,7 @@
 package com.bootme.course.dto;
 
 import com.bootme.course.domain.*;
+import com.bootme.stack.domain.Stack;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -74,7 +75,7 @@ public class CourseResponse {
         this.company = company;
     }
 
-    public static CourseResponse of(Course course) {
+    public static CourseResponse of(Course course, List<Stack> stacks) {
         return CourseResponse.builder()
                 .id(course.getId())
                 .name(course.getName())
@@ -82,10 +83,10 @@ public class CourseResponse {
                 .title(course.getTitle())
                 .url(course.getUrl())
                 .location(course.getLocation())
-                .superCategories(course.getSuperCategories())
-                .subCategories(course.getSubCategories())
-                .languages(course.getLanguages())
-                .frameworks(course.getFrameworks())
+                .superCategories(course.getCategories().getSuperCategories())
+                .subCategories(course.getCategories().getSubCategories())
+                .languages(Stack.getLanguages(stacks))
+                .frameworks(Stack.getFrameworks(stacks))
                 .cost(course.getCost())
                 .period(course.getPeriod())
                 .dates(course.getDates())

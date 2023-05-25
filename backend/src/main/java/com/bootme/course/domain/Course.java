@@ -39,9 +39,8 @@ public class Course extends BaseEntity {
 
     private String location;
 
-    @ElementCollection
-    @CollectionTable(name = "category", joinColumns = @JoinColumn(name = "course_id"))
-    private List<String> categories = new ArrayList<>();
+    @Embedded
+    private Categories categories;
 
     private int cost;
 
@@ -79,7 +78,7 @@ public class Course extends BaseEntity {
         this.url = url;
         this.company = company;
         this.location = location;
-        this.categories = categories;
+        this.categories = new Categories(categories);
         this.cost = cost;
         this.period = period;
         this.dates = dates;
@@ -102,7 +101,7 @@ public class Course extends BaseEntity {
                 .url(courseRequest.getUrl())
                 .company(company)
                 .location(courseRequest.getLocation())
-                .categories(courseRequest.getCategories())
+                .categories(getCategories(courseRequest))
                 .cost(courseRequest.getCost())
                 .period(courseRequest.getPeriod())
                 .dates(courseRequest.getDates())
@@ -123,7 +122,7 @@ public class Course extends BaseEntity {
         this.generation = courseRequest.getGeneration();
         this.url = courseRequest.getUrl();
         this.location = courseRequest.getLocation();
-        this.categories = courseRequest.getCategories();
+        this.categories = new Categories(getCategories(courseRequest));
         this.cost = courseRequest.getCost();
         this.period = courseRequest.getPeriod();
         this.dates = courseRequest.getDates();
@@ -133,6 +132,15 @@ public class Course extends BaseEntity {
         this.isOnline = courseRequest.isOnline();
         this.isTested = courseRequest.isTested();
         this.isPrerequisiteRequired = courseRequest.isPrerequisiteRequired();
+    }
+
+    private static ArrayList<String> getCategories(CourseRequest courseRequest) {
+        List<String> superCategories = courseRequest.getSuperCategories();
+        List<String> subCategories = courseRequest.getSubCategories();
+        ArrayList<String> categories = new ArrayList<>();
+        categories.addAll(superCategories);
+        categories.addAll(subCategories);
+        return categories;
     }
 
     public void modifyCompany(Company company){
