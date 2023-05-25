@@ -53,10 +53,6 @@ public class CourseService {
         return getCoursePage(page, size, sort, predicate).map(CourseResponse::of);
     }
 
-        Page<Course> coursePage = courseRepository.findAll(predicate, pageable);
-        return coursePage.map(CourseResponse::of);
-    }
-
     public void modifyCourse(Long id, CourseRequest courseRequest){
         Course course = courseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COURSE, String.valueOf(id)));
