@@ -1,9 +1,13 @@
 package com.bootme.course.service;
 
 import com.bootme.course.domain.QCourse;
+import com.bootme.course.domain.QCourseStack;
+import com.bootme.stack.repository.StackRepository;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.MultiValueMap;
 
 import java.util.List;
@@ -29,7 +33,10 @@ import java.util.List;
  * </p>
  */
 @Component
+@RequiredArgsConstructor
 public class CourseFilterPredicate {
+
+    private final StackRepository stackRepository;
 
     public Predicate build(MultiValueMap<String, String> filters) {
         QCourse course = QCourse.course;
@@ -43,18 +50,18 @@ public class CourseFilterPredicate {
         List<String> superCategories = filters.get("superCategory");
         List<String> subCategories = filters.get("subCategory");
 
-        if (superCategories != null && !superCategories.isEmpty()) {
+        if (!CollectionUtils.isEmpty(superCategories)) {
             BooleanBuilder superCategoryBuilder = new BooleanBuilder();
             for (String superCategory : superCategories) {
-                superCategoryBuilder.or(course.superCategories.contains(superCategory));
+                superCategoryBuilder.or(course.categories.contains(superCategory));
             }
             builder.and(superCategoryBuilder);
         }
 
-        if (subCategories != null && !subCategories.isEmpty()) {
+        if (!CollectionUtils.isEmpty(subCategories)) {
             BooleanBuilder subCategoryBuilder = new BooleanBuilder();
             for (String subCategory : subCategories) {
-                subCategoryBuilder.or(course.subCategories.contains(subCategory));
+                subCategoryBuilder.or(course.categories.contains(subCategory));
             }
             builder.and(subCategoryBuilder);
         }
@@ -62,18 +69,24 @@ public class CourseFilterPredicate {
         List<String> languages = filters.get("languages");
         List<String> frameworks = filters.get("frameworks");
 
-        if (languages != null && !languages.isEmpty()) {
+        if (!CollectionUtils.isEmpty(languages)) {
             BooleanBuilder languageBuilder = new BooleanBuilder();
             for (String language : languages) {
-                languageBuilder.and(course.languages.contains(language));
+                QCourseStack courseStack = QCourseStack.courseStack;
+                Long stackId = stackRepository.findIdByName(language);
+                languageBuilder.and(courseStack.stack.id.eq(stackId));
+                languageBuilder.and(courseStack.course.eq(course));
             }
             builder.and(languageBuilder);
         }
 
-        if (frameworks != null && !frameworks.isEmpty()) {
+        if (!CollectionUtils.isEmpty(frameworks)) {
             BooleanBuilder frameworkBuilder = new BooleanBuilder();
             for (String framework : frameworks) {
-                frameworkBuilder.or(course.frameworks.contains(framework));
+                QCourseStack courseStack = QCourseStack.courseStack;
+                Long stackId = stackRepository.findIdByName(framework);
+                frameworkBuilder.or(courseStack.stack.id.eq(stackId));
+                frameworkBuilder.and(courseStack.course.eq(course));
             }
             builder.and(frameworkBuilder);
         }
