@@ -29,10 +29,15 @@ import java.util.List;
  * </p>
  */
 @Component
-public class CoursePredicateBuilder {
+public class CourseFilterPredicate {
 
     public Predicate build(MultiValueMap<String, String> filters) {
         QCourse course = QCourse.course;
+
+        if (filters == null || filters.isEmpty()) {
+            return null;
+        }
+
         BooleanBuilder builder = new BooleanBuilder();
 
         List<String> superCategories = filters.get("superCategory");
@@ -41,7 +46,7 @@ public class CoursePredicateBuilder {
         if (superCategories != null && !superCategories.isEmpty()) {
             BooleanBuilder superCategoryBuilder = new BooleanBuilder();
             for (String superCategory : superCategories) {
-                superCategoryBuilder.or(course.categories.superCategory.contains(superCategory));
+                superCategoryBuilder.or(course.superCategories.contains(superCategory));
             }
             builder.and(superCategoryBuilder);
         }
@@ -49,7 +54,7 @@ public class CoursePredicateBuilder {
         if (subCategories != null && !subCategories.isEmpty()) {
             BooleanBuilder subCategoryBuilder = new BooleanBuilder();
             for (String subCategory : subCategories) {
-                subCategoryBuilder.or(course.categories.subCategory.contains(subCategory));
+                subCategoryBuilder.or(course.subCategories.contains(subCategory));
             }
             builder.and(subCategoryBuilder);
         }
@@ -60,7 +65,7 @@ public class CoursePredicateBuilder {
         if (languages != null && !languages.isEmpty()) {
             BooleanBuilder languageBuilder = new BooleanBuilder();
             for (String language : languages) {
-                languageBuilder.and(course.stacks.languages.contains(language));
+                languageBuilder.and(course.languages.contains(language));
             }
             builder.and(languageBuilder);
         }
@@ -68,7 +73,7 @@ public class CoursePredicateBuilder {
         if (frameworks != null && !frameworks.isEmpty()) {
             BooleanBuilder frameworkBuilder = new BooleanBuilder();
             for (String framework : frameworks) {
-                frameworkBuilder.or(course.stacks.frameworks.contains(framework));
+                frameworkBuilder.or(course.frameworks.contains(framework));
             }
             builder.and(frameworkBuilder);
         }
@@ -117,7 +122,7 @@ public class CoursePredicateBuilder {
         if (builder.hasValue()) {
             return builder.getValue();
         } else {
-            return course.isNotNull();
+            return null;
         }
     }
 

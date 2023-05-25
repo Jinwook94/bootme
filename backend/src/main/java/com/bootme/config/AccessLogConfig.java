@@ -14,8 +14,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AccessLogConfig {
     @Bean
-    public FilterRegistrationBean requestLogFilter() {
-        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean(new TeeFilter());
-        return filterRegistrationBean;
+    public FilterRegistrationBean<TeeFilter> requestLogFilter() {
+        FilterRegistrationBean<TeeFilter> registrationBean = new FilterRegistrationBean<>();
+
+        TeeFilter teeFilter = new TeeFilter();
+        registrationBean.setFilter(teeFilter);
+
+        return registrationBean;
     }
 }

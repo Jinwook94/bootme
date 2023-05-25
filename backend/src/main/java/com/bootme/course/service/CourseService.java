@@ -26,7 +26,7 @@ public class CourseService {
 
     private final CourseRepository courseRepository;
     private final CompanyRepository companyRepository;
-    private final CoursePredicateBuilder coursePredicateBuilder;
+    private final CourseFilterPredicate courseFilterPredicate;
 
     private static final String CREATED_AT = "createdAt";
     private static final String CLICKS = "clicks";
@@ -36,9 +36,7 @@ public class CourseService {
         String companyName = courseRequest.getCompanyName();
         Company company = companyRepository.findByName(companyName)
                 .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COMPANY, companyName));
-        Category category = courseRequest.getCategories();
-        Stack stack = courseRequest.getStacks();
-        Course course = Course.of(courseRequest, company, category, stack);
+        Course course = Course.of(courseRequest, company);
         Course savedCourse = courseRepository.save(course);
         return savedCourse.getId();
     }
@@ -50,10 +48,10 @@ public class CourseService {
         return CourseResponse.of(foundCourse);
     }
 
-    @Transactional(readOnly = true)
     public Page<CourseResponse> findAll(int page, int size, String sort, MultiValueMap<String, String> filters) {
-        Predicate predicate = coursePredicateBuilder.build(filters);
-        Pageable pageable = getSortedPageable(page, size, sort);
+        Predicate predicate = courseFilterPredicate.build(filters);
+        return getCoursePage(page, size, sort, predicate).map(CourseResponse::of);
+    }
 
         Page<Course> coursePage = courseRepository.findAll(predicate, pageable);
         return coursePage.map(CourseResponse::of);
@@ -92,6 +90,15 @@ public class CourseService {
             courseRepository.incrementBookmarks(id);
         } else {
             throw new ResourceNotFoundException(NOT_FOUND_COURSE, String.valueOf(id));
+        }
+    }
+
+    private Page<Course> getCoursePage(int page, int size, String sort, Predicate predicate) {
+        Pageable pageable = getSortedPageable(page, size, sort);
+        if (predicate == null) {
+            return courseRepository.findAll(pageable);
+        } else {
+            return courseRepository.findAll(predicate, pageable);
         }
     }
 

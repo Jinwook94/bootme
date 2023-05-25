@@ -9,9 +9,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -40,11 +39,22 @@ public class Course extends BaseEntity {
 
     private String location;
 
-    @Embedded
-    private Category categories;
+    @ElementCollection
+    @CollectionTable(name = "super_categories", joinColumns = @JoinColumn(name = "course_id"))
+    private List<String> superCategories = new ArrayList<>();
 
-    @Embedded
-    private Stack stacks;
+    @ElementCollection
+    @CollectionTable(name = "sub_categories", joinColumns = @JoinColumn(name = "course_id"))
+    private List<String> subCategories = new ArrayList<>();
+
+    @ElementCollection
+    @CollectionTable(name = "languages", joinColumns = @JoinColumn(name = "course_id"))
+    private List<String> languages = new ArrayList<>();
+
+    @ElementCollection
+    @CollectionTable(name = "frameworks", joinColumns = @JoinColumn(name = "course_id"))
+    private List<String> frameworks = new ArrayList<>();
+
 
     private int cost;
 
@@ -74,17 +84,19 @@ public class Course extends BaseEntity {
 
     @Builder
     public Course(String title, String name, int generation, String url, Company company, String location,
-                  Category categories, Stack stacks, int cost, int period, Dates dates,
-                  boolean isRecommended, boolean isFree, boolean isKdt, boolean isOnline,
-                  boolean isTested, boolean isPrerequisiteRequired, int clicks, int bookmarks) {
+                  List<String> superCategories, List<String> subCategories, List<String> languages, List<String> frameworks,
+                  int cost, int period, Dates dates, boolean isRecommended, boolean isFree, boolean isKdt,
+                  boolean isOnline, boolean isTested, boolean isPrerequisiteRequired, int clicks, int bookmarks) {
         this.title = title;
         this.name = name;
         this.generation = generation;
         this.url = url;
         this.company = company;
         this.location = location;
-        this.categories = categories;
-        this.stacks = stacks;
+        this.superCategories = superCategories;
+        this.subCategories = subCategories;
+        this.languages = languages;
+        this.frameworks = frameworks;
         this.cost = cost;
         this.period = period;
         this.dates = dates;
@@ -99,7 +111,7 @@ public class Course extends BaseEntity {
         this.isRegisterOpen = checkRegisterOpen();
     }
 
-    public static Course of(CourseRequest courseRequest, Company company, Category categories, Stack stacks) {
+    public static Course of(CourseRequest courseRequest, Company company) {
         return Course.builder()
                 .title(courseRequest.getTitle())
                 .name(courseRequest.getName())
@@ -107,8 +119,10 @@ public class Course extends BaseEntity {
                 .url(courseRequest.getUrl())
                 .company(company)
                 .location(courseRequest.getLocation())
-                .categories(categories)
-                .stacks(stacks)
+                .superCategories(courseRequest.getSuperCategories())
+                .subCategories(courseRequest.getSubCategories())
+                .languages(courseRequest.getLanguages())
+                .frameworks(courseRequest.getFrameworks())
                 .cost(courseRequest.getCost())
                 .period(courseRequest.getPeriod())
                 .dates(courseRequest.getDates())
@@ -123,32 +137,16 @@ public class Course extends BaseEntity {
                 .build();
     }
 
-    public Map<String, List<String>> categoryToMap() {
-        Map<String, List<String>> categories = new HashMap<>();
-        if (this.categories != null) {
-            categories.put("super", this.categories.getSuperCategory());
-            categories.put("sub", this.categories.getSubCategory());
-        }
-        return categories;
-    }
-
-    public Map<String, List<String>> stackToMap() {
-        Map<String, List<String>> stacks = new HashMap<>();
-        if (this.stacks != null) {
-            stacks.put("languages", this.stacks.getLanguages());
-            stacks.put("frameworks", this.stacks.getFrameworks());
-        }
-        return stacks;
-    }
-
     public void modifyCourse(CourseRequest courseRequest) {
         this.title = courseRequest.getTitle();
         this.name = courseRequest.getName();
         this.generation = courseRequest.getGeneration();
         this.url = courseRequest.getUrl();
         this.location = courseRequest.getLocation();
-        this.categories = courseRequest.getCategories();
-        this.stacks = courseRequest.getStacks();
+        this.superCategories = courseRequest.getSuperCategories();
+        this.subCategories = courseRequest.getSubCategories();
+        this.languages = courseRequest.getLanguages();
+        this.frameworks = courseRequest.getFrameworks();
         this.cost = courseRequest.getCost();
         this.period = courseRequest.getPeriod();
         this.dates = courseRequest.getDates();

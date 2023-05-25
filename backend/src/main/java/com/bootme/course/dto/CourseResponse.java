@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.Map;
 
 @Getter
 public class CourseResponse {
@@ -19,8 +18,10 @@ public class CourseResponse {
     private int generation;
     private String url;
     private String location;
-    private Map<String, List<String>> categories;
-    private Map<String, List<String>> stacks;
+    private List<String> superCategories;
+    private List<String> subCategories;
+    private List<String> languages;
+    private List<String> frameworks;
     private int cost;
     private int period;
     private Dates dates;
@@ -42,8 +43,8 @@ public class CourseResponse {
 
     @Builder
     public CourseResponse(Long id, String name, int generation, String title, String url, String location,
-                          Map<String, List<String>> categories, Map<String, List<String>> stacks, int cost,
-                          int period, Dates dates, boolean isRecommended, boolean isFree, boolean isKdt,
+                          List<String> superCategories, List<String> subCategories, List<String> languages, List<String> frameworks,
+                          int cost, int period, Dates dates, boolean isRecommended, boolean isFree, boolean isKdt,
                           boolean isOnline, boolean isTested, boolean isPrerequisiteRequired, boolean isRegisterOpen,
                           int clicks, int bookmarks, long createdAt, long modifiedAt, CompanyResponse company) {
         this.id = id;
@@ -52,8 +53,10 @@ public class CourseResponse {
         this.title = title;
         this.url = url;
         this.location = location;
-        this.categories = categories;
-        this.stacks = stacks;
+        this.superCategories = superCategories;
+        this.subCategories = subCategories;
+        this.languages = languages;
+        this.frameworks = frameworks;
         this.cost = cost;
         this.period = period;
         this.dates = dates;
@@ -79,8 +82,10 @@ public class CourseResponse {
                 .title(course.getTitle())
                 .url(course.getUrl())
                 .location(course.getLocation())
-                .categories(course.categoryToMap())
-                .stacks(course.stackToMap())
+                .superCategories(course.getSuperCategories())
+                .subCategories(course.getSubCategories())
+                .languages(course.getLanguages())
+                .frameworks(course.getFrameworks())
                 .cost(course.getCost())
                 .period(course.getPeriod())
                 .dates(course.getDates())

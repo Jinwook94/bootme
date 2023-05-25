@@ -81,33 +81,27 @@ Host: api.bootMe.app
   "url" : "www.boot.naver.com",
   "companyName" : "네이버",
   "location" : "서울시 강남구",
-  "onOffline" : "온라인",
-  "categories" : {
-    "superCategory" : [ "웹", "모바일 앱" ],
-    "subCategory" : [ "백엔드", "안드로이드" ]
-  },
-  "stacks" : {
-    "languages" : [ "Java", "Python", "JavaScript" ],
-    "frameworks" : [ "Spring", "Django", "Nodejs" ]
-  },
-  "cost" : 500,
-  "period" : 330,
+  "superCategories" : [ "웹", "모바일 앱" ],
+  "subCategories" : [ "백엔드", "안드로이드" ],
+  "languages" : [ "Java", "Python", "JavaScript" ],
+  "frameworks" : [ "Spring", "Django", "Nodejs" ],
+  "cost" : 0,
+  "period" : 90,
   "dates" : {
     "registrationStartDate" : "2023-01-01",
     "registrationEndDate" : "2024-01-31",
     "courseStartDate" : "2024-02-01",
     "courseEndDate" : "2024-04-30"
   },
-  "recommended" : false,
+  "recommended" : true,
   "free" : true,
   "kdt" : true,
   "online" : true,
-  "tested" : false,
-  "prerequisiteRequired" : false
+  "tested" : true,
+  "prerequisiteRequired" : true
 }
 
 ### 코스 조회
-
 GET localhost:8080/courses/1 HTTP/1.1
 Accept: application/json
 Host: api.bootMe.app
@@ -139,29 +133,24 @@ Host: api.bootMe.app
   "url" : "www.boot.naver.com",
   "companyName" : "네이버",
   "location" : "서울시 강남구",
-  "onOffline" : "온라인",
-  "categories" : {
-    "superCategory" : [ "웹", "모바일 앱" ],
-    "subCategory" : [ "백엔드", "안드로이드" ]
-  },
-  "stacks" : {
-    "languages" : [ "Java", "Python", "JavaScript" ],
-    "frameworks" : [ "Spring", "Django", "Nodejs" ]
-  },
-  "cost" : 500,
-  "period" : 330,
+  "superCategories" : [ "웹", "모바일 앱" ],
+  "subCategories" : [ "백엔드", "안드로이드" ],
+  "languages" : [ "Java", "Python", "JavaScript" ],
+  "frameworks" : [ "Spring", "Django", "Nodejs" ],
+  "cost" : 0,
+  "period" : 90,
   "dates" : {
     "registrationStartDate" : "2023-01-01",
     "registrationEndDate" : "2024-01-31",
     "courseStartDate" : "2024-02-01",
     "courseEndDate" : "2024-04-30"
   },
-  "recommended" : false,
+  "recommended" : true,
   "free" : true,
   "kdt" : true,
   "online" : true,
-  "tested" : false,
-  "prerequisiteRequired" : false
+  "tested" : true,
+  "prerequisiteRequired" : true
 }
 
 ### 코스 삭제

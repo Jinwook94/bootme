@@ -1,7 +1,6 @@
 package com.bootme.util.fixture;
 
 import com.bootme.course.domain.*;
-import com.bootme.course.domain.Stack;
 import com.bootme.course.dto.CompanyRequest;
 import com.bootme.course.dto.CompanyResponse;
 import com.bootme.course.dto.CourseRequest;
@@ -57,36 +56,18 @@ public class CourseFixture {
             .courseStartDate(LocalDate.of(2024, 2, 1))
             .courseEndDate(LocalDate.of(2024, 7, 31))
             .build();
-    public static final Category CATEGORY1 = Category.builder()
-            .superCategory(new ArrayList<>(Arrays.asList("웹", "모바일 앱")))
-            .subCategory(new ArrayList<>(Arrays.asList("백엔드", "안드로이드")))
-            .build();
-    public static final Category CATEGORY2 = Category.builder()
-            .superCategory(new ArrayList<>(Arrays.asList("웹", "게임")))
-            .subCategory(new ArrayList<>(Arrays.asList("프론트엔드", "데이터")))
-            .build();
-    public static final Category CATEGORY3 = Category.builder()
-            .superCategory(new ArrayList<>(Arrays.asList("임베디드", "보안")))
-            .subCategory(new ArrayList<>(Arrays.asList("백엔드", "iOS")))
-            .build();
-    public static final Map<String, List<String>> VALID_CATEGORY_1 = categoryToMap(CATEGORY1);
-    public static final Map<String, List<String>> VALID_CATEGORY_2 = categoryToMap(CATEGORY2);
-    public static final Map<String, List<String>> VALID_CATEGORY_3 = categoryToMap(CATEGORY3);
-    public static final Stack STACK1 = Stack.builder()
-            .languages(new ArrayList<>(Arrays.asList("Java", "Python", "JavaScript")))
-            .frameworks(new ArrayList<>(Arrays.asList("Spring", "Django", "Nodejs")))
-            .build();
-    public static final Stack STACK2 = Stack.builder()
-            .languages(new ArrayList<>(Arrays.asList("JavaScript", "HTML", "CSS")))
-            .frameworks(new ArrayList<>(Arrays.asList("React", "Vue")))
-            .build();
-    public static final Stack STACK3 = Stack.builder()
-            .languages(new ArrayList<>(Arrays.asList("Java", "Python")))
-            .frameworks(new ArrayList<>(Arrays.asList("Spring", "Django")))
-            .build();
-    public static final Map<String, List<String>> VALID_STACK_1 = stackToMap(STACK1);
-    public static final Map<String, List<String>> VALID_STACK_2 = stackToMap(STACK2);
-    public static final Map<String, List<String>> VALID_STACK_3 = stackToMap(STACK3);
+    public static final List<String> VALID_SUPER_CATEGORIES_1 = new ArrayList<>(Arrays.asList("웹", "모바일 앱"));
+    public static final List<String> VALID_SUPER_CATEGORIES_2 = new ArrayList<>(Arrays.asList("게임", "AI"));
+    public static final List<String> VALID_SUPER_CATEGORIES_3 = new ArrayList<>(List.of("데브옵스"));
+    public static final List<String> VALID_SUB_CATEGORIES_1 = new ArrayList<>(Arrays.asList("백엔드", "안드로이드"));
+    public static final List<String> VALID_SUB_CATEGORIES_2 = new ArrayList<>(Arrays.asList("프론트엔드", "안드로이드", "iOS"));
+    public static final List<String> VALID_SUB_CATEGORIES_3 = new ArrayList<>(List.of("풀스택"));
+    public static final List<String> VALID_LANGUAGES_1 = new ArrayList<>(Arrays.asList("Java", "Python", "JavaScript"));
+    public static final List<String> VALID_LANGUAGES_2 = new ArrayList<>(Arrays.asList("JavaScript", "TypeScript"));
+    public static final List<String> VALID_LANGUAGES_3 = new ArrayList<>(Arrays.asList("Swift", "Kotlin"));
+    public static final List<String> VALID_FRAMEWORKS_1 = new ArrayList<>(Arrays.asList("Spring", "Django", "Nodejs"));
+    public static final List<String> VALID_FRAMEWORKS_2 = new ArrayList<>(Arrays.asList("React", "Vue"));
+    public static final List<String> VALID_FRAMEWORKS_3 = new ArrayList<>(Arrays.asList("Spring", "Django"));
     public static final int VALID_CLICKS_1 = 1;
     public static final int VALID_CLICKS_2 = 2;
     public static final int VALID_CLICKS_3 = 3;
@@ -134,11 +115,11 @@ public class CourseFixture {
         String[] urls = {VALID_COM_URL_1, VALID_COM_URL_2, VALID_COM_URL_3};
         String[] serviceUrls = {VALID_COM_SERVICE_URL_1, VALID_COM_SERVICE_URL_2, VALID_COM_SERVICE_URL_3};
         String[] logoUrls = {VALID_COM_LOGO_URL_1, VALID_COM_LOGO_URL_2, VALID_COM_LOGO_URL_3};
-        List[] courses = new ArrayList[]{
+        List<List<String>> courses = List.of(
                 new ArrayList<>(Arrays.asList(VALID_TITLE_1, VALID_TITLE_2, VALID_TITLE_3)),
                 new ArrayList<>(Arrays.asList(VALID_TITLE_4, VALID_TITLE_5, VALID_TITLE_6)),
                 new ArrayList<>(Arrays.asList(VALID_TITLE_7, VALID_TITLE_8, VALID_TITLE_9))
-        };
+        );
         return CompanyResponse.builder()
                 .id(ids[index])
                 .name(names[index])
@@ -146,7 +127,7 @@ public class CourseFixture {
                 .url(urls[index])
                 .serviceUrl(serviceUrls[index])
                 .logoUrl(logoUrls[index])
-                .courses(courses[index])
+                .courses(courses.get(index))
                 .build();
     }
 
@@ -158,8 +139,10 @@ public class CourseFixture {
         String[] urls = {VALID_URL_1, VALID_URL_2, VALID_URL_3};
         String[] companies = {VALID_COM_NAME_1, VALID_COM_NAME_2, VALID_COM_NAME_3};
         String[] locations = {VALID_LOCATION_1, VALID_LOCATION_2, VALID_LOCATION_3};
-        Category[] categories = {CATEGORY1, CATEGORY2, CATEGORY3};
-        Stack[] stacks = {STACK1, STACK2, STACK3};
+        List<List<String>> superCategories = List.of(VALID_SUPER_CATEGORIES_1, VALID_SUPER_CATEGORIES_2, VALID_SUPER_CATEGORIES_3);
+        List<List<String>> subCategories = List.of(VALID_SUB_CATEGORIES_1, VALID_SUB_CATEGORIES_2, VALID_SUB_CATEGORIES_3);
+        List<List<String>> languages = List.of(VALID_LANGUAGES_1, VALID_LANGUAGES_2, VALID_LANGUAGES_3);
+        List<List<String>> frameworks = List.of(VALID_FRAMEWORKS_1, VALID_FRAMEWORKS_2, VALID_FRAMEWORKS_3);
         Integer[] costs = {VALID_COST_1, VALID_COST_2, VALID_COST_3};
         Integer[] periods = {VALID_PERIOD_1, VALID_PERIOD_2, VALID_PERIOD_3};
         Dates[] dates = {VALID_DATES_1, VALID_DATES_2, VALID_DATES_3};
@@ -177,8 +160,10 @@ public class CourseFixture {
                 .url(urls[index])
                 .companyName(companies[index])
                 .location(locations[index])
-                .categories(categories[index])
-                .stacks(stacks[index])
+                .superCategories(superCategories.get(index))
+                .subCategories(subCategories.get(index))
+                .languages(languages.get(index))
+                .frameworks(frameworks.get(index))
                 .cost(costs[index])
                 .period(periods[index])
                 .dates(dates[index])
@@ -200,8 +185,10 @@ public class CourseFixture {
         String[] urls = {VALID_URL_1, VALID_URL_2, VALID_URL_3};
         CompanyResponse[] companies = {getCompanyResponse(1), getCompanyResponse(2), getCompanyResponse(3)};
         String[] locations = {VALID_LOCATION_1, VALID_LOCATION_2, VALID_LOCATION_3};
-        Map<String, List<String>>[] categories = (Map<String, List<String>>[]) new Map[]{VALID_CATEGORY_1, VALID_CATEGORY_2, VALID_CATEGORY_3};
-        Map<String, List<String>>[] stacks = (Map<String, List<String>>[]) new Map[]{VALID_STACK_1, VALID_STACK_2, VALID_STACK_3};
+        List<List<String>> superCategories = List.of(VALID_SUPER_CATEGORIES_1, VALID_SUPER_CATEGORIES_2, VALID_SUPER_CATEGORIES_3);
+        List<List<String>> subCategories = List.of(VALID_SUB_CATEGORIES_1, VALID_SUB_CATEGORIES_2, VALID_SUB_CATEGORIES_3);
+        List<List<String>> languages = List.of(VALID_LANGUAGES_1, VALID_LANGUAGES_2, VALID_LANGUAGES_3);
+        List<List<String>> frameworks = List.of(VALID_FRAMEWORKS_1, VALID_FRAMEWORKS_2, VALID_FRAMEWORKS_3);
         int[] costs = {VALID_COST_1, VALID_COST_2, VALID_COST_3};
         int[] periods = {VALID_PERIOD_1, VALID_PERIOD_2, VALID_PERIOD_3};
         Dates[] dates = {VALID_DATES_1, VALID_DATES_2, VALID_DATES_3};
@@ -222,8 +209,10 @@ public class CourseFixture {
                 .url(urls[index])
                 .company(companies[index])
                 .location(locations[index])
-                .categories(categories[index])
-                .stacks(stacks[index])
+                .superCategories(superCategories.get(index))
+                .subCategories(subCategories.get(index))
+                .languages(languages.get(index))
+                .frameworks(frameworks.get(index))
                 .cost(costs[index])
                 .period(periods[index])
                 .dates(dates[index])
@@ -257,27 +246,6 @@ public class CourseFixture {
                 .build();
     }
 
-    public static Company[] getCompanies() {
-        String[] names = {VALID_COM_NAME_1, VALID_COM_NAME_2, VALID_COM_NAME_3};
-        String[] serviceNames = {VALID_COM_SERVICE_NAME_1, VALID_COM_SERVICE_NAME_2, VALID_COM_SERVICE_NAME_3};
-        String[] urls = {VALID_COM_URL_1, VALID_COM_URL_2, VALID_COM_URL_3};
-        String[] serviceUrls = {VALID_COM_SERVICE_URL_1, VALID_COM_SERVICE_URL_2, VALID_COM_SERVICE_URL_3};
-        String[] logoUrls = {VALID_COM_LOGO_URL_1, VALID_COM_LOGO_URL_2, VALID_COM_LOGO_URL_3};
-
-        Company[] companies = new Company[names.length];
-        for (int i = 0; i < names.length; i++) {
-            companies[i] = Company.builder()
-                    .name(names[i])
-                    .serviceName(serviceNames[i])
-                    .url(urls[i])
-                    .serviceUrl(serviceUrls[i])
-                    .logoUrl(logoUrls[i])
-                    .courses(new ArrayList<>())
-                    .build();
-        }
-        return companies;
-    }
-
     public static Course getCourse(int index) {
         index--;
         String[] titles = {VALID_TITLE_1, VALID_TITLE_2, VALID_TITLE_3};
@@ -286,8 +254,10 @@ public class CourseFixture {
         String[] urls = {VALID_URL_1, VALID_URL_2, VALID_URL_3};
         Company[] companies = {getCompany(1), getCompany(2), getCompany(3)};
         String[] locations = {VALID_LOCATION_1, VALID_LOCATION_2, VALID_LOCATION_3};
-        Category[] categories = {CATEGORY1, CATEGORY2, CATEGORY3};
-        Stack[] stacks = {STACK1, STACK2, STACK3};
+        List<List<String>> superCategories = List.of(VALID_SUPER_CATEGORIES_1, VALID_SUPER_CATEGORIES_2, VALID_SUPER_CATEGORIES_3);
+        List<List<String>> subCategories = List.of(VALID_SUB_CATEGORIES_1, VALID_SUB_CATEGORIES_2, VALID_SUB_CATEGORIES_3);
+        List<List<String>> languages = List.of(VALID_LANGUAGES_1, VALID_LANGUAGES_2, VALID_LANGUAGES_3);
+        List<List<String>> frameworks = List.of(VALID_FRAMEWORKS_1, VALID_FRAMEWORKS_2, VALID_FRAMEWORKS_3);
         int[] costs = {VALID_COST_1, VALID_COST_2, VALID_COST_3};
         int[] periods = {VALID_PERIOD_1, VALID_PERIOD_2, VALID_PERIOD_3};
         Dates[] dates = {VALID_DATES_1, VALID_DATES_2, VALID_DATES_3};
@@ -307,8 +277,10 @@ public class CourseFixture {
                 .url(urls[index])
                 .company(companies[index])
                 .location(locations[index])
-                .categories(categories[index])
-                .stacks(stacks[index])
+                .superCategories(superCategories.get(index))
+                .subCategories(subCategories.get(index))
+                .languages(languages.get(index))
+                .frameworks(frameworks.get(index))
                 .cost(costs[index])
                 .period(periods[index])
                 .dates(dates[index])
@@ -323,19 +295,4 @@ public class CourseFixture {
                 .build();
 
     }
-
-    private static Map<String, List<String>> categoryToMap(Category category) {
-        Map<String, List<String>> categories = new HashMap<>();
-        categories.put("super", category.getSuperCategory());
-        categories.put("sub", category.getSubCategory());
-        return categories;
-    }
-
-    private static Map<String, List<String>> stackToMap(Stack stack) {
-        Map<String, List<String>> stacks = new HashMap<>();
-        stacks.put("languages", stack.getLanguages());
-        stacks.put("frameworks", stack.getFrameworks());
-        return stacks;
-    }
-
 }

@@ -6,6 +6,7 @@ import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Getter
 public class CourseRequest {
@@ -28,9 +29,13 @@ public class CourseRequest {
     @NotBlank(message = "코스 진행 장소를 입력해주세요.")
     private String location;
 
-    private Category categories;
+    private List<String> superCategories;
 
-    private Stack stacks;
+    private List<String> subCategories;
+
+    private List<String> languages;
+
+    private List<String> frameworks;
 
     @NotNull(message = "코스 참여 비용을 입력해주세요.")
     private Integer cost;
@@ -57,17 +62,19 @@ public class CourseRequest {
 
     @Builder
     public CourseRequest(String title, String name, Integer generation, String url, String companyName,
-                         String location, Category categories, Stack stacks, Integer cost,
-                         Integer period, Dates dates, boolean recommended, boolean free, boolean kdt,
-                         boolean online, boolean tested, boolean prerequisiteRequired) {
+                         String location, List<String> superCategories, List<String> subCategories, List<String> languages,
+                         List<String> frameworks, Integer cost, Integer period, Dates dates, boolean recommended,
+                         boolean free, boolean kdt, boolean online, boolean tested, boolean prerequisiteRequired) {
         this.title = title;
         this.name = name;
         this.generation = generation;
         this.url = url;
         this.companyName = companyName;
         this.location = location;
-        this.categories = categories;
-        this.stacks = stacks;
+        this.superCategories = superCategories;
+        this.subCategories = subCategories;
+        this.languages = languages;
+        this.frameworks = frameworks;
         this.cost = cost;
         this.period = period;
         this.dates = dates;
