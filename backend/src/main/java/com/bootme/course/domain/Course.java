@@ -40,19 +40,19 @@ public class Course extends BaseEntity {
     private String location;
 
     @ElementCollection
-    @CollectionTable(name = "super_categories", joinColumns = @JoinColumn(name = "course_id"))
+    @CollectionTable(name = "super_category", joinColumns = @JoinColumn(name = "course_id"))
     private List<String> superCategories = new ArrayList<>();
 
     @ElementCollection
-    @CollectionTable(name = "sub_categories", joinColumns = @JoinColumn(name = "course_id"))
+    @CollectionTable(name = "sub_category", joinColumns = @JoinColumn(name = "course_id"))
     private List<String> subCategories = new ArrayList<>();
 
     @ElementCollection
-    @CollectionTable(name = "languages", joinColumns = @JoinColumn(name = "course_id"))
+    @CollectionTable(name = "language", joinColumns = @JoinColumn(name = "course_id"))
     private List<String> languages = new ArrayList<>();
 
     @ElementCollection
-    @CollectionTable(name = "frameworks", joinColumns = @JoinColumn(name = "course_id"))
+    @CollectionTable(name = "framework", joinColumns = @JoinColumn(name = "course_id"))
     private List<String> frameworks = new ArrayList<>();
 
 
