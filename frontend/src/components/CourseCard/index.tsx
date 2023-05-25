@@ -26,8 +26,10 @@ const CourseCard = ({
   title,
   url,
   company,
-  categories,
-  stacks,
+  superCategory,
+  subCategory,
+  language,
+  framework,
   dates,
   period,
   cost,
@@ -94,22 +96,22 @@ const CourseCard = ({
           </ItemWrapper>
         </CourseInfo>
         <CourseTags>
-          {categories['super']?.map((tag: string, index: number) => (
+          {superCategory?.map((tag: string, index: number) => (
             <TagItem key={index} style={{ backgroundColor: '#e6f7ff', color: '#1c1c1c' }}>
               {tag}
             </TagItem>
           ))}
-          {categories['sub']?.map((tag: string, index: number) => (
+          {subCategory?.map((tag: string, index: number) => (
             <TagItem key={index} style={{ backgroundColor: '#e6f7ff', color: '#1c1c1c' }}>
               {tag}
             </TagItem>
           ))}
-          {stacks['languages']?.map((tag: string, index: number) => (
+          {language?.map((tag: string, index: number) => (
             <TagItem key={index} style={{ backgroundColor: '#e9ecf3', color: '#44576c' }}>
               {tag}
             </TagItem>
           ))}
-          {stacks['frameworks']?.map((tag: string, index: number) => (
+          {framework?.map((tag: string, index: number) => (
             <TagItem key={index} style={{ backgroundColor: '#e9ecf3', color: '#44576c' }}>
               {tag}
             </TagItem>

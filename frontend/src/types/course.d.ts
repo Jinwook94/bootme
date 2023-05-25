@@ -34,8 +34,10 @@ interface Course {
   generation: number;
   url: string;
   location: string;
-  categories: Categories;
-  stacks: Stacks;
+  superCategory: string[];
+  subCategory: string[];
+  language: string[];
+  framework: string[];
   cost: number;
   period: number;
   dates: datesType;
@@ -52,16 +54,6 @@ interface Course {
   recommended: boolean;
   registerOpen: boolean;
 }
-
-type Categories = {
-  super: string[];
-  sub: string[];
-};
-
-type Stacks = {
-  languages: string[];
-  frameworks: string[];
-};
 
 type datesType = {
   registrationStartDate: string;

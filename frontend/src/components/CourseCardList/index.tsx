@@ -52,22 +52,40 @@ const CourseCardList = ({ courses, displayBookmarked }: CourseCardListProps) => 
           .filter(course => {
             return displayBookmarked ? isBookmarked[course.id] : true;
           })
-          .map(({ id, title, url, company, categories, stacks, dates, cost, period, free, kdt }: CourseCardProps) => (
-            <CourseCard
-              key={id}
-              id={id}
-              title={title}
-              url={url}
-              company={company}
-              categories={categories}
-              stacks={stacks}
-              dates={dates}
-              cost={cost}
-              period={period}
-              free={free}
-              kdt={kdt}
-            />
-          ))
+          .map(
+            ({
+              id,
+              title,
+              url,
+              company,
+              superCategory,
+              subCategory,
+              language,
+              framework,
+              dates,
+              cost,
+              period,
+              free,
+              kdt,
+            }: CourseCardProps) => (
+              <CourseCard
+                key={id}
+                id={id}
+                title={title}
+                url={url}
+                company={company}
+                superCategory={superCategory}
+                subCategory={subCategory}
+                language={language}
+                framework={framework}
+                dates={dates}
+                cost={cost}
+                period={period}
+                free={free}
+                kdt={kdt}
+              />
+            )
+          )
       )}
     </CourseCardListStyle>
   );
