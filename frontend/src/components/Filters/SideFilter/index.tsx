@@ -1,13 +1,21 @@
 import SideFilterItem from '../SideFilterItem';
-import { FilterItemWrapper, FilterReset, ResetButton, Wrapper } from './style';
+import { SearchInput, StyledSearch, Wrapper, FilterReset, ResetButton, FilterItemWrapper } from './style';
 import { COURSE_FILTERS } from '../../../constants/courseFilter';
 import { useFilters } from '../../../hooks/useFilters';
 import { ResetIcon } from '../../../constants/icons';
+import { Space } from 'antd';
+import { useSearch } from '../../../hooks/useSearch';
 
 const SideFilter = () => {
   const { isReset, resetFilters } = useFilters();
+  const { onSearch } = useSearch();
   return (
     <Wrapper>
+      <SearchInput>
+        <Space direction="vertical">
+          <StyledSearch placeholder="커리큘럼 검색" onSearch={onSearch} size="large" style={{ width: 266 }} />
+        </Space>
+      </SearchInput>
       <FilterReset>
         <ResetButton style={{ cursor: 'default' }}>
           <div onClick={resetFilters} style={{ cursor: 'pointer' }}>

@@ -15,6 +15,8 @@ import {
   CourseListMenu,
   MenuLeft,
   MenuRight,
+  SearchInput,
+  MenuContainer,
 } from './style';
 
 import SlideBanner from '../../components/SlideBanner';
@@ -27,16 +29,19 @@ import Header from '../../components/Header';
 import SideFilter from '../../components/Filters/SideFilter';
 import { useFilters } from '../../hooks/useFilters';
 import ModalFilter from '../../components/Filters/ModalFilter';
-import { Select } from 'antd';
+import { Select, Space } from 'antd';
 import { useRecoilState } from 'recoil';
 import { currentPageHome, currentView } from '../../recoilState';
 import { HOME } from '../../constants/pages';
+import Search from 'antd/es/input/Search';
+import { useSearch } from '../../hooks/useSearch';
 
 const Home = () => {
   const [, setView] = useRecoilState(currentView);
   const { handleModal } = useFilters();
   const { courseCount, maxPage, currentCourses, sortOption, handleSorting } = useCourses();
   const { handleNumberClick, handleNextClick, handlePrevClick } = usePaging(HOME, maxPage);
+  const { onSearch } = useSearch();
   const [currentPage, setCurrentPage] = useRecoilState(currentPageHome);
 
   useEffect(() => {
@@ -66,26 +71,33 @@ const Home = () => {
             </SideFilterWrapper>
             <CourseListWrapper>
               <CourseListMenu>
-                <MenuLeft>
-                  <CourseCount>{courseCount}개의 커리큘럼</CourseCount>
-                </MenuLeft>
-                <MenuRight>
-                  <FilterButton primary onClick={handleModal}>
-                    <span> 검색 필터 </span>
-                  </FilterButton>
-                  <SortSelect>
-                    <Select
-                      defaultValue="인기순"
-                      style={{ width: 94 }}
-                      options={[
-                        { value: 'popular', label: '인기순' },
-                        { value: 'newest', label: '등록순' },
-                        { value: 'bookmark', label: '북마크순' },
-                      ]}
-                      onSelect={handleSorting}
-                    />
-                  </SortSelect>
-                </MenuRight>
+                <MenuContainer>
+                  <MenuLeft>
+                    <CourseCount>{courseCount}개의 커리큘럼</CourseCount>
+                  </MenuLeft>
+                  <MenuRight>
+                    <FilterButton primary onClick={handleModal}>
+                      <span> 검색 필터 </span>
+                    </FilterButton>
+                    <SortSelect>
+                      <Select
+                        defaultValue="인기순"
+                        style={{ width: 94 }}
+                        options={[
+                          { value: 'popular', label: '인기순' },
+                          { value: 'newest', label: '등록순' },
+                          { value: 'bookmark', label: '북마크순' },
+                        ]}
+                        onSelect={handleSorting}
+                      />
+                    </SortSelect>
+                  </MenuRight>
+                </MenuContainer>
+                <SearchInput>
+                  <Space direction="vertical">
+                    <Search placeholder="커리큘럼 검색" onSearch={onSearch} style={{ width: 240 }} />
+                  </Space>
+                </SearchInput>
               </CourseListMenu>
               {courseCount === 0 ? (
                 <NoResultsMessage>

@@ -1,7 +1,23 @@
 import styled from 'styled-components';
+import Search from 'antd/es/input/Search';
 
 export const Wrapper = styled.div`
   display: block;
+`;
+
+export const SearchInput = styled.div`
+  padding-bottom: 1rem;
+`;
+
+export const StyledSearch = styled(Search)`
+  & input {
+    font-family: 'Noto Sans KR' !important;
+    font-size: 16px !important;
+  }
+
+  @media (max-width: 1200px) {
+    width: 206px !important;
+  }
 `;
 
 export const FilterReset = styled.div``;

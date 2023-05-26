@@ -46,8 +46,8 @@ public class CourseSearchPredicate {
 
         String numbersAndEnglish = "^[a-zA-Z0-9 ]*$";
         String korean = "^[ㄱ-ㅎㅏ-ㅣ가-힣 ]*$";
-        if (searchQuery.matches(numbersAndEnglish) && searchQuery.length() < 4) {
-            throw new ValidationException(INVALID_SEARCH_QUERY, "영문 또는 숫자는 4자 이상 검색 가능합니다. 입력값 = " + searchQuery);
+        if (searchQuery.matches(numbersAndEnglish) && searchQuery.length() < 2) {
+            throw new ValidationException(INVALID_SEARCH_QUERY, "영문 또는 숫자는 2자 이상 검색 가능합니다. 입력값 = " + searchQuery);
         } else if (searchQuery.matches(korean) && searchQuery.length() < 2) {
             throw new ValidationException(INVALID_SEARCH_QUERY, "한글은 2자 이상 검색 가능합니다. 입력값 = " + searchQuery);
         }

@@ -75,6 +75,11 @@ export const ItemBody = styled.div`
 
 export const CourseTitleWrapper = styled(FlexBox)`
   align-items: center;
+
+  @media (max-width: 385px) {
+    width: 215px;
+    font-size: 14px;
+  }
 `;
 
 export const CourseTitle = styled.h5`

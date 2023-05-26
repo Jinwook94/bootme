@@ -107,12 +107,31 @@ export const CourseListWrapper = styled.section`
 
 export const CourseListMenu = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
   vertical-align: middle;
 
   @media (max-width: 575px) {
     align-items: center;
+  }
+`;
+
+export const MenuContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+`;
+
+export const SearchInput = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+  margin-bottom: 8px;
+
+  @media (min-width: 768px) {
+    display: none;
   }
 `;
 
