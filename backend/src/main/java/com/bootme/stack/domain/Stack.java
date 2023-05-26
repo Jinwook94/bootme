@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -16,8 +15,8 @@ import java.util.List;
 @Entity
 public class Stack extends BaseEntity {
 
-    private static final List<String> LANGUAGES = Arrays.asList("JavaScript", "TypeScript", "Java", "Python", "Swift", "Kotlin");
-    private static final List<String> FRAMEWORKS = Arrays.asList("React", "Vue.js", "Spring", "Node.js", "Django");
+    private static final List<String> LANGUAGES = List.of("JavaScript", "TypeScript", "Java", "Python", "Swift", "Kotlin");
+    private static final List<String> FRAMEWORKS = List.of("React", "Vue.js", "Spring", "Node.js", "Django");
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

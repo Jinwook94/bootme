@@ -15,4 +15,6 @@ public interface CourseStackRepository extends JpaRepository<CourseStack, Long> 
     @Query("SELECT cs.stack FROM CourseStack cs WHERE cs.course.id = :courseId")
     List<Stack> findStacksByCourseId(@Param("courseId") Long courseId);
 
+    List<CourseStack> findByCourseId(Long courseId);
+
 }

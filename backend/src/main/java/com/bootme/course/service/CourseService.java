@@ -173,7 +173,7 @@ public class CourseService {
         switch(sort) {
             case "newest":
                 sorting = Sort.by(
-                        Sort.Order.asc(CREATED_AT),
+                        Sort.Order.desc(CREATED_AT),
                         Sort.Order.desc(CLICKS),
                         Sort.Order.desc(BOOKMARKS)
                 );

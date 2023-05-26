@@ -56,12 +56,22 @@ public class CourseFixture {
             .courseStartDate(LocalDate.of(2024, 2, 1))
             .courseEndDate(LocalDate.of(2024, 7, 31))
             .build();
-    public static final List<String> VALID_SUPER_CATEGORIES_1 = new ArrayList<>(Arrays.asList("웹", "모바일 앱"));
-    public static final List<String> VALID_SUPER_CATEGORIES_2 = new ArrayList<>(Arrays.asList("게임", "AI"));
-    public static final List<String> VALID_SUPER_CATEGORIES_3 = new ArrayList<>(List.of("데브옵스"));
-    public static final List<String> VALID_SUB_CATEGORIES_1 = new ArrayList<>(Arrays.asList("백엔드", "안드로이드"));
-    public static final List<String> VALID_SUB_CATEGORIES_2 = new ArrayList<>(Arrays.asList("프론트엔드", "안드로이드", "iOS"));
-    public static final List<String> VALID_SUB_CATEGORIES_3 = new ArrayList<>(List.of("풀스택"));
+    public static final String 웹 = "웹";
+    public static final String 모바일_앱 = "모바일 앱";
+    public static final String 게임 = "게임";
+    public static final String AI = "AI";
+    public static final String 데브옵스 = "데브옵스";
+    public static final String 백엔드 = "백엔드";
+    public static final String 안드로이드 = "안드로이드";
+    public static final String 프론트엔드 = "프론트엔드";
+    public static final String iOS = "iOS";
+    public static final String 풀스택 = "풀스택";
+    public static final List<String> VALID_SUPER_CATEGORIES_1 = new ArrayList<>(Arrays.asList(웹, 모바일_앱));
+    public static final List<String> VALID_SUPER_CATEGORIES_2 = new ArrayList<>(Arrays.asList(게임, AI));
+    public static final List<String> VALID_SUPER_CATEGORIES_3 = new ArrayList<>(List.of(AI, 데브옵스));
+    public static final List<String> VALID_SUB_CATEGORIES_1 = new ArrayList<>(Arrays.asList(백엔드, 안드로이드));
+    public static final List<String> VALID_SUB_CATEGORIES_2 = new ArrayList<>(Arrays.asList(프론트엔드, 안드로이드, iOS));
+    public static final List<String> VALID_SUB_CATEGORIES_3 = new ArrayList<>(List.of(풀스택));
     public static final List<String> VALID_CATEGORIES_1 = new ArrayList<>() {{
         addAll(VALID_SUPER_CATEGORIES_1);
         addAll(VALID_SUB_CATEGORIES_1);
@@ -74,12 +84,22 @@ public class CourseFixture {
         addAll(VALID_SUPER_CATEGORIES_3);
         addAll(VALID_SUB_CATEGORIES_3);
     }};
-    public static final List<String> VALID_LANGUAGES_1 = new ArrayList<>(Arrays.asList("JavaScript", "Java"));
-    public static final List<String> VALID_LANGUAGES_2 = new ArrayList<>(Arrays.asList("TypeScript", "Kotlin"));
-    public static final List<String> VALID_LANGUAGES_3 = new ArrayList<>(Arrays.asList("Kotlin", "Swift"));
-    public static final List<String> VALID_FRAMEWORKS_1 = new ArrayList<>(Arrays.asList("React", "Spring"));
-    public static final List<String> VALID_FRAMEWORKS_2 = new ArrayList<>(Arrays.asList("Django", "Spring"));
-    public static final List<String> VALID_FRAMEWORKS_3 = new ArrayList<>(Arrays.asList("Node.js", "Vue.js"));
+    public static final String JavaScript = "JavaScript";
+    public static final String TypeScript = "TypeScript";
+    public static final String Java = "Java";
+    public static final String Kotlin = "Kotlin";
+    public static final String Swift = "Swift";
+    public static final String React = "React";
+    public static final String Spring = "Spring";
+    public static final String Django = "Django";
+    public static final String Nodejs = "Node.js";
+    public static final String Vuejs = "Vue.js";
+    public static final List<String> VALID_LANGUAGES_1 = new ArrayList<>(Arrays.asList(JavaScript, Java));
+    public static final List<String> VALID_LANGUAGES_2 = new ArrayList<>(Arrays.asList(TypeScript, Kotlin));
+    public static final List<String> VALID_LANGUAGES_3 = new ArrayList<>(Arrays.asList(Kotlin, Swift));
+    public static final List<String> VALID_FRAMEWORKS_1 = new ArrayList<>(Arrays.asList(React, Spring));
+    public static final List<String> VALID_FRAMEWORKS_2 = new ArrayList<>(Arrays.asList(Django, Spring));
+    public static final List<String> VALID_FRAMEWORKS_3 = new ArrayList<>(Arrays.asList(Nodejs, Vuejs));
     public static final List<String> VALID_STACKS_1 = new ArrayList<>() {{
         addAll(VALID_LANGUAGES_1);
         addAll(VALID_FRAMEWORKS_1);

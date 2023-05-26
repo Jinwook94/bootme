@@ -3,6 +3,8 @@ package com.bootme.course.service;
 import com.bootme.common.exception.ResourceNotFoundException;
 import com.bootme.course.domain.Company;
 import com.bootme.course.domain.Course;
+import com.bootme.course.domain.CourseStack;
+import com.bootme.course.dto.CourseRequest;
 import com.bootme.course.dto.CourseResponse;
 import com.bootme.course.repository.CompanyRepository;
 import com.bootme.course.repository.CourseRepository;
@@ -47,21 +49,24 @@ class CourseServiceTest extends ServiceTest {
 
     @BeforeEach
     void setup(){
+        stackRepository.save(Stack.of("JavaScript"));
+        stackRepository.save(Stack.of("TypeScript"));
+        stackRepository.save(Stack.of("Java"));
+        stackRepository.save(Stack.of("Kotlin"));
+        stackRepository.save(Stack.of("Swift"));
+        stackRepository.save(Stack.of("React"));
+        stackRepository.save(Stack.of("Django"));
+        stackRepository.save(Stack.of("Spring"));
+        stackRepository.save(Stack.of("Node.js"));
+        stackRepository.save(Stack.of("Vue.js"));
         company1 = getCompany(1);
         company2 = getCompany(2);
         company3 = getCompany(3);
         companyRepository.save(company1);
         companyRepository.save(company2);
         companyRepository.save(company3);
-        course = getCourse(1);
+        course = courseRepository.findById(courseService.addCourse(getCourseRequest(1))).orElseThrow();
         company1.addCourse(course);
-        stackRepository.save(Stack.of("TypeScript"));
-        stackRepository.save(Stack.of("Kotlin"));
-        stackRepository.save(Stack.of("Swift"));
-        stackRepository.save(Stack.of("Django"));
-        stackRepository.save(Stack.of("Spring"));
-        stackRepository.save(Stack.of("Node.js"));
-        stackRepository.save(Stack.of("Vue.js"));
     }
 
     @Test
@@ -142,7 +147,95 @@ class CourseServiceTest extends ServiceTest {
         assertThat(courseResponses).hasSize(3);
     }
 
-    // todo: findAll() 필터링, 정렬, 페이징 단위테스트 코드 추가
+    @Test
+    @DisplayName("findAll()은 필터 옵션이 선택된 경우 코스를 필터링하여 반환한다.")
+    void findAll_filtering_1 (){
+        //given
+        courseService.addCourse(getCourseRequest(2));
+        courseService.addCourse(getCourseRequest(3));
+        MultiValueMap<String, String> filters = new LinkedMultiValueMap<>();
+        filters.add("superCategories", AI);
+
+        //when
+        Page<CourseResponse> courseResponses = courseService.findAll(1, 10, "popular", filters);
+
+        CourseResponse courseResponse1 = courseResponses.getContent().get(0);
+        CourseResponse courseResponse2 = courseResponses.getContent().get(1);
+
+        //then
+        assertAll(
+                () -> assertThat(courseResponses).hasSize(2),  // 3개의 코스 중 두 번쨰, 세 번째 코스가 superCategory 항목으로 AI를 포함하고 있음
+                () -> assertThat(courseResponse1.getTitle()).isEqualTo(VALID_TITLE_2),
+                () -> assertThat(courseResponse2.getTitle()).isEqualTo(VALID_TITLE_3)
+        );
+    }
+
+    @Test
+    @DisplayName("findAll()은 필터 옵션이 선택된 경우 코스를 필터링하여 반환한다.")
+    void findAll_filtering_2 (){
+        //given
+        CourseRequest courseRequest = getCourseRequest(2);
+        courseService.addCourse(courseRequest);
+        courseService.addCourse(getCourseRequest(3));
+        MultiValueMap<String, String> filters = new LinkedMultiValueMap<>();
+        filters.add("frameworks", Django);
+
+        //when
+        Page<CourseResponse> courseResponses = courseService.findAll(1, 10, "popular", filters);
+        CourseResponse courseResponse = courseResponses.getContent().get(0);
+
+        //then
+        assertAll(
+                () -> assertThat(courseResponses).hasSize(1),
+                () -> assertThat(courseResponse.getTitle()).isEqualTo(VALID_TITLE_2)
+        );
+    }
+
+    @Test
+    @DisplayName("findAll()은 검색어가 입력된 경우 입력된 검색어로 코스를 필터링 하여 반환한다.")
+    void findAll_searching (){
+        //given
+        courseService.addCourse(getCourseRequest(2));
+        courseService.addCourse(getCourseRequest(3));
+        MultiValueMap<String, String> filters = new LinkedMultiValueMap<>();
+        filters.add("search", "서버");
+
+        //when
+        Page<CourseResponse> courseResponses = courseService.findAll(1, 10, "popular", filters);
+
+        CourseResponse courseResponse1 = courseResponses.getContent().get(0);
+        CourseResponse courseResponse2 = courseResponses.getContent().get(1);
+
+        //then
+        assertAll(
+                () -> assertThat(courseResponses).hasSize(2),  // 3개의 코스 중 첫 번쨰, 세 번째 코스가 타이틀에 항목으로 "서버"를 포함하고 있음
+                () -> assertThat(courseResponse1.getTitle()).isEqualTo(VALID_TITLE_1),
+                () -> assertThat(courseResponse2.getTitle()).isEqualTo(VALID_TITLE_3)
+        );
+    }
+
+    @Test
+    @DisplayName("findAll()은 정렬 옵션이 선택된 경우 코스를 정렬하여 반환한다.")
+    void findAll_sorting (){
+        //given
+        courseService.addCourse(getCourseRequest(2));
+        courseService.addCourse(getCourseRequest(3));
+
+        MultiValueMap<String, String> filters = new LinkedMultiValueMap<>();
+
+        //when: 정렬 기준을 등록순(newest)으로 설정함
+        Page<CourseResponse> courseResponses = courseService.findAll(1, 10, "newest", filters);
+        CourseResponse courseResponse1 = courseResponses.getContent().get(0);
+        CourseResponse courseResponse2 = courseResponses.getContent().get(1);
+        CourseResponse courseResponse3 = courseResponses.getContent().get(2);
+
+        //then: 가장 늦게 등록된 세번째 코스부터 반환됨
+        assertAll(
+                () -> assertThat(courseResponse1.getTitle()).isEqualTo(VALID_TITLE_3),
+                () -> assertThat(courseResponse2.getTitle()).isEqualTo(VALID_TITLE_2),
+                () -> assertThat(courseResponse3.getTitle()).isEqualTo(VALID_TITLE_1)
+        );
+    }
 
     @Test
     @DisplayName("modifyCourse()는 코스 정보를 변경한다.")
@@ -172,6 +265,8 @@ class CourseServiceTest extends ServiceTest {
         courseRepository.save(course);
         Long id = course.getId();
         long count = courseRepository.count();
+        List<CourseStack> courseStacks = courseStackRepository.findByCourseId(id);
+        courseStackRepository.deleteAll(courseStacks); // 외래키로 연결된 CourseStack 인스턴스부터 삭제해야함
 
         //when
         courseService.deleteCourse(id);
