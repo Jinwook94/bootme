@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import ReactModal from 'react-modal';
 import { useFilters } from '../../../hooks/useFilters';
 import './style.css';
@@ -11,21 +11,6 @@ import { useCourses } from '../../../hooks/useCourses';
 const ModalFilter = () => {
   const { isModal, handleModal, isReset, resetFilters } = useFilters();
   const { courseCount } = useCourses();
-
-  useEffect(() => {
-    const handleBackButton = (event: { preventDefault: () => void }) => {
-      if (isModal) {
-        event.preventDefault();
-        handleModal();
-      }
-    };
-
-    window.addEventListener('popstate', handleBackButton);
-
-    return () => {
-      window.removeEventListener('popstate', handleBackButton);
-    };
-  }, [isModal, handleModal]);
 
   return (
     <ReactModal

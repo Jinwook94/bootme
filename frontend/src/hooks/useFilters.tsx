@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { COURSE_FILTERS } from '../constants/courseFilter';
+import { createBrowserHistory } from 'history';
 
 const FilterContext = createContext<FilterContextProps>({
   selectedFilters: {},
@@ -89,10 +90,22 @@ export const FilterProvider = ({ children }: FilterProviderProps) => {
     }
   }, [isReset]);
 
+  const history = createBrowserHistory();
   const [isModal, setIsModal] = useState(false);
   const handleModal = () => {
     isModal ? setIsModal(false) : setIsModal(true);
   };
+
+  useEffect(() => {
+    if (isModal) {
+      const unlisten = history.listen(listener => {
+        if (listener.action === 'POP') {
+          handleModal();
+        }
+      });
+      return () => unlisten();
+    }
+  }, [history, isModal]);
 
   return (
     <FilterContext.Provider
