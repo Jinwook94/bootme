@@ -296,4 +296,10 @@ public class AuthService {
         return new String[]{String.valueOf(memberId), email, userInfo};
     }
 
+    public boolean verifyExistingMember(String token){
+        JwtVo jwtVo = parseToken(token);
+        String email = jwtVo.getBody().getEmail();
+        return memberRepository.existsMemberByEmail(email);
+    }
+
 }

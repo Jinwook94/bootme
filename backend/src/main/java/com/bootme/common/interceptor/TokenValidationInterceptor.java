@@ -1,5 +1,6 @@
 package com.bootme.common.interceptor;
 
+import com.bootme.auth.service.AuthService;
 import com.bootme.auth.token.TokenProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -22,48 +23,56 @@ import javax.servlet.http.HttpServletResponse;
 public class TokenValidationInterceptor implements HandlerInterceptor {
 
     private final long accessTokenExpireTimeInMilliseconds;
-
     private final TokenProvider tokenProvider;
+    private final AuthService authService;
 
     public TokenValidationInterceptor(@Value("${security.jwt.bootme.exp.millisecond.access}") long accessTokenExpireTimeInMilliseconds,
-                                      TokenProvider tokenProvider) {
+                                      TokenProvider tokenProvider, AuthService authService) {
         this.accessTokenExpireTimeInMilliseconds = accessTokenExpireTimeInMilliseconds;
         this.tokenProvider = tokenProvider;
+        this.authService = authService;
     }
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        String accessToken = getCookieValue(request, "accessToken");
+        String refreshToken = getCookieValue(request, "refreshToken");
 
-        // 1. 요청 헤더의 쿠키에서 토큰을 추출
-        Cookie[] cookies = request.getCookies();
-        String accessToken = null;
-        String refreshToken = null;
-
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("accessToken")) {
-                    accessToken = cookie.getValue();
-                }
-                if (cookie.getName().equals("refreshToken")) {
-                    refreshToken = cookie.getValue();
-                }
-            }
-        }
-
-        // 2. 토큰 검증
-        String login = "false";
-        if (accessToken != null && tokenProvider.isValid(accessToken)) {
-            login = "true";
-        } else if (refreshToken != null && tokenProvider.isValid(refreshToken)) {
-            accessToken = tokenProvider.reissueAccessToken(refreshToken);
-            response.addHeader("Set-Cookie", "accessToken=" + accessToken + "; Max-Age=" +
-                    accessTokenExpireTimeInMilliseconds/1000 + "; HttpOnly; Secure; SameSite=Lax");
-            login = "true";
-        }
-
-        response.addHeader("Login", login);
+        boolean login = isAccessTokenValid(accessToken) || isRefreshTokenValidAndReissueAccessToken(refreshToken, response);
+        response.addHeader("Login", Boolean.toString(login));
         response.addHeader("Access-Control-Expose-Headers", "Login");
 
         return true;
     }
+
+    private boolean isAccessTokenValid(String accessToken) {
+        return accessToken != null && tokenProvider.isValid(accessToken) && authService.verifyExistingMember(accessToken);
+    }
+
+    private boolean isRefreshTokenValidAndReissueAccessToken(String refreshToken, HttpServletResponse response) {
+        if (refreshToken != null && tokenProvider.isValid(refreshToken) && authService.verifyExistingMember(refreshToken)) {
+            String newAccessToken = tokenProvider.reissueAccessToken(refreshToken);
+            setAccessTokenCookie(newAccessToken, response);
+            return true;
+        }
+        return false;
+    }
+
+    private void setAccessTokenCookie(String accessToken, HttpServletResponse response) {
+        response.addHeader("Set-Cookie", "accessToken=" + accessToken + "; Max-Age=" +
+                accessTokenExpireTimeInMilliseconds/1000 + "; HttpOnly; Secure; SameSite=Lax");
+    }
+
+    private String getCookieValue(HttpServletRequest request, String cookieName) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals(cookieName)) {
+                    return cookie.getValue();
+                }
+            }
+        }
+        return null;
+    }
+
 }
