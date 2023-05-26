@@ -42,6 +42,9 @@ public class Course extends BaseEntity {
     @Embedded
     private Categories categories;
 
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private List<CourseStack> courseStacks = new ArrayList<>();
+
     private int cost;
 
     private int period;
@@ -67,10 +70,9 @@ public class Course extends BaseEntity {
 
     private int bookmarks;
 
-
     @Builder
     public Course(String title, String name, int generation, String url, Company company, String location,
-                  List<String> categories, int cost, int period, Dates dates, boolean isRecommended, boolean isFree,
+                  List<String> categories, List<CourseStack> courseStacks, int cost, int period, Dates dates, boolean isRecommended, boolean isFree,
                   boolean isKdt, boolean isOnline, boolean isTested, boolean isPrerequisiteRequired, int clicks, int bookmarks) {
         this.title = title;
         this.name = name;
@@ -79,6 +81,7 @@ public class Course extends BaseEntity {
         this.company = company;
         this.location = location;
         this.categories = new Categories(categories);
+        this.courseStacks = courseStacks == null ? new ArrayList<>() : new ArrayList<>(courseStacks);
         this.cost = cost;
         this.period = period;
         this.dates = dates;

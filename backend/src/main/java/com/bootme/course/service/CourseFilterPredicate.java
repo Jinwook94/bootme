@@ -1,16 +1,20 @@
 package com.bootme.course.service;
 
+import com.bootme.common.exception.ResourceNotFoundException;
 import com.bootme.course.domain.QCourse;
-import com.bootme.course.domain.QCourseStack;
 import com.bootme.stack.repository.StackRepository;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.MultiValueMap;
 
 import java.util.List;
+import java.util.function.Function;
+
+import static com.bootme.common.exception.ErrorType.NOT_FOUND_STACK;
 
 /**
  * 코스 조회시 필터링을 위해 Querydsl Predicate 을 반환함
@@ -47,96 +51,61 @@ public class CourseFilterPredicate {
 
         BooleanBuilder builder = new BooleanBuilder();
 
-        List<String> superCategories = filters.get("superCategory");
-        List<String> subCategories = filters.get("subCategory");
+        processCategoryFilters(builder, filters, "superCategory", course);
+        processCategoryFilters(builder, filters, "subCategory", course);
+        processStackFilters(builder, filters, "languages", course);
+        processStackFilters(builder, filters, "frameworks", course);
 
-        if (!CollectionUtils.isEmpty(superCategories)) {
-            BooleanBuilder superCategoryBuilder = new BooleanBuilder();
-            for (String superCategory : superCategories) {
-                superCategoryBuilder.or(course.categories.values.contains(superCategory));
+        processInputFilters(builder, filters, "costInput", course.cost::loe, Integer::valueOf);
+        processInputFilters(builder, filters, "periodInput", value -> course.period.loe(value * 30), Integer::valueOf);
+
+        processBooleanFilters(builder, filters, "isRecommended", course.isRecommended::eq);
+        processBooleanFilters(builder, filters, "isFree", course.isFree::eq);
+        processBooleanFilters(builder, filters, "isKdt", course.isKdt::eq);
+        processBooleanFilters(builder, filters, "isOnline", course.isOnline::eq);
+        processBooleanFilters(builder, filters, "isTested", course.isTested::eq);
+        processBooleanFilters(builder, filters, "isPrerequisiteRequired", course.isPrerequisiteRequired::eq);
+
+        return builder;
+    }
+
+    private void processCategoryFilters(BooleanBuilder builder, MultiValueMap<String, String> filters,
+                                        String key, QCourse course) {
+        List<String> categories = filters.get(key);
+        if (!CollectionUtils.isEmpty(categories)) {
+            BooleanBuilder categoryBuilder = new BooleanBuilder();
+            for (String category : categories) {
+                categoryBuilder.or(course.categories.values.contains(category));
             }
-            builder.and(superCategoryBuilder);
+            builder.and(categoryBuilder);
         }
+    }
 
-        if (!CollectionUtils.isEmpty(subCategories)) {
-            BooleanBuilder subCategoryBuilder = new BooleanBuilder();
-            for (String subCategory : subCategories) {
-                subCategoryBuilder.or(course.categories.values.contains(subCategory));
+    private void processStackFilters(BooleanBuilder builder, MultiValueMap<String, String> filters,
+                                     String key, QCourse course) {
+        List<String> stacks = filters.get(key);
+        if (!CollectionUtils.isEmpty(stacks)) {
+            BooleanBuilder stackBuilder = new BooleanBuilder();
+            for (String stack : stacks) {
+                Long stackId = stackRepository.findIdByName(stack)
+                        .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_STACK, stack));
+                stackBuilder.and(course.courseStacks.any().stack.id.eq(stackId));
             }
-            builder.and(subCategoryBuilder);
+            builder.and(stackBuilder);
         }
+    }
 
-        List<String> languages = filters.get("languages");
-        List<String> frameworks = filters.get("frameworks");
-
-        if (!CollectionUtils.isEmpty(languages)) {
-            BooleanBuilder languageBuilder = new BooleanBuilder();
-            for (String language : languages) {
-                QCourseStack courseStack = QCourseStack.courseStack;
-                Long stackId = stackRepository.findIdByName(language);
-                languageBuilder.and(courseStack.stack.id.eq(stackId));
-                languageBuilder.and(courseStack.course.eq(course));
-            }
-            builder.and(languageBuilder);
+    private <T> void processInputFilters(BooleanBuilder builder, MultiValueMap<String, String> filters,
+                                         String key, Function<T, BooleanExpression> expr, Function<String, T> converter) {
+        String input = filters.getFirst(key);
+        if (input != null && !input.isEmpty()) {
+            builder.and(expr.apply(converter.apply(input)));
         }
+    }
 
-        if (!CollectionUtils.isEmpty(frameworks)) {
-            BooleanBuilder frameworkBuilder = new BooleanBuilder();
-            for (String framework : frameworks) {
-                QCourseStack courseStack = QCourseStack.courseStack;
-                Long stackId = stackRepository.findIdByName(framework);
-                frameworkBuilder.or(courseStack.stack.id.eq(stackId));
-                frameworkBuilder.and(courseStack.course.eq(course));
-            }
-            builder.and(frameworkBuilder);
-        }
-
-        String costInput = filters.getFirst("costInput");
-        String periodInput = filters.getFirst("periodInput");
-        String isRecommended = filters.getFirst("isRecommended");
-        String isFree = filters.getFirst("isFree");
-        String isKdt = filters.getFirst("isKdt");
-        String isOnline = filters.getFirst("isOnline");
-        String isTested = filters.getFirst("isTested");
-        String isPrerequisiteRequired = filters.getFirst("isPrerequisiteRequired");
-
-        if (costInput != null && !costInput.isEmpty()) {
-            builder.and(course.cost.loe(Integer.valueOf(costInput)));
-        }
-
-        if (periodInput != null && !periodInput.isEmpty()) {
-            builder.and(course.period.loe(Integer.parseInt(periodInput) * 30));
-        }
-
-        if (isRecommended != null && !isRecommended.isEmpty()) {
-            builder.and(course.isRecommended.eq(Boolean.valueOf(isRecommended)));
-        }
-
-        if (isFree != null && !isFree.isEmpty()) {
-            builder.and(course.isFree.eq(Boolean.valueOf(isFree)));
-        }
-
-        if (isKdt != null && !isKdt.isEmpty()) {
-            builder.and(course.isKdt.eq(Boolean.valueOf(isKdt)));
-        }
-
-        if (isOnline != null && !isOnline.isEmpty()) {
-            builder.and(course.isOnline.eq(Boolean.valueOf(isOnline)));
-        }
-
-        if (isTested != null && !isTested.isEmpty()) {
-            builder.and(course.isTested.eq(Boolean.valueOf(isTested)));
-        }
-
-        if (isPrerequisiteRequired != null && !isPrerequisiteRequired.isEmpty()) {
-            builder.and(course.isPrerequisiteRequired.eq(Boolean.valueOf(isPrerequisiteRequired)));
-        }
-
-        if (builder.hasValue()) {
-            return builder.getValue();
-        } else {
-            return null;
-        }
+    private void processBooleanFilters(BooleanBuilder builder, MultiValueMap<String, String> filters,
+                                       String key, Function<Boolean, BooleanExpression> expr) {
+        processInputFilters(builder, filters, key, expr, Boolean::valueOf);
     }
 
 }
