@@ -2,6 +2,7 @@ package com.bootme.course.service;
 
 import com.bootme.common.exception.ResourceNotFoundException;
 import com.bootme.course.domain.QCourse;
+import com.bootme.stack.domain.Stack;
 import com.bootme.stack.repository.StackRepository;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
@@ -12,7 +13,9 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.MultiValueMap;
 
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static com.bootme.common.exception.ErrorType.NOT_FOUND_STACK;
 
@@ -83,12 +86,21 @@ public class CourseFilterPredicate {
 
     private void processStackFilters(BooleanBuilder builder, MultiValueMap<String, String> filters,
                                      String key, QCourse course) {
-        List<String> stacks = filters.get(key);
-        if (!CollectionUtils.isEmpty(stacks)) {
+        List<String> stackNames = filters.get(key);
+        if (!CollectionUtils.isEmpty(stackNames)) {
+            // 데이터베이스에서 해당 종류의 기술 스택 전체를 꺼낸다.
+            List<Stack> stacks = stackRepository.findByNameIn(stackNames);
+            if (stacks.size() != stackNames.size()) {
+                throw new ResourceNotFoundException(NOT_FOUND_STACK, "선택된 기술 스택 중 등록되지 않은 것이 있습니다.");
+            }
+
+            // 빠른 조회를 위해 기술 스택과 각각의 ID 를 매핑한다.
+            Map<String, Long> stackNameToIdMap = stacks.stream()
+                    .collect(Collectors.toMap(Stack::getName, Stack::getId));
+
             BooleanBuilder stackBuilder = new BooleanBuilder();
-            for (String stack : stacks) {
-                Long stackId = stackRepository.findIdByName(stack)
-                        .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_STACK, stack));
+            for (String stackName : stackNames) {
+                Long stackId = stackNameToIdMap.get(stackName);
                 stackBuilder.and(course.courseStacks.any().stack.id.eq(stackId));
             }
             builder.and(stackBuilder);
