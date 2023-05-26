@@ -54,8 +54,8 @@ public class CourseFilterPredicate {
 
         BooleanBuilder builder = new BooleanBuilder();
 
-        processCategoryFilters(builder, filters, "superCategory", course);
-        processCategoryFilters(builder, filters, "subCategory", course);
+        processCategoryFilters(builder, filters, "superCategories", course);
+        processCategoryFilters(builder, filters, "subCategories", course);
         processStackFilters(builder, filters, "languages", course);
         processStackFilters(builder, filters, "frameworks", course);
 

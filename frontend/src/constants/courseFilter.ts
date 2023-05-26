@@ -3,11 +3,11 @@ export const MODAL_FILTER = 'MODAL_FILTER';
 
 export const COURSE_FILTERS: { [key: string]: CourseFilterTypes } = {
   SUPER_CATEGORY: {
-    filterName: 'superCategory',
+    filterName: 'superCategories',
     filterOptions: ['웹', '모바일 앱', 'AI', '데이터', '데브옵스', '게임'],
   },
   SUB_CATEGORY: {
-    filterName: 'subCategory',
+    filterName: 'subCategories',
     filterOptions: ['프론트엔드', '백엔드', '풀스택', '안드로이드', 'iOS'],
   },
   LANGUAGES: {

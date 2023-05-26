@@ -17,8 +17,8 @@ const FilterContext = createContext<FilterContextProps>({
 
 export const FilterProvider = ({ children }: FilterProviderProps) => {
   const [selectedFilters, setSelectedFilters] = useState<FiltersState>({
-    superCategory: [],
-    subCategory: [],
+    superCategories: [],
+    subCategories: [],
     languages: [],
     frameworks: [],
     isFree: [],
@@ -137,8 +137,8 @@ interface FilterProviderProps {
 
 export interface FiltersState {
   [key: string]: string[] | undefined;
-  superCategory?: string[];
-  subCategory?: string[];
+  superCategories?: string[];
+  subCategories?: string[];
   languages?: string[];
   frameworks?: string[];
   isFree?: string[];
