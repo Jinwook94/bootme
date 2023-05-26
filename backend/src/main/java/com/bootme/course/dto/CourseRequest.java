@@ -6,6 +6,7 @@ import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -29,13 +30,17 @@ public class CourseRequest {
     @NotBlank(message = "코스 진행 장소를 입력해주세요.")
     private String location;
 
-    private List<String> superCategories;
+    @Builder.Default
+    private List<String> superCategories = new ArrayList<>();
 
-    private List<String> subCategories;
+    @Builder.Default
+    private List<String> subCategories = new ArrayList<>();
 
-    private List<String> languages;
+    @Builder.Default
+    private List<String> languages = new ArrayList<>();
 
-    private List<String> frameworks;
+    @Builder.Default
+    private List<String> frameworks = new ArrayList<>();
 
     @NotNull(message = "코스 참여 비용을 입력해주세요.")
     private Integer cost;

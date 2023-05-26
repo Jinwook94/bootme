@@ -9,6 +9,8 @@ import java.util.Optional;
 @Repository
 public interface StackRepository extends JpaRepository<Stack, Long> {
 
+    Boolean existsByName(String name);
+
     Long findIdByName(String name);
 
     Optional<Stack> findByName(String name);

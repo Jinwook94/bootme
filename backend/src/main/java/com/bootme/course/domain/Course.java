@@ -138,8 +138,12 @@ public class Course extends BaseEntity {
         List<String> superCategories = courseRequest.getSuperCategories();
         List<String> subCategories = courseRequest.getSubCategories();
         ArrayList<String> categories = new ArrayList<>();
-        categories.addAll(superCategories);
-        categories.addAll(subCategories);
+        if(superCategories != null){
+            categories.addAll(superCategories);
+        }
+        if(subCategories != null){
+            categories.addAll(subCategories);
+        }
         return categories;
     }
 

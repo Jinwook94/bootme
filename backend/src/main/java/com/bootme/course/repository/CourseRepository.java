@@ -18,6 +18,8 @@ public interface CourseRepository extends JpaRepository<Course, Long>, QuerydslP
 
     boolean existsById(Long id);
 
+    boolean existsByTitle(String title);
+
     Page<Course> findByIdIn(List<Long> ids, Pageable pageable);
 
     @Modifying

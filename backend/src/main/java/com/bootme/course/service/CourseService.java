@@ -1,5 +1,6 @@
 package com.bootme.course.service;
 
+import com.bootme.common.exception.ConflictException;
 import com.bootme.common.exception.ResourceNotFoundException;
 import com.bootme.course.domain.*;
 import com.bootme.course.dto.CourseRequest;
@@ -40,6 +41,7 @@ public class CourseService {
     private static final String BOOKMARKS = "bookmarks";
 
     public Long addCourse(CourseRequest courseRequest){
+        validateDuplicateByTitle(courseRequest.getTitle());
         String companyName = courseRequest.getCompanyName();
         Company company = companyRepository.findByName(companyName)
                 .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COMPANY, companyName));
@@ -89,28 +91,38 @@ public class CourseService {
     public void deleteCourse(Long id){
         Course course = courseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COURSE, String.valueOf(id)));
-        Long companyId = course.getCompany().getId();
-        Company company = this.companyRepository.findById(companyId)
-                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COMPANY, String.valueOf(id)));
-
-        company.deleteCourse(course);
+        deleteCourseInCompany(course);
         courseRepository.delete(course);
     }
 
+    private void deleteCourseInCompany(Course course){
+        Long companyId = course.getCompany().getId();
+        Company company = this.companyRepository.findById(companyId)
+                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COMPANY, String.valueOf(companyId)));
+
+        company.deleteCourse(course);
+    }
+
     public void incrementClicks(Long id) {
-        boolean exists = courseRepository.existsById(id);
-        if (exists) {
-            courseRepository.incrementClicks(id);
-        } else {
-            throw new ResourceNotFoundException(NOT_FOUND_COURSE, String.valueOf(id));
-        }
+        validateExists(id);
+        courseRepository.incrementClicks(id);
     }
 
     public void incrementBookmarks(Long id){
-        boolean exists = courseRepository.existsById(id);
-        if (exists) {
-            courseRepository.incrementBookmarks(id);
-        } else {
+        validateExists(id);
+        courseRepository.incrementBookmarks(id);
+    }
+
+    private void validateDuplicateByTitle(String title){
+        boolean isExist = courseRepository.existsByTitle(title);
+        if (isExist){
+            throw new ConflictException(ALREADY_SAVED_COURSE, title);
+        }
+    }
+
+    private void validateExists(Long id){
+        boolean isExist = courseRepository.existsById(id);
+        if (!isExist) {
             throw new ResourceNotFoundException(NOT_FOUND_COURSE, String.valueOf(id));
         }
     }

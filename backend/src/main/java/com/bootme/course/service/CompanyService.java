@@ -1,5 +1,6 @@
 package com.bootme.course.service;
 
+import com.bootme.common.exception.ConflictException;
 import com.bootme.common.exception.ResourceNotFoundException;
 import com.bootme.course.domain.Company;
 import com.bootme.course.dto.CompanyRequest;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.bootme.common.exception.ErrorType.ALREADY_SAVED_COMPANY;
 import static com.bootme.common.exception.ErrorType.NOT_FOUND_COMPANY;
 
 @Service
@@ -25,6 +27,7 @@ public class CompanyService {
     private final CourseRepository courseRepository;
 
     public Long addCompany(CompanyRequest companyRequest){
+        validateDuplicate(companyRequest.getName());
         Company company = Company.builder()
                 .name(companyRequest.getName())
                 .serviceName(companyRequest.getServiceName())
@@ -61,6 +64,13 @@ public class CompanyService {
                 .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COMPANY, String.valueOf(id)));
         courseRepository.deleteAll(company.getCourses());
         companyRepository.delete(company);
+    }
+
+    private void validateDuplicate(String name){
+        boolean isExist = companyRepository.existsByName(name);
+        if(isExist){
+            throw new ConflictException(ALREADY_SAVED_COMPANY, name);
+        }
     }
 
 }

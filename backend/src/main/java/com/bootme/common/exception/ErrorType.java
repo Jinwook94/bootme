@@ -27,10 +27,13 @@ public enum ErrorType {
     NOT_FOUND_MEMBER        (3003, "존재하지 않는 회원입니다."),
     NOT_FOUND_BOOKMARK      (3004, "해당 북마크 코스가 존재하지 않습니다."),
     NOT_FOUND_EVENT         (3005, "존재하지 않는 알림 이벤트입니다."),
-    NOT_FOUND_STACK        (3006, "존재하지 않는 기술 스택입니다."),
+    NOT_FOUND_STACK         (3006, "존재하지 않는 기술 스택입니다."),
 
     // Resource already exists errors
-    ALREADY_BOOKMARKED      (4001, "이미 북마크 저장된 코스입니다."),
+    ALREADY_SAVED_STACK     (4001, "이미 저장된 기술 스택입니다."),
+    ALREADY_SAVED_COMPANY   (4002, "이미 저장된 회사입니다."),
+    ALREADY_SAVED_COURSE    (4003, "이미 저장된 코스입니다."),
+    ALREADY_BOOKMARKED      (4004, "이미 북마크 저장된 코스입니다."),
 
     // Invalid input errors
     INVALID_METHOD_ARGUMENT (5001, ""), // 인자에 따라 다른 에러 메시지 출력되도록 설정함
