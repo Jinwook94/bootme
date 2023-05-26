@@ -1,14 +1,10 @@
 package com.bootme.webhook.controller;
 
-import com.bootme.auth.service.AuthService;
-import com.bootme.auth.token.TokenProvider;
-import com.bootme.course.service.CourseService;
 import com.bootme.util.ControllerTest;
 import com.bootme.webhook.dto.WebhookRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -30,15 +26,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(WebhookController.class)
 @DisplayName("WebhookController 클래스의")
 class WebhookControllerTest extends ControllerTest {
-
-    @MockBean
-    private AuthService authService;
-
-    @MockBean
-    private CourseService courseService;
-
-    @MockBean
-    private TokenProvider tokenProvider;
 
     @Test
     @DisplayName("handleWebhook()는 정상 요청시 상태코드 200을 반환한다.")

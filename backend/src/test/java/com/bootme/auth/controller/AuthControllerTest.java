@@ -1,15 +1,11 @@
 package com.bootme.auth.controller;
 
 import com.bootme.auth.exception.TokenParseException;
-import com.bootme.auth.service.AuthService;
-import com.bootme.auth.token.TokenProvider;
 import com.bootme.common.exception.AuthenticationException;
-import com.bootme.common.exception.BadRequestException;
 import com.bootme.util.ControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -29,12 +25,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(AuthController.class)
 @DisplayName("AuthController 클래스의")
 class AuthControllerTest extends ControllerTest {
-
-    @MockBean
-    private AuthService authService;
-
-    @MockBean
-    private TokenProvider tokenProvider;
 
     @Test
     @DisplayName("login()는 정상 요청시 상태코드 200을 반환한다.")

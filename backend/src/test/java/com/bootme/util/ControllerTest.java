@@ -1,9 +1,17 @@
 package com.bootme.util;
 
+import com.bootme.auth.service.AuthService;
+import com.bootme.auth.token.TokenProvider;
+import com.bootme.common.interceptor.TokenValidationInterceptor;
+import com.bootme.course.service.CompanyService;
+import com.bootme.course.service.CourseService;
+import com.bootme.member.service.MemberService;
+import com.bootme.notification.service.NotificationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -24,6 +32,27 @@ public abstract class ControllerTest {
 
     @Autowired
     protected ObjectMapper objectMapper;
+
+    @Autowired
+    protected TokenValidationInterceptor tokenValidationInterceptor;
+
+    @MockBean
+    protected TokenProvider tokenProvider;
+
+    @MockBean
+    protected AuthService authService;
+
+    @MockBean
+    protected CompanyService companyService;
+
+    @MockBean
+    protected CourseService courseService;
+
+    @MockBean
+    protected MemberService memberService;
+
+    @MockBean
+    protected NotificationService notificationService;
 
     @BeforeEach
     void setUp(final WebApplicationContext context, final RestDocumentationContextProvider provider) {

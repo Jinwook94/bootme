@@ -7,15 +7,11 @@ import com.bootme.common.exception.AuthenticationException;
 import com.bootme.util.ServiceTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 
 @DisplayName("AuthService 클래스의")
 class AuthServiceTest extends ServiceTest {
-
-    @Autowired
-    private AuthService authService;
 
     @DisplayName("verifyIssuer()는 ID 토큰의 iss 값이 유효하지 않을 경우 예외를 발생시킨다.")
     @Test

@@ -1,14 +1,11 @@
 package com.bootme.member.controller;
 
-import com.bootme.auth.token.TokenProvider;
 import com.bootme.common.exception.ResourceNotFoundException;
 import com.bootme.course.dto.CourseResponse;
-import com.bootme.member.service.MemberService;
 import com.bootme.util.ControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
@@ -32,12 +29,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(MemberController.class)
 @DisplayName("MemberController 클래스의")
 class MemberControllerTest extends ControllerTest {
-
-    @MockBean
-    private MemberService memberService;
-
-    @MockBean
-    private TokenProvider tokenProvider;
 
     @Test
     @DisplayName("addBookmarkCourse()는 정상 요청시 상태코드 201을 반환한다.")
