@@ -19,8 +19,8 @@ public class CourseResponse {
     private int generation;
     private String url;
     private String location;
-    private List<String> superCategory;
-    private List<String> subCategory;
+    private List<String> superCategories;
+    private List<String> subCategories;
     private List<String> languages;
     private List<String> frameworks;
     private int cost;
@@ -54,8 +54,8 @@ public class CourseResponse {
         this.title = title;
         this.url = url;
         this.location = location;
-        this.superCategory = superCategories;
-        this.subCategory = subCategories;
+        this.superCategories = superCategories;
+        this.subCategories = subCategories;
         this.languages = languages;
         this.frameworks = frameworks;
         this.cost = cost;

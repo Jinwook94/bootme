@@ -120,8 +120,8 @@ class CourseServiceTest extends ServiceTest {
                 () -> assertThat(courseResponse.isOnline()).isTrue(),
                 () -> assertThat(courseResponse.isTested()).isTrue(),
                 () -> assertThat(courseResponse.isPrerequisiteRequired()).isTrue(),
-                () -> assertThat(courseResponse.getSuperCategory()).isEqualTo(course.getCategories().getSuperCategories()),
-                () -> assertThat(courseResponse.getSubCategory()).isEqualTo(course.getCategories().getSubCategories()),
+                () -> assertThat(courseResponse.getSuperCategories()).isEqualTo(course.getCategories().getSuperCategories()),
+                () -> assertThat(courseResponse.getSubCategories()).isEqualTo(course.getCategories().getSubCategories()),
                 () -> assertThat(courseResponse.getLanguages()).isEqualTo(Stack.getLanguages(stacks)),
                 () -> assertThat(courseResponse.getFrameworks()).isEqualTo(Stack.getFrameworks(stacks))
         );

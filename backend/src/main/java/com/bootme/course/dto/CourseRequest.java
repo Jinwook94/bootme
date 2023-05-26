@@ -30,16 +30,12 @@ public class CourseRequest {
     @NotBlank(message = "코스 진행 장소를 입력해주세요.")
     private String location;
 
-    @Builder.Default
     private List<String> superCategories = new ArrayList<>();
 
-    @Builder.Default
     private List<String> subCategories = new ArrayList<>();
 
-    @Builder.Default
     private List<String> languages = new ArrayList<>();
 
-    @Builder.Default
     private List<String> frameworks = new ArrayList<>();
 
     @NotNull(message = "코스 참여 비용을 입력해주세요.")

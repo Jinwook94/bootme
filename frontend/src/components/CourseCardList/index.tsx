@@ -58,10 +58,10 @@ const CourseCardList = ({ courses, displayBookmarked }: CourseCardListProps) => 
               title,
               url,
               company,
-              superCategory,
-              subCategory,
-              language,
-              framework,
+              superCategories,
+              subCategories,
+              languages,
+              frameworks,
               dates,
               cost,
               period,
@@ -74,10 +74,10 @@ const CourseCardList = ({ courses, displayBookmarked }: CourseCardListProps) => 
                 title={title}
                 url={url}
                 company={company}
-                superCategory={superCategory}
-                subCategory={subCategory}
-                language={language}
-                framework={framework}
+                superCategories={superCategories}
+                subCategories={subCategories}
+                languages={languages}
+                frameworks={frameworks}
                 dates={dates}
                 cost={cost}
                 period={period}

@@ -34,10 +34,10 @@ interface Course {
   generation: number;
   url: string;
   location: string;
-  superCategory: string[];
-  subCategory: string[];
-  language: string[];
-  framework: string[];
+  superCategories: string[];
+  subCategories: string[];
+  languages: string[];
+  frameworks: string[];
   cost: number;
   period: number;
   dates: datesType;
