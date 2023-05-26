@@ -95,7 +95,7 @@ const Home = () => {
                 </MenuContainer>
                 <SearchInput>
                   <Space direction="vertical">
-                    <Search placeholder="커리큘럼 검색" onSearch={onSearch} style={{ width: 240 }} />
+                    <Search placeholder="커리큘럼 검색" onSearch={onSearch} size="large" style={{ width: 350 }} />
                   </Space>
                 </SearchInput>
               </CourseListMenu>

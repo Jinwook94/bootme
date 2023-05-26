@@ -127,8 +127,8 @@ export const SearchInput = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 16px;
-  margin-bottom: 8px;
+  margin-top: 24px;
+  margin-bottom: 14px;
 
   @media (min-width: 768px) {
     display: none;
