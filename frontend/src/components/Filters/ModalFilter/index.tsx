@@ -1,6 +1,6 @@
+import React, { useEffect } from 'react';
 import ReactModal from 'react-modal';
 import { useFilters } from '../../../hooks/useFilters';
-import React from 'react';
 import './style.css';
 import { HeaderText, IconWrapper, ModalBody, ModalFooter, ModalHeader, ResetFilter, ShowCourse } from './style';
 import { CloseIcon } from '../../../constants/icons';
@@ -11,7 +11,21 @@ import { useCourses } from '../../../hooks/useCourses';
 const ModalFilter = () => {
   const { isModal, handleModal, isReset, resetFilters } = useFilters();
   const { courseCount } = useCourses();
-  ReactModal.setAppElement('#root');
+
+  useEffect(() => {
+    const handleBackButton = (event: { preventDefault: () => void }) => {
+      if (isModal) {
+        event.preventDefault();
+        handleModal();
+      }
+    };
+
+    window.addEventListener('popstate', handleBackButton);
+
+    return () => {
+      window.removeEventListener('popstate', handleBackButton);
+    };
+  }, [isModal, handleModal]);
 
   return (
     <ReactModal
