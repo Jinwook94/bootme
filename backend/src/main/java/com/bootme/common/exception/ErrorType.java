@@ -38,6 +38,7 @@ public enum ErrorType {
     // Invalid input errors
     INVALID_METHOD_ARGUMENT (5001, ""), // 인자에 따라 다른 에러 메시지 출력되도록 설정함
     INVALID_EVENT           (5002, "유효하지 않은 webhook 이벤트입니다."),
+    INVALID_SEARCH_QUERY    (5004, "검색 입력값이 유효하지 않습니다."),
 
     // Internal server errors
     RUNTIME_EXCEPTION       (9001, "서버에 알 수 없는 문제가 발생했습니다.");

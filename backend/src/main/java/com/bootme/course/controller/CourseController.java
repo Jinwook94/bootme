@@ -40,9 +40,9 @@ public class CourseController {
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "popular") String sort,
-            @RequestParam MultiValueMap<String, String> filters
+            @RequestParam MultiValueMap<String, String> params
     ) {
-        Page<CourseResponse> coursePage = courseService.findAll(page, size, sort, filters);
+        Page<CourseResponse> coursePage = courseService.findAll(page, size, sort, params);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Access-Control-Expose-Headers", "X-Total-Count");
@@ -72,5 +72,6 @@ public class CourseController {
         courseService.deleteCourse(id);
         return ResponseEntity.noContent().build();
     }
+
 }
 

@@ -1,32 +1,20 @@
-### 로그인
-POST localhost:8080/login HTTP/1.1
-Authorization: Bearer idToken
-Accept: application/json
-Host: api.bootMe.app
+### 기술 스택 추가
+POST localhost:8080/stacks HTTP/1.1
+Content-Type: application/json
 
-### 로그인 [실패: TOKEN_PARSING_FAIL]
-POST localhost:8080/login HTTP/1.1
-Authorization: Bearer InvalidBase64PayloadString.eyJhdWQiOiJkMGMwZmEzMWU1ZDQ4YmMzZjQ5MDIwZTExNjY4NDgwOSIsInN1YiI6IjI2NDY1ODY0NTYiLCJhdXRoX3RpbWUiOjE2ODQ1ODE2MzUsImlzcyI6Imh0dHBzOi8va2F1dGgua2FrYW8uY29tIiwibmlja25hbWUiOiLsp4TsmrEiLCJleHAiOjE2ODQ2MDMyMzUsImlhdCI6MTY4NDU4MTYzNSwicGljdHVyZSI6Imh0dHA6Ly9rLmtha2FvY2RuLm5ldC9kbi9kcGs5bDEvYnRxbUdoQTJsS0wvT3owd0R1Sm4xWVYyREluOTJmNkRWSy9pbWdfMTEweDExMC5qcGciLCJlbWFpbCI6ImdvZGZhdGhlcjk0QGtha2FvLmNvbSJ9.UjCa91vPFHFD7K58QFYvT1JJNcXNlCJ1tdVuhW3L4Yzt1klLEypYz-OwDLq_Ggviaf30ImWK5CWzCtOx19UnTmlipwfnGaPA7xhVdTaexsQsa4_tST25weUfrtbii0g6joFzivdYiycbAXKF_dHjjabZLWRZDow8z7t5zcOl1fZRJTfuWWrr-NzmQFcuWn0caFlWybp1s2wcOY9Y6AvyzHgvANyORL6KgkPby_U_tLsXRMtxe-K4-xw7AGkfk3WWV4DKHlotPBIa5zb6xKUXlO-5r4Or70qt13PM6KgHJ0bWUA_HPrt4hflSyemxZlAkFYtZd5IcIQ9btE-EcwbanA
-Accept: application/json
-Host: api.bootMe.app
-
-### 로그인 [실패: INVALID_ISSUER]
-POST localhost:8080/login HTTP/1.1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJpbnZhbGlkSXNzdWVyIiwiaWF0IjoxNjg0NTgyMTA5LCJleHAiOjE3MTYxMTgxMDksImF1ZCI6Imh0dHBzOi8va2F1dGgua2FrYW8uY29tLyIsInN1YiI6IjI2NDY1ODY0NTYiLCJhdXRoX3RpbWUiOiIxNjg0NTgxNjM1Iiwibmlja25hbWUiOiLsp4TsmrEiLCJwaWN0dXJlIjoiaHR0cDovL2sua2FrYW9jZG4ubmV0L2RuL2RwazlsMS9idHFtR2hBMmxLTC9PejB3RHVKbjFZVjJESW45MmY2RFZLL2ltZ18xMTB4MTEwLmpwZyIsImVtYWlsIjoiZ29kZmF0aGVyOTRAa2FrYW8uY29tIn0.bNW6GWrscwfSA2oey_D_DniCvH2Dpr8rJVKuIckZVcM
-Accept: application/json
-Host: api.bootMe.app
-
-### 로그인 [실패: INVALID_AUDIENCE]
-POST localhost:8080/login HTTP/1.1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2Jvb3RtZS5mcm9udC5jb20iLCJpYXQiOjE2ODQ1ODIxMDksImV4cCI6MTcxNjExODEwOSwiYXVkIjoiaW52YWxpZEF1ZGllbmNlIiwic3ViIjoiMjY0NjU4NjQ1NiIsImF1dGhfdGltZSI6IjE2ODQ1ODE2MzUiLCJuaWNrbmFtZSI6IuynhOyasSIsInBpY3R1cmUiOiJodHRwOi8vay5rYWthb2Nkbi5uZXQvZG4vZHBrOWwxL2J0cW1HaEEybEtML096MHdEdUpuMVlWMkRJbjkyZjZEVksvaW1nXzExMHgxMTAuanBnIiwiZW1haWwiOiJnb2RmYXRoZXI5NEBrYWthby5jb20ifQ.bbzTjATw7WaD285BDqKJpWsAXa7JYbsNTGuFRWTc8R0
-Accept: application/json
-Host: api.bootMe.app
-
-### 로그인 [실패: INVALID_SIGNATURE]
-POST localhost:8080/login HTTP/1.1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2Jvb3RtZS5mcm9udC5jb20iLCJpYXQiOjE2ODQ1ODIxMDksImV4cCI6MTcxNjExODEwOSwiYXVkIjoiYm9vdG1lLmNvbSIsInN1YiI6IjI2NDY1ODY0NTYiLCJhdXRoX3RpbWUiOiIxNjg0NTgxNjM1Iiwibmlja25hbWUiOiLsp4TsmrEiLCJwaWN0dXJlIjoiaHR0cDovL2sua2FrYW9jZG4ubmV0L2RuL2RwazlsMS9idHFtR2hBMmxLTC9PejB3RHVKbjFZVjJESW45MmY2RFZLL2ltZ18xMTB4MTEwLmpwZyIsImVtYWlsIjoiZ29kZmF0aGVyOTRAa2FrYW8uY29tIn0.-9V0pSCMuxjJUwJSl6WL6PUsrOnrjYrEaMEsC_NxWdc
-Accept: application/json
-Host: api.bootMe.app
+[
+  {"name": "JavaScript", "type": "language"},
+  {"name": "TypeScript", "type": "language"},
+  {"name": "Java", "type": "language"},
+  {"name": "Python", "type": "language"},
+  {"name": "Swift", "type": "language"},
+  {"name": "Kotlin", "type": "language"},
+  {"name": "React", "type": "framework"},
+  {"name": "Vue.js", "type": "framework"},
+  {"name": "Spring", "type": "framework"},
+  {"name": "Node.js", "type": "framework"},
+  {"name": "Django", "type": "framework"}
+]
 
 ### 회사 추가
 POST localhost:8080/companies HTTP/1.1
@@ -40,6 +28,58 @@ Host: api.bootMe.app
   "serviceUrl" : "www.app.naver.com",
   "logoUrl" : "https://bootme-images.s3.ap-northeast-2.amazonaws.com/logo/postech_apple.png"
 }
+
+### 코스 추가
+POST localhost:8080/courses HTTP/1.1
+Content-Type: application/json
+Host: api.bootMe.app
+
+{
+  "title" : "네이버 서버 개발자 부트캠프 1기",
+  "name" : "네이버 서버 개발자 부트캠프",
+  "generation" : 1,
+  "url" : "www.boot.naver.com",
+  "companyName" : "네이버",
+  "location" : "서울시 강남구",
+  "superCategories" : [ "웹", "모바일 앱" ],
+  "subCategories" : [ "백엔드", "안드로이드" ],
+  "languages" : [ "Kotlin"],
+  "frameworks" : [ "Spring", "React"],
+  "cost" : 0,
+  "period" : 90,
+  "dates" : {
+    "registrationStartDate" : "2023-01-01",
+    "registrationEndDate" : "2024-01-31",
+    "courseStartDate" : "2024-02-01",
+    "courseEndDate" : "2024-04-30"
+  },
+  "recommended" : true,
+  "free" : true,
+  "kdt" : true,
+  "online" : true,
+  "tested" : true,
+  "prerequisiteRequired" : true
+}
+
+### 코스 조회
+GET localhost:8080/courses/1 HTTP/1.1
+Accept: application/json
+Host: api.bootMe.app
+
+### 코스 1페이지 조회
+GET localhost:8080/courses?sort=popular&page=1&size=10 HTTP/1.1
+Accept: application/json
+Host: api.bootMe.app
+
+### 코스 필터링 조회
+GET localhost:8080/courses?superCategory=웹&language=Java HTTP/1.1
+Accept: application/json
+Host: api.bootMe.app
+
+### 코스 검색
+GET localhost:8080/courses?search=네이버  HTTP/1.1
+Accept: application/json
+Host: api.bootMe.app
 
 ### 회사 조회
 GET localhost:8080/companies/1 HTTP/1.1
@@ -69,50 +109,8 @@ DELETE localhost:8080/companies/1 HTTP/1.1
 Content-Type: application/json
 Host: api.bootMe.app
 
-### 코스 추가
-POST localhost:8080/courses HTTP/1.1
-Content-Type: application/json
-Host: api.bootMe.app
-
-{
-  "title" : "네이버 서버 개발자 부트캠프 1기",
-  "name" : "네이버 서버 개발자 부트캠프",
-  "generation" : 1,
-  "url" : "www.boot.naver.com",
-  "companyName" : "네이버",
-  "location" : "서울시 강남구",
-  "superCategories" : [ "웹", "모바일 앱" ],
-  "subCategories" : [ "백엔드", "안드로이드" ],
-  "languages" : [ "Java", "Python", "JavaScript" ],
-  "frameworks" : [ "Spring", "Django", "Nodejs" ],
-  "cost" : 0,
-  "period" : 90,
-  "dates" : {
-    "registrationStartDate" : "2023-01-01",
-    "registrationEndDate" : "2024-01-31",
-    "courseStartDate" : "2024-02-01",
-    "courseEndDate" : "2024-04-30"
-  },
-  "recommended" : true,
-  "free" : true,
-  "kdt" : true,
-  "online" : true,
-  "tested" : true,
-  "prerequisiteRequired" : true
-}
-
-### 코스 조회
-GET localhost:8080/courses/1 HTTP/1.1
-Accept: application/json
-Host: api.bootMe.app
-
-### 코스 1페이지 조회
-GET localhost:8080/courses?sort=popular&page=1&size=10 HTTP/1.1
-Accept: application/json
-Host: api.bootMe.app
-
-### 코스 필터링 조회
-GET localhost:8080/courses?superCategory=%EC%9B%B9,%EC%9B%B9&sort=popular&page=1&size=10 HTTP/1.1
+### 북마크 코스 추가
+POST localhost:8080/member/1/bookmarks/1
 Accept: application/json
 Host: api.bootMe.app
 
@@ -175,3 +173,26 @@ Host: api.bootMe.app
   "createdAt" : 1684335600
 }
 
+### 로그인 [실패: TOKEN_PARSING_FAIL]
+POST localhost:8080/login HTTP/1.1
+Authorization: Bearer InvalidBase64PayloadString.eyJhdWQiOiJkMGMwZmEzMWU1ZDQ4YmMzZjQ5MDIwZTExNjY4NDgwOSIsInN1YiI6IjI2NDY1ODY0NTYiLCJhdXRoX3RpbWUiOjE2ODQ1ODE2MzUsImlzcyI6Imh0dHBzOi8va2F1dGgua2FrYW8uY29tIiwibmlja25hbWUiOiLsp4TsmrEiLCJleHAiOjE2ODQ2MDMyMzUsImlhdCI6MTY4NDU4MTYzNSwicGljdHVyZSI6Imh0dHA6Ly9rLmtha2FvY2RuLm5ldC9kbi9kcGs5bDEvYnRxbUdoQTJsS0wvT3owd0R1Sm4xWVYyREluOTJmNkRWSy9pbWdfMTEweDExMC5qcGciLCJlbWFpbCI6ImdvZGZhdGhlcjk0QGtha2FvLmNvbSJ9.UjCa91vPFHFD7K58QFYvT1JJNcXNlCJ1tdVuhW3L4Yzt1klLEypYz-OwDLq_Ggviaf30ImWK5CWzCtOx19UnTmlipwfnGaPA7xhVdTaexsQsa4_tST25weUfrtbii0g6joFzivdYiycbAXKF_dHjjabZLWRZDow8z7t5zcOl1fZRJTfuWWrr-NzmQFcuWn0caFlWybp1s2wcOY9Y6AvyzHgvANyORL6KgkPby_U_tLsXRMtxe-K4-xw7AGkfk3WWV4DKHlotPBIa5zb6xKUXlO-5r4Or70qt13PM6KgHJ0bWUA_HPrt4hflSyemxZlAkFYtZd5IcIQ9btE-EcwbanA
+Accept: application/json
+Host: api.bootMe.app
+
+### 로그인 [실패: INVALID_ISSUER]
+POST localhost:8080/login HTTP/1.1
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJpbnZhbGlkSXNzdWVyIiwiaWF0IjoxNjg0NTgyMTA5LCJleHAiOjE3MTYxMTgxMDksImF1ZCI6Imh0dHBzOi8va2F1dGgua2FrYW8uY29tLyIsInN1YiI6IjI2NDY1ODY0NTYiLCJhdXRoX3RpbWUiOiIxNjg0NTgxNjM1Iiwibmlja25hbWUiOiLsp4TsmrEiLCJwaWN0dXJlIjoiaHR0cDovL2sua2FrYW9jZG4ubmV0L2RuL2RwazlsMS9idHFtR2hBMmxLTC9PejB3RHVKbjFZVjJESW45MmY2RFZLL2ltZ18xMTB4MTEwLmpwZyIsImVtYWlsIjoiZ29kZmF0aGVyOTRAa2FrYW8uY29tIn0.bNW6GWrscwfSA2oey_D_DniCvH2Dpr8rJVKuIckZVcM
+Accept: application/json
+Host: api.bootMe.app
+
+### 로그인 [실패: INVALID_AUDIENCE]
+POST localhost:8080/login HTTP/1.1
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2Jvb3RtZS5mcm9udC5jb20iLCJpYXQiOjE2ODQ1ODIxMDksImV4cCI6MTcxNjExODEwOSwiYXVkIjoiaW52YWxpZEF1ZGllbmNlIiwic3ViIjoiMjY0NjU4NjQ1NiIsImF1dGhfdGltZSI6IjE2ODQ1ODE2MzUiLCJuaWNrbmFtZSI6IuynhOyasSIsInBpY3R1cmUiOiJodHRwOi8vay5rYWthb2Nkbi5uZXQvZG4vZHBrOWwxL2J0cW1HaEEybEtML096MHdEdUpuMVlWMkRJbjkyZjZEVksvaW1nXzExMHgxMTAuanBnIiwiZW1haWwiOiJnb2RmYXRoZXI5NEBrYWthby5jb20ifQ.bbzTjATw7WaD285BDqKJpWsAXa7JYbsNTGuFRWTc8R0
+Accept: application/json
+Host: api.bootMe.app
+
+### 로그인 [실패: INVALID_SIGNATURE]
+POST localhost:8080/login HTTP/1.1
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2Jvb3RtZS5mcm9udC5jb20iLCJpYXQiOjE2ODQ1ODIxMDksImV4cCI6MTcxNjExODEwOSwiYXVkIjoiYm9vdG1lLmNvbSIsInN1YiI6IjI2NDY1ODY0NTYiLCJhdXRoX3RpbWUiOiIxNjg0NTgxNjM1Iiwibmlja25hbWUiOiLsp4TsmrEiLCJwaWN0dXJlIjoiaHR0cDovL2sua2FrYW9jZG4ubmV0L2RuL2RwazlsMS9idHFtR2hBMmxLTC9PejB3RHVKbjFZVjJESW45MmY2RFZLL2ltZ18xMTB4MTEwLmpwZyIsImVtYWlsIjoiZ29kZmF0aGVyOTRAa2FrYW8uY29tIn0.-9V0pSCMuxjJUwJSl6WL6PUsrOnrjYrEaMEsC_NxWdc
+Accept: application/json
+Host: api.bootMe.app

@@ -69,7 +69,7 @@ public class CourseFilterPredicate {
         processBooleanFilters(builder, filters, "isTested", course.isTested::eq);
         processBooleanFilters(builder, filters, "isPrerequisiteRequired", course.isPrerequisiteRequired::eq);
 
-        return builder;
+        return builder.getValue();
     }
 
     private void processCategoryFilters(BooleanBuilder builder, MultiValueMap<String, String> filters,

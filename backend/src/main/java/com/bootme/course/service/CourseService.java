@@ -10,6 +10,7 @@ import com.bootme.course.repository.CourseRepository;
 import com.bootme.course.repository.CourseStackRepository;
 import com.bootme.stack.domain.Stack;
 import com.bootme.stack.repository.StackRepository;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -35,6 +36,7 @@ public class CourseService {
     private final CourseStackRepository courseStackRepository;
     private final StackRepository stackRepository;
     private final CourseFilterPredicate courseFilterPredicate;
+    private final CourseSearchPredicate courseSearchPredicate;
 
     private static final String CREATED_AT = "createdAt";
     private static final String CLICKS = "clicks";
@@ -75,9 +77,9 @@ public class CourseService {
     }
 
     @Transactional(readOnly = true)
-    public Page<CourseResponse> findAll(int page, int size, String sort, MultiValueMap<String, String> filters) {
-        Predicate predicate = courseFilterPredicate.build(filters);
-        return getCoursePage(page, size, sort, predicate)
+    public Page<CourseResponse> findAll(int page, int size, String sort, MultiValueMap<String, String> params) {
+        Predicate combinedPredicate = getCombinedPredicate(params);
+        return getCoursePage(page, size, sort, combinedPredicate)
                 .map(course -> CourseResponse.of(course, courseStackRepository.findStacksByCourseId(course.getId())));
     }
 
@@ -127,12 +129,42 @@ public class CourseService {
         }
     }
 
-    private Page<Course> getCoursePage(int page, int size, String sort, Predicate predicate) {
+    private Predicate getCombinedPredicate(MultiValueMap<String, String> params) {
+        String searchQuery = getSearchQuery(params);
+        Predicate filterPredicate = courseFilterPredicate.build(params);
+        Predicate searchPredicate = searchQuery.isEmpty() ? null : courseSearchPredicate.build(searchQuery);
+
+        return combinePredicates(filterPredicate, searchPredicate);
+    }
+
+    private String getSearchQuery(MultiValueMap<String, String> params) {
+        List<String> searchParams = params.get("search");
+        if(searchParams != null && !searchParams.isEmpty()) {
+            return searchParams.get(0);
+        }
+        return "";
+    }
+
+    private Predicate combinePredicates(Predicate filterPredicate, Predicate searchPredicate) {
+        BooleanBuilder builder = new BooleanBuilder();
+
+        if (filterPredicate != null) {
+            builder.and(filterPredicate);
+        }
+
+        if (searchPredicate != null) {
+            builder.and(searchPredicate);
+        }
+
+        return builder.getValue();
+    }
+
+    private Page<Course> getCoursePage(int page, int size, String sort, Predicate combinedPredicate) {
         Pageable pageable = getSortedPageable(page, size, sort);
-        if (predicate == null) {
+        if (combinedPredicate == null) {
             return courseRepository.findAll(pageable);
         } else {
-            return courseRepository.findAll(predicate, pageable);
+            return courseRepository.findAll(combinedPredicate, pageable);
         }
     }
 

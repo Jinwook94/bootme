@@ -1,6 +1,7 @@
 package com.bootme.stack.domain;
 
 import com.bootme.common.domain.BaseEntity;
+import com.bootme.course.domain.CourseStack;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,9 @@ public class Stack extends BaseEntity {
 
     @Column(nullable = false)
     private String type;
+
+    @OneToMany(mappedBy = "stack", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private List<CourseStack> courseStacks = new ArrayList<>();
 
     public Stack(String name, String type) {
         this.name = name;
