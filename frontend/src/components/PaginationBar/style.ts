@@ -27,10 +27,7 @@ export const PageItem = styled.li`
   line-height: 1.6;
   list-style: none;
   cursor: pointer;
-
-  @media (max-width: 767px) {
-    font-size: 15px;
-  }
+  font-size: 18px;
 `;
 
 export const PageNumb = styled.a`

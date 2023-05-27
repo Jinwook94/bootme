@@ -49,7 +49,7 @@ const CourseDetailPage = () => {
             <Content>
               <ContentHeader>
                 <CompanyLogoWrapper>
-                  <a href={appendUtmParams(course?.company.url)} target="_blank" rel="noreferrer">
+                  <a href={appendUtmParams(course?.url)} target="_blank" rel="noreferrer">
                     <CompanyLogo src={course?.company.logoUrl} alt={course?.company.name} />
                   </a>
                 </CompanyLogoWrapper>
@@ -61,9 +61,13 @@ const CourseDetailPage = () => {
                 </HeaderDescription>
               </ContentHeader>
               <MobileButtons>
-                <Button type="primary" block style={{ fontSize: '16px', fontWeight: '700', lineHeight: 'normal' }}>
-                  지원하기
-                </Button>
+                <ApplyButton>
+                  <a href={appendUtmParams(course?.url)} target="_blank" rel="noreferrer">
+                    <Button type="primary" block style={{ fontSize: '16px', fontWeight: '700', lineHeight: 'normal' }}>
+                      지원하기
+                    </Button>
+                  </a>
+                </ApplyButton>
                 <ButtonWrapper>
                   <Buttons course={course} />
                 </ButtonWrapper>
