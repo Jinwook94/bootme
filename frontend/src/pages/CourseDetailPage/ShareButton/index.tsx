@@ -21,7 +21,7 @@ const ShareButton = ({ course }: { course: Course | undefined }) => {
         courseTitle: course?.title,
         companyLogo: course?.company.logoUrl,
         companyName: course?.company.name,
-        shareUrl: `${BOOTME_URL}/course/${course?.id}`,
+        shareUrl: `course/${course?.id}`,
       },
     });
   };
