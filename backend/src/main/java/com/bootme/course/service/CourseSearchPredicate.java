@@ -6,17 +6,23 @@ import com.bootme.common.exception.ValidationException;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import org.springframework.stereotype.Component;
+import org.springframework.util.MultiValueMap;
+
+import java.util.List;
 
 import static com.bootme.common.exception.ErrorType.INVALID_SEARCH_QUERY;
 
 @Component
-public class CourseSearchPredicate {
+public class CourseSearchPredicate implements CoursePredicate {
 
-    public Predicate build(String searchParam) {
-        if (searchParam.isEmpty()) {
+    public Predicate build(MultiValueMap<String, String> params) {
+
+        List<String> searchParams = params.get("search");
+        if(searchParams == null || searchParams.isEmpty()) {
             return null;
         }
 
+        String searchParam = params.get("search").get(0);
         validateSearchQuery(searchParam);
 
         QCourse course = QCourse.course;

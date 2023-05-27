@@ -41,7 +41,7 @@ import static com.bootme.common.exception.ErrorType.NOT_FOUND_STACK;
  */
 @Component
 @RequiredArgsConstructor
-public class CourseFilterPredicate {
+public class CourseFilterPredicate implements CoursePredicate {
 
     private final StackRepository stackRepository;
 

@@ -130,19 +130,9 @@ public class CourseService {
     }
 
     private Predicate getCombinedPredicate(MultiValueMap<String, String> params) {
-        String searchQuery = getSearchQuery(params);
         Predicate filterPredicate = courseFilterPredicate.build(params);
-        Predicate searchPredicate = searchQuery.isEmpty() ? null : courseSearchPredicate.build(searchQuery);
-
+        Predicate searchPredicate = courseSearchPredicate.build(params);
         return combinePredicates(filterPredicate, searchPredicate);
-    }
-
-    private String getSearchQuery(MultiValueMap<String, String> params) {
-        List<String> searchParams = params.get("search");
-        if(searchParams != null && !searchParams.isEmpty()) {
-            return searchParams.get(0);
-        }
-        return "";
     }
 
     private Predicate combinePredicates(Predicate filterPredicate, Predicate searchPredicate) {
