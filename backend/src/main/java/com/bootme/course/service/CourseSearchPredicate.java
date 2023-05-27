@@ -18,11 +18,11 @@ public class CourseSearchPredicate implements CoursePredicate {
     public Predicate build(MultiValueMap<String, String> params) {
 
         List<String> searchParams = params.get("search");
-        if(searchParams == null || searchParams.isEmpty()) {
+        if(searchParams == null || searchParams.isEmpty() || searchParams.get(0).isEmpty()) {
             return null;
         }
 
-        String searchParam = params.get("search").get(0);
+        String searchParam = searchParams.get(0);
         validateSearchQuery(searchParam);
 
         QCourse course = QCourse.course;
@@ -39,23 +39,23 @@ public class CourseSearchPredicate implements CoursePredicate {
         return builder.getValue();
     }
 
-    private void validateSearchQuery(String searchQuery) {
+    private void validateSearchQuery(String searchParam) {
         int maxQueryLength = 255;
-        if (searchQuery.length() > maxQueryLength) {
-            throw new ValidationException(INVALID_SEARCH_QUERY, "공백을 입력할 수 없습니다. 입력값 = " + searchQuery);
+        if (searchParam.length() > maxQueryLength) {
+            throw new ValidationException(INVALID_SEARCH_QUERY, "공백을 입력할 수 없습니다. 입력값 = " + searchParam);
         }
 
         String regex = "^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣 ]*$";
-        if (!searchQuery.matches(regex)) {
-            throw new ValidationException(INVALID_SEARCH_QUERY, "한글, 알파벳, 숫자만 검색 가능합니다. 입력값 = " + searchQuery);
+        if (!searchParam.matches(regex)) {
+            throw new ValidationException(INVALID_SEARCH_QUERY, "한글, 알파벳, 숫자만 검색 가능합니다. 입력값 = " + searchParam);
         }
 
         String numbersAndEnglish = "^[a-zA-Z0-9 ]*$";
         String korean = "^[ㄱ-ㅎㅏ-ㅣ가-힣 ]*$";
-        if (searchQuery.matches(numbersAndEnglish) && searchQuery.length() < 2) {
-            throw new ValidationException(INVALID_SEARCH_QUERY, "영문 또는 숫자는 2자 이상 검색 가능합니다. 입력값 = " + searchQuery);
-        } else if (searchQuery.matches(korean) && searchQuery.length() < 2) {
-            throw new ValidationException(INVALID_SEARCH_QUERY, "한글은 2자 이상 검색 가능합니다. 입력값 = " + searchQuery);
+        if (searchParam.matches(numbersAndEnglish) && searchParam.length() < 2) {
+            throw new ValidationException(INVALID_SEARCH_QUERY, "영문 또는 숫자는 2자 이상 검색 가능합니다. 입력값 = " + searchParam);
+        } else if (searchParam.matches(korean) && searchParam.length() < 2) {
+            throw new ValidationException(INVALID_SEARCH_QUERY, "한글은 2자 이상 검색 가능합니다. 입력값 = " + searchParam);
         }
     }
 
