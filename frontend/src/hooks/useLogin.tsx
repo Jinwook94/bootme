@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { fetcher } from '../api/fetcher';
 import PATH from '../constants/path';
 import { GOOGLE, NAVER, KAKAO } from '../constants/others';
+import { useSnackbar } from './useSnackbar';
+import SNACKBAR_MESSAGE from '../constants/snackbar';
 
 const LoginContext = createContext<LoginContextProps>({
   isLogin: false,
@@ -15,6 +17,7 @@ const LoginContext = createContext<LoginContextProps>({
 });
 
 export const LoginProvider = ({ children }: LoginProviderProps) => {
+  const { showSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const memberId = localStorage.getItem('MemberId');
   const [isLogin, setIsLogin] = useState(() => {
@@ -50,10 +53,17 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
     await setIsLogin(true);
     if (oAuthProvider == GOOGLE) {
       navigate(PATH.HOME);
+      showSnackbar(SNACKBAR_MESSAGE.SUCCESS_LOGIN);
       window.location.reload();
     }
-    if (oAuthProvider == NAVER) navigate(PATH.HOME);
-    if (oAuthProvider == KAKAO) navigate(PATH.HOME);
+    if (oAuthProvider == NAVER) {
+      navigate(PATH.HOME);
+      showSnackbar(SNACKBAR_MESSAGE.SUCCESS_LOGIN);
+    }
+    if (oAuthProvider == KAKAO) {
+      navigate(PATH.HOME);
+      showSnackbar(SNACKBAR_MESSAGE.SUCCESS_LOGIN);
+    }
   };
 
   const handleLogOut = () => {

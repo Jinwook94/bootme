@@ -20,11 +20,13 @@ import DateFormatter from './dateFormatter';
 import useWebhook from '../../hooks/useWebhook';
 import { COURSE_BOOKMARKED, COURSE_CLICKED } from '../../constants/webhook';
 import { useBookmarks } from '../../hooks/useBookmarks';
+import { appendUtmParams } from '../../api/fetcher';
+import PATH from '../../constants/path';
+import { Link } from 'react-router-dom';
 
 const CourseCard = ({
   id,
   title,
-  url,
   company,
   superCategories,
   subCategories,
@@ -49,18 +51,22 @@ const CourseCard = ({
       />
 
       <ItemHeader>
-        <a href={url} target="_blank" rel="noreferrer" onClick={() => sendWebhookNoti(COURSE_CLICKED, id)}>
+        <Link to={`${PATH.COURSE}/${id}`}>
           <CompanyLogo src={company.logoUrl} alt={company.name} />
-        </a>
+        </Link>
       </ItemHeader>
       <ItemBody>
         <CourseTitleWrapper>
-          <CourseTitle as="a" href={url} target="_blank" onClick={() => sendWebhookNoti(COURSE_CLICKED, id)}>
-            {title}
-          </CourseTitle>
+          <Link to={`${PATH.COURSE}/${id}`}>
+            <CourseTitle>{title}</CourseTitle>
+          </Link>
         </CourseTitleWrapper>
         <CompanyNameWrapper>
-          <CompanyName href={company.url} target="_blank" onClick={() => sendWebhookNoti(COURSE_CLICKED, id)}>
+          <CompanyName
+            href={appendUtmParams(company.url)}
+            target="_blank"
+            onClick={() => sendWebhookNoti(COURSE_CLICKED, id)}
+          >
             {company.name}
           </CompanyName>
         </CompanyNameWrapper>

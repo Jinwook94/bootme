@@ -213,6 +213,43 @@ export const BookmarkIcon = () => (
   </svg>
 );
 
+export const BookmarkIcon2 = () => (
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="ic-24">
+    <path
+      d="M17 3c1.1 0 2 .9 2 2v16l-7-3-7 3 .01-16c0-1.1.89-2 1.99-2h10zm-4 7V7h-2v3H8v2h3v3h2v-3h3v-2h-3z"
+      fillRule="nonzero"
+    ></path>
+  </svg>
+);
+
+export const ShareIcon = () => (
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="ic-24 C6fVgAk3zROqu5L3AYiq">
+    <path
+      d="M16 4a3 3 0 11-2.064 5.177l-3.997 2.22a3.014 3.014 0 010 1.207l3.997 2.22a3 3 0 11-.875 1.574l-3.997-2.221a3 3 0 110-4.354l3.997-2.22A3 3 0 0116 4zm1 12h-2v2h2v-2zm-9-5H6v2h2v-2zm9-5h-2v2h2V6z"
+      fillRule="nonzero"
+    ></path>
+  </svg>
+);
+
+export const UrlShareIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="icon icon-tabler icon-tabler-link"
+    width="100%"
+    height="100%"
+    viewBox="0 0 24 24"
+    strokeWidth="2"
+    stroke="currentColor"
+    fill="none"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+    <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path>
+    <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path>
+  </svg>
+);
+
 export const LogoutIcon = () => (
   <svg
     width="100%"

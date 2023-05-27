@@ -7,11 +7,11 @@ export const currentView = atom({
 });
 
 export const currentPageHome = atom({
-  key: 'currentPageState',
+  key: 'currentPageHome',
   default: 1,
 });
 
 export const currentPageBookmark = atom({
-  key: 'currentPageState',
+  key: 'currentPageBookmark',
   default: 1,
 });

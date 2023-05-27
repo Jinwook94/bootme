@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+export const Wrapper1 = styled.div`
+  border-bottom: 1px solid #f2f2f2;
+`;
+
 export const Wrapper = styled.div`
   display: flex;
   width: 100%;
@@ -7,7 +11,6 @@ export const Wrapper = styled.div`
   justify-content: space-between;
   padding: 0 1.25rem;
   word-break: keep-all;
-  border-bottom: 1px solid #f2f2f2;
 
   @media (max-width: 991px) {
     padding: 0;

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { UTM_PARAMS } from '../../constants/others';
 
 export const fetcher = axios.create({
   baseURL: process.env.SERVER_URL,
@@ -23,3 +24,11 @@ fetcher.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+export function appendUtmParams(url: string | undefined) {
+  if (!url) {
+    return '';
+  }
+  const separator = url.includes('?') ? '&' : '?';
+  return `${url}${separator}${UTM_PARAMS}`;
+}

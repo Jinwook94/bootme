@@ -4,6 +4,8 @@ import { useLogin } from './useLogin';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { currentPageBookmark, currentView } from '../recoilState';
 import { BOOKMARK } from '../constants/pages';
+import { useSnackbar } from './useSnackbar';
+import SNACKBAR_MESSAGE from '../constants/snackbar';
 
 const BookmarkContext = createContext<BookmarkContextProps>({
   isBookmarked: {},
@@ -22,6 +24,7 @@ const BookmarkContext = createContext<BookmarkContextProps>({
 
 export const BookmarkProvider = ({ children }: BookmarkProviderProps) => {
   const { isLogin, handleLoginModal } = useLogin();
+  const { showSnackbar } = useSnackbar();
   const memberId = localStorage.getItem('MemberId');
   const [isBookmarked, setIsBookmarked] = useState<{ [key: string]: boolean }>({});
   const [bookmarkedCourseIds, setBookmarkedCourseIds] = useState<number[]>([]);
@@ -78,8 +81,10 @@ export const BookmarkProvider = ({ children }: BookmarkProviderProps) => {
 
         if (method === 'DELETE') {
           setBookmarkedCourseIds(prevState => prevState.filter(courseId => courseId !== id));
+          showSnackbar(SNACKBAR_MESSAGE.SUCCESS_DELETE_BOOKMARK_COURSE);
         } else {
           setBookmarkedCourseIds(prevState => [...prevState, id]);
+          showSnackbar(SNACKBAR_MESSAGE.SUCCESS_ADD_BOOKMARK_COURSE);
         }
       } catch (error) {
         console.error(`Failed to ${method} bookmark for course ${id}:`, error);

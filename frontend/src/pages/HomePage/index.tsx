@@ -25,7 +25,6 @@ import React, { useEffect } from 'react';
 import CourseCardList from '../../components/CourseCardList';
 import usePaging from '../../hooks/usePaging';
 import { useCourses } from '../../hooks/useCourses';
-import Header from '../../components/Header';
 import SideFilter from '../../components/Filters/SideFilter';
 import { useFilters } from '../../hooks/useFilters';
 import ModalFilter from '../../components/Filters/ModalFilter';
@@ -36,7 +35,7 @@ import { HOME } from '../../constants/pages';
 import Search from 'antd/es/input/Search';
 import { useSearch } from '../../hooks/useSearch';
 
-const Home = () => {
+const HomePage = () => {
   const [, setView] = useRecoilState(currentView);
   const { handleModal } = useFilters();
   const { courseCount, maxPage, currentCourses, sortOption, handleSorting } = useCourses();
@@ -59,7 +58,6 @@ const Home = () => {
   return (
     <>
       <ModalFilter />
-      <Header />
       <SlideWrapper style={{ marginTop: '1.5rem' }}>
         <SlideBanner />
       </SlideWrapper>
@@ -126,4 +124,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomePage;

@@ -13,7 +13,7 @@ import { NaverLoginButton } from '../../components/LoginModal/NaverLogin';
 import { KakaoLoginButton } from '../../components/LoginModal/KakaoLogin';
 import React from 'react';
 
-const Login = () => {
+const LoginPage = () => {
   return (
     // todo: LoginModal 컴포넌트와 동일한 코드이므로 아래 코드를 따로 컴포넌트 분리 필요
     <Wrapper1>
@@ -36,4 +36,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;

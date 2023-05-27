@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import Header from '../../components/Header';
 import usePaging from '../../hooks/usePaging';
 import CourseCardList from '../../components/CourseCardList';
 import PaginationBar from '../../components/PaginationBar';
@@ -9,7 +8,7 @@ import { useRecoilState } from 'recoil';
 import { currentPageBookmark, currentView } from '../../recoilState';
 import { BOOKMARK } from '../../constants/pages';
 
-const Bookmarks = () => {
+const BookmarkPage = () => {
   const [, setView] = useRecoilState(currentView);
   const [currentPage] = useRecoilState(currentPageBookmark);
   const { isLoading, currentCourses, maxPage } = useBookmarks();
@@ -25,7 +24,6 @@ const Bookmarks = () => {
 
   return (
     <>
-      <Header />
       <BodyWrapper>
         <BodyWrapper2>
           <BodyTitle> 북마크 저장 코스 </BodyTitle>
@@ -45,4 +43,4 @@ const Bookmarks = () => {
   );
 };
 
-export default Bookmarks;
+export default BookmarkPage;

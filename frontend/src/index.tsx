@@ -13,6 +13,7 @@ import { NotificationProvider } from './hooks/useNotification';
 import { SecretProvider } from './hooks/useSecret';
 import { CourseProvider } from './hooks/useCourses';
 import { RecoilRoot } from 'recoil';
+import { SnackbarProvider } from './hooks/useSnackbar';
 
 const rootElement = document.getElementById('root') as Element;
 const queryClient = new QueryClient();
@@ -21,24 +22,26 @@ ReactDOM.createRoot(rootElement).render(
   <RecoilRoot>
     <BrowserRouter>
       <SecretProvider>
-        <NotificationProvider>
-          <LoginProvider>
-            <GoogleOAuthProvider clientId={'GOOGLE_CLIENT_ID'}>
-              <BookmarkProvider>
-                <FilterProvider>
-                  <CourseProvider>
-                    <QueryClientProvider client={queryClient}>
-                      <ThemeProvider theme={theme}>
-                        <GlobalStyle />
-                        <App />
-                      </ThemeProvider>
-                    </QueryClientProvider>
-                  </CourseProvider>
-                </FilterProvider>
-              </BookmarkProvider>
-            </GoogleOAuthProvider>
-          </LoginProvider>
-        </NotificationProvider>
+        <SnackbarProvider>
+          <NotificationProvider>
+            <LoginProvider>
+              <GoogleOAuthProvider clientId={'GOOGLE_CLIENT_ID'}>
+                <BookmarkProvider>
+                  <FilterProvider>
+                    <CourseProvider>
+                      <QueryClientProvider client={queryClient}>
+                        <ThemeProvider theme={theme}>
+                          <GlobalStyle />
+                          <App />
+                        </ThemeProvider>
+                      </QueryClientProvider>
+                    </CourseProvider>
+                  </FilterProvider>
+                </BookmarkProvider>
+              </GoogleOAuthProvider>
+            </LoginProvider>
+          </NotificationProvider>
+        </SnackbarProvider>
       </SecretProvider>
     </BrowserRouter>
   </RecoilRoot>

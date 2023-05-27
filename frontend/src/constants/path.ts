@@ -1,5 +1,6 @@
 const PATH = {
   HOME: '/',
+  COURSE: '/course',
   LOGIN: '/login',
   OAUTH: {
     NAVER: '/oauth/naver',
