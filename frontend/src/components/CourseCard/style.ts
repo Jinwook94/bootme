@@ -75,8 +75,20 @@ export const ItemBody = styled.div`
 
 export const CourseTitleWrapper = styled(FlexBox)`
   align-items: center;
+  width: 260px;
+  font-size: 18px;
 
-  @media (max-width: 385px) {
+  @media (min-width: 991px) and (max-width: 1200px) {
+    width: 200px;
+    font-size: 14px;
+  }
+
+  @media (min-width: 476px) and (max-width: 990px) {
+    width: 320px;
+    font-size: 18px;
+  }
+
+  @media (max-width: 475px) {
     width: 215px;
     font-size: 14px;
   }
@@ -100,13 +112,6 @@ export const CourseTitle = styled.h5`
   -webkit-line-clamp: 1;
   text-overflow: ellipsis;
   letter-spacing: -0.009em;
-
-  @media (max-width: 575px) {
-    font-size: 0.9rem;
-  }
-  @media (max-width: 991px) {
-    font-size: 1rem;
-  }
 `;
 
 export const CompanyNameWrapper = styled(FlexBox)`

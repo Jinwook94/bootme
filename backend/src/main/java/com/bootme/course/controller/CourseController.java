@@ -38,7 +38,7 @@ public class CourseController {
     @GetMapping
     public ResponseEntity<Page<CourseResponse>> findAllCourses(
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "12") int size,
             @RequestParam(defaultValue = "popular") String sort,
             @RequestParam MultiValueMap<String, String> params
     ) {
