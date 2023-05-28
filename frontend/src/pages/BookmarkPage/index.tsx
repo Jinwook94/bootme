@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import usePaging from '../../hooks/usePaging';
 import CourseCardList from '../../components/CourseCardList';
 import { useBookmarks } from '../../hooks/useBookmarks';
-import { BodyTitle, BodyWrapper, BodyWrapper2, CourseListWrapper, PaginationWrapper } from './style';
+import { BodyTitle, BodyWrapper, BodyWrapper2, CourseListWrapper, NoResultsMessage, PaginationWrapper } from './style';
 import { useRecoilState } from 'recoil';
 import { currentPageBookmark, currentView } from '../../recoilState';
 import { BOOKMARK } from '../../constants/pages';
@@ -28,7 +28,11 @@ const BookmarkPage = () => {
         <BodyWrapper2>
           <BodyTitle> 북마크 저장 코스 </BodyTitle>
           <CourseListWrapper>
-            <CourseCardList courses={currentCourses} displayBookmarked />
+            {courseCount === 0 ? (
+              <NoResultsMessage>북마크 저장한 코스가 없습니다.</NoResultsMessage>
+            ) : (
+              <CourseCardList courses={currentCourses} displayBookmarked />
+            )}
           </CourseListWrapper>
         </BodyWrapper2>
       </BodyWrapper>
