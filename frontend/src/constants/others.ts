@@ -4,4 +4,4 @@ export const GOOGLE = 'google';
 export const NAVER = 'naver';
 export const KAKAO = 'kakao';
 
-export const UTM_PARAMS = 'utm_source=bootme&utm_medium=bootme';
+export const UTM_PARAMS = 'utm_source=bootme&utm_medium=referral';

@@ -23,8 +23,7 @@ import { DotIcon } from '../../constants/icons';
 import Hamburger from 'hamburger-react';
 import UserDropDown from './UserDropdown';
 import MenuModal from './MenuModal';
-import { Link, useLocation } from 'react-router-dom';
-import PATH from '../../constants/path';
+import { useLocation } from 'react-router-dom';
 import NotificationDropdown from './NotificationDropdown';
 import { useSnackbar } from '../../hooks/useSnackbar';
 import SNACKBAR_MESSAGE, { EXCLAMATION } from '../../constants/snackbar';
@@ -56,15 +55,15 @@ const Header = () => {
         <Layout>
           <Wrapper>
             <HeaderLeft>
-              <Link to={PATH.HOME}>
+              <a href={'https://bootme.co.kr/'}>
                 <Logo>
                   <GitHubIcon />
                   <ServiceName>BootMe</ServiceName>
                 </Logo>
-              </Link>
-              <Link to={PATH.HOME}>
+              </a>
+              <a href={'https://bootme.co.kr/'}>
                 <HeaderItem> 부트캠프 </HeaderItem>
-              </Link>
+              </a>
               <HeaderItem onClick={() => showSnackbar(SNACKBAR_MESSAGE.WORK_IN_PROGRESS, EXCLAMATION)}>회사</HeaderItem>
               <HeaderItem onClick={() => showSnackbar(SNACKBAR_MESSAGE.WORK_IN_PROGRESS, EXCLAMATION)}>
                 커뮤니티{' '}
