@@ -1,11 +1,11 @@
-import { Popover } from 'antd';
+import { Popover, Tooltip } from 'antd';
 import { KakaoLogo, ShareIcon, UrlShareIcon } from '../../../constants/icons';
 import React, { useEffect, useState } from 'react';
 import { BOOTME_URL } from '../../../constants/others';
 import { IconWrapper, Item, Items, LinkItem, ShareButtonWrapper } from './style';
 import { useSecret } from '../../../hooks/useSecret';
 import { useSnackbar } from '../../../hooks/useSnackbar';
-import SNACKBAR_MESSAGE from '../../../constants/snackbar';
+import SNACKBAR_MESSAGE, { CHECK } from '../../../constants/snackbar';
 
 const ShareButton = ({ course }: { course: Course | undefined }) => {
   const { showSnackbar } = useSnackbar();
@@ -30,7 +30,7 @@ const ShareButton = ({ course }: { course: Course | undefined }) => {
     if (currentUrl) {
       navigator.clipboard
         .writeText(currentUrl)
-        .then(() => showSnackbar(SNACKBAR_MESSAGE.SUCCESS_COPY_URL_TO_CLIPBOARD))
+        .then(() => showSnackbar(SNACKBAR_MESSAGE.SUCCESS_COPY_URL_TO_CLIPBOARD, CHECK))
         .catch(e => {
           console.log('URL 복사 실패: ', e);
         });
@@ -74,9 +74,11 @@ const ShareButton = ({ course }: { course: Course | undefined }) => {
 
   return (
     <Popover content={shareDropdown} trigger="click" placement="bottomRight">
-      <ShareButtonWrapper>
-        <ShareIcon />
-      </ShareButtonWrapper>
+      <Tooltip placement="topRight" title={'공유하기'}>
+        <ShareButtonWrapper>
+          <ShareIcon />
+        </ShareButtonWrapper>
+      </Tooltip>
     </Popover>
   );
 };

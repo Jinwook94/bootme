@@ -23,6 +23,8 @@ import {
   Wrapper1,
   TagItem,
   TagItemSide,
+  StyledLink,
+  Recommended,
 } from './style';
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
@@ -48,25 +50,28 @@ const CourseDetailPage = () => {
           <Wrapper>
             <Content>
               <ContentHeader>
-                <CompanyLogoWrapper>
-                  <a href={appendUtmParams(course?.url)} target="_blank" rel="noreferrer">
+                <div style={{ display: 'flex', gap: '1.5rem' }}>
+                  <CompanyLogoWrapper>
                     <CompanyLogo src={course?.company.logoUrl} alt={course?.company.name} />
-                  </a>
-                </CompanyLogoWrapper>
-                <HeaderDescription>
-                  <h2>{course?.title}</h2>
-                  <h4>
-                    <a href={appendUtmParams(course?.company.url)}>{course?.company.name}</a>
-                  </h4>
-                </HeaderDescription>
+                  </CompanyLogoWrapper>
+                  <HeaderDescription>
+                    <h2>{course?.title}</h2>
+                    <h4>
+                      <StyledLink href={appendUtmParams(course?.company.url)} target="_blank">
+                        {course?.company.name}
+                      </StyledLink>
+                    </h4>
+                  </HeaderDescription>
+                </div>
+                {course?.recommended === true ? <Recommended /> : null}
               </ContentHeader>
               <MobileButtons>
                 <ApplyButton>
-                  <a href={appendUtmParams(course?.url)} target="_blank" rel="noreferrer">
+                  <StyledLink href={appendUtmParams(course?.url)} target="_blank">
                     <Button type="primary" block style={{ fontSize: '16px', fontWeight: '700', lineHeight: 'normal' }}>
                       지원하기
                     </Button>
-                  </a>
+                  </StyledLink>
                 </ApplyButton>
                 <ButtonWrapper>
                   <Buttons course={course} />
@@ -143,9 +148,7 @@ const CourseDetailPage = () => {
               <SideContent>
                 <SideTop>
                   <CompanyLogoWrapper>
-                    <a href={appendUtmParams(course?.company.url)} target="_blank" rel="noreferrer">
-                      <CompanyLogo src={course?.company.logoUrl} alt={course?.company.name} />
-                    </a>
+                    <CompanyLogo src={course?.company.logoUrl} alt={course?.company.name} />
                   </CompanyLogoWrapper>
                   <ButtonWrapper>
                     <Buttons course={course} />
@@ -154,7 +157,9 @@ const CourseDetailPage = () => {
                 <SideDescription>
                   <h4>{course?.title}</h4>
                   <h5>
-                    <a href={appendUtmParams(course?.company.url)}>{course?.company.name}</a>
+                    <StyledLink href={appendUtmParams(course?.company.url)} target="_blank">
+                      {course?.company.name}
+                    </StyledLink>
                   </h5>
                 </SideDescription>
                 <CourseTags>
@@ -180,11 +185,11 @@ const CourseDetailPage = () => {
                   ))}
                 </CourseTags>
                 <ApplyButton>
-                  <a href={appendUtmParams(course?.url)} target="_blank" rel="noreferrer">
+                  <StyledLink href={appendUtmParams(course?.url)} target="_blank">
                     <Button type="primary" block style={{ fontSize: '16px', fontWeight: '700', lineHeight: 'normal' }}>
                       지원하기
                     </Button>
-                  </a>
+                  </StyledLink>
                 </ApplyButton>
               </SideContent>
             </Side>

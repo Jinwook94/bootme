@@ -1,6 +1,14 @@
 import styled from 'styled-components';
 import { Layout } from '../../components/@common/Layout';
 
+export const StyledLink = styled.a`
+  color: inherit;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
 export const Wrapper1 = styled.div`
   background: #f9fafb;
 `;
@@ -39,8 +47,7 @@ export const Content = styled.div`
 
 export const ContentHeader = styled.div`
   display: flex;
-  position: relative;
-  column-gap: 1.5rem;
+  justify-content: space-between;
 `;
 
 export const CompanyLogoWrapper = styled.div`
@@ -92,6 +99,31 @@ export const HeaderDescription = styled.div`
     &:hover {
       text-decoration: underline;
     }
+`;
+
+export const Recommended = styled.div`
+  position: relative;
+  background-color: #ffc0cb;
+  color: #44576c;
+  height: 25px;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.5;
+  display: inline-block;
+  padding: 0.1875rem 0.5rem;
+  margin: 0.25rem 0.25rem 0 0;
+  border-radius: 0.25rem;
+  vertical-align: top;
+
+  &::after {
+    content: '추천 코스';
+  }
+
+  @media (max-width: 767px) {
+    &::after {
+      content: '추천';
+    }
+  }
 `;
 
 export const MobileButtons = styled.div`

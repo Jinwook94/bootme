@@ -14,7 +14,7 @@ import Header from './components/Header';
 import Snackbar from './components/Snackbar';
 
 const App = () => {
-  const { isVisible, message } = useSnackbar();
+  const { isVisible, message, displayIcon } = useSnackbar();
   return (
     <>
       <Header />
@@ -29,7 +29,7 @@ const App = () => {
           <Route path={PATH.BOOKMARKS} element={<BookmarkPage />} />
         </Route>
       </Routes>
-      {isVisible && <Snackbar message={message} />}
+      {isVisible && <Snackbar message={message} displayIcon={displayIcon} />}
     </>
   );
 };
