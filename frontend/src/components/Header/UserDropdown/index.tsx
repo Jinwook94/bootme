@@ -1,5 +1,5 @@
 import { Popover } from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { BookmarkIcon, LogoutIcon, ProfileIcon } from '../../../constants/icons';
 import { useLogin } from '../../../hooks/useLogin';
@@ -40,15 +40,17 @@ const UserDropDown = ({ nickName, profileImage }: UserDropDownProps) => {
         </Figure>
         <Items>
           <Item>
+            {/*<Link to={PATH.PROFILE} onClick={hide}>*/}
             <LinkItem>
               <IconWrapper>
                 <ProfileIcon />
               </IconWrapper>
               프로필 관리
             </LinkItem>
+            {/*</Link>*/}
           </Item>
           <Item>
-            <Link to={PATH.BOOKMARKS}>
+            <Link to={PATH.BOOKMARKS} onClick={hide}>
               <LinkItem>
                 <IconWrapper>
                   <BookmarkIcon />
@@ -67,9 +69,17 @@ const UserDropDown = ({ nickName, profileImage }: UserDropDownProps) => {
       </ContentWrapper>
     );
   };
+  const [isOpen, setIsOpen] = useState<boolean>();
+  const hide = () => {
+    setIsOpen(false);
+  };
+
+  const handleOpenChange = (newOpen: boolean) => {
+    setIsOpen(newOpen);
+  };
 
   return (
-    <Popover content={content} trigger="click" placement="bottomRight">
+    <Popover content={content} trigger="click" placement="bottomRight" open={isOpen} onOpenChange={handleOpenChange}>
       <>
         <NickNameButton>{nickName}님</NickNameButton>
       </>

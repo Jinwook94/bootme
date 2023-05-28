@@ -27,7 +27,6 @@ const MenuModal = ({ isLogin, isMenuOpen, setIsMenuOpen, nickName, profileImage 
   const [isHovered, setIsHovered] = useState(false);
   const { handleLogOut, handleLoginModal } = useLogin();
 
-  // todo: 북마크 코스 클릭해도 이동 안됨
   return (
     <ReactModal
       className={'MenuModal'}

@@ -23,7 +23,7 @@ import { DotIcon } from '../../constants/icons';
 import Hamburger from 'hamburger-react';
 import UserDropDown from './UserDropdown';
 import MenuModal from './MenuModal';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import PATH from '../../constants/path';
 import NotificationDropdown from './NotificationDropdown';
 
@@ -32,6 +32,7 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [profileImage, setProfileImage] = useState(localStorage.getItem('ProfileImage'));
   const [nickName, setNickName] = useState(localStorage.getItem('NickName'));
+  const location = useLocation();
 
   useEffect(() => {
     setNickName(localStorage.getItem('NickName'));
@@ -40,6 +41,10 @@ const Header = () => {
   useEffect(() => {
     setProfileImage(localStorage.getItem('ProfileImage'));
   }, [localStorage.getItem('ProfileImage')]);
+
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location]);
 
   return (
     <>
