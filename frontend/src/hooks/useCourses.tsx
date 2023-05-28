@@ -9,6 +9,7 @@ const CourseContext = createContext<CourseContextProps>({
   currentCourses: [],
   courseCount: 0,
   maxPage: 0,
+  size: 12,
   sortOption: '',
   handleSorting: () => {},
   fetchCourses: () => Promise.resolve(),
@@ -19,6 +20,7 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
   const [currentCourses, setCurrentCourses] = useState<Course[]>([]);
   const [sortOption, setSortOption] = useState('popular');
   const [maxPage, setMaxPage] = useState<number>(1);
+  const [size] = useState<number>(12);
   const [currentPage, setCurrentPage] = useRecoilState(currentPageHome);
   const [courseCount, setCourseCount] = useState<number>();
   const view = useRecoilValue(currentView);
@@ -38,7 +40,7 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
         params: {
           sort: sort,
           page: page,
-          size: 12,
+          size: size,
         },
       })
       .then(r => {
@@ -71,6 +73,7 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
         currentCourses,
         courseCount,
         maxPage,
+        size,
         sortOption,
         handleSorting,
         fetchCourses,
@@ -87,6 +90,7 @@ interface CourseContextProps {
   currentCourses: Course[];
   courseCount: number | undefined;
   maxPage: number;
+  size: number;
   sortOption: string;
   handleSorting: (option: string) => void;
   fetchCourses: (sort: string, page: number) => Promise<void>;

@@ -20,6 +20,8 @@ const BookmarkContext = createContext<BookmarkContextProps>({
   fetchBookmarkCourseIds: async () => [],
   handleBookmark: () => {},
   maxPage: 1,
+  size: 12,
+  courseCount: 0,
 });
 
 export const BookmarkProvider = ({ children }: BookmarkProviderProps) => {
@@ -31,6 +33,8 @@ export const BookmarkProvider = ({ children }: BookmarkProviderProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage] = useRecoilState(currentPageBookmark);
   const [maxPage, setMaxPage] = useState<number>(1);
+  const [size] = useState<number>(12);
+  const [courseCount, setCourseCount] = useState<number>();
   const [currentCourses, setCurrentCourses] = useState<Course[]>([]);
   const view = useRecoilValue(currentView);
 
@@ -46,6 +50,7 @@ export const BookmarkProvider = ({ children }: BookmarkProviderProps) => {
       .then(r => {
         setMaxPage(r.data.totalPages);
         setCurrentCourses(r.data.content);
+        setCourseCount(r.data.totalElements);
         return r.data.content;
       })
       .catch(error => {
@@ -130,6 +135,8 @@ export const BookmarkProvider = ({ children }: BookmarkProviderProps) => {
         fetchBookmarkCourseIds,
         handleBookmark,
         maxPage,
+        size,
+        courseCount,
       }}
     >
       {children}
@@ -152,6 +159,8 @@ interface BookmarkContextProps {
   fetchBookmarkCourseIds: () => Promise<number[]>;
   handleBookmark: (id: number) => void;
   maxPage: number;
+  size: number;
+  courseCount: number | undefined;
 }
 
 interface BookmarkProviderProps {

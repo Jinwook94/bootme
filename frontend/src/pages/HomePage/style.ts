@@ -182,7 +182,8 @@ export const PaginationWrapper = styled.div`
   flex-wrap: nowrap;
   align-items: center;
   justify-content: center;
-  margin-bottom: 4rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 `;
 
 export const FooterWrapper = styled.div``;

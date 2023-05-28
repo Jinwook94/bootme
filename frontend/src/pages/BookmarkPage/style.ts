@@ -2,15 +2,11 @@ import styled from 'styled-components';
 
 export const BodyWrapper = styled.div`
   padding-top: 0.5rem;
-  padding-bottom: 5rem;
+  padding-bottom: 2rem;
   display: flex;
   flex-direction: column;
   background: #f9fafb;
   min-height: 41rem;
-
-  @media (max-width: 991px) {
-    padding-bottom: 10.6875rem;
-  }
 `;
 
 export const BodyWrapper2 = styled.div`
@@ -44,4 +40,14 @@ export const CourseListWrapper = styled.section`
     grid-template-columns: repeat(2, minmax(0px, 1fr));
     width: 100%;
   }
+`;
+
+export const PaginationWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
 `;

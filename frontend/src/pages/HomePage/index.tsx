@@ -20,7 +20,6 @@ import {
 } from './style';
 
 import SlideBanner from '../../components/SlideBanner';
-import PaginationBar from '../../components/PaginationBar';
 import React, { useEffect } from 'react';
 import CourseCardList from '../../components/CourseCardList';
 import usePaging from '../../hooks/usePaging';
@@ -28,7 +27,7 @@ import { useCourses } from '../../hooks/useCourses';
 import SideFilter from '../../components/Filters/SideFilter';
 import { useFilters } from '../../hooks/useFilters';
 import ModalFilter from '../../components/Filters/ModalFilter';
-import { Select, Space } from 'antd';
+import { Pagination, Select, Space } from 'antd';
 import { useRecoilState } from 'recoil';
 import { currentPageHome, currentView } from '../../recoilState';
 import { HOME } from '../../constants/pages';
@@ -38,8 +37,8 @@ import { useSearch } from '../../hooks/useSearch';
 const HomePage = () => {
   const [, setView] = useRecoilState(currentView);
   const { handleModal } = useFilters();
-  const { courseCount, maxPage, currentCourses, sortOption, handleSorting } = useCourses();
-  const { handleNumberClick, handleNextClick, handlePrevClick } = usePaging(HOME, maxPage);
+  const { courseCount, size, currentCourses, sortOption, handleSorting } = useCourses();
+  const { handlePageChange } = usePaging(HOME);
   const { onSearch } = useSearch();
   const [currentPage, setCurrentPage] = useRecoilState(currentPageHome);
 
@@ -108,12 +107,12 @@ const HomePage = () => {
           </BodyWrapper2>
         </BodyWrapper>
         <PaginationWrapper>
-          <PaginationBar
-            currentPage={currentPage}
-            maxPage={maxPage}
-            handlePrevClick={handlePrevClick}
-            handleNextClick={handleNextClick}
-            handleNumberClick={handleNumberClick}
+          <Pagination
+            current={currentPage}
+            pageSize={size}
+            total={courseCount}
+            onChange={handlePageChange}
+            showSizeChanger={false}
           />
         </PaginationWrapper>
         <FooterWrapper>
