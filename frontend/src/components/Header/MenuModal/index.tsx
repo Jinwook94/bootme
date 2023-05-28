@@ -23,7 +23,10 @@ import { CloseIconBlack, CloseIconGray } from '../../../constants/icons';
 import { useLogin } from '../../../hooks/useLogin';
 import PATH from '../../../constants/path';
 import { Link } from 'react-router-dom';
+import SNACKBAR_MESSAGE, { EXCLAMATION } from '../../../constants/snackbar';
+import { useSnackbar } from '../../../hooks/useSnackbar';
 const MenuModal = ({ isLogin, isMenuOpen, setIsMenuOpen, nickName, profileImage }: MenuModalProps) => {
+  const { showSnackbar } = useSnackbar();
   const [isHovered, setIsHovered] = useState(false);
   const { handleLogOut, handleLoginModal } = useLogin();
 
@@ -79,9 +82,11 @@ const MenuModal = ({ isLogin, isMenuOpen, setIsMenuOpen, nickName, profileImage 
       </MenuHeader>
       <MenuBody>
         <Items>
-          <Item>부트캠프</Item>
-          <Item>회사</Item>
-          <Item>커뮤니티</Item>
+          <Link to={PATH.HOME}>
+            <Item>부트캠프</Item>
+          </Link>
+          <Item onClick={() => showSnackbar(SNACKBAR_MESSAGE.WORK_IN_PROGRESS, EXCLAMATION)}>회사</Item>
+          <Item onClick={() => showSnackbar(SNACKBAR_MESSAGE.WORK_IN_PROGRESS, EXCLAMATION)}>커뮤니티</Item>
         </Items>
         {isLogin ? (
           <UserInfo>
@@ -99,7 +104,7 @@ const MenuModal = ({ isLogin, isMenuOpen, setIsMenuOpen, nickName, profileImage 
                 <Occupation> 취준생 / 백엔드 </Occupation>
               </Figcaption>
             </Figure>
-            <Item>프로필 관리</Item>
+            <Item onClick={() => showSnackbar(SNACKBAR_MESSAGE.WORK_IN_PROGRESS, EXCLAMATION)}>프로필 관리</Item>
             <Link to={PATH.BOOKMARKS}>
               <Item>북마크 코스</Item>
             </Link>

@@ -26,8 +26,11 @@ import MenuModal from './MenuModal';
 import { Link, useLocation } from 'react-router-dom';
 import PATH from '../../constants/path';
 import NotificationDropdown from './NotificationDropdown';
+import { useSnackbar } from '../../hooks/useSnackbar';
+import SNACKBAR_MESSAGE, { EXCLAMATION } from '../../constants/snackbar';
 
 const Header = () => {
+  const { showSnackbar } = useSnackbar();
   const { isLogin, handleLoginModal } = useLogin();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [profileImage, setProfileImage] = useState(localStorage.getItem('ProfileImage'));
@@ -54,15 +57,18 @@ const Header = () => {
           <Wrapper>
             <HeaderLeft>
               <Link to={PATH.HOME}>
-                {' '}
                 <Logo>
                   <GitHubIcon />
                   <ServiceName>BootMe</ServiceName>
                 </Logo>
               </Link>
-              <HeaderItem> 부트캠프 </HeaderItem>
-              <HeaderItem> 회사 </HeaderItem>
-              <HeaderItem> 커뮤니티 </HeaderItem>
+              <Link to={PATH.HOME}>
+                <HeaderItem> 부트캠프 </HeaderItem>
+              </Link>
+              <HeaderItem onClick={() => showSnackbar(SNACKBAR_MESSAGE.WORK_IN_PROGRESS, EXCLAMATION)}>회사</HeaderItem>
+              <HeaderItem onClick={() => showSnackbar(SNACKBAR_MESSAGE.WORK_IN_PROGRESS, EXCLAMATION)}>
+                커뮤니티{' '}
+              </HeaderItem>
             </HeaderLeft>
             <HeaderRight>
               {isLogin ? (

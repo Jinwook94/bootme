@@ -44,11 +44,12 @@ export const ServiceName = styled.span`
   margin-left: 0.15rem;
 `;
 
-export const HeaderItem = styled.span`
+export const HeaderItem = styled.div`
   margin-right: 2rem;
   color: #000;
   font-size: 1.125rem;
   font-weight: 500;
+  cursor: pointer;
 
   @media (max-width: 768px) {
     display: none;

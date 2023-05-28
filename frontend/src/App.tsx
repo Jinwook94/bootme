@@ -11,7 +11,7 @@ import BookmarkPage from './pages/BookmarkPage';
 import Test from './pages/Test';
 import { useSnackbar } from './hooks/useSnackbar';
 import Header from './components/Header';
-import Snackbar from './components/Snackbar';
+import Snackbar from './components/@common/Snackbar';
 
 const App = () => {
   const { isVisible, message, displayIcon } = useSnackbar();
