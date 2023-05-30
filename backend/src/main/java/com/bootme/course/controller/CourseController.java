@@ -1,5 +1,7 @@
 package com.bootme.course.controller;
 
+import com.bootme.course.dto.CourseDetailRequest;
+import com.bootme.course.dto.CourseDetailResponse;
 import com.bootme.course.dto.CourseRequest;
 import com.bootme.course.dto.CourseResponse;
 import com.bootme.course.service.CourseService;
@@ -21,17 +23,17 @@ public class CourseController {
     private final CourseService courseService;
 
     @PostMapping
-    public ResponseEntity<CourseResponse> addCourse(@Valid @RequestBody CourseRequest courseRequest){
+    public ResponseEntity<CourseDetailResponse> addCourse(@Valid @RequestBody CourseRequest courseRequest){
         Long courseId = courseService.addCourse(courseRequest);
-        CourseResponse courseResponse = courseService.findById(courseId);
+        CourseDetailResponse courseResponse = courseService.findById(courseId);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Location", "/courses/" + courseId);
         return new ResponseEntity<>(courseResponse, headers, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CourseResponse> findCourse(@PathVariable Long id){
-        CourseResponse courseResponse = courseService.findById(id);
+    public ResponseEntity<CourseDetailResponse> findCourse(@PathVariable Long id){
+        CourseDetailResponse courseResponse = courseService.findById(id);
         return ResponseEntity.ok(courseResponse);
     }
 
