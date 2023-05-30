@@ -3,6 +3,8 @@ package com.bootme.course.service;
 import com.bootme.common.exception.ConflictException;
 import com.bootme.common.exception.ResourceNotFoundException;
 import com.bootme.course.domain.*;
+import com.bootme.course.dto.CourseDetailRequest;
+import com.bootme.course.dto.CourseDetailResponse;
 import com.bootme.course.dto.CourseRequest;
 import com.bootme.course.dto.CourseResponse;
 import com.bootme.course.repository.CompanyRepository;
@@ -69,11 +71,11 @@ public class CourseService {
     }
 
     @Transactional(readOnly = true)
-    public CourseResponse findById(Long id) {
+    public CourseDetailResponse findById(Long id) {
         Course foundCourse = courseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COURSE, String.valueOf(id)));
         List<Stack> stacks = courseStackRepository.findStacksByCourseId(id);
-        return CourseResponse.of(foundCourse, stacks);
+        return CourseDetailResponse.of(foundCourse, stacks);
     }
 
     @Transactional(readOnly = true)
@@ -88,6 +90,12 @@ public class CourseService {
                 .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COURSE, String.valueOf(id)));
 
         course.modifyCourse(courseRequest);
+    }
+
+    public void modifyCourseDetail(Long id, CourseDetailRequest courseDetailRequest){
+        Course course = courseRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COURSE, String.valueOf(id)));
+        course.modifyCourseDetail(courseDetailRequest.getDetail());
     }
 
     public void deleteCourse(Long id){
