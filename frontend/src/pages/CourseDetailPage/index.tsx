@@ -1,6 +1,7 @@
 import {
   ApplyButton,
   CompanyLogo,
+  CourseTitleWrapper,
   CompanyLogoWrapper,
   Content,
   ContentHeader,
@@ -25,6 +26,14 @@ import {
   TagItemSide,
   StyledLink,
   Recommended,
+  ItemLabel,
+  ItemDetail,
+  ItemWrapper,
+  ItemList,
+  Item,
+  ItemIcon,
+  ItemTitle,
+  BottomButtonWrapper,
 } from './style';
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
@@ -34,6 +43,7 @@ import useCourse from '../../hooks/useCourse';
 import DateFormatter from '../../components/CourseCard/dateFormatter';
 import { appendUtmParams } from '../../api/fetcher';
 import Buttons from './Bottons';
+import { CalendarIcon1, CalendarIcon2, HomeIcon } from '../../constants/icons';
 
 const CourseDetailPage = () => {
   const { id } = useParams();
@@ -145,24 +155,70 @@ const CourseDetailPage = () => {
                 </CourseInfo>
               </CourseInfoWrapper>
               <CourseDetailImg dangerouslySetInnerHTML={{ __html: cleanHTML }} />
+              <BottomButtonWrapper>
+                <ApplyButton>
+                  <StyledLink href={appendUtmParams(course?.url)} target="_blank">
+                    <Button type="primary" block style={{ fontSize: '16px', fontWeight: '700', lineHeight: 'normal' }}>
+                      자세히 알아보기
+                    </Button>
+                  </StyledLink>
+                </ApplyButton>
+              </BottomButtonWrapper>
             </Content>
             <Side>
               <SideContent>
                 <SideTop>
-                  <CompanyLogoWrapper>
-                    <CompanyLogo src={course?.company.logoUrl} alt={course?.company.name} />
-                  </CompanyLogoWrapper>
+                  <CourseTitleWrapper>
+                    <h4>{course?.title}</h4>
+                  </CourseTitleWrapper>
                   <ButtonWrapper>
                     <Buttons course={course} />
                   </ButtonWrapper>
                 </SideTop>
                 <SideDescription>
-                  <h4>{course?.title}</h4>
-                  <h5>
-                    <StyledLink href={appendUtmParams(course?.company.url)} target="_blank">
-                      {course?.company.name}
-                    </StyledLink>
-                  </h5>
+                  <ItemWrapper>
+                    <ItemList>
+                      <Item>
+                        <ItemLabel>
+                          <ItemIcon>
+                            <CalendarIcon1 />
+                          </ItemIcon>
+                          <ItemTitle>모집 기간</ItemTitle>
+                        </ItemLabel>
+                        <ItemDetail>
+                          <DateFormatter date={course?.dates.registrationStartDate} korean={true} />
+                          {' ~ '}
+                          <DateFormatter date={course?.dates.registrationEndDate} korean={true} />
+                        </ItemDetail>
+                      </Item>
+                    </ItemList>
+                    <ItemList>
+                      <Item>
+                        <ItemLabel>
+                          <ItemIcon>
+                            <CalendarIcon2 />
+                          </ItemIcon>
+                          <ItemTitle>수강 기간</ItemTitle>
+                        </ItemLabel>
+                        <ItemDetail>
+                          <DateFormatter date={course?.dates.courseStartDate} korean={true} />
+                          {' ~ '}
+                          <DateFormatter date={course?.dates.courseEndDate} korean={true} />
+                        </ItemDetail>
+                      </Item>
+                    </ItemList>
+                    <ItemList>
+                      <Item>
+                        <ItemLabel>
+                          <ItemIcon>
+                            <HomeIcon />
+                          </ItemIcon>
+                          <ItemTitle>수강 장소</ItemTitle>
+                        </ItemLabel>
+                        <ItemDetail>{course?.online ? '온라인' : course?.location}</ItemDetail>
+                      </Item>
+                    </ItemList>
+                  </ItemWrapper>
                 </SideDescription>
                 <CourseTags>
                   {course?.superCategories?.map((tag: string, index: number) => (

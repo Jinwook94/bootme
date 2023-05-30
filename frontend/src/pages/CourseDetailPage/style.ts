@@ -58,6 +58,15 @@ export const CompanyLogoWrapper = styled.div`
   border-radius: 0.25rem;
 `;
 
+export const CourseTitleWrapper = styled.div`
+  min-width: 4rem;
+  border-radius: 0.25rem;
+
+  &h4 {
+    font-weight: 600;
+  }
+`;
+
 export const CompanyLogo = styled.img``;
 
 export const HeaderDescription = styled.div`
@@ -257,6 +266,11 @@ export const CourseDetailImg = styled.div`
   }
 `;
 
+export const BottomButtonWrapper = styled.div`
+  width: 90%;
+  margin: 0 auto;
+`;
+
 export const Side = styled.div`
   position: sticky;
   top: 2rem;
@@ -285,8 +299,11 @@ export const SideTop = styled.div`
   justify-content: space-between;
   align-items: flex-start;
 `;
+
 export const SideDescription = styled.div`
-  margin-top: 0.75rem;
+  border-top: #d4d4d4 solid 1px;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
 
   h4 {
     word-break: keep-all;
@@ -312,4 +329,54 @@ export const SideDescription = styled.div`
       text-decoration: underline;
     }
   }
+`;
+
+export const ItemWrapper = styled.div`
+  flex-direction: column;
+  display: flex;
+  padding-top: 0.5rem;
+`;
+
+export const ItemList = styled.ul`
+  flex-direction: column;
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding-bottom: 0.25rem;
+`;
+
+export const Item = styled.li`
+  font-size: 0.875rem;
+  align-items: center;
+  display: flex;
+`;
+
+export const ItemLabel = styled.span`
+  align-items: center;
+  display: inline-flex;
+`;
+
+export const ItemDetail = styled.span`
+  white-space: nowrap;
+  margin-left: 0.5rem;
+  margin-right: 0.25rem;
+`;
+
+export const ItemIcon = styled.span`
+  box-sizing: border-box;
+
+  & svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    display: block;
+    vertical-align: middle;
+  }
+`;
+
+export const ItemTitle = styled.span`
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: #2284ff;
+  min-width: 3.125rem;
+  margin-left: 0.5rem;
 `;
