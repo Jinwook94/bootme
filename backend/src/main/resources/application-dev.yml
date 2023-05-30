@@ -15,6 +15,19 @@ spring:
       enabled: true
       path: /h2-console
 
+cloud:
+  aws:
+    s3:
+      bucket: ENC(b8OwZ5ju4SzcnOBO92RwpWJwFe7nfdN6)
+    credentials:
+      access-key: ENC(2vctfEcCiuZ7RN87cOUTravlqHfd55Xe1s6zEKdLlzk=)
+      secret-key: ENC(Koa+RVqWim1y9HryvbZ/ZE4T65fOjk1d+7IIrMQKDx1vuDcKJDaHIlbYAzDn/cseipNh/23YbvU=)
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
+
 logging:
   level:
     org.hibernate.SQL: DEBUG
