@@ -20,7 +20,7 @@ public class S3Config {
     private String secretKey;
 
     @Bean
-    @Profile("dev")
+    @Profile({"default", "dev"})
     public AmazonS3Client amazonS3Dev() {
         AWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);
         return (AmazonS3Client) AmazonS3ClientBuilder
