@@ -7,6 +7,7 @@ const PATH = {
     KAKAO: '/oauth/kakao',
   },
   BOOKMARKS: '/bookmarks',
+  PARTNER: '/partner',
 };
 
 export default PATH;

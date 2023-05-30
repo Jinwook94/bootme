@@ -12,6 +12,7 @@ import Test from './pages/Test';
 import { useSnackbar } from './hooks/useSnackbar';
 import Header from './components/Header';
 import Snackbar from './components/@common/Snackbar';
+import PartnerPage from './pages/PartnerPage';
 
 const App = () => {
   const { isVisible, message, displayIcon } = useSnackbar();
@@ -28,6 +29,7 @@ const App = () => {
         <Route element={<PrivateRoute />}>
           <Route path={PATH.BOOKMARKS} element={<BookmarkPage />} />
         </Route>
+        <Route path={PATH.PARTNER} element={<PartnerPage />} />
       </Routes>
       {isVisible && <Snackbar message={message} displayIcon={displayIcon} />}
     </>

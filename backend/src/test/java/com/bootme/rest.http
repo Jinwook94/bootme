@@ -81,6 +81,14 @@ GET localhost:8080/courses?search=네이버  HTTP/1.1
 Accept: application/json
 Host: api.bootMe.app
 
+### 코스 상세 수정
+PATCH localhost:8080/courses/1/detail
+Content-Type: application/json
+
+{
+    "detail": "123"
+}
+
 ### 회사 조회
 GET localhost:8080/companies/1 HTTP/1.1
 Accept: application/json

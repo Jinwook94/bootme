@@ -5,6 +5,9 @@ const SNACKBAR_MESSAGE = {
   SUCCESS_COPY_URL_TO_CLIPBOARD: 'URL이 복사되었습니다.',
   NEED_LOGIN: `로그인 후 이용할 수 있습니다.`,
   WORK_IN_PROGRESS: `준비중입니다.`,
+  SUCCESS_UPLOAD: `업로드 성공`,
+  FAIL_UPLOAD: `업로드 실패`,
+  FAIL_COURSE_FETCH: `코스 조회에 실패했습니다`,
 };
 
 export default SNACKBAR_MESSAGE;

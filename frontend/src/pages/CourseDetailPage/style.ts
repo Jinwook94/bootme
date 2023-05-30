@@ -103,8 +103,8 @@ export const HeaderDescription = styled.div`
 
 export const Recommended = styled.div`
   position: relative;
-  background-color: #ffc0cb;
-  color: #44576c;
+  background-color: #eeebff;
+  color: #3684ff;
   height: 25px;
   font-weight: 700;
   font-size: 14px;
@@ -251,6 +251,10 @@ export const TagItemSide = styled.li`
 
 export const CourseDetailImg = styled.div`
   margin-top: 2.5rem;
+
+  & img {
+    max-width: 100% !important;
+  }
 `;
 
 export const Side = styled.div`

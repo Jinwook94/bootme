@@ -151,6 +151,7 @@ export type CourseCardProps = Omit<
   | 'bookmarks'
   | 'createdAt'
   | 'modifiedAt'
+  | 'detail'
 >;
 
 export default CourseCard;

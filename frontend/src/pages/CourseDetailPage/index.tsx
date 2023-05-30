@@ -28,8 +28,9 @@ import {
 } from './style';
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import useCourse from '../../hooks/useCourse';
+import DOMPurify from 'dompurify';
 import { Button } from 'antd';
+import useCourse from '../../hooks/useCourse';
 import DateFormatter from '../../components/CourseCard/dateFormatter';
 import { appendUtmParams } from '../../api/fetcher';
 import Buttons from './Bottons';
@@ -37,6 +38,7 @@ import Buttons from './Bottons';
 const CourseDetailPage = () => {
   const { id } = useParams();
   const { fetchCourse, course } = useCourse();
+  const cleanHTML = DOMPurify.sanitize(course?.detail || '');
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -142,7 +144,7 @@ const CourseDetailPage = () => {
                   </CourseInfoItem>
                 </CourseInfo>
               </CourseInfoWrapper>
-              <CourseDetailImg>상세 이미지</CourseDetailImg>
+              <CourseDetailImg dangerouslySetInnerHTML={{ __html: cleanHTML }} />
             </Content>
             <Side>
               <SideContent>

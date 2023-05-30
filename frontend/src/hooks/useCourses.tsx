@@ -3,7 +3,7 @@ import { fetcher } from '../api/fetcher';
 import { useFilters } from './useFilters';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { currentPageHome, currentView } from '../recoilState';
-import { HOME } from '../constants/pages';
+import { BOOKMARK, HOME } from '../constants/pages';
 
 const CourseContext = createContext<CourseContextProps>({
   currentCourses: [],
@@ -63,8 +63,10 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
   }, [currentPage, view]);
 
   useEffect(() => {
-    setCurrentPage(1);
-    fetchCourses(sortOption, 1);
+    if (view === HOME || view === BOOKMARK) {
+      setCurrentPage(1);
+      fetchCourses(sortOption, 1);
+    }
   }, [selectedFilters, sortOption]);
 
   return (

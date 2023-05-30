@@ -42,6 +42,7 @@ interface Course {
   period: number;
   dates: datesType;
   company: Company;
+  detail: string;
   clicks: number;
   bookmarks: number;
   createdAt: number;
@@ -61,3 +62,10 @@ type datesType = {
   courseStartDate: string;
   courseEndDate: string;
 };
+
+declare module 'quill-image-resize' {
+  const ImageResize: any;
+  export default ImageResize;
+}
+
+declare module 'quill-image-uploader' {}
