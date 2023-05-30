@@ -90,6 +90,12 @@ public class CourseService {
         course.modifyCourse(courseRequest);
     }
 
+    public void modifyCourseDetail(Long id, CourseDetailRequest courseDetailRequest){
+        Course course = courseRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COURSE, String.valueOf(id)));
+        course.modifyCourseDetail(courseDetailRequest.getDetail());
+    }
+
     public void deleteCourse(Long id){
         Course course = courseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COURSE, String.valueOf(id)));
