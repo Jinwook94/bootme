@@ -35,6 +35,9 @@ jobs:
       - name: Replace Jasypt Password in main application.yml
         run: sed -i "s/encryptKey/${{ secrets.JASYPT_PASSWORD }}/g" ./src/main/resources/application.yml
 
+      - name: Replace Jasypt Password in test application.yml
+        run: sed -i "s/encryptKey/${{ secrets.JASYPT_PASSWORD }}/g" ./src/test/resources/application.yml
+
       - name: Build with Gradle
         run: ./gradlew bootJar
         
