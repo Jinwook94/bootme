@@ -1,10 +1,7 @@
 package com.bootme.util.fixture;
 
 import com.bootme.course.domain.*;
-import com.bootme.course.dto.CompanyRequest;
-import com.bootme.course.dto.CompanyResponse;
-import com.bootme.course.dto.CourseRequest;
-import com.bootme.course.dto.CourseResponse;
+import com.bootme.course.dto.*;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -56,6 +53,9 @@ public class CourseFixture {
             .courseStartDate(LocalDate.of(2024, 2, 1))
             .courseEndDate(LocalDate.of(2024, 7, 31))
             .build();
+    public static final String VALID_DETAIL_1 = "<p> 수정된 코스 상세 정보 1 <p>";
+    public static final String VALID_DETAIL_2 = "<p> 수정된 코스 상세 정보 2 <p>";
+    public static final String VALID_DETAIL_3 = "<p> 수정된 코스 상세 정보 3 <p>";
     public static final String 웹 = "웹";
     public static final String 모바일_앱 = "모바일 앱";
     public static final String 게임 = "게임";
@@ -220,7 +220,13 @@ public class CourseFixture {
                 .build();
     }
 
-    public static CourseResponse getCourseResponse(int index) {
+    public static CourseDetailRequest getCourseDetailRequest(int index) {
+        index--;
+        String[] details = {VALID_DETAIL_1, VALID_DETAIL_2, VALID_DETAIL_3};
+        return new CourseDetailRequest(details[index]);
+    }
+
+        public static CourseResponse getCourseResponse(int index) {
         index--;
         Long[] ids = {1L, 2L, 3L};
         String[] titles = {VALID_TITLE_1, VALID_TITLE_2, VALID_TITLE_3};
@@ -260,6 +266,58 @@ public class CourseFixture {
                 .cost(costs[index])
                 .period(periods[index])
                 .dates(dates[index])
+                .isRecommended(recommendeds[index])
+                .isFree(frees[index])
+                .isKdt(kdts[index])
+                .isOnline(onlines[index])
+                .isTested(testeds[index])
+                .isPrerequisiteRequired(prerequisiteRequireds[index])
+                .clicks(clicks[index])
+                .bookmarks(bookmarks[index])
+                .build();
+    }
+
+    public static CourseDetailResponse getCourseDetailResponse(int index) {
+        index--;
+        Long[] ids = {1L, 2L, 3L};
+        String[] titles = {VALID_TITLE_1, VALID_TITLE_2, VALID_TITLE_3};
+        String[] names = {VALID_NAME_1, VALID_NAME_2, VALID_NAME_3};
+        int[] generations = {VALID_GENERATION_1, VALID_GENERATION_2, VALID_GENERATION_3};
+        String[] urls = {VALID_URL_1, VALID_URL_2, VALID_URL_3};
+        CompanyResponse[] companies = {getCompanyResponse(1), getCompanyResponse(2), getCompanyResponse(3)};
+        String[] locations = {VALID_LOCATION_1, VALID_LOCATION_2, VALID_LOCATION_3};
+        List<List<String>> superCategories = List.of(VALID_SUPER_CATEGORIES_1, VALID_SUPER_CATEGORIES_2, VALID_SUPER_CATEGORIES_3);
+        List<List<String>> subCategories = List.of(VALID_SUB_CATEGORIES_1, VALID_SUB_CATEGORIES_2, VALID_SUB_CATEGORIES_3);
+        List<List<String>> languages = List.of(VALID_LANGUAGES_1, VALID_LANGUAGES_2, VALID_LANGUAGES_3);
+        List<List<String>> frameworks = List.of(VALID_FRAMEWORKS_1, VALID_FRAMEWORKS_2, VALID_FRAMEWORKS_3);
+        int[] costs = {VALID_COST_1, VALID_COST_2, VALID_COST_3};
+        int[] periods = {VALID_PERIOD_1, VALID_PERIOD_2, VALID_PERIOD_3};
+        Dates[] dates = {VALID_DATES_1, VALID_DATES_2, VALID_DATES_3};
+        boolean[] recommendeds = {true, false, true};
+        boolean[] frees = {true, false, true};
+        boolean[] kdts = {true, false, true};
+        boolean[] onlines = {true, false, true};
+        boolean[] testeds = {true, false, true};
+        boolean[] prerequisiteRequireds = {true, false, true};
+        int[] clicks = {VALID_CLICKS_1, VALID_CLICKS_2, VALID_CLICKS_3};
+        int[] bookmarks = {VALID_BOOKMARKS_1, VALID_BOOKMARKS_2, VALID_BOOKMARKS_3};
+
+        return CourseDetailResponse.builder()
+                .id(ids[index])
+                .title(titles[index])
+                .name(names[index])
+                .generation(generations[index])
+                .url(urls[index])
+                .company(companies[index])
+                .location(locations[index])
+                .superCategories(superCategories.get(index))
+                .subCategories(subCategories.get(index))
+                .languages(languages.get(index))
+                .frameworks(frameworks.get(index))
+                .cost(costs[index])
+                .period(periods[index])
+                .dates(dates[index])
+                .detail("<p> Course Detail <p>")
                 .isRecommended(recommendeds[index])
                 .isFree(frees[index])
                 .isKdt(kdts[index])

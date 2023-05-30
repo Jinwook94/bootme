@@ -38,7 +38,7 @@ class CourseControllerTest extends ControllerTest {
         //given
         String content = objectMapper.writeValueAsString(getCourseRequest(1));
         given(courseService.addCourse(any())).willReturn(1L);
-        given(courseService.findById(1L)).willReturn(getCourseResponse(1));
+        given(courseService.findById(1L)).willReturn(getCourseDetailResponse(1));
 
         //when
         ResultActions perform = mockMvc.perform(post("/courses")
@@ -85,7 +85,7 @@ class CourseControllerTest extends ControllerTest {
     @DisplayName("findCourse()는 정상 요청시 상태코드 200을 반환한다.")
     void findCourse() throws Exception {
         //given
-        given(courseService.findById(any())).willReturn(getCourseResponse(1));
+        given(courseService.findById(any())).willReturn(getCourseDetailResponse(1));
 
         //when
         ResultActions perform = mockMvc.perform(get("/courses/1")
