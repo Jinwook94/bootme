@@ -42,7 +42,7 @@ Host: api.bootMe.app
   "companyName" : "네이버",
   "location" : "서울시 강남구",
   "superCategories" : [ "웹", "모바일 앱" ],
-  "subCategories" : [ "백엔드", "안드로이드" ],
+  "subCategories" : [ "백엔드"],
   "languages" : [ "Kotlin"],
   "frameworks" : [ "Spring", "React"],
   "cost" : 0,
