@@ -69,8 +69,8 @@ const CourseDetailPage = () => {
                   <HeaderDescription>
                     <h2>{course?.title}</h2>
                     <h4>
-                      <StyledLink href={appendUtmParams(course?.company.url)} target="_blank">
-                        {course?.company.name}
+                      <StyledLink href={appendUtmParams(course?.company.serviceUrl)} target="_blank">
+                        {course?.company.serviceName}
                       </StyledLink>
                     </h4>
                   </HeaderDescription>

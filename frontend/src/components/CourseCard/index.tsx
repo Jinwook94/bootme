@@ -63,11 +63,11 @@ const CourseCard = ({
         </CourseTitleWrapper>
         <CompanyNameWrapper>
           <CompanyName
-            href={appendUtmParams(company.url)}
+            href={appendUtmParams(company.serviceUrl)}
             target="_blank"
             onClick={() => sendWebhookNoti(COURSE_CLICKED, id)}
           >
-            {company.name}
+            {company.serviceName}
           </CompanyName>
         </CompanyNameWrapper>
         <CourseInfo>

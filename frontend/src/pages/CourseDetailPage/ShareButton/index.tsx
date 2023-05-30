@@ -1,4 +1,4 @@
-import { Popover, Tooltip } from 'antd';
+import { Popover } from 'antd';
 import { KakaoLogo, ShareIcon, UrlShareIcon } from '../../../constants/icons';
 import React, { useEffect, useState } from 'react';
 import { BOOTME_URL } from '../../../constants/others';
@@ -74,11 +74,9 @@ const ShareButton = ({ course }: { course: Course | undefined }) => {
 
   return (
     <Popover content={shareDropdown} trigger="click" placement="bottomRight">
-      <Tooltip placement="topRight" title={'공유하기'}>
-        <ShareButtonWrapper>
-          <ShareIcon />
-        </ShareButtonWrapper>
-      </Tooltip>
+      <ShareButtonWrapper>
+        <ShareIcon />
+      </ShareButtonWrapper>
     </Popover>
   );
 };
