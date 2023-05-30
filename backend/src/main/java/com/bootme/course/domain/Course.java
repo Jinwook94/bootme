@@ -52,6 +52,9 @@ public class Course extends BaseEntity {
     @Embedded
     private Dates dates;
 
+    @Lob
+    private String detail;
+
     private boolean isRecommended;
 
     private boolean isFree;
@@ -72,7 +75,7 @@ public class Course extends BaseEntity {
 
     @Builder
     public Course(String title, String name, int generation, String url, Company company, String location,
-                  List<String> categories, List<CourseStack> courseStacks, int cost, int period, Dates dates, boolean isRecommended, boolean isFree,
+                  List<String> categories, List<CourseStack> courseStacks, int cost, int period, Dates dates, String detail, boolean isRecommended, boolean isFree,
                   boolean isKdt, boolean isOnline, boolean isTested, boolean isPrerequisiteRequired, int clicks, int bookmarks) {
         this.title = title;
         this.name = name;
@@ -85,6 +88,7 @@ public class Course extends BaseEntity {
         this.cost = cost;
         this.period = period;
         this.dates = dates;
+        this.detail = detail;
         this.isRecommended = isRecommended;
         this.isFree = isFree;
         this.isKdt = isKdt;
@@ -137,6 +141,14 @@ public class Course extends BaseEntity {
         this.isPrerequisiteRequired = courseRequest.isPrerequisiteRequired();
     }
 
+    public void modifyCourseDetail(String detail){
+        this.detail = detail;
+    }
+
+    public void modifyCompany(Company company){
+        this.company = company;
+    }
+
     private static ArrayList<String> getCategories(CourseRequest courseRequest) {
         List<String> superCategories = courseRequest.getSuperCategories();
         List<String> subCategories = courseRequest.getSubCategories();
@@ -148,10 +160,6 @@ public class Course extends BaseEntity {
             categories.addAll(subCategories);
         }
         return categories;
-    }
-
-    public void modifyCompany(Company company){
-        this.company = company;
     }
 
     public boolean checkRegisterOpen() {
