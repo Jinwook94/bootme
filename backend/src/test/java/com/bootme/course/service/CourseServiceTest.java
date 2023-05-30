@@ -4,6 +4,7 @@ import com.bootme.common.exception.ResourceNotFoundException;
 import com.bootme.course.domain.Company;
 import com.bootme.course.domain.Course;
 import com.bootme.course.domain.CourseStack;
+import com.bootme.course.dto.CourseDetailResponse;
 import com.bootme.course.dto.CourseRequest;
 import com.bootme.course.dto.CourseResponse;
 import com.bootme.course.repository.CompanyRepository;
@@ -108,7 +109,7 @@ class CourseServiceTest extends ServiceTest {
         Long id = courseRepository.save(course).getId();
 
         //when
-        CourseResponse courseResponse = courseService.findById(id);
+        CourseDetailResponse courseResponse = courseService.findById(id);
         List<Stack> stacks = courseStackRepository.findStacksByCourseId(id);
 
         //then
@@ -256,6 +257,21 @@ class CourseServiceTest extends ServiceTest {
                 () -> assertThat(foundCourse.getCost()).isEqualTo(VALID_COST_2),
                 () -> assertThat(foundCourse.getDates()).isEqualTo(VALID_DATES_2)
         );
+    }
+
+    @Test
+    @DisplayName("modifyCourseDetail()은 코스 정보 HTML 을 변경한다.")
+    void modifyCourseDetail(){
+        //given
+        Long id = courseRepository.save(course).getId();
+
+        //when
+        courseService.modifyCourseDetail(id, getCourseDetailRequest(2));
+        Course foundCourse = courseRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COURSE, String.valueOf(id)));
+
+        //then
+        assertThat(foundCourse.getDetail()).isEqualTo(VALID_DETAIL_2);
     }
 
     @Test
