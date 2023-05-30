@@ -38,7 +38,12 @@ public enum ErrorType {
     // Invalid input errors
     INVALID_METHOD_ARGUMENT (5001, ""), // 인자에 따라 다른 에러 메시지 출력되도록 설정함
     INVALID_EVENT           (5002, "유효하지 않은 webhook 이벤트입니다."),
-    INVALID_SEARCH_QUERY    (5004, "검색 입력값이 유효하지 않습니다."),
+    INVALID_SEARCH_QUERY    (5003, "검색 입력값이 유효하지 않습니다."),
+    FILE_CONVERSION_FAIL    (5004, "파일 변환에 실패했습니다."),
+    FILE_DELETE_FAIL        (5005, "임시 저장된 이미지 파일의 삭제에 실패했습니다."),
+
+    // AWS
+    S3_UPLOAD_FAIL          (6001, "이미지 파일을 S3 업로드 실패했습니다."),
 
     // Internal server errors
     RUNTIME_EXCEPTION       (9001, "서버에 알 수 없는 문제가 발생했습니다.");
