@@ -5,7 +5,6 @@ import com.bootme.common.exception.ErrorType;
 
 public class TokenParseException extends BadRequestException {
 
-
     public TokenParseException(final ErrorType errorType) {
         super(errorType);
     }

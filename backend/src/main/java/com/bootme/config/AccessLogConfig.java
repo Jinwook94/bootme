@@ -13,13 +13,13 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class AccessLogConfig {
-    @Bean
-    public FilterRegistrationBean<TeeFilter> requestLogFilter() {
-        FilterRegistrationBean<TeeFilter> registrationBean = new FilterRegistrationBean<>();
-
-        TeeFilter teeFilter = new TeeFilter();
-        registrationBean.setFilter(teeFilter);
-
-        return registrationBean;
-    }
+//    @Bean
+//    public FilterRegistrationBean<TeeFilter> requestLogFilter() {
+//        FilterRegistrationBean<TeeFilter> registrationBean = new FilterRegistrationBean<>();
+//
+//        TeeFilter teeFilter = new TeeFilter();
+//        registrationBean.setFilter(teeFilter);
+//
+//        return registrationBean;
+//    }
 }
