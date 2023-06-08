@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { fetcher } from '../api/fetcher';
-import { useFilters } from './useFilters';
+import { useCourseFilters } from './useFilters';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { currentPageHome, currentView } from '../recoilState';
 import { BOOKMARK, HOME } from '../constants/pages';
@@ -16,7 +16,7 @@ const CourseContext = createContext<CourseContextProps>({
 });
 
 export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
-  const { selectedFilters } = useFilters();
+  const { selectedFilters } = useCourseFilters();
   const [currentCourses, setCurrentCourses] = useState<Course[]>([]);
   const [sortOption, setSortOption] = useState('popular');
   const [maxPage, setMaxPage] = useState<number>(1);

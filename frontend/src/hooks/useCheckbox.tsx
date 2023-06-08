@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useFilters } from './useFilters';
-import { COURSE_FILTERS } from '../constants/courseFilter';
+import { useCourseFilters } from './useFilters';
+import { COURSE_FILTERS } from '../constants/filters';
 
 export const useCheckbox = (filterOption: string, isReset: boolean) => {
   const [isChecked, setIsChecked] = useState(false);
-  const { addFilter, removeFilter, isFilterSelected, getFilterName } = useFilters();
+  const { addFilter, removeFilter, isFilterSelected, getFilterName } = useCourseFilters();
   let filterName = getFilterName(filterOption);
 
   const handleClick = () => {

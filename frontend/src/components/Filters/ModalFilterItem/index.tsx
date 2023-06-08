@@ -1,5 +1,5 @@
 import FilterOption from '../FilterOption';
-import { COURSE_FILTERS, CourseFilterTypes, MODAL_FILTER, PERIOD_INPUT } from '../../../constants/courseFilter';
+import { COURSE_FILTERS, CourseFilterTypes, MODAL_FILTER } from '../../../constants/filters';
 import React, { useRef, useState } from 'react';
 import { Wrapper, Title, MoreButton, MoreOptions } from './style';
 import RangeBar from '../RangeBar';
@@ -98,7 +98,7 @@ const ModalFilterItem = ({ filterName, filterOptions, isMore, isReset }: ModalFi
       return (
         <Wrapper ref={wrapperRef}>
           <Title>{filterName}</Title>
-          <RangeBar filterType={MODAL_FILTER} filterName={PERIOD_INPUT.filterName} isReset={isReset} />
+          <RangeBar filterType={MODAL_FILTER} filterName={COURSE_FILTERS.PERIOD_INPUT.filterName} isReset={isReset} />
         </Wrapper>
       );
     case '코딩 테스트':

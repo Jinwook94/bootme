@@ -1,102 +1,91 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { COURSE_FILTERS } from '../constants/courseFilter';
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { COURSE_FILTERS, POST_FILTERS } from '../constants/filters';
 
-const FilterContext = createContext<FilterContextProps>({
-  selectedFilters: {},
-  addFilter: () => {},
-  removeFilter: () => {},
-  clearAndAddFilter: () => {},
-  clearFilterGroup: () => {},
-  isReset: false,
-  resetFilters: () => {},
-  isFilterSelected: () => false,
-  getFilterName: () => '',
-  isModal: false,
-  handleModal: () => {},
-});
-
-export const FilterProvider = ({ children }: FilterProviderProps) => {
-  const [selectedFilters, setSelectedFilters] = useState<FiltersState>({
-    superCategories: [],
-    subCategories: [],
-    languages: [],
-    frameworks: [],
-    isFree: [],
-    isKdt: [],
-    isTested: [],
-    costInput: [],
-    period: [],
-    periodInput: [],
+const createFilterContext = (defaultFilters: FiltersState, filterOptions: typeof COURSE_FILTERS) => {
+  const context = createContext<FilterContextProps>({
+    selectedFilters: defaultFilters,
+    addFilter: () => {},
+    removeFilter: () => {},
+    clearAndAddFilter: () => {},
+    clearFilterGroup: () => {},
+    isReset: false,
+    resetFilters: () => {},
+    isFilterSelected: () => false,
+    getFilterName: () => '',
+    isModal: false,
+    handleModal: () => {},
   });
 
-  const addFilter = (filterName: string, filterOption: string) => {
-    setSelectedFilters(prevState => {
-      if (!prevState[filterName]?.includes(filterOption)) {
-        return {
-          ...prevState,
-          [filterName]: [...(prevState[filterName] || []), filterOption],
-        };
+  const Provider = ({ children }: FilterProviderProps) => {
+    const [selectedFilters, setSelectedFilters] = useState<FiltersState>({});
+
+    const addFilter = (filterName: string, filterOption: string) => {
+      setSelectedFilters(prevState => {
+        if (!prevState[filterName]?.includes(filterOption)) {
+          return {
+            ...prevState,
+            [filterName]: [...(prevState[filterName] || []), filterOption],
+          };
+        }
+        return prevState;
+      });
+    };
+
+    const removeFilter = (filterName: string, filterOption: string) => {
+      setSelectedFilters(prevState => ({
+        ...prevState,
+        [filterName]: prevState[filterName]?.filter(option => option !== filterOption),
+      }));
+    };
+
+    const clearAndAddFilter = (filterName: string, filterOption: string) => {
+      setSelectedFilters(prevState => ({
+        ...prevState,
+        [filterName]: [filterOption],
+      }));
+    };
+
+    const clearFilterGroup = (filterName: string) => {
+      setSelectedFilters(prevState => ({
+        ...prevState,
+        [filterName]: [],
+      }));
+    };
+
+    const [isReset, setIsReset] = useState<boolean>(false);
+    const resetFilters = () => {
+      setSelectedFilters({});
+      setIsReset(true);
+    };
+
+    const isFilterSelected = (filterOption: string): boolean => {
+      const filterKeys = Object.keys(selectedFilters);
+      return filterKeys.some(key => selectedFilters[key]?.includes(filterOption));
+    };
+
+    const getFilterName = (filterOption: string): string => {
+      const filterKeys = Object.keys(filterOptions);
+      for (const key of filterKeys) {
+        if (filterOptions[key].filterOptions.includes(filterOption)) {
+          return filterOptions[key].filterName;
+        }
       }
-      return prevState;
-    });
-  };
+      return '';
+    };
 
-  const removeFilter = (filterName: string, filterOption: string) => {
-    setSelectedFilters(prevState => ({
-      ...prevState,
-      [filterName]: prevState[filterName]?.filter(option => option !== filterOption),
-    }));
-  };
-
-  const clearAndAddFilter = (filterName: string, filterOption: string) => {
-    setSelectedFilters(prevState => ({
-      ...prevState,
-      [filterName]: [filterOption],
-    }));
-  };
-
-  const clearFilterGroup = (filterName: string) => {
-    setSelectedFilters(prevState => ({
-      ...prevState,
-      [filterName]: [],
-    }));
-  };
-
-  const [isReset, setIsReset] = useState<boolean>(false);
-  const resetFilters = () => {
-    setSelectedFilters({});
-    setIsReset(true);
-  };
-
-  const isFilterSelected = (filterOption: string): boolean => {
-    const filterKeys = Object.keys(selectedFilters);
-    return filterKeys.some(key => selectedFilters[key]?.includes(filterOption));
-  };
-
-  const getFilterName = (filterOption: string): string => {
-    const filterKeys = Object.keys(COURSE_FILTERS);
-    for (const key of filterKeys) {
-      if (COURSE_FILTERS[key].filterOptions.includes(filterOption)) {
-        return COURSE_FILTERS[key].filterName;
+    useEffect(() => {
+      if (isReset) {
+        setIsReset(false);
       }
-    }
-    return '';
-  };
+    }, [isReset]);
 
-  useEffect(() => {
-    if (isReset) {
-      setIsReset(false);
-    }
-  }, [isReset]);
+    const [isModal, setIsModal] = useState(false);
+    const handleModal = () => {
+      isModal ? setIsModal(false) : setIsModal(true);
+    };
 
-  const [isModal, setIsModal] = useState(false);
-  const handleModal = () => {
-    isModal ? setIsModal(false) : setIsModal(true);
-  };
-
-  return (
-    <FilterContext.Provider
-      value={{
+    const contextValue = useMemo(
+      () => ({
         selectedFilters,
         addFilter,
         removeFilter,
@@ -108,14 +97,40 @@ export const FilterProvider = ({ children }: FilterProviderProps) => {
         getFilterName,
         isModal,
         handleModal,
-      }}
-    >
-      {children}
-    </FilterContext.Provider>
-  );
+      }),
+      [selectedFilters, isReset, isModal]
+    );
+
+    return <context.Provider value={contextValue}>{children}</context.Provider>;
+  };
+
+  return [context, Provider] as const;
 };
 
-export const useFilters = () => useContext(FilterContext);
+const COURSE_FILTERS_INITIAL_STATE = {
+  search: [],
+  superCategories: [],
+  subCategories: [],
+  languages: [],
+  frameworks: [],
+  isFree: [],
+  isKdt: [],
+  isTested: [],
+  costInput: [],
+  period: [],
+  periodInput: [],
+};
+const POST_FILTERS_INITIAL_STATE = {
+  // your initial state here...
+};
+
+const [CourseFilterContext, CourseFilterProvider] = createFilterContext(COURSE_FILTERS_INITIAL_STATE, COURSE_FILTERS);
+const [PostFilterContext, PostFilterProvider] = createFilterContext(POST_FILTERS_INITIAL_STATE, POST_FILTERS);
+
+const useCourseFilters = () => useContext(CourseFilterContext);
+const usePostFilters = () => useContext(PostFilterContext);
+
+export { CourseFilterProvider, useCourseFilters, PostFilterProvider, usePostFilters };
 
 interface FilterContextProps {
   selectedFilters: FiltersState;
@@ -137,14 +152,4 @@ interface FilterProviderProps {
 
 export interface FiltersState {
   [key: string]: string[] | undefined;
-  superCategories?: string[];
-  subCategories?: string[];
-  languages?: string[];
-  frameworks?: string[];
-  isFree?: string[];
-  isKdt?: string[];
-  isTested?: string[];
-  costInput?: string[];
-  period?: string[];
-  periodInput?: string[];
 }

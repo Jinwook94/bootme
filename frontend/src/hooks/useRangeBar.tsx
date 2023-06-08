@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useFilters } from './useFilters';
-import { COST_INPUT, COURSE_FILTERS, PERIOD_INPUT } from '../constants/courseFilter';
+import { useCourseFilters } from './useFilters';
+import { COURSE_FILTERS, CourseFilterTypes } from '../constants/filters';
 
 export const useRangeBar = (filterName: string, isReset: boolean) => {
-  let Filter = {
+  let Filter: CourseFilterTypes = {
+    filterOptions: [],
     filterName: '',
     minValue: 0,
     maxValue: 0,
@@ -12,12 +13,12 @@ export const useRangeBar = (filterName: string, isReset: boolean) => {
   };
 
   {
-    filterName === COURSE_FILTERS.COST_TYPE.filterName ? (Filter = COST_INPUT) : null;
-    filterName === PERIOD_INPUT.filterName ? (Filter = PERIOD_INPUT) : null;
+    filterName === COURSE_FILTERS.COST_TYPE.filterName ? (Filter = COURSE_FILTERS.COST_INPUT) : null;
+    filterName === COURSE_FILTERS.PERIOD_INPUT.filterName ? (Filter = COURSE_FILTERS.PERIOD_INPUT) : null;
   }
 
   const [currentValue, setCurrentValue] = useState(Filter.maxValue);
-  const { selectedFilters, clearAndAddFilter, clearFilterGroup } = useFilters();
+  const { selectedFilters, clearAndAddFilter, clearFilterGroup } = useCourseFilters();
   const [isFreeSelected, setIsFreeSelected] = useState(false);
 
   const handleRangeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,7 +31,10 @@ export const useRangeBar = (filterName: string, isReset: boolean) => {
     if (event.target.value === '') {
       setCurrentValue(0);
       clearAndAddFilter(Filter.filterName, '0');
-    } else if (positiveIntegerRegEx.test(event.target.value) && Number(event.target.value) <= Filter.maxValue) {
+    } else if (
+      positiveIntegerRegEx.test(event.target.value) &&
+      Number(event.target.value) <= (Filter.maxValue ?? 1000)
+    ) {
       setCurrentValue(Number(event.target.value));
       clearAndAddFilter(Filter.filterName, event.target.value);
     } else {

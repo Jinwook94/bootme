@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactModal from 'react-modal';
-import { useFilters } from '../../../hooks/useFilters';
+import { useCourseFilters } from '../../../hooks/useFilters';
 import './style.css';
 import { HeaderText, IconWrapper, ModalBody, ModalFooter, ModalHeader, ResetFilter, ShowCourse } from './style';
 import { CloseIcon } from '../../../constants/icons';
-import { COURSE_FILTERS } from '../../../constants/courseFilter';
+import { COURSE_FILTERS } from '../../../constants/filters';
 import ModalFilterItem from '../ModalFilterItem';
 import { useCourses } from '../../../hooks/useCourses';
 
 const ModalFilter = () => {
-  const { isModal, handleModal, isReset, resetFilters } = useFilters();
+  const { isModal, handleModal, isReset, resetFilters } = useCourseFilters();
   const { courseCount } = useCourses();
 
   return (

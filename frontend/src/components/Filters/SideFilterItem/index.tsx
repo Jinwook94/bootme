@@ -12,7 +12,7 @@ import {
 import FilterOption from '../FilterOption';
 import React, { useState } from 'react';
 import { RangeBar } from '../RangeBar';
-import { CourseFilterTypes, SIDE_FILTER, COURSE_FILTERS, PERIOD_INPUT } from '../../../constants/courseFilter';
+import { CourseFilterTypes, SIDE_FILTER, COURSE_FILTERS } from '../../../constants/filters';
 import { CaretDownIcon, CaretIcon, CaretUpIcon } from '../../../constants/icons';
 
 const SideFilterItem = ({ filterName, filterOptions, isMore, isReset }: SideFilterItemProps) => {
@@ -70,7 +70,9 @@ const SideFilterItem = ({ filterName, filterOptions, isMore, isReset }: SideFilt
           </>
         );
       case '수강 기간':
-        return <RangeBar filterType={SIDE_FILTER} filterName={PERIOD_INPUT.filterName} isReset={isReset} />;
+        return (
+          <RangeBar filterType={SIDE_FILTER} filterName={COURSE_FILTERS.PERIOD_INPUT.filterName} isReset={isReset} />
+        );
       case '코딩 테스트':
         return (
           <TestOptionList style={{ maxHeight: isMoreOpen ? '999rem' : '6.25rem' }}>

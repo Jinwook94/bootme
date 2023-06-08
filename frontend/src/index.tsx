@@ -2,7 +2,7 @@ import { ThemeProvider } from 'styled-components';
 import { theme } from './styles/theme';
 import GlobalStyle from './styles/GlobalStyle';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { FilterProvider } from './hooks/useFilters';
+import { CourseFilterProvider, PostFilterProvider } from './hooks/useFilters';
 import { LoginProvider } from './hooks/useLogin';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { BrowserRouter } from 'react-router-dom';
@@ -27,16 +27,18 @@ ReactDOM.createRoot(rootElement).render(
             <LoginProvider>
               <GoogleOAuthProvider clientId={'GOOGLE_CLIENT_ID'}>
                 <BookmarkProvider>
-                  <FilterProvider>
+                  <CourseFilterProvider>
                     <CourseProvider>
-                      <QueryClientProvider client={queryClient}>
-                        <ThemeProvider theme={theme}>
-                          <GlobalStyle />
-                          <App />
-                        </ThemeProvider>
-                      </QueryClientProvider>
+                      <PostFilterProvider>
+                        <QueryClientProvider client={queryClient}>
+                          <ThemeProvider theme={theme}>
+                            <GlobalStyle />
+                            <App />
+                          </ThemeProvider>
+                        </QueryClientProvider>
+                      </PostFilterProvider>
                     </CourseProvider>
-                  </FilterProvider>
+                  </CourseFilterProvider>
                 </BookmarkProvider>
               </GoogleOAuthProvider>
             </LoginProvider>

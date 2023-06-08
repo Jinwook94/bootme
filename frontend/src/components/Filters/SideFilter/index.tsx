@@ -1,13 +1,13 @@
 import SideFilterItem from '../SideFilterItem';
 import { SearchInput, StyledSearch, Wrapper, FilterReset, ResetButton, FilterItemWrapper } from './style';
-import { COURSE_FILTERS } from '../../../constants/courseFilter';
-import { useFilters } from '../../../hooks/useFilters';
+import { COURSE_FILTERS } from '../../../constants/filters';
+import { useCourseFilters } from '../../../hooks/useFilters';
 import { ResetIcon } from '../../../constants/icons';
 import { Space } from 'antd';
 import { useSearch } from '../../../hooks/useSearch';
 
 const SideFilter = () => {
-  const { isReset, resetFilters } = useFilters();
+  const { isReset, resetFilters } = useCourseFilters();
   const { onSearch } = useSearch();
   return (
     <Wrapper>
