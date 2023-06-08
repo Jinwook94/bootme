@@ -11,9 +11,16 @@ import {
 import { GoogleLoginButton } from '../../components/LoginModal/GoogleLogin';
 import { NaverLoginButton } from '../../components/LoginModal/NaverLogin';
 import { KakaoLoginButton } from '../../components/LoginModal/KakaoLogin';
-import React from 'react';
+import React, { useEffect } from 'react';
+import SNACKBAR_MESSAGE, { EXCLAMATION } from '../../constants/snackbar';
+import { useSnackbar } from '../../hooks/useSnackbar';
 
 const LoginPage = () => {
+  const { showSnackbar } = useSnackbar();
+
+  useEffect(() => {
+    showSnackbar(SNACKBAR_MESSAGE.NEED_LOGIN, EXCLAMATION);
+  }, []);
   return (
     // todo: LoginModal 컴포넌트와 동일한 코드이므로 아래 코드를 따로 컴포넌트 분리 필요
     <Wrapper1>
