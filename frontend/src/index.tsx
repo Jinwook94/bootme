@@ -16,35 +16,27 @@ import { RecoilRoot } from 'recoil';
 import { SnackbarProvider } from './hooks/useSnackbar';
 
 const rootElement = document.getElementById('root') as Element;
-const queryClient = new QueryClient();
+
+const ProviderWrappedApp = new ProviderBuilder(() => <App />)
+  .wrap(QueryClientProvider, { client: new QueryClient() })
+  .wrap(PostFilterProvider)
+  .wrap(CourseProvider)
+  .wrap(CourseFilterProvider)
+  .wrap(BookmarkProvider)
+  .wrap(GoogleOAuthProvider, { clientId: 'GOOGLE_CLIENT_ID' })
+  .wrap(LoginProvider)
+  .wrap(NotificationProvider)
+  .wrap(SnackbarProvider)
+  .wrap(SecretProvider)
+  .build();
 
 ReactDOM.createRoot(rootElement).render(
   <RecoilRoot>
     <BrowserRouter>
-      <SecretProvider>
-        <SnackbarProvider>
-          <NotificationProvider>
-            <LoginProvider>
-              <GoogleOAuthProvider clientId={'GOOGLE_CLIENT_ID'}>
-                <BookmarkProvider>
-                  <CourseFilterProvider>
-                    <CourseProvider>
-                      <PostFilterProvider>
-                        <QueryClientProvider client={queryClient}>
-                          <ThemeProvider theme={theme}>
-                            <GlobalStyle />
-                            <App />
-                          </ThemeProvider>
-                        </QueryClientProvider>
-                      </PostFilterProvider>
-                    </CourseProvider>
-                  </CourseFilterProvider>
-                </BookmarkProvider>
-              </GoogleOAuthProvider>
-            </LoginProvider>
-          </NotificationProvider>
-        </SnackbarProvider>
-      </SecretProvider>
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <ProviderWrappedApp />
+      </ThemeProvider>
     </BrowserRouter>
   </RecoilRoot>
 );
