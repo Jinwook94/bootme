@@ -14,6 +14,7 @@ import { SecretProvider } from './hooks/useSecret';
 import { CourseProvider } from './hooks/useCourses';
 import { RecoilRoot } from 'recoil';
 import { SnackbarProvider } from './hooks/useSnackbar';
+import { ProviderBuilder } from './utils/ProviderBuilder';
 
 const rootElement = document.getElementById('root') as Element;
 
