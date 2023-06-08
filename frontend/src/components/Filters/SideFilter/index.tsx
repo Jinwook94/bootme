@@ -4,11 +4,11 @@ import { COURSE_FILTERS } from '../../../constants/filters';
 import { useCourseFilters } from '../../../hooks/useFilters';
 import { ResetIcon } from '../../../constants/icons';
 import { Space } from 'antd';
-import { useSearch } from '../../../hooks/useSearch';
+import { useCourses } from '../../../hooks/useCourses';
 
 const SideFilter = () => {
   const { isReset, resetFilters } = useCourseFilters();
-  const { onSearch } = useSearch();
+  const { onSearch } = useCourses();
   return (
     <Wrapper>
       <SearchInput>

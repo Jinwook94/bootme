@@ -32,14 +32,12 @@ import { useRecoilState } from 'recoil';
 import { currentPageHome, currentView } from '../../recoilState';
 import { HOME } from '../../constants/pages';
 import Search from 'antd/es/input/Search';
-import { useSearch } from '../../hooks/useSearch';
 
 const HomePage = () => {
   const [, setView] = useRecoilState(currentView);
   const { handleModal } = useCourseFilters();
-  const { courseCount, size, currentCourses, sortOption, handleSorting } = useCourses();
+  const { courseCount, size, currentCourses, sortOption, handleSorting, onSearch } = useCourses();
   const { handlePageChange } = usePaging(HOME);
-  const { onSearch } = useSearch();
   const [currentPage, setCurrentPage] = useRecoilState(currentPageHome);
 
   useEffect(() => {

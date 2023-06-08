@@ -4,6 +4,7 @@ import { useCourseFilters } from './useFilters';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { currentPageHome, currentView } from '../recoilState';
 import { BOOKMARK, HOME } from '../constants/pages';
+import { COURSE_FILTERS } from '../constants/filters';
 
 const CourseContext = createContext<CourseContextProps>({
   currentCourses: [],
@@ -13,10 +14,11 @@ const CourseContext = createContext<CourseContextProps>({
   sortOption: '',
   handleSorting: () => {},
   fetchCourses: () => Promise.resolve(),
+  onSearch: () => {},
 });
 
 export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
-  const { selectedFilters } = useCourseFilters();
+  const { selectedFilters, clearAndAddFilter } = useCourseFilters();
   const [currentCourses, setCurrentCourses] = useState<Course[]>([]);
   const [sortOption, setSortOption] = useState('popular');
   const [maxPage, setMaxPage] = useState<number>(1);
@@ -58,6 +60,10 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
     setSortOption(option);
   };
 
+  const onSearch = (value: string) => {
+    clearAndAddFilter(COURSE_FILTERS.SEARCH.filterName, value);
+  };
+
   useEffect(() => {
     view === HOME && fetchCourses(sortOption, currentPage);
   }, [currentPage, view]);
@@ -79,6 +85,7 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
         sortOption,
         handleSorting,
         fetchCourses,
+        onSearch,
       }}
     >
       {children}
@@ -96,4 +103,5 @@ interface CourseContextProps {
   sortOption: string;
   handleSorting: (option: string) => void;
   fetchCourses: (sort: string, page: number) => Promise<void>;
+  onSearch: (value: string) => void;
 }
