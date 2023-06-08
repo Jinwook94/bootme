@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { SIDE_FILTER } from '../../../constants/courseFilter';
+import { SIDE_FILTER } from '../../../constants/filters';
 
 export const Wrapper = styled.div`
   margin: 0.5rem 0.5rem 0 0.5rem;

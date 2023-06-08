@@ -25,7 +25,7 @@ import CourseCardList from '../../components/CourseCardList';
 import usePaging from '../../hooks/usePaging';
 import { useCourses } from '../../hooks/useCourses';
 import SideFilter from '../../components/Filters/SideFilter';
-import { useFilters } from '../../hooks/useFilters';
+import { useCourseFilters } from '../../hooks/useFilters';
 import ModalFilter from '../../components/Filters/ModalFilter';
 import { Pagination, Select, Space } from 'antd';
 import { useRecoilState } from 'recoil';
@@ -36,7 +36,7 @@ import { useSearch } from '../../hooks/useSearch';
 
 const HomePage = () => {
   const [, setView] = useRecoilState(currentView);
-  const { handleModal } = useFilters();
+  const { handleModal } = useCourseFilters();
   const { courseCount, size, currentCourses, sortOption, handleSorting } = useCourses();
   const { handlePageChange } = usePaging(HOME);
   const { onSearch } = useSearch();
