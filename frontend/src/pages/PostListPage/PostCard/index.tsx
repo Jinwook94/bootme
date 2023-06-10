@@ -63,6 +63,7 @@ const PostCard = ({
   const { handleVote } = usePost();
   const [votedState, setVotedState] = useState(voted);
   const [likesState, setLikesState] = useState(likes);
+  const shouldApplyMask = !/<img\s[^>]*?src\s*=\s*['\"]([^'\"]*?)['\"][^>]*?>/i.test(contentExcerpt);
   const postContent = DOMPurify.sanitize(contentExcerpt);
 
   const handleVoteAndUpdateIcon = async (
@@ -124,7 +125,7 @@ const PostCard = ({
             {title}
             <TopicChip>{topic}</TopicChip>
           </ContentHeader>
-          <ContentBody dangerouslySetInnerHTML={{ __html: postContent }} />
+          <ContentBody dangerouslySetInnerHTML={{ __html: postContent }} shouldApplyMask={shouldApplyMask} />
         </div>
         <ContentBottom>
           <MobileButtons>

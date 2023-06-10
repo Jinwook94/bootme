@@ -91,7 +91,15 @@ export const TopicChip = styled.div`
   margin-left: 8px;
 `;
 
-export const ContentBody = styled.div`
+const maskImageStyle = `
+  mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
+`;
+
+interface ContentBodyProps {
+  shouldApplyMask: boolean;
+}
+
+export const ContentBody = styled.div<ContentBodyProps>`
   width: 100%;
   margin-top: 8px;
   font-size: 14px;
@@ -101,10 +109,11 @@ export const ContentBody = styled.div`
   padding-bottom: 1px;
   margin-bottom: -1px;
   overflow: hidden;
-  mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
+  ${props => (props.shouldApplyMask ? maskImageStyle : '')}
 
   img {
     cursor: pointer;
+    max-height: 400px;
   }
 `;
 
