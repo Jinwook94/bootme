@@ -1,9 +1,7 @@
 package com.bootme.course.scheduler;
 
-import com.bootme.course.domain.Course;
 import com.bootme.course.repository.CourseRepository;
 import com.bootme.member.domain.BookmarkCourse;
-import com.bootme.member.domain.Member;
 import com.bootme.member.repository.BookmarkCourseRepository;
 import com.bootme.notification.domain.Notification;
 import com.bootme.notification.repository.NotificationRepository;
@@ -11,8 +9,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @Component
@@ -29,13 +31,7 @@ public class CourseScheduler {
 
     @Scheduled(cron = "00 55 09 * * *", zone = "Asia/Seoul")
     public void updateIsRegisterOpen() {
-        Iterable<Course> courses = courseRepository.findAll();
-        for (Course course : courses) {
-            boolean updatedStatus = course.checkRegisterOpen();
-            if (course.isRegisterOpen() != updatedStatus) {
-                courseRepository.updateIsRegisterOpen(course.getId(), updatedStatus);
-            }
-        }
+        courseRepository.updateAllCoursesRegistrationStatus();
         log.info("@Scheduled 코스 접수중 여부 업데이트 완료");
     }
 
@@ -57,26 +53,17 @@ public class CourseScheduler {
         log.info("@Scheduled 코스 접수 마감 당일 알림 전송 완료");
     }
 
-    private void notifyBookmarkCourses(String event, LocalDate date) {
-        Iterable<BookmarkCourse> bookmarkCourses = bookmarkCourseRepository.findAll();
+    // todo: findAll() 성능 이슈 가능성 -> 리팩토링
+    @Transactional
+    public void notifyBookmarkCourses(String event, LocalDate date) {
+        try (Stream<BookmarkCourse> bookmarkCourses = bookmarkCourseRepository.findAll().stream()) {
+            List<Notification> notifications = bookmarkCourses
+                    .filter(bc -> bc.getCourse().isEventOnDate(event, date))
+                    .map(bc -> Notification.of(bc.getMember(), event, bc))
+                    .collect(Collectors.toList());
 
-        for (BookmarkCourse bookmarkCourse : bookmarkCourses) {
-            Member member = bookmarkCourse.getMember();
-            Course course = bookmarkCourse.getCourse();
-
-            boolean isEventToday = false;
-            if (REGISTRATION_START.equals(event)) {
-                isEventToday = course.getDates().isRegistrationStartsOn(date);
-            } else if (REGISTRATION_END_IN_THREE_DAYS.equals(event)) {
-                isEventToday = course.getDates().isRegistrationEndsOn(date);
-            } else if (REGISTRATION_END.equals(event)) {
-                isEventToday = course.getDates().isRegistrationEndsOn(date);
-            }
-
-            if (isEventToday) {
-                Notification notification = Notification.of(member, event, bookmarkCourse);
-                notificationRepository.save(notification);
-            }
+            notificationRepository.saveAll(notifications);
         }
     }
+
 }

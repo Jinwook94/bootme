@@ -42,4 +42,8 @@ public class Dates {
         return registrationEndDate.equals(date);
     }
 
+    public boolean isRegistrationEndsInThreeDays(LocalDate date) {
+        return registrationEndDate.minusDays(3).equals(date);
+    }
+
 }

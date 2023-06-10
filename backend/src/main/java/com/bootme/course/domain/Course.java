@@ -168,6 +168,22 @@ public class Course extends BaseEntity {
         return afterStart && beforeEnd;
     }
 
+    private static final String REGISTRATION_START = "registrationStart";
+    private static final String REGISTRATION_END_IN_THREE_DAYS = "registrationEndInThreeDays";
+    private static final String REGISTRATION_END = "registrationEnd";
+
+    public boolean isEventOnDate(String event, LocalDate date) {
+        if (REGISTRATION_START.equals(event)) {
+            return this.dates.isRegistrationStartsOn(date);
+        } else if (REGISTRATION_END_IN_THREE_DAYS.equals(event)) {
+            return this.dates.isRegistrationEndsInThreeDays(date);
+        } else if (REGISTRATION_END.equals(event)) {
+            return this.dates.isRegistrationEndsOn(date);
+        }
+
+        return false;
+    }
+
     public void incrementClicks() {
         this.clicks += 1;
     }

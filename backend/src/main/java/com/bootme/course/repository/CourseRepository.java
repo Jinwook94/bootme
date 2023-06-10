@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,9 +21,9 @@ public interface CourseRepository extends JpaRepository<Course, Long>, QuerydslP
 
     Page<Course> findByIdIn(List<Long> ids, Pageable pageable);
 
-    @Modifying
     @Transactional
-    @Query("UPDATE Course c SET c.isRegisterOpen = :isOpen WHERE c.id = :id")
-    void updateIsRegisterOpen(@Param("id") Long id, @Param("isOpen") boolean isOpen);
+    @Modifying
+    @Query("UPDATE Course c SET c.isRegisterOpen = CASE WHEN (CURRENT_DATE >= c.dates.registrationStartDate AND CURRENT_DATE <= c.dates.registrationEndDate) THEN true ELSE false END")
+    int updateAllCoursesRegistrationStatus();
 
 }
