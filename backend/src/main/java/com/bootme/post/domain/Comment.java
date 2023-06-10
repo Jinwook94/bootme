@@ -16,6 +16,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import static com.bootme.common.exception.ErrorType.*;
 
@@ -94,6 +95,20 @@ public class Comment extends BaseEntity implements Votable {
     public void validateWriter(Long memberId, Long commentId) {
         if (!Objects.equals(memberId, commentId)) {
             throw new AuthenticationException(NOT_WRITER, String.valueOf(memberId));
+        }
+    }
+
+    public Optional<Long> getParentId() {
+        return Optional.ofNullable(parent).map(Comment::getId);
+    }
+
+    public String getWriterNickname() {
+        String nickname = this.member.getNickname();
+        String name = this.member.getName();
+        if (nickname != null && !nickname.isEmpty()) {
+            return nickname;
+        } else {
+            return name;
         }
     }
 

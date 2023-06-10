@@ -88,6 +88,16 @@ public class Post extends BaseEntity implements Votable {
         }
     }
 
+    public String getWriterNickname() {
+        String nickname = this.member.getNickname();
+        String name = this.member.getName();
+        if (nickname != null && !nickname.isEmpty()) {
+            return nickname;
+        } else {
+            return name;
+        }
+    }
+
     @Override
     public void incrementLikes() {
         this.likes += 1;

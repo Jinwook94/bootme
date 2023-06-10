@@ -55,7 +55,7 @@ public class PostDetailResponse implements VotableResponse, PostResponseDto {
         return PostDetailResponse.builder()
                 .id(post.getId())
                 .memberId(post.getMember().getId())
-                .memberNickname(post.getMember().getNickname())
+                .memberNickname(post.getWriterNickname())
                 .memberProfileImage(post.getMember().getProfileImage())
                 .topic(post.getTopic())
                 .title(post.getTitle().getValue())

@@ -49,17 +49,13 @@ public class CommentResponse implements VotableResponse{
     }
 
     public static CommentResponse of(Comment comment){
-        Long parentId = null;
-        if (comment.getParent() != null) {
-            parentId = comment.getParent().getId();
-        }
         return CommentResponse.builder()
                 .id(comment.getId())
                 .postId(comment.getPost().getId())
                 .memberId(comment.getMember().getId())
-                .memberNickname(comment.getMember().getNickname())
+                .memberNickname(comment.getWriterNickname())
                 .memberProfileImage(comment.getMember().getProfileImage())
-                .parentId(parentId)
+                .parentId(comment.getParentId().orElse(null))
                 .content(comment.getContent())
                 .groupNum(comment.getGroupNum())
                 .levelNum(comment.getLevelNum())
