@@ -6,6 +6,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.bootme.auth.dto.AuthInfo;
 import com.bootme.auth.dto.JwtVo;
 import com.bootme.auth.exception.*;
 import com.bootme.auth.token.JwkProviderSingleton;
@@ -81,6 +82,16 @@ public class AuthService {
         this.KAKAO_AUDIENCE = KAKAO_AUDIENCE;
         this.BOOTME_SECRET = BOOTME_SECRET;
         this.NAVER_SECRET = NAVER_SECRET;
+    }
+
+    public void validateLogin(AuthInfo authInfo) {
+        if (authInfo.getMemberId() == null) {
+            throw new AuthenticationException(NOT_LOGGED_IN);
+        }
+    }
+
+    public boolean validateLogin(Long memberId) {
+        return memberId != null;
     }
 
     public String[] login(String authHeader){

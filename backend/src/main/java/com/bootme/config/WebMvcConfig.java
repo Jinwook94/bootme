@@ -1,10 +1,14 @@
 package com.bootme.config;
 
+import com.bootme.auth.token.AuthenticationArgumentResolver;
 import com.bootme.common.interceptor.TokenValidationInterceptor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.List;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
@@ -12,9 +16,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
     private static final String ALLOWED_METHOD_NAMES = "GET,HEAD,POST,DELETE,TRACE,OPTIONS,PATCH,PUT";
 
     private final TokenValidationInterceptor tokenValidationInterceptor;
+    private final AuthenticationArgumentResolver authenticationArgumentResolver;
 
-    public WebMvcConfig(TokenValidationInterceptor tokenValidationInterceptor) {
+    public WebMvcConfig(TokenValidationInterceptor tokenValidationInterceptor,
+                        AuthenticationArgumentResolver authenticationArgumentResolver) {
         this.tokenValidationInterceptor = tokenValidationInterceptor;
+        this.authenticationArgumentResolver = authenticationArgumentResolver;
     }
 
     @Override
@@ -26,7 +33,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
                                 "https://www.bootme.co.kr")
                 .allowedMethods(ALLOWED_METHOD_NAMES.split(","))
                 .allowedHeaders("*")
-                .allowCredentials(true);
+                .allowCredentials(true)
+                .exposedHeaders("Location");
     }
 
     @Override
@@ -37,4 +45,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/logout")
                 .excludePathPatterns("/docs/**");
     }
+
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+        resolvers.add(authenticationArgumentResolver);
+    }
+
 }

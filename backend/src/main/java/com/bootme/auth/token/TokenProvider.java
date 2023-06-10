@@ -1,5 +1,8 @@
 package com.bootme.auth.token;
 
+import com.bootme.auth.dto.AuthInfo;
+import com.bootme.member.domain.Member;
+import com.bootme.member.service.MemberService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
@@ -15,23 +18,44 @@ import java.util.Date;
 @Slf4j
 public class TokenProvider {
 
+    private final MemberService memberService;
     private final String issuer;
     private final Key signingKey;
     private final String domain;
     private final long accessTokenExpireTimeInMilliseconds;
     private final long refreshTokenExpireTimeInMilliseconds;
 
-    public TokenProvider(@Value("${security.jwt.bootme.issuer}") String issuer,
+    public TokenProvider(MemberService memberService,
+                         @Value("${security.jwt.bootme.issuer}") String issuer,
                          @Value("${security.jwt.bootme.secret-key}") String secretKey,
                          @Value("${domain}") String domain,
                          @Value("${security.jwt.bootme.exp.millisecond.access}") long accessTokenExpireTimeInMilliseconds,
                          @Value("${security.jwt.bootme.exp.millisecond.refresh}") long refreshTokenExpireTimeInMilliseconds) {
         byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
+        this.memberService = memberService;
         this.issuer = issuer;
         this.signingKey = Keys.hmacShaKeyFor(keyBytes);
         this.domain = domain;
         this.accessTokenExpireTimeInMilliseconds = accessTokenExpireTimeInMilliseconds;
         this.refreshTokenExpireTimeInMilliseconds = refreshTokenExpireTimeInMilliseconds;
+    }
+
+    public AuthInfo getAuthInfo(String accessToken) {
+        Claims claims;
+        try {
+            claims = Jwts.parserBuilder()
+                    .setSigningKey(signingKey)
+                    .build()
+                    .parseClaimsJws(accessToken)
+                    .getBody();
+        } catch (ExpiredJwtException ex) {
+            String id = ex.getClaims().get("id", String.class);
+            Member member = memberService.findById(Long.parseLong(id));
+            return new AuthInfo(Long.parseLong(id), member.getRoleType().toString(), member.getNickname());
+        }
+        String id = claims.get("id", String.class);
+        Member member = memberService.findById(Long.parseLong(id));
+        return new AuthInfo(Long.parseLong(id), member.getRoleType().toString(), member.getNickname());
     }
 
     public String getAccessTokenCookie(String id, String email){

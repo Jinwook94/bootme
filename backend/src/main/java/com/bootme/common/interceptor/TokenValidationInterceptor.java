@@ -6,9 +6,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import static com.bootme.common.util.CookieExtractor.getCookieValue;
 
 /**
  * HTTP 요청을 처리하기 전에 엑세스 토큰과 리프레시 토큰의 유효성을 검증하는 인터셉터
@@ -61,18 +62,6 @@ public class TokenValidationInterceptor implements HandlerInterceptor {
     private void setAccessTokenCookie(String accessToken, HttpServletResponse response) {
         response.addHeader("Set-Cookie", "accessToken=" + accessToken + "; Max-Age=" +
                 accessTokenExpireTimeInMilliseconds/1000 + "; HttpOnly; Secure; SameSite=Lax");
-    }
-
-    private String getCookieValue(HttpServletRequest request, String cookieName) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals(cookieName)) {
-                    return cookie.getValue();
-                }
-            }
-        }
-        return null;
     }
 
 }
