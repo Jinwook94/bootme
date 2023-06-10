@@ -1,7 +1,15 @@
 const PATH = {
   HOME: '/',
-  COURSE: '/course',
   LOGIN: '/login',
+  COURSE: {
+    LIST: '/course/list',
+    DETAIL: '/course',
+  },
+  POST: {
+    LIST: '/post/list',
+    DETAIL: '/post',
+    WRITE: '/post/write',
+  },
   OAUTH: {
     NAVER: '/oauth/naver',
     KAKAO: '/oauth/kakao',

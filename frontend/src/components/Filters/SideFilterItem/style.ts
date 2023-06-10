@@ -80,3 +80,11 @@ export const MoreButton = styled.button`
   padding-right: 1rem;
   bottom: -1rem;
 `;
+
+export const CaretIconWrapper = styled.div`
+  svg {
+    fill: #0078ff;
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+`;

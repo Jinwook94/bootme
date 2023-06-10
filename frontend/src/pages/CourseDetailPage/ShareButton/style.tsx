@@ -71,3 +71,25 @@ export const LinkItem = styled.a`
     color: rgb(63, 120, 224);
   }
 `;
+
+export const CommentIconMobile = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  box-sizing: border-box;
+  flex-direction: row;
+  margin-right: 0.5rem;
+  border-radius: 999px;
+  border: 1px solid rgb(234, 237, 239);
+  padding: 1px 8px;
+  svg {
+    fill: #878a8c;
+    width: 16px;
+    height: 16px;
+  }
+
+  &:hover {
+    background: rgb(234, 237, 239);
+  }
+`;

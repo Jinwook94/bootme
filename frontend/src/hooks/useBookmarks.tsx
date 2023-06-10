@@ -1,9 +1,6 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import { fetcher } from '../api/fetcher';
 import { useLogin } from './useLogin';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { currentPageBookmark, currentView } from '../recoilState';
-import { BOOKMARK } from '../constants/pages';
 import { useSnackbar } from './useSnackbar';
 import SNACKBAR_MESSAGE, { CHECK, EXCLAMATION } from '../constants/snackbar';
 
@@ -14,8 +11,6 @@ const BookmarkContext = createContext<BookmarkContextProps>({
   setBookmarkedCourseIds: () => {},
   currentCourses: [],
   setCurrentCourses: () => {},
-  isLoading: true,
-  setIsLoading: () => {},
   fetchBookmarkCourses: async () => [],
   fetchBookmarkCourseIds: async () => [],
   handleBookmark: () => {},
@@ -30,13 +25,10 @@ export const BookmarkProvider = ({ children }: BookmarkProviderProps) => {
   const memberId = localStorage.getItem('MemberId');
   const [isBookmarked, setIsBookmarked] = useState<{ [key: string]: boolean }>({});
   const [bookmarkedCourseIds, setBookmarkedCourseIds] = useState<number[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [currentPage] = useRecoilState(currentPageBookmark);
   const [maxPage, setMaxPage] = useState<number>(1);
   const [size] = useState<number>(12);
   const [courseCount, setCourseCount] = useState<number>();
   const [currentCourses, setCurrentCourses] = useState<Course[]>([]);
-  const view = useRecoilValue(currentView);
 
   const fetchBookmarkCourses = async (page: number) => {
     const endpoint = `/member/${memberId}/bookmarks`;
@@ -44,7 +36,7 @@ export const BookmarkProvider = ({ children }: BookmarkProviderProps) => {
       .get(endpoint, {
         params: {
           page: page,
-          size: 10,
+          size: 12,
         },
       })
       .then(r => {
@@ -99,27 +91,6 @@ export const BookmarkProvider = ({ children }: BookmarkProviderProps) => {
     }
   };
 
-  useEffect(() => {
-    if (view === BOOKMARK) {
-      setIsLoading(true);
-      fetchBookmarkCourses(currentPage).then(() => setIsLoading(false));
-    }
-  }, [currentPage, view]);
-
-  useEffect(() => {
-    const memberId = localStorage.getItem('MemberId');
-    if (memberId) {
-      fetchBookmarkCourseIds().then(response => {
-        setBookmarkedCourseIds(response);
-        const updatedIsBookmarked: { [key: string]: boolean } = {};
-        response.forEach((courseId: number) => {
-          updatedIsBookmarked[courseId] = true;
-        });
-        setIsBookmarked(updatedIsBookmarked);
-      });
-    }
-  }, [currentPage]);
-
   return (
     <BookmarkContext.Provider
       value={{
@@ -129,8 +100,6 @@ export const BookmarkProvider = ({ children }: BookmarkProviderProps) => {
         setBookmarkedCourseIds,
         currentCourses,
         setCurrentCourses,
-        isLoading,
-        setIsLoading,
         fetchBookmarkCourses,
         fetchBookmarkCourseIds,
         handleBookmark,
@@ -153,8 +122,6 @@ interface BookmarkContextProps {
   setBookmarkedCourseIds: React.Dispatch<number[]>;
   currentCourses: Course[];
   setCurrentCourses: React.Dispatch<Course[]>;
-  isLoading: boolean;
-  setIsLoading: React.Dispatch<boolean>;
   fetchBookmarkCourses: (page: number) => Promise<Course[]>;
   fetchBookmarkCourseIds: () => Promise<number[]>;
   handleBookmark: (id: number) => void;

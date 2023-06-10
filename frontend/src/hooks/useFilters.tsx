@@ -120,8 +120,11 @@ const COURSE_FILTERS_INITIAL_STATE = {
   period: [],
   periodInput: [],
 };
+
 const POST_FILTERS_INITIAL_STATE = {
-  // your initial state here...
+  search: [],
+  topic: [],
+  tag: [],
 };
 
 const [CourseFilterContext, CourseFilterProvider] = createFilterContext(COURSE_FILTERS_INITIAL_STATE, COURSE_FILTERS);

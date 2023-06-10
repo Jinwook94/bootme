@@ -3,6 +3,7 @@ import { ItemWrapper, NoResult, NotificationDate, NotificationItemWrapper, Title
 import React, { useEffect } from 'react';
 import { NotificationActiveIcon, NotificationIcon } from '../../../constants/icons';
 import { NotificationTypes, useNotification } from '../../../hooks/useNotification';
+import { getTimeSince } from '../../../utils/timeUtils';
 
 const NotificationDropdown = () => {
   const { notifications, isAllChecked, getNotifications, updateNotifications } = useNotification();
@@ -39,7 +40,7 @@ const NotificationDropdown = () => {
 };
 
 const NotificationItem = ({ createdAt, message }: Pick<NotificationTypes, 'message' | 'createdAt'>) => {
-  const timeSinceNotification = getTimeSinceNotification(createdAt);
+  const timeSinceNotification = getTimeSince(createdAt);
 
   // Find the part of the message to be bolded and wrap it in a <span> tag with a fontWeight style
   const boldedMessage = message.replace(/\*\*(.*?)\*\*/g, '<span style="font-weight: 600">$1</span>');
@@ -52,31 +53,6 @@ const NotificationItem = ({ createdAt, message }: Pick<NotificationTypes, 'messa
       </ItemWrapper>
     </NotificationItemWrapper>
   );
-};
-
-const getTimeSinceNotification = (createdAt: number) => {
-  const SECOND = 1000;
-  const MINUTE = 60 * SECOND;
-  const HOUR = 60 * MINUTE;
-  const DAY = 24 * HOUR;
-  const MONTH = 30 * DAY;
-  const now = Date.now();
-
-  const timeDiff = now - createdAt;
-
-  if (timeDiff < HOUR) {
-    const minutes = Math.floor(timeDiff / MINUTE);
-    return `${minutes}분 전`;
-  } else if (timeDiff < DAY) {
-    const hours = Math.floor(timeDiff / HOUR);
-    return `${hours}시간 전`;
-  } else if (timeDiff < 60 * DAY) {
-    const days = Math.floor(timeDiff / DAY);
-    return `${days}일 전`;
-  } else {
-    const months = Math.floor(timeDiff / MONTH);
-    return `${months}개월 전`;
-  }
 };
 
 export default NotificationDropdown;

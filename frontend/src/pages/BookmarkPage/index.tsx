@@ -4,23 +4,37 @@ import CourseCardList from '../../components/CourseCardList';
 import { useBookmarks } from '../../hooks/useBookmarks';
 import { BodyTitle, BodyWrapper, BodyWrapper2, CourseListWrapper, NoResultsMessage, PaginationWrapper } from './style';
 import { useRecoilState } from 'recoil';
-import { currentPageBookmark, currentView } from '../../recoilState';
-import { BOOKMARK } from '../../constants/pages';
+import { currentPageBookmark } from '../../recoilState';
 import { Pagination } from 'antd';
+import PATH from '../../constants/path';
 
 const BookmarkPage = () => {
-  const [, setView] = useRecoilState(currentView);
   const [currentPage] = useRecoilState(currentPageBookmark);
-  const { isLoading, currentCourses, size, courseCount } = useBookmarks();
-  const { handlePageChange } = usePaging(BOOKMARK);
+  const {
+    currentCourses,
+    size,
+    courseCount,
+    fetchBookmarkCourses,
+    fetchBookmarkCourseIds,
+    setBookmarkedCourseIds,
+    setIsBookmarked,
+  } = useBookmarks();
+  const { handlePageChange } = usePaging(PATH.BOOKMARKS);
 
   useEffect(() => {
-    setView(BOOKMARK);
-  }, []);
+    fetchBookmarkCourses(currentPage);
+  }, [currentPage]);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  useEffect(() => {
+    fetchBookmarkCourseIds().then(response => {
+      setBookmarkedCourseIds(response);
+      const updatedIsBookmarked: { [key: string]: boolean } = {};
+      response.forEach((courseId: number) => {
+        updatedIsBookmarked[courseId] = true;
+      });
+      setIsBookmarked(updatedIsBookmarked);
+    });
+  }, [currentPage]);
 
   return (
     <>

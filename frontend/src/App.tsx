@@ -8,11 +8,14 @@ import { KakaoLoginRedirect } from './components/LoginModal/KakaoLogin';
 import CourseDetailPage from './pages/CourseDetailPage';
 import PrivateRoute from './routes/PrivateRoute';
 import BookmarkPage from './pages/BookmarkPage';
-import Test from './pages/Test';
 import { useSnackbar } from './hooks/useSnackbar';
 import Header from './components/Header';
 import Snackbar from './components/@common/Snackbar';
 import PartnerPage from './pages/PartnerPage';
+import PostListPage from './pages/PostListPage';
+import PostDetailPage from './pages/PostDetailPage';
+import PostWritePage from './pages/PostWritePage';
+import Test from './pages/Test';
 
 const App = () => {
   const { isVisible, message, displayIcon } = useSnackbar();
@@ -24,10 +27,14 @@ const App = () => {
         <Route path={PATH.LOGIN} element={<LoginPage />} />
         <Route path={PATH.OAUTH.NAVER} element={<NaverLoginRedirect />} />
         <Route path={PATH.OAUTH.KAKAO} element={<KakaoLoginRedirect />} />
-        <Route path={`${PATH.COURSE}/:id`} element={<CourseDetailPage />} />
+        <Route path={PATH.COURSE.LIST} element={<HomePage />} />
+        <Route path={`${PATH.COURSE.DETAIL}/:id`} element={<CourseDetailPage />} />
+        <Route path={PATH.POST.LIST} element={<PostListPage />} />
+        <Route path={`${PATH.POST.DETAIL}/:id`} element={<PostDetailPage />} />
         <Route path={'/test'} element={<Test />} />
         <Route element={<PrivateRoute />}>
           <Route path={PATH.BOOKMARKS} element={<BookmarkPage />} />
+          <Route path={PATH.POST.WRITE} element={<PostWritePage />} />
         </Route>
         <Route path={PATH.PARTNER} element={<PartnerPage />} />
       </Routes>

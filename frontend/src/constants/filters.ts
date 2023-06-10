@@ -53,17 +53,21 @@ export interface CourseFilterTypes {
   unit?: string;
 }
 
+export const 자유 = '자유';
+export const 부트캠프질문 = '부트캠프 질문';
+export const 개발질문 = '개발 질문';
+
 export const POST_FILTERS: { [key: string]: PostFilterTypes } = {
   SEARCH: {
     filterName: 'search',
     filterOptions: [],
   },
-  CATEGORY: {
-    filterName: 'category',
-    filterOptions: ['코스질문', '개발질문'],
+  TOPIC: {
+    filterName: 'topic',
+    filterOptions: [자유, 부트캠프질문, 개발질문],
   },
   TAG: {
-    filterName: 'tags',
+    filterName: 'tag',
     filterOptions: [],
   },
 };

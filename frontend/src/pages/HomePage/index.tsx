@@ -29,20 +29,41 @@ import { useCourseFilters } from '../../hooks/useFilters';
 import ModalFilter from '../../components/Filters/ModalFilter';
 import { Pagination, Select, Space } from 'antd';
 import { useRecoilState } from 'recoil';
-import { currentPageHome, currentView } from '../../recoilState';
-import { HOME } from '../../constants/pages';
+import { currentPageHome } from '../../recoilState';
 import Search from 'antd/es/input/Search';
+import PATH from '../../constants/path';
+import { useBookmarks } from '../../hooks/useBookmarks';
 
 const HomePage = () => {
-  const [, setView] = useRecoilState(currentView);
-  const { handleModal } = useCourseFilters();
-  const { courseCount, size, currentCourses, sortOption, handleSorting, onSearch } = useCourses();
-  const { handlePageChange } = usePaging(HOME);
+  const { fetchCourses, courseCount, size, currentCourses, sortOption, handleSorting, onSearch } = useCourses();
+  const { selectedFilters, handleModal } = useCourseFilters();
+  const { fetchBookmarkCourses, fetchBookmarkCourseIds, setBookmarkedCourseIds, setIsBookmarked } = useBookmarks();
+  const { handlePageChange } = usePaging(PATH.HOME);
   const [currentPage, setCurrentPage] = useRecoilState(currentPageHome);
 
   useEffect(() => {
-    setView(HOME);
-  }, []);
+    fetchCourses(sortOption, currentPage);
+  }, [currentPage]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+    fetchCourses(sortOption, 1);
+  }, [selectedFilters, sortOption]);
+
+  useEffect(() => {
+    fetchBookmarkCourses(currentPage);
+  }, [currentPage]);
+
+  useEffect(() => {
+    fetchBookmarkCourseIds().then(response => {
+      setBookmarkedCourseIds(response);
+      const updatedIsBookmarked: { [key: string]: boolean } = {};
+      response.forEach((courseId: number) => {
+        updatedIsBookmarked[courseId] = true;
+      });
+      setIsBookmarked(updatedIsBookmarked);
+    });
+  }, [currentPage]);
 
   useEffect(() => {
     setCurrentPage(1);

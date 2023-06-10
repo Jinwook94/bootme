@@ -1,5 +1,13 @@
 import SideFilterItem from '../SideFilterItem';
-import { SearchInput, StyledSearch, Wrapper, FilterReset, ResetButton, FilterItemWrapper } from './style';
+import {
+  SearchInput,
+  StyledSearch,
+  Wrapper,
+  FilterReset,
+  ResetButton,
+  FilterItemWrapper,
+  ResetIconWrapper,
+} from './style';
 import { COURSE_FILTERS } from '../../../constants/filters';
 import { useCourseFilters } from '../../../hooks/useFilters';
 import { ResetIcon } from '../../../constants/icons';
@@ -18,10 +26,10 @@ const SideFilter = () => {
       </SearchInput>
       <FilterReset>
         <ResetButton style={{ cursor: 'default' }}>
-          <div onClick={resetFilters} style={{ cursor: 'pointer' }}>
+          <ResetIconWrapper onClick={resetFilters}>
             <ResetIcon />
             <span>필터 초기화</span>
-          </div>
+          </ResetIconWrapper>
         </ResetButton>
       </FilterReset>
       <FilterItemWrapper>

@@ -8,6 +8,7 @@ import {
   FilterOptionList,
   CostFilterOptionList,
   TestOptionList,
+  CaretIconWrapper,
 } from './style';
 import FilterOption from '../FilterOption';
 import React, { useState } from 'react';
@@ -99,15 +100,15 @@ const SideFilterItem = ({ filterName, filterOptions, isMore, isReset }: SideFilt
           {isMore && (
             <MoreButton onClick={handleMoreClick}>
               {isMoreOpen ? (
-                <>
+                <CaretIconWrapper>
                   <span>접기</span>
                   <CaretUpIcon />
-                </>
+                </CaretIconWrapper>
               ) : (
-                <>
+                <CaretIconWrapper>
                   <span>더 보기</span>
                   <CaretDownIcon />
-                </>
+                </CaretIconWrapper>
               )}
             </MoreButton>
           )}

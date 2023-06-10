@@ -1,15 +1,12 @@
-import { useEffect } from 'react';
-import { currentPageBookmark, currentPageHome, currentView } from '../recoilState';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { HOME } from '../constants/pages';
+import { currentPageBookmark, currentPageHome } from '../recoilState';
+import { useRecoilState } from 'recoil';
+import PATH from '../constants/path';
 
 const usePaging = (view: string) => {
   const [currentPageInHomePage, setCurrentPageInHomePage] = useRecoilState(currentPageHome);
   const [currentPageInBookmarkPage, setCurrentPageInBookmarkPage] = useRecoilState(currentPageBookmark);
-  const setCurrentView = useSetRecoilState(currentView);
 
-  const currentPage = view === HOME ? currentPageInHomePage : currentPageInBookmarkPage;
-  const setCurrentPage = view === HOME ? setCurrentPageInHomePage : setCurrentPageInBookmarkPage;
+  const setCurrentPage = view === PATH.HOME ? setCurrentPageInHomePage : setCurrentPageInBookmarkPage;
 
   const handlePageChange = (page: number | ((currVal: number) => number)) => {
     setCurrentPage(page);
@@ -20,10 +17,6 @@ const usePaging = (view: string) => {
       });
     });
   };
-
-  useEffect(() => {
-    setCurrentView(view);
-  }, [currentPage]);
 
   return { handlePageChange };
 };

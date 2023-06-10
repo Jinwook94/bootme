@@ -36,6 +36,17 @@ export const ResetButton = styled.button`
   cursor: pointer;
 `;
 
+export const ResetIconWrapper = styled.div`
+  cursor: pointer;
+  svg {
+    width: 1rem;
+    height: 1rem;
+    vertical-align: middle;
+    margin-right: 0.25rem;
+    color: rgb(38, 55, 71);
+  }
+`;
+
 export const FilterItemWrapper = styled.div`
   display: block;
 `;

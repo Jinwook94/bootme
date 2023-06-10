@@ -1,9 +1,6 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import { fetcher } from '../api/fetcher';
 import { useCourseFilters } from './useFilters';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { currentPageHome, currentView } from '../recoilState';
-import { BOOKMARK, HOME } from '../constants/pages';
 import { COURSE_FILTERS } from '../constants/filters';
 
 const CourseContext = createContext<CourseContextProps>({
@@ -23,9 +20,7 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
   const [sortOption, setSortOption] = useState('popular');
   const [maxPage, setMaxPage] = useState<number>(1);
   const [size] = useState<number>(12);
-  const [currentPage, setCurrentPage] = useRecoilState(currentPageHome);
   const [courseCount, setCourseCount] = useState<number>();
-  const view = useRecoilValue(currentView);
 
   const fetchCourses = (sort: string, page: number) => {
     const filterParams = Object.entries(selectedFilters).flatMap(([key, value]) => {
@@ -63,17 +58,6 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
   const onSearch = (value: string) => {
     clearAndAddFilter(COURSE_FILTERS.SEARCH.filterName, value);
   };
-
-  useEffect(() => {
-    view === HOME && fetchCourses(sortOption, currentPage);
-  }, [currentPage, view]);
-
-  useEffect(() => {
-    if (view === HOME || view === BOOKMARK) {
-      setCurrentPage(1);
-      fetchCourses(sortOption, 1);
-    }
-  }, [selectedFilters, sortOption]);
 
   return (
     <CourseContext.Provider

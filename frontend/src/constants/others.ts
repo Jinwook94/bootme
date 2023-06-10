@@ -5,3 +5,20 @@ export const NAVER = 'naver';
 export const KAKAO = 'kakao';
 
 export const UTM_PARAMS = 'utm_source=bootme&utm_medium=referral';
+
+export const VOTABLE_TYPE = {
+  POST: 'post',
+  POST_COMMENT: 'postComment',
+};
+
+export const VOTE_TYPE = {
+  NONE: 'none',
+  UPVOTE: 'upvote',
+  DOWNVOTE: 'downvote',
+};
+
+export const IMAGE_TYPE = {
+  COURSE_DETAIL: 'courseDetail',
+  POST: 'post',
+  POST_COMMENT: 'postComment',
+};

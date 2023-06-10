@@ -82,11 +82,13 @@ const MenuModal = ({ isLogin, isMenuOpen, setIsMenuOpen, nickName, profileImage 
       </MenuHeader>
       <MenuBody>
         <Items>
-          <Link to={PATH.HOME}>
+          <a href={'https://bootme.co.kr/'}>
             <Item>부트캠프</Item>
-          </Link>
+          </a>
           <Item onClick={() => showSnackbar(SNACKBAR_MESSAGE.WORK_IN_PROGRESS, EXCLAMATION)}>회사</Item>
-          <Item onClick={() => showSnackbar(SNACKBAR_MESSAGE.WORK_IN_PROGRESS, EXCLAMATION)}>커뮤니티</Item>
+          <a href={'https://bootme.co.kr/post/list'}>
+            <Item>커뮤니티</Item>
+          </a>
         </Items>
         {isLogin ? (
           <UserInfo>

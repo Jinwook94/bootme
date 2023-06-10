@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import RichText from '../../components/RichText';
+import CourseRichText from './CourseRichText';
 import ReactQuill, { ReactQuillProps } from 'react-quill';
 import useCourse from '../../hooks/useCourse';
 import { IdInputWrapper, RichTextWrapper, Wrapper } from './style';
@@ -57,7 +57,7 @@ const PartnerPage = () => {
             <h5 style={{ marginBottom: '0.5rem' }}>
               수정 코스 ID: {courseId}, 타이틀: {courseTitle}
             </h5>
-            <RichText quill={quill} courseId={courseId} />
+            <CourseRichText quill={quill} courseId={courseId} />
             <form onSubmit={handleUploadSubmit}>
               <button type="submit" style={{ marginTop: '0.5rem' }}>
                 업로드

@@ -5,15 +5,8 @@ import { useBookmarks } from '../../hooks/useBookmarks';
 
 const CourseCardList = ({ courses, displayBookmarked }: CourseCardListProps) => {
   const isMounted = useRef(false);
-  const {
-    isBookmarked,
-    setIsBookmarked,
-    bookmarkedCourseIds,
-    setBookmarkedCourseIds,
-    isLoading,
-    setIsLoading,
-    fetchBookmarkCourseIds,
-  } = useBookmarks();
+  const { isBookmarked, setIsBookmarked, bookmarkedCourseIds, setBookmarkedCourseIds, fetchBookmarkCourseIds } =
+    useBookmarks();
 
   // 1. onMount 시점에 해당 회원이 저장한 북마크 코스 정보를 가져온다 (로그인 된 경우만)
   useEffect(() => {
@@ -38,55 +31,46 @@ const CourseCardList = ({ courses, displayBookmarked }: CourseCardListProps) => 
     }
   }, [bookmarkedCourseIds]);
 
-  //3. isBookmarked 값 설정이 완료되면 isLoading 값을 변경하여 CourseCard 랜더링 될 수 있도록 한다.
-  useEffect(() => {
-    setIsLoading(false);
-  }, [isBookmarked]);
-
   return (
     <CourseCardListStyle>
-      {isLoading ? (
-        <p>Loading...</p>
-      ) : (
-        courses
-          .filter(course => {
-            return displayBookmarked ? isBookmarked[course.id] : true;
-          })
-          .map(
-            ({
-              id,
-              title,
-              url,
-              company,
-              superCategories,
-              subCategories,
-              languages,
-              frameworks,
-              dates,
-              cost,
-              period,
-              free,
-              kdt,
-            }: CourseCardProps) => (
-              <CourseCard
-                key={id}
-                id={id}
-                title={title}
-                url={url}
-                company={company}
-                superCategories={superCategories}
-                subCategories={subCategories}
-                languages={languages}
-                frameworks={frameworks}
-                dates={dates}
-                cost={cost}
-                period={period}
-                free={free}
-                kdt={kdt}
-              />
-            )
+      {courses
+        .filter(course => {
+          return displayBookmarked ? isBookmarked[course.id] : true;
+        })
+        .map(
+          ({
+            id,
+            title,
+            url,
+            company,
+            superCategories,
+            subCategories,
+            languages,
+            frameworks,
+            dates,
+            cost,
+            period,
+            free,
+            kdt,
+          }: CourseCardProps) => (
+            <CourseCard
+              key={id}
+              id={id}
+              title={title}
+              url={url}
+              company={company}
+              superCategories={superCategories}
+              subCategories={subCategories}
+              languages={languages}
+              frameworks={frameworks}
+              dates={dates}
+              cost={cost}
+              period={period}
+              free={free}
+              kdt={kdt}
+            />
           )
-      )}
+        )}
     </CourseCardListStyle>
   );
 };

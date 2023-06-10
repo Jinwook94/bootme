@@ -7,7 +7,16 @@ const SNACKBAR_MESSAGE = {
   WORK_IN_PROGRESS: `준비중입니다.`,
   SUCCESS_UPLOAD: `업로드 성공`,
   FAIL_UPLOAD: `업로드 실패`,
+  FAIL_UPLOAD_IMAGE: `이미지 형식이 아닌 파일을 업로드할 수 없습니다.`,
   FAIL_COURSE_FETCH: `코스 조회에 실패했습니다`,
+  FAIL_POST_UPLOAD: `게시글 등록에 실패했습니다`,
+  FAIL_POST_FETCH: `게시글 조회에 실패했습니다`,
+  FAIL_POST_EDIT: `게시글 수정에 실패했습니다`,
+  FAIL_POST_DELETE: `게시글 삭제에 실패했습니다`,
+  SUCCESS_POST_DELETE: `게시글이 삭제되었습니다.`,
+  FAIL_COMMENTS_FETCH: `해당 게시글의 댓글 조회에 실패했습니다`,
+  FAIL_VOTE: `투표에 실패했습니다`,
+  SUCCESS_WRITE_COMMENT: `댓글 작성 완료`,
 };
 
 export default SNACKBAR_MESSAGE;

@@ -65,9 +65,9 @@ const Header = () => {
                 <HeaderItem> 부트캠프 </HeaderItem>
               </a>
               <HeaderItem onClick={() => showSnackbar(SNACKBAR_MESSAGE.WORK_IN_PROGRESS, EXCLAMATION)}>회사</HeaderItem>
-              <HeaderItem onClick={() => showSnackbar(SNACKBAR_MESSAGE.WORK_IN_PROGRESS, EXCLAMATION)}>
-                커뮤니티{' '}
-              </HeaderItem>
+              <a href={'https://bootme.co.kr/post/list'}>
+                <HeaderItem>커뮤니티 </HeaderItem>
+              </a>
             </HeaderLeft>
             <HeaderRight>
               {isLogin ? (
