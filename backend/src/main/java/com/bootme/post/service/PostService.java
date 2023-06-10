@@ -41,7 +41,7 @@ public class PostService {
     private final PostSearchPredicate postSearchPredicate;
 
     private static final String CREATED_AT = "createdAt";
-    private static final String VIEWS = "views";
+    private static final String LIKES = "likes";
     private static final String POST = "post";
     private static final String POST_COMMENT = "postComment";
     private static final String NONE = "none";
@@ -160,11 +160,11 @@ public class PostService {
         if (sort.equals("newest")) {
             sorting = Sort.by(
                     Sort.Order.desc(CREATED_AT),
-                    Sort.Order.desc(VIEWS)
+                    Sort.Order.desc(LIKES)
             );
         } else {
             sorting = Sort.by(
-                    Sort.Order.desc(VIEWS),
+                    Sort.Order.desc(LIKES),
                     Sort.Order.asc(CREATED_AT)
             );
         }
