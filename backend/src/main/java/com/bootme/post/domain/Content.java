@@ -40,6 +40,10 @@ public class Content {
     }
 
     public String getExcerpt() {
+        if ("<p><br></p>".equals(value)) {
+            return "";
+        }
+
         // 이미지 태그가 있다면 첫 번째 이미지 태그만 반환 -> 메서드 분리 필요
         Document doc = Jsoup.parse(value);
         Elements imgTags = doc.getElementsByTag("img");
