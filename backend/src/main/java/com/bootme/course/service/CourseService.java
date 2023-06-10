@@ -114,26 +114,19 @@ public class CourseService {
     }
 
     public void incrementClicks(Long id) {
-        validateExists(id);
-        courseRepository.incrementClicks(id);
+        Course course = courseRepository.findById(id).orElseThrow();
+        course.incrementClicks();
     }
 
     public void incrementBookmarks(Long id){
-        validateExists(id);
-        courseRepository.incrementBookmarks(id);
+        Course course = courseRepository.findById(id).orElseThrow();
+        course.incrementBookmarks();
     }
 
     private void validateDuplicateByTitle(String title){
         boolean isExist = courseRepository.existsByTitle(title);
         if (isExist){
             throw new ConflictException(ALREADY_SAVED_COURSE, title);
-        }
-    }
-
-    private void validateExists(Long id){
-        boolean isExist = courseRepository.existsById(id);
-        if (!isExist) {
-            throw new ResourceNotFoundException(NOT_FOUND_COURSE, String.valueOf(id));
         }
     }
 

@@ -168,4 +168,12 @@ public class Course extends BaseEntity {
         return afterStart && beforeEnd;
     }
 
+    public void incrementClicks() {
+        this.clicks += 1;
+    }
+
+    public void incrementBookmarks() {
+        this.bookmarks -= 1;
+    }
+
 }
