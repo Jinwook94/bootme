@@ -20,8 +20,10 @@ export const BodyWrapper = styled.div`
   display: block;
   min-width: 0;
   width: 100%;
+  margin-bottom: 50px;
   @media (min-width: 960px) {
     width: 640px;
+    margin-bottom: 0;
   }
 `;
 
