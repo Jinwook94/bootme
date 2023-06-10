@@ -17,7 +17,7 @@ import static com.bootme.common.exception.ErrorType.*;
 @Embeddable
 public class Content {
 
-    private static final int MAX_CONTENT_LENGTH = 10000;
+    private static final int MAX_CONTENT_LENGTH = 50000;
     private static final int EXCERPT_LENGTH = 200;
 
     @Lob

@@ -48,7 +48,7 @@ public enum ErrorType {
     FILE_DELETE_FAIL        (5005, "임시 저장된 이미지 파일의 삭제에 실패했습니다."),
     POST_TITLE_EMPTY        (5006, "게시글 제목이 입력되지 않았습니다."),
     POST_TITLE_MAX_LENGTH   (5007, "게시글 제목은 최대 100자까지 작성 가능합니다."),
-    POST_CONTENT_MAX_LENGTH (5008, "게시글은 최대 10,000자까지 작성 가능합니다."),
+    POST_CONTENT_MAX_LENGTH (5008, "게시글은 최대 50,000자까지 작성 가능합니다."),
     POST_COMMENT_MAX_LENGTH (5009, "댓글은 최대 2,000자까지 작성 가능합니다."),
     COMMENT_EMPTY           (5010, "빈 댓글을 작성할 수 없습니다."),
     COMMENT_MAX_LENGTH      (5011, "댓글은 최대 300자까지 작성 가능합니다."),
