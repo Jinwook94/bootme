@@ -37,14 +37,14 @@ import static com.bootme.common.exception.ErrorType.*;
 @Transactional
 public class AuthService {
 
+    private static final String BOOTME = "bootme";
+    private static final String GOOGLE = "google";
+    private static final String NAVER = "naver";
+    private static final String KAKAO = "kakao";
+
     private final MemberRepository memberRepository;
     private final MemberService memberService;
     private final NotificationService notificationService;
-
-    private final String BOOTME = "bootme";
-    private final String GOOGLE = "google";
-    private final String NAVER = "naver";
-    private final String KAKAO = "kakao";
     private final String BOOTME_ISSUER;
     private final String GOOGLE_ISSUER;
     private final String NAVER_ISSUER;

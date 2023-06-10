@@ -1,3 +1,32 @@
+### 로그인
+POST localhost:8080/login HTTP/1.1
+Authorization: Bearer accessToken
+Accept: application/json
+Host: api.bootMe.app
+
+### 게시글 작성
+POST localhost:8080/posts HTTP/1.1
+Content-Type: application/json
+Cookie: accessToken=
+
+{
+  "memberId" : "1",
+  "topic" : "자유",
+  "title" : "안녕하세요",
+  "content" : "반갑습니다"
+}
+
+### 댓글 작성
+POST localhost:8080/posts/1/comments HTTP/1.1
+Content-Type: application/json
+Cookie: accessToken=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpZCI6IjEiLCJlbWFpbCI6ImdvZGZhdGhlcjk0QGtha2FvLmNvbSIsImlzcyI6Imh0dHBzOi8vYm9vdG1lLmJhY2suY29tIiwiaWF0IjoxNjg1ODg4NjM0LCJleHAiOjE2ODU4OTIyMzR9.DNqu7Z8DbKpg_6JqibpaQrzF7AUa1Uql0zBwSsBz1NGyZ11a34tiPjOCPl1zypxsvoKCHijLYHJ8WN81KT4y-A;
+
+{
+  "memberId" : 1,
+  "parentId" : null,
+  "content" : "댓글 입니다."
+}
+
 ### 기술 스택 추가
 POST localhost:8080/stacks HTTP/1.1
 Content-Type: application/json

@@ -22,7 +22,7 @@ public class CourseSearchPredicate implements CoursePredicate {
             return null;
         }
 
-        String searchParam = searchParams.get(0);
+        String searchParam = searchParams.get(0).trim();
         validateSearchQuery(searchParam);
 
         QCourse course = QCourse.course;
@@ -42,7 +42,11 @@ public class CourseSearchPredicate implements CoursePredicate {
     private void validateSearchQuery(String searchParam) {
         int maxQueryLength = 255;
         if (searchParam.length() > maxQueryLength) {
-            throw new ValidationException(INVALID_SEARCH_QUERY, "공백을 입력할 수 없습니다. 입력값 = " + searchParam);
+            throw new ValidationException(INVALID_SEARCH_QUERY, "최대 255자까지 입력할 수 있습니다. 입력값 = " + searchParam);
+        }
+
+        if (searchParam.matches(".*\\s+.*")) {
+            throw new ValidationException(INVALID_SEARCH_QUERY, "띄어쓰기를 입력할 수 없습니다. 입력값 = " + searchParam);
         }
 
         String regex = "^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣 ]*$";
