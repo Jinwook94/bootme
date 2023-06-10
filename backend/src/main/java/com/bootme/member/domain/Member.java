@@ -75,6 +75,10 @@ public class Member extends BaseEntity {
     }
 
     public static Member of(JwtVo.Body body) {
+        String nickname = body.getNickname();
+        if (nickname == null || nickname.isEmpty()) {
+            nickname = body.getName();
+        }
         return Member.builder()
                 .email(body.getEmail())
 //                .password()
@@ -85,10 +89,11 @@ public class Member extends BaseEntity {
                 .birthYear(body.getBirthYear())
                 .ageRange(body.getAgeRange())
                 .gender(body.getGender())
-                .nickname(body.getNickname())
+                .nickname(nickname)
                 .phoneNumber(body.getPhoneNumber())
                 .roleType(RoleType.USER)
                 .visitsCount(1L)
                 .build();
     }
+
 }

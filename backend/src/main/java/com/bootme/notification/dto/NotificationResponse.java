@@ -4,8 +4,7 @@ import com.bootme.notification.domain.Notification;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import static com.bootme.common.util.TimeConverter.convertLocalDateTimeToLong;
 
 @Getter
 public class NotificationResponse {
@@ -40,10 +39,6 @@ public class NotificationResponse {
                 .isChecked(notification.isChecked())
                 .createdAt(convertLocalDateTimeToLong(notification.getCreatedAt()))
                 .build();
-    }
-
-    private static long convertLocalDateTimeToLong(LocalDateTime localDateTime){
-        return localDateTime.toInstant(ZoneOffset.ofHours(9)).toEpochMilli();
     }
 
 }

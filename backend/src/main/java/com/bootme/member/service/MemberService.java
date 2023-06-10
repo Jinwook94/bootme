@@ -32,10 +32,6 @@ public class MemberService {
     private final CourseStackRepository courseStackRepository;
     private final BookmarkCourseRepository bookmarkCourseRepository;
 
-    public boolean isMemberRegistered(String email){
-        return memberRepository.existsMemberByEmail(email);
-    }
-
     @Transactional(readOnly = true)
     public Member findById(Long id) {
         return memberRepository.findById(id)
@@ -88,6 +84,15 @@ public class MemberService {
         BookmarkCourse bookmarkCourse = bookmarkCourseRepository.findByMemberIdAndCourseId(memberId, courseId)
                 .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_BOOKMARK, "memberId=" + memberId + ", courseId="+courseId));
         bookmarkCourseRepository.delete(bookmarkCourse);
+    }
+
+    public Member getMemberById(Long id) {
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_MEMBER, String.valueOf(id)));
+    }
+
+    public boolean isMemberRegistered(String email){
+        return memberRepository.existsMemberByEmail(email);
     }
 
 }

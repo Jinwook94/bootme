@@ -6,10 +6,9 @@ import com.bootme.stack.domain.Stack;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.List;
+
+import static com.bootme.common.util.TimeConverter.convertLocalDateTimeToLong;
 
 @Getter
 public class CourseDetailResponse {
@@ -106,11 +105,6 @@ public class CourseDetailResponse {
                 .modifiedAt(convertLocalDateTimeToLong(course.getModifiedAt()))
                 .company(CompanyResponse.of(course.getCompany()))
                 .build();
-    }
-
-    private static long convertLocalDateTimeToLong(LocalDateTime localDateTime){
-        ZonedDateTime zonedDateTime = localDateTime.atZone(ZoneId.of("Asia/Seoul"));
-        return zonedDateTime.toInstant().toEpochMilli();
     }
 
 }
