@@ -51,13 +51,13 @@ const CourseCard = ({
       />
 
       <ItemHeader>
-        <Link to={`${PATH.COURSE}/${id}`}>
+        <Link to={`${PATH.COURSE.DETAIL}/${id}`}>
           <CompanyLogo src={company.logoUrl} alt={company.name} />
         </Link>
       </ItemHeader>
       <ItemBody>
         <CourseTitleWrapper>
-          <Link to={`${PATH.COURSE}/${id}`}>
+          <Link to={`${PATH.COURSE.DETAIL}/${id}`}>
             <CourseTitle>{title}</CourseTitle>
           </Link>
         </CourseTitleWrapper>
