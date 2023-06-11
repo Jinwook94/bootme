@@ -13,7 +13,7 @@ export const BottomTapBarWrapper = styled.div`
     background: #ffffff;
     color: rgb(34, 34, 34);
     width: 100%;
-    height: 50px;
+    height: 70px;
     border-top: 3px solid rgb(242, 242, 242);
   }
 `;
@@ -43,14 +43,14 @@ export const TapBarItemIcon = styled.div`
   }
   svg {
     fill: #878a8c;
-    width: 22px;
+    width: 28px;
     height: 100%;
   }
 `;
 
 export const TapBarItemText = styled.div`
   color: #878a8c;
-  font-size: 8px;
+  font-size: 12px;
   padding-bottom: 6px;
 `;
 
