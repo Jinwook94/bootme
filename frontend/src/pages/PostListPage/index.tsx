@@ -13,12 +13,13 @@ import {
   SearchWrapper,
   SortName,
   SortOption,
-  SortOptionButton,
-  SortOptionMobile,
+  SortButton,
+  TopicFilterButton,
+  SortAndFilterWrapper,
   SortWrapper,
   StyledSearch,
   SortSearchDesktop,
-  SortMobile,
+  SortAndFilterMobile,
   MobileHeader,
   MobileHeaderTextMedium,
   MobileHeaderTextLarge,
@@ -140,16 +141,16 @@ const PostListPage = () => {
             </ProfileWrapper1>
             <CreatePostInput onClick={() => goToPage(PATH.POST.WRITE)} placeholder="글 작성하기" />
           </CreatePostWrapper>
-          <SortMobile>
-            <SortOptionMobile>
-              <SortOptionButton>
+          <SortAndFilterMobile>
+            <SortAndFilterWrapper>
+              <SortButton>
                 <SortDropdown />
-              </SortOptionButton>
-              <SortOptionButton>
+              </SortButton>
+              <TopicFilterButton>
                 <TopicDropdown />
-              </SortOptionButton>
-            </SortOptionMobile>
-          </SortMobile>
+              </TopicFilterButton>
+            </SortAndFilterWrapper>
+          </SortAndFilterMobile>
           <SortSearchDesktop>
             <SortWrapper>
               <SortOption onClick={() => goToPage(`${PATH.POST.LIST}?sort=views&topic=${currentTopic}`)}>

@@ -53,20 +53,6 @@ export const MobileHeaderTextMedium = styled.span`
   margin-top: 6px;
 `;
 
-export const MobileHeaderWriteButton = styled(Button)`
-  height: 36px;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 16px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  svg {
-    width: 1rem;
-    height: 1rem;
-  }
-`;
-
 export const CreatePostWrapper = styled.div`
   background-color: #ffffff;
   border-radius: 4px;
@@ -140,14 +126,49 @@ export const CreatePostInput = styled.input`
   line-height: 21px;
 `;
 
-export const SortMobile = styled.div`
+export const SortAndFilterMobile = styled.div`
+  position: sticky;
+  top: 0;
   width: 100%;
   background-color: rgb(255, 255, 255);
+  z-index: 100;
+  border-bottom: 2px solid #f2f2f2;
 
   @media (min-width: 640px) {
     display: none;
   }
 `;
+
+export const SortAndFilterWrapper = styled.div`
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  padding: 0 8px;
+  margin-right: 8px;
+
+  @media (min-width: 640px) {
+    display: none;
+  }
+`;
+
+export const SortButton = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 700;
+  background-color: rgb(255, 255, 255);
+  line-height: 17px;
+  min-height: 2.5rem;
+  margin: 0;
+  outline: none;
+
+  &:hover {
+    background-color: #efefef;
+    border-radius: 4px;
+  }
+`;
+
+export const TopicFilterButton = styled(SortButton)``;
 
 export const SortSearchDesktop = styled.div`
   display: flex;
@@ -169,35 +190,6 @@ export const SortWrapper = styled.div`
 
   @media (max-width: 640px) {
     margin-bottom: 8px;
-  }
-`;
-
-export const SortOptionMobile = styled.div`
-  align-items: center;
-  cursor: pointer;
-  display: flex;
-  padding: 0 8px;
-  margin-right: 8px;
-
-  @media (min-width: 640px) {
-    display: none;
-  }
-`;
-
-export const SortOptionButton = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  font-weight: 700;
-  background-color: rgb(255, 255, 255);
-  line-height: 17px;
-  min-height: 2.5rem;
-  margin: 0;
-  outline: none;
-
-  &:hover {
-    background-color: #efefef;
-    border-radius: 4px;
   }
 `;
 
@@ -294,4 +286,8 @@ export const NoResultMessage = styled.div`
 export const PostCardList = styled.div`
   min-height: 1000px;
   width: 100%;
+
+  @media (max-width: 640px) {
+    min-height: auto;
+  }
 `;
