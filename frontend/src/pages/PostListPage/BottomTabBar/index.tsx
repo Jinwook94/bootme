@@ -1,25 +1,14 @@
-import {
-  BottomTapBarWrapper,
-  SearchBarWrapper,
-  StyledSearchBar,
-  TapBarItem,
-  TapBarItemIcon,
-  TapBarItemText,
-} from './style';
+import { BottomTapBarWrapper, TapBarItem, TapBarItemIcon, TapBarItemText } from './style';
 import { BulbOutlined, CommentOutlined, HomeFilled, PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import SNACKBAR_MESSAGE, { EXCLAMATION } from '../../../constants/snackbar';
 import PATH from '../../../constants/path';
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigation } from '../../../hooks/useNavigation';
 import { useSnackbar } from '../../../hooks/useSnackbar';
-import { usePost } from '../../../hooks/usePost';
 
 const BottomTapBar = () => {
   const { goToPage } = useNavigation();
   const { showSnackbar } = useSnackbar();
-  const { onSearch } = usePost();
-  const [isSearchingMobile, setIsSearchingMobile] = useState(false);
-
   return (
     <BottomTapBarWrapper>
       <TapBarItem onClick={() => goToPage(PATH.POST.LIST)}>
@@ -47,25 +36,11 @@ const BottomTapBar = () => {
         </TapBarItemIcon>
         <TapBarItemText>채팅</TapBarItemText>
       </TapBarItem>
-      <TapBarItem>
-        {isSearchingMobile ? (
-          <>
-            <SearchBarWrapper>
-              <StyledSearchBar placeholder="게시글 검색" onSearch={onSearch} />
-            </SearchBarWrapper>
-            <TapBarItemIcon onClick={() => setIsSearchingMobile(prev => !prev)}>
-              <SearchOutlined />
-            </TapBarItemIcon>
-            <TapBarItemText onClick={() => setIsSearchingMobile(prev => !prev)}>검색</TapBarItemText>
-          </>
-        ) : (
-          <>
-            <TapBarItemIcon onClick={() => setIsSearchingMobile(prev => !prev)}>
-              <SearchOutlined />
-            </TapBarItemIcon>
-            <TapBarItemText onClick={() => setIsSearchingMobile(prev => !prev)}>검색</TapBarItemText>
-          </>
-        )}
+      <TapBarItem onClick={() => goToPage(PATH.POST.SEARCH)}>
+        <TapBarItemIcon>
+          <SearchOutlined />
+        </TapBarItemIcon>
+        <TapBarItemText>검색</TapBarItemText>
       </TapBarItem>
     </BottomTapBarWrapper>
   );

@@ -9,6 +9,7 @@ const PATH = {
     LIST: '/post/list',
     DETAIL: '/post',
     WRITE: '/post/write',
+    SEARCH: '/post/search',
   },
   OAUTH: {
     NAVER: '/oauth/naver',

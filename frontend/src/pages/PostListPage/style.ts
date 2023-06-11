@@ -9,7 +9,7 @@ export const CommunityPageLayout = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin: 0 auto;
+  margin: 0 auto 60px auto;
 
   @media (min-width: 640px) {
     padding: 20px 24px;
@@ -20,7 +20,6 @@ export const BodyWrapper = styled.div`
   display: block;
   min-width: 0;
   width: 100%;
-  margin-bottom: 60px;
   @media (min-width: 960px) {
     width: 640px;
     margin-bottom: 0;

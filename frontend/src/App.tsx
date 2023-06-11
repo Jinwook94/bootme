@@ -14,6 +14,7 @@ import PartnerPage from './pages/PartnerPage';
 import PostListPage from './pages/PostListPage';
 import PostDetailPage from './pages/PostDetailPage';
 import PostWritePage from './pages/PostWritePage';
+import PostSearchMobilePage from './pages/PostSearchMobilePage';
 import Test from './pages/Test';
 import { useSnackbar } from './hooks/useSnackbar';
 
@@ -31,6 +32,7 @@ const App = () => {
         <Route path={`${PATH.COURSE.DETAIL}/:id`} element={<CourseDetailPage />} />
         <Route path={PATH.POST.LIST} element={<PostListPage />} />
         <Route path={`${PATH.POST.DETAIL}/:id`} element={<PostDetailPage />} />
+        <Route path={PATH.POST.SEARCH} element={<PostSearchMobilePage />} />
         <Route path={'/test'} element={<Test />} />
         <Route element={<PrivateRoute />}>
           <Route path={PATH.BOOKMARKS} element={<BookmarkPage />} />

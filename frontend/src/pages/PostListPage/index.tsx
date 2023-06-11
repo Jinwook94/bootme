@@ -88,6 +88,11 @@ const PostListPage = () => {
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
 
+    const searchQuery = queryParams.get('search');
+    if (searchQuery) {
+      onSearch(searchQuery);
+    }
+
     const topic = queryParams.get('topic');
     if (topic) {
       clearAndAddFilter(POST_FILTERS.TOPIC.filterName, topic);
