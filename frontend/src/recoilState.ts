@@ -1,7 +1,7 @@
 import { atom } from 'recoil';
 
-export const currentPageHome = atom({
-  key: 'currentPageHome',
+export const currentPageCourseList = atom({
+  key: 'currentPageCourseList',
   default: 1,
 });
 

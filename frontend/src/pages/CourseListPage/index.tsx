@@ -1,4 +1,5 @@
 import {
+  CourseListPageLayout,
   CourseCount,
   FilterButton,
   SortSelect,
@@ -11,7 +12,6 @@ import {
   NoResultsMessage,
   CourseListWrapper,
   BodyWrapper2,
-  HomeLayout,
   CourseListMenu,
   MenuLeft,
   MenuRight,
@@ -29,17 +29,17 @@ import { useCourseFilters } from '../../hooks/useFilters';
 import ModalFilter from '../../components/Filters/ModalFilter';
 import { Pagination, Select, Space } from 'antd';
 import { useRecoilState } from 'recoil';
-import { currentPageHome } from '../../recoilState';
+import { currentPageCourseList } from '../../recoilState';
 import Search from 'antd/es/input/Search';
 import PATH from '../../constants/path';
 import { useBookmarks } from '../../hooks/useBookmarks';
 
-const HomePage = () => {
+const CourseListPage = () => {
   const { fetchCourses, courseCount, size, currentCourses, sortOption, handleSorting, onSearch } = useCourses();
   const { selectedFilters, handleModal } = useCourseFilters();
   const { fetchBookmarkCourses, fetchBookmarkCourseIds, setBookmarkedCourseIds, setIsBookmarked } = useBookmarks();
-  const { handlePageChange } = usePaging(PATH.HOME);
-  const [currentPage, setCurrentPage] = useRecoilState(currentPageHome);
+  const { handlePageChange } = usePaging(PATH.COURSE.LIST);
+  const [currentPage, setCurrentPage] = useRecoilState(currentPageCourseList);
 
   useEffect(() => {
     fetchCourses(sortOption, currentPage);
@@ -79,7 +79,7 @@ const HomePage = () => {
       <SlideWrapper style={{ marginTop: '1.5rem' }}>
         <SlideBanner />
       </SlideWrapper>
-      <HomeLayout>
+      <CourseListPageLayout>
         <BodyWrapper>
           <BodyWrapper2>
             <SideFilterWrapper>
@@ -137,9 +137,9 @@ const HomePage = () => {
         <FooterWrapper>
           <Footer style={{ textAlign: 'center' }}></Footer>
         </FooterWrapper>
-      </HomeLayout>
+      </CourseListPageLayout>
     </>
   );
 };
 
-export default HomePage;
+export default CourseListPage;

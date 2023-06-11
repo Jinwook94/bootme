@@ -61,7 +61,7 @@ const Header = () => {
                   <ServiceName>BootMe</ServiceName>
                 </Logo>
               </a>
-              <a href={'https://bootme.co.kr/'}>
+              <a href={'https://bootme.co.kr/course/list'}>
                 <HeaderItem> 부트캠프 </HeaderItem>
               </a>
               <HeaderItem onClick={() => showSnackbar(SNACKBAR_MESSAGE.WORK_IN_PROGRESS, EXCLAMATION)}>회사</HeaderItem>

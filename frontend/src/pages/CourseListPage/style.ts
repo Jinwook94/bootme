@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import Button from '../../components/@common/Button';
 import { Layout } from '../../components/@common/Layout';
 
-export const HomeLayout = styled(Layout)``;
+export const CourseListPageLayout = styled(Layout)``;
 
 export const SlideWrapper = styled.div`
   max-width: 100%;
