@@ -82,9 +82,9 @@ public class Post extends BaseEntity implements Votable {
         this.status = PostStatus.DELETED;
     }
 
-    public void validateWriter(Long currentMemberId, Long postWriterId) {
-        if (!Objects.equals(currentMemberId, postWriterId)) {
-            throw new AuthenticationException(NOT_WRITER, String.valueOf(currentMemberId));
+    public void validateWriter(Long memberId, Long writerId) {
+        if (!Objects.equals(memberId, writerId)) {
+            throw new AuthenticationException(NOT_WRITER, String.valueOf(memberId));
         }
     }
 

@@ -37,7 +37,7 @@ public class CommentController {
     public ResponseEntity<Void> modifyComment(@Login AuthInfo authInfo,
                                               @PathVariable(name = "id") Long id,
                                               @Valid @RequestBody CommentRequest commentRequest){
-        commentService.modifyComment(authInfo, id, commentRequest);
+        commentService.modifyComment(authInfo, id, commentRequest.getContent());
         return ResponseEntity.noContent().build();
     }
 

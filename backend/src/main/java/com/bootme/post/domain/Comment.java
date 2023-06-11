@@ -97,8 +97,8 @@ public class Comment extends BaseEntity implements Votable {
         }
     }
 
-    public void validateWriter(Long memberId, Long commentId) {
-        if (!Objects.equals(memberId, commentId)) {
+    public void validateWriter(Long memberId, Long writerId) {
+        if (!Objects.equals(memberId, writerId)) {
             throw new AuthenticationException(NOT_WRITER, String.valueOf(memberId));
         }
     }

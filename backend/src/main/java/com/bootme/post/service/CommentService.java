@@ -46,19 +46,19 @@ public class CommentService {
     }
 
     @Transactional
-    public void modifyComment(AuthInfo authInfo, Long id, CommentRequest commentRequest) {
+    public void modifyComment(AuthInfo authInfo, Long id, String modifiedContent) {
         authService.validateLogin(authInfo);
         Comment comment = getCommentById(id);
-        comment.validateWriter(authInfo.getMemberId(), id);
+        comment.validateWriter(authInfo.getMemberId(), comment.getMember().getId());
 
-        comment.modifyContent(commentRequest.getContent());
+        comment.modifyContent(modifiedContent);
     }
 
     @Transactional
     public void deleteComment(AuthInfo authInfo, Long id){
         authService.validateLogin(authInfo);
         Comment comment = getCommentById(id);
-        comment.validateWriter(authInfo.getMemberId(), id);
+        comment.validateWriter(authInfo.getMemberId(), comment.getMember().getId());
 
         comment.softDeleteComment();
     }
