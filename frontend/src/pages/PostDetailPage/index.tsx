@@ -56,7 +56,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { getTimeSince } from '../../utils/timeUtils';
 import { Button } from 'antd';
 import { PostComment } from '../../types/post';
-import PostCommentList from './PostCommentList';
+import PostCommentItem from './PostCommentItem';
 import { useLogin } from '../../hooks/useLogin';
 import { useSnackbar } from '../../hooks/useSnackbar';
 import SNACKBAR_MESSAGE, { EXCLAMATION } from '../../constants/snackbar';
@@ -275,7 +275,7 @@ const PostDetailPage = () => {
               <CommentCount>{post?.commentCount}개의 댓글</CommentCount>
               <CommentListWrapper>
                 {comments.map((comment: PostComment) => (
-                  <PostCommentList
+                  <PostCommentItem
                     key={comment.id}
                     id={comment.id}
                     postId={comment.postId}

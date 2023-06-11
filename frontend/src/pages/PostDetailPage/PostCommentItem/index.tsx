@@ -1,35 +1,3 @@
-import {
-  Commentary,
-  CommentBody,
-  CommentBottom,
-  CommentContent,
-  CommentList,
-  CommentMiddle,
-  CommentTop,
-  CommentVoteCount,
-  CommentVoteWrapper,
-  CommentWrapper,
-  ProfilePicture,
-  ThreadLine1,
-  ThreadLine2,
-  ThreadLine3,
-  ThreadLine,
-  UserNickname,
-  WriteTime,
-  ThreadLineIncrement,
-  CommentProfilePic,
-  CommentUpvoteButton,
-  CommentDownvoteButton,
-  CommentText,
-  CommentIconWrapper,
-  ReplyCommentTextEditor,
-  ReplyComment,
-  ReplyCommentWrapper,
-  ReplyCommentButtons,
-  ReplyEnterButton,
-  ReplyCancelButton,
-  CurrentLength,
-} from '../style';
 import { CommentIcon, DownvoteFilledIcon, DownvoteIcon, UpvoteFilledIcon, UpvoteIcon } from '../../../constants/icons';
 import { getTimeSince } from '../../../utils/timeUtils';
 import { PostComment } from '../../../types/post';
@@ -43,8 +11,40 @@ import { useLogin } from '../../../hooks/useLogin';
 import { useSnackbar } from '../../../hooks/useSnackbar';
 import SNACKBAR_MESSAGE, { EXCLAMATION } from '../../../constants/snackbar';
 import CommentReplyRichText from '../CommentReplyRichText';
+import {
+  Commentary,
+  CommentBody,
+  CommentBottom,
+  CommentContent,
+  CommentDownvoteButton,
+  CommentIconWrapper,
+  CommentMiddle,
+  CommentProfilePic,
+  CommentText,
+  CommentTop,
+  CommentUpvoteButton,
+  CommentVoteCount,
+  CommentVoteWrapper,
+  CommentWrapper,
+  CurrentLength,
+  PostCommentWrapper,
+  ProfilePicture,
+  ReplyCancelButton,
+  ReplyComment,
+  ReplyCommentButtons,
+  ReplyCommentTextEditor,
+  ReplyCommentWrapper,
+  ReplyEnterButton,
+  ThreadLine,
+  ThreadLine1,
+  ThreadLine2,
+  ThreadLine3,
+  ThreadLineIncrement,
+  UserNickname,
+  WriteTime,
+} from './style';
 
-const PostCommentList = ({
+const PostCommentItem = ({
   id,
   postId,
   memberId,
@@ -110,7 +110,7 @@ const PostCommentList = ({
   }, [isReplyOpen]);
 
   return (
-    <CommentList>
+    <PostCommentWrapper>
       <CommentWrapper padding={levelNum * 21}>
         <ThreadLine1>
           {Array.from({ length: levelNum }).map((_, index) => (
@@ -214,10 +214,10 @@ const PostCommentList = ({
           </CommentBody>
         </CommentContent>
       </CommentWrapper>
-    </CommentList>
+    </PostCommentWrapper>
   );
 };
 
-export default PostCommentList;
+export default PostCommentItem;
 
 export type PostCommentProps = Omit<PostComment, 'parentId' | 'groupNum' | 'orderNum' | 'modifiedAt'>;
