@@ -17,6 +17,7 @@ import PostWritePage from './pages/PostWritePage';
 import PostSearchMobilePage from './pages/PostSearchMobilePage';
 import Test from './pages/Test';
 import { useSnackbar } from './hooks/useSnackbar';
+import NotFoundPage from './pages/NotFoundPage';
 
 const App = () => {
   const { isVisible, message, displayIcon } = useSnackbar();
@@ -39,6 +40,7 @@ const App = () => {
           <Route path={PATH.POST.WRITE} element={<PostWritePage />} />
         </Route>
         <Route path={PATH.PARTNER} element={<PartnerPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
       {isVisible && <Snackbar message={message} displayIcon={displayIcon} />}
     </>
