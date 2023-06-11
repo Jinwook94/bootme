@@ -18,6 +18,8 @@ export const SearchBarWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin-top: 12px;
+  padding-right: 12px;
 `;
 
 export const ArrowWrapper = styled.div`

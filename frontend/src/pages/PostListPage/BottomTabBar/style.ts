@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import Search from 'antd/es/input/Search';
 
 export const BottomTapBarWrapper = styled.div`
   display: none;
@@ -54,20 +53,12 @@ export const TapBarItemText = styled.div`
   padding-bottom: 6px;
 `;
 
-export const SearchBarWrapper = styled.div`
-  position: fixed;
-  top: 834px;
-  left: 51px;
-  width: 100%;
-  height: 50px;
-  z-index: 100;
+export const ColoredIcon = styled(TapBarItemIcon)`
+  svg {
+    fill: #1677ff;
+  }
 `;
 
-export const StyledSearchBar = styled(Search)`
-  & input {
-    font-family: 'Noto Sans KR' !important;
-    font-size: 14px !important;
-    border-radius: 4px;
-  }
-  width: 300px !important;
+export const ColoredText = styled(TapBarItemText)`
+  color: #1677ff;
 `;
