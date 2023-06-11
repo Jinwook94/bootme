@@ -286,6 +286,7 @@ const PostDetailPage = () => {
                     levelNum={comment.levelNum}
                     likes={comment.likes}
                     voted={comment.voted}
+                    status={comment.status}
                     createdAt={comment.createdAt}
                   />
                 ))}

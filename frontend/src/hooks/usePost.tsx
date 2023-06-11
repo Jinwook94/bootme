@@ -27,10 +27,12 @@ const PostContext = createContext<PostContextProps>({
   editPost: async () => undefined,
   deletePost: async () => undefined,
   comments: [],
-  fetchComments: async () => [],
-  handleVote: async () => {},
-  uploadComment: async () => {},
-  onSearch: async () => {},
+  fetchComments: async () => undefined,
+  uploadComment: async () => undefined,
+  editComment: async () => undefined,
+  deleteComment: async () => undefined,
+  handleVote: async () => undefined,
+  onSearch: async () => undefined,
 });
 
 export const PostProvider = ({ children }: { children: React.ReactNode }) => {
@@ -133,7 +135,7 @@ export const PostProvider = ({ children }: { children: React.ReactNode }) => {
       showSnackbar(SNACKBAR_MESSAGE.SUCCESS_POST_DELETE, CHECK);
       setTimeout(() => {
         goToPage(PATH.POST.LIST);
-      }, 1500);
+      }, 1000);
     } catch (e: any) {
       showSnackbar(SNACKBAR_MESSAGE.FAIL_POST_DELETE + ': ' + e.response.data.message, EXCLAMATION);
     }
@@ -146,6 +148,53 @@ export const PostProvider = ({ children }: { children: React.ReactNode }) => {
       return response.data;
     } catch (e: any) {
       showSnackbar(SNACKBAR_MESSAGE.FAIL_COMMENTS_FETCH + ': ' + e.response.data.message, EXCLAMATION);
+    }
+  };
+
+  const uploadComment = async (
+    postId: number | undefined,
+    parentId: number | undefined | null,
+    content: string
+  ): Promise<void> => {
+    try {
+      await fetcher.post(`/posts/${postId}/comments`, {
+        parentId,
+        content,
+      });
+      await fetchComments(postId);
+      await fetchPost(postId);
+      showSnackbar(SNACKBAR_MESSAGE.SUCCESS_WRITE_COMMENT, CHECK);
+    } catch (e: any) {
+      showSnackbar(SNACKBAR_MESSAGE.FAIL_UPLOAD + ': ' + e.response.data.message, EXCLAMATION);
+      throw e;
+    }
+  };
+
+  const editComment = async (commentId: number, editedComment: string) => {
+    try {
+      const data = {
+        content: editedComment,
+      };
+      await fetcher.put(`/comments/${commentId}`, data);
+      setTimeout(() => {
+        window.location.reload();
+      }, 100);
+    } catch (e: any) {
+      if (e.response.data) {
+        showSnackbar(SNACKBAR_MESSAGE.FAIL_COMMENT_EDIT + ': ' + e.response.data.message, EXCLAMATION);
+      }
+    }
+  };
+
+  const deleteComment = async (id: number | undefined) => {
+    try {
+      await fetcher.delete(`/comments/${id}`);
+      showSnackbar(SNACKBAR_MESSAGE.SUCCESS_COMMENT_DELETE, CHECK);
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    } catch (e: any) {
+      showSnackbar(SNACKBAR_MESSAGE.FAIL_COMMENT_DELETE + ': ' + e.response.data.message, EXCLAMATION);
     }
   };
 
@@ -176,25 +225,6 @@ export const PostProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const uploadComment = async (
-    postId: number | undefined,
-    parentId: number | undefined | null,
-    content: string
-  ): Promise<void> => {
-    try {
-      await fetcher.post(`/posts/${postId}/comments`, {
-        parentId,
-        content,
-      });
-      await fetchComments(postId);
-      await fetchPost(postId);
-      showSnackbar(SNACKBAR_MESSAGE.SUCCESS_WRITE_COMMENT, CHECK);
-    } catch (e: any) {
-      showSnackbar(SNACKBAR_MESSAGE.FAIL_UPLOAD + ': ' + e.response.data.message, EXCLAMATION);
-      throw e;
-    }
-  };
-
   const onSearch = async (value: string) => {
     clearAndAddFilter(POST_FILTERS.SEARCH.filterName, value);
   };
@@ -220,8 +250,10 @@ export const PostProvider = ({ children }: { children: React.ReactNode }) => {
         deletePost,
         comments,
         fetchComments,
-        handleVote,
         uploadComment,
+        editComment,
+        deleteComment,
+        handleVote,
         onSearch,
       }}
     >
@@ -256,6 +288,9 @@ interface PostContextProps {
   deletePost: (postId: number | undefined) => void;
   comments: PostComment[];
   fetchComments: (postId: number | undefined) => Promise<PostComment[] | void>;
+  uploadComment: (postId: number | undefined, parentId: number | undefined | null, content: string) => Promise<void>;
+  editComment: (commentId: number, editedComment: string) => Promise<void>;
+  deleteComment: (postId: number) => void;
   handleVote: (
     votableType: string,
     votableId: number | undefined,
@@ -263,6 +298,5 @@ interface PostContextProps {
     postId: number | undefined,
     memberId: number
   ) => Promise<void>;
-  uploadComment: (postId: number | undefined, parentId: number | undefined | null, content: string) => Promise<void>;
   onSearch: (value: string) => void;
 }

@@ -130,6 +130,16 @@ export const Commentary = styled.div`
   }
 `;
 
+export const HiddenComment = styled.span`
+  color: #7c7c7c;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+  font-style: italic;
+`;
+
+export const DeletedComment = styled(HiddenComment)``;
+
 export const CommentBottom = styled.div`
   align-items: center;
   display: flex;
@@ -214,6 +224,19 @@ export const CommentText = styled.div`
 
   @media (max-width: 767px) {
     font-size: 12px;
+  }
+`;
+
+export const ThreeDotsWrapper = styled.div`
+  cursor: pointer;
+`;
+
+export const ThreeDotsIconWrapper = styled.div`
+  width: 16px;
+  height: 16px;
+  margin-bottom: 4px;
+  svg {
+    fill: #878a8c;
   }
 `;
 

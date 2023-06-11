@@ -27,6 +27,8 @@ import {
   CommentVoteWrapper,
   CommentWrapper,
   CurrentLength,
+  DeletedComment,
+  HiddenComment,
   PostCommentWrapper,
   ProfilePicture,
   ReplyCancelButton,
@@ -40,9 +42,12 @@ import {
   ThreadLine2,
   ThreadLine3,
   ThreadLineIncrement,
+  ThreeDotsWrapper,
   UserNickname,
   WriteTime,
 } from './style';
+import { CommentThreeDotsDropdown } from '../ThreeDotsDropdown';
+import CommentEdit from '../CommentEdit';
 
 const PostCommentItem = ({
   id,
@@ -54,9 +59,10 @@ const PostCommentItem = ({
   levelNum,
   likes,
   voted,
+  status,
   createdAt,
 }: PostCommentProps) => {
-  const quill = useRef<ReactQuill & ReactQuillProps>(null);
+  const replyQuill = useRef<ReactQuill & ReactQuillProps>(null);
   const timeSinceCreated = getTimeSince(createdAt);
   const commentContent = DOMPurify.sanitize(content || '');
   const { isLogin } = useLogin();
@@ -66,6 +72,11 @@ const PostCommentItem = ({
   const [votedState, setVotedState] = useState(voted);
   const [textLength, setTextLength] = useState(0);
   const memberId = Number(localStorage.getItem('MemberId'));
+  const [editMode, setEditMode] = useState(false);
+
+  const handleEditClick = () => {
+    setEditMode(true);
+  };
 
   const handleReplyToggle = () => {
     setIsReplyOpen(!isReplyOpen);
@@ -73,9 +84,9 @@ const PostCommentItem = ({
 
   const handleUploadComment = (e: React.FormEvent) => {
     e.preventDefault();
-    if (quill.current) {
-      const editor = quill.current.getEditor();
-      const unprivilegedEditor = quill.current.makeUnprivilegedEditor(editor);
+    if (replyQuill.current) {
+      const editor = replyQuill.current.getEditor();
+      const unprivilegedEditor = replyQuill.current.makeUnprivilegedEditor(editor);
       const content = unprivilegedEditor.getHTML();
       uploadComment(postId, id, content)
         .then(() => {
@@ -105,8 +116,8 @@ const PostCommentItem = ({
   };
 
   useEffect(() => {
-    if (isReplyOpen && quill.current) {
-      quill.current.focus();
+    if (isReplyOpen && replyQuill.current) {
+      replyQuill.current.focus();
     }
   }, [isReplyOpen]);
 
@@ -136,48 +147,71 @@ const PostCommentItem = ({
               <WriteTime>{timeSinceCreated}</WriteTime>
             </CommentTop>
             <CommentMiddle>
-              <Commentary dangerouslySetInnerHTML={{ __html: commentContent }} />
+              {(() => {
+                switch (status) {
+                  case 'DISPLAY':
+                    return editMode ? (
+                      <CommentEdit commentId={id} content={content} setEditMode={setEditMode} />
+                    ) : (
+                      <Commentary dangerouslySetInnerHTML={{ __html: commentContent }} />
+                    );
+                  case 'HIDDEN':
+                    return <HiddenComment> 관리자에 의해 숨겨진 댓글입니다. </HiddenComment>;
+                  case 'DELETED':
+                    return <DeletedComment> 삭제된 댓글입니다. </DeletedComment>;
+                  default:
+                    return null;
+                }
+              })()}
             </CommentMiddle>
-            <CommentBottom>
-              <CommentVoteWrapper>
-                <CommentUpvoteButton
-                  onClick={() =>
-                    handleVoteAndUpdateIcon(VOTABLE_TYPE.POST_COMMENT, id, VOTE_TYPE.UPVOTE, postId, memberId)
-                  }
-                >
-                  {votedState === VOTE_TYPE.UPVOTE ? <UpvoteFilledIcon /> : <UpvoteIcon />}
-                </CommentUpvoteButton>
-                <CommentVoteCount>{likes}</CommentVoteCount>
-                <CommentDownvoteButton
-                  onClick={() =>
-                    handleVoteAndUpdateIcon(VOTABLE_TYPE.POST_COMMENT, id, VOTE_TYPE.DOWNVOTE, postId, memberId)
-                  }
-                >
-                  {votedState === VOTE_TYPE.DOWNVOTE ? <DownvoteFilledIcon /> : <DownvoteIcon />}
-                </CommentDownvoteButton>
-              </CommentVoteWrapper>
-              <ReplyCommentWrapper>
-                <ReplyComment
-                  onClick={() => {
-                    if (isLogin) {
-                      handleReplyToggle();
-                    } else {
-                      showSnackbar(SNACKBAR_MESSAGE.NEED_LOGIN, EXCLAMATION);
+            {status === 'DISPLAY' ? (
+              <CommentBottom>
+                <CommentVoteWrapper>
+                  <CommentUpvoteButton
+                    onClick={() =>
+                      handleVoteAndUpdateIcon(VOTABLE_TYPE.POST_COMMENT, id, VOTE_TYPE.UPVOTE, postId, memberId)
                     }
-                  }}
-                >
-                  <CommentIconWrapper>
-                    <CommentIcon />
-                  </CommentIconWrapper>
-                  <CommentText>댓글 쓰기</CommentText>
-                </ReplyComment>
-              </ReplyCommentWrapper>
-            </CommentBottom>
+                  >
+                    {votedState === VOTE_TYPE.UPVOTE ? <UpvoteFilledIcon /> : <UpvoteIcon />}
+                  </CommentUpvoteButton>
+                  <CommentVoteCount>{likes}</CommentVoteCount>
+                  <CommentDownvoteButton
+                    onClick={() =>
+                      handleVoteAndUpdateIcon(VOTABLE_TYPE.POST_COMMENT, id, VOTE_TYPE.DOWNVOTE, postId, memberId)
+                    }
+                  >
+                    {votedState === VOTE_TYPE.DOWNVOTE ? <DownvoteFilledIcon /> : <DownvoteIcon />}
+                  </CommentDownvoteButton>
+                </CommentVoteWrapper>
+                <ReplyCommentWrapper>
+                  <ReplyComment
+                    onClick={() => {
+                      if (isLogin) {
+                        handleReplyToggle();
+                      } else {
+                        showSnackbar(SNACKBAR_MESSAGE.NEED_LOGIN, EXCLAMATION);
+                      }
+                    }}
+                  >
+                    <CommentIconWrapper>
+                      <CommentIcon />
+                    </CommentIconWrapper>
+                    <CommentText>댓글 쓰기</CommentText>
+                  </ReplyComment>
+                </ReplyCommentWrapper>
+                <ThreeDotsWrapper>
+                  {writerId === memberId ? (
+                    <CommentThreeDotsDropdown isMobile={false} handleEditClick={handleEditClick} commentId={id} />
+                  ) : null}
+                </ThreeDotsWrapper>
+              </CommentBottom>
+            ) : null}
+
             {isReplyOpen && (
               <div style={{ display: 'flex', flexDirection: 'column' }}>
                 <ReplyCommentTextEditor>
                   <CommentReplyRichText
-                    quill={quill}
+                    quill={replyQuill}
                     postId={postId}
                     onTextLengthChange={length => length && setTextLength(length)}
                   />

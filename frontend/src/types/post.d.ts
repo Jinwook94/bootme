@@ -47,6 +47,7 @@ interface PostComment {
   orderNum: number;
   likes: number;
   voted: string;
+  status: string;
   createdAt: number;
   modifiedAt: number;
 }
