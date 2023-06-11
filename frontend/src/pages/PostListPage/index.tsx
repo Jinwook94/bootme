@@ -11,23 +11,12 @@ import {
   ProfileWrapper4,
   ProfileWrapper5,
   SearchWrapper,
-  Side,
-  SideWrapper,
   SortName,
   SortOption,
   SortOptionButton,
   SortOptionMobile,
   SortWrapper,
   StyledSearch,
-  Topic,
-  TopicIconWrapper,
-  TopicName,
-  TopicWrapper,
-  WriteButton,
-  TopicIcon,
-  TopicText,
-  TopicTitle,
-  ResetIconWrapper,
   SortSearchDesktop,
   SortMobile,
   MobileHeader,
@@ -35,10 +24,10 @@ import {
   MobileHeaderTextLarge,
   NoResultMessage,
 } from './style';
-import { Button, Space } from 'antd';
-import { POST_FILTERS, 개발질문, 부트캠프질문, 자유 } from '../../constants/filters';
+import { Space } from 'antd';
+import { POST_FILTERS } from '../../constants/filters';
 import PATH from '../../constants/path';
-import { HotIcon, NewIcon, ResetIcon } from '../../constants/icons';
+import { HotIcon, NewIcon } from '../../constants/icons';
 import { Post } from '../../types/post';
 import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.core.css';
@@ -51,6 +40,7 @@ import PostCard from './PostCard';
 import SortDropdown from './SortDropdown';
 import TopicDropdown from './TopicDropdown';
 import BottomTapBar from './BottomTabBar';
+import SideTab from './SideTab';
 
 const PostListPage = () => {
   const location = useLocation();
@@ -73,8 +63,10 @@ const PostListPage = () => {
   const profilePicture = localStorage.getItem('ProfileImage') || '';
   const [initialized, setInitialized] = useState(false);
 
-  const handleTopicReset = () => {
-    goToPage(PATH.POST.LIST);
+  const resetPageState = async () => {
+    setPostList([]);
+    setPage(1);
+    setEndOfPosts(false);
   };
 
   useEffect(() => {
@@ -112,12 +104,6 @@ const PostListPage = () => {
 
     setInitialized(true);
   }, []);
-
-  const resetPageState = async () => {
-    setPostList([]);
-    setPage(1);
-    setEndOfPosts(false);
-  };
 
   useEffect(() => {
     if (initialized) {
@@ -206,69 +192,7 @@ const PostListPage = () => {
             </PostCardList>
           )}
         </BodyWrapper>
-        <Side>
-          <SideWrapper>
-            <TopicTitle>
-              <TopicText>토픽</TopicText>
-              <ResetIconWrapper onClick={handleTopicReset}>
-                <ResetIcon />
-              </ResetIconWrapper>
-            </TopicTitle>
-            <TopicWrapper>
-              <Topic onClick={() => goToPage(`${PATH.POST.LIST}?sort=${sortOption}&topic=${자유}`)}>
-                <TopicIconWrapper>
-                  <TopicIcon
-                    loading="lazy"
-                    srcSet="https://ph-files.imgix.net/5266e8bd-bfca-4fd5-af60-7609318ee3d5.png?auto=compress&amp;codec=mozjpeg&amp;cs=strip&amp;auto=format&amp;w=36&amp;h=36&amp;fit=max&amp;dpr=1 1x, https://ph-files.imgix.net/5266e8bd-bfca-4fd5-af60-7609318ee3d5.png?auto=compress&amp;codec=mozjpeg&amp;cs=strip&amp;auto=format&amp;w=36&amp;h=36&amp;fit=max&amp;dpr=2 2x, https://ph-files.imgix.net/5266e8bd-bfca-4fd5-af60-7609318ee3d5.png?auto=compress&amp;codec=mozjpeg&amp;cs=strip&amp;auto=format&amp;w=36&amp;h=36&amp;fit=max&amp;dpr=3 3x"
-                    src="https://ph-files.imgix.net/5266e8bd-bfca-4fd5-af60-7609318ee3d5.png?auto=compress&amp;codec=mozjpeg&amp;cs=strip&amp;auto=format&amp;w=36&amp;h=36&amp;fit=max"
-                  />
-                </TopicIconWrapper>
-                <TopicName
-                  style={{ color: selectedFilters.topic?.includes(자유) ? 'rgb(0, 132, 255)' : 'rgb(34, 34, 34)' }}
-                >
-                  {자유}
-                </TopicName>
-              </Topic>
-              <Topic onClick={() => goToPage(`${PATH.POST.LIST}?sort=${sortOption}&topic=${부트캠프질문}`)}>
-                <TopicIconWrapper>
-                  <TopicIcon
-                    loading="lazy"
-                    srcSet="https://ph-files.imgix.net/5266e8bd-bfca-4fd5-af60-7609318ee3d5.png?auto=compress&amp;codec=mozjpeg&amp;cs=strip&amp;auto=format&amp;w=36&amp;h=36&amp;fit=max&amp;dpr=1 1x, https://ph-files.imgix.net/5266e8bd-bfca-4fd5-af60-7609318ee3d5.png?auto=compress&amp;codec=mozjpeg&amp;cs=strip&amp;auto=format&amp;w=36&amp;h=36&amp;fit=max&amp;dpr=2 2x, https://ph-files.imgix.net/5266e8bd-bfca-4fd5-af60-7609318ee3d5.png?auto=compress&amp;codec=mozjpeg&amp;cs=strip&amp;auto=format&amp;w=36&amp;h=36&amp;fit=max&amp;dpr=3 3x"
-                    src="https://ph-files.imgix.net/5266e8bd-bfca-4fd5-af60-7609318ee3d5.png?auto=compress&amp;codec=mozjpeg&amp;cs=strip&amp;auto=format&amp;w=36&amp;h=36&amp;fit=max"
-                  />
-                </TopicIconWrapper>
-                <TopicName
-                  style={{
-                    color: selectedFilters.topic?.includes(부트캠프질문) ? 'rgb(0, 132, 255)' : 'rgb(34, 34, 34)',
-                  }}
-                >
-                  {부트캠프질문}
-                </TopicName>
-              </Topic>
-              <Topic onClick={() => goToPage(`${PATH.POST.LIST}?sort=${sortOption}&topic=${개발질문}`)}>
-                <TopicIconWrapper>
-                  <TopicIcon
-                    loading="lazy"
-                    srcSet="https://ph-files.imgix.net/575f4ca9-da9c-41c5-8f14-18c88e427ced.png?auto=compress&amp;codec=mozjpeg&amp;cs=strip&amp;auto=format&amp;w=36&amp;h=36&amp;fit=max&amp;dpr=1 1x, https://ph-files.imgix.net/575f4ca9-da9c-41c5-8f14-18c88e427ced.png?auto=compress&amp;codec=mozjpeg&amp;cs=strip&amp;auto=format&amp;w=36&amp;h=36&amp;fit=max&amp;dpr=2 2x, https://ph-files.imgix.net/575f4ca9-da9c-41c5-8f14-18c88e427ced.png?auto=compress&amp;codec=mozjpeg&amp;cs=strip&amp;auto=format&amp;w=36&amp;h=36&amp;fit=max&amp;dpr=3 3x"
-                    src="https://ph-files.imgix.net/575f4ca9-da9c-41c5-8f14-18c88e427ced.png?auto=compress&amp;codec=mozjpeg&amp;cs=strip&amp;auto=format&amp;w=36&amp;h=36&amp;fit=max"
-                  />
-                </TopicIconWrapper>
-                <TopicName
-                  style={{
-                    color: selectedFilters.topic?.includes(개발질문) ? 'rgb(0, 132, 255)' : 'rgb(34, 34, 34)',
-                  }}
-                >
-                  {개발질문}
-                </TopicName>
-              </Topic>
-            </TopicWrapper>
-          </SideWrapper>
-          <WriteButton onClick={() => goToPage(PATH.POST.WRITE)}>
-            <Button type="primary" block style={{ fontSize: '16px', fontWeight: '700', lineHeight: 'normal' }}>
-              글 작성하기
-            </Button>
-          </WriteButton>
-        </Side>
+        <SideTab />
       </CommunityPageLayout>
       <BottomTapBar />
     </>
