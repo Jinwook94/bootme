@@ -26,7 +26,7 @@ const BottomTapBar = () => {
         <TapBarItemIcon>
           <HomeOutlined />
         </TapBarItemIcon>
-        <TapBarItemText>홈</TapBarItemText>
+        <TapBarItemText>커뮤니티 홈</TapBarItemText>
       </TapBarItem>
       <TapBarItem onClick={() => showSnackbar(SNACKBAR_MESSAGE.WORK_IN_PROGRESS, EXCLAMATION)}>
         <TapBarItemIcon>
