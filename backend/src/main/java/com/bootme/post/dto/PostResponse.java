@@ -12,9 +12,9 @@ import static com.bootme.common.util.TimeConverter.convertLocalDateTimeToLong;
 public class PostResponse implements PostResponseDto {
 
     private Long id;
-    private Long memberId;
-    private String memberNickname;
-    private String memberProfileImage;
+    private Long writerId;
+    private String writerNickname;
+    private String writerProfileImage;
     private String topic;
     private String title;
     private String contentExcerpt;
@@ -31,14 +31,14 @@ public class PostResponse implements PostResponseDto {
     }
 
     @Builder
-    public PostResponse(Long id, Long memberId, String memberNickname, String memberProfileImage,
+    public PostResponse(Long id, Long writerId, String writerNickname, String writerProfileImage,
                         String topic, String title, String contentExcerpt, int likes, int views,
                         int bookmarks, String status, long createdAt, long modifiedAt, int commentCount,
                         String voted) {
         this.id = id;
-        this.memberId = memberId;
-        this.memberNickname = memberNickname;
-        this.memberProfileImage = memberProfileImage;
+        this.writerId = writerId;
+        this.writerNickname = writerNickname;
+        this.writerProfileImage = writerProfileImage;
         this.topic = topic;
         this.title = title;
         this.contentExcerpt = contentExcerpt;
@@ -55,9 +55,9 @@ public class PostResponse implements PostResponseDto {
     public static PostResponse of(Post post){
         return PostResponse.builder()
                 .id(post.getId())
-                .memberId(post.getMember().getId())
-                .memberNickname(post.getWriterNickname())
-                .memberProfileImage(post.getMember().getProfileImage())
+                .writerId(post.getMember().getId())
+                .writerNickname(post.getWriterNickname())
+                .writerProfileImage(post.getMember().getProfileImage())
                 .topic(post.getTopic())
                 .title(post.getTitle().getValue())
                 .contentExcerpt(post.getContent().getExcerpt())

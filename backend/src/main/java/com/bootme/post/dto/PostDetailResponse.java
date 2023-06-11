@@ -13,8 +13,8 @@ public class PostDetailResponse implements VotableResponse, PostResponseDto {
 
     private Long id;
     private Long memberId;
-    private String memberNickname;
-    private String memberProfileImage;
+    private String writerNickname;
+    private String writerProfileImage;
     private String topic;
     private String title;
     private String content;
@@ -31,13 +31,13 @@ public class PostDetailResponse implements VotableResponse, PostResponseDto {
     }
 
     @Builder
-    public PostDetailResponse(Long id, Long memberId, String memberNickname, String memberProfileImage,
+    public PostDetailResponse(Long id, Long memberId, String writerNickname, String writerProfileImage,
                               String topic, String title, String content, int likes, int views, int bookmarks,
                               String status, long createdAt, long modifiedAt, int commentCount, String voted) {
         this.id = id;
         this.memberId = memberId;
-        this.memberNickname = memberNickname;
-        this.memberProfileImage = memberProfileImage;
+        this.writerNickname = writerNickname;
+        this.writerProfileImage = writerProfileImage;
         this.topic = topic;
         this.title = title;
         this.content = content;
@@ -55,8 +55,8 @@ public class PostDetailResponse implements VotableResponse, PostResponseDto {
         return PostDetailResponse.builder()
                 .id(post.getId())
                 .memberId(post.getMember().getId())
-                .memberNickname(post.getWriterNickname())
-                .memberProfileImage(post.getMember().getProfileImage())
+                .writerNickname(post.getWriterNickname())
+                .writerProfileImage(post.getMember().getProfileImage())
                 .topic(post.getTopic())
                 .title(post.getTitle().getValue())
                 .content(post.getContent().getValue())

@@ -13,9 +13,9 @@ public class CommentResponse implements VotableResponse{
 
     private Long id;
     private Long postId;
-    private Long memberId;
-    private String memberNickname;
-    private String memberProfileImage;
+    private Long writerId;
+    private String writerNickname;
+    private String writerProfileImage;
     private Long parentId;
     private String content;
     private int groupNum;
@@ -30,13 +30,13 @@ public class CommentResponse implements VotableResponse{
     }
 
     @Builder
-    public CommentResponse(Long id, Long postId, Long memberId, String memberNickname, String memberProfileImage, Long parentId,
+    public CommentResponse(Long id, Long postId, Long writerId, String writerNickname, String writerProfileImage, Long parentId,
                            String content, int groupNum, int levelNum, int orderNum, int likes, String voted, long createdAt, long modifiedAt) {
         this.id = id;
         this.postId = postId;
-        this.memberId = memberId;
-        this.memberNickname = memberNickname;
-        this.memberProfileImage = memberProfileImage;
+        this.writerId = writerId;
+        this.writerNickname = writerNickname;
+        this.writerProfileImage = writerProfileImage;
         this.parentId = parentId;
         this.content = content;
         this.groupNum = groupNum;
@@ -52,9 +52,9 @@ public class CommentResponse implements VotableResponse{
         return CommentResponse.builder()
                 .id(comment.getId())
                 .postId(comment.getPost().getId())
-                .memberId(comment.getMember().getId())
-                .memberNickname(comment.getWriterNickname())
-                .memberProfileImage(comment.getMember().getProfileImage())
+                .writerId(comment.getMember().getId())
+                .writerNickname(comment.getWriterNickname())
+                .writerProfileImage(comment.getMember().getProfileImage())
                 .parentId(comment.getParentId().orElse(null))
                 .content(comment.getContent())
                 .groupNum(comment.getGroupNum())
