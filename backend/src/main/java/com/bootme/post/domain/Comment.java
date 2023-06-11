@@ -56,6 +56,10 @@ public class Comment extends BaseEntity implements Votable {
 
     private int likes;
 
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private CommentStatus status;
+
     @Builder
     public Comment(Post post, Member member, Comment parent, String content,
                    int groupNum, int levelNum, int orderNum) {
@@ -67,6 +71,7 @@ public class Comment extends BaseEntity implements Votable {
         this.groupNum = groupNum;
         this.levelNum = levelNum;
         this.orderNum = orderNum;
+        this.status = CommentStatus.DISPLAY;
         if (parent != null) {
             parent.getChildren().add(this);
         }
@@ -114,6 +119,10 @@ public class Comment extends BaseEntity implements Votable {
 
     public void modifyContent(String content) {
         this.content = content;
+    }
+
+    public void softDeleteComment() {
+        this.status = CommentStatus.DELETED;
     }
 
     @Override

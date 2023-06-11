@@ -57,11 +57,10 @@ public class CommentService {
     @Transactional
     public void deleteComment(AuthInfo authInfo, Long id){
         authService.validateLogin(authInfo);
-        Comment comment = commentRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COMMENT, String.valueOf(id)));
+        Comment comment = getCommentById(id);
         comment.validateWriter(authInfo.getMemberId(), id);
 
-        commentRepository.delete(comment);
+        comment.softDeleteComment();
     }
 
     private Comment createComment(CommentRequest commentRequest, Post post, Member member){

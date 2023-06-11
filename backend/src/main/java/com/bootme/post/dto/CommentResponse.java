@@ -23,6 +23,7 @@ public class CommentResponse implements VotableResponse{
     private int orderNum;
     private int likes;
     private String voted;
+    private String status;
     private long createdAt;
     private long modifiedAt;
 
@@ -31,7 +32,8 @@ public class CommentResponse implements VotableResponse{
 
     @Builder
     public CommentResponse(Long id, Long postId, Long writerId, String writerNickname, String writerProfileImage, Long parentId,
-                           String content, int groupNum, int levelNum, int orderNum, int likes, String voted, long createdAt, long modifiedAt) {
+                           String content, int groupNum, int levelNum, int orderNum, int likes, String voted, String status,
+                           long createdAt, long modifiedAt) {
         this.id = id;
         this.postId = postId;
         this.writerId = writerId;
@@ -44,6 +46,7 @@ public class CommentResponse implements VotableResponse{
         this.orderNum = orderNum;
         this.likes = likes;
         this.voted = voted;
+        this.status = status;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
     }
@@ -61,6 +64,7 @@ public class CommentResponse implements VotableResponse{
                 .levelNum(comment.getLevelNum())
                 .orderNum(comment.getOrderNum())
                 .likes(comment.getLikes())
+                .status(comment.getStatus().toString())
                 .createdAt(convertLocalDateTimeToLong(comment.getCreatedAt()))
                 .modifiedAt(convertLocalDateTimeToLong(comment.getModifiedAt()))
                 .build();
