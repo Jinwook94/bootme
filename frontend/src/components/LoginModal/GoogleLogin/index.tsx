@@ -9,7 +9,6 @@ export const GoogleLoginButton = () => {
   const googleClientId = secrets['google-client-id'];
 
   window.onSuccess = async (credentialResponse: { credential: string }) => {
-    console.log(credentialResponse);
     sendIdTokenToServer(credentialResponse.credential).then(() => {
       handleLoginSuccess(GOOGLE);
     });
@@ -96,5 +95,3 @@ export const GoogleLoginOneTap = () => {
     ></div>
   );
 };
-
-/* data-client_id="565238562293-rvt6dh5pl2g3ebl7i40e9on41j7krt3f.apps.googleusercontent.com" */

@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
 import { fetcher } from '../api/fetcher';
-import PATH from '../constants/path';
 import { GOOGLE, NAVER, KAKAO } from '../constants/others';
 import { useSnackbar } from './useSnackbar';
 import SNACKBAR_MESSAGE, { CHECK } from '../constants/snackbar';
@@ -18,7 +17,7 @@ const LoginContext = createContext<LoginContextProps>({
 
 export const LoginProvider = ({ children }: LoginProviderProps) => {
   const { showSnackbar } = useSnackbar();
-  const { goToPage } = useNavigation();
+  const { goBack } = useNavigation();
   const memberId = localStorage.getItem('MemberId');
   const [isLogin, setIsLogin] = useState(() => {
     return !!memberId;
@@ -52,18 +51,17 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
   const handleLoginSuccess = async (oAuthProvider: string) => {
     await setIsLogin(true);
     if (oAuthProvider == GOOGLE) {
-      // todo: 구글은 로그인 완료시 현재 페이지 그대로 로그인 됨
-      goToPage(PATH.HOME);
+      setIsLoginModal(false);
       showSnackbar(SNACKBAR_MESSAGE.SUCCESS_LOGIN, CHECK);
-      window.location.reload();
+      goBack();
     }
     if (oAuthProvider == NAVER) {
-      goToPage(PATH.HOME);
       showSnackbar(SNACKBAR_MESSAGE.SUCCESS_LOGIN, CHECK);
+      goBack();
     }
     if (oAuthProvider == KAKAO) {
-      goToPage(PATH.HOME);
       showSnackbar(SNACKBAR_MESSAGE.SUCCESS_LOGIN, CHECK);
+      goBack();
     }
   };
 
@@ -75,7 +73,9 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
         localStorage.removeItem('MemberId');
         localStorage.removeItem('NickName');
         localStorage.removeItem('ProfileImage');
-        window.location.reload();
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
       })
       .catch(error => {
         console.log(error);
