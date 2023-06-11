@@ -18,7 +18,6 @@ import { Layout } from '../@common/Layout';
 import React, { useEffect, useState } from 'react';
 import { useLogin } from '../../hooks/useLogin';
 import LoginModal from '../LoginModal';
-import { GoogleLoginOneTap } from '../LoginModal/GoogleLogin';
 import { DotIcon } from '../../constants/icons';
 import Hamburger from 'hamburger-react';
 import UserDropDown from './UserDropdown';
@@ -27,6 +26,7 @@ import { useLocation } from 'react-router-dom';
 import NotificationDropdown from './NotificationDropdown';
 import { useSnackbar } from '../../hooks/useSnackbar';
 import SNACKBAR_MESSAGE, { EXCLAMATION } from '../../constants/snackbar';
+import { GoogleLoginOneTap } from '../LoginModal/GoogleLogin';
 
 const Header = () => {
   const { showSnackbar } = useSnackbar();

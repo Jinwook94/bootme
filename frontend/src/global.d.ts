@@ -10,4 +10,5 @@ declare module '*.svg' {
 declare interface Window {
   Kakao: any;
   naver: any;
+  onSuccess: (credentialResponse: { credential: string }) => Promise<void>;
 }
