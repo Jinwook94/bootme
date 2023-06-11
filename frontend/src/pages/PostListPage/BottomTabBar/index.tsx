@@ -6,7 +6,7 @@ import {
   TapBarItemIcon,
   TapBarItemText,
 } from './style';
-import { BulbOutlined, CommentOutlined, HomeOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { BulbOutlined, CommentOutlined, HomeFilled, PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import SNACKBAR_MESSAGE, { EXCLAMATION } from '../../../constants/snackbar';
 import PATH from '../../../constants/path';
 import React, { useState } from 'react';
@@ -24,7 +24,8 @@ const BottomTapBar = () => {
     <BottomTapBarWrapper>
       <TapBarItem onClick={() => goToPage(PATH.POST.LIST)}>
         <TapBarItemIcon>
-          <HomeOutlined />
+          {/*<HomeOutlined />*/}
+          <HomeFilled />
         </TapBarItemIcon>
         <TapBarItemText>커뮤니티 홈</TapBarItemText>
       </TapBarItem>
