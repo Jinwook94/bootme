@@ -14,9 +14,9 @@ export interface PostListResponse {
 
 export interface Post {
   id: number;
-  memberId: number;
-  memberNickname: string;
-  memberProfileImage: string;
+  writerId: number;
+  writerNickname: string;
+  writerProfileImage: string;
   topic: string;
   title: string;
   contentExcerpt: string;
@@ -37,9 +37,9 @@ export interface PostDetail extends Omit<Post, 'contentExcerpt'> {
 interface PostComment {
   id: number;
   postId: number;
-  memberId: number;
-  memberNickname: string;
-  memberProfileImage: string;
+  writerId: number;
+  writerNickname: string;
+  writerProfileImage: string;
   parentId: number;
   content: string;
   groupNum: number;

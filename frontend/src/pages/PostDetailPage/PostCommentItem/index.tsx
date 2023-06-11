@@ -47,9 +47,9 @@ import {
 const PostCommentItem = ({
   id,
   postId,
-  memberId,
-  memberNickname,
-  memberProfileImage,
+  writerId,
+  writerNickname,
+  writerProfileImage,
   content,
   levelNum,
   likes,
@@ -65,6 +65,7 @@ const PostCommentItem = ({
   const [isReplyOpen, setIsReplyOpen] = useState(false);
   const [votedState, setVotedState] = useState(voted);
   const [textLength, setTextLength] = useState(0);
+  const memberId = Number(localStorage.getItem('MemberId'));
 
   const handleReplyToggle = () => {
     setIsReplyOpen(!isReplyOpen);
@@ -126,11 +127,11 @@ const PostCommentItem = ({
         </ThreadLine1>
         <CommentContent>
           <ProfilePicture>
-            <CommentProfilePic src={memberProfileImage ?? ''} alt={'profile'} />
+            <CommentProfilePic src={writerProfileImage ?? ''} alt={'profile'} />
           </ProfilePicture>
           <CommentBody>
             <CommentTop>
-              <UserNickname>{memberNickname}</UserNickname>
+              <UserNickname>{writerNickname}</UserNickname>
               <span style={{ margin: '0 4px', flex: '0 0 auto', alignSelf: 'baseline' }}> · </span>
               <WriteTime>{timeSinceCreated}</WriteTime>
             </CommentTop>

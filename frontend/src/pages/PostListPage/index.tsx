@@ -178,9 +178,9 @@ const PostListPage = () => {
                 <PostCard
                   key={post.id}
                   id={post.id}
-                  memberId={post.memberId}
-                  memberNickname={post.memberNickname}
-                  memberProfileImage={post.memberProfileImage}
+                  writerId={post.writerId}
+                  writerNickname={post.writerNickname}
+                  writerProfileImage={post.writerProfileImage}
                   topic={post.topic}
                   title={post.title}
                   contentExcerpt={post.contentExcerpt}

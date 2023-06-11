@@ -66,7 +66,7 @@ import { VOTABLE_TYPE, VOTE_TYPE } from '../../constants/others';
 import { PostShareButtonInPostDetailPageDeskTop, PostShareButtonInPostDetailPageMobile } from './PostShareDropdown';
 import { useNavigation } from '../../hooks/useNavigation';
 import PATH from '../../constants/path';
-import { PostThreeDotsDropdown } from './PostThreeDotsDropdown';
+import { PostThreeDotsDropdown } from './ThreeDotsDropdown';
 import PostEdit from './PostEdit';
 
 const PostDetailPage = () => {
@@ -170,9 +170,9 @@ const PostDetailPage = () => {
               </TopicWrapper>
               <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                 <WriterInfo>
-                  <ProfilePic src={post?.memberProfileImage ?? ''} alt={'profile'} />
+                  <ProfilePic src={post?.writerProfileImage ?? ''} alt={'profile'} />
                   <Writer>
-                    <NickName>{post?.memberNickname}</NickName>
+                    <NickName>{post?.writerNickname}</NickName>
                     <ContentInfo>
                       {post?.createdAt && getTimeSince(post.createdAt)} · 조회수 {post?.views}
                     </ContentInfo>
@@ -183,7 +183,7 @@ const PostDetailPage = () => {
                     <BookmarkIcon />
                   </ButtonIconWrapper>
                   <PostShareButtonInPostDetailPageDeskTop post={post} />
-                  {post?.memberId === memberId ? (
+                  {post?.writerId === memberId ? (
                     <PostThreeDotsDropdown isMobile={false} handleEditClick={handleEditClick} postId={post.id} />
                   ) : null}
                 </ButtonWrapper>
@@ -235,7 +235,7 @@ const PostDetailPage = () => {
                 </MobileBookmarkIcon>
               </MobileButtonWrapper>
               <PostShareButtonInPostDetailPageMobile post={post} />
-              {post?.memberId === memberId ? (
+              {post?.writerId === memberId ? (
                 <PostThreeDotsDropdown isMobile={true} handleEditClick={handleEditClick} postId={post.id} />
               ) : null}
             </MobileOnlyButtons>
@@ -279,9 +279,9 @@ const PostDetailPage = () => {
                     key={comment.id}
                     id={comment.id}
                     postId={comment.postId}
-                    memberId={comment.memberId}
-                    memberNickname={comment.memberNickname}
-                    memberProfileImage={comment.memberProfileImage}
+                    writerId={comment.writerId}
+                    writerNickname={comment.writerNickname}
+                    writerProfileImage={comment.writerProfileImage}
                     content={comment.content}
                     levelNum={comment.levelNum}
                     likes={comment.likes}

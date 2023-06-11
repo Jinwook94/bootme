@@ -48,9 +48,9 @@ import DOMPurify from 'dompurify';
 
 const PostCard = ({
   id,
-  memberId,
-  memberNickname,
-  memberProfileImage,
+  writerId,
+  writerNickname,
+  writerProfileImage,
   topic,
   title,
   contentExcerpt,
@@ -97,12 +97,12 @@ const PostCard = ({
   return (
     <Content>
       <VoteWrapper>
-        <UpvoteButton onClick={() => handleVoteAndUpdateIcon(VOTABLE_TYPE.POST, id, VOTE_TYPE.UPVOTE, id, memberId)}>
+        <UpvoteButton onClick={() => handleVoteAndUpdateIcon(VOTABLE_TYPE.POST, id, VOTE_TYPE.UPVOTE, id, writerId)}>
           {votedState === VOTE_TYPE.UPVOTE ? <UpvoteFilledIcon /> : <UpvoteIcon />}
         </UpvoteButton>
         <VoteCount>{likesState}</VoteCount>
         <DownvoteButton
-          onClick={() => handleVoteAndUpdateIcon(VOTABLE_TYPE.POST, id, VOTE_TYPE.DOWNVOTE, id, memberId)}
+          onClick={() => handleVoteAndUpdateIcon(VOTABLE_TYPE.POST, id, VOTE_TYPE.DOWNVOTE, id, writerId)}
         >
           {votedState === VOTE_TYPE.DOWNVOTE ? <DownvoteFilledIcon /> : <DownvoteIcon />}
         </DownvoteButton>
@@ -113,12 +113,12 @@ const PostCard = ({
             <img
               width="18"
               height="18"
-              src={memberProfileImage}
+              src={writerProfileImage}
               alt="profile"
               style={{ borderRadius: '18px', objectFit: 'cover', marginRight: '8px' }}
             />
             <span>
-              {memberNickname} · {createdAt && getTimeSince(createdAt)}
+              {writerNickname} · {createdAt && getTimeSince(createdAt)}
             </span>
           </WriterInfo>
           <ContentHeader>
@@ -131,13 +131,13 @@ const PostCard = ({
           <MobileButtons>
             <VoteWrapperMobile onClick={event => event.stopPropagation()}>
               <MobileUpvoteButton
-                onClick={() => handleVoteAndUpdateIcon(VOTABLE_TYPE.POST, id, VOTE_TYPE.UPVOTE, id, memberId)}
+                onClick={() => handleVoteAndUpdateIcon(VOTABLE_TYPE.POST, id, VOTE_TYPE.UPVOTE, id, writerId)}
               >
                 {votedState === VOTE_TYPE.UPVOTE ? <UpvoteFilledIcon /> : <UpvoteIcon />}
               </MobileUpvoteButton>
               <VoteCountMobile>{likesState}</VoteCountMobile>
               <MobileDownvoteButton
-                onClick={() => handleVoteAndUpdateIcon(VOTABLE_TYPE.POST, id, VOTE_TYPE.DOWNVOTE, id, memberId)}
+                onClick={() => handleVoteAndUpdateIcon(VOTABLE_TYPE.POST, id, VOTE_TYPE.DOWNVOTE, id, writerId)}
               >
                 {votedState === VOTE_TYPE.DOWNVOTE ? <DownvoteFilledIcon /> : <DownvoteIcon />}
               </MobileDownvoteButton>

@@ -97,3 +97,94 @@ interface PostThreeDotsDropdownProps {
   postId: number;
   isMobile: boolean;
 }
+//
+// export const CommentThreeDotsDropdown = ({ handleEditClick, commentId, isMobile }: CommentThreeDotsDropdownProps) => {
+//   const { deleteComment } = usePost();
+//   const [isDropdown, setIsDropdown] = useState(false);
+//   const [isDeleteModal, setIsDeleteModal] = useState(false);
+//
+//   const handleDropdownVisible = () => {
+//     setIsDropdown(!isDropdown);
+//   };
+//
+//   const showModal = () => {
+//     setIsDeleteModal(true);
+//   };
+//
+//   const handleOk = () => {
+//     deleteComment(commentId);
+//     setIsDeleteModal(false);
+//   };
+//
+//   const handleCancel = () => {
+//     setIsDeleteModal(false);
+//   };
+//
+//   const threeDotsDropdown = () => {
+//     return (
+//       <>
+//         <Items>
+//           <Item
+//             onClick={() => {
+//               handleDropdownVisible();
+//               handleEditClick();
+//             }}
+//           >
+//             <LinkItem>
+//               <IconWrapper>
+//                 <IconEdit />
+//               </IconWrapper>
+//               댓글 수정
+//             </LinkItem>
+//           </Item>
+//           <Item
+//             onClick={() => {
+//               showModal();
+//               handleDropdownVisible();
+//             }}
+//           >
+//             <LinkItem>
+//               <IconWrapper>
+//                 <DeleteOutlined />
+//               </IconWrapper>
+//               댓글 삭제
+//             </LinkItem>
+//           </Item>
+//         </Items>
+//       </>
+//     );
+//   };
+//
+//   return (
+//     <>
+//       <Popover
+//         content={threeDotsDropdown}
+//         trigger="click"
+//         placement="bottomRight"
+//         open={isDropdown}
+//         onOpenChange={handleDropdownVisible}
+//       >
+//         {isMobile ? (
+//           <MobileButtonWrapper>
+//             <MobileThreeDots>
+//               <ThreeDotsIcon1 />
+//             </MobileThreeDots>
+//           </MobileButtonWrapper>
+//         ) : (
+//           <ThreeDotsWrapper>
+//             <ThreeDotsIcon1 />
+//           </ThreeDotsWrapper>
+//         )}
+//       </Popover>
+//       <Modal title="댓글 삭제" open={isDeleteModal} onOk={handleOk} onCancel={handleCancel}>
+//         <p>댓글을 삭제하시겠습니까?</p>
+//       </Modal>
+//     </>
+//   );
+// };
+//
+// interface CommentThreeDotsDropdownProps {
+//   handleEditClick: () => void;
+//   commentId: number;
+//   isMobile: boolean;
+// }
