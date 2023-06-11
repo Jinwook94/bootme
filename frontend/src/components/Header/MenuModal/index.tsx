@@ -82,7 +82,7 @@ const MenuModal = ({ isLogin, isMenuOpen, setIsMenuOpen, nickName, profileImage 
       </MenuHeader>
       <MenuBody>
         <Items>
-          <a href={'https://bootme.co.kr/'}>
+          <a href={'https://bootme.co.kr/course/list'}>
             <Item>부트캠프</Item>
           </a>
           <Item onClick={() => showSnackbar(SNACKBAR_MESSAGE.WORK_IN_PROGRESS, EXCLAMATION)}>회사</Item>
