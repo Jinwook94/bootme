@@ -30,40 +30,30 @@ import {
   ResetIconWrapper,
   SortSearchDesktop,
   SortMobile,
-  BottomTapBar,
   MobileHeader,
   MobileHeaderTextMedium,
   MobileHeaderTextLarge,
-  TapBarItem,
-  TapBarItemText,
-  TapBarItemIcon,
-  SearchBarWrapper,
-  StyledSearchBar,
   NoResultMessage,
 } from './style';
-
+import { Button, Space } from 'antd';
+import { POST_FILTERS, 개발질문, 부트캠프질문, 자유 } from '../../constants/filters';
+import PATH from '../../constants/path';
+import { HotIcon, NewIcon, ResetIcon } from '../../constants/icons';
+import { Post } from '../../types/post';
 import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.core.css';
 import React, { useEffect, useState } from 'react';
-import { HotIcon, NewIcon, ResetIcon } from '../../constants/icons';
-import { BulbOutlined, CommentOutlined, HomeOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
-import { Button, Space } from 'antd';
-import PATH from '../../constants/path';
-import { Post } from '../../types/post';
-import PostCard from './PostCard';
-import SortDropdown from './SortDropdown';
-import TopicDropdown from './TopicDropdown';
+import { useLocation } from 'react-router-dom';
 import { useNavigation } from '../../hooks/useNavigation';
 import { usePost } from '../../hooks/usePost';
 import { usePostFilters } from '../../hooks/useFilters';
-import { POST_FILTERS, 개발질문, 부트캠프질문, 자유 } from '../../constants/filters';
-import { useSnackbar } from '../../hooks/useSnackbar';
-import SNACKBAR_MESSAGE, { EXCLAMATION } from '../../constants/snackbar';
-import { useLocation } from 'react-router-dom';
+import PostCard from './PostCard';
+import SortDropdown from './SortDropdown';
+import TopicDropdown from './TopicDropdown';
+import BottomTapBar from './BottomTabBar';
 
 const PostListPage = () => {
   const location = useLocation();
-  const { showSnackbar } = useSnackbar();
   const { goToPage } = useNavigation();
   const {
     sortOption,
@@ -80,7 +70,6 @@ const PostListPage = () => {
   } = usePost();
   const { selectedFilters, clearAndAddFilter } = usePostFilters();
   const [currentTopic, setCurrentTopic] = useState('');
-  const [isSearchingMobile, setIsSearchingMobile] = useState(false);
   const profilePicture = localStorage.getItem('ProfileImage') || '';
   const [initialized, setInitialized] = useState(false);
 
@@ -281,52 +270,7 @@ const PostListPage = () => {
           </WriteButton>
         </Side>
       </CommunityPageLayout>
-      <BottomTapBar>
-        <TapBarItem onClick={() => goToPage(PATH.POST.LIST)}>
-          <TapBarItemIcon>
-            <HomeOutlined />
-          </TapBarItemIcon>
-          <TapBarItemText>홈</TapBarItemText>
-        </TapBarItem>
-        <TapBarItem onClick={() => showSnackbar(SNACKBAR_MESSAGE.WORK_IN_PROGRESS, EXCLAMATION)}>
-          <TapBarItemIcon>
-            <BulbOutlined />
-          </TapBarItemIcon>
-          <TapBarItemText>디스커버리</TapBarItemText>
-        </TapBarItem>
-        <TapBarItem onClick={() => goToPage(PATH.POST.WRITE)}>
-          <TapBarItemIcon>
-            <PlusOutlined />
-          </TapBarItemIcon>
-          <TapBarItemText>글쓰기</TapBarItemText>
-        </TapBarItem>
-        <TapBarItem onClick={() => showSnackbar(SNACKBAR_MESSAGE.WORK_IN_PROGRESS, EXCLAMATION)}>
-          <TapBarItemIcon>
-            <CommentOutlined />
-          </TapBarItemIcon>
-          <TapBarItemText>채팅</TapBarItemText>
-        </TapBarItem>
-        <TapBarItem>
-          {isSearchingMobile ? (
-            <>
-              <SearchBarWrapper>
-                <StyledSearchBar placeholder="게시글 검색" onSearch={onSearch} />
-              </SearchBarWrapper>
-              <TapBarItemIcon onClick={() => setIsSearchingMobile(prev => !prev)}>
-                <SearchOutlined />
-              </TapBarItemIcon>
-              <TapBarItemText onClick={() => setIsSearchingMobile(prev => !prev)}>검색</TapBarItemText>
-            </>
-          ) : (
-            <>
-              <TapBarItemIcon onClick={() => setIsSearchingMobile(prev => !prev)}>
-                <SearchOutlined />
-              </TapBarItemIcon>
-              <TapBarItemText onClick={() => setIsSearchingMobile(prev => !prev)}>검색</TapBarItemText>
-            </>
-          )}
-        </TapBarItem>
-      </BottomTapBar>
+      <BottomTapBar />
     </>
   );
 };
