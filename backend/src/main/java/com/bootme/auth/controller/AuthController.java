@@ -2,7 +2,7 @@ package com.bootme.auth.controller;
 
 import com.bootme.auth.service.AuthService;
 import com.bootme.auth.token.TokenProvider;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,12 +11,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 
-@RequiredArgsConstructor
 @RestController
 public class AuthController {
 
     private final AuthService authService;
     private final TokenProvider tokenProvider;
+    private final String domain;
+
+    public AuthController(AuthService authService,
+                          TokenProvider tokenProvider,
+                          @Value("${domain}") String domain) {
+        this.authService = authService;
+        this.tokenProvider = tokenProvider;
+        this.domain = domain;
+    }
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestHeader("Authorization") String authHeader) {
@@ -32,8 +40,8 @@ public class AuthController {
 
     @PostMapping("/logout")
     public ResponseEntity<Void> logOut(HttpServletResponse response) {
-        response.addHeader(HttpHeaders.SET_COOKIE, "accessToken=; Max-Age=0;");
-        response.addHeader(HttpHeaders.SET_COOKIE, "refreshToken=; Max-Age=0;");
+        response.addHeader(HttpHeaders.SET_COOKIE, "accessToken=; Max-Age=0; Domain=" + domain +";");
+        response.addHeader(HttpHeaders.SET_COOKIE, "refreshToken=; Max-Age=0; Domain=" + domain + ";");
         return ResponseEntity.noContent().build();
     }
 }
