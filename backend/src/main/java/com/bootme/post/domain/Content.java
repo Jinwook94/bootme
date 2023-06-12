@@ -44,9 +44,23 @@ public class Content {
             return "";
         }
 
-        // 이미지 태그가 있다면 첫 번째 이미지 태그만 반환 -> 메서드 분리 필요
         Document doc = Jsoup.parse(value);
+        Elements iframeTags = doc.getElementsByTag("iframe");
+        Elements videoTags = doc.getElementsByTag("video");
         Elements imgTags = doc.getElementsByTag("img");
+
+        String firstIframe;
+        if (!iframeTags.isEmpty()) {
+            firstIframe = iframeTags.first().toString();
+            return firstIframe;
+        }
+
+        String firstVideo;
+        if (!videoTags.isEmpty()) {
+            firstVideo = videoTags.first().toString();
+            return firstVideo;
+        }
+
         String firstImg;
         if (!imgTags.isEmpty()) {
             firstImg = imgTags.first().toString();
