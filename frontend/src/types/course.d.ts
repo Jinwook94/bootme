@@ -62,10 +62,3 @@ type datesType = {
   courseStartDate: string;
   courseEndDate: string;
 };
-
-declare module 'quill-image-resize' {
-  const ImageResize: any;
-  export default ImageResize;
-}
-
-declare module 'quill-image-uploader' {}

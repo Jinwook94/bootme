@@ -7,7 +7,7 @@ const SNACKBAR_MESSAGE = {
   WORK_IN_PROGRESS: `준비중입니다.`,
   SUCCESS_UPLOAD: `업로드 성공`,
   FAIL_UPLOAD: `업로드 실패`,
-  FAIL_UPLOAD_IMAGE: `이미지 형식이 아닌 파일을 업로드할 수 없습니다.`,
+  FAIL_UPLOAD_IMAGE: `이미지 업로드 실패`,
   FAIL_COURSE_FETCH: `코스 조회에 실패했습니다`,
   FAIL_POST_UPLOAD: `게시글 등록에 실패했습니다`,
   FAIL_POST_FETCH: `게시글 조회에 실패했습니다`,

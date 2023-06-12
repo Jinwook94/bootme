@@ -8,6 +8,7 @@ import ImageResize from 'quill-image-resize';
 import useImage from '../../../hooks/useImage';
 import { useSnackbar } from '../../../hooks/useSnackbar';
 import SNACKBAR_MESSAGE, { EXCLAMATION } from '../../../constants/snackbar';
+import { IMAGE_TYPE } from '../../../constants/others';
 
 Quill.register('modules/imageResize', ImageResize);
 
@@ -66,7 +67,7 @@ const PostEditRichText = ({ quill, value, onChange }: PostEditRichTextProps) => 
     input.onchange = async () => {
       const file = input.files ? input.files[0] : null;
       if (file && /^image\//.test(file.type)) {
-        await uploadImage(editor, file);
+        await uploadImage(editor, file, IMAGE_TYPE.POST);
       } else {
         showSnackbar(SNACKBAR_MESSAGE.FAIL_UPLOAD_IMAGE, EXCLAMATION);
       }

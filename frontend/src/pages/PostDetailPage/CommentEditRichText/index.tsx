@@ -8,10 +8,11 @@ import ImageResize from 'quill-image-resize';
 import useImage from '../../../hooks/useImage';
 import { useSnackbar } from '../../../hooks/useSnackbar';
 import SNACKBAR_MESSAGE, { EXCLAMATION } from '../../../constants/snackbar';
+import { IMAGE_TYPE } from '../../../constants/others';
 
 Quill.register('modules/imageResize', ImageResize);
 
-const CommentEditRichText = ({ quill, value, onChange }: CommentEditRichTextProps) => {
+const CommentEditRichText = ({ quill, value, onChange, postId }: CommentEditRichTextProps) => {
   const modules = {
     toolbar: {
       container: [
@@ -61,7 +62,7 @@ const CommentEditRichText = ({ quill, value, onChange }: CommentEditRichTextProp
     input.onchange = async () => {
       const file = input.files ? input.files[0] : null;
       if (file && /^image\//.test(file.type)) {
-        await uploadImage(editor, file);
+        await uploadImage(editor, file, IMAGE_TYPE.POST_COMMENT, postId);
       } else {
         showSnackbar(SNACKBAR_MESSAGE.FAIL_UPLOAD_IMAGE, EXCLAMATION);
       }
@@ -100,6 +101,7 @@ interface CommentEditRichTextProps {
   quill: RefObject<ReactQuill & ReactQuillProps>;
   value: string;
   onChange: (content: React.SetStateAction<string>) => void;
+  postId: number;
 }
 
 const quillStyles = {

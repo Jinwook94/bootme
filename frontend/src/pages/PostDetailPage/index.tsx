@@ -247,11 +247,13 @@ const PostDetailPage = () => {
                     <span style={{ fontSize: '14px' }}>으로 댓글 작성</span>
                   </div>
                   <TextEditor>
-                    <CommentRichText
-                      quill={commentQuill}
-                      postId={post?.id}
-                      onTextLengthChange={length => length && setTextLength(length)}
-                    />
+                    {post && (
+                      <CommentRichText
+                        quill={commentQuill}
+                        postId={post.id}
+                        onTextLengthChange={length => length && setTextLength(length)}
+                      />
+                    )}
                     <CommentEnterButton onClick={handleUploadComment}>
                       <Button
                         type="primary"

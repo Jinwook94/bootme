@@ -12,3 +12,8 @@ declare interface Window {
   naver: any;
   onSuccess: (credentialResponse: { credential: string }) => Promise<void>;
 }
+
+declare module 'quill-image-resize' {
+  const ImageResize: any;
+  export default ImageResize;
+}

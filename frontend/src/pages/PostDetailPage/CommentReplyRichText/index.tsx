@@ -8,6 +8,7 @@ import ImageResize from 'quill-image-resize';
 import { useSnackbar } from '../../../hooks/useSnackbar';
 import useImage from '../../../hooks/useImage';
 import SNACKBAR_MESSAGE, { EXCLAMATION } from '../../../constants/snackbar';
+import { IMAGE_TYPE } from '../../../constants/others';
 
 Quill.register('modules/imageResize', ImageResize);
 
@@ -59,7 +60,7 @@ const CommentReplyRichText = ({ quill, postId, onTextLengthChange }: CommentRich
     input.onchange = async () => {
       const file = input.files ? input.files[0] : null;
       if (file && /^image\//.test(file.type)) {
-        await uploadImage(editor, file, postId);
+        await uploadImage(editor, file, IMAGE_TYPE.POST_COMMENT, postId);
       } else {
         showSnackbar(SNACKBAR_MESSAGE.FAIL_UPLOAD_IMAGE, EXCLAMATION);
       }

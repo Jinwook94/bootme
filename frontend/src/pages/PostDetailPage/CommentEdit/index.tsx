@@ -5,7 +5,7 @@ import { usePost } from '../../../hooks/usePost';
 import { Buttons, CancelButton, UploadButton } from '../PostEdit/style';
 import { Button } from 'antd';
 
-const CommentEdit = ({ commentId, content, setEditMode }: CommentEditProps) => {
+const CommentEdit = ({ postId, commentId, content, setEditMode }: CommentEditProps) => {
   const editQuill = useRef<ReactQuill & ReactQuillProps>(null);
   const { editComment } = usePost();
   const [editedComment, setEditedComment] = useState(content || '');
@@ -27,7 +27,7 @@ const CommentEdit = ({ commentId, content, setEditMode }: CommentEditProps) => {
 
   return (
     <>
-      <CommentEditRichText quill={editQuill} value={editedComment} onChange={handleQuillChange} />
+      <CommentEditRichText quill={editQuill} value={editedComment} onChange={handleQuillChange} postId={postId} />
       <Buttons>
         <CancelButton
           onClick={() => {
@@ -51,6 +51,7 @@ const CommentEdit = ({ commentId, content, setEditMode }: CommentEditProps) => {
 export default CommentEdit;
 
 interface CommentEditProps {
+  postId: number;
   commentId: number;
   content: string;
   setEditMode: (value: boolean) => void;

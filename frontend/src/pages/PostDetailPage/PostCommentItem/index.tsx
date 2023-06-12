@@ -151,7 +151,7 @@ const PostCommentItem = ({
                 switch (status) {
                   case 'DISPLAY':
                     return editMode ? (
-                      <CommentEdit commentId={id} content={content} setEditMode={setEditMode} />
+                      <CommentEdit postId={postId} commentId={id} content={content} setEditMode={setEditMode} />
                     ) : (
                       <Commentary dangerouslySetInnerHTML={{ __html: commentContent }} />
                     );
