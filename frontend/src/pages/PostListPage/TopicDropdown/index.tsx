@@ -8,7 +8,7 @@ import { useNavigation } from '../../../hooks/useNavigation';
 import { usePostFilters } from '../../../hooks/useFilters';
 import { usePost } from '../../../hooks/usePost';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCode, faComments, faGlobe, faQuestion, faRocket } from '@fortawesome/free-solid-svg-icons';
+import { faCode, faComments, faGlobe, faRocket } from '@fortawesome/free-solid-svg-icons';
 
 const TopicDropdown = () => {
   const { goToPage } = useNavigation();
@@ -66,7 +66,7 @@ const TopicDropdown = () => {
         ) : currentTopic === 자유 ? (
           <FontAwesomeIcon icon={faComments} />
         ) : currentTopic === 부트캠프질문 ? (
-          <FontAwesomeIcon icon={faQuestion} />
+          <FontAwesomeIcon icon={faRocket} />
         ) : currentTopic === 개발질문 ? (
           <FontAwesomeIcon icon={faCode} />
         ) : (
