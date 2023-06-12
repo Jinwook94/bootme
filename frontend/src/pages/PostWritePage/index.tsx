@@ -64,6 +64,7 @@ const PostWritePage = () => {
           <TopicDropdown topic={topic} setTopic={setTopic} />
           <TitleWrapper>
             <TitleTextArea
+              autoFocus={true}
               ref={titleRef}
               placeholder={'제목을 입력하세요'}
               rows={1}
