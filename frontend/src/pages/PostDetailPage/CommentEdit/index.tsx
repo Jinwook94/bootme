@@ -1,11 +1,11 @@
 import React, { useRef, useState } from 'react';
-import CommentEditRichText from '../CommentEditRichText';
+import CommentEditRichText from '../../../components/RichTextEditor/CommentEditRichText';
 import ReactQuill, { ReactQuillProps } from 'react-quill';
 import { usePost } from '../../../hooks/usePost';
 import { Buttons, CancelButton, UploadButton } from '../PostEdit/style';
 import { Button } from 'antd';
 
-const CommentEdit = ({ postId, commentId, content, setEditMode }: CommentEditProps) => {
+const CommentEdit = ({ commentId, content, setEditMode }: CommentEditProps) => {
   const editQuill = useRef<ReactQuill & ReactQuillProps>(null);
   const { editComment } = usePost();
   const [editedComment, setEditedComment] = useState(content || '');
@@ -27,7 +27,7 @@ const CommentEdit = ({ postId, commentId, content, setEditMode }: CommentEditPro
 
   return (
     <>
-      <CommentEditRichText quill={editQuill} value={editedComment} onChange={handleQuillChange} postId={postId} />
+      <CommentEditRichText quill={editQuill} value={editedComment} onChange={handleQuillChange} />
       <Buttons>
         <CancelButton
           onClick={() => {

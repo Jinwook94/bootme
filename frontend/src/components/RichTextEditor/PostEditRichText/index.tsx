@@ -1,16 +1,9 @@
-import { RefObject, useEffect } from 'react';
+import { RefObject } from 'react';
 import ReactQuill, { ReactQuillProps } from 'react-quill';
 import './style.css';
-import Quill from 'quill';
-
 import 'react-quill/dist/quill.snow.css';
-import ImageResize from 'quill-image-resize';
-import useImage from '../../../hooks/useImage';
-import { useSnackbar } from '../../../hooks/useSnackbar';
-import SNACKBAR_MESSAGE, { EXCLAMATION } from '../../../constants/snackbar';
+import RichTextEditor from '../index';
 import { IMAGE_TYPE } from '../../../constants/others';
-
-Quill.register('modules/imageResize', ImageResize);
 
 const PostEditRichText = ({ quill, value, onChange }: PostEditRichTextProps) => {
   const modules = {
@@ -56,45 +49,17 @@ const PostEditRichText = ({ quill, value, onChange }: PostEditRichTextProps) => 
     'video',
   ];
 
-  const { showSnackbar } = useSnackbar();
-  const { uploadImage } = useImage();
-
-  const selectLocalImage = (editor: Quill) => {
-    const input = document.createElement('input');
-    input.setAttribute('type', 'file');
-    input.setAttribute('accept', 'image/*');
-    input.click();
-    input.onchange = async () => {
-      const file = input.files ? input.files[0] : null;
-      if (file && /^image\//.test(file.type)) {
-        await uploadImage(editor, file, IMAGE_TYPE.POST);
-      } else {
-        showSnackbar(SNACKBAR_MESSAGE.FAIL_UPLOAD_IMAGE, EXCLAMATION);
-      }
-    };
-  };
-
-  useEffect(() => {
-    if (quill && quill.current) {
-      const editor = quill.current.getEditor();
-      editor.getModule('toolbar').addHandler('image', () => {
-        selectLocalImage(editor);
-      });
-    }
-  }, [quill]);
-
   return (
     <>
-      <ReactQuill
+      <RichTextEditor
         className="post-react-quill"
-        style={quillStyles}
-        ref={quill}
-        theme="snow"
-        value={value || ''}
-        onChange={onChange}
+        quill={quill}
+        imageType={IMAGE_TYPE.POST}
         modules={modules}
         formats={formats}
         placeholder={'내용을 입력하세요 (선택사항)'}
+        value={value}
+        onChange={onChange}
       />
     </>
   );
@@ -107,7 +72,3 @@ interface PostEditRichTextProps {
   value: string;
   onChange: (content: React.SetStateAction<string>) => void;
 }
-
-const quillStyles = {
-  width: '100%',
-};

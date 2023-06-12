@@ -1,4 +1,4 @@
-import PostEditRichText from '../PostEditRichText';
+import PostEditRichText from '../../../components/RichTextEditor/PostEditRichText';
 import ReactQuill, { ReactQuillProps } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.core.css';

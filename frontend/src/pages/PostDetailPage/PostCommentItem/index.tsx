@@ -10,7 +10,7 @@ import { Button } from 'antd';
 import { useLogin } from '../../../hooks/useLogin';
 import { useSnackbar } from '../../../hooks/useSnackbar';
 import SNACKBAR_MESSAGE, { EXCLAMATION } from '../../../constants/snackbar';
-import CommentReplyRichText from '../CommentReplyRichText';
+import CommentReplyRichText from '../../../components/RichTextEditor/CommentReplyRichText';
 import {
   Commentary,
   CommentBody,
@@ -212,7 +212,6 @@ const PostCommentItem = ({
                 <ReplyCommentTextEditor>
                   <CommentReplyRichText
                     quill={replyQuill}
-                    postId={postId}
                     onTextLengthChange={length => length && setTextLength(length)}
                   />
                   <div

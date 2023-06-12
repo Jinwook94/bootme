@@ -56,7 +56,7 @@ export const ContentWrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  padding: 0.5rem 0.5rem 0.1rem 1rem;
+  padding: 0.5rem 1rem 0.1rem 1rem;
   width: 100%;
 `;
 
@@ -113,7 +113,10 @@ export const ContentBody = styled.div<ContentBodyProps>`
 
   img {
     cursor: pointer;
-    max-height: 400px;
+    width: 100%;
+    height: auto;
+    display: block;
+    max-width: 100%;
   }
 `;
 

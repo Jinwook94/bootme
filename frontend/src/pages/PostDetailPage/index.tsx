@@ -60,7 +60,7 @@ import PostCommentItem from './PostCommentItem';
 import { useLogin } from '../../hooks/useLogin';
 import { useSnackbar } from '../../hooks/useSnackbar';
 import SNACKBAR_MESSAGE, { EXCLAMATION } from '../../constants/snackbar';
-import CommentRichText from './CommentRichText';
+import CommentRichText from '../../components/RichTextEditor/CommentRichText';
 import DOMPurify from 'dompurify';
 import { VOTABLE_TYPE, VOTE_TYPE } from '../../constants/others';
 import { PostShareButtonInPostDetailPageDeskTop, PostShareButtonInPostDetailPageMobile } from './PostShareDropdown';
@@ -250,7 +250,6 @@ const PostDetailPage = () => {
                     {post && (
                       <CommentRichText
                         quill={commentQuill}
-                        postId={post.id}
                         onTextLengthChange={length => length && setTextLength(length)}
                       />
                     )}

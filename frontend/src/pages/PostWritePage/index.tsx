@@ -12,7 +12,7 @@ import {
 } from './style';
 import React, { useEffect, useRef, useState } from 'react';
 import ReactQuill, { ReactQuillProps } from 'react-quill';
-import PostWriteRichText from './PostWriteRichText';
+import PostWriteRichText from '../../components/RichTextEditor/PostWriteRichText';
 import { usePost } from '../../hooks/usePost';
 import { Button } from 'antd';
 import { useNavigation } from '../../hooks/useNavigation';
@@ -23,7 +23,7 @@ const PostWritePage = () => {
   const quill = useRef<ReactQuill & ReactQuillProps>(null);
   const { goBack } = useNavigation();
   const { uploadPost } = usePost();
-  const [topic, setTopic] = useState('자유');
+  const [topic, setTopic] = useState(자유);
   const titleRef = useRef<HTMLTextAreaElement | null>(null);
   const [titleLength, setTitleLength] = useState(0);
   const [, setContentLength] = useState(0);
