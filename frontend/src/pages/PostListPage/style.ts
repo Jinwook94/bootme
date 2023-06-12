@@ -217,6 +217,13 @@ export const SortOption = styled.div`
     border-radius: 20px;
   }
 
+  svg {
+    width: 1.2rem;
+    height: 1.2rem;
+    vertical-align: top;
+    overflow: hidden;
+  }
+
   @media (max-width: 640px) {
     display: none;
   }
@@ -239,10 +246,39 @@ export const StyledButton = styled(Button)`
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    fill: rgb(0, 121, 211);
+    stroke: rgb(0, 121, 211);
+  }
+
+  path {
+    fill: rgb(0, 121, 211);
+    stroke: rgb(0, 121, 211);
+  }
+
+  polygon {
+    fill: rgb(0, 121, 211);
+    stroke: rgb(0, 121, 211);
+  }
 `;
 
 export const StyledTopicButton = styled(StyledButton)`
   color: rgb(135, 138, 140);
+
+  svg {
+    fill: none;
+    stroke: none;
+    margin-right: 0;
+  }
+
+  path {
+    fill: rgb(135, 138, 140);
+    stroke: none;
+  }
 `;
 
 export const CaretIconBlue = styled.div`

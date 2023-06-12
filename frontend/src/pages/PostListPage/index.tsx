@@ -28,7 +28,7 @@ import {
 import { Space } from 'antd';
 import { POST_FILTERS } from '../../constants/filters';
 import PATH from '../../constants/path';
-import { HotIcon, NewIcon } from '../../constants/icons';
+import { FireIcon2, FireIconBlue, SparklesIcon, SparklesIconBlue } from '../../constants/icons';
 import { Post } from '../../types/post';
 import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.core.css';
@@ -156,11 +156,11 @@ const PostListPage = () => {
           <SortSearchDesktop>
             <SortWrapper>
               <SortOption onClick={() => goToPage(`${PATH.POST.LIST}?sort=views&topic=${currentTopic}`)}>
-                <HotIcon />
+                {sortOption === 'views' ? <FireIconBlue /> : <FireIcon2 />}
                 <SortName style={{ color: sortOption === 'views' ? '#0079d3' : 'rgb(135, 138, 140)' }}>인기글</SortName>
               </SortOption>
               <SortOption onClick={() => goToPage(`${PATH.POST.LIST}?sort=newest&topic=${currentTopic}`)}>
-                <NewIcon />
+                {sortOption === 'newest' ? <SparklesIconBlue /> : <SparklesIcon />}
                 <SortName style={{ color: sortOption === 'newest' ? '#0079d3' : 'rgb(135, 138, 140)' }}>
                   최신글
                 </SortName>

@@ -69,14 +69,15 @@ export const Topic = styled.div`
   }
 `;
 
-export const TopicIconWrapper = styled.div``;
-
-export const TopicIcon = styled.img`
+export const TopicEmoji = styled.div`
   width: 36px;
   height: 36px;
   background-color: #f5f5f7;
   border-radius: 5px;
   vertical-align: bottom;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const TopicName = styled.div`

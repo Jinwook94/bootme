@@ -1,0 +1,19 @@
+.ant-dropdown-menu-item svg {
+    width: 16px;
+    height: 16px;
+}
+
+.ant-dropdown-menu-item-selected svg path {
+    width: 16px;
+    height: 16px;
+    fill: rgb(0, 121, 211);
+    stroke: rgb(0, 121, 211);
+}
+
+.ant-dropdown-menu-item-selected polygon {
+    width: 16px;
+    height: 16px;
+    fill: rgb(0, 121, 211);
+    stroke: rgb(0, 121, 211);
+}
+

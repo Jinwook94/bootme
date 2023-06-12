@@ -53,6 +53,7 @@ export interface CourseFilterTypes {
   unit?: string;
 }
 
+export const 전체 = '전체';
 export const 자유 = '자유';
 export const 부트캠프질문 = '부트캠프 질문';
 export const 개발질문 = '개발 질문';

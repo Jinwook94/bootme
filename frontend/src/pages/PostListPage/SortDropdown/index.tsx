@@ -1,12 +1,12 @@
 import { Dropdown, MenuProps } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
 import React, { useEffect, useState } from 'react';
 import { CaretIconBlue, StyledButton } from '../style';
-import { CaretDownIcon } from '../../../constants/icons';
+import { CaretDownIcon, FireIcon, SparklesIcon } from '../../../constants/icons';
 import { usePost } from '../../../hooks/usePost';
 import { useNavigation } from '../../../hooks/useNavigation';
 import PATH from '../../../constants/path';
 import { usePostFilters } from '../../../hooks/useFilters';
+import './style.css';
 
 const SortDropdown = () => {
   const { goToPage } = useNavigation();
@@ -30,12 +30,12 @@ const SortDropdown = () => {
     {
       label: '인기글',
       key: 'views',
-      icon: <UserOutlined />,
+      icon: <FireIcon />,
     },
     {
       label: '최신글',
       key: 'newest',
-      icon: <UserOutlined />,
+      icon: <SparklesIcon />,
     },
   ];
 
@@ -60,7 +60,7 @@ const SortDropdown = () => {
   return (
     <Dropdown menu={sortProps} trigger={['click']}>
       <StyledButton>
-        <UserOutlined />
+        {sortOption === 'views' ? <FireIcon /> : <SparklesIcon />}
         {getLabel(sortOption)}
         <CaretIconBlue>
           <CaretDownIcon />

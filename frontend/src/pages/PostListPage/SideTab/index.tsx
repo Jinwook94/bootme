@@ -6,10 +6,9 @@ import {
   ResetIconWrapper,
   TopicWrapper,
   Topic,
-  TopicIconWrapper,
-  TopicIcon,
   TopicName,
   WriteButton,
+  TopicEmoji,
 } from './style';
 import { Button } from 'antd';
 import { 개발질문, 부트캠프질문, 자유 } from '../../../constants/filters';
@@ -39,13 +38,7 @@ const SideTab = () => {
         </TopicTitle>
         <TopicWrapper>
           <Topic onClick={() => goToPage(`${PATH.POST.LIST}?sort=${sortOption}&topic=${자유}`)}>
-            <TopicIconWrapper>
-              <TopicIcon
-                loading="lazy"
-                srcSet="https://ph-files.imgix.net/5266e8bd-bfca-4fd5-af60-7609318ee3d5.png?auto=compress&amp;codec=mozjpeg&amp;cs=strip&amp;auto=format&amp;w=36&amp;h=36&amp;fit=max&amp;dpr=1 1x, https://ph-files.imgix.net/5266e8bd-bfca-4fd5-af60-7609318ee3d5.png?auto=compress&amp;codec=mozjpeg&amp;cs=strip&amp;auto=format&amp;w=36&amp;h=36&amp;fit=max&amp;dpr=2 2x, https://ph-files.imgix.net/5266e8bd-bfca-4fd5-af60-7609318ee3d5.png?auto=compress&amp;codec=mozjpeg&amp;cs=strip&amp;auto=format&amp;w=36&amp;h=36&amp;fit=max&amp;dpr=3 3x"
-                src="https://ph-files.imgix.net/5266e8bd-bfca-4fd5-af60-7609318ee3d5.png?auto=compress&amp;codec=mozjpeg&amp;cs=strip&amp;auto=format&amp;w=36&amp;h=36&amp;fit=max"
-              />
-            </TopicIconWrapper>
+            <TopicEmoji>💬</TopicEmoji>
             <TopicName
               style={{ color: selectedFilters.topic?.includes(자유) ? 'rgb(0, 132, 255)' : 'rgb(34, 34, 34)' }}
             >
@@ -53,13 +46,7 @@ const SideTab = () => {
             </TopicName>
           </Topic>
           <Topic onClick={() => goToPage(`${PATH.POST.LIST}?sort=${sortOption}&topic=${부트캠프질문}`)}>
-            <TopicIconWrapper>
-              <TopicIcon
-                loading="lazy"
-                srcSet="https://ph-files.imgix.net/5266e8bd-bfca-4fd5-af60-7609318ee3d5.png?auto=compress&amp;codec=mozjpeg&amp;cs=strip&amp;auto=format&amp;w=36&amp;h=36&amp;fit=max&amp;dpr=1 1x, https://ph-files.imgix.net/5266e8bd-bfca-4fd5-af60-7609318ee3d5.png?auto=compress&amp;codec=mozjpeg&amp;cs=strip&amp;auto=format&amp;w=36&amp;h=36&amp;fit=max&amp;dpr=2 2x, https://ph-files.imgix.net/5266e8bd-bfca-4fd5-af60-7609318ee3d5.png?auto=compress&amp;codec=mozjpeg&amp;cs=strip&amp;auto=format&amp;w=36&amp;h=36&amp;fit=max&amp;dpr=3 3x"
-                src="https://ph-files.imgix.net/5266e8bd-bfca-4fd5-af60-7609318ee3d5.png?auto=compress&amp;codec=mozjpeg&amp;cs=strip&amp;auto=format&amp;w=36&amp;h=36&amp;fit=max"
-              />
-            </TopicIconWrapper>
+            <TopicEmoji>🚀</TopicEmoji>
             <TopicName
               style={{
                 color: selectedFilters.topic?.includes(부트캠프질문) ? 'rgb(0, 132, 255)' : 'rgb(34, 34, 34)',
@@ -69,13 +56,7 @@ const SideTab = () => {
             </TopicName>
           </Topic>
           <Topic onClick={() => goToPage(`${PATH.POST.LIST}?sort=${sortOption}&topic=${개발질문}`)}>
-            <TopicIconWrapper>
-              <TopicIcon
-                loading="lazy"
-                srcSet="https://ph-files.imgix.net/575f4ca9-da9c-41c5-8f14-18c88e427ced.png?auto=compress&amp;codec=mozjpeg&amp;cs=strip&amp;auto=format&amp;w=36&amp;h=36&amp;fit=max&amp;dpr=1 1x, https://ph-files.imgix.net/575f4ca9-da9c-41c5-8f14-18c88e427ced.png?auto=compress&amp;codec=mozjpeg&amp;cs=strip&amp;auto=format&amp;w=36&amp;h=36&amp;fit=max&amp;dpr=2 2x, https://ph-files.imgix.net/575f4ca9-da9c-41c5-8f14-18c88e427ced.png?auto=compress&amp;codec=mozjpeg&amp;cs=strip&amp;auto=format&amp;w=36&amp;h=36&amp;fit=max&amp;dpr=3 3x"
-                src="https://ph-files.imgix.net/575f4ca9-da9c-41c5-8f14-18c88e427ced.png?auto=compress&amp;codec=mozjpeg&amp;cs=strip&amp;auto=format&amp;w=36&amp;h=36&amp;fit=max"
-              />
-            </TopicIconWrapper>
+            <TopicEmoji>🧑‍💻</TopicEmoji>
             <TopicName
               style={{
                 color: selectedFilters.topic?.includes(개발질문) ? 'rgb(0, 132, 255)' : 'rgb(34, 34, 34)',
