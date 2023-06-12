@@ -12,6 +12,11 @@ const ShareButton = ({ course }: { course: Course | undefined }) => {
   const [currentUrl, setCurrentUrl] = useState<string>();
   const { secrets } = useSecret();
   const KAKAO_KEY = secrets['kakao-javascript-key'];
+  const [visible, setVisible] = useState(false);
+
+  const handleVisibleChange = () => {
+    setVisible(!visible);
+  };
 
   const kakaoShare = () => {
     window.Kakao.Share.sendCustom({
@@ -51,7 +56,7 @@ const ShareButton = ({ course }: { course: Course | undefined }) => {
     return (
       <>
         <Items>
-          <Item>
+          <Item onClick={handleVisibleChange}>
             <LinkItem onClick={copyUrl}>
               <IconWrapper>
                 <UrlShareIcon />
@@ -59,7 +64,7 @@ const ShareButton = ({ course }: { course: Course | undefined }) => {
               URL 복사
             </LinkItem>
           </Item>
-          <Item>
+          <Item onClick={handleVisibleChange}>
             <LinkItem onClick={kakaoShare}>
               <IconWrapper>
                 <KakaoLogo />
@@ -73,7 +78,13 @@ const ShareButton = ({ course }: { course: Course | undefined }) => {
   };
 
   return (
-    <Popover content={shareDropdown} trigger="click" placement="bottomRight">
+    <Popover
+      content={shareDropdown}
+      trigger="click"
+      placement="bottomRight"
+      open={visible}
+      onOpenChange={handleVisibleChange}
+    >
       <ShareButtonWrapper>
         <ShareIcon />
       </ShareButtonWrapper>

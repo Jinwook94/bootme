@@ -1,5 +1,17 @@
 import styled from 'styled-components';
 
+export const LargeScreen = styled.div`
+  @media (max-width: 640px) {
+    display: none;
+  }
+`;
+
+export const Mobile = styled.div`
+  @media (min-width: 640px) {
+    display: none;
+  }
+`;
+
 export const BookmarkButton = styled.button`
   padding: 0;
   width: 2.5rem;
