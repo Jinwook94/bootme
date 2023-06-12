@@ -4,7 +4,7 @@
 
 @media (max-width: 767px) {
     .post-react-quill .ql-editor {
-        min-height: 150px;
+        min-height: 100vw;
     }
 }
 
