@@ -33,7 +33,7 @@ import { Post } from '../../types/post';
 import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.core.css';
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { useNavigation } from '../../hooks/useNavigation';
 import { usePost } from '../../hooks/usePost';
 import { usePostFilters } from '../../hooks/useFilters';
@@ -44,7 +44,7 @@ import BottomTapBar from './BottomTabBar';
 import SideTab from './SideTab';
 
 const PostListPage = () => {
-  const location = useLocation();
+  const [searchParams] = useSearchParams();
   const { goToPage } = useNavigation();
   const {
     sortOption,
@@ -84,26 +84,23 @@ const PostListPage = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isEndOfPosts, page]);
 
-  //todo: 태그도 추가 필요
   useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
-
-    const searchQuery = queryParams.get('search');
+    const searchQuery = searchParams.get('search');
     if (searchQuery) {
       onSearch(searchQuery);
     }
 
-    const topic = queryParams.get('topic');
+    const topic = searchParams.get('topic');
     if (topic) {
       clearAndAddFilter(POST_FILTERS.TOPIC.filterName, topic);
     }
 
-    const sort = queryParams.get('sort');
+    const sort = searchParams.get('sort');
     if (sort) {
       setSortOption(sort);
     }
 
-    const pageNum = queryParams.get('page');
+    const pageNum = searchParams.get('page');
     if (pageNum) {
       setPage(parseInt(pageNum, 10));
     }
