@@ -272,7 +272,6 @@ export const StyledTopicButton = styled(StyledButton)`
   svg {
     fill: none;
     stroke: none;
-    margin-right: 0;
   }
 
   path {

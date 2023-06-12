@@ -1,6 +1,5 @@
 import { Dropdown, MenuProps } from 'antd';
 import { CaretIconWrapper, StyledTopicButton } from '../style';
-import { SmileOutlined, UserOutlined } from '@ant-design/icons';
 import { CaretDownIcon } from '../../../constants/icons';
 import React, { useEffect, useState } from 'react';
 import { 개발질문, 부트캠프질문, 자유, 전체 } from '../../../constants/filters';
@@ -65,13 +64,13 @@ const TopicDropdown = () => {
         {currentTopic === '전체' ? (
           <FontAwesomeIcon icon={faGlobe} />
         ) : currentTopic === 자유 ? (
-          <SmileOutlined />
+          <FontAwesomeIcon icon={faComments} />
         ) : currentTopic === 부트캠프질문 ? (
           <FontAwesomeIcon icon={faQuestion} />
         ) : currentTopic === 개발질문 ? (
           <FontAwesomeIcon icon={faCode} />
         ) : (
-          <UserOutlined />
+          <FontAwesomeIcon icon={faGlobe} />
         )}
         {`토픽: ${currentTopic}`}
         <CaretIconWrapper>
