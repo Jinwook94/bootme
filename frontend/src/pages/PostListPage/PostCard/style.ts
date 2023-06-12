@@ -113,10 +113,10 @@ export const ContentBody = styled.div<ContentBodyProps>`
 
   img {
     cursor: pointer;
-    width: 100%;
+    width: auto;
     height: auto;
-    display: block;
     max-width: 100%;
+    max-height: 500px;
   }
 `;
 
