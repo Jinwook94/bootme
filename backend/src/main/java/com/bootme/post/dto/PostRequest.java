@@ -8,12 +8,13 @@ import javax.validation.constraints.NotBlank;
 @Getter
 public class PostRequest {
 
-    private String topic;
+    @NotBlank(message = "토픽을 선택해주세요.")
+    private final String topic;
 
     @NotBlank(message = "제목을 입력해주세요.")
-    private String title;
+    private final String title;
 
-    private String content;
+    private final String content;
 
     @Builder
     public PostRequest(String topic, String title, String content) {

@@ -17,10 +17,9 @@ public class ImageController {
 
     @PostMapping
     public ResponseEntity<String> upload(@Login AuthInfo authInfo,
-                                         @RequestParam String itemType,
-                                         @RequestParam String itemId,
-                                         @RequestPart("image") MultipartFile image) {
-        String imageUrl = imageService.upload(authInfo.getMemberId(), itemType, itemId, image);
+                                                @RequestParam String imageType,
+                                                @RequestPart("image") MultipartFile imageFile) {
+        String imageUrl = imageService.upload(authInfo, imageType, imageFile);
         return ResponseEntity.ok(imageUrl);
     }
 
