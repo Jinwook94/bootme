@@ -12,7 +12,7 @@ import static com.bootme.common.util.TimeConverter.convertLocalDateTimeToLong;
 public class PostDetailResponse implements VotableResponse, PostResponseDto {
 
     private Long id;
-    private Long memberId;
+    private Long writerId;
     private String writerNickname;
     private String writerProfileImage;
     private String topic;
@@ -31,11 +31,11 @@ public class PostDetailResponse implements VotableResponse, PostResponseDto {
     }
 
     @Builder
-    public PostDetailResponse(Long id, Long memberId, String writerNickname, String writerProfileImage,
+    public PostDetailResponse(Long id, Long writerId, String writerNickname, String writerProfileImage,
                               String topic, String title, String content, int likes, int views, int bookmarks,
                               String status, long createdAt, long modifiedAt, int commentCount, String voted) {
         this.id = id;
-        this.memberId = memberId;
+        this.writerId = writerId;
         this.writerNickname = writerNickname;
         this.writerProfileImage = writerProfileImage;
         this.topic = topic;
@@ -54,7 +54,7 @@ public class PostDetailResponse implements VotableResponse, PostResponseDto {
     public static PostDetailResponse of(Post post){
         return PostDetailResponse.builder()
                 .id(post.getId())
-                .memberId(post.getMember().getId())
+                .writerId(post.getMember().getId())
                 .writerNickname(post.getWriterNickname())
                 .writerProfileImage(post.getMember().getProfileImage())
                 .topic(post.getTopic())
