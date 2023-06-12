@@ -2,7 +2,7 @@
     min-height: 300px;
 }
 
-    @media (max-width: 767px) {
+@media (max-width: 767px) {
     .post-react-quill .ql-editor {
         min-height: 150px;
     }

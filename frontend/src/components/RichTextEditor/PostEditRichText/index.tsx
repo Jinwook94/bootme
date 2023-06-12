@@ -16,7 +16,7 @@ const PostEditRichText = ({ quill, value, onChange }: PostEditRichTextProps) => 
         [{ align: [] }],
         ['blockquote', 'code-block'],
         [{ indent: '-1' }, { indent: '+1' }],
-        ['link', 'image'],
+        ['link', 'image', 'video'],
         [{ color: [] }, { background: [] }],
       ],
     },

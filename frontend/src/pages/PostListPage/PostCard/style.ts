@@ -111,6 +111,12 @@ export const ContentBody = styled.div<ContentBodyProps>`
   overflow: hidden;
   ${props => (props.shouldApplyMask ? maskImageStyle : '')}
 
+  iframe {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16/9;
+  }
+
   img {
     cursor: pointer;
     width: auto;

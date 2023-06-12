@@ -63,8 +63,11 @@ const PostCard = ({
   const { handleVote } = usePost();
   const [votedState, setVotedState] = useState(voted);
   const [likesState, setLikesState] = useState(likes);
-  const shouldApplyMask = !/<img\s[^>]*?src\s*=\s*['\"]([^'\"]*?)['\"][^>]*?>/i.test(contentExcerpt);
-  const postContent = DOMPurify.sanitize(contentExcerpt);
+  const shouldApplyMask =
+    !/(<img\s[^>]*?src\s*=\s*['\"]([^'\"]*?)['\"][^>]*?>)|(<iframe\s[^>]*?src\s*=\s*['\"]([^'\"]*?)['\"][^>]*?>)|(<video\s[^>]*?src\s*=\s*['\"]([^'\"]*?)['\"][^>]*?>)/i.test(
+      contentExcerpt
+    );
+  const postContent = DOMPurify.sanitize(contentExcerpt, { ADD_TAGS: ['iframe', 'video'] });
 
   const handleVoteAndUpdateIcon = async (
     votableType: string,

@@ -9,10 +9,18 @@ const CommentRichText = ({ quill, onTextLengthChange }: CommentRichTextProps) =>
   const modules = {
     toolbar: {
       container: [
-        ['bold', 'italic', 'underline'],
-        [{ list: 'ordered' }, { list: 'bullet' }],
-        ['blockquote', 'code-block'],
-        ['link', 'image'],
+        [
+          'bold',
+          'italic',
+          'underline',
+          { list: 'ordered' },
+          { list: 'bullet' },
+          'blockquote',
+          'code-block',
+          'link',
+          'image',
+          'video',
+        ],
       ],
     },
     imageResize: true,

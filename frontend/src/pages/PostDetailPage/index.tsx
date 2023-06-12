@@ -78,7 +78,7 @@ const PostDetailPage = () => {
   const memberId = Number(localStorage.getItem('MemberId'));
   const memberNickname = localStorage.getItem('NickName') || '';
   const { isLogin } = useLogin();
-  const postContent = DOMPurify.sanitize(post?.content || '');
+  const postContent = DOMPurify.sanitize(post?.content || '', { ADD_TAGS: ['iframe', 'video'] });
   const [votedState, setVotedState] = useState(post?.voted);
   const [, setTextLength] = useState(0);
   const [isEmptyContent, setIsEmptyContent] = useState(false);

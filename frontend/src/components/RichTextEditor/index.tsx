@@ -6,6 +6,7 @@ import Quill from 'quill';
 import SNACKBAR_MESSAGE, { EXCLAMATION } from '../../constants/snackbar';
 import 'react-quill/dist/quill.snow.css';
 import ImageResize from 'quill-image-resize';
+import styled from 'styled-components';
 
 const quillStyles = {
   width: '100%',
@@ -64,17 +65,19 @@ const RichTextEditor = ({
   };
 
   return (
-    <ReactQuill
-      className={className}
-      style={quillStyles}
-      ref={quill}
-      theme={theme}
-      value={value}
-      onChange={handleChange}
-      modules={modules}
-      formats={formats}
-      placeholder={placeholder}
-    />
+    <Wrapper>
+      <ReactQuill
+        className={className}
+        style={quillStyles}
+        ref={quill}
+        theme={theme}
+        value={value}
+        onChange={handleChange}
+        modules={modules}
+        formats={formats}
+        placeholder={placeholder}
+      />
+    </Wrapper>
   );
 };
 
@@ -92,3 +95,11 @@ interface RichTextEditorProps {
   onTextLengthChange?: (length: number | undefined) => void;
   theme?: string;
 }
+
+const Wrapper = styled.div`
+  iframe {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16/9;
+  }
+`;

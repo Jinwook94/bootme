@@ -8,9 +8,7 @@ import { IMAGE_TYPE } from '../../../constants/others';
 const CommentReplyRichText = ({ quill, onTextLengthChange }: CommentRichTextProps) => {
   const modules = {
     toolbar: {
-      container: [
-        ['bold', 'underline', { list: 'ordered' }, { list: 'bullet' }, 'blockquote', 'code-block', 'link', 'image'],
-      ],
+      container: [['bold', 'underline', { list: 'bullet' }, 'blockquote', 'code-block', 'link', 'image', 'video']],
     },
     imageResize: true,
   };

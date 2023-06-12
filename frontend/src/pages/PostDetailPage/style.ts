@@ -136,6 +136,12 @@ export const ContentBody = styled.div<{ isEmptyContent: boolean }>`
     height: auto;
   }
 
+  iframe {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16/9;
+  }
+
   @media (max-width: 640px) {
     font-size: 14px;
     line-height: 21px;

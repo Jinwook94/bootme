@@ -8,12 +8,7 @@ import { IMAGE_TYPE } from '../../../constants/others';
 const CommentEditRichText = ({ quill, value, onChange }: CommentEditRichTextProps) => {
   const modules = {
     toolbar: {
-      container: [
-        ['bold', 'italic', 'underline'],
-        [{ list: 'ordered' }, { list: 'bullet' }],
-        ['blockquote', 'code-block'],
-        ['link', 'image'],
-      ],
+      container: [['bold', 'underline', { list: 'bullet' }, 'blockquote', 'code-block', 'link', 'image', 'video']],
     },
     imageResize: true,
   };
