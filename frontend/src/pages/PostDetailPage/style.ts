@@ -131,6 +131,14 @@ export const ContentBody = styled.div<{ isEmptyContent: boolean }>`
   min-height: ${props => (props.isEmptyContent ? '0' : '150px')};
   border-bottom: ${props => (props.isEmptyContent ? 'none' : '1px solid rgba(106, 120, 127, 0.3)')};
 
+  a {
+    text-decoration: underline;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
   img {
     cursor: auto;
     max-width: 100%;
