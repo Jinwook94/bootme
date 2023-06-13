@@ -50,7 +50,7 @@ const Header = () => {
 
   return (
     <>
-      {!isLogin && <GoogleLoginOneTap />}{' '}
+      {!isLogin && <GoogleLoginOneTap />}
       <Wrapper1>
         <Layout>
           <Wrapper>

@@ -24,7 +24,7 @@ const LoginPage = () => {
   const { sendIdTokenToServer, handleLoginSuccess } = useLogin();
   const googleClientId = secrets['google-client-id'];
 
-  window.onSuccess = async (credentialResponse: { credential: string }) => {
+  window.onGoogleLoginSuccess = async (credentialResponse: { credential: string }) => {
     sendIdTokenToServer(credentialResponse.credential).then(() => {
       handleLoginSuccess(GOOGLE);
     });
@@ -35,7 +35,7 @@ const LoginPage = () => {
     if (googleClientId) {
       google.accounts.id.initialize({
         client_id: googleClientId,
-        callback: window.onSuccess,
+        callback: window.onGoogleLoginSuccess,
       });
 
       const buttonElement = googleLoginButtonRef.current;

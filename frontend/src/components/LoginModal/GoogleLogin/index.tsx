@@ -8,7 +8,7 @@ export const GoogleLoginButton = () => {
   const { secrets } = useSecret();
   const googleClientId = secrets['google-client-id'];
 
-  window.onSuccess = async (credentialResponse: { credential: string }) => {
+  window.onGoogleLoginSuccess = async (credentialResponse: { credential: string }) => {
     sendIdTokenToServer(credentialResponse.credential).then(() => {
       handleLoginSuccess(GOOGLE);
     });
@@ -17,7 +17,7 @@ export const GoogleLoginButton = () => {
   useEffect(() => {
     google.accounts.id.initialize({
       client_id: googleClientId,
-      callback: window.onSuccess,
+      callback: window.onGoogleLoginSuccess,
     });
 
     const buttonElement = document.querySelector('.g_id_signin');
@@ -55,7 +55,7 @@ export const GoogleLoginOneTap = () => {
   const { secrets } = useSecret();
   const googleClientId = secrets['google-client-id'];
 
-  window.onSuccess = async (credentialResponse: { credential: string }) => {
+  window.onGoogleLoginSuccess = async (credentialResponse: { credential: string }) => {
     sendIdTokenToServer(credentialResponse.credential).then(() => {
       handleLoginSuccess(GOOGLE);
     });
@@ -70,7 +70,7 @@ export const GoogleLoginOneTap = () => {
     if (googleClientId) {
       google.accounts.id.initialize({
         client_id: googleClientId,
-        callback: window.onSuccess,
+        callback: window.onGoogleLoginSuccess,
       });
     }
 
