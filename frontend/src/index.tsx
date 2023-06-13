@@ -10,6 +10,7 @@ import { CourseFilterProvider, PostFilterProvider } from './hooks/useFilters';
 import { PostProvider } from './hooks/usePost';
 import { CourseProvider } from './hooks/useCourses';
 import { BookmarkProvider } from './hooks/useBookmarks';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import { LoginProvider } from './hooks/useLogin';
 import { NotificationProvider } from './hooks/useNotification';
 import { SnackbarProvider } from './hooks/useSnackbar';
@@ -26,6 +27,7 @@ const ProviderWrappedApp = new ProviderBuilder(() => <App />)
   .wrap(CourseProvider)
   .wrap(CourseFilterProvider)
   .wrap(BookmarkProvider)
+  .wrap(GoogleOAuthProvider, { clientId: 'GOOGLE_CLIENT_ID' })
   .wrap(LoginProvider)
   .wrap(NotificationProvider)
   .wrap(SnackbarProvider)

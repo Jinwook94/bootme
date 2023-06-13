@@ -10,7 +10,6 @@ declare module '*.svg' {
 declare interface Window {
   Kakao: any;
   naver: any;
-  onGoogleLoginSuccess: (credentialResponse: { credential: string }) => Promise<void>;
 }
 
 declare module 'quill-image-resize' {

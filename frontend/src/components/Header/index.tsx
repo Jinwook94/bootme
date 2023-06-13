@@ -26,6 +26,7 @@ import { useLocation } from 'react-router-dom';
 import NotificationDropdown from './NotificationDropdown';
 import { useSnackbar } from '../../hooks/useSnackbar';
 import SNACKBAR_MESSAGE, { EXCLAMATION } from '../../constants/snackbar';
+import { GoogleLoginOneTap } from '../LoginModal/GoogleLogin';
 
 const Header = () => {
   const { showSnackbar } = useSnackbar();
@@ -49,6 +50,7 @@ const Header = () => {
 
   return (
     <>
+      {!isLogin && <GoogleLoginOneTap />}
       <Wrapper1>
         <Layout>
           <Wrapper>
