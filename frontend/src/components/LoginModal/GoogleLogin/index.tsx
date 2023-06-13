@@ -50,48 +50,48 @@ export const GoogleLoginButton = () => {
   );
 };
 
-export const GoogleLoginOneTap = () => {
-  const { sendIdTokenToServer, handleLoginSuccess } = useLogin();
-  const { secrets } = useSecret();
-  const googleClientId = secrets['google-client-id'];
-
-  window.onGoogleLoginSuccess = async (credentialResponse: { credential: string }) => {
-    sendIdTokenToServer(credentialResponse.credential).then(() => {
-      handleLoginSuccess(GOOGLE);
-    });
-  };
-
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://accounts.google.com/gsi/client';
-    script.async = true;
-    document.body.appendChild(script);
-
-    if (googleClientId) {
-      google.accounts.id.initialize({
-        client_id: googleClientId,
-        callback: window.onGoogleLoginSuccess,
-      });
-    }
-
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, [googleClientId]);
-
-  if (!googleClientId) {
-    return null;
-  }
-
-  return (
-    <div
-      id="g_id_onload"
-      data-client_id={googleClientId}
-      data-context="signin"
-      data-callback="onGoogleLoginSuccess"
-      data-auto_select="true"
-      data-itp_support="true"
-      data-auto_prompt="true"
-    ></div>
-  );
-};
+// export const GoogleLoginOneTap = () => {
+//   const { sendIdTokenToServer, handleLoginSuccess } = useLogin();
+//   const { secrets } = useSecret();
+//   const googleClientId = secrets['google-client-id'];
+//
+//   window.onGoogleLoginSuccess = async (credentialResponse: { credential: string }) => {
+//     sendIdTokenToServer(credentialResponse.credential).then(() => {
+//       handleLoginSuccess(GOOGLE);
+//     });
+//   };
+//
+//   useEffect(() => {
+//     const script = document.createElement('script');
+//     script.src = 'https://accounts.google.com/gsi/client';
+//     script.async = true;
+//     document.body.appendChild(script);
+//
+//     if (googleClientId) {
+//       google.accounts.id.initialize({
+//         client_id: googleClientId,
+//         callback: window.onGoogleLoginSuccess,
+//       });
+//     }
+//
+//     return () => {
+//       document.body.removeChild(script);
+//     };
+//   }, [googleClientId]);
+//
+//   if (!googleClientId) {
+//     return null;
+//   }
+//
+//   return (
+//     <div
+//       id="g_id_onload"
+//       data-client_id={googleClientId}
+//       data-context="signin"
+//       data-callback="onGoogleLoginSuccess"
+//       data-auto_select="true"
+//       data-itp_support="true"
+//       data-auto_prompt="true"
+//     ></div>
+//   );
+// };
