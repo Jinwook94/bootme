@@ -7,8 +7,8 @@ import PATH from '../../../constants/path';
 import { useNavigation } from '../../../hooks/useNavigation';
 import { usePostFilters } from '../../../hooks/useFilters';
 import { usePost } from '../../../hooks/usePost';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCode, faComments, faGlobe, faRocket } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faCode, faComments, faGlobe, faRocket } from '@fortawesome/free-solid-svg-icons';
 import './style.css';
 
 const TopicDropdown = () => {
@@ -33,22 +33,22 @@ const TopicDropdown = () => {
     {
       label: 전체,
       key: 전체,
-      icon: <FontAwesomeIcon icon={faGlobe} />,
+      // icon: <FontAwesomeIcon icon={faGlobe} />,
     },
     {
       label: 자유,
       key: 자유,
-      icon: <FontAwesomeIcon icon={faComments} />,
+      // icon: <FontAwesomeIcon icon={faComments} />,
     },
     {
       label: 부트캠프질문,
       key: 부트캠프질문,
-      icon: <FontAwesomeIcon icon={faRocket} />,
+      // icon: <FontAwesomeIcon icon={faRocket} />,
     },
     {
       label: 개발질문,
       key: 개발질문,
-      icon: <FontAwesomeIcon icon={faCode} />,
+      // icon: <FontAwesomeIcon icon={faCode} />,
     },
   ];
 
@@ -62,17 +62,17 @@ const TopicDropdown = () => {
   return (
     <Dropdown menu={topicProps} trigger={['click']}>
       <StyledTopicButton>
-        {currentTopic === '전체' ? (
-          <FontAwesomeIcon icon={faGlobe} />
-        ) : currentTopic === 자유 ? (
-          <FontAwesomeIcon icon={faComments} />
-        ) : currentTopic === 부트캠프질문 ? (
-          <FontAwesomeIcon icon={faRocket} />
-        ) : currentTopic === 개발질문 ? (
-          <FontAwesomeIcon icon={faCode} />
-        ) : (
-          <FontAwesomeIcon icon={faGlobe} />
-        )}
+        {/*{currentTopic === '전체' ? (*/}
+        {/*  <FontAwesomeIcon icon={faGlobe} />*/}
+        {/*) : currentTopic === 자유 ? (*/}
+        {/*  <FontAwesomeIcon icon={faComments} />*/}
+        {/*) : currentTopic === 부트캠프질문 ? (*/}
+        {/*  <FontAwesomeIcon icon={faRocket} />*/}
+        {/*) : currentTopic === 개발질문 ? (*/}
+        {/*  <FontAwesomeIcon icon={faCode} />*/}
+        {/*) : (*/}
+        {/*  <FontAwesomeIcon icon={faGlobe} />*/}
+        {/*)}*/}
         {currentTopic}
         <CaretIconWrapper>
           <CaretDownIcon />
