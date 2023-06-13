@@ -9,6 +9,7 @@ import { usePostFilters } from '../../../hooks/useFilters';
 import { usePost } from '../../../hooks/usePost';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCode, faComments, faGlobe, faRocket } from '@fortawesome/free-solid-svg-icons';
+import './style.css';
 
 const TopicDropdown = () => {
   const { goToPage } = useNavigation();

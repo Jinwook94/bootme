@@ -13,7 +13,6 @@ import {
   SearchWrapper,
   SortName,
   SortOption,
-  SortButton,
   TopicFilterButton,
   SortAndFilterWrapper,
   SortWrapper,
@@ -24,6 +23,9 @@ import {
   MobileHeaderTextMedium,
   MobileHeaderTextLarge,
   NoResultMessage,
+  SortButtons,
+  HotButton,
+  NewestButton,
 } from './style';
 import { Space } from 'antd';
 import { POST_FILTERS } from '../../constants/filters';
@@ -38,7 +40,6 @@ import { useNavigation } from '../../hooks/useNavigation';
 import { usePost } from '../../hooks/usePost';
 import { usePostFilters } from '../../hooks/useFilters';
 import PostCard from './PostCard';
-import SortDropdown from './SortDropdown';
 import TopicDropdown from './TopicDropdown';
 import BottomTapBar from './BottomTabBar';
 import SideTab from './SideTab';
@@ -145,9 +146,24 @@ const PostListPage = () => {
           </CreatePostWrapper>
           <SortAndFilterMobile>
             <SortAndFilterWrapper>
-              <SortButton>
-                <SortDropdown />
-              </SortButton>
+              <SortButtons>
+                <HotButton
+                  size={'large'}
+                  onClick={() => goToPage(`${PATH.POST.LIST}?sort=views`)}
+                  style={{ color: sortOption === 'views' ? '#0079d3' : 'rgb(135, 138, 140)' }}
+                >
+                  {sortOption === 'views' ? <FireIconBlue /> : <FireIcon2 />}
+                  인기글
+                </HotButton>
+                <NewestButton
+                  size={'large'}
+                  onClick={() => goToPage(`${PATH.POST.LIST}?sort=newest`)}
+                  style={{ color: sortOption === 'newest' ? '#0079d3' : 'rgb(135, 138, 140)' }}
+                >
+                  {sortOption === 'newest' ? <SparklesIconBlue /> : <SparklesIcon />}
+                  최신글
+                </NewestButton>
+              </SortButtons>
               <TopicFilterButton>
                 <TopicDropdown />
               </TopicFilterButton>

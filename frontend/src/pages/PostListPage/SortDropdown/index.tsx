@@ -8,6 +8,7 @@ import PATH from '../../../constants/path';
 import { usePostFilters } from '../../../hooks/useFilters';
 import './style.css';
 
+/* 사용 안함 */
 const SortDropdown = () => {
   const { goToPage } = useNavigation();
   const { sortOption } = usePost();

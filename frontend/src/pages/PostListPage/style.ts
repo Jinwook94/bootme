@@ -142,7 +142,7 @@ export const SortAndFilterWrapper = styled.div`
   align-items: center;
   cursor: pointer;
   display: flex;
-  padding: 0 8px;
+  padding: 8px;
   margin-right: 8px;
 
   @media (min-width: 640px) {
@@ -150,8 +150,9 @@ export const SortAndFilterWrapper = styled.div`
   }
 `;
 
-export const SortButton = styled.div`
+export const SortButtons = styled.div`
   display: flex;
+  flex-direction: row;
   align-items: center;
   font-size: 14px;
   font-weight: 700;
@@ -160,14 +161,60 @@ export const SortButton = styled.div`
   min-height: 2.5rem;
   margin: 0;
   outline: none;
+`;
+
+export const HotButton = styled(Button)`
+  display: flex;
+  flex-direction: row;
+  padding-left: 8px;
+  color: rgb(135, 138, 140);
+  font-weight: 500;
+  line-height: 18px;
+  border: none;
+  align-items: center;
+  background-color: #f6f7f8;
+  border-radius: 8px;
+  margin-right: 8px;
+
+  svg {
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+  }
 
   &:hover {
-    background-color: #efefef;
-    border-radius: 4px;
+    span {
+      color: rgb(0, 121, 211);
+    }
+    svg path {
+      fill: rgb(0, 121, 211);
+    }
+    polygon {
+      fill: rgb(0, 121, 211);
+      stroke: rgb(0, 121, 211);
+    }
   }
 `;
 
-export const TopicFilterButton = styled(SortButton)``;
+export const NewestButton = styled(HotButton)`
+  &:hover {
+    svg path {
+      fill: rgb(0, 121, 211);
+      stroke: rgb(0, 121, 211);
+    }
+    polygon {
+      fill: rgb(0, 121, 211);
+      stroke: rgb(0, 121, 211);
+    }
+  }
+`;
+
+export const TopicFilterButton = styled(SortButtons)`
+  button {
+    margin-left: 8px;
+    padding: 0;
+  }
+`;
 
 export const SortSearchDesktop = styled.div`
   display: flex;
@@ -238,7 +285,7 @@ export const SortName = styled.span`
 
 export const StyledButton = styled(Button)`
   color: #0079d3;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   line-height: 18px;
   height: 40px;
@@ -248,8 +295,8 @@ export const StyledButton = styled(Button)`
   align-items: center;
 
   svg {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     margin-right: 8px;
     fill: rgb(0, 121, 211);
     stroke: rgb(0, 121, 211);
@@ -277,6 +324,30 @@ export const StyledTopicButton = styled(StyledButton)`
   path {
     fill: rgb(135, 138, 140);
     stroke: none;
+  }
+
+  &:active {
+    svg {
+      fill: rgb(0, 121, 211);
+      stroke: rgb(0, 121, 211);
+    }
+
+    path {
+      fill: rgb(0, 121, 211);
+      stroke: rgb(0, 121, 211);
+    }
+  }
+
+  &:hover {
+    svg {
+      fill: rgb(0, 121, 211);
+      stroke: rgb(0, 121, 211);
+    }
+
+    path {
+      fill: rgb(0, 121, 211);
+      stroke: rgb(0, 121, 211);
+    }
   }
 `;
 
