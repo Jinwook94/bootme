@@ -189,7 +189,7 @@ public class Course extends BaseEntity {
     }
 
     public void incrementBookmarks() {
-        this.bookmarks -= 1;
+        this.bookmarks += 1;
     }
 
 }
