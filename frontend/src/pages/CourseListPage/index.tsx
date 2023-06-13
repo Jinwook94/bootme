@@ -20,26 +20,29 @@ import {
 } from './style';
 
 import SlideBanner from '../../components/SlideBanner';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import CourseCardList from '../../components/CourseCardList';
-import usePaging from '../../hooks/usePaging';
 import { useCourses } from '../../hooks/useCourses';
 import SideFilter from '../../components/Filters/SideFilter';
 import { useCourseFilters } from '../../hooks/useFilters';
 import ModalFilter from '../../components/Filters/ModalFilter';
 import { Pagination, Select, Space } from 'antd';
-import { useRecoilState } from 'recoil';
-import { currentPageCourseList } from '../../recoilState';
 import Search from 'antd/es/input/Search';
-import PATH from '../../constants/path';
 import { useBookmarks } from '../../hooks/useBookmarks';
 
 const CourseListPage = () => {
   const { fetchCourses, courseCount, size, currentCourses, sortOption, handleSorting, onSearch } = useCourses();
   const { selectedFilters, handleModal } = useCourseFilters();
   const { fetchBookmarkCourses, fetchBookmarkCourseIds, setBookmarkedCourseIds, setIsBookmarked } = useBookmarks();
-  const { handlePageChange } = usePaging(PATH.COURSE.LIST);
-  const [currentPage, setCurrentPage] = useRecoilState(currentPageCourseList);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const handlePageChange = (page: React.SetStateAction<number>) => {
+    setCurrentPage(page);
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
 
   useEffect(() => {
     fetchCourses(sortOption, currentPage);

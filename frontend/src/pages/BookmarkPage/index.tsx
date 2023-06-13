@@ -1,15 +1,10 @@
-import React, { useEffect } from 'react';
-import usePaging from '../../hooks/usePaging';
+import React, { useEffect, useState } from 'react';
 import CourseCardList from '../../components/CourseCardList';
 import { useBookmarks } from '../../hooks/useBookmarks';
 import { BodyTitle, BodyWrapper, BodyWrapper2, CourseListWrapper, NoResultsMessage, PaginationWrapper } from './style';
-import { useRecoilState } from 'recoil';
-import { currentPageBookmark } from '../../recoilState';
 import { Pagination } from 'antd';
-import PATH from '../../constants/path';
 
 const BookmarkPage = () => {
-  const [currentPage] = useRecoilState(currentPageBookmark);
   const {
     currentCourses,
     size,
@@ -19,7 +14,14 @@ const BookmarkPage = () => {
     setBookmarkedCourseIds,
     setIsBookmarked,
   } = useBookmarks();
-  const { handlePageChange } = usePaging(PATH.BOOKMARKS);
+  const [currentPage, setCurrentPage] = useState(1);
+  const handlePageChange = (page: React.SetStateAction<number>) => {
+    setCurrentPage(page);
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
 
   useEffect(() => {
     fetchBookmarkCourses(currentPage);
