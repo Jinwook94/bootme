@@ -26,6 +26,16 @@ public class CompanyService {
     private final CompanyRepository companyRepository;
     private final CourseRepository courseRepository;
 
+    public Company getCompanyById(Long id) {
+        return companyRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COMPANY, String.valueOf(id)));
+    }
+
+    public Company getCompanyByName(String name) {
+        return companyRepository.findByName(name)
+                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COMPANY, name));
+    }
+
     public Long addCompany(CompanyRequest companyRequest){
         validateDuplicate(companyRequest.getName());
         Company company = Company.builder()
@@ -42,8 +52,7 @@ public class CompanyService {
 
     @Transactional(readOnly = true)
     public CompanyResponse findById(Long id) {
-        Company foundCompany = companyRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COMPANY, String.valueOf(id)));
+        Company foundCompany = getCompanyById(id);
         return CompanyResponse.of(foundCompany);
     }
 
@@ -54,14 +63,12 @@ public class CompanyService {
     }
 
     public void modifyCompany(Long id, CompanyRequest companyRequest){
-        Company foundCompany = companyRepository.findById(id)
-                    .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COMPANY, String.valueOf(id)));
+        Company foundCompany = getCompanyById(id);
         foundCompany.modifyCompany(companyRequest);
     }
 
     public void deleteCompany(Long id){
-        Company company = companyRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COMPANY, String.valueOf(id)));
+        Company company = getCompanyById(id);
         courseRepository.deleteAll(company.getCourses());
         companyRepository.delete(company);
     }

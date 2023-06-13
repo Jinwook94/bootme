@@ -6,6 +6,7 @@ import com.bootme.course.domain.Course;
 import com.bootme.course.dto.CourseResponse;
 import com.bootme.course.repository.CourseRepository;
 import com.bootme.course.repository.CourseStackRepository;
+import com.bootme.course.service.CourseService;
 import com.bootme.member.domain.BookmarkCourse;
 import com.bootme.member.domain.Member;
 import com.bootme.member.repository.BookmarkCourseRepository;
@@ -28,6 +29,7 @@ import static com.bootme.common.exception.ErrorType.*;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final CourseService courseService;
     private final CourseRepository courseRepository;
     private final CourseStackRepository courseStackRepository;
     private final BookmarkCourseRepository bookmarkCourseRepository;
@@ -51,10 +53,8 @@ public class MemberService {
             throw new ConflictException(ALREADY_BOOKMARKED, "memberId=" + memberId + ", courseId="+courseId);
         }
 
-        Member foundMember = memberRepository.findById(memberId)
-                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_MEMBER, memberId.toString()));
-        Course foundCourse = courseRepository.findById(courseId)
-                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COURSE, courseId.toString()));
+        Member foundMember = getMemberById(memberId);
+        Course foundCourse = courseService.getCourseById(courseId);
 
         BookmarkCourse bookmarkCourses = new BookmarkCourse(foundMember, foundCourse);
         BookmarkCourse savedBookmarkCourse = bookmarkCourseRepository.save(bookmarkCourses);

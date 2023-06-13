@@ -7,7 +7,6 @@ import com.bootme.course.dto.CourseDetailRequest;
 import com.bootme.course.dto.CourseDetailResponse;
 import com.bootme.course.dto.CourseRequest;
 import com.bootme.course.dto.CourseResponse;
-import com.bootme.course.repository.CompanyRepository;
 import com.bootme.course.repository.CourseRepository;
 import com.bootme.course.repository.CourseStackRepository;
 import com.bootme.stack.domain.Stack;
@@ -34,7 +33,7 @@ import static com.bootme.common.exception.ErrorType.*;
 public class CourseService {
 
     private final CourseRepository courseRepository;
-    private final CompanyRepository companyRepository;
+    private final CompanyService companyService;
     private final CourseStackRepository courseStackRepository;
     private final StackRepository stackRepository;
     private final CourseFilterPredicate courseFilterPredicate;
@@ -44,11 +43,15 @@ public class CourseService {
     private static final String CLICKS = "clicks";
     private static final String BOOKMARKS = "bookmarks";
 
+    public Course getCourseById(Long id) {
+        return courseRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COURSE, String.valueOf(id)));
+    }
+
     public Long addCourse(CourseRequest courseRequest){
         validateDuplicateByTitle(courseRequest.getTitle());
         String companyName = courseRequest.getCompanyName();
-        Company company = companyRepository.findByName(companyName)
-                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COMPANY, companyName));
+        Company company = companyService.getCompanyByName(companyName);
         Course course = Course.of(courseRequest, company);
         Course savedCourse = courseRepository.save(course);
         addCourseStack(courseRequest, course);
@@ -72,8 +75,7 @@ public class CourseService {
 
     @Transactional(readOnly = true)
     public CourseDetailResponse findById(Long id) {
-        Course foundCourse = courseRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COURSE, String.valueOf(id)));
+        Course foundCourse = getCourseById(id);
         List<Stack> stacks = courseStackRepository.findStacksByCourseId(id);
         return CourseDetailResponse.of(foundCourse, stacks);
     }
@@ -86,40 +88,36 @@ public class CourseService {
     }
 
     public void modifyCourse(Long id, CourseRequest courseRequest){
-        Course course = courseRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COURSE, String.valueOf(id)));
+        Course course = getCourseById(id);
 
         course.modifyCourse(courseRequest);
     }
 
     public void modifyCourseDetail(Long id, CourseDetailRequest courseDetailRequest){
-        Course course = courseRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COURSE, String.valueOf(id)));
+        Course course = getCourseById(id);
         course.modifyCourseDetail(courseDetailRequest.getDetail());
     }
 
     public void deleteCourse(Long id){
-        Course course = courseRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COURSE, String.valueOf(id)));
+        Course course = getCourseById(id);
         deleteCourseInCompany(course);
         courseRepository.delete(course);
     }
 
     private void deleteCourseInCompany(Course course){
         Long companyId = course.getCompany().getId();
-        Company company = this.companyRepository.findById(companyId)
-                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_COMPANY, String.valueOf(companyId)));
+        Company company = companyService.getCompanyById(companyId);
 
         company.deleteCourse(course);
     }
 
     public void incrementClicks(Long id) {
-        Course course = courseRepository.findById(id).orElseThrow();
+        Course course = getCourseById(id);
         course.incrementClicks();
     }
 
     public void incrementBookmarks(Long id){
-        Course course = courseRepository.findById(id).orElseThrow();
+        Course course = getCourseById(id);
         course.incrementBookmarks();
     }
 
