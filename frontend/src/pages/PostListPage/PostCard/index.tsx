@@ -151,7 +151,7 @@ const PostCard = ({
               </div>
               <CommentCountMobile>{commentCount}</CommentCountMobile>
             </CommentIconMobile>
-            <PostShareButtonInPostCardMobile postId={id} postTitle={title} />
+            <PostShareButtonInPostCardMobile postId={id} postTitle={title} postContent={postContent} />
           </MobileButtons>
           <DesktopButtons>
             <CommentIconDesktop>
@@ -160,7 +160,7 @@ const PostCard = ({
               </div>
               <CommentCountDesktop>{commentCount}개 댓글</CommentCountDesktop>
             </CommentIconDesktop>
-            <PostShareButtonInPostCardDesktop postId={id} postTitle={title} />
+            <PostShareButtonInPostCardDesktop postId={id} postTitle={title} postContent={postContent} />
             <BookmarkIconDesktop onClick={event => event.stopPropagation()}>
               <BookmarkIcon />
               <BookmarkIconTextDesktop>북마크</BookmarkIconTextDesktop>

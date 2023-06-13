@@ -21,6 +21,7 @@ export const PostShareButtonInPostDetailPageDeskTop = ({ post }: { post: PostDet
   const { secrets } = useSecret();
   const KAKAO_KEY = secrets['kakao-javascript-key'];
   const [visible, setVisible] = useState(false);
+  const [postImage, setPostImage] = useState<string>();
 
   const handleVisibleChange = () => {
     setVisible(!visible);
@@ -32,6 +33,7 @@ export const PostShareButtonInPostDetailPageDeskTop = ({ post }: { post: PostDet
       templateId: 94602,
       templateArgs: {
         postTitle: post?.title,
+        postImage: postImage,
         shareUrl: `post/${post?.id}`,
       },
     });
@@ -47,6 +49,18 @@ export const PostShareButtonInPostDetailPageDeskTop = ({ post }: { post: PostDet
         });
     }
   };
+
+  useEffect(() => {
+    if (post?.content) {
+      const domParser = new DOMParser();
+      const contentDocument = domParser.parseFromString(post.content, 'text/html');
+      const imgElement = contentDocument.querySelector('img');
+
+      if (imgElement && imgElement.src) {
+        setPostImage(imgElement.src);
+      }
+    }
+  }, [post]);
 
   useEffect(() => {
     setCurrentUrl(`${BOOTME_URL}/post/${post?.id}`);
@@ -104,6 +118,7 @@ export const PostShareButtonInPostDetailPageMobile = ({ post }: { post: PostDeta
   const { secrets } = useSecret();
   const KAKAO_KEY = secrets['kakao-javascript-key'];
   const [visible, setVisible] = useState(false);
+  const [postImage, setPostImage] = useState<string>();
 
   const handleVisibleChange = () => {
     setVisible(!visible);
@@ -115,6 +130,7 @@ export const PostShareButtonInPostDetailPageMobile = ({ post }: { post: PostDeta
       templateId: 94602,
       templateArgs: {
         postTitle: post?.title,
+        postImage: postImage,
         shareUrl: `post/${post?.id}`,
       },
     });
@@ -130,6 +146,18 @@ export const PostShareButtonInPostDetailPageMobile = ({ post }: { post: PostDeta
         });
     }
   };
+
+  useEffect(() => {
+    if (post?.content) {
+      const domParser = new DOMParser();
+      const contentDocument = domParser.parseFromString(post.content, 'text/html');
+      const imgElement = contentDocument.querySelector('img');
+
+      if (imgElement && imgElement.src) {
+        setPostImage(imgElement.src);
+      }
+    }
+  }, [post]);
 
   useEffect(() => {
     setCurrentUrl(`${BOOTME_URL}/post/${post?.id}`);
@@ -183,12 +211,17 @@ export const PostShareButtonInPostDetailPageMobile = ({ post }: { post: PostDeta
   );
 };
 
-export const PostShareButtonInPostCardDesktop = ({ postId, postTitle }: PostShareButtonInPostCardDesktopProps) => {
+export const PostShareButtonInPostCardDesktop = ({
+  postId,
+  postTitle,
+  postContent,
+}: PostShareButtonInPostCardDesktopProps) => {
   const { showSnackbar } = useSnackbar();
   const [currentUrl, setCurrentUrl] = useState<string>();
   const { secrets } = useSecret();
   const KAKAO_KEY = secrets['kakao-javascript-key'];
   const [visible, setVisible] = useState(false);
+  const [postImage, setPostImage] = useState<string>();
 
   const handleVisibleChange = (flag: boolean) => {
     setVisible(flag);
@@ -206,6 +239,7 @@ export const PostShareButtonInPostCardDesktop = ({ postId, postTitle }: PostShar
       templateId: 94602,
       templateArgs: {
         postTitle: postTitle,
+        postImage: postImage,
         shareUrl: `post/${postId}`,
       },
     });
@@ -223,6 +257,18 @@ export const PostShareButtonInPostCardDesktop = ({ postId, postTitle }: PostShar
         });
     }
   };
+
+  useEffect(() => {
+    if (postContent) {
+      const domParser = new DOMParser();
+      const contentDocument = domParser.parseFromString(postContent, 'text/html');
+      const imgElement = contentDocument.querySelector('img');
+
+      if (imgElement && imgElement.src) {
+        setPostImage(imgElement.src);
+      }
+    }
+  }, [postContent]);
 
   useEffect(() => {
     setCurrentUrl(`${BOOTME_URL}/post/${postId}`);
@@ -278,16 +324,22 @@ export const PostShareButtonInPostCardDesktop = ({ postId, postTitle }: PostShar
 };
 
 interface PostShareButtonInPostCardDesktopProps {
-  postId: number | undefined;
-  postTitle: string | undefined;
+  postId: number;
+  postTitle: string;
+  postContent: string;
 }
 
-export const PostShareButtonInPostCardMobile = ({ postId, postTitle }: PostShareButtonInPostCardMobileProps) => {
+export const PostShareButtonInPostCardMobile = ({
+  postId,
+  postTitle,
+  postContent,
+}: PostShareButtonInPostCardMobileProps) => {
   const { showSnackbar } = useSnackbar();
   const [currentUrl, setCurrentUrl] = useState<string>();
   const { secrets } = useSecret();
   const KAKAO_KEY = secrets['kakao-javascript-key'];
   const [visible, setVisible] = useState(false);
+  const [postImage, setPostImage] = useState<string>();
 
   const handleVisibleChange = (flag: boolean) => {
     setVisible(flag);
@@ -305,6 +357,7 @@ export const PostShareButtonInPostCardMobile = ({ postId, postTitle }: PostShare
       templateId: 94602,
       templateArgs: {
         postTitle: postTitle,
+        postImage: postImage,
         shareUrl: `post/${postId}`,
       },
     });
@@ -322,6 +375,18 @@ export const PostShareButtonInPostCardMobile = ({ postId, postTitle }: PostShare
         });
     }
   };
+
+  useEffect(() => {
+    if (postContent) {
+      const domParser = new DOMParser();
+      const contentDocument = domParser.parseFromString(postContent, 'text/html');
+      const imgElement = contentDocument.querySelector('img');
+
+      if (imgElement && imgElement.src) {
+        setPostImage(imgElement.src);
+      }
+    }
+  }, [postContent]);
 
   useEffect(() => {
     setCurrentUrl(`${BOOTME_URL}/post/${postId}`);
@@ -377,6 +442,7 @@ export const PostShareButtonInPostCardMobile = ({ postId, postTitle }: PostShare
 };
 
 interface PostShareButtonInPostCardMobileProps {
-  postId: number | undefined;
-  postTitle: string | undefined;
+  postId: number;
+  postTitle: string;
+  postContent: string;
 }
