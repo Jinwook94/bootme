@@ -127,7 +127,7 @@ const PostListPage = () => {
     <>
       <CommunityPageLayout>
         <BodyWrapper>
-          <MobileHeader>
+          <MobileHeader onClick={() => goToPage(PATH.POST.LIST)}>
             <MobileHeaderTextLarge>커뮤니티</MobileHeaderTextLarge>
             <MobileHeaderTextMedium>아이디어를 공유하고 궁금증을 해결하세요.</MobileHeaderTextMedium>
           </MobileHeader>

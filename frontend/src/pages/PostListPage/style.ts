@@ -27,6 +27,7 @@ export const BodyWrapper = styled.div`
 `;
 
 export const MobileHeader = styled.div`
+  cursor: pointer;
   background: linear-gradient(to right, rgba(255, 255, 255, 0.9), rgba(200, 234, 255, 1));
   display: flex;
   flex-direction: column;
@@ -140,7 +141,6 @@ export const SortAndFilterMobile = styled.div`
 
 export const SortAndFilterWrapper = styled.div`
   align-items: center;
-  cursor: pointer;
   display: flex;
   padding: 8px;
   margin-right: 8px;
