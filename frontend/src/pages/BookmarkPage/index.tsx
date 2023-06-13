@@ -26,14 +26,19 @@ const BookmarkPage = () => {
   }, [currentPage]);
 
   useEffect(() => {
-    fetchBookmarkCourseIds().then(response => {
-      setBookmarkedCourseIds(response);
-      const updatedIsBookmarked: { [key: string]: boolean } = {};
-      response.forEach((courseId: number) => {
-        updatedIsBookmarked[courseId] = true;
+    const fetchedPromise = fetchBookmarkCourseIds();
+    if (fetchedPromise) {
+      fetchedPromise.then(response => {
+        if (response) {
+          setBookmarkedCourseIds(response);
+          const updatedIsBookmarked: { [key: string]: boolean } = {};
+          response.forEach((courseId: number) => {
+            updatedIsBookmarked[courseId] = true;
+          });
+          setIsBookmarked(updatedIsBookmarked);
+        }
       });
-      setIsBookmarked(updatedIsBookmarked);
-    });
+    }
   }, [currentPage]);
 
   return (

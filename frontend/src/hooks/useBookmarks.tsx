@@ -32,36 +32,40 @@ export const BookmarkProvider = ({ children }: BookmarkProviderProps) => {
 
   const fetchBookmarkCourses = async (page: number) => {
     const endpoint = `/member/${memberId}/bookmarks`;
-    return fetcher
-      .get(endpoint, {
-        params: {
-          page: page,
-          size: 12,
-        },
-      })
-      .then(r => {
-        setMaxPage(r.data.totalPages);
-        setCurrentCourses(r.data.content);
-        setCourseCount(r.data.totalElements);
-        return r.data.content;
-      })
-      .catch(error => {
-        console.log(error);
-        return [];
-      });
+    if (isLogin) {
+      return fetcher
+        .get(endpoint, {
+          params: {
+            page: page,
+            size: 12,
+          },
+        })
+        .then(r => {
+          setMaxPage(r.data.totalPages);
+          setCurrentCourses(r.data.content);
+          setCourseCount(r.data.totalElements);
+          return r.data.content;
+        })
+        .catch(error => {
+          console.log(error);
+          return [];
+        });
+    }
   };
 
   const fetchBookmarkCourseIds = () => {
     const endpoint = `/member/${memberId}/bookmarks/courseIds`;
-    return fetcher
-      .get(endpoint, {})
-      .then(response => {
-        return response.data;
-      })
-      .catch(error => {
-        console.log(error);
-        return [];
-      });
+    if (isLogin) {
+      return fetcher
+        .get(endpoint, {})
+        .then(response => {
+          return response.data;
+        })
+        .catch(error => {
+          console.log(error);
+          return [];
+        });
+    }
   };
 
   const handleBookmark = async (id: number) => {
@@ -122,8 +126,8 @@ interface BookmarkContextProps {
   setBookmarkedCourseIds: React.Dispatch<number[]>;
   currentCourses: Course[];
   setCurrentCourses: React.Dispatch<Course[]>;
-  fetchBookmarkCourses: (page: number) => Promise<Course[]>;
-  fetchBookmarkCourseIds: () => Promise<number[]>;
+  fetchBookmarkCourses: (page: number) => Promise<Course[]> | undefined;
+  fetchBookmarkCourseIds: () => Promise<number[]> | undefined;
   handleBookmark: (id: number) => void;
   maxPage: number;
   size: number;

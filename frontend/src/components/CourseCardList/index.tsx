@@ -8,11 +8,11 @@ const CourseCardList = ({ courses, displayBookmarked }: CourseCardListProps) => 
   const { isBookmarked, setIsBookmarked, bookmarkedCourseIds, setBookmarkedCourseIds, fetchBookmarkCourseIds } =
     useBookmarks();
 
-  // 1. onMount 시점에 해당 회원이 저장한 북마크 코스 정보를 가져온다 (로그인 된 경우만)
+  // 1. onMount 시점에 해당 회원이 저장한 북마크 코스 정보를 가져온다.
   useEffect(() => {
-    const memberId = localStorage.getItem('MemberId');
-    if (memberId) {
-      fetchBookmarkCourseIds().then(response => {
+    const fetchedPromise = fetchBookmarkCourseIds();
+    if (fetchedPromise) {
+      fetchedPromise.then(response => {
         setBookmarkedCourseIds(response);
       });
     }
