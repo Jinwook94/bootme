@@ -31,7 +31,6 @@ const LoginPage = () => {
   };
 
   useEffect(() => {
-    //... your logic
     if (googleClientId) {
       google.accounts.id.initialize({
         client_id: googleClientId,

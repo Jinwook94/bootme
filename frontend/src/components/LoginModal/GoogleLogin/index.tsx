@@ -42,7 +42,7 @@ export const GoogleLoginButton = () => {
         data-client_id={googleClientId}
         data-context="signin"
         data-ux_mode="popup"
-        data-callback="onSuccess"
+        data-callback="onGoogleLoginSuccess"
         data-auto_prompt="false"
       ></div>
       <div className="g_id_signin"></div>
@@ -88,7 +88,7 @@ export const GoogleLoginOneTap = () => {
       id="g_id_onload"
       data-client_id={googleClientId}
       data-context="signin"
-      data-callback="onSuccess"
+      data-callback="onGoogleLoginSuccess"
       data-auto_select="true"
       data-itp_support="true"
       data-auto_prompt="true"
