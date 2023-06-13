@@ -73,7 +73,7 @@ const TopicDropdown = () => {
         ) : (
           <FontAwesomeIcon icon={faGlobe} />
         )}
-        {`토픽: ${currentTopic}`}
+        {currentTopic}
         <CaretIconWrapper>
           <CaretDownIcon />
         </CaretIconWrapper>
