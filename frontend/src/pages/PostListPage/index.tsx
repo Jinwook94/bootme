@@ -149,7 +149,7 @@ const PostListPage = () => {
               <SortButtons>
                 <HotButton
                   size={'large'}
-                  onClick={() => goToPage(`${PATH.POST.LIST}?sort=views`)}
+                  onClick={() => goToPage(`${PATH.POST.LIST}?sort=views&topic=${currentTopic}`)}
                   style={{ color: sortOption === 'views' ? '#0079d3' : 'rgb(135, 138, 140)' }}
                 >
                   {sortOption === 'views' ? <FireIconBlue /> : <FireIcon2 />}
@@ -157,7 +157,7 @@ const PostListPage = () => {
                 </HotButton>
                 <NewestButton
                   size={'large'}
-                  onClick={() => goToPage(`${PATH.POST.LIST}?sort=newest`)}
+                  onClick={() => goToPage(`${PATH.POST.LIST}?sort=newest&topic=${currentTopic}`)}
                   style={{ color: sortOption === 'newest' ? '#0079d3' : 'rgb(135, 138, 140)' }}
                 >
                   {sortOption === 'newest' ? <SparklesIconBlue /> : <SparklesIcon />}
