@@ -23,12 +23,15 @@ import static com.bootme.common.util.CookieExtractor.getCookieValue;
 @Component
 public class TokenValidationInterceptor implements HandlerInterceptor {
 
+    private final String domain;
     private final long accessTokenExpireTimeInMilliseconds;
     private final TokenProvider tokenProvider;
     private final AuthService authService;
 
-    public TokenValidationInterceptor(@Value("${security.jwt.bootme.exp.millisecond.access}") long accessTokenExpireTimeInMilliseconds,
+    public TokenValidationInterceptor(@Value("${domain}") String domain,
+                                      @Value("${security.jwt.bootme.exp.millisecond.access}") long accessTokenExpireTimeInMilliseconds,
                                       TokenProvider tokenProvider, AuthService authService) {
+        this.domain = domain;
         this.accessTokenExpireTimeInMilliseconds = accessTokenExpireTimeInMilliseconds;
         this.tokenProvider = tokenProvider;
         this.authService = authService;
@@ -60,8 +63,8 @@ public class TokenValidationInterceptor implements HandlerInterceptor {
     }
 
     private void setAccessTokenCookie(String accessToken, HttpServletResponse response) {
-        response.addHeader("Set-Cookie", "accessToken=" + accessToken + "; Max-Age=" +
-                accessTokenExpireTimeInMilliseconds/1000 + "; HttpOnly; Secure; SameSite=Lax");
+        String cookie = tokenProvider.getCookie("accessToken", accessToken, domain, accessTokenExpireTimeInMilliseconds);
+        response.addHeader("Set-Cookie", cookie);
     }
 
 }

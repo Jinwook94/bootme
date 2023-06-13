@@ -82,7 +82,7 @@ public class TokenProvider {
                 .compact();
     }
 
-    private String getCookie(String cookieName, String token, String domain, long expireTime) {
+    public String getCookie(String cookieName, String token, String domain, long expireTime) {
         return ResponseCookie.from(cookieName, token)
                 .sameSite("Lax")
                 .domain(domain)
