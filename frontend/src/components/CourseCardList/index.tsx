@@ -3,22 +3,11 @@ import { CourseCardListStyle } from './style';
 import React, { useEffect, useRef } from 'react';
 import { useBookmarks } from '../../hooks/useBookmarks';
 
-const CourseCardList = ({ courses, displayBookmarked }: CourseCardListProps) => {
+const CourseCardList = ({ courses, displayBookmarked, bookmarkedCourseIds }: CourseCardListProps) => {
   const isMounted = useRef(false);
-  const { isBookmarked, setIsBookmarked, bookmarkedCourseIds, setBookmarkedCourseIds, fetchBookmarkCourseIds } =
-    useBookmarks();
+  const { isBookmarked, setIsBookmarked } = useBookmarks();
 
-  // 1. onMount 시점에 해당 회원이 저장한 북마크 코스 정보를 가져온다.
-  useEffect(() => {
-    const fetchedPromise = fetchBookmarkCourseIds();
-    if (fetchedPromise) {
-      fetchedPromise.then(response => {
-        setBookmarkedCourseIds(response);
-      });
-    }
-  }, []);
-
-  // 2. 회원이 북마크 저장한 코스의 isBookmarked 값을 true 설정한다.
+  // 회원이 북마크 저장한 코스의 isBookmarked 값을 true 설정한다.
   useEffect(() => {
     if (isMounted.current) {
       const states = { ...isBookmarked };
@@ -78,6 +67,7 @@ const CourseCardList = ({ courses, displayBookmarked }: CourseCardListProps) => 
 interface CourseCardListProps {
   courses: Course[];
   displayBookmarked?: boolean;
+  bookmarkedCourseIds: number[];
 }
 
 export default CourseCardList;

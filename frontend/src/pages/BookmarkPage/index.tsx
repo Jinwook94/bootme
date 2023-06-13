@@ -11,6 +11,7 @@ const BookmarkPage = () => {
     courseCount,
     fetchBookmarkCourses,
     fetchBookmarkCourseIds,
+    bookmarkedCourseIds,
     setBookmarkedCourseIds,
     setIsBookmarked,
   } = useBookmarks();
@@ -52,7 +53,7 @@ const BookmarkPage = () => {
             {courseCount === 0 ? (
               <NoResultsMessage>북마크 저장한 코스가 없습니다.</NoResultsMessage>
             ) : (
-              <CourseCardList courses={currentCourses} displayBookmarked />
+              <CourseCardList courses={currentCourses} bookmarkedCourseIds={bookmarkedCourseIds} displayBookmarked />
             )}
           </CourseListWrapper>
         </BodyWrapper2>

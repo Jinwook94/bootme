@@ -33,8 +33,10 @@ import { useBookmarks } from '../../hooks/useBookmarks';
 const CourseListPage = () => {
   const { fetchCourses, courseCount, size, currentCourses, sortOption, handleSorting, onSearch } = useCourses();
   const { selectedFilters, handleModal } = useCourseFilters();
-  const { fetchBookmarkCourses, fetchBookmarkCourseIds, setBookmarkedCourseIds, setIsBookmarked } = useBookmarks();
+  const { fetchBookmarkCourses, fetchBookmarkCourseIds, bookmarkedCourseIds, setBookmarkedCourseIds, setIsBookmarked } =
+    useBookmarks();
   const [currentPage, setCurrentPage] = useState(1);
+  const [resetPagination, setResetPagination] = useState(false);
 
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
@@ -45,19 +47,13 @@ const CourseListPage = () => {
   };
 
   useEffect(() => {
+    if (resetPagination) {
+      setCurrentPage(1);
+      setResetPagination(false);
+    }
     fetchCourses(sortOption, currentPage);
-  }, [currentPage]);
-
-  useEffect(() => {
-    setCurrentPage(1);
-    fetchCourses(sortOption, 1);
-  }, [selectedFilters, sortOption]);
-
-  useEffect(() => {
     fetchBookmarkCourses(currentPage);
-  }, [currentPage]);
 
-  useEffect(() => {
     const fetchedPromise = fetchBookmarkCourseIds();
     if (fetchedPromise) {
       fetchedPromise.then(response => {
@@ -71,7 +67,7 @@ const CourseListPage = () => {
         }
       });
     }
-  }, [currentPage]);
+  }, [sortOption, selectedFilters, currentPage, resetPagination]);
 
   useEffect(() => {
     setCurrentPage(1);
@@ -128,7 +124,7 @@ const CourseListPage = () => {
                   선택하신 조건에 맞는 코스가 없습니다. <br /> 필터 옵션을 변경해 주세요.
                 </NoResultsMessage>
               ) : (
-                <CourseCardList courses={currentCourses} />
+                <CourseCardList courses={currentCourses} bookmarkedCourseIds={bookmarkedCourseIds} />
               )}
             </CourseListWrapper>
           </BodyWrapper2>
