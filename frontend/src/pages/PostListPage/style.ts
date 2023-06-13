@@ -131,7 +131,7 @@ export const SortAndFilterMobile = styled.div`
   width: 100%;
   background-color: rgb(255, 255, 255);
   z-index: 100;
-  border-bottom: 2px solid #f2f2f2;
+  border-bottom: 2px solid #ccc;
 
   @media (min-width: 640px) {
     display: none;
