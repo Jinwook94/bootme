@@ -120,7 +120,7 @@ public class AuthService {
             JwtVo.Header header = mapper.readValue(Base64.getDecoder().decode(jwtParts[0]), JwtVo.Header.class);
             JwtVo.Body body = mapper.readValue(Base64.getDecoder().decode(jwtParts[1]), JwtVo.Body.class);
             return new JwtVo(header, body);
-        } catch (IOException e) {
+        } catch (IOException | IllegalArgumentException  e ) {
             throw new TokenParseException(TOKEN_PARSING_FAIL, token, e);
         }
     }

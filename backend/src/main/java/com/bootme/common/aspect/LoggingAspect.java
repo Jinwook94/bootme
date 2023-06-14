@@ -2,6 +2,7 @@ package com.bootme.common.aspect;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -25,7 +26,7 @@ import java.util.Map;
 @Slf4j
 public class LoggingAspect {
 
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
     private static final List<Class<? extends Annotation>> MAPPING_CLASSES = List
             .of(RequestMapping.class, GetMapping.class, PostMapping.class,
                     PutMapping.class, PatchMapping.class, DeleteMapping.class);
@@ -48,7 +49,12 @@ public class LoggingAspect {
                 .findAny()
                 .orElse("");
 
-        log.info("[HTTP Request] \"{}\"", requestUrl);
+        try {
+            log.info("[HTTP Request] {}, params & body={}", requestUrl, objectMapper.writeValueAsString(parameters));
+        } catch (JsonProcessingException e) {
+            log.warn("logging failed", e);
+        }
+
     }
 
     private String extractBaseUrl(Class<?> clazz) {
@@ -96,12 +102,15 @@ public class LoggingAspect {
 
     @AfterReturning(value = "loggingCondition()", returning = "responseEntity")
     public void logResponse(JoinPoint joinPoint, ResponseEntity<?> responseEntity){
-        if(responseEntity.hasBody()) {
-            printResponse(responseEntity);
+        if (responseEntity.hasBody()) {
+            try {
+                log.info("[HTTP Response] {}, body={}", responseEntity.getStatusCode(), objectMapper.writeValueAsString(responseEntity.getBody()));
+            } catch (JsonProcessingException e) {
+                log.warn("logging failed", e);
+            }
+        } else {
+            log.info("[HTTP Response] {} ", responseEntity.getStatusCode());
         }
     }
 
-    private void printResponse(ResponseEntity<?> responseEntity) {
-        log.info("[HTTP Response] \"{}\"", responseEntity.getStatusCode());
-    }
 }
