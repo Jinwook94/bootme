@@ -9,7 +9,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static com.bootme.common.util.CookieExtractor.getCookieValue;
+import static com.bootme.common.util.RequestUtils.getCookieValue;
 
 /**
  * HTTP 요청을 처리하기 전에 엑세스 토큰과 리프레시 토큰의 유효성을 검증하는 인터셉터

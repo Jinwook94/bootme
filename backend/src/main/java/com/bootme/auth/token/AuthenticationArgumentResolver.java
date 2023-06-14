@@ -11,7 +11,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static com.bootme.common.util.CookieExtractor.getCookieValue;
+import static com.bootme.common.util.RequestUtils.getCookieValue;
 
 @Component
 @RequiredArgsConstructor

@@ -73,7 +73,7 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public List<Long> findBookmarkCourseIds(Long memberId) {
-        List<BookmarkCourse> bookmarkCourseList = bookmarkCourseRepository.findByMemberId(memberId);
+        List<BookmarkCourse> bookmarkCourseList = bookmarkCourseRepository.findByMember(getMemberById(memberId));
         return bookmarkCourseList.stream()
                 .map(BookmarkCourse::getCourse)
                 .map(Course::getId)

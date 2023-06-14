@@ -17,19 +17,29 @@
             <fileNamePattern>${DIR_JSON}bootme-springboot-general-json-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxFileSize>10MB</maxFileSize>
         </rollingPolicy>
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <prefix class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
-                <layout class="ch.qos.logback.classic.PatternLayout">
-                    <pattern>[</pattern>
-                </layout>
-            </prefix>
-            <suffix class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
-                <layout class="ch.qos.logback.classic.PatternLayout">
-                    <pattern>]</pattern>
-                </layout>
-            </suffix>
-            <includeCallerData>true</includeCallerData>
-            <includeMdcKeyName>requestId</includeMdcKeyName>
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp>
+                    <timeZone>Asia/Seoul</timeZone>
+                </timestamp>
+                <version/>
+                <logLevel/>
+                <message/>
+                <mdc/>
+                <threadName/>
+                <loggerName/>
+                <pattern>
+                    <pattern>
+                        {
+                        "caller_class_name": "%caller{0}",
+                        "caller_method_name": "%caller{1}",
+                        "caller_file_name": "%caller{2}",
+                        "caller_line_number": "%caller{3}"
+                        }
+                    </pattern>
+                </pattern>
+                <stackTrace/>
+            </providers>
         </encoder>
     </appender>
 </included>
