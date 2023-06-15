@@ -23,9 +23,9 @@ jobs:
       # 소스 코드의 string 을 깃허브 리포지토리 시크릿에 저장된 값으로 교체
       - name: Replace secrets
         run: |
-          sed -i "s/BOOTME_ISSUER/${{ secrets.BOOTME_ISSUER }}/g" ./src/hooks/useSecret.tsx
-          sed -i "s/BOOTME_AUDIENCE/${{ secrets.BOOTME_AUDIENCE }}/g" ./src/hooks/useSecret.tsx
-          sed -i "s/BOOTME_SIGNING_KEY/${{ secrets.BOOTME_SIGNING_KEY }}/g" ./src/hooks/useSecret.tsx
+          sed -i "s#BOOTME_ISSUER#${{ secrets.BOOTME_ISSUER }}#g" ./src/hooks/useSecret.tsx
+          sed -i "s#BOOTME_AUDIENCE#${{ secrets.BOOTME_AUDIENCE }}#g" ./src/hooks/useSecret.tsx
+          sed -i "s#BOOTME_SIGNING_KEY#${{ secrets.BOOTME_SIGNING_KEY }}#g" ./src/hooks/useSecret.tsx 
 
       - name: Install dependencies and Build
         run: |
