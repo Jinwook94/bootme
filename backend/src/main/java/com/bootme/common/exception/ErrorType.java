@@ -56,8 +56,11 @@ public enum ErrorType {
     INVALID_VOTE_TYPE       (5013, "유효하지 않은 voteType 입니다. 유효한 값: upvote || downvote"),
     INVALID_VOTABLE_TYPE    (5014, "유효하지 않은 votableType 입니다."),
 
+    // System errors
+    JSON_PROCESSING_FAIL    (6001, "JSON 처리에 실패했습니다."),
+
     // AWS
-    S3_UPLOAD_FAIL          (6001, "이미지 파일을 S3 업로드 실패했습니다."),
+    S3_UPLOAD_FAIL          (7001, "이미지 파일을 S3 업로드 실패했습니다."),
 
     // Internal server errors
     RUNTIME_EXCEPTION       (9001, "서버에 알 수 없는 문제가 발생했습니다.");

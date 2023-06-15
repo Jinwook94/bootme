@@ -1,5 +1,6 @@
 package com.bootme.auth.service;
 
+import com.amazonaws.secretsmanager.caching.SecretCache;
 import com.auth0.jwk.*;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -8,13 +9,17 @@ import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.bootme.auth.dto.AuthInfo;
 import com.bootme.auth.dto.JwtVo;
-import com.bootme.auth.exception.*;
+import com.bootme.auth.dto.SecretResponse;
 import com.bootme.auth.token.JwkProviderSingleton;
 import com.bootme.common.exception.AuthenticationException;
+import com.bootme.common.exception.SerializationException;
+import com.bootme.common.exception.TokenParseException;
 import com.bootme.member.domain.Member;
 import com.bootme.member.repository.MemberRepository;
 import com.bootme.member.service.MemberService;
 import com.bootme.notification.service.NotificationService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import io.jsonwebtoken.*;
@@ -27,7 +32,9 @@ import java.io.IOException;
 import java.security.interfaces.RSAPublicKey;
 import java.time.Instant;
 import java.util.Base64;
+import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static com.bootme.auth.token.GoogleIdTokenVerifierSingleton.verifyGoogleIdToken;
 import static com.bootme.common.exception.ErrorType.*;
@@ -42,6 +49,7 @@ public class AuthService {
     private static final String NAVER = "naver";
     private static final String KAKAO = "kakao";
 
+    private final SecretCache secretCache;
     private final MemberRepository memberRepository;
     private final MemberService memberService;
     private final NotificationService notificationService;
@@ -56,7 +64,8 @@ public class AuthService {
     private final String BOOTME_SECRET;
     private final String NAVER_SECRET;
 
-    public AuthService(MemberRepository memberRepository,
+    public AuthService(SecretCache secretCache,
+                       MemberRepository memberRepository,
                        MemberService memberService,
                        NotificationService notificationService,
                        @Value("${security.jwt.bootme_front.issuer}") String BOOTME_ISSUER,
@@ -69,6 +78,7 @@ public class AuthService {
                        @Value("${security.jwt.kakao.audience}") String KAKAO_AUDIENCE,
                        @Value("${security.jwt.bootme_front.secret-key}") String BOOTME_SECRET,
                        @Value("${security.jwt.naver.secret}") String NAVER_SECRET) {
+        this.secretCache = secretCache;
         this.memberRepository = memberRepository;
         this.memberService = memberService;
         this.notificationService = notificationService;
@@ -120,7 +130,7 @@ public class AuthService {
             JwtVo.Header header = mapper.readValue(Base64.getDecoder().decode(jwtParts[0]), JwtVo.Header.class);
             JwtVo.Body body = mapper.readValue(Base64.getDecoder().decode(jwtParts[1]), JwtVo.Body.class);
             return new JwtVo(header, body);
-        } catch (IOException | IllegalArgumentException  e ) {
+        } catch (IOException | IllegalArgumentException e ) {
             throw new TokenParseException(TOKEN_PARSING_FAIL, token, e);
         }
     }
@@ -311,6 +321,19 @@ public class AuthService {
         JwtVo jwtVo = parseToken(token);
         String email = jwtVo.getBody().getEmail();
         return memberRepository.existsMemberByEmail(email);
+    }
+
+    public SecretResponse getAwsSecrets() {
+        String secretString = secretCache.getSecretString("/bootme/springboot");
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, String> secretMap = new ConcurrentHashMap<>();
+        try {
+            secretMap = objectMapper.readValue(secretString, new TypeReference<>() {
+            });
+        } catch (JsonProcessingException e) {
+            throw new SerializationException(JSON_PROCESSING_FAIL, secretMap.toString(), e);
+        }
+        return SecretResponse.of(secretMap);
     }
 
 }
