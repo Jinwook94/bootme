@@ -20,10 +20,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
     private final TokenValidationInterceptor tokenValidationInterceptor;
     private final IPFilter ipFilter;
     private final AuthenticationArgumentResolver authenticationArgumentResolver;
+    private final String[] allowedOrigins;
 
     public WebMvcConfig(TokenValidationInterceptor tokenValidationInterceptor,
                         IPFilter ipFilter,
-                        AuthenticationArgumentResolver authenticationArgumentResolver,) {
+                        AuthenticationArgumentResolver authenticationArgumentResolver,
+                        @Value("${allowed-origins}") String allowedOrigins) {
         this.tokenValidationInterceptor = tokenValidationInterceptor;
         this.ipFilter = ipFilter;
         this.authenticationArgumentResolver = authenticationArgumentResolver;
@@ -33,10 +35,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000",
-                                "http://localhost:3001",
-                                "https://bootme.co.kr",
-                                "https://www.bootme.co.kr")
+                .allowedOrigins(allowedOrigins)
                 .allowedMethods(ALLOWED_METHOD_NAMES.split(","))
                 .allowedHeaders("*")
                 .allowCredentials(true)

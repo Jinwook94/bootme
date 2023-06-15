@@ -49,6 +49,7 @@ public class AuthService {
     private final MemberRepository memberRepository;
     private final MemberService memberService;
     private final NotificationService notificationService;
+    private final List<String> allowedOrigins;
     private final String BOOTME_ISSUER;
     private final String GOOGLE_ISSUER;
     private final String NAVER_ISSUER;
@@ -64,6 +65,7 @@ public class AuthService {
                        MemberRepository memberRepository,
                        MemberService memberService,
                        NotificationService notificationService,
+                       @Value("${allowed-origins}") String allowedOriginsString,
                        @Value("${security.jwt.bootme_front.issuer}") String BOOTME_ISSUER,
                        @Value("${security.jwt.google.issuer}") String GOOGLE_ISSUER,
                        @Value("${security.jwt.naver.issuer}") String NAVER_ISSUER,
@@ -78,6 +80,7 @@ public class AuthService {
         this.memberRepository = memberRepository;
         this.memberService = memberService;
         this.notificationService = notificationService;
+        this.allowedOrigins = Arrays.asList(allowedOriginsString.split(","));
         this.BOOTME_ISSUER = BOOTME_ISSUER;
         this.GOOGLE_ISSUER = GOOGLE_ISSUER;
         this.NAVER_ISSUER = NAVER_ISSUER;
@@ -317,6 +320,21 @@ public class AuthService {
         JwtVo jwtVo = parseToken(token);
         String email = jwtVo.getBody().getEmail();
         return memberRepository.existsMemberByEmail(email);
+    }
+
+    public void verifySecretRequest(String secret, String origin) {
+        String token = getToken(secret);
+        verifyToken(token);
+        verifyOrigin(origin);
+    }
+
+    private void verifyOrigin(String origin) {
+        if (origin == null) {
+            throw new AccessDeniedException(FORBIDDEN_REQUEST);
+        }
+        if (!allowedOrigins.contains(origin)) {
+            throw new AccessDeniedException(FORBIDDEN_REQUEST, "origin=" + origin);
+        }
     }
 
     public SecretResponse getAwsSecrets() {
