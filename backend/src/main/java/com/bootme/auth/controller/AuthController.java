@@ -20,7 +20,7 @@ public class AuthController {
 
     public AuthController(AuthService authService,
                           TokenProvider tokenProvider,
-                          @Value("${domain}") String domain) {
+                          @Value("${domain}") String domain ) {
         this.authService = authService;
         this.tokenProvider = tokenProvider;
         this.domain = domain;

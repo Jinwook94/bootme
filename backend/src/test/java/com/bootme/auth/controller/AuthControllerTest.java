@@ -1,6 +1,6 @@
 package com.bootme.auth.controller;
 
-import com.bootme.auth.exception.TokenParseException;
+import com.bootme.common.exception.TokenParseException;
 import com.bootme.common.exception.AuthenticationException;
 import com.bootme.util.ControllerTest;
 import org.junit.jupiter.api.DisplayName;

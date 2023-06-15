@@ -5,15 +5,15 @@ import lombok.Getter;
 @Getter
 public abstract class UnauthorizedException extends BusinessException {
 
-    public UnauthorizedException(ErrorType errorType) {
+    protected UnauthorizedException(ErrorType errorType) {
         super(errorType);
     }
 
-    public UnauthorizedException(ErrorType errorType, String invalidInput) {
+    protected UnauthorizedException(ErrorType errorType, String invalidInput) {
         super(errorType, invalidInput);
     }
 
-    public UnauthorizedException(ErrorType errorType, String invalidInput, Throwable e) {
+    protected UnauthorizedException(ErrorType errorType, String invalidInput, Throwable e) {
         super(errorType, invalidInput, e);
     }
 

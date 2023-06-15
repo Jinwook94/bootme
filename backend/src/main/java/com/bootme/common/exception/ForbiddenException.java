@@ -5,11 +5,11 @@ import lombok.Getter;
 @Getter
 public abstract class ForbiddenException extends BusinessException {
 
-    public ForbiddenException(ErrorType errorType){
+    protected ForbiddenException(ErrorType errorType){
         super(errorType);
     }
 
-    public ForbiddenException(ErrorType errorType, String invalidInput){
+    protected ForbiddenException(ErrorType errorType, String invalidInput){
         super(errorType, invalidInput);
     }
 

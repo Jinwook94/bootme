@@ -1,7 +1,4 @@
-package com.bootme.auth.exception;
-
-import com.bootme.common.exception.BadRequestException;
-import com.bootme.common.exception.ErrorType;
+package com.bootme.common.exception;
 
 public class TokenParseException extends BadRequestException {
 
