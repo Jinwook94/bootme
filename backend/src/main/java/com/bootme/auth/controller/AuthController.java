@@ -2,7 +2,8 @@ package com.bootme.auth.controller;
 
 import com.bootme.auth.dto.SecretResponse;
 import com.bootme.auth.service.AuthService;
-import com.bootme.auth.token.TokenProvider;
+import com.bootme.auth.utils.IPFiltering;
+import com.bootme.auth.utils.TokenProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class AuthController {
 
     public AuthController(AuthService authService,
                           TokenProvider tokenProvider,
-                          @Value("${domain}") String domain ) {
+                          @Value("${domain}") String domain) {
         this.authService = authService;
         this.tokenProvider = tokenProvider;
         this.domain = domain;

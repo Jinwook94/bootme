@@ -10,10 +10,8 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.bootme.auth.dto.AuthInfo;
 import com.bootme.auth.dto.JwtVo;
 import com.bootme.auth.dto.SecretResponse;
-import com.bootme.auth.token.JwkProviderSingleton;
-import com.bootme.common.exception.AuthenticationException;
-import com.bootme.common.exception.SerializationException;
-import com.bootme.common.exception.TokenParseException;
+import com.bootme.auth.utils.JwkProviderSingleton;
+import com.bootme.common.exception.*;
 import com.bootme.member.domain.Member;
 import com.bootme.member.repository.MemberRepository;
 import com.bootme.member.service.MemberService;
@@ -31,12 +29,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.security.interfaces.RSAPublicKey;
 import java.time.Instant;
-import java.util.Base64;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.bootme.auth.token.GoogleIdTokenVerifierSingleton.verifyGoogleIdToken;
+import static com.bootme.auth.utils.GoogleIdTokenVerifierSingleton.verifyGoogleIdToken;
 import static com.bootme.common.exception.ErrorType.*;
 
 

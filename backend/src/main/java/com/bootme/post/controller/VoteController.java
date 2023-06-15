@@ -1,7 +1,7 @@
 package com.bootme.post.controller;
 
 import com.bootme.auth.dto.AuthInfo;
-import com.bootme.auth.token.Login;
+import com.bootme.auth.utils.Login;
 import com.bootme.post.dto.VotableResponse;
 import com.bootme.post.dto.VoteRequest;
 import com.bootme.post.service.VoteService;

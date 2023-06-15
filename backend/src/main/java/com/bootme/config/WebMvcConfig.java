@@ -1,6 +1,6 @@
 package com.bootme.config;
 
-import com.bootme.auth.token.AuthenticationArgumentResolver;
+import com.bootme.auth.utils.AuthenticationArgumentResolver;
 import com.bootme.common.interceptor.TokenValidationInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -22,6 +22,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         AuthenticationArgumentResolver authenticationArgumentResolver) {
         this.tokenValidationInterceptor = tokenValidationInterceptor;
         this.authenticationArgumentResolver = authenticationArgumentResolver;
+        this.allowedOrigins = allowedOrigins.split(",");
     }
 
     @Override

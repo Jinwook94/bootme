@@ -1,4 +1,4 @@
-package com.bootme.auth.token;
+package com.bootme.auth.utils;
 
 import com.auth0.jwk.JwkProvider;
 import com.auth0.jwk.JwkProviderBuilder;
