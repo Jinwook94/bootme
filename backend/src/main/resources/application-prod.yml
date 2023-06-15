@@ -17,6 +17,19 @@ spring:
         characterEncoding: utf8mb4
         charSet: utf8mb4
 
+cloud:
+  aws:
+    s3:
+      bucket: ENC(b8OwZ5ju4SzcnOBO92RwpWJwFe7nfdN6)
+    credentials:
+      access-key: ENC(2vctfEcCiuZ7RN87cOUTravlqHfd55Xe1s6zEKdLlzk=)
+      secret-key: ENC(Koa+RVqWim1y9HryvbZ/ZE4T65fOjk1d+7IIrMQKDx1vuDcKJDaHIlbYAzDn/cseipNh/23YbvU=)
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
+
 logback:
   access:
     config: classpath:logback-access.xml
@@ -30,7 +43,23 @@ management:
 security:
   jwt:
     bootme:
+      issuer: https://bootme.back.com
+      secret-key: ENC(zfPuFyzYA9XcPlEq0ntmMKo7kicPkh+lFL515nXcS72A8sqk0F4015ZPGb26Rj5i7j91yP4/SVSPPXt8M/DgumpXZf4999tKH0zv9tHF9nBvuKlYofc2nqUG3/+edaRP9F3VwpGCwtbNlO0Ob35dIkEd7le7oA+6rSrHlIUKDWSFe2ZNiDJf/h/sTV1bztHN40JYQ0VYbGYtMfWqxsHEH/BHg/NPJ5ASlPypJtFWJPvjtKxaQRoELaK/ubTdU9O2FAGmAI27Ry6LRT21tP68a6Yrw7AoTo5mz13cX8SaWKlXtWEi0th5QaTftsQKqZm6D6rkw1xDnuWDzTGvdG4eowUPN9VIwAz+VK8fJ/3H0EuhSVh8fTp6zHun1LuwqO8/7oyHtP8zljFc7I2kctpv3HaJMK0vr+tFUB+umDTRP2/tw8Bxrvy1rYVfDuwYYU4vU76r+oujHP5twxn3h1NW2g==)
       exp:
         millisecond:
           access: 3600000
           refresh: 2592000000
+    bootme_front:
+      issuer: https://bootme.front.com
+      audience: bootme.com
+      secret-key: ENC(VmdR1XXp7UZ2vfrrhyOFpNydC+s76kzXroDXmG5GDzKBO61SFvLDyQrig7LkXoFSGwnb4hCzVm8wFxlbnNFZWlSnHhIfHUV1jYjhdwn/KEc=)
+    google:
+      issuer: https://accounts.google.com
+      audience: ENC(MO/U9kPW/lSGM4vglHPQXNBMnlRLIwh8RlYlCYslxzaf86QdTm6iOiKAtMYHtrsAR0wE18Sk55SEZjBjK2ATSTqDRq6pzH9DLG+UozTzHTN+SwtU7nXpqA==)
+    naver:
+      issuer: https://bootme.front.com
+      audience: ENC(ja0CnEC8rd485VzLWHaloyYk3fIU4kFxMfo3Ukxdpl7DbyVjiQygIg==)
+      secret: ENC(EYkGqmVhUiOqcuNRl02ha0e5QHDb1+VlSDT31sZd+GaCfcoILVcGrFDoJNDBHQzO75fapRsHe533wkzX2G6x0sKf6JREwKKmBTLKmMQPePc8Z196MlyLm9nqVB4YYT+K)
+    kakao:
+      issuer: https://kauth.kakao.com
+      audience: ENC(WK+mtafbv9GqIik6dY/LxpenM4CF7T5zz1z6MA0G4ysfdS5EBRcamVJwfGU+QaIv)
