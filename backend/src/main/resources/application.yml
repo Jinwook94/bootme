@@ -18,8 +18,8 @@ cloud:
     s3:
       bucket: ENC(b8OwZ5ju4SzcnOBO92RwpWJwFe7nfdN6)
     credentials:
-      access-key: ENC(RM8AwILkMuVugGjAJtvujOr1ylV6Mdy0Jv4Uy+JC9LY=)
-      secret-key: ENC(FwRUm7TtrRvWpP7scHyP1izYLamurX4cOKkJtEW987Y4SgIkX0ApDQFAR76Oqcu0onzddtSDk8Q=)
+      access-key: ENC(2vctfEcCiuZ7RN87cOUTravlqHfd55Xe1s6zEKdLlzk=)
+      secret-key: ENC(Koa+RVqWim1y9HryvbZ/ZE4T65fOjk1d+7IIrMQKDx1vuDcKJDaHIlbYAzDn/cseipNh/23YbvU=)
     region:
       static: ap-northeast-2
       auto: false
