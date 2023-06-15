@@ -48,6 +48,7 @@ public class AuthController {
         return ResponseEntity.noContent().build();
     }
 
+    @IPFiltering
     @GetMapping("/secrets")
     public ResponseEntity<SecretResponse> getSecrets() {
         SecretResponse secretResponse = authService.getAwsSecrets();
