@@ -1,6 +1,5 @@
 package com.bootme.auth.service;
 
-import com.amazonaws.secretsmanager.caching.SecretCache;
 import com.auth0.jwk.*;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -8,19 +7,14 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.bootme.auth.dto.AuthInfo;
-import com.bootme.auth.dto.JwtVo;
 import com.bootme.auth.dto.AwsSecrets;
+import com.bootme.auth.dto.JwtVo;
 import com.bootme.auth.util.JwkProviderSingleton;
-import com.bootme.common.exception.AccessDeniedException;
-import com.bootme.common.exception.AuthenticationException;
-import com.bootme.common.exception.SerializationException;
-import com.bootme.common.exception.TokenParseException;
+import com.bootme.common.exception.*;
 import com.bootme.member.domain.Member;
 import com.bootme.member.repository.MemberRepository;
 import com.bootme.member.service.MemberService;
 import com.bootme.notification.service.NotificationService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import io.jsonwebtoken.*;
@@ -33,7 +27,6 @@ import java.io.IOException;
 import java.security.interfaces.RSAPublicKey;
 import java.time.Instant;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 import static com.bootme.auth.util.GoogleIdTokenVerifierSingleton.verifyGoogleIdToken;
 import static com.bootme.common.exception.ErrorType.*;
@@ -48,52 +41,22 @@ public class AuthService {
     private static final String NAVER = "naver";
     private static final String KAKAO = "kakao";
 
-    private final SecretCache secretCache;
+    private final AwsSecrets awsSecrets;
     private final MemberRepository memberRepository;
     private final MemberService memberService;
     private final NotificationService notificationService;
     private final List<String> allowedOrigins;
-    private final String BOOTME_ISSUER;
-    private final String GOOGLE_ISSUER;
-    private final String NAVER_ISSUER;
-    private final String KAKAO_ISSUER;
-    private final String BOOTME_AUDIENCE;
-    private final String GOOGLE_AUDIENCE;
-    private final String NAVER_AUDIENCE;
-    private final String KAKAO_AUDIENCE;
-    private final String BOOTME_SECRET;
-    private final String NAVER_SECRET;
 
-    public AuthService(SecretCache secretCache,
+    public AuthService(AwsSecrets awsSecrets,
                        MemberRepository memberRepository,
                        MemberService memberService,
                        NotificationService notificationService,
-                       @Value("${allowed-origins}") String allowedOriginsString,
-                       @Value("${security.jwt.bootme_front.issuer}") String BOOTME_ISSUER,
-                       @Value("${security.jwt.google.issuer}") String GOOGLE_ISSUER,
-                       @Value("${security.jwt.naver.issuer}") String NAVER_ISSUER,
-                       @Value("${security.jwt.kakao.issuer}") String KAKAO_ISSUER,
-                       @Value("${security.jwt.bootme_front.audience}") String BOOTME_AUDIENCE,
-                       @Value("${security.jwt.google.audience}") String GOOGLE_AUDIENCE,
-                       @Value("${security.jwt.naver.audience}") String NAVER_AUDIENCE,
-                       @Value("${security.jwt.kakao.audience}") String KAKAO_AUDIENCE,
-                       @Value("${security.jwt.bootme_front.secret-key}") String BOOTME_SECRET,
-                       @Value("${security.jwt.naver.secret}") String NAVER_SECRET) {
-        this.secretCache = secretCache;
+                       @Value("${allowed-origins}") String allowedOriginsString) {
+        this.awsSecrets = awsSecrets;
         this.memberRepository = memberRepository;
         this.memberService = memberService;
         this.notificationService = notificationService;
         this.allowedOrigins = Arrays.asList(allowedOriginsString.split(","));
-        this.BOOTME_ISSUER = BOOTME_ISSUER;
-        this.GOOGLE_ISSUER = GOOGLE_ISSUER;
-        this.NAVER_ISSUER = NAVER_ISSUER;
-        this.KAKAO_ISSUER = KAKAO_ISSUER;
-        this.BOOTME_AUDIENCE = BOOTME_AUDIENCE;
-        this.GOOGLE_AUDIENCE = GOOGLE_AUDIENCE;
-        this.NAVER_AUDIENCE = NAVER_AUDIENCE;
-        this.KAKAO_AUDIENCE = KAKAO_AUDIENCE;
-        this.BOOTME_SECRET = BOOTME_SECRET;
-        this.NAVER_SECRET = NAVER_SECRET;
     }
 
     public void validateLogin(AuthInfo authInfo) {
@@ -154,13 +117,13 @@ public class AuthService {
     private String verifyIssuer(JwtVo.Body body) {
         final String iss = body.getIss();
 
-        if (Objects.equals(iss, BOOTME_ISSUER)) {
+        if (Objects.equals(iss, awsSecrets.getBootmeIssuer())) {
             return BOOTME;
-        } else if (Objects.equals(iss, GOOGLE_ISSUER)) {
+        } else if (Objects.equals(iss, awsSecrets.getGoogleIssuer())) {
             return GOOGLE;
-        } else if (Objects.equals(iss, NAVER_ISSUER)) {
+        } else if (Objects.equals(iss, awsSecrets.getNaverIssuer())) {
             return NAVER;
-        } else if (Objects.equals(iss, KAKAO_ISSUER)) {
+        } else if (Objects.equals(iss, awsSecrets.getKakaoIssuer())) {
             return KAKAO;
         }
         throw new AuthenticationException(INVALID_ISSUER, iss);
@@ -170,16 +133,16 @@ public class AuthService {
         String expectedAud = null;
         switch (issuer) {
             case BOOTME:
-                expectedAud = BOOTME_AUDIENCE;
+                expectedAud = awsSecrets.getBootmeAudience();
                 break;
             case GOOGLE:
-                expectedAud = GOOGLE_AUDIENCE;
+                expectedAud = awsSecrets.getGoogleAudience();
                 break;
             case NAVER:
-                expectedAud = NAVER_AUDIENCE;
+                expectedAud = awsSecrets.getNaverAudience();
                 break;
             case KAKAO:
-                expectedAud = KAKAO_AUDIENCE;
+                expectedAud = awsSecrets.getKakaoAudience();
                 break;
             default:
                 break;
@@ -213,13 +176,13 @@ public class AuthService {
     private void verifySignature(String jwt, String issuer) {
         switch (issuer) {
             case BOOTME:
-                verifyBootmeSignature(jwt, BOOTME_SECRET);
+                verifyBootmeSignature(jwt, awsSecrets.getBootmeSigningKey());
                 break;
             case GOOGLE:
                 verifyGoogleSignature(jwt);
                 break;
             case NAVER:
-                verifyNaverSignature(jwt, NAVER_SECRET);
+                verifyNaverSignature(jwt, awsSecrets.getNaverSigningKey());
                 break;
             case KAKAO:
                 verifyKakaoSignature(jwt);
@@ -243,7 +206,7 @@ public class AuthService {
 
     private void verifyGoogleSignature(String idToken) {
         // Signature 정상이면 ID Token 반환, 비정상이면 null 반환함
-        GoogleIdToken returnedIdToken = verifyGoogleIdToken(GOOGLE_AUDIENCE, idToken);
+        GoogleIdToken returnedIdToken = verifyGoogleIdToken(awsSecrets.getGoogleAudience(), idToken);
 
         if (returnedIdToken == null) {
             throw new AuthenticationException(INVALID_SIGNATURE);
@@ -344,18 +307,8 @@ public class AuthService {
         }
     }
 
-
     public AwsSecrets getAwsSecrets() {
-        String secretString = secretCache.getSecretString("/bootme/springboot");
-        ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, String> secretMap = new ConcurrentHashMap<>();
-        try {
-            secretMap = objectMapper.readValue(secretString, new TypeReference<>() {
-            });
-        } catch (JsonProcessingException e) {
-            throw new SerializationException(JSON_PROCESSING_FAIL, secretMap.toString(), e);
-        }
-        return AwsSecrets.of(secretMap);
+        return awsSecrets;
     }
 
 }
