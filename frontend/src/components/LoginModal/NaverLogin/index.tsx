@@ -4,13 +4,14 @@ import * as jose from 'jose';
 import { useLogin } from '../../../hooks/useLogin';
 import { useSecret } from '../../../hooks/useSecret';
 import { NAVER } from '../../../constants/others';
+import PATH from '../../../constants/path';
 
 const { naver } = window;
 
 export const NaverLoginButton = () => {
   const { secrets } = useSecret();
-  const CLIENT_ID = secrets['naver-client-id'];
-  const REDIRECT_URL = process.env.CLIENT_URL + 'oauth/naver';
+  const CLIENT_ID = secrets?.['naverClientId'];
+  const REDIRECT_URL = process.env.CLIENT_URL + PATH.OAUTH.NAVER;
   const naverLogin = new naver.LoginWithNaverId({
     clientId: CLIENT_ID,
     callbackUrl: REDIRECT_URL,
@@ -41,8 +42,8 @@ export const NaverLoginButton = () => {
 export const NaverLoginRedirect = () => {
   const { sendIdTokenToServer, handleLoginSuccess } = useLogin();
   const { secrets } = useSecret();
-  const CLIENT_ID = secrets['naver-client-id'];
-  const REDIRECT_URL = process.env.CLIENT_URL + 'oauth/naver';
+  const CLIENT_ID = secrets?.['naverClientId'];
+  const REDIRECT_URL = process.env.CLIENT_URL + PATH.OAUTH.NAVER;
 
   const naverLogin = new naver.LoginWithNaverId({
     clientId: CLIENT_ID,
@@ -52,9 +53,9 @@ export const NaverLoginRedirect = () => {
   });
 
   const generateIdToken = async (naverLogin: naverTokenTypes) => {
-    const ISSUER = secrets['naver-issuer'];
-    const AUDIENCE = secrets['naver-audience'];
-    const SIGNING_KEY = secrets['naver-signing-key'];
+    const ISSUER = secrets?.['naverIssuer'];
+    const AUDIENCE = secrets?.['naverAudience'];
+    const SIGNING_KEY = secrets?.['naverSigningKey'];
     const signingKey = new TextEncoder().encode(SIGNING_KEY);
 
     const alg = 'HS256';
@@ -74,8 +75,8 @@ export const NaverLoginRedirect = () => {
       .setProtectedHeader({ alg, typ })
       .setIssuedAt()
       .setExpirationTime(naverLogin.accessToken.expires)
-      .setIssuer(ISSUER)
-      .setAudience(AUDIENCE)
+      .setIssuer(ISSUER as string)
+      .setAudience(AUDIENCE as string)
       .sign(signingKey);
   };
 
@@ -105,7 +106,7 @@ export const NaverLoginRedirect = () => {
         });
       }
     });
-  }, [secrets]);
+  }, []);
 
   return <></>;
 };

@@ -11,7 +11,7 @@ const ShareButton = ({ course }: { course: Course | undefined }) => {
   const { showSnackbar } = useSnackbar();
   const [currentUrl, setCurrentUrl] = useState<string>();
   const { secrets } = useSecret();
-  const KAKAO_KEY = secrets['kakao-javascript-key'];
+  const KAKAO_KEY = secrets?.['kakaoJavascriptKey'];
   const [visible, setVisible] = useState(false);
 
   const handleVisibleChange = () => {

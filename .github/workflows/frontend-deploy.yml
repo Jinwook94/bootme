@@ -21,14 +21,11 @@ jobs:
         uses: actions/checkout@v3
 
       # 소스 코드의 string 을 깃허브 리포지토리 시크릿에 저장된 값으로 교체
-      #   aws-sdk 자격증명을 위한 시크릿: IAM 사용자 aws_sdk_credentials_client-secrets-manager 엑세스 키, 시크릿 키 사용
-      #   구글 클라이언트 아이디는 동시성 문제로 AWS Secrets Manager 값을 사용하지 않고 리포지토리 시크릿에 값을 저장하여 교체함
-      #     src/index.tsx 에서는 동시성 문제로 useSecret 의 시크릿 값을 사용하기 번거로워서 사용하지 않고 리포지토리 시크릿을 사용함
       - name: Replace secrets
         run: |
-          sed -i "s/AWS_SDK_CREDENTIAL_ACCESS_KEY/${{ secrets.AWS_SDK_CREDENTIAL_ACCESS_KEY }}/g" ./src/hooks/useSecret.tsx
-          sed -i "s/AWS_SDK_CREDENTIAL_SECRET_KEY/${{ secrets.AWS_SDK_CREDENTIAL_SECRET_KEY }}/g" ./src/hooks/useSecret.tsx
-          sed -i "s/GOOGLE_CLIENT_ID/${{ secrets.GOOGLE_CLIENT_ID }}/g" ./src/index.tsx
+          sed -i "s/BOOTME_ISSUER/${{ secrets.BOOTME_ISSUER }}/g" ./src/hooks/useSecret.tsx
+          sed -i "s/BOOTME_AUDIENCE/${{ secrets.BOOTME_AUDIENCE }}/g" ./src/hooks/useSecret.tsx
+          sed -i "s/BOOTME_SIGNING_KEY/${{ secrets.BOOTME_SIGNING_KEY }}/g" ./src/hooks/useSecret.tsx
 
       - name: Install dependencies and Build
         run: |

@@ -27,9 +27,9 @@ const useWebhook = (): useWebhookProps => {
   };
 
   function generateJwt() {
-    const ISSUER = secrets['webhook-issuer'];
-    const AUDIENCE = secrets['webhook-audience'];
-    const SIGNING_KEY = secrets['webhook-signing-key'];
+    const ISSUER = secrets?.['bootmeIssuer'];
+    const AUDIENCE = secrets?.['bootmeAudience'];
+    const SIGNING_KEY = secrets?.['bootmeSigningKey'];
     const alg = 'HS256';
     const typ = 'JWT';
     const signingKey = new TextEncoder().encode(SIGNING_KEY);
@@ -38,8 +38,8 @@ const useWebhook = (): useWebhookProps => {
       .setProtectedHeader({ alg, typ })
       .setIssuedAt()
       .setExpirationTime('5m')
-      .setIssuer(ISSUER)
-      .setAudience(AUDIENCE)
+      .setIssuer(ISSUER as string)
+      .setAudience(AUDIENCE as string)
       .sign(signingKey);
   }
 

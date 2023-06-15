@@ -1,69 +1,84 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { GetSecretValueCommand, SecretsManagerClient } from '@aws-sdk/client-secrets-manager';
+import React, { createContext, useCallback, useContext, useState } from 'react';
+import { fetcher } from '../api/fetcher';
+import * as jose from 'jose';
 
 const SecretContext = createContext<SecretContextProps>({
-  secrets: {},
+  secrets: undefined,
+  fetchSecrets: async () => ({} as SecretsResponse),
 });
 
 export const SecretProvider = ({ children }: SecretProviderProps) => {
-  const [secrets, setSecrets] = useState<{ [key: string]: string }>({});
-  const [secretName] = useState<string>('prod/React');
-  const [accessKey] = useState<string>('AWS_SDK_CREDENTIAL_ACCESS_KEY');
-  const [secretKey] = useState<string>('AWS_SDK_CREDENTIAL_SECRET_KEY');
+  const [secrets, setSecrets] = useState<SecretsResponse>();
 
-  /**
-   * aws-sdk 자격 증명 IAM 사용자: aws_sdk_credentials_client-secrets-manager
-   *  해당 IAM 사용자의 액세스 키, 시크릿 키를 통해 aws-sdk 자격 증명 진행
-   */
-  const client = new SecretsManagerClient({
-    region: 'ap-northeast-2',
-    credentials: {
-      accessKeyId: accessKey,
-      secretAccessKey: secretKey,
-    },
-  });
-
-  /**
-   * AWS Secrets Manager 에 key-value 로 저장된 시크릿들을 가져와 객체에 저장
-   */
-  const saveAwsSecretsToObject = async () => {
-    try {
-      const response = await client.send(
-        new GetSecretValueCommand({
-          SecretId: secretName,
-          VersionStage: 'AWSCURRENT',
-        })
-      );
-      const secrets = JSON.parse(response.SecretString as string);
-      setSecrets(secrets);
-    } catch (error) {
-      // For a list of exceptions thrown, see
-      // https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    saveAwsSecretsToObject().catch(error => console.log(error));
+  const fetchSecrets = useCallback(async () => {
+    const jwt = await generateJwt();
+    const response = await fetcher.get<SecretsResponse>('secrets', {
+      headers: {
+        Bootme_Secret: 'Bearer ' + jwt,
+      },
+    });
+    setSecrets(response.data);
+    return response.data;
   }, []);
 
   return (
     <SecretContext.Provider
       value={{
         secrets,
+        fetchSecrets,
       }}
     >
       {children}
     </SecretContext.Provider>
   );
+
+  function generateJwt() {
+    const alg = 'HS256';
+    const typ = 'JWT';
+
+    // workflow 빌드 중 깃허브 리포지토리 시크릿으로 교체 (frontend-deploy.yml)
+    const issuer = 'BOOTME_ISSUER';
+    const audience = 'BOOTME_AUDIENCE';
+    const signingKEy = 'BOOTME_SIGNING_KEY';
+    const encodedKey = new TextEncoder().encode(signingKEy);
+
+    return new jose.SignJWT({})
+      .setProtectedHeader({ alg, typ })
+      .setIssuedAt()
+      .setExpirationTime('5m')
+      .setIssuer(issuer)
+      .setAudience(audience)
+      .sign(encodedKey);
+  }
 };
 
 export const useSecret = () => useContext(SecretContext);
 
 interface SecretContextProps {
-  secrets: { [key: string]: string };
+  secrets: SecretsResponse | undefined;
+  fetchSecrets: () => Promise<SecretsResponse>;
 }
 
 interface SecretProviderProps {
   children: React.ReactNode;
+}
+
+interface SecretsResponse {
+  apiUrl: string;
+  googleClientId: string;
+  googleIssuer: string;
+  googleAudience: string;
+  naverClientId: string;
+  naverClientSecret: string;
+  naverIssuer: string;
+  naverAudience: string;
+  naverSigningKey: string;
+  kakaoRestApiKey: string;
+  kakaoClientSecret: string;
+  kakaoIssuer: string;
+  kakaoAudience: string;
+  kakaoJavascriptKey: string;
+  bootmeIssuer: string;
+  bootmeAudience: string;
+  bootmeSigningKey: string;
 }

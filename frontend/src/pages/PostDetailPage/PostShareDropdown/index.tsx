@@ -19,7 +19,7 @@ export const PostShareButtonInPostDetailPageDeskTop = ({ post }: { post: PostDet
   const { showSnackbar } = useSnackbar();
   const [currentUrl, setCurrentUrl] = useState<string>();
   const { secrets } = useSecret();
-  const KAKAO_KEY = secrets['kakao-javascript-key'];
+  const KAKAO_KEY = secrets?.['kakaoJavascriptKey'];
   const [visible, setVisible] = useState(false);
   const [postImage, setPostImage] = useState<string>();
 
@@ -116,7 +116,7 @@ export const PostShareButtonInPostDetailPageMobile = ({ post }: { post: PostDeta
   const { showSnackbar } = useSnackbar();
   const [currentUrl, setCurrentUrl] = useState<string>();
   const { secrets } = useSecret();
-  const KAKAO_KEY = secrets['kakao-javascript-key'];
+  const KAKAO_KEY = secrets?.['kakaoJavascriptKey'];
   const [visible, setVisible] = useState(false);
   const [postImage, setPostImage] = useState<string>();
 
@@ -219,7 +219,7 @@ export const PostShareButtonInPostCardDesktop = ({
   const { showSnackbar } = useSnackbar();
   const [currentUrl, setCurrentUrl] = useState<string>();
   const { secrets } = useSecret();
-  const KAKAO_KEY = secrets['kakao-javascript-key'];
+  const KAKAO_KEY = secrets?.['kakaoJavascriptKey'];
   const [visible, setVisible] = useState(false);
   const [postImage, setPostImage] = useState<string>();
 
@@ -337,7 +337,7 @@ export const PostShareButtonInPostCardMobile = ({
   const { showSnackbar } = useSnackbar();
   const [currentUrl, setCurrentUrl] = useState<string>();
   const { secrets } = useSecret();
-  const KAKAO_KEY = secrets['kakao-javascript-key'];
+  const KAKAO_KEY = secrets?.['kakaoJavascriptKey'];
   const [visible, setVisible] = useState(false);
   const [postImage, setPostImage] = useState<string>();
 

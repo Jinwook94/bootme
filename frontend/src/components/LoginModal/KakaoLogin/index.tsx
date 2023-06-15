@@ -5,11 +5,12 @@ import { useLogin } from '../../../hooks/useLogin';
 import { noCredentialsFetcher } from '../../../api/fetcher';
 import { useSecret } from '../../../hooks/useSecret';
 import { KAKAO } from '../../../constants/others';
+import PATH from '../../../constants/path';
 
 export const KakaoLoginButton = () => {
   const { secrets } = useSecret();
-  const REST_API_KEY = secrets['kakao-rest-api-key'];
-  const REDIRECT_URL = process.env.CLIENT_URL + 'oauth/kakao';
+  const REST_API_KEY = secrets?.['kakaoRestApiKey'];
+  const REDIRECT_URL = process.env.CLIENT_URL + PATH.OAUTH.KAKAO;
   const KAKAO_OAUTH_ACCESS_TOKEN_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URL}&response_type=code`;
 
   return (
@@ -21,10 +22,10 @@ export const KakaoLoginButton = () => {
 
 export const KakaoLoginRedirect = () => {
   const { secrets } = useSecret();
-  const REST_API_KEY = secrets['kakao-rest-api-key'];
-  const REDIRECT_URL = process.env.CLIENT_URL + 'oauth/kakao';
+  const REST_API_KEY = secrets?.['kakaoRestApiKey'];
+  const REDIRECT_URL = process.env.CLIENT_URL + PATH.OAUTH.KAKAO;
   const KAKAO_OAUTH_ID_TOKEN_URL = 'https://kauth.kakao.com/oauth/token';
-  const CLIENT_SECRET = secrets['kakao-client-secret'];
+  const CLIENT_SECRET = secrets?.['kakaoClientSecret'];
 
   const sendAccessTokenToKakao = async () => {
     const code = new URL(window.location.href).searchParams.get('code');
@@ -66,7 +67,7 @@ export const KakaoLoginRedirect = () => {
         handleLoginSuccess(KAKAO);
       })
     );
-  }, [secrets]);
+  }, []);
 
   return <></>;
 };

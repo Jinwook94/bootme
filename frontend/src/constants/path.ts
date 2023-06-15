@@ -12,8 +12,8 @@ const PATH = {
     SEARCH: '/post/search',
   },
   OAUTH: {
-    NAVER: '/oauth/naver',
-    KAKAO: '/oauth/kakao',
+    NAVER: 'oauth/naver',
+    KAKAO: 'oauth/kakao',
   },
   BOOKMARKS: '/bookmarks',
   PARTNER: '/partner',

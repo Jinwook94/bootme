@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import { RecoilRoot } from 'recoil';
@@ -14,34 +15,56 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import { LoginProvider } from './hooks/useLogin';
 import { NotificationProvider } from './hooks/useNotification';
 import { SnackbarProvider } from './hooks/useSnackbar';
-import { SecretProvider } from './hooks/useSecret';
+import { SecretProvider, useSecret } from './hooks/useSecret';
 import { ProviderBuilder } from './utils/ProviderBuilder';
 import { NavigationProvider } from './hooks/useNavigation';
 
 const rootElement = document.getElementById('root') as Element;
 
-const ProviderWrappedApp = new ProviderBuilder(() => <App />)
-  .wrap(QueryClientProvider, { client: new QueryClient() })
-  .wrap(PostProvider)
-  .wrap(PostFilterProvider)
-  .wrap(CourseProvider)
-  .wrap(CourseFilterProvider)
-  .wrap(BookmarkProvider)
-  .wrap(GoogleOAuthProvider, { clientId: 'GOOGLE_CLIENT_ID' })
-  .wrap(LoginProvider)
-  .wrap(NotificationProvider)
-  .wrap(SnackbarProvider)
-  .wrap(SecretProvider)
-  .wrap(NavigationProvider)
-  .build();
+const BootstrapApp = () => {
+  const { secrets, fetchSecrets } = useSecret();
+  const [isSecretsFetched, setSecretsFetched] = useState(false);
+
+  useEffect(() => {
+    const loadSecrets = async () => {
+      await fetchSecrets();
+      setSecretsFetched(true);
+    };
+    loadSecrets();
+  }, [fetchSecrets]);
+
+  if (!isSecretsFetched) {
+    return null;
+  }
+
+  const ProviderWrappedApp = new ProviderBuilder(() => <App />)
+    .wrap(QueryClientProvider, { client: new QueryClient() })
+    .wrap(PostProvider)
+    .wrap(PostFilterProvider)
+    .wrap(CourseProvider)
+    .wrap(CourseFilterProvider)
+    .wrap(BookmarkProvider)
+    .wrap(GoogleOAuthProvider, { clientId: secrets?.['googleClientId'] as string })
+    .wrap(LoginProvider)
+    .wrap(NotificationProvider)
+    .wrap(SnackbarProvider)
+    .wrap(NavigationProvider)
+    .build();
+
+  return (
+    <RecoilRoot>
+      <BrowserRouter>
+        <ThemeProvider theme={theme}>
+          <GlobalStyle />
+          <ProviderWrappedApp />
+        </ThemeProvider>
+      </BrowserRouter>
+    </RecoilRoot>
+  );
+};
 
 ReactDOM.createRoot(rootElement).render(
-  <RecoilRoot>
-    <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        <ProviderWrappedApp />
-      </ThemeProvider>
-    </BrowserRouter>
-  </RecoilRoot>
+  <SecretProvider>
+    <BootstrapApp />
+  </SecretProvider>
 );
