@@ -1,10 +1,12 @@
 package com.bootme.auth.controller;
 
+import com.bootme.auth.dto.SecretResponse;
 import com.bootme.auth.service.AuthService;
 import com.bootme.auth.token.TokenProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,4 +46,11 @@ public class AuthController {
         response.addHeader(HttpHeaders.SET_COOKIE, "refreshToken=; Max-Age=0; Domain=" + domain + ";");
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/secrets")
+    public ResponseEntity<SecretResponse> getSecrets() {
+        SecretResponse secretResponse = authService.getAwsSecrets();
+        return ResponseEntity.ok(secretResponse);
+    }
+
 }
