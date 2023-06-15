@@ -1,7 +1,7 @@
 package com.bootme.util;
 
 import com.bootme.auth.service.AuthService;
-import com.bootme.auth.utils.TokenProvider;
+import com.bootme.auth.token.TokenProvider;
 import com.bootme.common.interceptor.TokenValidationInterceptor;
 import com.bootme.course.service.CompanyService;
 import com.bootme.course.service.CourseService;

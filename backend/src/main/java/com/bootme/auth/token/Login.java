@@ -1,11 +1,11 @@
-package com.bootme.auth.utils;
+package com.bootme.auth.token;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.METHOD)
+@Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface IPFiltering {
+public @interface Login {
 }

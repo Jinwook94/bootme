@@ -1,4 +1,4 @@
-package com.bootme.auth.utils;
+package com.bootme.auth.token;
 
 import org.junit.jupiter.api.DisplayName;
 import org.springframework.beans.factory.annotation.Autowired;

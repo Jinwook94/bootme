@@ -1,9 +1,7 @@
 package com.bootme.config;
 
-import com.bootme.auth.utils.AuthenticationArgumentResolver;
+import com.bootme.auth.token.AuthenticationArgumentResolver;
 import com.bootme.common.interceptor.TokenValidationInterceptor;
-import com.bootme.common.interceptor.IPFilter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -18,24 +16,21 @@ public class WebMvcConfig implements WebMvcConfigurer {
     private static final String ALLOWED_METHOD_NAMES = "GET,HEAD,POST,DELETE,TRACE,OPTIONS,PATCH,PUT";
 
     private final TokenValidationInterceptor tokenValidationInterceptor;
-    private final IPFilter ipFilter;
     private final AuthenticationArgumentResolver authenticationArgumentResolver;
-    private final String[] allowedOrigins;
 
     public WebMvcConfig(TokenValidationInterceptor tokenValidationInterceptor,
-                        IPFilter ipFilter,
-                        AuthenticationArgumentResolver authenticationArgumentResolver,
-                        @Value("${allowed-origins}") String allowedOrigins) {
+                        AuthenticationArgumentResolver authenticationArgumentResolver) {
         this.tokenValidationInterceptor = tokenValidationInterceptor;
-        this.ipFilter = ipFilter;
         this.authenticationArgumentResolver = authenticationArgumentResolver;
-        this.allowedOrigins = allowedOrigins.split(",");
     }
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins(allowedOrigins)
+                .allowedOrigins("http://localhost:3000",
+                                "http://localhost:3001",
+                                "https://bootme.co.kr",
+                                "https://www.bootme.co.kr")
                 .allowedMethods(ALLOWED_METHOD_NAMES.split(","))
                 .allowedHeaders("*")
                 .allowCredentials(true)
@@ -49,7 +44,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/login")
                 .excludePathPatterns("/logout")
                 .excludePathPatterns("/docs/**");
-        registry.addInterceptor(ipFilter);
     }
 
     @Override
