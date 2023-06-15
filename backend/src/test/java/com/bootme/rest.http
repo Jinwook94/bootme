@@ -1,3 +1,10 @@
+### 시크릿
+GET localhost:8080/secrets HTTP/1.1
+Bootme_secret: Bearer bootme-client-generated-jwt
+Origin: https://bootme.co.kr
+Accept: application/json
+Host: api.bootMe.app
+
 ### 로그인
 POST localhost:8080/login HTTP/1.1
 Authorization: Bearer accessToken

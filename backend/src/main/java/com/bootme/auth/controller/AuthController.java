@@ -2,6 +2,7 @@ package com.bootme.auth.controller;
 
 import com.bootme.auth.dto.SecretResponse;
 import com.bootme.auth.service.AuthService;
+import com.bootme.auth.util.IPFilter;
 import com.bootme.auth.util.TokenProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -47,6 +48,7 @@ public class AuthController {
         return ResponseEntity.noContent().build();
     }
 
+    @IPFilter
     @GetMapping("/secrets")
     public ResponseEntity<SecretResponse> getSecrets(@RequestHeader(name = "Bootme_Secret") String secret,
                                                      @RequestHeader(value = "Origin", required = false) String origin) {
