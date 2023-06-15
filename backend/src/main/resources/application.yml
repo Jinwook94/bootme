@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: prod
+    active: dev
   servlet:
     multipart:
       max-file-size: 10MB
@@ -9,3 +9,6 @@ spring:
 jasypt:
   encryptor:
     password: encryptKey
+
+allowed-origins: http://localhost:3000,http://localhost:3001,https://bootme.co.kr,https://www.bootme.co.kr
+allowed-ips: ENC(MwT3n0qoybLgG3wfWhq1/C4qT0zRRaY5g31Fg7ltpqulNdnF8ttUKA==)

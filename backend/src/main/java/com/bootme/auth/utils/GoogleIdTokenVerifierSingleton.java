@@ -1,4 +1,4 @@
-package com.bootme.auth.token;
+package com.bootme.auth.utils;
 
 import com.bootme.common.exception.AuthenticationException;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;

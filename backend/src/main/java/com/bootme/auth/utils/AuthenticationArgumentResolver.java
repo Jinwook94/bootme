@@ -1,4 +1,4 @@
-package com.bootme.auth.token;
+package com.bootme.auth.utils;
 
 import com.bootme.auth.dto.AuthInfo;
 import lombok.RequiredArgsConstructor;
