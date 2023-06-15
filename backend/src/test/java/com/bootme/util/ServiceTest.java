@@ -1,6 +1,5 @@
 package com.bootme.util;
 
-import com.bootme.auth.dto.AwsSecrets;
 import com.bootme.auth.service.AuthService;
 import com.bootme.auth.utils.TokenProvider;
 import com.bootme.common.interceptor.TokenValidationInterceptor;
@@ -17,9 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest
 @Transactional
 public abstract class ServiceTest {
-
-    @Autowired
-    protected AwsSecrets awsSecrets;
 
     @Autowired
     protected TokenProvider tokenProvider;

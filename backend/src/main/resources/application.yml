@@ -12,3 +12,16 @@ jasypt:
 
 allowed-origins: http://localhost:3000,http://localhost:3001,https://bootme.co.kr,https://www.bootme.co.kr
 allowed-ips: ENC(nbcm5j30lelbJkCZkAUxhyeIKaSfynmWWz5QZ5j4qap3jkHlZHFwurEsapQKsKTZeqrF+W40Qh0=)
+
+cloud:
+  aws:
+    s3:
+      bucket: ENC(b8OwZ5ju4SzcnOBO92RwpWJwFe7nfdN6)
+    credentials:
+      access-key: ENC(RM8AwILkMuVugGjAJtvujOr1ylV6Mdy0Jv4Uy+JC9LY=)
+      secret-key: ENC(FwRUm7TtrRvWpP7scHyP1izYLamurX4cOKkJtEW987Y4SgIkX0ApDQFAR76Oqcu0onzddtSDk8Q=)
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
