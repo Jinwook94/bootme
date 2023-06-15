@@ -1,5 +1,5 @@
 const Test = () => {
-  return <> 테스트 </>;
+  return <> Test </>;
 };
 
 export default Test;
