@@ -6,10 +6,12 @@ import lombok.Getter;
 import java.util.Map;
 
 @Getter
-public class SecretResponse {
+public class AwsSecrets {
 
     private String apiUrl;
     private String googleClientId;
+    private String googleIssuer;
+    private String googleAudience;
     private String naverClientId;
     private String naverClientSecret;
     private String naverIssuer;
@@ -17,21 +19,24 @@ public class SecretResponse {
     private String naverSigningKey;
     private String kakaoRestApiKey;
     private String kakaoClientSecret;
-    private String webhookIssuer;
-    private String webhookAudience;
-    private String webhookSigningKey;
+    private String kakaoIssuer;
+    private String kakaoAudience;
     private String kakaoJavascriptKey;
+    private String bootmeIssuer;
+    private String bootmeAudience;
+    private String bootmeSigningKey;
 
-    public SecretResponse() {
+    public AwsSecrets() {
     }
 
     @Builder
-    public SecretResponse(String apiUrl, String googleClientId, String naverClientId, String naverClientSecret,
-                          String naverIssuer, String naverAudience, String naverSigningKey, String kakaoRestApiKey,
-                          String kakaoClientSecret, String webhookIssuer, String webhookAudience, String webhookSigningKey,
-                          String kakaoJavascriptKey) {
+    public AwsSecrets(String apiUrl, String googleClientId, String googleIssuer, String googleAudience, String naverClientId, String naverClientSecret,
+                      String naverIssuer, String naverAudience, String naverSigningKey, String kakaoRestApiKey, String kakaoClientSecret,
+                      String kakaoIssuer, String kakaoAudience, String kakaoJavascriptKey, String bootmeIssuer, String bootmeAudience, String bootmeSigningKey) {
         this.apiUrl = apiUrl;
         this.googleClientId = googleClientId;
+        this.googleIssuer = googleIssuer;
+        this.googleAudience = googleAudience;
         this.naverClientId = naverClientId;
         this.naverClientSecret = naverClientSecret;
         this.naverIssuer = naverIssuer;
@@ -39,16 +44,20 @@ public class SecretResponse {
         this.naverSigningKey = naverSigningKey;
         this.kakaoRestApiKey = kakaoRestApiKey;
         this.kakaoClientSecret = kakaoClientSecret;
-        this.webhookIssuer = webhookIssuer;
-        this.webhookAudience = webhookAudience;
-        this.webhookSigningKey = webhookSigningKey;
+        this.kakaoIssuer = kakaoIssuer;
+        this.kakaoAudience = kakaoAudience;
         this.kakaoJavascriptKey = kakaoJavascriptKey;
+        this.bootmeIssuer = bootmeIssuer;
+        this.bootmeAudience = bootmeAudience;
+        this.bootmeSigningKey = bootmeSigningKey;
     }
 
-    public static SecretResponse of(Map<String, String> secrets) {
-        return SecretResponse.builder()
+    public static AwsSecrets of(Map<String, String> secrets) {
+        return AwsSecrets.builder()
                 .apiUrl(secrets.get("api-url"))
                 .googleClientId(secrets.get("google-client-id"))
+                .googleIssuer(secrets.get("google-issuer"))
+                .googleAudience(secrets.get("google-audience"))
                 .naverClientId(secrets.get("naver-client-id"))
                 .naverClientSecret(secrets.get("naver-client-secret"))
                 .naverIssuer(secrets.get("naver-issuer"))
@@ -56,10 +65,12 @@ public class SecretResponse {
                 .naverSigningKey(secrets.get("naver-signing-key"))
                 .kakaoRestApiKey(secrets.get("kakao-rest-api-key"))
                 .kakaoClientSecret(secrets.get("kakao-client-secret"))
-                .webhookIssuer(secrets.get("webhook-issuer"))
-                .webhookAudience(secrets.get("webhook-audience"))
-                .webhookSigningKey(secrets.get("webhook-signing-key"))
+                .kakaoIssuer(secrets.get("kakao-issuer"))
+                .kakaoAudience(secrets.get("kakao-audience"))
                 .kakaoJavascriptKey(secrets.get("kakao-javascript-key"))
+                .bootmeIssuer(secrets.get("bootme-issuer"))
+                .bootmeAudience(secrets.get("bootme-audience"))
+                .bootmeSigningKey(secrets.get("bootme-signing-key"))
                 .build();
     }
 

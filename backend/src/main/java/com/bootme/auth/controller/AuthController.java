@@ -1,6 +1,6 @@
 package com.bootme.auth.controller;
 
-import com.bootme.auth.dto.SecretResponse;
+import com.bootme.auth.dto.AwsSecrets;
 import com.bootme.auth.service.AuthService;
 import com.bootme.auth.util.IPFilter;
 import com.bootme.auth.util.TokenProvider;
@@ -50,11 +50,11 @@ public class AuthController {
 
     @IPFilter
     @GetMapping("/secrets")
-    public ResponseEntity<SecretResponse> getSecrets(@RequestHeader(name = "Bootme_Secret") String secret,
-                                                     @RequestHeader(value = "Origin", required = false) String origin) {
+    public ResponseEntity<AwsSecrets> getSecrets(@RequestHeader(name = "Bootme_Secret") String secret,
+                                                 @RequestHeader(value = "Origin", required = false) String origin) {
         authService.verifySecretRequest(secret, origin);
-        SecretResponse secretResponse = authService.getAwsSecrets();
-        return ResponseEntity.ok(secretResponse);
+        AwsSecrets awsSecrets = authService.getAwsSecrets();
+        return ResponseEntity.ok(awsSecrets);
     }
 
 }

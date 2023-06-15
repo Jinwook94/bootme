@@ -9,7 +9,7 @@ import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.bootme.auth.dto.AuthInfo;
 import com.bootme.auth.dto.JwtVo;
-import com.bootme.auth.dto.SecretResponse;
+import com.bootme.auth.dto.AwsSecrets;
 import com.bootme.auth.util.JwkProviderSingleton;
 import com.bootme.common.exception.AccessDeniedException;
 import com.bootme.common.exception.AuthenticationException;
@@ -345,7 +345,7 @@ public class AuthService {
     }
 
 
-    public SecretResponse getAwsSecrets() {
+    public AwsSecrets getAwsSecrets() {
         String secretString = secretCache.getSecretString("/bootme/springboot");
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, String> secretMap = new ConcurrentHashMap<>();
@@ -355,7 +355,7 @@ public class AuthService {
         } catch (JsonProcessingException e) {
             throw new SerializationException(JSON_PROCESSING_FAIL, secretMap.toString(), e);
         }
-        return SecretResponse.of(secretMap);
+        return AwsSecrets.of(secretMap);
     }
 
 }
