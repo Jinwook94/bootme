@@ -1,6 +1,6 @@
 package com.bootme.config;
 
-import com.bootme.auth.token.AuthenticationArgumentResolver;
+import com.bootme.auth.util.AuthenticationArgumentResolver;
 import com.bootme.common.interceptor.TokenValidationInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;

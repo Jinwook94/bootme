@@ -1,4 +1,4 @@
-package com.bootme.auth.token;
+package com.bootme.auth.util;
 
 import com.bootme.auth.dto.AuthInfo;
 import com.bootme.member.domain.Member;

@@ -1,7 +1,7 @@
 package com.bootme.common.interceptor;
 
 import com.bootme.auth.service.AuthService;
-import com.bootme.auth.token.TokenProvider;
+import com.bootme.auth.util.TokenProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;

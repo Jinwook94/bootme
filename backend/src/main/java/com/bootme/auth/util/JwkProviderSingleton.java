@@ -1,4 +1,4 @@
-package com.bootme.auth.token;
+package com.bootme.auth.util;
 
 import com.auth0.jwk.JwkProvider;
 import com.auth0.jwk.JwkProviderBuilder;
@@ -9,6 +9,8 @@ import java.util.concurrent.TimeUnit;
 public class JwkProviderSingleton {
 
     private static JwkProvider instance;
+
+    private JwkProviderSingleton() {}
 
     public static synchronized JwkProvider getInstance() {
         if (instance == null) {

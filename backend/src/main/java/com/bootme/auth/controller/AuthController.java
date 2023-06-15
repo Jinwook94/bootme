@@ -2,7 +2,7 @@ package com.bootme.auth.controller;
 
 import com.bootme.auth.dto.SecretResponse;
 import com.bootme.auth.service.AuthService;
-import com.bootme.auth.token.TokenProvider;
+import com.bootme.auth.util.TokenProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package com.bootme.auth.token;
+package com.bootme.auth.util;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

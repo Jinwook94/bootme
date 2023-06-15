@@ -1,7 +1,7 @@
 package com.bootme.image.controller;
 
 import com.bootme.auth.dto.AuthInfo;
-import com.bootme.auth.token.Login;
+import com.bootme.auth.util.Login;
 import com.bootme.image.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

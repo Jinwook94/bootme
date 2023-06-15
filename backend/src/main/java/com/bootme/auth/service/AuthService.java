@@ -10,7 +10,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.bootme.auth.dto.AuthInfo;
 import com.bootme.auth.dto.JwtVo;
 import com.bootme.auth.dto.SecretResponse;
-import com.bootme.auth.token.JwkProviderSingleton;
+import com.bootme.auth.util.JwkProviderSingleton;
 import com.bootme.common.exception.AuthenticationException;
 import com.bootme.common.exception.SerializationException;
 import com.bootme.common.exception.TokenParseException;
@@ -36,7 +36,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.bootme.auth.token.GoogleIdTokenVerifierSingleton.verifyGoogleIdToken;
+import static com.bootme.auth.util.GoogleIdTokenVerifierSingleton.verifyGoogleIdToken;
 import static com.bootme.common.exception.ErrorType.*;
 
 
@@ -179,6 +179,8 @@ public class AuthService {
             case KAKAO:
                 expectedAud = KAKAO_AUDIENCE;
                 break;
+            default:
+                break;
         }
         String actualAud = body.getAud();
         if (!Objects.equals(expectedAud, actualAud)) {
@@ -219,6 +221,8 @@ public class AuthService {
                 break;
             case KAKAO:
                 verifyKakaoSignature(jwt);
+                break;
+            default:
                 break;
         }
     }
