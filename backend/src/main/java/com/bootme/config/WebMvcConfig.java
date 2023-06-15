@@ -2,6 +2,7 @@ package com.bootme.config;
 
 import com.bootme.auth.util.AuthenticationArgumentResolver;
 import com.bootme.common.interceptor.TokenValidationInterceptor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -17,20 +18,20 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     private final TokenValidationInterceptor tokenValidationInterceptor;
     private final AuthenticationArgumentResolver authenticationArgumentResolver;
+    private final String[] allowedOrigins;
 
     public WebMvcConfig(TokenValidationInterceptor tokenValidationInterceptor,
-                        AuthenticationArgumentResolver authenticationArgumentResolver) {
+                        AuthenticationArgumentResolver authenticationArgumentResolver,
+                        @Value("${allowed-origins}") String allowedOrigins) {
         this.tokenValidationInterceptor = tokenValidationInterceptor;
         this.authenticationArgumentResolver = authenticationArgumentResolver;
+        this.allowedOrigins = allowedOrigins.split(",");
     }
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000",
-                                "http://localhost:3001",
-                                "https://bootme.co.kr",
-                                "https://www.bootme.co.kr")
+                .allowedOrigins(allowedOrigins)
                 .allowedMethods(ALLOWED_METHOD_NAMES.split(","))
                 .allowedHeaders("*")
                 .allowCredentials(true)

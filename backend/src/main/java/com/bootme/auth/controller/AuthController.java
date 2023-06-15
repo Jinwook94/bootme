@@ -48,7 +48,9 @@ public class AuthController {
     }
 
     @GetMapping("/secrets")
-    public ResponseEntity<SecretResponse> getSecrets() {
+    public ResponseEntity<SecretResponse> getSecrets(@RequestHeader(name = "Bootme_Secret") String secret,
+                                                     @RequestHeader(value = "Origin", required = false) String origin) {
+        authService.verifySecretRequest(secret, origin);
         SecretResponse secretResponse = authService.getAwsSecrets();
         return ResponseEntity.ok(secretResponse);
     }

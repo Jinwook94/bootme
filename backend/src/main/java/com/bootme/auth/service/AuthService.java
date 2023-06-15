@@ -11,6 +11,7 @@ import com.bootme.auth.dto.AuthInfo;
 import com.bootme.auth.dto.JwtVo;
 import com.bootme.auth.dto.SecretResponse;
 import com.bootme.auth.util.JwkProviderSingleton;
+import com.bootme.common.exception.AccessDeniedException;
 import com.bootme.common.exception.AuthenticationException;
 import com.bootme.common.exception.SerializationException;
 import com.bootme.common.exception.TokenParseException;
@@ -31,9 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.security.interfaces.RSAPublicKey;
 import java.time.Instant;
-import java.util.Base64;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static com.bootme.auth.util.GoogleIdTokenVerifierSingleton.verifyGoogleIdToken;
@@ -53,6 +52,7 @@ public class AuthService {
     private final MemberRepository memberRepository;
     private final MemberService memberService;
     private final NotificationService notificationService;
+    private final List<String> allowedOrigins;
     private final String BOOTME_ISSUER;
     private final String GOOGLE_ISSUER;
     private final String NAVER_ISSUER;
@@ -68,6 +68,7 @@ public class AuthService {
                        MemberRepository memberRepository,
                        MemberService memberService,
                        NotificationService notificationService,
+                       @Value("${allowed-origins}") String allowedOriginsString,
                        @Value("${security.jwt.bootme_front.issuer}") String BOOTME_ISSUER,
                        @Value("${security.jwt.google.issuer}") String GOOGLE_ISSUER,
                        @Value("${security.jwt.naver.issuer}") String NAVER_ISSUER,
@@ -82,6 +83,7 @@ public class AuthService {
         this.memberRepository = memberRepository;
         this.memberService = memberService;
         this.notificationService = notificationService;
+        this.allowedOrigins = Arrays.asList(allowedOriginsString.split(","));
         this.BOOTME_ISSUER = BOOTME_ISSUER;
         this.GOOGLE_ISSUER = GOOGLE_ISSUER;
         this.NAVER_ISSUER = NAVER_ISSUER;
@@ -326,6 +328,22 @@ public class AuthService {
         String email = jwtVo.getBody().getEmail();
         return memberRepository.existsMemberByEmail(email);
     }
+
+    public void verifySecretRequest(String secret, String origin) {
+        String token = getToken(secret);
+        verifyToken(token);
+        verifyOrigin(origin);
+    }
+
+    private void verifyOrigin(String origin) {
+        if (origin == null) {
+            throw new AccessDeniedException(FORBIDDEN_REQUEST);
+        }
+        if (!allowedOrigins.contains(origin)) {
+            throw new AccessDeniedException(FORBIDDEN_REQUEST, "origin=" + origin);
+        }
+    }
+
 
     public SecretResponse getAwsSecrets() {
         String secretString = secretCache.getSecretString("/bootme/springboot");

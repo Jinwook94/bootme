@@ -9,3 +9,5 @@ spring:
 jasypt:
   encryptor:
     password: encryptKey
+
+allowed-origins: http://localhost:3000,http://localhost:3001,https://bootme.co.kr,https://www.bootme.co.kr
