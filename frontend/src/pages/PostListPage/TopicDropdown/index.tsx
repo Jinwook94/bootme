@@ -62,7 +62,7 @@ const TopicDropdown = () => {
   return (
     <Dropdown menu={topicProps} trigger={['click']}>
       <StyledTopicButton>
-        {currentTopic === '전체' ? (
+        {currentTopic === 전체 ? (
           <FontAwesomeIcon icon={faGlobe} />
         ) : currentTopic === 자유 ? (
           <FontAwesomeIcon icon={faComments} />
