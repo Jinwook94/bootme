@@ -85,6 +85,7 @@ export const LoginOptions = styled.div`
 
 export const TermsOfService = styled.div`
   margin-top: 32px;
+  margin-bottom: 32px;
   width: 450px;
   display: block;
 `;
