@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 import { fetcher } from '../api/fetcher';
-import { GOOGLE, NAVER, KAKAO } from '../constants/others';
+import { GOOGLE, KAKAO, NAVER } from '../constants/others';
 import { useSnackbar } from './useSnackbar';
 import SNACKBAR_MESSAGE, { CHECK } from '../constants/snackbar';
 import { useNavigation } from './useNavigation';
@@ -11,6 +11,7 @@ const LoginContext = createContext<LoginContextProps>({
   isLoginModal: false,
   handleLoginModal: () => {},
   sendIdTokenToServer: () => Promise.resolve(),
+  handleNaverLogin: () => Promise.resolve(),
   handleLoginSuccess: () => {},
   handleLogOut: () => {},
 });
@@ -36,16 +37,32 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
         },
       })
       .then(r => {
-        const data = r.data.split(', ');
-        data.forEach((item: string) => {
-          const [key, value] = item.split('=');
-          localStorage.setItem(key, value);
-        });
+        storeUserInfoToLocalStorage(r.data);
       })
       .catch(error => {
         console.log(error);
         return Promise.reject(error);
       });
+  };
+
+  const handleNaverLogin = (naverOauthUrl: string) => {
+    return fetcher
+      .post(`/login/naver`, { url: naverOauthUrl })
+      .then(r => {
+        storeUserInfoToLocalStorage(r.data);
+      })
+      .catch(error => {
+        console.error('네이버 엑세스 토큰 요청 실패', error);
+        throw error;
+      });
+  };
+
+  const storeUserInfoToLocalStorage = (userInfoString: string) => {
+    const userInfo = userInfoString.split(', ');
+    userInfo.forEach((item: string) => {
+      const [key, value] = item.split('=');
+      localStorage.setItem(key, value);
+    });
   };
 
   const handleLoginSuccess = async (oAuthProvider: string) => {
@@ -90,6 +107,7 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
         isLoginModal,
         handleLoginModal,
         sendIdTokenToServer,
+        handleNaverLogin,
         handleLoginSuccess,
         handleLogOut,
       }}
@@ -107,6 +125,7 @@ interface LoginContextProps {
   isLoginModal: boolean;
   handleLoginModal: () => void;
   sendIdTokenToServer: (idToken: string | undefined) => Promise<void>;
+  handleNaverLogin: (naverOauthUrl: string) => Promise<void>;
   handleLoginSuccess: (oAuthProvider: string) => void;
   handleLogOut: () => void;
 }
