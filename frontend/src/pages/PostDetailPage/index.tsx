@@ -75,8 +75,8 @@ const PostDetailPage = () => {
   const commentQuill = useRef<ReactQuill & ReactQuillProps>(null);
   const { showSnackbar } = useSnackbar();
   const { post, fetchPost, comments, fetchComments, handleVote, uploadComment } = usePost();
-  const memberId = Number(localStorage.getItem('MemberId'));
-  const memberNickname = localStorage.getItem('NickName') || '';
+  const memberId = Number(localStorage.getItem('memberId'));
+  const memberNickname = localStorage.getItem('nickName') || '';
   const { isLogin } = useLogin();
   const postContent = DOMPurify.sanitize(post?.content || '', { ADD_TAGS: ['iframe', 'video'] });
   const [votedState, setVotedState] = useState(post?.voted);

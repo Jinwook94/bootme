@@ -71,7 +71,7 @@ const PostCommentItem = ({
   const [isReplyOpen, setIsReplyOpen] = useState(false);
   const [votedState, setVotedState] = useState(voted);
   const [textLength, setTextLength] = useState(0);
-  const memberId = Number(localStorage.getItem('MemberId'));
+  const memberId = Number(localStorage.getItem('memberId'));
   const [editMode, setEditMode] = useState(false);
 
   const handleEditClick = () => {

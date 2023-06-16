@@ -22,7 +22,7 @@ const BookmarkContext = createContext<BookmarkContextProps>({
 export const BookmarkProvider = ({ children }: BookmarkProviderProps) => {
   const { isLogin } = useLogin();
   const { showSnackbar } = useSnackbar();
-  const memberId = localStorage.getItem('MemberId');
+  const memberId = localStorage.getItem('memberId');
   const [isBookmarked, setIsBookmarked] = useState<{ [key: string]: boolean }>({});
   const [bookmarkedCourseIds, setBookmarkedCourseIds] = useState<number[]>([]);
   const [maxPage, setMaxPage] = useState<number>(1);

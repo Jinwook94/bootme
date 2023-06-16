@@ -8,7 +8,7 @@ import { getTimeSince } from '../../../utils/timeUtils';
 const NotificationDropdown = () => {
   const { notifications, isAllChecked, getNotifications, updateNotifications } = useNotification();
   const recentNotifications = notifications.sort((a, b) => b.createdAt - a.createdAt).slice(0, 3);
-  const memberId = Number(localStorage.getItem('MemberId'));
+  const memberId = Number(localStorage.getItem('memberId'));
 
   useEffect(() => {
     getNotifications(memberId);

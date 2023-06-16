@@ -62,7 +62,7 @@ const PostListPage = () => {
   } = usePost();
   const { selectedFilters, clearAndAddFilter } = usePostFilters();
   const [currentTopic, setCurrentTopic] = useState('');
-  const profilePicture = localStorage.getItem('ProfileImage') || '';
+  const profilePicture = localStorage.getItem('profileImage') || '';
   const [initialized, setInitialized] = useState(false);
 
   const resetPageState = async () => {

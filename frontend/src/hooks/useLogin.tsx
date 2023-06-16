@@ -57,12 +57,10 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
       });
   };
 
-  const storeUserInfoToLocalStorage = (userInfoString: string) => {
-    const userInfo = userInfoString.split(', ');
-    userInfo.forEach((item: string) => {
-      const [key, value] = item.split('=');
-      localStorage.setItem(key, value);
-    });
+  const storeUserInfoToLocalStorage = (userInfo: LoginResponse) => {
+    for (const key in userInfo) {
+      localStorage.setItem(key, (userInfo as any)[key]);
+    }
   };
 
   const handleLoginSuccess = async (oAuthProvider: string) => {
@@ -132,4 +130,11 @@ interface LoginContextProps {
 
 interface LoginProviderProps {
   children: React.ReactNode;
+}
+
+interface LoginResponse {
+  memberId: number;
+  email: string;
+  nickName: string;
+  profileImage: string;
 }

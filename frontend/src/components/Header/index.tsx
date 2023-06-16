@@ -32,17 +32,17 @@ const Header = () => {
   const { showSnackbar } = useSnackbar();
   const { isLogin, handleLoginModal } = useLogin();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [profileImage, setProfileImage] = useState(localStorage.getItem('ProfileImage'));
-  const [nickName, setNickName] = useState(localStorage.getItem('NickName'));
+  const [profileImage, setProfileImage] = useState(localStorage.getItem('profileImage'));
+  const [nickName, setNickName] = useState(localStorage.getItem('nickName'));
   const location = useLocation();
 
   useEffect(() => {
-    setNickName(localStorage.getItem('NickName'));
-  }, [localStorage.getItem('NickName')]);
+    setNickName(localStorage.getItem('nickName'));
+  }, [localStorage.getItem('nickName')]);
 
   useEffect(() => {
-    setProfileImage(localStorage.getItem('ProfileImage'));
-  }, [localStorage.getItem('ProfileImage')]);
+    setProfileImage(localStorage.getItem('profileImage'));
+  }, [localStorage.getItem('profileImage')]);
 
   useEffect(() => {
     setIsMenuOpen(false);
