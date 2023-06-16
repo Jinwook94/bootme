@@ -82,9 +82,9 @@ public class TokenProvider {
 
     public String reissueAccessToken(String refreshToken){
         Claims claims = parseToken(refreshToken);
-        String memberId = claims.get("id", String.class);
-        String memberEmail = claims.get("email", String.class);
-        return createToken(Long.parseLong(memberId), memberEmail, accessTokenExpireTimeInMilliseconds);
+        Long id = claims.get("id", Long.class);
+        String email = claims.get("email", String.class);
+        return createToken(id, email, accessTokenExpireTimeInMilliseconds);
     }
 
     public Claims parseToken(String token){
