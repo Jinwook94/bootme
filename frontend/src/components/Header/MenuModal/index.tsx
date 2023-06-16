@@ -54,7 +54,6 @@ const MenuModal = ({ isLogin, isMenuOpen, setIsMenuOpen, nickName, profileImage 
           top: '10px',
           left: '10px',
           right: '10px',
-          bottom: isLogin ? '260px' : '470px',
           border: '1px solid #ccc',
           background: '#fff',
           overflow: 'auto',
