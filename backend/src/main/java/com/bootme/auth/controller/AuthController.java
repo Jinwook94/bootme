@@ -1,6 +1,7 @@
 package com.bootme.auth.controller;
 
 import com.bootme.auth.dto.AwsSecrets;
+import com.bootme.auth.dto.LoginResponse;
 import com.bootme.auth.service.AuthService;
 import com.bootme.auth.util.TokenProvider;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,27 +28,32 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestHeader("Authorization") String authHeader) {
-        String[] userInfo = authService.login(authHeader);
-        String accessTokenCookie = tokenProvider.getAccessTokenCookie(userInfo[0], userInfo[1]);
-        String refreshTokenCookie = tokenProvider.getRefreshTokenCookie(userInfo[0], userInfo[1]);
+    public ResponseEntity<LoginResponse> login(@RequestHeader("Authorization") String authHeader) {
+        LoginResponse response = authService.login(authHeader);
+        Long memberId = response.getMemberId();
+        String email = response.getEmail();
+
+        String accessTokenCookie = tokenProvider.getAccessTokenCookie(memberId, email);
+        String refreshTokenCookie = tokenProvider.getRefreshTokenCookie(memberId, email);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, accessTokenCookie)
                 .header(HttpHeaders.SET_COOKIE, refreshTokenCookie)
-                .body(userInfo[2]);
+                .body(response);
     }
 
     @PostMapping("/login/naver")
-    public ResponseEntity<String> naverLogin(@RequestBody Map<String, String> body) {
-        String[] userInfo = authService.processNaverLogin(body.get("url"));
-        String accessTokenCookie = tokenProvider.getAccessTokenCookie(userInfo[0], userInfo[1]);
-        String refreshTokenCookie = tokenProvider.getRefreshTokenCookie(userInfo[0], userInfo[1]);
+    public ResponseEntity<LoginResponse> naverLogin(@RequestBody Map<String, String> body) {
+        LoginResponse response = authService.processNaverLogin(body.get("url"));
+        Long memberId = response.getMemberId();
+        String email = response.getEmail();
 
+        String accessTokenCookie = tokenProvider.getAccessTokenCookie(memberId, email);
+        String refreshTokenCookie = tokenProvider.getRefreshTokenCookie(memberId, email);
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, accessTokenCookie)
                 .header(HttpHeaders.SET_COOKIE, refreshTokenCookie)
-                .body(userInfo[2]);
+                .body(response);
     }
 
     @PostMapping("/logout")

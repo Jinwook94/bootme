@@ -1,5 +1,6 @@
 package com.bootme.auth.controller;
 
+import com.bootme.auth.dto.LoginResponse;
 import com.bootme.common.exception.TokenParseException;
 import com.bootme.common.exception.AuthenticationException;
 import com.bootme.util.ControllerTest;
@@ -32,10 +33,10 @@ class AuthControllerTest extends ControllerTest {
         //given
         String accessTokenCookie = "accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c; Path=/; Domain=bootme.co.kr; Max-Age=3600; Expires=Fri, 18 May 2023 16:51:53 GMT; Secure; HttpOnly; SameSite=Lax";
         String refreshTokenCookie = "refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c; Path=/; Domain=bootme.co.kr; Max-Age=2592000; Expires=Sun, 17 Jun 2023 15:51:53 GMT; Secure; HttpOnly; SameSite=Lax";
-        String[] userInfo = {"1", "john@gmail.com", "MemberId=1, NickName=John, ProfileImage=imageUrl"};
+        LoginResponse response = new LoginResponse(1L, "john@gmail.com", "John", "imageUrl");
         given(tokenProvider.getAccessTokenCookie(any(),any())).willReturn(accessTokenCookie);
         given(tokenProvider.getRefreshTokenCookie(any(),any())).willReturn(refreshTokenCookie);
-        given(authService.login(any())).willReturn(userInfo);
+        given(authService.login(any())).willReturn(response);
 
         //when
         ResultActions perform = mockMvc.perform(post("/login")

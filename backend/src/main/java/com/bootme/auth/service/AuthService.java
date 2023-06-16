@@ -71,7 +71,7 @@ public class AuthService {
         return memberId != null;
     }
 
-    public String[] login(String authHeader){
+    public LoginResponse login(String authHeader){
         String idToken = getToken(authHeader);
         JwtVo jwtVo = parseToken(idToken);
         JwtVo.Body jwtBody = jwtVo.getBody();
@@ -269,23 +269,26 @@ public class AuthService {
         memberRepository.incrementVisits(jwtBody.getEmail());
     }
 
-    // 반환값: id, email, userInfo(프론트엔드의 헤더 UI 등에 사용될 유저 정보)
-    public String[] getUserInfo(UserInfo jwtBody) {
+    public LoginResponse getUserInfo(UserInfo jwtBody) {
         Long memberId = memberService.findByEmail(jwtBody.getEmail()).getId();
-        String nickname = jwtBody.getNickname();
         String name = jwtBody.getName();
         String email = jwtBody.getEmail();
         String idInEmail = email.split("@")[0];
+        String profileImage = jwtBody.getPicture();
 
-        String userInfo;
-        if (nickname != null) {
-            userInfo = "MemberId=" + memberId + ", NickName=" + nickname + ", ProfileImage=" + jwtBody.getPicture();
-        } else if (name != null) {
-            userInfo = "MemberId=" + memberId + ", NickName=" + name + ", ProfileImage=" + jwtBody.getPicture();
-        } else
-            userInfo ="MemberId=" + memberId + ", NickName=" + idInEmail + ", ProfileImage=" + jwtBody.getPicture();
+        String nickname = jwtBody.getNickname();
+        if (nickname == null) {
+            nickname = name;
+        } else if (name == null) {
+            nickname = idInEmail;
+        }
 
-        return new String[]{String.valueOf(memberId), email, userInfo};
+        return LoginResponse.builder()
+                .memberId(memberId)
+                .email(email)
+                .nickName(nickname)
+                .profileImage(profileImage)
+                .build();
     }
 
     public boolean verifyExistingMember(String token){
@@ -313,7 +316,7 @@ public class AuthService {
         return awsSecrets;
     }
 
-    public String[] processNaverLogin(String naverOauthUrl) {
+    public LoginResponse processNaverLogin(String naverOauthUrl) {
         String naverAccessToken = getNaverAccessToken(naverOauthUrl);
         NaverUserInfo userInfo = getNaverUserInfo(naverAccessToken);
         registerMember(userInfo);

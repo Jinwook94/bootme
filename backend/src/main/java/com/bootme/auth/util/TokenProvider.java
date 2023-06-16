@@ -39,22 +39,22 @@ public class TokenProvider {
 
     public AuthInfo getAuthInfo(String accessToken) {
         Claims claims = parseToken(accessToken);
-        String id = claims.get("id", String.class);
-        Member member = memberService.findById(Long.parseLong(id));
-        return new AuthInfo(Long.parseLong(id), member.getRoleType().toString(), member.getNickname());
+        Long id = claims.get("id", Long.class);
+        Member member = memberService.findById(id);
+        return new AuthInfo(id, member.getRoleType().toString(), member.getNickname());
     }
 
-    public String getAccessTokenCookie(String id, String email){
+    public String getAccessTokenCookie(Long id, String email){
         String accessToken = createToken(id, email,accessTokenExpireTimeInMilliseconds);
         return getCookie("accessToken", accessToken, domain, accessTokenExpireTimeInMilliseconds);
     }
 
-    public String getRefreshTokenCookie(String id, String email){
+    public String getRefreshTokenCookie(Long id, String email){
         String refreshToken = createToken(id, email, refreshTokenExpireTimeInMilliseconds);
         return getCookie("refreshToken", refreshToken, domain, refreshTokenExpireTimeInMilliseconds);
     }
 
-    private String createToken(String id, String email, long expireTimeInMilliseconds) {
+    private String createToken(Long id, String email, long expireTimeInMilliseconds) {
         Date now = new Date();
         Date expiration = new Date(now.getTime() + expireTimeInMilliseconds);
         return Jwts.builder()
@@ -84,7 +84,7 @@ public class TokenProvider {
         Claims claims = parseToken(refreshToken);
         String memberId = claims.get("id", String.class);
         String memberEmail = claims.get("email", String.class);
-        return createToken(memberId, memberEmail, accessTokenExpireTimeInMilliseconds);
+        return createToken(Long.parseLong(memberId), memberEmail, accessTokenExpireTimeInMilliseconds);
     }
 
     public Claims parseToken(String token){
