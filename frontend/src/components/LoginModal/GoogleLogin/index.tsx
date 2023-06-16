@@ -1,7 +1,6 @@
 import { GoogleLogin } from '@react-oauth/google';
 import { useGoogleOneTapLogin } from '@react-oauth/google';
 import { useLogin } from '../../../hooks/useLogin';
-import { GOOGLE } from '../../../constants/others';
 
 export const GoogleLoginButton = () => {
   const { sendIdTokenToServer, handleLoginSuccess } = useLogin();
@@ -9,7 +8,7 @@ export const GoogleLoginButton = () => {
     <GoogleLogin
       onSuccess={credentialResponse => {
         sendIdTokenToServer(credentialResponse.credential).then(() => {
-          handleLoginSuccess(GOOGLE);
+          handleLoginSuccess();
         });
       }}
       onError={() => {
@@ -29,7 +28,7 @@ export const GoogleLoginOneTap = () => {
   useGoogleOneTapLogin({
     onSuccess: credentialResponse => {
       sendIdTokenToServer(credentialResponse.credential).then(() => {
-        handleLoginSuccess(GOOGLE);
+        handleLoginSuccess();
       });
     },
     onError: () => {

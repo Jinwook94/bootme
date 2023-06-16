@@ -1,9 +1,8 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { fetcher } from '../api/fetcher';
-import { GOOGLE, KAKAO, NAVER } from '../constants/others';
 import { useSnackbar } from './useSnackbar';
 import SNACKBAR_MESSAGE, { CHECK } from '../constants/snackbar';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import PATH from '../constants/path';
 
 const LoginContext = createContext<LoginContextProps>({
@@ -20,6 +19,7 @@ const LoginContext = createContext<LoginContextProps>({
 export const LoginProvider = ({ children }: LoginProviderProps) => {
   const { showSnackbar } = useSnackbar();
   const navigate = useNavigate();
+  const location = useLocation();
   const memberId = localStorage.getItem('memberId');
   const [isLogin, setIsLogin] = useState(() => {
     return !!memberId;
@@ -64,21 +64,13 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
     }
   };
 
-  const handleLoginSuccess = async (oAuthProvider: string) => {
+  const handleLoginSuccess = async () => {
     await setIsLogin(true);
-    if (oAuthProvider == GOOGLE) {
-      setIsLoginModal(false);
-      showSnackbar(SNACKBAR_MESSAGE.SUCCESS_LOGIN, CHECK);
-      navigate(PATH.HOME);
-    }
-    if (oAuthProvider == NAVER) {
-      showSnackbar(SNACKBAR_MESSAGE.SUCCESS_LOGIN, CHECK);
-      navigate(PATH.HOME);
-    }
-    if (oAuthProvider == KAKAO) {
-      showSnackbar(SNACKBAR_MESSAGE.SUCCESS_LOGIN, CHECK);
-      navigate(PATH.HOME);
-    }
+    setIsLoginModal(false);
+    showSnackbar(SNACKBAR_MESSAGE.SUCCESS_LOGIN, CHECK);
+
+    const lastLocation = localStorage.getItem('lastLocation');
+    navigate(lastLocation || PATH.HOME);
   };
 
   const handleLogOut = () => {
@@ -97,6 +89,17 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
         console.log(error);
       });
   };
+
+  useEffect(() => {
+    if (
+      location.pathname !== PATH.LOGIN &&
+      location.pathname !== PATH.OAUTH.NAVER &&
+      location.pathname !== PATH.OAUTH.KAKAO &&
+      location.pathname !== PATH.POST.WRITE
+    ) {
+      localStorage.setItem('lastLocation', location.pathname);
+    }
+  }, [location]);
 
   return (
     <LoginContext.Provider
@@ -125,7 +128,7 @@ interface LoginContextProps {
   handleLoginModal: () => void;
   sendIdTokenToServer: (idToken: string | undefined) => Promise<void>;
   handleNaverLogin: (naverOauthUrl: string) => Promise<void>;
-  handleLoginSuccess: (oAuthProvider: string) => void;
+  handleLoginSuccess: () => void;
   handleLogOut: () => void;
 }
 

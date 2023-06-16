@@ -52,7 +52,7 @@ export const NaverLoginRedirect = () => {
    * */
   useEffect(() => {
     handleNaverLogin(ACCESS_TOKEN_REQUEST_URL).then(() => {
-      handleLoginSuccess(NAVER);
+      handleLoginSuccess();
     });
   }, []);
 

@@ -16,7 +16,7 @@ axios.defaults.withCredentials = true;
 fetcher.interceptors.response.use(
   response => {
     if (response.headers['login'] === 'false') {
-      localStorage.clear();
+      clearLocalStorageExceptLastLocation();
     }
     return response;
   },
@@ -24,6 +24,14 @@ fetcher.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+function clearLocalStorageExceptLastLocation() {
+  const lastLocation = localStorage.getItem('lastLocation');
+  localStorage.clear();
+  if (lastLocation) {
+    localStorage.setItem('lastLocation', lastLocation);
+  }
+}
 
 export function appendUtmParams(url: string | undefined) {
   if (!url) {
