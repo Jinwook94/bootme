@@ -109,7 +109,7 @@ const PostCard = ({
           {votedState === VOTE_TYPE.DOWNVOTE ? <DownvoteFilledIcon /> : <DownvoteIcon />}
         </DownvoteButton>
       </VoteWrapper>
-      <Link to={`${PATH.POST.DETAIL}/${id}`}>
+      <Link to={`${PATH.POST.DETAIL}/${id}`} style={{ width: '100%' }}>
         <ContentWrapper>
           <div>
             <WriterInfo>
@@ -132,7 +132,12 @@ const PostCard = ({
           </div>
           <ContentBottom>
             <MobileButtons>
-              <VoteWrapperMobile onClick={event => event.stopPropagation()}>
+              <VoteWrapperMobile
+                onClick={event => {
+                  event.stopPropagation();
+                  event.preventDefault();
+                }}
+              >
                 <MobileUpvoteButton
                   onClick={() => handleVoteAndUpdateIcon(VOTABLE_TYPE.POST, id, VOTE_TYPE.UPVOTE, id, writerId)}
                 >
@@ -161,7 +166,12 @@ const PostCard = ({
                 <CommentCountDesktop>{commentCount}개 댓글</CommentCountDesktop>
               </CommentIconDesktop>
               <PostShareButtonInPostCardDesktop postId={id} postTitle={title} postContent={postContent} />
-              <BookmarkIconDesktop onClick={event => event.stopPropagation()}>
+              <BookmarkIconDesktop
+                onClick={event => {
+                  event.stopPropagation();
+                  event.preventDefault();
+                }}
+              >
                 <BookmarkIcon />
                 <BookmarkIconTextDesktop>북마크</BookmarkIconTextDesktop>
               </BookmarkIconDesktop>

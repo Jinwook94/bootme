@@ -227,12 +227,14 @@ export const PostShareButtonInPostCardDesktop = ({
     setVisible(flag);
   };
 
-  const stopPropagation = (event: { stopPropagation: () => void }) => {
+  const stopPropagation = (event: React.MouseEvent) => {
     event.stopPropagation();
+    event.preventDefault();
   };
 
-  const kakaoShare = (event: { stopPropagation: () => void }) => {
+  const kakaoShare = (event: React.MouseEvent) => {
     event.stopPropagation();
+    event.preventDefault();
     setVisible(false);
     window.Kakao.Share.sendCustom({
       installTalk: true,
@@ -245,8 +247,9 @@ export const PostShareButtonInPostCardDesktop = ({
     });
   };
 
-  const copyUrl = (event: { stopPropagation: () => void }) => {
+  const copyUrl = (event: React.MouseEvent) => {
     event.stopPropagation();
+    event.preventDefault();
     setVisible(false);
     if (currentUrl) {
       navigator.clipboard
@@ -345,12 +348,14 @@ export const PostShareButtonInPostCardMobile = ({
     setVisible(flag);
   };
 
-  const stopPropagation = (event: { stopPropagation: () => void }) => {
+  const stopPropagation = (event: React.MouseEvent) => {
     event.stopPropagation();
+    event.preventDefault();
   };
 
-  const kakaoShare = (event: { stopPropagation: () => void }) => {
+  const kakaoShare = (event: React.MouseEvent) => {
     event.stopPropagation();
+    event.preventDefault();
     setVisible(false);
     window.Kakao.Share.sendCustom({
       installTalk: true,
@@ -363,8 +368,9 @@ export const PostShareButtonInPostCardMobile = ({
     });
   };
 
-  const copyUrl = (event: { stopPropagation: () => void }) => {
+  const copyUrl = (event: React.MouseEvent) => {
     event.stopPropagation();
+    event.preventDefault();
     setVisible(false);
     if (currentUrl) {
       navigator.clipboard
