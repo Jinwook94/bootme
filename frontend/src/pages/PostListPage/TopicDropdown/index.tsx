@@ -73,7 +73,7 @@ const TopicDropdown = () => {
         ) : (
           <FontAwesomeIcon icon={faGlobe} />
         )}
-        {currentTopic}
+        {currentTopic ? currentTopic : 전체}
         <CaretIconWrapper>
           <CaretDownIcon />
         </CaretIconWrapper>

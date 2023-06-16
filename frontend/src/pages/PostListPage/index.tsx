@@ -28,7 +28,7 @@ import {
   NewestButton,
 } from './style';
 import { Space } from 'antd';
-import { POST_FILTERS, 전체 } from '../../constants/filters';
+import { POST_FILTERS } from '../../constants/filters';
 import PATH from '../../constants/path';
 import { FireIcon2, FireIconBlue, SparklesIcon, SparklesIconBlue } from '../../constants/icons';
 import { Post } from '../../types/post';
@@ -59,7 +59,7 @@ const PostListPage = () => {
     setEndOfPosts,
   } = usePost();
   const { selectedFilters, clearAndAddFilter } = usePostFilters();
-  const [currentTopic, setCurrentTopic] = useState(전체);
+  const [currentTopic, setCurrentTopic] = useState('');
   const profilePicture = localStorage.getItem('profileImage') || '';
   const [initialized, setInitialized] = useState(false);
 
@@ -93,7 +93,7 @@ const PostListPage = () => {
     if (topic) {
       clearAndAddFilter(POST_FILTERS.TOPIC.filterName, topic);
     } else {
-      clearAndAddFilter(POST_FILTERS.TOPIC.filterName, 전체);
+      clearAndAddFilter(POST_FILTERS.TOPIC.filterName, '');
     }
 
     const sort = searchParams.get('sort');
