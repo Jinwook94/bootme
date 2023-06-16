@@ -144,7 +144,7 @@ const PostListPage = () => {
                 </ProfileWrapper3>
               </ProfileWrapper2>
             </ProfileWrapper1>
-            <Link to={PATH.POST.WRITE}>
+            <Link to={PATH.POST.WRITE} style={{ width: '100%' }}>
               <CreatePostInput placeholder="글 작성하기" />
             </Link>
           </CreatePostWrapper>

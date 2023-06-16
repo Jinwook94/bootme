@@ -59,7 +59,7 @@ export const CreatePostWrapper = styled.div`
   border: 1px solid #f2f2f2;
   display: flex;
   margin-bottom: 16px;
-  padding: 8px;
+  padding: 8px 12px 8px 8px;
   @media (max-width: 640px) {
     display: none;
   }
@@ -109,6 +109,7 @@ export const ProfilePic = styled.img`
 
 export const CreatePostInput = styled.input`
   background-color: #f6f7f8;
+  width: 100%;
   border-radius: 4px;
   border: 1px solid #edeff1;
   box-shadow: none;
