@@ -3,14 +3,14 @@ import React, { useEffect, useState } from 'react';
 import { CaretIconBlue, StyledButton } from '../style';
 import { CaretDownIcon, FireIcon, SparklesIcon } from '../../../constants/icons';
 import { usePost } from '../../../hooks/usePost';
-import { useNavigation } from '../../../hooks/useNavigation';
 import PATH from '../../../constants/path';
 import { usePostFilters } from '../../../hooks/useFilters';
 import './style.css';
+import { useNavigate } from 'react-router-dom';
 
 /* 사용 안함 */
 const SortDropdown = () => {
-  const { goToPage } = useNavigation();
+  const navigate = useNavigate();
   const { sortOption } = usePost();
   const { selectedFilters } = usePostFilters();
   const [currentTopic, setCurrentTopic] = useState('');
@@ -22,8 +22,8 @@ const SortDropdown = () => {
   const handleSortSelect: MenuProps['onClick'] = e => {
     {
       currentTopic === '전체'
-        ? goToPage(`${PATH.POST.LIST}?sort=${e.key}`)
-        : goToPage(`${PATH.POST.LIST}?sort=${e.key}&topic=${currentTopic}`);
+        ? navigate(`${PATH.POST.LIST}?sort=${e.key}`)
+        : navigate(`${PATH.POST.LIST}?sort=${e.key}&topic=${currentTopic}`);
     }
   };
 

@@ -4,15 +4,15 @@ import { CaretDownIcon } from '../../../constants/icons';
 import React, { useEffect, useState } from 'react';
 import { 개발질문, 부트캠프질문, 자유, 전체 } from '../../../constants/filters';
 import PATH from '../../../constants/path';
-import { useNavigation } from '../../../hooks/useNavigation';
 import { usePostFilters } from '../../../hooks/useFilters';
 import { usePost } from '../../../hooks/usePost';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCode, faComments, faGlobe, faRocket } from '@fortawesome/free-solid-svg-icons';
 import './style.css';
+import { useNavigate } from 'react-router-dom';
 
 const TopicDropdown = () => {
-  const { goToPage } = useNavigation();
+  const navigate = useNavigate();
   const { selectedFilters } = usePostFilters();
   const { sortOption } = usePost();
   const [currentTopic, setCurrentTopic] = useState('');
@@ -24,8 +24,8 @@ const TopicDropdown = () => {
   const handleTopicSelect: MenuProps['onClick'] = e => {
     {
       e.key === 전체
-        ? goToPage(`${PATH.POST.LIST}?sort=${sortOption}`)
-        : goToPage(`${PATH.POST.LIST}?sort=${sortOption}&topic=${e.key}`);
+        ? navigate(`${PATH.POST.LIST}?sort=${sortOption}`)
+        : navigate(`${PATH.POST.LIST}?sort=${sortOption}&topic=${e.key}`);
     }
   };
 

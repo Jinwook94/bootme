@@ -15,13 +15,13 @@ import ReactQuill, { ReactQuillProps } from 'react-quill';
 import PostWriteRichText from '../../components/RichTextEditor/PostWriteRichText';
 import { usePost } from '../../hooks/usePost';
 import { Button } from 'antd';
-import { useNavigation } from '../../hooks/useNavigation';
 import { 자유 } from '../../constants/filters';
 import TopicDropdown from './TopicDropdown';
+import { useNavigate } from 'react-router-dom';
 
 const PostWritePage = () => {
   const quill = useRef<ReactQuill & ReactQuillProps>(null);
-  const { goBack } = useNavigation();
+  const navigate = useNavigate();
   const { uploadPost } = usePost();
   const [topic, setTopic] = useState(자유);
   const titleRef = useRef<HTMLTextAreaElement | null>(null);
@@ -81,7 +81,7 @@ const PostWritePage = () => {
             <CancelButton
               onClick={() => {
                 if (window.confirm('글쓰기를 취소하시겠습니까?')) {
-                  goBack();
+                  navigate(-1);
                 }
               }}
             >

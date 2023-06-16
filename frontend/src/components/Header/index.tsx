@@ -22,11 +22,12 @@ import { DotIcon } from '../../constants/icons';
 import Hamburger from 'hamburger-react';
 import UserDropDown from './UserDropdown';
 import MenuModal from './MenuModal';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import NotificationDropdown from './NotificationDropdown';
 import { useSnackbar } from '../../hooks/useSnackbar';
 import SNACKBAR_MESSAGE, { EXCLAMATION } from '../../constants/snackbar';
 import { GoogleLoginOneTap } from '../LoginModal/GoogleLogin';
+import PATH from '../../constants/path';
 
 const Header = () => {
   const { showSnackbar } = useSnackbar();
@@ -55,19 +56,19 @@ const Header = () => {
         <Layout>
           <Wrapper>
             <HeaderLeft>
-              <a href={'https://bootme.co.kr/'}>
+              <Link to={PATH.HOME}>
                 <Logo>
                   <GitHubIcon />
                   <ServiceName>BootMe</ServiceName>
                 </Logo>
-              </a>
-              <a href={'https://bootme.co.kr/course/list'}>
+              </Link>
+              <Link to={PATH.COURSE.LIST}>
                 <HeaderItem> 부트캠프 </HeaderItem>
-              </a>
+              </Link>
               <HeaderItem onClick={() => showSnackbar(SNACKBAR_MESSAGE.WORK_IN_PROGRESS, EXCLAMATION)}>회사</HeaderItem>
-              <a href={'https://bootme.co.kr/post/list'}>
+              <Link to={PATH.POST.LIST}>
                 <HeaderItem>커뮤니티 </HeaderItem>
-              </a>
+              </Link>
             </HeaderLeft>
             <HeaderRight>
               {isLogin ? (

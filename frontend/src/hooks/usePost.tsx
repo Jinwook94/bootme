@@ -6,8 +6,8 @@ import { Post, PostComment, PostDetail, PostListResponse } from '../types/post';
 import { VOTABLE_TYPE } from '../constants/others';
 import { usePostFilters } from './useFilters';
 import { POST_FILTERS } from '../constants/filters';
-import { useNavigation } from './useNavigation';
 import PATH from '../constants/path';
+import { useNavigate } from 'react-router-dom';
 
 const PostContext = createContext<PostContextProps>({
   size: 10,
@@ -36,7 +36,7 @@ const PostContext = createContext<PostContextProps>({
 });
 
 export const PostProvider = ({ children }: { children: React.ReactNode }) => {
-  const { goToPage } = useNavigation();
+  const navigate = useNavigate();
   const { showSnackbar } = useSnackbar();
   const { selectedFilters, clearAndAddFilter } = usePostFilters();
   const [sortOption, setSortOption] = useState<string>('views');
@@ -99,7 +99,7 @@ export const PostProvider = ({ children }: { children: React.ReactNode }) => {
       const savedLocation = response.headers['location'];
       const postId = savedLocation?.split('/').pop();
       if (postId) {
-        goToPage(`${PATH.POST.DETAIL}/${postId}`);
+        navigate(`${PATH.POST.DETAIL}/${postId}`);
       }
     } catch (e: any) {
       if (e.response.data) {
@@ -121,7 +121,7 @@ export const PostProvider = ({ children }: { children: React.ReactNode }) => {
         content: editedContent,
       };
       await fetcher.put(`/posts/${postId}`, data);
-      goToPage(`${PATH.POST.DETAIL}/${postId}`);
+      navigate(`${PATH.POST.DETAIL}/${postId}`);
     } catch (e: any) {
       if (e.response.data) {
         showSnackbar(SNACKBAR_MESSAGE.FAIL_POST_EDIT + ': ' + e.response.data.message, EXCLAMATION);
@@ -134,7 +134,7 @@ export const PostProvider = ({ children }: { children: React.ReactNode }) => {
       await fetcher.delete(`/posts/${id}`);
       showSnackbar(SNACKBAR_MESSAGE.SUCCESS_POST_DELETE, CHECK);
       setTimeout(() => {
-        goToPage(PATH.POST.LIST);
+        navigate(PATH.POST.LIST);
       }, 1000);
     } catch (e: any) {
       showSnackbar(SNACKBAR_MESSAGE.FAIL_POST_DELETE + ': ' + e.response.data.message, EXCLAMATION);

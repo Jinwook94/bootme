@@ -50,7 +50,7 @@ import {
 import ReactQuill, { ReactQuillProps } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.core.css';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { usePost } from '../../hooks/usePost';
 import React, { useEffect, useRef, useState } from 'react';
 import { getTimeSince } from '../../utils/timeUtils';
@@ -64,14 +64,12 @@ import CommentRichText from '../../components/RichTextEditor/CommentRichText';
 import DOMPurify from 'dompurify';
 import { VOTABLE_TYPE, VOTE_TYPE } from '../../constants/others';
 import { PostShareButtonInPostDetailPageDeskTop, PostShareButtonInPostDetailPageMobile } from './PostShareDropdown';
-import { useNavigation } from '../../hooks/useNavigation';
 import PATH from '../../constants/path';
 import { PostThreeDotsDropdown } from './ThreeDotsDropdown';
 import PostEdit from './PostEdit';
 
 const PostDetailPage = () => {
   const { id } = useParams();
-  const { goToPage } = useNavigation();
   const commentQuill = useRef<ReactQuill & ReactQuillProps>(null);
   const { showSnackbar } = useSnackbar();
   const { post, fetchPost, comments, fetchComments, handleVote, uploadComment } = usePost();
@@ -161,11 +159,16 @@ const PostDetailPage = () => {
                   <div></div>
                 </TopicLine>
                 <TopicText>
-                  <Community onClick={() => goToPage(PATH.POST.LIST)}>커뮤니티{'ㅤ'}</Community>/
-                  <Topic onClick={() => goToPage(`${PATH.POST.LIST}?topic=${post?.topic}`)}>
-                    {'ㅤ'}
-                    {post?.topic}
-                  </Topic>
+                  <Link to={PATH.POST.LIST}>
+                    <Community>커뮤니티{'ㅤ'}</Community>
+                  </Link>
+                  /
+                  <Link to={`${PATH.POST.LIST}?topic=${post?.topic}`}>
+                    <Topic>
+                      {'ㅤ'}
+                      {post?.topic}
+                    </Topic>
+                  </Link>
                 </TopicText>
               </TopicWrapper>
               <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>

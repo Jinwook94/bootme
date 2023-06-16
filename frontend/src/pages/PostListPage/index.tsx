@@ -35,8 +35,7 @@ import { Post } from '../../types/post';
 import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.core.css';
 import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { useNavigation } from '../../hooks/useNavigation';
+import { Link, useSearchParams } from 'react-router-dom';
 import { usePost } from '../../hooks/usePost';
 import { usePostFilters } from '../../hooks/useFilters';
 import PostCard from './PostCard';
@@ -46,7 +45,6 @@ import SideTab from './SideTab';
 
 const PostListPage = () => {
   const [searchParams] = useSearchParams();
-  const { goToPage } = useNavigation();
   const {
     sortOption,
     postList,
@@ -94,6 +92,8 @@ const PostListPage = () => {
     const topic = searchParams.get('topic');
     if (topic) {
       clearAndAddFilter(POST_FILTERS.TOPIC.filterName, topic);
+    } else {
+      clearAndAddFilter(POST_FILTERS.TOPIC.filterName, '');
     }
 
     const sort = searchParams.get('sort');
@@ -107,7 +107,7 @@ const PostListPage = () => {
     }
 
     setInitialized(true);
-  }, []);
+  }, [searchParams]);
 
   useEffect(() => {
     if (initialized) {
@@ -127,10 +127,12 @@ const PostListPage = () => {
     <>
       <CommunityPageLayout>
         <BodyWrapper>
-          <MobileHeader onClick={() => goToPage(PATH.POST.LIST)}>
-            <MobileHeaderTextLarge>커뮤니티</MobileHeaderTextLarge>
-            <MobileHeaderTextMedium>아이디어를 공유하고 궁금증을 해결하세요.</MobileHeaderTextMedium>
-          </MobileHeader>
+          <Link to={PATH.POST.LIST}>
+            <MobileHeader>
+              <MobileHeaderTextLarge>커뮤니티</MobileHeaderTextLarge>
+              <MobileHeaderTextMedium>아이디어를 공유하고 궁금증을 해결하세요.</MobileHeaderTextMedium>
+            </MobileHeader>
+          </Link>
           <CreatePostWrapper>
             <ProfileWrapper1>
               <ProfileWrapper2>
@@ -142,27 +144,31 @@ const PostListPage = () => {
                 </ProfileWrapper3>
               </ProfileWrapper2>
             </ProfileWrapper1>
-            <CreatePostInput onClick={() => goToPage(PATH.POST.WRITE)} placeholder="글 작성하기" />
+            <Link to={PATH.POST.WRITE}>
+              <CreatePostInput placeholder="글 작성하기" />
+            </Link>
           </CreatePostWrapper>
           <SortAndFilterMobile>
             <SortAndFilterWrapper>
               <SortButtons>
-                <HotButton
-                  size={'large'}
-                  onClick={() => goToPage(`${PATH.POST.LIST}?sort=views&topic=${currentTopic}`)}
-                  style={{ color: sortOption === 'views' ? '#0079d3' : 'rgb(135, 138, 140)' }}
-                >
-                  {sortOption === 'views' ? <FireIconBlue /> : <FireIcon2 />}
-                  인기글
-                </HotButton>
-                <NewestButton
-                  size={'large'}
-                  onClick={() => goToPage(`${PATH.POST.LIST}?sort=newest&topic=${currentTopic}`)}
-                  style={{ color: sortOption === 'newest' ? '#0079d3' : 'rgb(135, 138, 140)' }}
-                >
-                  {sortOption === 'newest' ? <SparklesIconBlue /> : <SparklesIcon />}
-                  최신글
-                </NewestButton>
+                <Link to={`${PATH.POST.LIST}?sort=views&topic=${currentTopic}`}>
+                  <HotButton
+                    size={'large'}
+                    style={{ color: sortOption === 'views' ? '#0079d3' : 'rgb(135, 138, 140)' }}
+                  >
+                    {sortOption === 'views' ? <FireIconBlue /> : <FireIcon2 />}
+                    인기글
+                  </HotButton>
+                </Link>
+                <Link to={`${PATH.POST.LIST}?sort=newest&topic=${currentTopic}`}>
+                  <NewestButton
+                    size={'large'}
+                    style={{ color: sortOption === 'newest' ? '#0079d3' : 'rgb(135, 138, 140)' }}
+                  >
+                    {sortOption === 'newest' ? <SparklesIconBlue /> : <SparklesIcon />}
+                    최신글
+                  </NewestButton>
+                </Link>
               </SortButtons>
               <TopicFilterButton>
                 <TopicDropdown />
@@ -171,16 +177,22 @@ const PostListPage = () => {
           </SortAndFilterMobile>
           <SortSearchDesktop>
             <SortWrapper>
-              <SortOption onClick={() => goToPage(`${PATH.POST.LIST}?sort=views&topic=${currentTopic}`)}>
-                {sortOption === 'views' ? <FireIconBlue /> : <FireIcon2 />}
-                <SortName style={{ color: sortOption === 'views' ? '#0079d3' : 'rgb(135, 138, 140)' }}>인기글</SortName>
-              </SortOption>
-              <SortOption onClick={() => goToPage(`${PATH.POST.LIST}?sort=newest&topic=${currentTopic}`)}>
-                {sortOption === 'newest' ? <SparklesIconBlue /> : <SparklesIcon />}
-                <SortName style={{ color: sortOption === 'newest' ? '#0079d3' : 'rgb(135, 138, 140)' }}>
-                  최신글
-                </SortName>
-              </SortOption>
+              <Link to={`${PATH.POST.LIST}?sort=views&topic=${currentTopic}`}>
+                <SortOption>
+                  {sortOption === 'views' ? <FireIconBlue /> : <FireIcon2 />}
+                  <SortName style={{ color: sortOption === 'views' ? '#0079d3' : 'rgb(135, 138, 140)' }}>
+                    인기글
+                  </SortName>
+                </SortOption>
+              </Link>
+              <Link to={`${PATH.POST.LIST}?sort=newest&topic=${currentTopic}`}>
+                <SortOption>
+                  {sortOption === 'newest' ? <SparklesIconBlue /> : <SparklesIcon />}
+                  <SortName style={{ color: sortOption === 'newest' ? '#0079d3' : 'rgb(135, 138, 140)' }}>
+                    최신글
+                  </SortName>
+                </SortOption>
+              </Link>
             </SortWrapper>
             <SearchWrapper>
               <Space direction="vertical">

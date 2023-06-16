@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import PATH from '../../constants/path';
+import { Link } from 'react-router-dom';
 
 const NotFoundPage = () => {
   return (
@@ -7,7 +9,7 @@ const NotFoundPage = () => {
       <h1 style={{ marginBottom: '1rem' }}>404 - Not Found</h1>
       <p>페이지를 찾을 수 없습니다.</p>
       <p>
-        <a href="https://bootme.co.kr/">홈으로 돌아가기</a>.
+        <Link to={PATH.HOME}>홈으로 돌아가기</Link>
       </p>
     </NotFoundWrapper>
   );

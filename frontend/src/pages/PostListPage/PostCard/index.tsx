@@ -42,9 +42,9 @@ import {
   PostShareButtonInPostCardDesktop,
   PostShareButtonInPostCardMobile,
 } from '../../PostDetailPage/PostShareDropdown';
-import { useNavigation } from '../../../hooks/useNavigation';
 import PATH from '../../../constants/path';
 import DOMPurify from 'dompurify';
+import { Link } from 'react-router-dom';
 
 const PostCard = ({
   id,
@@ -59,7 +59,6 @@ const PostCard = ({
   commentCount,
   voted,
 }: PostCardProps) => {
-  const { goToPage } = useNavigation();
   const { handleVote } = usePost();
   const [votedState, setVotedState] = useState(voted);
   const [likesState, setLikesState] = useState(likes);
@@ -110,64 +109,66 @@ const PostCard = ({
           {votedState === VOTE_TYPE.DOWNVOTE ? <DownvoteFilledIcon /> : <DownvoteIcon />}
         </DownvoteButton>
       </VoteWrapper>
-      <ContentWrapper onClick={() => goToPage(`${PATH.POST.DETAIL}/${id}`)}>
-        <div>
-          <WriterInfo>
-            <img
-              width="18"
-              height="18"
-              src={writerProfileImage}
-              alt="profile"
-              style={{ borderRadius: '18px', objectFit: 'cover', marginRight: '8px' }}
-            />
-            <span>
-              {writerNickname} · {createdAt && getTimeSince(createdAt)}
-            </span>
-          </WriterInfo>
-          <ContentHeader>
-            {title}
-            <TopicChip>{topic}</TopicChip>
-          </ContentHeader>
-          <ContentBody dangerouslySetInnerHTML={{ __html: postContent }} shouldApplyMask={shouldApplyMask} />
-        </div>
-        <ContentBottom>
-          <MobileButtons>
-            <VoteWrapperMobile onClick={event => event.stopPropagation()}>
-              <MobileUpvoteButton
-                onClick={() => handleVoteAndUpdateIcon(VOTABLE_TYPE.POST, id, VOTE_TYPE.UPVOTE, id, writerId)}
-              >
-                {votedState === VOTE_TYPE.UPVOTE ? <UpvoteFilledIcon /> : <UpvoteIcon />}
-              </MobileUpvoteButton>
-              <VoteCountMobile>{likesState}</VoteCountMobile>
-              <MobileDownvoteButton
-                onClick={() => handleVoteAndUpdateIcon(VOTABLE_TYPE.POST, id, VOTE_TYPE.DOWNVOTE, id, writerId)}
-              >
-                {votedState === VOTE_TYPE.DOWNVOTE ? <DownvoteFilledIcon /> : <DownvoteIcon />}
-              </MobileDownvoteButton>
-            </VoteWrapperMobile>
-            <CommentIconMobile>
-              <div style={{ marginTop: '2px' }}>
-                <CommentIcon />
-              </div>
-              <CommentCountMobile>{commentCount}</CommentCountMobile>
-            </CommentIconMobile>
-            <PostShareButtonInPostCardMobile postId={id} postTitle={title} postContent={postContent} />
-          </MobileButtons>
-          <DesktopButtons>
-            <CommentIconDesktop>
-              <div style={{ marginTop: '4px' }}>
-                <CommentIcon />
-              </div>
-              <CommentCountDesktop>{commentCount}개 댓글</CommentCountDesktop>
-            </CommentIconDesktop>
-            <PostShareButtonInPostCardDesktop postId={id} postTitle={title} postContent={postContent} />
-            <BookmarkIconDesktop onClick={event => event.stopPropagation()}>
-              <BookmarkIcon />
-              <BookmarkIconTextDesktop>북마크</BookmarkIconTextDesktop>
-            </BookmarkIconDesktop>
-          </DesktopButtons>
-        </ContentBottom>
-      </ContentWrapper>
+      <Link to={`${PATH.POST.DETAIL}/${id}`}>
+        <ContentWrapper>
+          <div>
+            <WriterInfo>
+              <img
+                width="18"
+                height="18"
+                src={writerProfileImage}
+                alt="profile"
+                style={{ borderRadius: '18px', objectFit: 'cover', marginRight: '8px' }}
+              />
+              <span>
+                {writerNickname} · {createdAt && getTimeSince(createdAt)}
+              </span>
+            </WriterInfo>
+            <ContentHeader>
+              {title}
+              <TopicChip>{topic}</TopicChip>
+            </ContentHeader>
+            <ContentBody dangerouslySetInnerHTML={{ __html: postContent }} shouldApplyMask={shouldApplyMask} />
+          </div>
+          <ContentBottom>
+            <MobileButtons>
+              <VoteWrapperMobile onClick={event => event.stopPropagation()}>
+                <MobileUpvoteButton
+                  onClick={() => handleVoteAndUpdateIcon(VOTABLE_TYPE.POST, id, VOTE_TYPE.UPVOTE, id, writerId)}
+                >
+                  {votedState === VOTE_TYPE.UPVOTE ? <UpvoteFilledIcon /> : <UpvoteIcon />}
+                </MobileUpvoteButton>
+                <VoteCountMobile>{likesState}</VoteCountMobile>
+                <MobileDownvoteButton
+                  onClick={() => handleVoteAndUpdateIcon(VOTABLE_TYPE.POST, id, VOTE_TYPE.DOWNVOTE, id, writerId)}
+                >
+                  {votedState === VOTE_TYPE.DOWNVOTE ? <DownvoteFilledIcon /> : <DownvoteIcon />}
+                </MobileDownvoteButton>
+              </VoteWrapperMobile>
+              <CommentIconMobile>
+                <div style={{ marginTop: '2px' }}>
+                  <CommentIcon />
+                </div>
+                <CommentCountMobile>{commentCount}</CommentCountMobile>
+              </CommentIconMobile>
+              <PostShareButtonInPostCardMobile postId={id} postTitle={title} postContent={postContent} />
+            </MobileButtons>
+            <DesktopButtons>
+              <CommentIconDesktop>
+                <div style={{ marginTop: '4px' }}>
+                  <CommentIcon />
+                </div>
+                <CommentCountDesktop>{commentCount}개 댓글</CommentCountDesktop>
+              </CommentIconDesktop>
+              <PostShareButtonInPostCardDesktop postId={id} postTitle={title} postContent={postContent} />
+              <BookmarkIconDesktop onClick={event => event.stopPropagation()}>
+                <BookmarkIcon />
+                <BookmarkIconTextDesktop>북마크</BookmarkIconTextDesktop>
+              </BookmarkIconDesktop>
+            </DesktopButtons>
+          </ContentBottom>
+        </ContentWrapper>
+      </Link>
     </Content>
   );
 };

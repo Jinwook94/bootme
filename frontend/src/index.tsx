@@ -17,7 +17,6 @@ import { NotificationProvider } from './hooks/useNotification';
 import { SnackbarProvider } from './hooks/useSnackbar';
 import { SecretProvider, useSecret } from './hooks/useSecret';
 import { ProviderBuilder } from './utils/ProviderBuilder';
-import { NavigationProvider } from './hooks/useNavigation';
 
 const rootElement = document.getElementById('root') as Element;
 
@@ -48,7 +47,6 @@ const BootstrapApp = () => {
     .wrap(LoginProvider)
     .wrap(NotificationProvider)
     .wrap(SnackbarProvider)
-    .wrap(NavigationProvider)
     .build();
 
   return (
