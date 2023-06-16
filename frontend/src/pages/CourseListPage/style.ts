@@ -4,6 +4,32 @@ import { Layout } from '../../components/@common/Layout';
 
 export const CourseListPageLayout = styled(Layout)``;
 
+export const MobileHeader = styled.div`
+  cursor: pointer;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.9), rgba(200, 234, 255, 1));
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 1rem 1.2rem 1rem;
+  @media (min-width: 640px) {
+    display: none;
+  }
+`;
+
+export const MobileHeaderTextLarge = styled.span`
+  color: #21293c;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 40px;
+`;
+
+export const MobileHeaderTextMedium = styled.span`
+  color: #4b587c;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 32px;
+  margin-top: 6px;
+`;
+
 export const SlideWrapper = styled.div`
   max-width: 100%;
   padding-right: 16px;

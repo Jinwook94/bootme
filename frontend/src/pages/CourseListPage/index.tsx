@@ -17,6 +17,9 @@ import {
   MenuRight,
   SearchInput,
   MenuContainer,
+  MobileHeader,
+  MobileHeaderTextLarge,
+  MobileHeaderTextMedium,
 } from './style';
 
 import SlideBanner from '../../components/SlideBanner';
@@ -80,6 +83,10 @@ const CourseListPage = () => {
   return (
     <>
       <ModalFilter />
+      <MobileHeader>
+        <MobileHeaderTextLarge>부트캠프</MobileHeaderTextLarge>
+        <MobileHeaderTextMedium>소프트웨어 커리큘럼을 한 곳에서 비교하세요.</MobileHeaderTextMedium>
+      </MobileHeader>
       <SlideWrapper style={{ marginTop: '1.5rem' }}>
         <SlideBanner />
       </SlideWrapper>
