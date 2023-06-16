@@ -11,6 +11,8 @@ import {
   DotWrapper,
   MenuButton,
   Wrapper1,
+  PostHeader,
+  BootcampHeader,
 } from './style';
 
 import GitHubIcon from '../../assets/github.svg';
@@ -63,11 +65,16 @@ const Header = () => {
                 </Logo>
               </Link>
               <Link to={PATH.COURSE.LIST}>
-                <HeaderItem> 부트캠프 </HeaderItem>
+                <BootcampHeader currentPath={location.pathname}> 부트캠프 </BootcampHeader>
               </Link>
-              <HeaderItem onClick={() => showSnackbar(SNACKBAR_MESSAGE.WORK_IN_PROGRESS, EXCLAMATION)}>회사</HeaderItem>
+              <HeaderItem
+                currentPath={location.pathname}
+                onClick={() => showSnackbar(SNACKBAR_MESSAGE.WORK_IN_PROGRESS, EXCLAMATION)}
+              >
+                회사
+              </HeaderItem>
               <Link to={PATH.POST.LIST}>
-                <HeaderItem>커뮤니티 </HeaderItem>
+                <PostHeader currentPath={location.pathname}>커뮤니티 </PostHeader>
               </Link>
             </HeaderLeft>
             <HeaderRight>

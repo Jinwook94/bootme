@@ -2,10 +2,12 @@ const PATH = {
   HOME: '/',
   LOGIN: '/login',
   COURSE: {
+    DOMAIN: '/course',
     LIST: '/course/list',
     DETAIL: '/course',
   },
   POST: {
+    DOMAIN: '/post',
     LIST: '/post/list',
     DETAIL: '/post',
     WRITE: '/post/write',

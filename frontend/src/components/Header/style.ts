@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import PATH from '../../constants/path';
 
 export const Wrapper1 = styled.div`
   border-bottom: 1px solid #f2f2f2;
@@ -44,9 +45,13 @@ export const ServiceName = styled.span`
   margin-left: 0.15rem;
 `;
 
-export const HeaderItem = styled.div`
+type HeaderItemProps = {
+  currentPath: string;
+};
+
+export const HeaderItem = styled.div<HeaderItemProps>`
   margin-right: 2rem;
-  color: #000;
+  color: rgb(174, 174, 174);
   font-size: 1.125rem;
   font-weight: 500;
   cursor: pointer;
@@ -54,6 +59,14 @@ export const HeaderItem = styled.div`
   @media (max-width: 768px) {
     display: none;
   }
+`;
+
+export const BootcampHeader = styled(HeaderItem)`
+  color: ${props => (props.currentPath.startsWith(PATH.COURSE.DOMAIN) ? '#000' : 'rgb(174, 174, 174)')};
+`;
+
+export const PostHeader = styled(HeaderItem)`
+  color: ${props => (props.currentPath.startsWith(PATH.POST.DOMAIN) ? '#000' : 'rgb(174, 174, 174)')};
 `;
 
 export const HeaderRight = styled.div`
