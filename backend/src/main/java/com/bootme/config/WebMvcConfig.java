@@ -49,7 +49,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/login")
                 .excludePathPatterns("/naver")
                 .excludePathPatterns("/logout")
-                .excludePathPatterns("/secrets")
                 .excludePathPatterns("/docs/**");
         registry.addInterceptor(ipInterceptor);
     }
