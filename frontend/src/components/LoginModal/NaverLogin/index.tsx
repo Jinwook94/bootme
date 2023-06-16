@@ -4,6 +4,7 @@ import { useLogin } from '../../../hooks/useLogin';
 import { useSecret } from '../../../hooks/useSecret';
 import { NAVER } from '../../../constants/others';
 import PATH from '../../../constants/path';
+import { Spin } from 'antd';
 
 export const NaverLoginButton = () => {
   const { secrets } = useSecret();
@@ -56,5 +57,11 @@ export const NaverLoginRedirect = () => {
     });
   }, []);
 
-  return <></>;
+  return (
+    <div style={{ marginTop: '100px' }}>
+      <Spin tip="Loading" size="large">
+        <div className="content" />
+      </Spin>
+    </div>
+  );
 };
