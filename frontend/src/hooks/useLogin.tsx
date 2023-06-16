@@ -20,7 +20,7 @@ const LoginContext = createContext<LoginContextProps>({
 export const LoginProvider = ({ children }: LoginProviderProps) => {
   const { showSnackbar } = useSnackbar();
   const navigate = useNavigate();
-  const memberId = localStorage.getItem('MemberId');
+  const memberId = localStorage.getItem('memberId');
   const [isLogin, setIsLogin] = useState(() => {
     return !!memberId;
   });
