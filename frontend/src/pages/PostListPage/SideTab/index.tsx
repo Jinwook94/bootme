@@ -17,11 +17,25 @@ import { ResetIcon } from '../../../constants/icons';
 import React from 'react';
 import { usePost } from '../../../hooks/usePost';
 import { usePostFilters } from '../../../hooks/useFilters';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import SNACKBAR_MESSAGE, { CHECK } from '../../../constants/snackbar';
+import { useSnackbar } from '../../../hooks/useSnackbar';
+import { useLogin } from '../../../hooks/useLogin';
 
 const SideTab = () => {
+  const { showSnackbar } = useSnackbar();
+  const { isLogin } = useLogin();
+  const navigate = useNavigate();
   const { sortOption } = usePost();
   const { selectedFilters } = usePostFilters();
+
+  const handleCreatePost = () => {
+    if (isLogin) {
+      navigate(PATH.POST.WRITE);
+    } else {
+      showSnackbar(SNACKBAR_MESSAGE.NEED_LOGIN, CHECK);
+    }
+  };
 
   return (
     <SideTabWrapper1>
@@ -71,13 +85,11 @@ const SideTab = () => {
           </Link>
         </TopicWrapper>
       </SideTabWrapper2>
-      <Link to={PATH.POST.WRITE}>
-        <WriteButton>
-          <Button type="primary" block style={{ fontSize: '16px', fontWeight: '700', lineHeight: 'normal' }}>
-            글 작성하기
-          </Button>
-        </WriteButton>
-      </Link>
+      <WriteButton onClick={handleCreatePost}>
+        <Button type="primary" block style={{ fontSize: '16px', fontWeight: '700', lineHeight: 'normal' }}>
+          글 작성하기
+        </Button>
+      </WriteButton>
     </SideTabWrapper1>
   );
 };

@@ -35,16 +35,22 @@ import { Post } from '../../types/post';
 import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.core.css';
 import React, { useEffect, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { usePost } from '../../hooks/usePost';
 import { usePostFilters } from '../../hooks/useFilters';
 import PostCard from './PostCard';
 import TopicDropdown from './TopicDropdown';
 import BottomTapBar from './BottomTabBar';
 import SideTab from './SideTab';
+import { useSnackbar } from '../../hooks/useSnackbar';
+import { useLogin } from '../../hooks/useLogin';
+import SNACKBAR_MESSAGE, { CHECK } from '../../constants/snackbar';
 
 const PostListPage = () => {
   const [searchParams] = useSearchParams();
+  const { showSnackbar } = useSnackbar();
+  const { isLogin } = useLogin();
+  const navigate = useNavigate();
   const {
     sortOption,
     postList,
@@ -62,6 +68,14 @@ const PostListPage = () => {
   const [currentTopic, setCurrentTopic] = useState('');
   const profilePicture = localStorage.getItem('profileImage') || '';
   const [initialized, setInitialized] = useState(false);
+
+  const handleCreatePost = () => {
+    if (isLogin) {
+      navigate(PATH.POST.WRITE);
+    } else {
+      showSnackbar(SNACKBAR_MESSAGE.NEED_LOGIN, CHECK);
+    }
+  };
 
   const resetPageState = async () => {
     setPostList([]);
@@ -144,9 +158,7 @@ const PostListPage = () => {
                 </ProfileWrapper3>
               </ProfileWrapper2>
             </ProfileWrapper1>
-            <Link to={PATH.POST.WRITE} style={{ width: '100%' }}>
-              <CreatePostInput placeholder="글 작성하기" />
-            </Link>
+            <CreatePostInput onClick={handleCreatePost} placeholder="글 작성하기" />
           </CreatePostWrapper>
           <SortAndFilterMobile>
             <SortAndFilterWrapper>
