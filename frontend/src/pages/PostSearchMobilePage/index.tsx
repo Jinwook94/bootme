@@ -42,7 +42,7 @@ const PostSearchMobilePage = () => {
         </SearchBarWrapper>
       </Wrapper>
       <BottomTapBarWrapper>
-        <Link to={PATH.POST.LIST}>
+        <Link to={PATH.POST.LIST} style={{ width: '100%', height: '100%' }}>
           <TapBarItem>
             <TapBarItemIcon>
               <HomeOutlined />
@@ -50,13 +50,15 @@ const PostSearchMobilePage = () => {
             <TapBarItemText>커뮤니티 홈</TapBarItemText>
           </TapBarItem>
         </Link>
-        <TapBarItem onClick={() => showSnackbar(SNACKBAR_MESSAGE.WORK_IN_PROGRESS, EXCLAMATION)}>
-          <TapBarItemIcon>
-            <BulbOutlined />
-          </TapBarItemIcon>
-          <TapBarItemText>디스커버리</TapBarItemText>
-        </TapBarItem>
-        <Link to={PATH.POST.WRITE}>
+        <a style={{ width: '100%', height: '100%', cursor: 'pointer' }}>
+          <TapBarItem onClick={() => showSnackbar(SNACKBAR_MESSAGE.WORK_IN_PROGRESS, EXCLAMATION)}>
+            <TapBarItemIcon>
+              <BulbOutlined />
+            </TapBarItemIcon>
+            <TapBarItemText>디스커버리</TapBarItemText>
+          </TapBarItem>
+        </a>
+        <Link to={PATH.POST.WRITE} style={{ width: '100%', height: '100%' }}>
           <TapBarItem>
             <TapBarItemIcon>
               <PlusOutlined />
@@ -64,18 +66,22 @@ const PostSearchMobilePage = () => {
             <TapBarItemText>글쓰기</TapBarItemText>
           </TapBarItem>
         </Link>
-        <TapBarItem onClick={() => showSnackbar(SNACKBAR_MESSAGE.WORK_IN_PROGRESS, EXCLAMATION)}>
-          <TapBarItemIcon>
-            <CommentOutlined />
-          </TapBarItemIcon>
-          <TapBarItemText>채팅</TapBarItemText>
-        </TapBarItem>
-        <TapBarItem>
-          <ColoredIcon>
-            <SearchOutlined />
-          </ColoredIcon>
-          <ColoredText>검색</ColoredText>
-        </TapBarItem>
+        <a style={{ width: '100%', height: '100%', cursor: 'pointer' }}>
+          <TapBarItem onClick={() => showSnackbar(SNACKBAR_MESSAGE.WORK_IN_PROGRESS, EXCLAMATION)}>
+            <TapBarItemIcon>
+              <CommentOutlined />
+            </TapBarItemIcon>
+            <TapBarItemText>채팅</TapBarItemText>
+          </TapBarItem>
+        </a>
+        <a style={{ width: '100%', height: '100%', cursor: 'pointer' }}>
+          <TapBarItem>
+            <ColoredIcon>
+              <SearchOutlined />
+            </ColoredIcon>
+            <ColoredText>검색</ColoredText>
+          </TapBarItem>
+        </a>
       </BottomTapBarWrapper>
     </>
   );
