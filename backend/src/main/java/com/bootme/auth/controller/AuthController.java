@@ -6,12 +6,10 @@ import com.bootme.auth.util.TokenProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 @RestController
 public class AuthController {
@@ -31,6 +29,18 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestHeader("Authorization") String authHeader) {
         String[] userInfo = authService.login(authHeader);
+        String accessTokenCookie = tokenProvider.getAccessTokenCookie(userInfo[0], userInfo[1]);
+        String refreshTokenCookie = tokenProvider.getRefreshTokenCookie(userInfo[0], userInfo[1]);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, accessTokenCookie)
+                .header(HttpHeaders.SET_COOKIE, refreshTokenCookie)
+                .body(userInfo[2]);
+    }
+
+    @PostMapping("/login/naver")
+    public ResponseEntity<String> naverLogin(@RequestBody Map<String, String> body) {
+        String[] userInfo = authService.processNaverLogin(body.get("url"));
         String accessTokenCookie = tokenProvider.getAccessTokenCookie(userInfo[0], userInfo[1]);
         String refreshTokenCookie = tokenProvider.getRefreshTokenCookie(userInfo[0], userInfo[1]);
 

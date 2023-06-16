@@ -30,7 +30,7 @@ public class JwtVo {
     }
 
     @Getter
-    public static class Body{
+    public static class Body implements UserInfo {
         private String oAuthProvider;
         private String iss;
         private String aud;

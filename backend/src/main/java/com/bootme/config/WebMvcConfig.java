@@ -47,7 +47,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(tokenValidationInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns("/login")
+                .excludePathPatterns("/naver")
                 .excludePathPatterns("/logout")
+                .excludePathPatterns("/secrets")
                 .excludePathPatterns("/docs/**");
         registry.addInterceptor(ipInterceptor);
     }

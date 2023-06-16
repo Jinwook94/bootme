@@ -6,9 +6,8 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.bootme.auth.dto.AuthInfo;
-import com.bootme.auth.dto.AwsSecrets;
-import com.bootme.auth.dto.JwtVo;
+import com.bootme.auth.dto.*;
+import com.bootme.auth.dto.NaverResponse.NaverUserInfo;
 import com.bootme.auth.util.JwkProviderSingleton;
 import com.bootme.common.exception.*;
 import com.bootme.member.domain.Member;
@@ -20,8 +19,11 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.IOException;
 import java.security.interfaces.RSAPublicKey;
@@ -114,7 +116,7 @@ public class AuthService {
         verifySignature(idToken, issuer);
     }
 
-    private String verifyIssuer(JwtVo.Body body) {
+    private String verifyIssuer(UserInfo body) {
         final String iss = body.getIss();
 
         if (Objects.equals(iss, awsSecrets.getBootmeIssuer())) {
@@ -248,27 +250,27 @@ public class AuthService {
     /**
      * 가입된 유저는 방문 횟수를 증가, 가입되지 않은 유저는 가입
      */
-    public void registerMember(JwtVo.Body jwtBody) {
-        boolean isRegistered = memberService.isMemberRegistered(jwtBody.getEmail());
+    public void registerMember(UserInfo userInfo) {
+        boolean isRegistered = memberService.isMemberRegistered(userInfo.getEmail());
 
         if (isRegistered) {
-            incrementVisitsCount(jwtBody);
+            incrementVisitsCount(userInfo);
         } else {
-            String issuer = verifyIssuer(jwtBody);
-            jwtBody.setOAuthProvider(issuer);
+            String issuer = verifyIssuer(userInfo);
+            userInfo.setOAuthProvider(issuer);
 
-            Member member = Member.of(jwtBody);
+            Member member = Member.of(userInfo);
             Member savedMember = memberRepository.save(member);
             notificationService.sendNotification(savedMember, "signUp");
         }
     }
 
-    private void incrementVisitsCount(JwtVo.Body jwtBody) {
+    private void incrementVisitsCount(UserInfo jwtBody) {
         memberRepository.incrementVisits(jwtBody.getEmail());
     }
 
     // 반환값: id, email, userInfo(프론트엔드의 헤더 UI 등에 사용될 유저 정보)
-    public String[] getUserInfo(JwtVo.Body jwtBody) {
+    public String[] getUserInfo(UserInfo jwtBody) {
         Long memberId = memberService.findByEmail(jwtBody.getEmail()).getId();
         String nickname = jwtBody.getNickname();
         String name = jwtBody.getName();
@@ -309,6 +311,38 @@ public class AuthService {
 
     public AwsSecrets getAwsSecrets() {
         return awsSecrets;
+    }
+
+    public String[] processNaverLogin(String naverOauthUrl) {
+        String naverAccessToken = getNaverAccessToken(naverOauthUrl);
+        NaverUserInfo userInfo = getNaverUserInfo(naverAccessToken);
+        registerMember(userInfo);
+        return getUserInfo(userInfo);
+    }
+
+    private String getNaverAccessToken(String naverOauthUrl) {
+        WebClient webClient = WebClient.create(naverOauthUrl);
+        return webClient.get()
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(Map.class)
+                .map(response -> (String) response.get("access_token"))
+                .block();
+    }
+
+    private NaverUserInfo getNaverUserInfo(String naverAccessToken) {
+        WebClient webClient = WebClient.create("https://openapi.naver.com/v1/nid/me");
+        NaverResponse response = webClient.get()
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + naverAccessToken)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(NaverResponse.class)
+                .block();
+
+        if (response == null) {
+            throw new AuthenticationException(NAVER_LOGIN_FAIL, naverAccessToken);
+        }
+        return response.getResponse();
     }
 
 }

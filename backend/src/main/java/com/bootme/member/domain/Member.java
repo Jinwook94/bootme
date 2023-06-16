@@ -1,6 +1,6 @@
 package com.bootme.member.domain;
 
-import com.bootme.auth.dto.JwtVo;
+import com.bootme.auth.dto.UserInfo;
 import com.bootme.common.domain.BaseEntity;
 import com.bootme.notification.domain.Notification;
 import lombok.AccessLevel;
@@ -74,23 +74,23 @@ public class Member extends BaseEntity {
         this.visitsCount = visitsCount;
     }
 
-    public static Member of(JwtVo.Body body) {
-        String nickname = body.getNickname();
+    public static Member of(UserInfo userInfo) {
+        String nickname = userInfo.getNickname();
         if (nickname == null || nickname.isEmpty()) {
-            nickname = body.getName();
+            nickname = userInfo.getName();
         }
         return Member.builder()
-                .email(body.getEmail())
+                .email(userInfo.getEmail())
 //                .password()
-                .oAuthProvider(body.getOAuthProvider())
-                .name(body.getName())
-                .profileImage(body.getPicture())
-                .birthday(body.getBirthDay())
-                .birthYear(body.getBirthYear())
-                .ageRange(body.getAgeRange())
-                .gender(body.getGender())
+                .oAuthProvider(userInfo.getOAuthProvider())
+                .name(userInfo.getName())
+                .profileImage(userInfo.getPicture())
+                .birthday(userInfo.getBirthDay())
+                .birthYear(userInfo.getBirthYear())
+                .ageRange(userInfo.getAgeRange())
+                .gender(userInfo.getGender())
                 .nickname(nickname)
-                .phoneNumber(body.getPhoneNumber())
+                .phoneNumber(userInfo.getPhoneNumber())
                 .roleType(RoleType.USER)
                 .visitsCount(1L)
                 .build();
