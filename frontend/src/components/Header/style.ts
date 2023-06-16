@@ -66,7 +66,8 @@ export const BootcampHeader = styled(HeaderItem)`
 `;
 
 export const PostHeader = styled(HeaderItem)`
-  color: ${props => (props.currentPath.startsWith(PATH.POST.DOMAIN) ? '#000' : 'rgb(174, 174, 174)')};
+  color: ${props =>
+    props.currentPath.startsWith(PATH.POST.DOMAIN) || props.currentPath === '/' ? '#000' : 'rgb(174, 174, 174)'};
 `;
 
 export const HeaderRight = styled.div`
