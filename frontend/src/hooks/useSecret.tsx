@@ -37,9 +37,9 @@ export const SecretProvider = ({ children }: SecretProviderProps) => {
     const typ = 'JWT';
 
     // workflow 빌드 중 깃허브 리포지토리 시크릿으로 교체 (frontend-deploy.yml)
-    const issuer = 'BOOTME_ISSUER';
-    const audience = 'BOOTME_AUDIENCE';
-    const signingKEy = 'BOOTME_SIGNING_KEY';
+    const issuer = 'bootme.co.kr';
+    const audience = 'bootme.co.kr';
+    const signingKEy = 'dRgUkXp2s5v8yBEHMbPeShVmYq3t6w9zCFJNcRfTjWnZr4u7xADG';
     const encodedKey = new TextEncoder().encode(signingKEy);
 
     return new jose.SignJWT({})
