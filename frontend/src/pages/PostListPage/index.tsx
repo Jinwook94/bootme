@@ -34,8 +34,8 @@ import { FireIcon2, FireIconBlue, SparklesIcon, SparklesIconBlue } from '../../c
 import { Post } from '../../types/post';
 import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.core.css';
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import { Link, useNavigate, useNavigationType, useSearchParams } from 'react-router-dom';
 import { usePost } from '../../hooks/usePost';
 import { usePostFilters } from '../../hooks/useFilters';
 import PostCard from './PostCard';
@@ -47,6 +47,7 @@ import { useLogin } from '../../hooks/useLogin';
 import SNACKBAR_MESSAGE, { CHECK } from '../../constants/snackbar';
 
 const PostListPage = () => {
+  const navigationType = useNavigationType();
   const [searchParams] = useSearchParams();
   const { showSnackbar } = useSnackbar();
   const { isLogin } = useLogin();
@@ -83,10 +84,12 @@ const PostListPage = () => {
     setEndOfPosts(false);
   };
 
+  // 사용자가 페이지의 끝까지 스크롤하면 페이지 값 증가
+  // isEndOfPosts=true -> 페이지 값 증가시키지 않음
   useEffect(() => {
     const handleScroll = () => {
       if (
-        window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight ||
+        window.innerHeight + document.documentElement.scrollTop !== document.documentElement.scrollHeight ||
         isEndOfPosts
       )
         return;
@@ -94,8 +97,37 @@ const PostListPage = () => {
     };
 
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('touchmove', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('touchmove', handleScroll);
+    };
   }, [isEndOfPosts, page]);
+
+  // 'POP' 타입의 네비게이션 이벤트가 발생하면 (뒤로 가기를 클릭)
+  // 세션스토리지에서 스크롤 위치를 가져와 해당 위치로 이동함
+  // 스크롤 위치를 사용한 후에는 해당 데이터를 세션스토리지 에서 제거
+  useEffect(() => {
+    if (navigationType === 'POP') {
+      const savedScrollPosition = sessionStorage.getItem('scrollPosition');
+      if (savedScrollPosition) {
+        window.scrollTo(0, Number(savedScrollPosition));
+        sessionStorage.removeItem('scrollPosition');
+      }
+    }
+  }, [navigationType]);
+
+  // 사용자가 스크롤할 때마다 세션 스토리지에 스크롤 위치를 저장
+  // 컴포넌트가 언마운트 될 때 스크롤 이벤트 리스너를 제거하여 메모리 누수 방지
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY || document.documentElement.scrollTop;
+      sessionStorage.setItem('scrollPosition', String(scrollPosition));
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     const searchQuery = searchParams.get('search');
@@ -118,24 +150,39 @@ const PostListPage = () => {
     const pageNum = searchParams.get('page');
     if (pageNum) {
       setPage(parseInt(pageNum, 10));
+    } else {
+      setPage(1);
     }
 
     setInitialized(true);
   }, [searchParams]);
 
-  useEffect(() => {
-    if (initialized) {
-      if (page === 1) {
-        resetPageState().then(() => fetchPostList(sortOption, 1));
-      } else {
-        fetchPostList(sortOption, page);
-      }
-    }
-  }, [selectedFilters, sortOption, page, initialized]);
+  const prevSortOption = useRef(sortOption);
+  const prevSelectedFilters = useRef(selectedFilters);
+  const prevPage = useRef(page);
 
   useEffect(() => {
+    // 정렬 옵션 변경 처리
+    if (sortOption !== prevSortOption.current) {
+      resetPageState().then(() => fetchPostList(sortOption, 1, false));
+    }
+    // 토픽 필터, 페이지 변경 처리
+    else if (initialized && (selectedFilters !== prevSelectedFilters.current || page !== prevPage.current)) {
+      if (page === 1) {
+        resetPageState().then(() => fetchPostList(sortOption, 1, false));
+      } else {
+        fetchPostList(sortOption, page, true);
+      }
+    }
+
+    // 토픽 필터 변경 처리
     setCurrentTopic(selectedFilters?.topic ? selectedFilters?.topic[0] : '');
-  }, [selectedFilters]);
+
+    // 이전 상태 업데이트
+    prevSortOption.current = sortOption;
+    prevSelectedFilters.current = selectedFilters;
+    prevPage.current = page;
+  }, [selectedFilters, page, initialized, sortOption]);
 
   return (
     <>
