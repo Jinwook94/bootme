@@ -97,7 +97,6 @@ const PostListPage = () => {
 
   // 'POP' 타입의 네비게이션 이벤트가 발생하면 (뒤로 가기를 클릭)
   // 세션스토리지에서 스크롤 위치를 가져와 해당 위치로 이동함
-  // 스크롤 위치를 사용한 후에는 해당 데이터를 세션스토리지 에서 제거
   useEffect(() => {
     if (navigationType === 'POP') {
       const savedScrollPosition = sessionStorage.getItem('scrollPosition');
@@ -109,23 +108,18 @@ const PostListPage = () => {
   }, [navigationType]);
 
   // 사용자가 스크롤할 때마다 세션 스토리지에 스크롤 위치를 저장
-  // 컴포넌트가 언마운트 될 때 스크롤 이벤트 리스너를 제거하여 메모리 누수 방지
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY || document.documentElement.scrollTop;
       sessionStorage.setItem('scrollPosition', String(scrollPosition));
     };
 
-    const handleBeforeUnload = () => {
-      const scrollPosition = window.scrollY || document.documentElement.scrollTop;
-      sessionStorage.setItem('scrollPosition', String(scrollPosition));
-    };
-
     window.addEventListener('scroll', handleScroll);
-    window.addEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener('touchmove', handleScroll);
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('beforeunload', handleBeforeUnload);
+      window.removeEventListener('touchmove', handleScroll);
     };
   }, []);
 
