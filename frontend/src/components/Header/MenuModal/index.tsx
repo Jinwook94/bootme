@@ -65,14 +65,14 @@ const MenuModal = ({ isLogin, isMenuOpen, setIsMenuOpen, nickName, profileImage 
       }}
     >
       <MenuHeader>
-        <Link to={PATH.HOME}>
+        <a href={'https://bootme.co.kr'}>
           <HeaderLeft>
             <Logo>
               <GitHubIcon />
               <ServiceName>BootMe</ServiceName>
             </Logo>
           </HeaderLeft>
-        </Link>
+        </a>
         <HeaderRight
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           onMouseOver={() => setIsHovered(true)}
@@ -83,13 +83,13 @@ const MenuModal = ({ isLogin, isMenuOpen, setIsMenuOpen, nickName, profileImage 
       </MenuHeader>
       <MenuBody>
         <Items>
-          <Link to={PATH.COURSE.LIST}>
+          <a href={'https://bootme.co.kr/course/list'}>
             <Item>부트캠프</Item>
-          </Link>
+          </a>
           <Item onClick={() => showSnackbar(SNACKBAR_MESSAGE.WORK_IN_PROGRESS, EXCLAMATION)}>회사</Item>
-          <Link to={PATH.POST.LIST}>
+          <a href={'https://bootme.co.kr/post/list'}>
             <Item>커뮤니티</Item>
-          </Link>
+          </a>
         </Items>
         {isLogin ? (
           <UserInfo>

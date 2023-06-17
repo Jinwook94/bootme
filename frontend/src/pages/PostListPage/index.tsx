@@ -179,12 +179,10 @@ const PostListPage = () => {
     <>
       <CommunityPageLayout>
         <BodyWrapper>
-          <Link to={PATH.POST.LIST}>
-            <MobileHeader>
-              <MobileHeaderTextLarge>커뮤니티</MobileHeaderTextLarge>
-              <MobileHeaderTextMedium>아이디어를 공유하고 궁금증을 해결하세요.</MobileHeaderTextMedium>
-            </MobileHeader>
-          </Link>
+          <MobileHeader onClick={() => window.location.reload()}>
+            <MobileHeaderTextLarge>커뮤니티</MobileHeaderTextLarge>
+            <MobileHeaderTextMedium>아이디어를 공유하고 궁금증을 해결하세요.</MobileHeaderTextMedium>
+          </MobileHeader>
           <CreatePostWrapper>
             <ProfileWrapper1>
               <ProfileWrapper2>

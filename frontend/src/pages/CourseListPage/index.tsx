@@ -83,7 +83,7 @@ const CourseListPage = () => {
   return (
     <>
       <ModalFilter />
-      <MobileHeader>
+      <MobileHeader onClick={() => window.location.reload()}>
         <MobileHeaderTextLarge>부트캠프</MobileHeaderTextLarge>
         <MobileHeaderTextMedium>소프트웨어 커리큘럼을 한 곳에서 비교하세요.</MobileHeaderTextMedium>
       </MobileHeader>
