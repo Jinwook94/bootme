@@ -33,6 +33,7 @@ const PostContext = createContext<PostContextProps>({
   deleteComment: async () => undefined,
   handleVote: async () => undefined,
   onSearch: async () => undefined,
+  isLoadingPost: false,
 });
 
 export const PostProvider = ({ children }: { children: React.ReactNode }) => {
@@ -47,8 +48,10 @@ export const PostProvider = ({ children }: { children: React.ReactNode }) => {
   const [postCount, setPostCount] = useState<number>();
   const [comments, setComments] = useState<PostComment[]>([]);
   const [isEndOfPosts, setEndOfPosts] = useState(false);
+  const [isLoadingPost, setIsLoadingPost] = useState(false);
 
   const fetchPostList = async (sort: string, page: number, append: boolean) => {
+    setIsLoadingPost(true);
     const filterParams = Object.entries(selectedFilters).flatMap(([key, value]) => {
       if (value && value.length) {
         return value.map(option => `${key}=${encodeURIComponent(option)}`);
@@ -76,9 +79,10 @@ export const PostProvider = ({ children }: { children: React.ReactNode }) => {
       if (fetchedPosts && fetchedPosts.numberOfElements < size) {
         setEndOfPosts(true);
       }
-      return response.data;
     } catch (e: any) {
       showSnackbar(SNACKBAR_MESSAGE.FAIL_POST_FETCH + ': ' + e.response.data.message, EXCLAMATION);
+    } finally {
+      setIsLoadingPost(false);
     }
   };
 
@@ -259,6 +263,7 @@ export const PostProvider = ({ children }: { children: React.ReactNode }) => {
         deleteComment,
         handleVote,
         onSearch,
+        isLoadingPost,
       }}
     >
       {children}
@@ -303,4 +308,5 @@ interface PostContextProps {
     memberId: number
   ) => Promise<void>;
   onSearch: (value: string) => void;
+  isLoadingPost: boolean;
 }

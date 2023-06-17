@@ -45,6 +45,7 @@ import SideTab from './SideTab';
 import { useSnackbar } from '../../hooks/useSnackbar';
 import { useLogin } from '../../hooks/useLogin';
 import SNACKBAR_MESSAGE, { CHECK } from '../../constants/snackbar';
+import { useInView } from 'react-intersection-observer';
 
 const PostListPage = () => {
   const navigationType = useNavigationType();
@@ -64,11 +65,15 @@ const PostListPage = () => {
     setSortOption,
     setPostList,
     setEndOfPosts,
+    isLoadingPost,
   } = usePost();
   const { selectedFilters, clearAndAddFilter } = usePostFilters();
   const [currentTopic, setCurrentTopic] = useState('');
   const profilePicture = localStorage.getItem('profileImage') || '';
   const [initialized, setInitialized] = useState(false);
+  const { ref: pageEndRef, inView } = useInView({
+    threshold: 0,
+  });
 
   const handleCreatePost = () => {
     if (isLogin) {
@@ -84,25 +89,11 @@ const PostListPage = () => {
     setEndOfPosts(false);
   };
 
-  // 사용자가 페이지의 끝까지 스크롤하면 페이지 값 증가
-  // isEndOfPosts=true -> 페이지 값 증가시키지 않음
   useEffect(() => {
-    const handleScroll = () => {
-      if (
-        window.innerHeight + document.documentElement.scrollTop !== document.documentElement.scrollHeight ||
-        isEndOfPosts
-      )
-        return;
+    if (inView && !isEndOfPosts && !isLoadingPost) {
       setPage(page + 1);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    window.addEventListener('touchmove', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('touchmove', handleScroll);
-    };
-  }, [isEndOfPosts, page]);
+    }
+  }, [inView, isEndOfPosts, page, isLoadingPost]);
 
   // 'POP' 타입의 네비게이션 이벤트가 발생하면 (뒤로 가기를 클릭)
   // 세션스토리지에서 스크롤 위치를 가져와 해당 위치로 이동함
@@ -279,6 +270,7 @@ const PostListPage = () => {
                   voted={post.voted}
                 />
               ))}
+              {isLoadingPost ? null : <div ref={pageEndRef} />}
             </PostCardList>
           )}
         </BodyWrapper>
