@@ -95,21 +95,16 @@ const PostListPage = () => {
     }
   }, [inView, isEndOfPosts, page, isLoadingPost]);
 
-  // The 'POP' navigation effect
   useEffect(() => {
     if (navigationType === 'POP') {
-      showSnackbar('POP', CHECK);
       const savedScrollPosition = sessionStorage.getItem('scrollPosition');
       if (savedScrollPosition) {
-        setTimeout(() => {
-          window.scrollTo(0, Number(savedScrollPosition));
-        }, 0);
+        window.scrollTo(0, Number(savedScrollPosition));
         sessionStorage.removeItem('scrollPosition');
       }
     }
   }, [navigationType]);
 
-  // Save scroll position
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY || document.documentElement.scrollTop;
@@ -117,12 +112,7 @@ const PostListPage = () => {
     };
 
     window.addEventListener('scroll', handleScroll);
-    window.addEventListener('touchend', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('touchend', handleScroll);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   useEffect(() => {
