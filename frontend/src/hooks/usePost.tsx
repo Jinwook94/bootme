@@ -48,7 +48,7 @@ export const PostProvider = ({ children }: { children: React.ReactNode }) => {
   const [comments, setComments] = useState<PostComment[]>([]);
   const [isEndOfPosts, setEndOfPosts] = useState(false);
 
-  const fetchPostList = async (sort: string, page: number) => {
+  const fetchPostList = async (sort: string, page: number, append: boolean) => {
     const filterParams = Object.entries(selectedFilters).flatMap(([key, value]) => {
       if (value && value.length) {
         return value.map(option => `${key}=${encodeURIComponent(option)}`);
@@ -67,7 +67,11 @@ export const PostProvider = ({ children }: { children: React.ReactNode }) => {
         },
       });
       const fetchedPosts = response.data;
-      setPostList(prevPosts => [...prevPosts, ...fetchedPosts.content]);
+      if (append) {
+        setPostList(prevPosts => [...prevPosts, ...fetchedPosts.content]);
+      } else {
+        setPostList(fetchedPosts.content);
+      }
       setPostCount(fetchedPosts.totalElements);
       if (fetchedPosts && fetchedPosts.numberOfElements < size) {
         setEndOfPosts(true);
@@ -276,7 +280,7 @@ interface PostContextProps {
   setPostList: (postList: Post[]) => void;
   post?: PostDetail;
   postCount?: number;
-  fetchPostList: (sort: string, page: number) => Promise<PostListResponse | void>;
+  fetchPostList: (sort: string, page: number, append: boolean) => Promise<PostListResponse | void>;
   fetchPost: (id: number | undefined) => Promise<PostDetail | void>;
   uploadPost: (topic: string, title: string | undefined, content: string) => Promise<void>;
   editPost: (

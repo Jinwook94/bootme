@@ -34,7 +34,7 @@ import { FireIcon2, FireIconBlue, SparklesIcon, SparklesIconBlue } from '../../c
 import { Post } from '../../types/post';
 import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.core.css';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { usePost } from '../../hooks/usePost';
 import { usePostFilters } from '../../hooks/useFilters';
@@ -123,19 +123,32 @@ const PostListPage = () => {
     setInitialized(true);
   }, [searchParams]);
 
-  useEffect(() => {
-    if (initialized) {
-      if (page === 1) {
-        resetPageState().then(() => fetchPostList(sortOption, 1));
-      } else {
-        fetchPostList(sortOption, page);
-      }
-    }
-  }, [selectedFilters, sortOption, page, initialized]);
+  const prevSortOption = useRef(sortOption);
+  const prevSelectedFilters = useRef(selectedFilters);
+  const prevPage = useRef(page);
 
   useEffect(() => {
+    // 정렬 옵션 변경 처리
+    if (sortOption !== prevSortOption.current) {
+      resetPageState().then(() => fetchPostList(sortOption, 1, false));
+    }
+    // 토픽 필터, 페이지 변경 처리
+    else if (initialized && (selectedFilters !== prevSelectedFilters.current || page !== prevPage.current)) {
+      if (page === 1) {
+        resetPageState().then(() => fetchPostList(sortOption, 1, false));
+      } else {
+        fetchPostList(sortOption, page, true);
+      }
+    }
+
+    // 토픽 필터 변경 처리
     setCurrentTopic(selectedFilters?.topic ? selectedFilters?.topic[0] : '');
-  }, [selectedFilters]);
+
+    // 이전 상태 업데이트
+    prevSortOption.current = sortOption;
+    prevSelectedFilters.current = selectedFilters;
+    prevPage.current = page;
+  }, [selectedFilters, page, initialized, sortOption]);
 
   return (
     <>
