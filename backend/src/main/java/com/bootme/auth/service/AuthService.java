@@ -278,9 +278,11 @@ public class AuthService {
 
         String nickname = jwtBody.getNickname();
         if (nickname == null) {
-            nickname = name;
-        } else if (name == null) {
-            nickname = idInEmail;
+            if (name != null) {
+                nickname = name;
+            } else {
+                nickname = idInEmail;
+            }
         }
 
         return LoginResponse.builder()
