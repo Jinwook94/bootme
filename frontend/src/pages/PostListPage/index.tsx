@@ -84,6 +84,8 @@ const PostListPage = () => {
     setEndOfPosts(false);
   };
 
+  // 사용자가 페이지의 끝까지 스크롤하면 페이지 값 증가
+  // isEndOfPosts=true -> 페이지 값 증가시키지 않음
   useEffect(() => {
     const handleScroll = () => {
       if (
@@ -95,7 +97,7 @@ const PostListPage = () => {
     };
 
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll); // 메모리 누수 방지
   }, [isEndOfPosts, page]);
 
   // 'POP' 타입의 네비게이션 이벤트가 발생하면 (뒤로 가기를 클릭)
@@ -144,6 +146,8 @@ const PostListPage = () => {
     const pageNum = searchParams.get('page');
     if (pageNum) {
       setPage(parseInt(pageNum, 10));
+    } else {
+      setPage(1);
     }
 
     setInitialized(true);
