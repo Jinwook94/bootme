@@ -70,10 +70,6 @@ const PostListPage = () => {
   const profilePicture = localStorage.getItem('profileImage') || '';
   const [initialized, setInitialized] = useState(false);
 
-  if ('scrollRestoration' in history) {
-    history.scrollRestoration = 'manual';
-  }
-
   const handleCreatePost = () => {
     if (isLogin) {
       navigate(PATH.POST.WRITE);
@@ -93,7 +89,7 @@ const PostListPage = () => {
   useEffect(() => {
     const handleScroll = () => {
       if (
-        window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight ||
+        window.innerHeight + document.documentElement.scrollTop !== document.documentElement.scrollHeight ||
         isEndOfPosts
       )
         return;
@@ -101,7 +97,11 @@ const PostListPage = () => {
     };
 
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll); // 메모리 누수 방지
+    window.addEventListener('touchmove', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('touchmove', handleScroll);
+    };
   }, [isEndOfPosts, page]);
 
   // 'POP' 타입의 네비게이션 이벤트가 발생하면 (뒤로 가기를 클릭)
