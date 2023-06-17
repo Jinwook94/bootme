@@ -95,19 +95,20 @@ const PostListPage = () => {
     }
   }, [inView, isEndOfPosts, page, isLoadingPost]);
 
-  // 'POP' 타입의 네비게이션 이벤트가 발생하면 (뒤로 가기를 클릭)
-  // 세션스토리지에서 스크롤 위치를 가져와 해당 위치로 이동함
+  // The 'POP' navigation effect
   useEffect(() => {
     if (navigationType === 'POP') {
       const savedScrollPosition = sessionStorage.getItem('scrollPosition');
       if (savedScrollPosition) {
-        window.scrollTo(0, Number(savedScrollPosition));
+        setTimeout(() => {
+          window.scrollTo(0, Number(savedScrollPosition));
+        }, 0);
         sessionStorage.removeItem('scrollPosition');
       }
     }
   }, [navigationType]);
 
-  // 사용자가 스크롤할 때마다 세션 스토리지에 스크롤 위치를 저장
+  // Save scroll position
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY || document.documentElement.scrollTop;
@@ -115,11 +116,11 @@ const PostListPage = () => {
     };
 
     window.addEventListener('scroll', handleScroll);
-    window.addEventListener('touchmove', handleScroll);
+    window.addEventListener('touchend', handleScroll);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('touchmove', handleScroll);
+      window.removeEventListener('touchend', handleScroll);
     };
   }, []);
 
