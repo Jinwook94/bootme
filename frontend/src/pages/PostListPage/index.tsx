@@ -121,6 +121,12 @@ const PostListPage = () => {
   }, []);
 
   useEffect(() => {
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+  }, []);
+
+  useEffect(() => {
     const searchQuery = searchParams.get('search');
     if (searchQuery) {
       onSearch(searchQuery);
