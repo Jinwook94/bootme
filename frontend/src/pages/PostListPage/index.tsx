@@ -98,6 +98,7 @@ const PostListPage = () => {
   // The 'POP' navigation effect
   useEffect(() => {
     if (navigationType === 'POP') {
+      showSnackbar('POP', CHECK);
       const savedScrollPosition = sessionStorage.getItem('scrollPosition');
       if (savedScrollPosition) {
         setTimeout(() => {
