@@ -116,14 +116,17 @@ const PostListPage = () => {
       sessionStorage.setItem('scrollPosition', String(scrollPosition));
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    const handleBeforeUnload = () => {
+      const scrollPosition = window.scrollY || document.documentElement.scrollTop;
+      sessionStorage.setItem('scrollPosition', String(scrollPosition));
+    };
 
-  useEffect(() => {
-    if ('scrollRestoration' in history) {
-      history.scrollRestoration = 'manual';
-    }
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
   }, []);
 
   useEffect(() => {
