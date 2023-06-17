@@ -70,6 +70,10 @@ const PostListPage = () => {
   const profilePicture = localStorage.getItem('profileImage') || '';
   const [initialized, setInitialized] = useState(false);
 
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+
   const handleCreatePost = () => {
     if (isLogin) {
       navigate(PATH.POST.WRITE);
