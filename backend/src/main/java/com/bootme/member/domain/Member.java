@@ -2,11 +2,14 @@ package com.bootme.member.domain;
 
 import com.bootme.auth.dto.UserInfo;
 import com.bootme.common.domain.BaseEntity;
+import com.bootme.common.exception.ArgumentNotValidException;
+import com.bootme.common.exception.ErrorType;
 import com.bootme.notification.domain.Notification;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +78,10 @@ public class Member extends BaseEntity {
     }
 
     public static Member of(UserInfo userInfo) {
+        String email = userInfo.getEmail();
+        if (email == null || email.isEmpty()) {
+            throw new ArgumentNotValidException(ErrorType.INVALID_EMAIL_NULL, email);
+        }
         String nickname = userInfo.getNickname();
         if (nickname == null || nickname.isEmpty()) {
             nickname = userInfo.getName();

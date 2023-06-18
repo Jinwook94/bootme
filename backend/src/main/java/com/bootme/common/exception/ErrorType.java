@@ -20,6 +20,7 @@ public enum ErrorType {
     GOOGLE_LOGIN_FAIL       (1010, "구글 로그인에 실패했습니다."),
     NAVER_LOGIN_FAIL        (1011, "네이버 로그인에 실패했습니다."),
     NOT_WRITER              (1012, "게시글 작성자가 아닙니다."),
+    INVALID_EMAIL_NULL      (1013, "이메일은 필수 입력값입니다."),
 
     // Authorization
     FORBIDDEN_REQUEST       (2001, "권한이 없습니다."),
