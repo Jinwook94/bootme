@@ -58,7 +58,11 @@ export const PostShareButtonInPostDetailPageDeskTop = ({ post }: { post: PostDet
 
       if (imgElement && imgElement.src) {
         setPostImage(imgElement.src);
+      } else {
+        setPostImage(undefined);
       }
+    } else {
+      setPostImage(undefined);
     }
   }, [post]);
 
@@ -155,7 +159,11 @@ export const PostShareButtonInPostDetailPageMobile = ({ post }: { post: PostDeta
 
       if (imgElement && imgElement.src) {
         setPostImage(imgElement.src);
+      } else {
+        setPostImage(undefined);
       }
+    } else {
+      setPostImage(undefined);
     }
   }, [post]);
 
@@ -269,7 +277,11 @@ export const PostShareButtonInPostCardDesktop = ({
 
       if (imgElement && imgElement.src) {
         setPostImage(imgElement.src);
+      } else {
+        setPostImage(undefined);
       }
+    } else {
+      setPostImage(undefined);
     }
   }, [postContent]);
 
@@ -390,7 +402,11 @@ export const PostShareButtonInPostCardMobile = ({
 
       if (imgElement && imgElement.src) {
         setPostImage(imgElement.src);
+      } else {
+        setPostImage(undefined);
       }
+    } else {
+      setPostImage(undefined);
     }
   }, [postContent]);
 
