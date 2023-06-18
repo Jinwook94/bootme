@@ -1,8 +1,11 @@
 import { GoogleLogin } from '@react-oauth/google';
 import { useGoogleOneTapLogin } from '@react-oauth/google';
 import { useLogin } from '../../../hooks/useLogin';
+import SNACKBAR_MESSAGE, { EXCLAMATION } from '../../../constants/snackbar';
+import { useSnackbar } from '../../../hooks/useSnackbar';
 
 export const GoogleLoginButton = () => {
+  const { showSnackbar } = useSnackbar();
   const { sendIdTokenToServer, handleLoginSuccess } = useLogin();
   return (
     <GoogleLogin
@@ -12,7 +15,7 @@ export const GoogleLoginButton = () => {
         });
       }}
       onError={() => {
-        alert('구글 로그인 실패');
+        showSnackbar(SNACKBAR_MESSAGE.FAIL_LOGIN, EXCLAMATION);
       }}
       text={'signin_with'}
       shape={'rectangular'}
@@ -23,6 +26,7 @@ export const GoogleLoginButton = () => {
 };
 
 export const GoogleLoginOneTap = () => {
+  const { showSnackbar } = useSnackbar();
   const { sendIdTokenToServer, handleLoginSuccess } = useLogin();
 
   useGoogleOneTapLogin({
@@ -32,7 +36,7 @@ export const GoogleLoginOneTap = () => {
       });
     },
     onError: () => {
-      alert('구글 로그인 실패');
+      showSnackbar(SNACKBAR_MESSAGE.FAIL_LOGIN, EXCLAMATION);
     },
   });
   return null;

@@ -41,7 +41,6 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
         storeUserInfoToLocalStorage(r.data);
       })
       .catch(error => {
-        console.log(error);
         return Promise.reject(error);
       });
   };

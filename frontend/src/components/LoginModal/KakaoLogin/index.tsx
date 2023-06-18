@@ -7,6 +7,9 @@ import { useSecret } from '../../../hooks/useSecret';
 import { KAKAO } from '../../../constants/others';
 import PATH from '../../../constants/path';
 import { Spin } from 'antd';
+import SNACKBAR_MESSAGE, { EXCLAMATION } from '../../../constants/snackbar';
+import { useNavigate } from 'react-router-dom';
+import { useSnackbar } from '../../../hooks/useSnackbar';
 
 export const KakaoLoginButton = () => {
   const { secrets } = useSecret();
@@ -22,6 +25,8 @@ export const KakaoLoginButton = () => {
 };
 
 export const KakaoLoginRedirect = () => {
+  const navigate = useNavigate();
+  const { showSnackbar } = useSnackbar();
   const { secrets } = useSecret();
   const REST_API_KEY = secrets?.['kakaoRestApiKey'];
   const REDIRECT_URL = process.env.CLIENT_URL + PATH.OAUTH.KAKAO;
@@ -63,11 +68,19 @@ export const KakaoLoginRedirect = () => {
    *  5. 로컬스토리지 Login 값을 true 로 변경하고 이전 페이지로 리다이렉트
    * */
   useEffect(() => {
-    sendAccessTokenToKakao().then(idToken =>
-      sendIdTokenToServer(idToken).then(() => {
+    sendAccessTokenToKakao()
+      .then(idToken => sendIdTokenToServer(idToken))
+      .then(() => {
         handleLoginSuccess();
       })
-    );
+      .catch(e => {
+        if (e.response.data.message) {
+          showSnackbar(SNACKBAR_MESSAGE.FAIL_LOGIN + ': ' + e.response.data.message, EXCLAMATION);
+        }
+        setTimeout(() => {
+          navigate(-1);
+        }, 1500);
+      });
   }, []);
 
   return (

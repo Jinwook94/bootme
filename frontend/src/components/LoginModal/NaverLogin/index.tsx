@@ -5,6 +5,9 @@ import { useSecret } from '../../../hooks/useSecret';
 import { NAVER } from '../../../constants/others';
 import PATH from '../../../constants/path';
 import { Spin } from 'antd';
+import SNACKBAR_MESSAGE, { EXCLAMATION } from '../../../constants/snackbar';
+import { useNavigate } from 'react-router-dom';
+import { useSnackbar } from '../../../hooks/useSnackbar';
 
 export const NaverLoginButton = () => {
   const { secrets } = useSecret();
@@ -27,6 +30,8 @@ export const NaverLoginButton = () => {
 };
 
 export const NaverLoginRedirect = () => {
+  const navigate = useNavigate();
+  const { showSnackbar } = useSnackbar();
   const { handleNaverLogin, handleLoginSuccess } = useLogin();
   const { secrets } = useSecret();
   const CLIENT_ID = secrets?.['naverClientId'];
@@ -52,9 +57,18 @@ export const NaverLoginRedirect = () => {
    *    2. handleLoginSuccess() - 로그인 처리 완료 이후 사용자를 이전 페이지로 리다이렉트
    * */
   useEffect(() => {
-    handleNaverLogin(ACCESS_TOKEN_REQUEST_URL).then(() => {
-      handleLoginSuccess();
-    });
+    handleNaverLogin(ACCESS_TOKEN_REQUEST_URL)
+      .then(() => {
+        handleLoginSuccess();
+      })
+      .catch(e => {
+        if (e.response.data.message) {
+          showSnackbar(SNACKBAR_MESSAGE.FAIL_LOGIN + ': ' + e.response.data.message, EXCLAMATION);
+        }
+        setTimeout(() => {
+          navigate(-1);
+        }, 1500);
+      });
   }, []);
 
   return (
