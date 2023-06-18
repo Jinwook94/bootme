@@ -397,3 +397,11 @@ export const PostCardList = styled.div`
     min-height: auto;
   }
 `;
+
+export const LoadingSpinner = styled.div`
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+`;

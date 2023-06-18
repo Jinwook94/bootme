@@ -58,10 +58,8 @@ export const NaverLoginRedirect = () => {
   }, []);
 
   return (
-    <div style={{ marginTop: '100px' }}>
-      <Spin tip="Loading" size="large">
-        <div className="content" />
-      </Spin>
-    </div>
+    <Spin tip="Loading" size="large" style={{ marginTop: '100px' }}>
+      <div className="content" />
+    </Spin>
   );
 };

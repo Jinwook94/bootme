@@ -26,8 +26,9 @@ import {
   SortButtons,
   HotButton,
   NewestButton,
+  LoadingSpinner,
 } from './style';
-import { Space } from 'antd';
+import { Space, Spin } from 'antd';
 import { POST_FILTERS } from '../../constants/filters';
 import PATH from '../../constants/path';
 import { FireIcon2, FireIconBlue, SparklesIcon, SparklesIconBlue } from '../../constants/icons';
@@ -263,7 +264,13 @@ const PostListPage = () => {
                   voted={post.voted}
                 />
               ))}
-              {isLoadingPost ? null : <div ref={pageEndRef} />}
+              {isLoadingPost ? (
+                <LoadingSpinner>
+                  <Spin tip="Loading" size="large" />
+                </LoadingSpinner>
+              ) : (
+                <div ref={pageEndRef} />
+              )}
             </PostCardList>
           )}
         </BodyWrapper>

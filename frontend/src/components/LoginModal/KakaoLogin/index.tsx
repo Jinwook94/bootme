@@ -6,6 +6,7 @@ import { noCredentialsFetcher } from '../../../api/fetcher';
 import { useSecret } from '../../../hooks/useSecret';
 import { KAKAO } from '../../../constants/others';
 import PATH from '../../../constants/path';
+import { Spin } from 'antd';
 
 export const KakaoLoginButton = () => {
   const { secrets } = useSecret();
@@ -69,5 +70,9 @@ export const KakaoLoginRedirect = () => {
     );
   }, []);
 
-  return <></>;
+  return (
+    <Spin tip="Loading" size="large" style={{ marginTop: '100px' }}>
+      <div className="content" />
+    </Spin>
+  );
 };
