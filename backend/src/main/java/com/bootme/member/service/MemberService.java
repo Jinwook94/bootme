@@ -1,5 +1,7 @@
 package com.bootme.member.service;
 
+import com.bootme.auth.dto.AuthInfo;
+import com.bootme.auth.service.AuthService;
 import com.bootme.common.exception.ConflictException;
 import com.bootme.common.exception.ResourceNotFoundException;
 import com.bootme.course.domain.Course;
@@ -9,8 +11,11 @@ import com.bootme.course.repository.CourseStackRepository;
 import com.bootme.course.service.CourseService;
 import com.bootme.member.domain.BookmarkCourse;
 import com.bootme.member.domain.Member;
+import com.bootme.member.domain.MemberStack;
+import com.bootme.member.dto.ProfileResponse;
 import com.bootme.member.repository.BookmarkCourseRepository;
 import com.bootme.member.repository.MemberRepository;
+import com.bootme.member.repository.MemberStackRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,11 +33,27 @@ import static com.bootme.common.exception.ErrorType.*;
 @RequiredArgsConstructor
 public class MemberService {
 
+    private final AuthService authService;
     private final MemberRepository memberRepository;
+    private final MemberStackRepository memberStackRepository;
     private final CourseService courseService;
     private final CourseRepository courseRepository;
     private final CourseStackRepository courseStackRepository;
     private final BookmarkCourseRepository bookmarkCourseRepository;
+
+    @Transactional(readOnly = true)
+    public ProfileResponse findMemberProfile(AuthInfo authInfo) {
+        authService.validateLogin(authInfo);
+        Long id = authInfo.getMemberId();
+        Member member = getMemberById(id);
+
+        List<MemberStack> memberStacks = memberStackRepository.findByMember_Id(id);
+        String[] stacks = memberStacks.stream()
+                .map(memberStack -> memberStack.getStack().getName())
+                .toArray(String[]::new);
+
+        return ProfileResponse.of(member, stacks);
+    }
 
     @Transactional(readOnly = true)
     public Member findById(Long id) {

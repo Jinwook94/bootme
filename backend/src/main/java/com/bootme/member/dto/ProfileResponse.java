@@ -5,26 +5,29 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class MemberResponse {
+public class ProfileResponse {
     private String profileImage;
     private String email;
     private String nickname;
     private String job;
+    private String[] stacks;
 
     @Builder
-    public MemberResponse(String profileImage, String email, String nickname, String job) {
+    public ProfileResponse(String profileImage, String email, String nickname, String job, String[] stacks) {
         this.profileImage = profileImage;
         this.email = email;
         this.nickname = nickname;
         this.job = job;
+        this.stacks = stacks;
     }
 
-    public static MemberResponse of(Member member) {
-        return MemberResponse.builder()
+    public static ProfileResponse of(Member member, String[] stacks) {
+        return ProfileResponse.builder()
                 .profileImage(member.getProfileImage())
                 .email(member.getEmail())
                 .nickname(member.getNickname())
                 .job(member.getJob())
+                .stacks(stacks)
                 .build();
     }
 
