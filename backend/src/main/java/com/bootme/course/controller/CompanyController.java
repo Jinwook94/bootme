@@ -20,7 +20,7 @@ public class CompanyController {
     private final CompanyService companyService;
 
     @PostMapping
-    public ResponseEntity<CompanyResponse> addCompany(@Valid @RequestBody CompanyRequest companyRequest){
+    public ResponseEntity<CompanyResponse> addCompany(@Valid CompanyRequest companyRequest){
         Long companyId = companyService.addCompany(companyRequest);
         CompanyResponse companyResponse = companyService.findById(companyId);
         HttpHeaders headers = new HttpHeaders();
@@ -48,7 +48,7 @@ public class CompanyController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> modifyCompany(@PathVariable Long id, @Valid @RequestBody CompanyRequest companyRequest){
+    public ResponseEntity<Void> modifyCompany(@PathVariable Long id, @Valid CompanyRequest companyRequest){
         companyService.modifyCompany(id, companyRequest);
         return ResponseEntity.noContent().build();
     }

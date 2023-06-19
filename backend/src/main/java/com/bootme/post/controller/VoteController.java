@@ -8,7 +8,6 @@ import com.bootme.post.service.VoteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -21,7 +20,7 @@ public class VoteController {
 
     @PostMapping("/vote")
     public ResponseEntity<VotableResponse> vote(@Login AuthInfo authInfo,
-                                           @Valid @RequestBody VoteRequest request) {
+                                           @Valid VoteRequest request) {
         VotableResponse votableResponse = voteService.vote(authInfo, request);
         return ResponseEntity.ok(votableResponse);
     }

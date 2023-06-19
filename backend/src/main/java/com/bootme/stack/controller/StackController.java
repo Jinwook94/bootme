@@ -16,7 +16,7 @@ public class StackController {
     private final StackService stackService;
 
     @PostMapping
-    public ResponseEntity<Void> addStacks(@RequestBody List<Map<String, String>> stacks){
+    public ResponseEntity<Void> addStacks(List<Map<String, String>> stacks){
         stackService.addStacks(stacks);
         return ResponseEntity.ok().build();
     }

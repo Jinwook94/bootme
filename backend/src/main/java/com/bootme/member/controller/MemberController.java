@@ -1,6 +1,10 @@
 package com.bootme.member.controller;
 
+import com.bootme.auth.dto.AuthInfo;
+import com.bootme.auth.util.Login;
 import com.bootme.course.dto.CourseResponse;
+import com.bootme.member.domain.Member;
+import com.bootme.member.dto.MemberResponse;
 import com.bootme.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,6 +21,19 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
+
+    @GetMapping("/me")
+    public ResponseEntity<MemberResponse> getMember(@Login AuthInfo authInfo) {
+        Member member = memberService.getMemberById(authInfo.getMemberId());
+        MemberResponse of = MemberResponse.of(member);
+        return ResponseEntity.ok(of);
+    }
+
+    @GetMapping("/nickname/{nickname}/exists")
+    public ResponseEntity<Boolean> checkNicknameDuplicate(@PathVariable String nickname){
+        boolean isDuplicate = memberService.isNicknameDuplicate(nickname);
+        return ResponseEntity.ok().body(isDuplicate);
+    }
 
     @PostMapping("/{memberId}/bookmarks/{courseId}")
     public ResponseEntity<Void> addBookmarkCourse(@PathVariable Long memberId, @PathVariable Long courseId){

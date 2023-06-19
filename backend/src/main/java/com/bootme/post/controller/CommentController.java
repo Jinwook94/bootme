@@ -21,7 +21,7 @@ public class CommentController {
     @PostMapping("/posts/{id}/comments")
     public ResponseEntity<Void> addComment(@Login AuthInfo authInfo,
                                            @PathVariable(name = "id") Long postId,
-                                           @Valid @RequestBody CommentRequest commentRequest){
+                                           @Valid CommentRequest commentRequest){
         Long commentId = commentService.addComment(authInfo, postId, commentRequest);
         return ResponseEntity.created(URI.create("/comments/" + commentId)).build();
     }
@@ -36,7 +36,7 @@ public class CommentController {
     @PutMapping("/comments/{id}")
     public ResponseEntity<Void> modifyComment(@Login AuthInfo authInfo,
                                               @PathVariable(name = "id") Long id,
-                                              @Valid @RequestBody CommentRequest commentRequest){
+                                              @Valid CommentRequest commentRequest){
         commentService.modifyComment(authInfo, id, commentRequest.getContent());
         return ResponseEntity.noContent().build();
     }
