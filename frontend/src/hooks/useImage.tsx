@@ -21,7 +21,21 @@ const useImage = () => {
     }
   };
 
-  return { uploadImage };
+  const uploadProfileImage = async (file: Blob) => {
+    const formData = new FormData();
+    formData.append('image', file);
+
+    try {
+      const response = await fetcher.post(`images?imageType=profile`, formData);
+      const imageUrl = response.data;
+      localStorage.setItem('profileImage', imageUrl);
+      return imageUrl;
+    } catch (error) {
+      showSnackbar(SNACKBAR_MESSAGE.FAIL_UPLOAD_IMAGE, EXCLAMATION);
+    }
+  };
+
+  return { uploadImage, uploadProfileImage };
 };
 
 export default useImage;

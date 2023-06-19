@@ -17,6 +17,8 @@ import { NotificationProvider } from './hooks/useNotification';
 import { SnackbarProvider } from './hooks/useSnackbar';
 import { SecretProvider, useSecret } from './hooks/useSecret';
 import { ProviderBuilder } from './utils/ProviderBuilder';
+import { ProfileProvider } from './hooks/useProfile';
+import { StackProvider } from './hooks/useStacks';
 
 const rootElement = document.getElementById('root') as Element;
 
@@ -38,6 +40,8 @@ const BootstrapApp = () => {
 
   const ProviderWrappedApp = new ProviderBuilder(() => <App />)
     .wrap(QueryClientProvider, { client: new QueryClient() })
+    .wrap(ProfileProvider)
+    .wrap(StackProvider)
     .wrap(PostProvider)
     .wrap(PostFilterProvider)
     .wrap(CourseProvider)

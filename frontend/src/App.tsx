@@ -18,6 +18,7 @@ import PostSearchMobilePage from './pages/PostSearchMobilePage';
 import Test from './pages/Test';
 import { useSnackbar } from './hooks/useSnackbar';
 import NotFoundPage from './pages/NotFoundPage';
+import ProfilePage from './pages/ProfilePage';
 
 const App = () => {
   const { isVisible, message, displayIcon } = useSnackbar();
@@ -36,6 +37,7 @@ const App = () => {
         <Route path={PATH.POST.SEARCH} element={<PostSearchMobilePage />} />
         <Route path={'/test'} element={<Test />} />
         <Route element={<PrivateRoute />}>
+          <Route path={PATH.PROFILE} element={<ProfilePage />} />
           <Route path={PATH.BOOKMARKS} element={<BookmarkPage />} />
           <Route path={PATH.POST.WRITE} element={<PostWritePage />} />
         </Route>

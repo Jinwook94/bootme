@@ -35,12 +35,12 @@ const Header = () => {
   const { isLogin, handleLoginModal } = useLogin();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [profileImage, setProfileImage] = useState(localStorage.getItem('profileImage'));
-  const [nickName, setNickName] = useState(localStorage.getItem('nickName'));
+  const [nickName, setNickName] = useState(localStorage.getItem('nickname'));
   const location = useLocation();
 
   useEffect(() => {
-    setNickName(localStorage.getItem('nickName'));
-  }, [localStorage.getItem('nickName')]);
+    setNickName(localStorage.getItem('nickname'));
+  }, [localStorage.getItem('nickname')]);
 
   useEffect(() => {
     setProfileImage(localStorage.getItem('profileImage'));

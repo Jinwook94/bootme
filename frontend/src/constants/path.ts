@@ -1,6 +1,7 @@
 const PATH = {
   HOME: '/',
   LOGIN: '/login',
+  PROFILE: '/profile',
   COURSE: {
     DOMAIN: '/course',
     LIST: '/course/list',
