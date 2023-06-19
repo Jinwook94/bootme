@@ -2,6 +2,7 @@ package com.bootme.stack.service;
 
 import com.bootme.common.exception.ConflictException;
 import com.bootme.stack.domain.Stack;
+import com.bootme.stack.dto.StackRequest;
 import com.bootme.stack.repository.StackRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,12 +20,14 @@ public class StackService {
 
     private final StackRepository stackRepository;
 
-    public void addStacks(List<Map<String, String>> stacks){
-        for(Map<String, String> stack : stacks) {
-            String name = stack.get("name");
-            String type = stack.get("type");
+    public void addStacks(List<StackRequest> requests) {
+        for (StackRequest request : requests) {
+            String name = request.getName();
+            String type = request.getType();
+            String icon = request.getIcon();
             validateDuplicate(name);
-            stackRepository.save(new Stack(name, type));
+
+            stackRepository.save(new Stack(name, type, icon));
         }
     }
 
