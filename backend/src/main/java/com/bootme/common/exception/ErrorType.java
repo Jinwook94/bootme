@@ -21,6 +21,7 @@ public enum ErrorType {
     NAVER_LOGIN_FAIL        (1011, "네이버 로그인에 실패했습니다."),
     NOT_WRITER              (1012, "게시글 작성자가 아닙니다."),
     INVALID_EMAIL_NULL      (1013, "이메일은 필수 입력값입니다."),
+    MEMBER_ID_MISMATCH      (1014, "엑세스 토큰의 id와 요청 경로의 id가 다릅니다."),
 
     // Authorization
     FORBIDDEN_REQUEST       (2001, "권한이 없습니다."),
