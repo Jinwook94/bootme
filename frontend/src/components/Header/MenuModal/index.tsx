@@ -104,7 +104,7 @@ const MenuModal = ({ isLogin, isMenuOpen, setIsMenuOpen, nickName, profileImage,
               />
               <Figcaption>
                 <NickName> {nickName} </NickName>
-                <Occupation> {job ? job : '직업을 입력하세요 :)'} </Occupation>
+                <Occupation>{job && job !== 'null' && job !== 'undefined' ? job : '직업을 입력하세요 :)'}</Occupation>
               </Figcaption>
             </Figure>
             <Link to={PATH.PROFILE}>
