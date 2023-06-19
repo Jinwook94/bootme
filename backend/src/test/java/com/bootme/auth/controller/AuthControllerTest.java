@@ -33,7 +33,7 @@ class AuthControllerTest extends ControllerTest {
         //given
         String accessTokenCookie = "accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c; Path=/; Domain=bootme.co.kr; Max-Age=3600; Expires=Fri, 18 May 2023 16:51:53 GMT; Secure; HttpOnly; SameSite=Lax";
         String refreshTokenCookie = "refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c; Path=/; Domain=bootme.co.kr; Max-Age=2592000; Expires=Sun, 17 Jun 2023 15:51:53 GMT; Secure; HttpOnly; SameSite=Lax";
-        LoginResponse response = new LoginResponse(1L, "john@gmail.com", "John", "imageUrl");
+        LoginResponse response = new LoginResponse(1L, "john@gmail.com", "John", "imageUrl", "Backend Developer");
         given(tokenProvider.getAccessTokenCookie(any(),any())).willReturn(accessTokenCookie);
         given(tokenProvider.getRefreshTokenCookie(any(),any())).willReturn(refreshTokenCookie);
         given(authService.login(any())).willReturn(response);

@@ -272,6 +272,7 @@ public class AuthService {
         String email = member.getEmail();
         String idInEmail = email.split("@")[0];
         String profileImage = member.getProfileImage();
+        String job = member.getJob();
 
         String nickname = member.getNickname();
         if (nickname == null) {
@@ -287,6 +288,7 @@ public class AuthService {
                 .email(email)
                 .nickname(nickname)
                 .profileImage(profileImage)
+                .job(job)
                 .build();
     }
 
