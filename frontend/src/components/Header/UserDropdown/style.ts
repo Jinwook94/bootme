@@ -13,7 +13,8 @@ export const NickNameButton = styled.button`
 `;
 
 export const ContentWrapper = styled.div`
-  width: 200px;
+  width: 100%;
+  min-width: 200px;
 `;
 
 export const Figure = styled.figure`

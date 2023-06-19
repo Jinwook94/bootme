@@ -31,7 +31,7 @@ const ProfilePage = () => {
     validateInputOnChange: true,
     validate: {
       nickname: hasLength({ min: 2, max: 12 }, '2~12자의 닉네임을 입력해주세요.'),
-      job: value => (value ? hasLength({ min: 2, max: 12 }, '2~12자의 직업을 입력해주세요.')(value) : null),
+      job: value => (value ? hasLength({ min: 2, max: 8 }, '2~8자의 직업을 입력해주세요.')(value) : null),
     },
   });
 
