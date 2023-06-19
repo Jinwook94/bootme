@@ -41,12 +41,6 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public Member findByEmail(String email) {
-        return memberRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_MEMBER, email));
-    }
-
-    @Transactional(readOnly = true)
     public boolean isNicknameDuplicate(String nickname) {
         return memberRepository.existsByNickname(nickname);
     }
@@ -94,10 +88,6 @@ public class MemberService {
     public Member getMemberById(Long id) {
         return memberRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_MEMBER, String.valueOf(id)));
-    }
-
-    public boolean isMemberRegistered(String email){
-        return memberRepository.existsMemberByEmail(email);
     }
 
 }

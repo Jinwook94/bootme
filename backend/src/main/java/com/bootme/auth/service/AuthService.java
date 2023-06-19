@@ -12,7 +12,6 @@ import com.bootme.auth.util.JwkProviderSingleton;
 import com.bootme.common.exception.*;
 import com.bootme.member.domain.Member;
 import com.bootme.member.repository.MemberRepository;
-import com.bootme.member.service.MemberService;
 import com.bootme.notification.service.NotificationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
@@ -45,18 +44,15 @@ public class AuthService {
 
     private final AwsSecrets awsSecrets;
     private final MemberRepository memberRepository;
-    private final MemberService memberService;
     private final NotificationService notificationService;
     private final List<String> allowedOrigins;
 
     public AuthService(AwsSecrets awsSecrets,
                        MemberRepository memberRepository,
-                       MemberService memberService,
                        NotificationService notificationService,
                        @Value("${allowed-origins}") String allowedOriginsString) {
         this.awsSecrets = awsSecrets;
         this.memberRepository = memberRepository;
-        this.memberService = memberService;
         this.notificationService = notificationService;
         this.allowedOrigins = Arrays.asList(allowedOriginsString.split(","));
     }
@@ -251,7 +247,7 @@ public class AuthService {
      * 가입된 유저는 방문 횟수를 증가, 가입되지 않은 유저는 가입
      */
     public void registerMember(UserInfo userInfo) {
-        boolean isRegistered = memberService.isMemberRegistered(userInfo.getEmail());
+        boolean isRegistered = memberRepository.existsMemberByEmail(userInfo.getEmail());
 
         if (isRegistered) {
             incrementVisitsCount(userInfo);
@@ -270,7 +266,8 @@ public class AuthService {
     }
 
     public LoginResponse getUserInfo(UserInfo jwtBody) {
-        Long memberId = memberService.findByEmail(jwtBody.getEmail()).getId();
+        Member member = memberRepository.findByEmail(jwtBody.getEmail())
+                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_MEMBER, jwtBody.getEmail()));
         String name = jwtBody.getName();
         String email = jwtBody.getEmail();
         String idInEmail = email.split("@")[0];
@@ -286,7 +283,7 @@ public class AuthService {
         }
 
         return LoginResponse.builder()
-                .memberId(memberId)
+                .memberId(member.getId())
                 .email(email)
                 .nickname(nickname)
                 .profileImage(profileImage)
