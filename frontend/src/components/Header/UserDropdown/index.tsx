@@ -19,12 +19,9 @@ import {
   Occupation,
   TextWrapper,
 } from './style';
-import SNACKBAR_MESSAGE, { EXCLAMATION } from '../../../constants/snackbar';
-import { useSnackbar } from '../../../hooks/useSnackbar';
 
 const UserDropDown = ({ nickName, profileImage }: UserDropDownProps) => {
   const content = () => {
-    const { showSnackbar } = useSnackbar();
     const { handleLogOut } = useLogin();
     return (
       <ContentWrapper>
@@ -43,14 +40,14 @@ const UserDropDown = ({ nickName, profileImage }: UserDropDownProps) => {
         </Figure>
         <Items>
           <Item>
-            {/*<Link to={PATH.PROFILE} onClick={hide}>*/}
-            <LinkItem onClick={() => showSnackbar(SNACKBAR_MESSAGE.WORK_IN_PROGRESS, EXCLAMATION)}>
-              <IconWrapper>
-                <ProfileIcon />
-              </IconWrapper>
-              프로필 관리
-            </LinkItem>
-            {/*</Link>*/}
+            <Link to={PATH.PROFILE} onClick={hide}>
+              <LinkItem>
+                <IconWrapper>
+                  <ProfileIcon />
+                </IconWrapper>
+                프로필 관리
+              </LinkItem>
+            </Link>
           </Item>
           <Item>
             <Link to={PATH.BOOKMARKS} onClick={hide}>

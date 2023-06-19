@@ -107,7 +107,9 @@ const MenuModal = ({ isLogin, isMenuOpen, setIsMenuOpen, nickName, profileImage 
                 <Occupation> 취준생 / 백엔드 </Occupation>
               </Figcaption>
             </Figure>
-            <Item onClick={() => showSnackbar(SNACKBAR_MESSAGE.WORK_IN_PROGRESS, EXCLAMATION)}>프로필 관리</Item>
+            <Link to={PATH.PROFILE}>
+              <Item>프로필 관리</Item>
+            </Link>
             <Link to={PATH.BOOKMARKS}>
               <Item>북마크 코스</Item>
             </Link>
