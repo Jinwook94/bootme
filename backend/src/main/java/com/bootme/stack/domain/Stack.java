@@ -2,6 +2,7 @@ package com.bootme.stack.domain;
 
 import com.bootme.common.domain.BaseEntity;
 import com.bootme.course.domain.CourseStack;
+import com.bootme.member.domain.MemberStack;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,6 +32,9 @@ public class Stack extends BaseEntity {
 
     @Column(nullable = false, length = 5000)
     private String icon;
+
+    @OneToMany(mappedBy = "stack", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private List<MemberStack> memberStacks = new ArrayList<>();
 
     @OneToMany(mappedBy = "stack", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<CourseStack> courseStacks = new ArrayList<>();

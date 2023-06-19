@@ -50,6 +50,9 @@ public class Member extends BaseEntity {
 
     private String phoneNumber;
 
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private List<MemberStack> memberStacks = new ArrayList<>();
+
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Notification> notifications = new ArrayList<>();
 
