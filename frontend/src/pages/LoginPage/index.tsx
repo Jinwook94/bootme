@@ -15,7 +15,8 @@ import React, { useEffect } from 'react';
 import SNACKBAR_MESSAGE, { EXCLAMATION } from '../../constants/snackbar';
 import { useSnackbar } from '../../hooks/useSnackbar';
 import { Button } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import PATH from '../../constants/path';
 
 const LoginPage = () => {
   const { showSnackbar } = useSnackbar();
@@ -42,8 +43,15 @@ const LoginPage = () => {
                 <KakaoLoginButton />
               </LoginOptions>
               <TermsOfService>약관</TermsOfService>
-              <div onClick={handleGoBack}>
-                <Button>뒤로 가기</Button>
+              <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                <Link to={PATH.HOME}>
+                  <Button type="primary" style={{ marginRight: '1rem' }}>
+                    홈으로
+                  </Button>
+                </Link>
+                <div onClick={handleGoBack}>
+                  <Button>뒤로 가기</Button>
+                </div>
               </div>
             </Wrapper5>
           </Wrapper4>
