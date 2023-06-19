@@ -50,16 +50,16 @@ class CourseServiceTest extends ServiceTest {
 
     @BeforeEach
     void setup(){
-        stackRepository.save(Stack.of("JavaScript"));
-        stackRepository.save(Stack.of("TypeScript"));
-        stackRepository.save(Stack.of("Java"));
-        stackRepository.save(Stack.of("Kotlin"));
-        stackRepository.save(Stack.of("Swift"));
-        stackRepository.save(Stack.of("React"));
-        stackRepository.save(Stack.of("Django"));
-        stackRepository.save(Stack.of("Spring"));
-        stackRepository.save(Stack.of("Node.js"));
-        stackRepository.save(Stack.of("Vue.js"));
+        stackRepository.save(Stack.of("JavaScript", "svg"));
+        stackRepository.save(Stack.of("TypeScript", "svg"));
+        stackRepository.save(Stack.of("Java", "svg"));
+        stackRepository.save(Stack.of("Kotlin", "svg"));
+        stackRepository.save(Stack.of("Swift", "svg"));
+        stackRepository.save(Stack.of("React", "svg"));
+        stackRepository.save(Stack.of("Django", "svg"));
+        stackRepository.save(Stack.of("Spring", "svg"));
+        stackRepository.save(Stack.of("Node.js", "svg"));
+        stackRepository.save(Stack.of("Vue.js", "svg"));
         company1 = getCompany(1);
         company2 = getCompany(2);
         company3 = getCompany(3);

@@ -29,15 +29,19 @@ public class Stack extends BaseEntity {
     @Column(nullable = false)
     private String type;
 
+    @Column(nullable = false, length = 5000)
+    private String icon;
+
     @OneToMany(mappedBy = "stack", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<CourseStack> courseStacks = new ArrayList<>();
 
-    public Stack(String name, String type) {
+    public Stack(String name, String type, String icon) {
         this.name = name;
         this.type = type;
+        this.icon = icon;
     }
 
-    public static Stack of(String stack){
+    public static Stack of(String stack, String icon){
         String type;
 
         if (LANGUAGES.contains(stack)) {
@@ -48,7 +52,7 @@ public class Stack extends BaseEntity {
             throw new IllegalArgumentException("Invalid stack: " + stack);
         }
 
-        return new Stack(stack, type);
+        return new Stack(stack, type, icon);
     }
 
     public static List<String> getLanguages(List<Stack> stacks) {
