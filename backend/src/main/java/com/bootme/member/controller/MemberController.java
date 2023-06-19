@@ -4,6 +4,7 @@ import com.bootme.auth.dto.AuthInfo;
 import com.bootme.auth.util.Login;
 import com.bootme.course.dto.CourseResponse;
 import com.bootme.member.dto.ProfileResponse;
+import com.bootme.member.dto.UpdateImageRequest;
 import com.bootme.member.dto.UpdateProfileRequest;
 import com.bootme.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,14 @@ public class MemberController {
                                               @PathVariable Long memberId,
                                               @RequestBody UpdateProfileRequest request) {
         memberService.modifyProfile(authInfo, memberId, request);
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/{memberId}/profile_image")
+    public ResponseEntity<Void> modifyProfileImage(@Login AuthInfo authInfo,
+                                                   @PathVariable Long memberId,
+                                                   @RequestBody UpdateImageRequest request) {
+        memberService.modifyProfileImage(authInfo, memberId, request);
         return ResponseEntity.ok().build();
     }
 

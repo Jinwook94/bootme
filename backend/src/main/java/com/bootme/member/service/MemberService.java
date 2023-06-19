@@ -13,6 +13,7 @@ import com.bootme.member.domain.BookmarkCourse;
 import com.bootme.member.domain.Member;
 import com.bootme.member.domain.MemberStack;
 import com.bootme.member.dto.ProfileResponse;
+import com.bootme.member.dto.UpdateImageRequest;
 import com.bootme.member.dto.UpdateProfileRequest;
 import com.bootme.member.repository.BookmarkCourseRepository;
 import com.bootme.member.repository.MemberRepository;
@@ -87,6 +88,14 @@ public class MemberService {
                 .filter(stackName -> member.getMemberStacks().stream().noneMatch(stack -> stack.getStack().getName().equals(stackName)))
                 .map(stackName -> MemberStack.of(member, stackService.getStackByName(stackName)))
                 .collect(Collectors.toList());
+    }
+
+    public void modifyProfileImage(AuthInfo authinfo, Long memberId, UpdateImageRequest request) {
+        authService.validateLogin(authinfo);
+        Member member = getMemberById(memberId);
+        member.validateIdMatchesToken(authinfo.getMemberId(), memberId);
+
+        member.modifyProfileImage(request);
     }
 
     @Transactional(readOnly = true)
