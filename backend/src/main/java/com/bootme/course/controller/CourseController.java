@@ -23,7 +23,7 @@ public class CourseController {
     private final CourseService courseService;
 
     @PostMapping
-    public ResponseEntity<CourseDetailResponse> addCourse(@Valid CourseRequest courseRequest){
+    public ResponseEntity<CourseDetailResponse> addCourse(@Valid @RequestBody CourseRequest courseRequest){
         Long courseId = courseService.addCourse(courseRequest);
         CourseDetailResponse courseResponse = courseService.findById(courseId);
         HttpHeaders headers = new HttpHeaders();
@@ -64,14 +64,14 @@ public class CourseController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> modifyCourse(@PathVariable Long id,
-                                             @Valid CourseRequest courseRequest){
+                                             @Valid @RequestBody CourseRequest courseRequest){
         courseService.modifyCourse(id, courseRequest);
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/{id}/detail")
     public ResponseEntity<Void> modifyCourseDetail(@PathVariable Long id,
-                                                   @Valid CourseDetailRequest courseDetailRequest) {
+                                                   @Valid @RequestBody CourseDetailRequest courseDetailRequest) {
         courseService.modifyCourseDetail(id, courseDetailRequest);
         return ResponseEntity.noContent().build();
     }

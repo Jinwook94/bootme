@@ -43,7 +43,7 @@ public class AuthController {
     }
 
     @PostMapping("/login/naver")
-    public ResponseEntity<LoginResponse> naverLogin(Map<String, String> body) {
+    public ResponseEntity<LoginResponse> naverLogin(@RequestBody Map<String, String> body) {
         LoginResponse response = authService.processNaverLogin(body.get("url"));
         Long memberId = response.getMemberId();
         String email = response.getEmail();

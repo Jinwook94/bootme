@@ -26,7 +26,7 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping
-    public ResponseEntity<Void> addPost(@Login AuthInfo authInfo, @Valid PostRequest postRequest) {
+    public ResponseEntity<Void> addPost(@Login AuthInfo authInfo, @Valid @RequestBody PostRequest postRequest) {
         Long postId = postService.addPost(authInfo, postRequest);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Access-Control-Expose-Headers", "Location");
@@ -62,7 +62,7 @@ public class PostController {
     @PutMapping("/{id}")
     public ResponseEntity<Void> modifyPost(@Login AuthInfo authInfo,
                                            @PathVariable Long id,
-                                           @Valid PostRequest postRequest){
+                                           @Valid @RequestBody PostRequest postRequest){
         postService.modifyPost(authInfo, id, postRequest);
         return ResponseEntity.noContent().build();
     }

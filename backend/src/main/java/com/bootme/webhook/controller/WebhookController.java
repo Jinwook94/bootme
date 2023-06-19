@@ -29,7 +29,7 @@ public class WebhookController {
 
     @PostMapping
     public ResponseEntity<String> handleWebhook(@RequestHeader(name = "Bootme_Secret") String secret,
-                                                WebhookRequest webhookRequest) {
+                                                @RequestBody WebhookRequest webhookRequest) {
         String jwt = authService.getToken(secret);
         authService.verifyToken(jwt);
         processWebhookEvent(webhookRequest.getEvent(), webhookRequest.getData());
