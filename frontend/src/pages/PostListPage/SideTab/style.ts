@@ -24,6 +24,7 @@ export const TopicTitle = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin-right: 1rem;
 `;
 
 export const TopicText = styled.div`
@@ -35,10 +36,31 @@ export const TopicText = styled.div`
 
 export const ResetIconWrapper = styled.div`
   cursor: pointer;
-  margin-right: 1rem;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  @media (max-width: 768px) {
+    display: inline-block;
+  }
+
+  &:hover {
+    &:before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: -8px;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      background-color: #f2f2f2;
+      z-index: 1;
+    }
+  }
   svg {
+    position: relative;
     width: 1.2rem;
     height: 1.2rem;
+    z-index: 2;
   }
 `;
 

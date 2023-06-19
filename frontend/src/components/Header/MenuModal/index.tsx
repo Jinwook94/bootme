@@ -65,14 +65,14 @@ const MenuModal = ({ isLogin, isMenuOpen, setIsMenuOpen, nickName, profileImage,
       }}
     >
       <MenuHeader>
-        <a href={'https://bootme.co.kr'}>
-          <HeaderLeft>
-            <Logo>
+        <HeaderLeft>
+          <Logo>
+            <a href={'https://bootme.co.kr'}>
               <GitHubIcon />
               <ServiceName>BootMe</ServiceName>
-            </Logo>
-          </HeaderLeft>
-        </a>
+            </a>
+          </Logo>
+        </HeaderLeft>
         <HeaderRight
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           onMouseOver={() => setIsHovered(true)}

@@ -62,8 +62,11 @@ const determinePostHeaderColor = (path: string) =>
 const determineHeaderItemColor = (path: string) =>
   path.startsWith(PATH.COURSE.DOMAIN) || path.startsWith(PATH.POST.DOMAIN) ? 'rgb(174, 174, 174)' : '#000';
 
-export const HeaderItem = styled.div<HeaderItemProps>`
+export const HeaderItemWrapper = styled.div`
   margin-right: 2rem;
+`;
+
+export const HeaderItem = styled.div<HeaderItemProps>`
   color: ${props => determineHeaderItemColor(props.currentPath)};
   font-size: 1.125rem;
   font-weight: 500;

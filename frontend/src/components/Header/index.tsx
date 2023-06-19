@@ -13,6 +13,7 @@ import {
   Wrapper1,
   PostHeader,
   BootcampHeader,
+  HeaderItemWrapper,
 } from './style';
 
 import GitHubIcon from '../../assets/github.svg';
@@ -62,24 +63,30 @@ const Header = () => {
         <Layout>
           <Wrapper>
             <HeaderLeft>
-              <a href={'https://bootme.co.kr/'}>
-                <Logo>
+              <Logo>
+                <a href={'https://bootme.co.kr/'}>
                   <GitHubIcon />
                   <ServiceName>BootMe</ServiceName>
-                </Logo>
-              </a>
-              <a href={'https://bootme.co.kr/course/list'}>
-                <BootcampHeader currentPath={location.pathname}> 부트캠프 </BootcampHeader>
-              </a>
-              <HeaderItem
-                currentPath={location.pathname}
-                onClick={() => showSnackbar(SNACKBAR_MESSAGE.WORK_IN_PROGRESS, EXCLAMATION)}
-              >
-                회사
-              </HeaderItem>
-              <a href={'https://bootme.co.kr/post/list'}>
-                <PostHeader currentPath={location.pathname}>커뮤니티 </PostHeader>
-              </a>
+                </a>
+              </Logo>
+              <HeaderItemWrapper>
+                <a href={'https://bootme.co.kr/course/list'} style={{ display: 'inline-block' }}>
+                  <BootcampHeader currentPath={location.pathname}> 부트캠프 </BootcampHeader>
+                </a>
+              </HeaderItemWrapper>
+              <HeaderItemWrapper>
+                <HeaderItem
+                  currentPath={location.pathname}
+                  onClick={() => showSnackbar(SNACKBAR_MESSAGE.WORK_IN_PROGRESS, EXCLAMATION)}
+                >
+                  회사
+                </HeaderItem>
+              </HeaderItemWrapper>
+              <HeaderItemWrapper>
+                <a href={'https://bootme.co.kr/post/list'} style={{ display: 'inline-block' }}>
+                  <PostHeader currentPath={location.pathname}>커뮤니티 </PostHeader>
+                </a>
+              </HeaderItemWrapper>
             </HeaderLeft>
             <HeaderRight>
               {isLogin ? (
