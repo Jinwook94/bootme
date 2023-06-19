@@ -94,13 +94,14 @@ export const ProfileWrapper4 = styled.div`
 
 export const ProfileWrapper5 = styled.div`
   width: 100%;
+  height: 100%;
   position: absolute;
   bottom: 0;
 `;
 
 export const ProfilePic = styled.img`
   width: 100%;
-  height: auto;
+  height: 100%;
   border-radius: 50%;
   transform-origin: bottom center;
   display: block;
