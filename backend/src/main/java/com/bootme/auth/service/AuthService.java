@@ -268,12 +268,12 @@ public class AuthService {
     public LoginResponse getUserInfo(UserInfo jwtBody) {
         Member member = memberRepository.findByEmail(jwtBody.getEmail())
                 .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_MEMBER, jwtBody.getEmail()));
-        String name = jwtBody.getName();
-        String email = jwtBody.getEmail();
+        String name = member.getName();
+        String email = member.getEmail();
         String idInEmail = email.split("@")[0];
-        String profileImage = jwtBody.getPicture();
+        String profileImage = member.getProfileImage();
 
-        String nickname = jwtBody.getNickname();
+        String nickname = member.getNickname();
         if (nickname == null) {
             if (name != null) {
                 nickname = name;
