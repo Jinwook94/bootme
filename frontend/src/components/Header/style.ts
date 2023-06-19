@@ -49,9 +49,22 @@ type HeaderItemProps = {
   currentPath: string;
 };
 
+const determineBootcampHeaderColor = (path: string) =>
+  path.startsWith(PATH.COURSE.DOMAIN) || (!path.startsWith(PATH.POST.DOMAIN) && !path.startsWith(PATH.COURSE.DOMAIN))
+    ? '#000'
+    : 'rgb(174, 174, 174)';
+
+const determinePostHeaderColor = (path: string) =>
+  path.startsWith(PATH.POST.DOMAIN) || (!path.startsWith(PATH.POST.DOMAIN) && !path.startsWith(PATH.COURSE.DOMAIN))
+    ? '#000'
+    : 'rgb(174, 174, 174)';
+
+const determineHeaderItemColor = (path: string) =>
+  path.startsWith(PATH.COURSE.DOMAIN) || path.startsWith(PATH.POST.DOMAIN) ? 'rgb(174, 174, 174)' : '#000';
+
 export const HeaderItem = styled.div<HeaderItemProps>`
   margin-right: 2rem;
-  color: rgb(174, 174, 174);
+  color: ${props => determineHeaderItemColor(props.currentPath)};
   font-size: 1.125rem;
   font-weight: 500;
   cursor: pointer;
@@ -62,12 +75,11 @@ export const HeaderItem = styled.div<HeaderItemProps>`
 `;
 
 export const BootcampHeader = styled(HeaderItem)`
-  color: ${props => (props.currentPath.startsWith(PATH.COURSE.DOMAIN) ? '#000' : 'rgb(174, 174, 174)')};
+  color: ${props => determineBootcampHeaderColor(props.currentPath)};
 `;
 
 export const PostHeader = styled(HeaderItem)`
-  color: ${props =>
-    props.currentPath.startsWith(PATH.POST.DOMAIN) || props.currentPath === '/' ? '#000' : 'rgb(174, 174, 174)'};
+  color: ${props => determinePostHeaderColor(props.currentPath)};
 `;
 
 export const HeaderRight = styled.div`
