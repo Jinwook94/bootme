@@ -185,7 +185,9 @@ const PostListPage = () => {
                 <ProfileWrapper3>
                   <ProfileWrapper4></ProfileWrapper4>
                   <ProfileWrapper5>
-                    <ProfilePic src={profilePicture} />
+                    {profilePicture && profilePicture !== 'null' && profilePicture !== 'undefined' ? (
+                      <ProfilePic src={profilePicture} />
+                    ) : null}
                   </ProfileWrapper5>
                 </ProfileWrapper3>
               </ProfileWrapper2>
