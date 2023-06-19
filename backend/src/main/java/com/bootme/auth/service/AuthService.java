@@ -288,7 +288,7 @@ public class AuthService {
         return LoginResponse.builder()
                 .memberId(memberId)
                 .email(email)
-                .nickName(nickname)
+                .nickname(nickname)
                 .profileImage(profileImage)
                 .build();
     }

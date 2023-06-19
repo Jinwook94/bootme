@@ -7,14 +7,14 @@ import lombok.Getter;
 public class LoginResponse {
     Long memberId;
     String email;
-    String nickName;
+    String nickname;
     String profileImage;
 
     @Builder
-    public LoginResponse(Long memberId, String email, String nickName, String profileImage) {
+    public LoginResponse(Long memberId, String email, String nickname, String profileImage) {
         this.memberId = memberId;
         this.email = email;
-        this.nickName = nickName;
+        this.nickname = nickname;
         this.profileImage = profileImage;
     }
 
