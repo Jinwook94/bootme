@@ -3,13 +3,14 @@ package com.bootme.stack.service;
 import com.bootme.common.exception.ConflictException;
 import com.bootme.stack.domain.Stack;
 import com.bootme.stack.dto.StackRequest;
+import com.bootme.stack.dto.StackResponse;
 import com.bootme.stack.repository.StackRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.bootme.common.exception.ErrorType.ALREADY_SAVED_STACK;
 
@@ -29,6 +30,12 @@ public class StackService {
 
             stackRepository.save(new Stack(name, type, icon));
         }
+    }
+
+    public List<StackResponse> findAllStacks() {
+        return stackRepository.findAll().stream()
+                .map(StackResponse::of)
+                .collect(Collectors.toList());
     }
 
     private void validateDuplicate(String name){

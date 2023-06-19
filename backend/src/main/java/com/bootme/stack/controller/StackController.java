@@ -1,6 +1,7 @@
 package com.bootme.stack.controller;
 
 import com.bootme.stack.dto.StackRequest;
+import com.bootme.stack.dto.StackResponse;
 import com.bootme.stack.service.StackService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,12 @@ public class StackController {
     public ResponseEntity<Void> addStacks(@RequestBody List<StackRequest> requests) {
         stackService.addStacks(requests);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<StackResponse>> findAllStacks() {
+        List<StackResponse> stacks = stackService.findAllStacks();
+        return ResponseEntity.ok(stacks);
     }
 
 }
