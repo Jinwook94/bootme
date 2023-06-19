@@ -15,6 +15,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     boolean existsMemberByEmail(String uid);
 
+    boolean existsByNickname(String nickname);
+
     @Modifying
     @Transactional
     @Query("UPDATE Member m SET m.visitsCount = m.visitsCount + 1, m.modifiedAt = CURRENT_TIMESTAMP WHERE m.email = :email")

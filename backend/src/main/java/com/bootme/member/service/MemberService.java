@@ -46,6 +46,11 @@ public class MemberService {
                 .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_MEMBER, email));
     }
 
+    @Transactional(readOnly = true)
+    public boolean isNicknameDuplicate(String nickname) {
+        return memberRepository.existsByNickname(nickname);
+    }
+
     public Long addBookmarkCourse(Long memberId, Long courseId) {
         boolean isExist = bookmarkCourseRepository.existsByMemberIdAndCourseId(memberId, courseId);
 
