@@ -29,6 +29,7 @@ public class ImageService {
     private final AuthService authService;
     private final AmazonS3 amazonS3Client;
 
+    private static final String PROFILE = "profile";
     private static final String COURSE_DETAIL = "courseDetail";
     private static final String POST = "post";
     private static final String POST_COMMENT = "postComment";
@@ -58,6 +59,9 @@ public class ImageService {
     private String getFormattedFileName(String imageType, Long memberId, File image) {
         String uploadPath;
         switch (imageType) {
+            case PROFILE:
+                uploadPath = String.format("profile/%d/", memberId);
+                break;
             case COURSE_DETAIL:
                 uploadPath = String.format("course-detail/%d/", memberId);
                 break;
