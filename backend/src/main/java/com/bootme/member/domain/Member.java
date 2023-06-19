@@ -36,6 +36,8 @@ public class Member extends BaseEntity {
 
     private String profileImage;
 
+    private String job;
+
     private String birthday;
 
     private String birthYear;
@@ -60,13 +62,14 @@ public class Member extends BaseEntity {
 
     @Builder
     public Member(String email, String password, String oAuthProvider, String name, String profileImage,
-                  String birthday, String birthYear, String ageRange, String gender, String nickname,
-                  String phoneNumber, RoleType roleType, Long visitsCount) {
+                  String job, String birthday, String birthYear, String ageRange, String gender,
+                  String nickname, String phoneNumber, RoleType roleType, Long visitsCount) {
         this.email = email;
         this.password = password;
         this.oAuthProvider = oAuthProvider;
         this.name = name;
         this.profileImage = profileImage;
+        this.job = job;
         this.birthday = birthday;
         this.birthYear = birthYear;
         this.ageRange = ageRange;
