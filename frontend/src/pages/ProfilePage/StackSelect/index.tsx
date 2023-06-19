@@ -65,7 +65,7 @@ const StackSelect = () => {
           clearable
           maxDropdownHeight={300}
           defaultValue={stacks}
-          placeholder="사용하시는 기술 스택을 선택하세요."
+          placeholder="선호하는 기술 스택을 선택하세요."
           label="기술 스택"
           onChange={value => setStacks(value)}
         />

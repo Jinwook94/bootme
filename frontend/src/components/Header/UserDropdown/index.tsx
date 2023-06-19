@@ -35,7 +35,7 @@ const UserDropDown = ({ nickName, profileImage, job }: UserDropDownProps) => {
           />
           <Figcaption>
             <NickName> {nickName} </NickName>
-            <Occupation> {job} </Occupation>
+            <Occupation> {job ? job : '직업을 입력하세요 :)'} </Occupation>
           </Figcaption>
         </Figure>
         <Items>
