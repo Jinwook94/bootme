@@ -1,6 +1,14 @@
+### 카카오 토큰 정보
+GET https://kapi.kakao.com/v1/user/access_token_info HTTP/1.1
+Authorization: Bearer token
+
+### 카카오 로그아웃
+GET https://kapi.kakao.com/v1/user/logout
+Authorization: Bearer token
+
 ### 시크릿
 GET localhost:8080/secrets HTTP/1.1
-Bootme_secret: Bearer bootme-client-generated-jwt
+Bootme_secret: Bearer token
 Origin: https://bootme.co.kr
 Accept: application/json
 Host: api.bootMe.app
@@ -17,7 +25,6 @@ Content-Type: application/json
 Cookie: accessToken=
 
 {
-  "memberId" : "1",
   "topic" : "자유",
   "title" : "안녕하세요",
   "content" : "반갑습니다"
@@ -39,18 +46,82 @@ POST localhost:8080/stacks HTTP/1.1
 Content-Type: application/json
 
 [
-  {"name": "JavaScript", "type": "language"},
-  {"name": "TypeScript", "type": "language"},
-  {"name": "Java", "type": "language"},
-  {"name": "Python", "type": "language"},
-  {"name": "Swift", "type": "language"},
-  {"name": "Kotlin", "type": "language"},
-  {"name": "React", "type": "framework"},
-  {"name": "Vue.js", "type": "framework"},
-  {"name": "Spring", "type": "framework"},
-  {"name": "Node.js", "type": "framework"},
-  {"name": "Django", "type": "framework"}
+  {
+    "name": "JavaScript",
+    "type": "language",
+    "icon": "https://bootme-images.s3.ap-northeast-2.amazonaws.com/logos/stack/javascript.png"
+  },
+  {
+    "name": "TypeScript",
+    "type": "language",
+    "icon": "https://bootme-images.s3.ap-northeast-2.amazonaws.com/logos/stack/typescript.png"
+  },
+  {
+    "name": "Java",
+    "type": "language",
+    "icon": "https://bootme-images.s3.ap-northeast-2.amazonaws.com/logos/stack/java.png"
+  },
+  {
+    "name": "Python",
+    "type": "language",
+    "icon": "https://bootme-images.s3.ap-northeast-2.amazonaws.com/logos/stack/python.png"
+  },
+  {
+    "name": "Swift",
+    "type": "language",
+    "icon": "https://bootme-images.s3.ap-northeast-2.amazonaws.com/logos/stack/swift.png"
+  },
+  {
+    "name": "Kotlin",
+    "type": "language",
+    "icon": "https://bootme-images.s3.ap-northeast-2.amazonaws.com/logos/stack/kotlin.png"
+  },
+  {
+    "name": "C",
+    "type": "language",
+    "icon": "https://bootme-images.s3.ap-northeast-2.amazonaws.com/logos/stack/c.png"
+  },
+  {
+    "name": "SQL",
+    "type": "language",
+    "icon": "https://bootme-images.s3.ap-northeast-2.amazonaws.com/logos/stack/sql.png"
+  },
+  {
+    "name": "React",
+    "type": "framework",
+    "icon": "https://bootme-images.s3.ap-northeast-2.amazonaws.com/logos/stack/react.png"
+  },
+  {
+    "name": "Vue.js",
+    "type": "framework",
+    "icon": "https://bootme-images.s3.ap-northeast-2.amazonaws.com/logos/stack/vuejs.png"
+  },
+  {
+    "name": "Spring",
+    "type": "framework",
+    "icon": "https://bootme-images.s3.ap-northeast-2.amazonaws.com/logos/stack/spring.png"
+  },
+  {
+    "name": "Node.js",
+    "type": "framework",
+    "icon": "https://bootme-images.s3.ap-northeast-2.amazonaws.com/logos/stack/nodejs.webp"
+  },
+  {
+    "name": "Django",
+    "type": "framework",
+    "icon": "https://bootme-images.s3.ap-northeast-2.amazonaws.com/logos/stack/django.jpeg"
+  },
+  {
+    "name": "Tableau",
+    "type": "Business Intelligence",
+    "icon": "https://bootme-images.s3.ap-northeast-2.amazonaws.com/logos/stack/tableau.png"
+  }
 ]
+
+### 내 프로필 조회
+GET localhost:8080/member/me HTTP/1.1
+Authorization: Bearer token
+Content-Type: application/json
 
 ### 회사 추가
 POST localhost:8080/companies HTTP/1.1

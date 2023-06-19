@@ -1,5 +1,7 @@
 package com.bootme.member.service;
 
+import com.bootme.auth.dto.AuthInfo;
+import com.bootme.auth.service.AuthService;
 import com.bootme.common.exception.ConflictException;
 import com.bootme.common.exception.ResourceNotFoundException;
 import com.bootme.course.domain.Course;
@@ -9,8 +11,14 @@ import com.bootme.course.repository.CourseStackRepository;
 import com.bootme.course.service.CourseService;
 import com.bootme.member.domain.BookmarkCourse;
 import com.bootme.member.domain.Member;
+import com.bootme.member.domain.MemberStack;
+import com.bootme.member.dto.ProfileResponse;
+import com.bootme.member.dto.UpdateImageRequest;
+import com.bootme.member.dto.UpdateProfileRequest;
 import com.bootme.member.repository.BookmarkCourseRepository;
 import com.bootme.member.repository.MemberRepository;
+import com.bootme.member.repository.MemberStackRepository;
+import com.bootme.stack.service.StackService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,7 +26,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.bootme.common.exception.ErrorType.*;
@@ -28,11 +38,65 @@ import static com.bootme.common.exception.ErrorType.*;
 @RequiredArgsConstructor
 public class MemberService {
 
+    private final AuthService authService;
     private final MemberRepository memberRepository;
+    private final MemberStackRepository memberStackRepository;
+    private final StackService stackService;
     private final CourseService courseService;
     private final CourseRepository courseRepository;
     private final CourseStackRepository courseStackRepository;
     private final BookmarkCourseRepository bookmarkCourseRepository;
+
+    @Transactional(readOnly = true)
+    public ProfileResponse findMemberProfile(AuthInfo authInfo) {
+        authService.validateLogin(authInfo);
+        Long id = authInfo.getMemberId();
+        Member member = getMemberById(id);
+
+        List<MemberStack> memberStacks = memberStackRepository.findByMember_Id(id);
+        String[] stacks = memberStacks.stream()
+                .map(memberStack -> memberStack.getStack().getName())
+                .toArray(String[]::new);
+
+        return ProfileResponse.of(member, stacks);
+    }
+
+    // 이메일, 닉네임, 직업, 기술 스택 수정 (프로필 사진 수정은 별도 메서드: modifyProfileImage)
+    public void modifyProfile(AuthInfo authInfo, Long memberId, UpdateProfileRequest request) {
+        authService.validateLogin(authInfo);
+        Member member = getMemberById(memberId);
+        member.validateIdMatchesToken(authInfo.getMemberId(), memberId);
+
+        member.modifyEmail(request.getEmail());
+        member.modifyNickname(request.getNickname());
+        member.modifyJob(request.getJob());
+
+        Set<String> requestedStackNames = new HashSet<>(request.getStacks());
+        List<MemberStack> newStacks = modifyStacks(member, requestedStackNames);
+        member.modifyStacks(newStacks);
+    }
+
+    private List<MemberStack> modifyStacks(Member member, Set<String> stackNames) {
+        List<MemberStack> toDelete = member.getMemberStacks().stream()
+                .filter(stack -> !stackNames.contains(stack.getStack().getName()))
+                .collect(Collectors.toList());
+
+        member.getMemberStacks().removeAll(toDelete);
+        memberStackRepository.deleteAll(toDelete);
+
+        return stackNames.stream()
+                .filter(stackName -> member.getMemberStacks().stream().noneMatch(stack -> stack.getStack().getName().equals(stackName)))
+                .map(stackName -> MemberStack.of(member, stackService.getStackByName(stackName)))
+                .collect(Collectors.toList());
+    }
+
+    public void modifyProfileImage(AuthInfo authinfo, Long memberId, UpdateImageRequest request) {
+        authService.validateLogin(authinfo);
+        Member member = getMemberById(memberId);
+        member.validateIdMatchesToken(authinfo.getMemberId(), memberId);
+
+        member.modifyProfileImage(request);
+    }
 
     @Transactional(readOnly = true)
     public Member findById(Long id) {

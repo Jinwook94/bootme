@@ -3,7 +3,9 @@ package com.bootme.member.domain;
 import com.bootme.auth.dto.UserInfo;
 import com.bootme.common.domain.BaseEntity;
 import com.bootme.common.exception.ArgumentNotValidException;
+import com.bootme.common.exception.AuthenticationException;
 import com.bootme.common.exception.ErrorType;
+import com.bootme.member.dto.UpdateImageRequest;
 import com.bootme.notification.domain.Notification;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -11,8 +13,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
+import static com.bootme.common.exception.ErrorType.MEMBER_ID_MISMATCH;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -107,6 +110,33 @@ public class Member extends BaseEntity {
                 .roleType(RoleType.USER)
                 .visitsCount(1L)
                 .build();
+    }
+
+    public void modifyEmail(String email) {
+        this.email = email;
+    }
+
+    public void modifyProfileImage(UpdateImageRequest request) {
+        this.profileImage = request.getProfileImage();
+    }
+
+    public void modifyJob(String job) {
+        this.job = job;
+    }
+
+    public void modifyNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void modifyStacks(List<MemberStack> newStacks) {
+        this.memberStacks.clear();
+        this.memberStacks.addAll(newStacks);
+    }
+
+    public void validateIdMatchesToken(Long authInfoId, Long receivedId) {
+        if (!Objects.equals(authInfoId, receivedId)) {
+            throw new AuthenticationException(MEMBER_ID_MISMATCH, String.valueOf(receivedId));
+        }
     }
 
 }

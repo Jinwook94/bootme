@@ -1,6 +1,7 @@
 package com.bootme.stack.service;
 
 import com.bootme.common.exception.ConflictException;
+import com.bootme.common.exception.ResourceNotFoundException;
 import com.bootme.stack.domain.Stack;
 import com.bootme.stack.dto.StackRequest;
 import com.bootme.stack.dto.StackResponse;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.bootme.common.exception.ErrorType.ALREADY_SAVED_STACK;
+import static com.bootme.common.exception.ErrorType.NOT_FOUND_STACK;
 
 @Service
 @Transactional
@@ -43,6 +45,11 @@ public class StackService {
         if(isExist){
             throw new ConflictException(ALREADY_SAVED_STACK, name);
         }
+    }
+
+    public Stack getStackByName(String name) {
+        return stackRepository.findByName(name)
+                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_STACK, name));
     }
 
 }
