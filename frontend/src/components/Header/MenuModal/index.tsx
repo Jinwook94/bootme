@@ -25,7 +25,7 @@ import PATH from '../../../constants/path';
 import { Link } from 'react-router-dom';
 import SNACKBAR_MESSAGE, { EXCLAMATION } from '../../../constants/snackbar';
 import { useSnackbar } from '../../../hooks/useSnackbar';
-const MenuModal = ({ isLogin, isMenuOpen, setIsMenuOpen, nickName, profileImage }: MenuModalProps) => {
+const MenuModal = ({ isLogin, isMenuOpen, setIsMenuOpen, nickName, profileImage, job }: MenuModalProps) => {
   const { showSnackbar } = useSnackbar();
   const [isHovered, setIsHovered] = useState(false);
   const { handleLogOut, handleLoginModal } = useLogin();
@@ -104,7 +104,7 @@ const MenuModal = ({ isLogin, isMenuOpen, setIsMenuOpen, nickName, profileImage 
               />
               <Figcaption>
                 <NickName> {nickName} </NickName>
-                <Occupation> 취준생 / 백엔드 </Occupation>
+                <Occupation> {job} </Occupation>
               </Figcaption>
             </Figure>
             <Link to={PATH.PROFILE}>
@@ -141,4 +141,5 @@ interface MenuModalProps {
   setIsMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
   profileImage: string | null;
   nickName: string | null;
+  job: string | null;
 }

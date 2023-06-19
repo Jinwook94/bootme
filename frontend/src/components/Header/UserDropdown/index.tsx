@@ -20,7 +20,7 @@ import {
   TextWrapper,
 } from './style';
 
-const UserDropDown = ({ nickName, profileImage }: UserDropDownProps) => {
+const UserDropDown = ({ nickName, profileImage, job }: UserDropDownProps) => {
   const content = () => {
     const { handleLogOut } = useLogin();
     return (
@@ -35,7 +35,7 @@ const UserDropDown = ({ nickName, profileImage }: UserDropDownProps) => {
           />
           <Figcaption>
             <NickName> {nickName} </NickName>
-            <Occupation> 취준생 / 백엔드 </Occupation>
+            <Occupation> {job} </Occupation>
           </Figcaption>
         </Figure>
         <Items>
@@ -92,4 +92,5 @@ export default UserDropDown;
 interface UserDropDownProps {
   profileImage: string | null;
   nickName: string | null;
+  job: string | null;
 }

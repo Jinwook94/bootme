@@ -36,6 +36,7 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [profileImage, setProfileImage] = useState(localStorage.getItem('profileImage'));
   const [nickName, setNickName] = useState(localStorage.getItem('nickname'));
+  const [job, setJob] = useState(localStorage.getItem('job'));
   const location = useLocation();
 
   useEffect(() => {
@@ -45,6 +46,10 @@ const Header = () => {
   useEffect(() => {
     setProfileImage(localStorage.getItem('profileImage'));
   }, [localStorage.getItem('profileImage')]);
+
+  useEffect(() => {
+    setJob(localStorage.getItem('job'));
+  }, [localStorage.getItem('job')]);
 
   useEffect(() => {
     setIsMenuOpen(false);
@@ -79,7 +84,7 @@ const Header = () => {
             <HeaderRight>
               {isLogin ? (
                 <>
-                  <UserDropDown profileImage={profileImage} nickName={nickName} />
+                  <UserDropDown profileImage={profileImage} nickName={nickName} job={job} />
                   <NotiButton>
                     <NotificationDropdown />
                   </NotiButton>
@@ -124,6 +129,7 @@ const Header = () => {
         setIsMenuOpen={setIsMenuOpen}
         profileImage={profileImage}
         nickName={nickName}
+        job={job}
       />
     </>
   );
