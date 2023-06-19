@@ -4,6 +4,7 @@ import com.bootme.auth.dto.AuthInfo;
 import com.bootme.auth.util.Login;
 import com.bootme.course.dto.CourseResponse;
 import com.bootme.member.dto.ProfileResponse;
+import com.bootme.member.dto.UpdateProfileRequest;
 import com.bootme.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -25,6 +26,14 @@ public class MemberController {
     public ResponseEntity<ProfileResponse> getProfile(@Login AuthInfo authInfo) {
         ProfileResponse response = memberService.findMemberProfile(authInfo);
         return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/{memberId}")
+    public ResponseEntity<Void> modifyProfile(@Login AuthInfo authInfo,
+                                              @PathVariable Long memberId,
+                                              @RequestBody UpdateProfileRequest request) {
+        memberService.modifyProfile(authInfo, memberId, request);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/nickname/{nickname}/exists")

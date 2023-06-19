@@ -13,9 +13,11 @@ import com.bootme.member.domain.BookmarkCourse;
 import com.bootme.member.domain.Member;
 import com.bootme.member.domain.MemberStack;
 import com.bootme.member.dto.ProfileResponse;
+import com.bootme.member.dto.UpdateProfileRequest;
 import com.bootme.member.repository.BookmarkCourseRepository;
 import com.bootme.member.repository.MemberRepository;
 import com.bootme.member.repository.MemberStackRepository;
+import com.bootme.stack.service.StackService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,7 +25,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.bootme.common.exception.ErrorType.*;
@@ -36,6 +40,7 @@ public class MemberService {
     private final AuthService authService;
     private final MemberRepository memberRepository;
     private final MemberStackRepository memberStackRepository;
+    private final StackService stackService;
     private final CourseService courseService;
     private final CourseRepository courseRepository;
     private final CourseStackRepository courseStackRepository;
@@ -53,6 +58,35 @@ public class MemberService {
                 .toArray(String[]::new);
 
         return ProfileResponse.of(member, stacks);
+    }
+
+    // 이메일, 닉네임, 직업, 기술 스택 수정 (프로필 사진 수정은 별도 메서드: modifyProfileImage)
+    public void modifyProfile(AuthInfo authInfo, Long memberId, UpdateProfileRequest request) {
+        authService.validateLogin(authInfo);
+        Member member = getMemberById(memberId);
+        member.validateIdMatchesToken(authInfo.getMemberId(), memberId);
+
+        member.modifyEmail(request.getEmail());
+        member.modifyNickname(request.getNickname());
+        member.modifyJob(request.getJob());
+
+        Set<String> requestedStackNames = new HashSet<>(request.getStacks());
+        List<MemberStack> newStacks = modifyStacks(member, requestedStackNames);
+        member.modifyStacks(newStacks);
+    }
+
+    private List<MemberStack> modifyStacks(Member member, Set<String> stackNames) {
+        List<MemberStack> toDelete = member.getMemberStacks().stream()
+                .filter(stack -> !stackNames.contains(stack.getStack().getName()))
+                .collect(Collectors.toList());
+
+        member.getMemberStacks().removeAll(toDelete);
+        memberStackRepository.deleteAll(toDelete);
+
+        return stackNames.stream()
+                .filter(stackName -> member.getMemberStacks().stream().noneMatch(stack -> stack.getStack().getName().equals(stackName)))
+                .map(stackName -> MemberStack.of(member, stackService.getStackByName(stackName)))
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)

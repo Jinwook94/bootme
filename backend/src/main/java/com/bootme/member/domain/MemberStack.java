@@ -34,4 +34,11 @@ public class MemberStack extends BaseEntity {
         this.stack = stack;
     }
 
+    public static MemberStack of(Member member, Stack stack) {
+        return MemberStack.builder()
+                .member(member)
+                .stack(stack)
+                .build();
+    }
+
 }
