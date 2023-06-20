@@ -19,6 +19,8 @@ import { SecretProvider, useSecret } from './hooks/useSecret';
 import { ProviderBuilder } from './utils/ProviderBuilder';
 import { ProfileProvider } from './hooks/useProfile';
 import { StackProvider } from './hooks/useStacks';
+import { ModalsProvider } from '@mantine/modals';
+import { MantineProvider } from '@mantine/core';
 
 const rootElement = document.getElementById('root') as Element;
 
@@ -40,6 +42,8 @@ const BootstrapApp = () => {
 
   const ProviderWrappedApp = new ProviderBuilder(() => <App />)
     .wrap(QueryClientProvider, { client: new QueryClient() })
+    .wrap(ModalsProvider)
+    .wrap(MantineProvider)
     .wrap(ProfileProvider)
     .wrap(StackProvider)
     .wrap(PostProvider)

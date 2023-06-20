@@ -1,4 +1,4 @@
-import { Card, Title, Avatar, TextInput, Button, Group, Text } from '@mantine/core';
+import { Card, Title, Avatar, TextInput, Button, Group, Text, Center } from '@mantine/core';
 import { AvatarWrapper, IconWrapper, ProfileImage, ProfileLayout, SaveButton, TitleWrapper, Wrapper } from './style';
 import { CheckIconTabler, EditSaveIcon, ImageUploadIcon } from '../../constants/icons';
 
@@ -7,6 +7,7 @@ import { hasLength, useForm } from '@mantine/form';
 import StackSelect from './StackSelect';
 import { useProfile } from '../../hooks/useProfile';
 import useImage from '../../hooks/useImage';
+import { modals } from '@mantine/modals';
 
 const ProfilePage = () => {
   const {
@@ -56,6 +57,19 @@ const ProfilePage = () => {
     fetchMyProfile().catch();
   };
 
+  const openModal = () =>
+    modals.openConfirmModal({
+      title: '프로필 사진 변경',
+      children: (
+        <Center>
+          <Text size="sm">프로필 사진을 기본 이모지로 변경하시겠습니까?</Text>
+        </Center>
+      ),
+      labels: { confirm: '네', cancel: '아니오' },
+      onCancel: () => {},
+      onConfirm: () => handleDefaultImage(),
+    });
+
   useEffect(() => {
     form.setValues({ email, nickname, job, stackNames });
   }, [stackNames]);
@@ -93,7 +107,7 @@ const ProfilePage = () => {
                 </IconWrapper>
               </AvatarWrapper>
             </ProfileImage>
-            <Text fz="xs" c="dimmed" mt={8} style={{ cursor: 'pointer' }} onClick={handleDefaultImage}>
+            <Text fz="xs" c="dimmed" mt={8} style={{ cursor: 'pointer' }} onClick={openModal}>
               기본 이모지 😊
             </Text>
           </div>
