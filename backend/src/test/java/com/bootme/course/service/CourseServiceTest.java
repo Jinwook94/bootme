@@ -3,13 +3,13 @@ package com.bootme.course.service;
 import com.bootme.common.exception.ResourceNotFoundException;
 import com.bootme.course.domain.Company;
 import com.bootme.course.domain.Course;
-import com.bootme.course.domain.CourseStack;
 import com.bootme.course.dto.CourseDetailResponse;
 import com.bootme.course.dto.CourseRequest;
 import com.bootme.course.dto.CourseResponse;
 import com.bootme.course.repository.CompanyRepository;
 import com.bootme.course.repository.CourseRepository;
 import com.bootme.course.repository.CourseStackRepository;
+import com.bootme.post.domain.CourseStatus;
 import com.bootme.stack.domain.Stack;
 import com.bootme.stack.repository.StackRepository;
 import com.bootme.util.ServiceTest;
@@ -275,23 +275,20 @@ class CourseServiceTest extends ServiceTest {
     }
 
     @Test
-    @DisplayName("deleteCourse()는 코스를 삭제한다.")
+    @DisplayName("deleteCourse()는 코스의 status 를 DELETED 로 변경한다.")
     void deleteCourse(){
         //given
         courseRepository.save(course);
         Long id = course.getId();
-        long count = courseRepository.count();
-        List<CourseStack> courseStacks = courseStackRepository.findByCourseId(id);
-        courseStackRepository.deleteAll(courseStacks); // 외래키로 연결된 CourseStack 인스턴스부터 삭제해야함
+//        List<CourseStack> courseStacks = courseStackRepository.findByCourseId(id);
+//        courseStackRepository.deleteAll(courseStacks);
 
         //when
         courseService.deleteCourse(id);
 
         //then
         assertAll(
-                () -> assertThat(courseRepository.findById(id)).isNotPresent(),
-                () -> assertThat(courseRepository.count()).isEqualTo(count - 1),
-                () -> assertThat(company1.getCourses()).doesNotContain(course)
+                () -> assertThat(courseRepository.findById(id).get().getStatus()).isEqualTo(CourseStatus.DELETED)
         );
     }
 
