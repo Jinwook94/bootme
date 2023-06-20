@@ -48,6 +48,8 @@ import {
 } from './style';
 import { CommentThreeDotsDropdown } from '../ThreeDotsDropdown';
 import CommentEdit from '../CommentEdit';
+import { Popover } from '@mantine/core';
+import ProfileCard from '../../../components/ProfileCard';
 
 const PostCommentItem = ({
   id,
@@ -137,12 +139,26 @@ const PostCommentItem = ({
           </ThreadLine2>
         </ThreadLine1>
         <CommentContent>
-          <ProfilePicture>
-            <CommentProfilePic src={writerProfileImage ?? ''} alt={'profile'} />
-          </ProfilePicture>
+          <Popover position="bottom" withArrow shadow="md">
+            <Popover.Target>
+              <ProfilePicture>
+                <CommentProfilePic src={writerProfileImage ?? ''} alt={'profile'} />
+              </ProfilePicture>
+            </Popover.Target>
+            <Popover.Dropdown p={0}>
+              <ProfileCard memberId={memberId} />
+            </Popover.Dropdown>
+          </Popover>
           <CommentBody>
             <CommentTop>
-              <UserNickname>{writerNickname}</UserNickname>
+              <Popover position="bottom" withArrow shadow="md">
+                <Popover.Target>
+                  <UserNickname>{writerNickname}</UserNickname>
+                </Popover.Target>
+                <Popover.Dropdown p={0}>
+                  <ProfileCard memberId={memberId} />
+                </Popover.Dropdown>
+              </Popover>
               <span style={{ margin: '0 4px', flex: '0 0 auto', alignSelf: 'baseline' }}> · </span>
               <WriteTime>{timeSinceCreated}</WriteTime>
             </CommentTop>

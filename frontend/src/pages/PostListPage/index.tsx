@@ -47,6 +47,8 @@ import { useSnackbar } from '../../hooks/useSnackbar';
 import { useLogin } from '../../hooks/useLogin';
 import SNACKBAR_MESSAGE, { CHECK } from '../../constants/snackbar';
 import { useInView } from 'react-intersection-observer';
+import { Popover } from '@mantine/core';
+import ProfileCard from '../../components/ProfileCard';
 
 const PostListPage = () => {
   const navigationType = useNavigationType();
@@ -71,6 +73,7 @@ const PostListPage = () => {
   const { selectedFilters, clearAndAddFilter } = usePostFilters();
   const [currentTopic, setCurrentTopic] = useState('');
   const profilePicture = localStorage.getItem('profileImage') || '';
+  const memberId = localStorage.getItem('memberId') || '';
   const [initialized, setInitialized] = useState(false);
   const { ref: pageEndRef, inView } = useInView({
     threshold: 0,
@@ -180,18 +183,26 @@ const PostListPage = () => {
             <MobileHeaderTextMedium>아이디어를 공유하고 궁금증을 해결하세요.</MobileHeaderTextMedium>
           </MobileHeader>
           <CreatePostWrapper>
-            <ProfileWrapper1>
-              <ProfileWrapper2>
-                <ProfileWrapper3>
-                  <ProfileWrapper4></ProfileWrapper4>
-                  <ProfileWrapper5>
-                    {profilePicture && profilePicture !== 'null' && profilePicture !== 'undefined' ? (
-                      <ProfilePic src={profilePicture} />
-                    ) : null}
-                  </ProfileWrapper5>
-                </ProfileWrapper3>
-              </ProfileWrapper2>
-            </ProfileWrapper1>
+            <Popover position="bottom" withArrow shadow="md">
+              <Popover.Target>
+                <ProfileWrapper1>
+                  <ProfileWrapper2>
+                    <ProfileWrapper3>
+                      <ProfileWrapper4></ProfileWrapper4>
+                      <ProfileWrapper5>
+                        {profilePicture && profilePicture !== 'null' && profilePicture !== 'undefined' ? (
+                          <ProfilePic src={profilePicture} />
+                        ) : null}
+                        <Popover.Dropdown p={0}>
+                          <ProfileCard memberId={memberId} />
+                        </Popover.Dropdown>
+                      </ProfileWrapper5>
+                    </ProfileWrapper3>
+                  </ProfileWrapper2>
+                </ProfileWrapper1>
+              </Popover.Target>
+            </Popover>
+
             <CreatePostInput onClick={handleCreatePost} placeholder="글 작성하기" />
           </CreatePostWrapper>
           <SortAndFilterMobile>

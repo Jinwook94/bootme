@@ -68,6 +68,7 @@ export const CommentContent = styled.div`
 `;
 
 export const ProfilePicture = styled.div`
+  cursor: pointer;
   align-self: flex-start;
   display: inline-block;
   flex: 0 0 auto;
@@ -101,6 +102,7 @@ export const CommentTop = styled.div`
 `;
 
 export const UserNickname = styled.div`
+  cursor: pointer;
   color: #1a1a1b;
   font-size: 12px;
   line-height: 16px;

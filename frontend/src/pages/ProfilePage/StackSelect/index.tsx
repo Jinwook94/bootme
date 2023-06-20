@@ -6,7 +6,7 @@ import { useStacks } from '../../../hooks/useStacks';
 
 const StackSelect = () => {
   const { loadingStackList, fetchStacks, icons, stackList } = useStacks();
-  const { stacks, setStacks } = useProfile();
+  const { stackNames, setStackNames } = useProfile();
 
   function Value({ value, label, onRemove, ...others }: MultiSelectValueProps & { value: string }) {
     const IconSrc = icons[value];
@@ -64,10 +64,10 @@ const StackSelect = () => {
           nothingFound="검색된 기술 스택이 없습니다."
           clearable
           maxDropdownHeight={300}
-          defaultValue={stacks}
+          defaultValue={stackNames}
           placeholder="선호하는 기술 스택을 선택하세요."
           label="기술 스택"
-          onChange={value => setStacks(value)}
+          onChange={value => setStackNames(value)}
         />
       )}
     </>

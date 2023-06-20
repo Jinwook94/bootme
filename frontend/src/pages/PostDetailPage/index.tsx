@@ -67,6 +67,8 @@ import { PostShareButtonInPostDetailPageDeskTop, PostShareButtonInPostDetailPage
 import PATH from '../../constants/path';
 import { PostThreeDotsDropdown } from './ThreeDotsDropdown';
 import PostEdit from './PostEdit';
+import { Popover } from '@mantine/core';
+import ProfileCard from '../../components/ProfileCard';
 
 const PostDetailPage = () => {
   const { id } = useParams();
@@ -173,14 +175,29 @@ const PostDetailPage = () => {
               </TopicWrapper>
               <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                 <WriterInfo>
-                  <ProfilePic src={post?.writerProfileImage ?? ''} alt={'profile'} />
+                  <Popover position="bottom" withArrow shadow="md">
+                    <Popover.Target>
+                      <ProfilePic src={post?.writerProfileImage ?? ''} alt={'profile'} />
+                    </Popover.Target>
+                    <Popover.Dropdown p={0}>
+                      <ProfileCard memberId={memberId} />
+                    </Popover.Dropdown>
+                  </Popover>
                   <Writer>
-                    <NickName>{post?.writerNickname}</NickName>
+                    <Popover position="bottom" withArrow shadow="md">
+                      <Popover.Target>
+                        <NickName>{post?.writerNickname}</NickName>
+                      </Popover.Target>
+                      <Popover.Dropdown p={0}>
+                        <ProfileCard memberId={memberId} />
+                      </Popover.Dropdown>
+                    </Popover>
                     <ContentInfo>
                       {post?.createdAt && getTimeSince(post.createdAt)} · 조회수 {post?.views}
                     </ContentInfo>
                   </Writer>
                 </WriterInfo>
+
                 <ButtonWrapper>
                   <ButtonIconWrapper>
                     <BookmarkIcon />

@@ -11,12 +11,12 @@ import useImage from '../../hooks/useImage';
 const ProfilePage = () => {
   const {
     loadingProfile,
-    fetchProfile,
+    fetchMyProfile,
     profileImage,
     email,
     nickname,
     job,
-    stacks,
+    stackNames,
     isNicknameDuplicate,
     nicknameCheckDone,
     fetchNicknameDuplicate,
@@ -27,7 +27,7 @@ const ProfilePage = () => {
   const { uploadProfileImage } = useImage();
 
   const form = useForm({
-    initialValues: { email: email, nickname: nickname, job: job, stacks: stacks },
+    initialValues: { email: email, nickname: nickname, job: job, stackNames: stackNames },
     validateInputOnChange: true,
     validate: {
       nickname: hasLength({ min: 2, max: 12 }, '2~12자의 닉네임을 입력해주세요.'),
@@ -46,16 +46,16 @@ const ProfilePage = () => {
     if (file) {
       uploadProfileImage(file)
         .then(imageUrl => updateProfileImage(imageUrl))
-        .then(() => fetchProfile());
+        .then(() => fetchMyProfile());
     }
   };
 
   useEffect(() => {
-    form.setValues({ email, nickname, job, stacks });
-  }, [stacks]);
+    form.setValues({ email, nickname, job, stackNames });
+  }, [stackNames]);
 
   useEffect(() => {
-    fetchProfile().catch();
+    fetchMyProfile().catch();
   }, []);
 
   return (

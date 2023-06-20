@@ -296,6 +296,7 @@ export const WriterInfo = styled.div`
   align-items: center;
 `;
 export const ProfilePic = styled.img`
+  cursor: pointer;
   width: 40px;
   height: 40px;
   border-radius: 20px;
@@ -313,6 +314,7 @@ export const Writer = styled.div`
   flex-direction: column;
 `;
 export const NickName = styled.div`
+  cursor: pointer;
   color: #2b2a2a;
   font-size: 14px;
   line-height: 21px;

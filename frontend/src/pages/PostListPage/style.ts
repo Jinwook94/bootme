@@ -66,6 +66,7 @@ export const CreatePostWrapper = styled.div`
 `;
 
 export const ProfileWrapper1 = styled.div`
+  cursor: pointer;
   border: 1px solid #edeff1;
   flex-basis: 38px;
   margin-right: 8px;
