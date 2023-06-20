@@ -21,9 +21,13 @@ export const useRangeBar = (filterName: string, isReset: boolean) => {
   const { selectedFilters, clearAndAddFilter, clearFilterGroup } = useCourseFilters();
   const [isFreeSelected, setIsFreeSelected] = useState(false);
 
-  const handleRangeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCurrentValue(Number(event.target.value));
-    clearAndAddFilter(Filter.filterName, event.target.value);
+  const handleRangeChange = (value: number) => {
+    setCurrentValue(value);
+  };
+
+  const handleRangeChangeEnd = (value: number) => {
+    setCurrentValue(value);
+    clearAndAddFilter(Filter.filterName, value.toString());
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,5 +78,5 @@ export const useRangeBar = (filterName: string, isReset: boolean) => {
     }
   }, [isFreeSelected]);
 
-  return { Filter, currentValue, handleRangeChange, handleInputChange };
+  return { Filter, currentValue, handleRangeChange, handleRangeChangeEnd, handleInputChange };
 };

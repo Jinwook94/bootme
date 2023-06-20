@@ -1,5 +1,5 @@
 import React from 'react';
-import { Wrapper, BarWrapper, Bar, InputWrapper1, InputWrapper2, Input, Unit, CustomRangeBar } from './style';
+import { Wrapper, BarWrapper, InputWrapper1, InputWrapper2, Input, Unit, CustomRangeBar } from './style';
 import { useRangeBar } from '../../../hooks/useRangeBar';
 import { Slider } from '@mantine/core';
 
@@ -20,6 +20,7 @@ export const RangeBar = ({ filterType, filterName, isReset }: RangeBarProps) => 
             max={Filter.maxValue}
             step={Filter.step}
             onChange={handleRangeChange}
+            onChangeEnd={handleRangeChangeEnd}
           />
         </CustomRangeBar>
       </BarWrapper>
