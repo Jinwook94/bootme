@@ -2,6 +2,7 @@ package com.bootme.course.domain;
 
 import com.bootme.common.domain.BaseEntity;
 import com.bootme.course.dto.CourseRequest;
+import com.bootme.post.domain.CourseStatus;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -73,10 +74,15 @@ public class Course extends BaseEntity {
 
     private int bookmarks;
 
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private CourseStatus status;
+
     @Builder
     public Course(String title, String name, int generation, String url, Company company, String location,
-                  List<String> categories, List<CourseStack> courseStacks, int cost, int period, Dates dates, String detail, boolean isRecommended, boolean isFree,
-                  boolean isKdt, boolean isOnline, boolean isTested, boolean isPrerequisiteRequired, int clicks, int bookmarks) {
+                  List<String> categories, List<CourseStack> courseStacks, int cost, int period, Dates dates,
+                  String detail, boolean isRecommended, boolean isFree, boolean isKdt, boolean isOnline,
+                  boolean isTested, boolean isPrerequisiteRequired, int clicks, int bookmarks, CourseStatus status) {
         this.title = title;
         this.name = name;
         this.generation = generation;
@@ -97,6 +103,7 @@ public class Course extends BaseEntity {
         this.isPrerequisiteRequired = isPrerequisiteRequired;
         this.clicks = clicks;
         this.bookmarks = bookmarks;
+        this.status = status;
         this.isRegisterOpen = checkRegisterOpen();
     }
 
@@ -120,6 +127,7 @@ public class Course extends BaseEntity {
                 .isPrerequisiteRequired(courseRequest.isPrerequisiteRequired())
                 .clicks(0)
                 .bookmarks(0)
+                .status(CourseStatus.DISPLAY)
                 .build();
     }
 
