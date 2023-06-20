@@ -14,11 +14,20 @@ const ProfileContext = createContext<ProfileContextProps>({
   setJob: () => {},
   stacks: [],
   setStacks: () => {},
+  stackNames: [],
+  setStackNames: () => {},
   isNicknameChanged: false,
   isNicknameDuplicate: false,
   setIsNicknameDuplicate: () => {},
   nicknameCheckDone: false,
   fetchProfile: async () => ({
+    profileImage: '',
+    email: '',
+    nickname: '',
+    job: '',
+    stacks: [],
+  }),
+  fetchMyProfile: async () => ({
     profileImage: '',
     email: '',
     nickname: '',
@@ -40,20 +49,36 @@ export const ProfileProvider = ({ children }: { children: React.ReactNode }) => 
   const [email, setEmail] = useState(localStorage.getItem('email') || '');
   const [nickname, setNickname] = useState(localStorage.getItem('nickname') || '');
   const [job, setJob] = useState(localStorage.getItem('job') || '');
-  const [stacks, setStacks] = useState<string[]>([]);
+  const [stacks, setStacks] = useState<Stack[]>([]);
+  const [stackNames, setStackNames] = useState<string[]>([]);
   const [isNicknameChanged, setIsNicknameChanged] = useState(false);
   const [isNicknameDuplicate, setIsNicknameDuplicate] = useState(false);
   const [nicknameCheckDone, setNicknameCheckDone] = useState(false);
 
-  const fetchProfile = async () => {
-    setLoadingProfile(true);
-    const { data } = await fetcher.get<ProfileResponse>('member/me');
+  const fetchProfile = async (memberId: number | string) => {
+    const { data } = await fetcher.get<ProfileResponse>(`member/${memberId}/profile`);
     const { profileImage, email, nickname, job, stacks } = data;
     setProfileImage(profileImage);
     setEmail(email);
     setNickname(nickname);
-    setJob(job);
+    if (job !== null) {
+      setJob(job);
+    }
     setStacks(stacks);
+    return data;
+  };
+
+  const fetchMyProfile = async () => {
+    setLoadingProfile(true);
+    const { data } = await fetcher.get<MyProfileResponse>('member/me');
+    const { profileImage, email, nickname, job, stacks } = data;
+    setProfileImage(profileImage);
+    setEmail(email);
+    setNickname(nickname);
+    if (job !== null) {
+      setJob(job);
+    }
+    setStackNames(stacks);
     setLoadingProfile(false);
     return data;
   };
@@ -104,7 +129,7 @@ export const ProfileProvider = ({ children }: { children: React.ReactNode }) => 
       showSnackbar(SNACKBAR_MESSAGE.DUPLICATION_CHECK_NEEDED, EXCLAMATION);
       return;
     }
-    updateMemberProfile({ ...values, stacks }).catch();
+    updateMemberProfile({ ...values, stackNames }).catch();
   };
 
   const handleNicknameChange = (event: { target: { value: string } }) => {
@@ -130,11 +155,14 @@ export const ProfileProvider = ({ children }: { children: React.ReactNode }) => 
         setJob,
         stacks,
         setStacks,
+        stackNames,
+        setStackNames,
         isNicknameChanged,
         isNicknameDuplicate,
         setIsNicknameDuplicate,
         nicknameCheckDone,
         fetchProfile,
+        fetchMyProfile,
         fetchNicknameDuplicate,
         updateProfileImage,
         updateMemberProfile,
@@ -159,13 +187,16 @@ interface ProfileContextProps {
   setNickname: React.Dispatch<React.SetStateAction<string>>;
   job: string;
   setJob: React.Dispatch<React.SetStateAction<string>>;
-  stacks: string[];
-  setStacks: React.Dispatch<React.SetStateAction<string[]>>;
+  stacks: Stack[];
+  setStacks: React.Dispatch<React.SetStateAction<Stack[]>>;
+  stackNames: string[];
+  setStackNames: React.Dispatch<React.SetStateAction<string[]>>;
   isNicknameChanged: boolean;
   isNicknameDuplicate: boolean;
   setIsNicknameDuplicate: React.Dispatch<React.SetStateAction<boolean>>;
   nicknameCheckDone: boolean;
-  fetchProfile: () => Promise<ProfileResponse>;
+  fetchProfile: (memberId: number | string) => Promise<ProfileResponse>;
+  fetchMyProfile: () => Promise<MyProfileResponse>;
   fetchNicknameDuplicate: () => Promise<void>;
   updateProfileImage: (imageUrl: string) => void;
   updateMemberProfile: (data: UpdateProfileRequest) => Promise<void>;
@@ -174,7 +205,21 @@ interface ProfileContextProps {
   handleJobChange: (event: { target: { value: string } }) => void;
 }
 
+interface Stack {
+  name: string;
+  type: string;
+  icon: string;
+}
+
 interface ProfileResponse {
+  profileImage: string;
+  email: string;
+  nickname: string;
+  job: string;
+  stacks: Stack[];
+}
+
+interface MyProfileResponse {
   profileImage: string;
   email: string;
   nickname: string;
