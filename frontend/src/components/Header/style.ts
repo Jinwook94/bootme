@@ -36,6 +36,10 @@ export const Logo = styled.a`
   display: flex;
   align-items: center;
   margin-right: 4.5rem;
+
+  @media (max-width: 767px) {
+    margin-right: 0;
+  }
 `;
 
 export const ServiceName = styled.span`
@@ -64,6 +68,10 @@ const determineHeaderItemColor = (path: string) =>
 
 export const HeaderItemWrapper = styled.div`
   margin-right: 2rem;
+
+  @media (max-width: 767px) {
+    margin-right: 0;
+  }
 `;
 
 export const HeaderItem = styled.div<HeaderItemProps>`

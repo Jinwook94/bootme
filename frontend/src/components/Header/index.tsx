@@ -64,8 +64,10 @@ const Header = () => {
           <Wrapper>
             <HeaderLeft>
               <Logo>
-                <a href={'https://bootme.co.kr/'}>
-                  <GitHubIcon />
+                <a href={'https://bootme.co.kr/'} style={{ display: 'flex', flexDirection: 'row' }}>
+                  <div style={{ position: 'relative', top: '6px' }}>
+                    <GitHubIcon />
+                  </div>
                   <ServiceName>BootMe</ServiceName>
                 </a>
               </Logo>
