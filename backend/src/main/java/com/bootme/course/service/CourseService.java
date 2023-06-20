@@ -147,6 +147,7 @@ public class CourseService {
             builder.and(searchPredicate);
         }
 
+        builder.and(QCourse.course.status.eq(CourseStatus.DISPLAY));
         return builder.getValue();
     }
 
