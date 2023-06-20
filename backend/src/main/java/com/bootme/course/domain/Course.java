@@ -170,6 +170,10 @@ public class Course extends BaseEntity {
         return categories;
     }
 
+    public void softDeleteCourse() {
+        this.status = CourseStatus.DELETED;
+    }
+
     public boolean checkRegisterOpen() {
         boolean afterStart = LocalDate.now().isEqual(dates.getRegistrationStartDate()) || LocalDate.now().isAfter(dates.getRegistrationStartDate());
         boolean beforeEnd = LocalDate.now().isEqual(dates.getRegistrationEndDate()) || LocalDate.now().isBefore(dates.getRegistrationEndDate());

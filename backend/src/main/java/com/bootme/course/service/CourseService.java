@@ -9,6 +9,7 @@ import com.bootme.course.dto.CourseRequest;
 import com.bootme.course.dto.CourseResponse;
 import com.bootme.course.repository.CourseRepository;
 import com.bootme.course.repository.CourseStackRepository;
+import com.bootme.post.domain.CourseStatus;
 import com.bootme.stack.domain.Stack;
 import com.bootme.stack.repository.StackRepository;
 import com.querydsl.core.BooleanBuilder;
@@ -101,7 +102,8 @@ public class CourseService {
     public void deleteCourse(Long id){
         Course course = getCourseById(id);
         deleteCourseInCompany(course);
-        courseRepository.delete(course);
+
+        course.softDeleteCourse();
     }
 
     private void deleteCourseInCompany(Course course){
