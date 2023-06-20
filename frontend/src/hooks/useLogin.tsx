@@ -59,7 +59,9 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
 
   const storeUserInfoToLocalStorage = (userInfo: LoginResponse) => {
     for (const key in userInfo) {
-      localStorage.setItem(key, (userInfo as any)[key]);
+      if ((userInfo as any)[key] !== null) {
+        localStorage.setItem(key, (userInfo as any)[key]);
+      }
     }
   };
 
