@@ -9,7 +9,6 @@ import {
   ModalWrapper,
   Name,
   Option,
-  SideFilterCheckbox,
   Unchecked,
   Wrapper,
 } from './style';
@@ -18,10 +17,14 @@ import { useCheckbox } from '../../../hooks/useCheckbox';
 import { MODAL_FILTER, SIDE_FILTER } from '../../../constants/filters';
 import { CheckIcon } from '../../../constants/icons';
 import { useCourseFilters } from '../../../hooks/useFilters';
+import { Checkbox } from '@mantine/core';
 
 export const FilterOption = ({ filterType, filterOption, isReset, borderTop }: FilterOptionProps) => {
   const { isChecked, handleClick, handleChecked } = useCheckbox(filterOption, isReset);
   const { isModal } = useCourseFilters();
+  const styles = {
+    checkbox: { input: { cursor: 'pointer' }, label: { cursor: 'pointer' } },
+  };
 
   useEffect(() => {
     if (filterType === MODAL_FILTER) {
@@ -35,11 +38,7 @@ export const FilterOption = ({ filterType, filterOption, isReset, borderTop }: F
         <ListItem onClick={handleClick} borderTop={borderTop}>
           <Wrapper>
             <BoxWrapper>
-              <SideFilterCheckbox
-                checked={isChecked}
-                onChange={handleClick}
-                style={{ appearance: isChecked ? 'auto' : 'none' }}
-              />
+              <Checkbox size="xs" mr={6} checked={isChecked} styles={styles.checkbox} />
             </BoxWrapper>
             <Option>{filterOption}</Option>
           </Wrapper>
@@ -74,11 +73,7 @@ export const FilterOption = ({ filterType, filterOption, isReset, borderTop }: F
         <ListItem onClick={handleClick} borderTop={borderTop}>
           <Wrapper>
             <BoxWrapper>
-              <SideFilterCheckbox
-                checked={isChecked}
-                onChange={handleClick}
-                style={{ appearance: isChecked ? 'auto' : 'none' }}
-              />
+              <Checkbox size="xs" mr={6} checked={isChecked} />
             </BoxWrapper>
             <Option>{filterOption}</Option>
           </Wrapper>

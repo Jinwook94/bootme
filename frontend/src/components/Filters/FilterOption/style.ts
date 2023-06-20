@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const ListItem = styled.li<{ borderTop: boolean | undefined }>`
+  cursor: pointer;
   padding: 0.1875rem 0;
   letter-spacing: -0.009em;
   line-height: 1.6;
@@ -23,28 +24,14 @@ export const Wrapper = styled.div`
 
 export const BoxWrapper = styled.div`
   display: flex;
+  justify-content: center;
+  align-items: center;
   color: rgb(38, 55, 71);
   font-size: 0.875rem;
   cursor: pointer;
   position: relative;
   line-height: 150%;
   word-break: keep-all;
-`;
-
-export const SideFilterCheckbox = styled.input.attrs({
-  type: 'checkbox',
-})`
-  position: relative;
-  top: 0.15625rem;
-  width: 1rem;
-  height: 1rem;
-  border: 0.125rem solid rgb(178, 192, 204);
-  background-color: transparent;
-  border-radius: 0.25rem;
-  outline: none;
-  cursor: pointer;
-  flex-shrink: 0;
-  margin-right: 0.375rem;
 `;
 
 export const Option = styled.div`
@@ -153,5 +140,3 @@ export const CheckedWrapper2 = styled.span`
   margin-left: 3px !important;
   color: rgb(255, 255, 255) !important;
 `;
-
-export const CheckedIcon = styled.svg``;
