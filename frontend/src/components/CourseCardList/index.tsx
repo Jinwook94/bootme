@@ -23,7 +23,13 @@ const CourseCardList = ({ courses, displayBookmarked, bookmarkedCourseIds }: Cou
 
   return (
     <CourseCardListStyle>
-      <SimpleGrid cols={2} spacing="xs" verticalSpacing="xs" breakpoints={[{ maxWidth: '62rem', cols: 1 }]}>
+      <SimpleGrid
+        cols={2}
+        spacing="xs"
+        verticalSpacing="xs"
+        style={{ width: '100%' }}
+        breakpoints={[{ maxWidth: '62rem', cols: 1 }]}
+      >
         {courses
           .filter(course => {
             return displayBookmarked ? isBookmarked[course.id] : true;

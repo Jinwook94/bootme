@@ -8,4 +8,5 @@ export const CourseCardListStyle = styled.ul`
   font-size: 0;
   font-weight: 500;
   list-style: none;
+  width: 100%;
 `;
