@@ -104,7 +104,7 @@ const CourseCard = ({
           </ItemHeader>
           <ItemBody>
             <CourseTitleWrapper>
-              <Link to={`${PATH.COURSE.DETAIL}/${id}`}>
+              <Link to={`${PATH.COURSE.DETAIL}/${id}`} style={{ width: 'inherit' }}>
                 <CourseTitle>{title}</CourseTitle>
               </Link>
             </CourseTitleWrapper>
@@ -117,64 +117,66 @@ const CourseCard = ({
                 {company.serviceName}
               </CompanyName>
             </CompanyNameWrapper>
-            <CourseInfo>
-              <ItemWrapper>
-                <span
-                  className="material-symbols-outlined"
-                  style={{ fontSize: '1rem', verticalAlign: 'sub', marginRight: '2px' }}
-                >
-                  notifications
-                </span>
-                <span>
-                  <DateFormatter date={dates.courseStartDate} /> 개강
-                </span>
-              </ItemWrapper>
-              <ItemWrapper>
-                <span
-                  className="material-symbols-outlined"
-                  style={{ fontSize: '1rem', verticalAlign: 'sub', marginRight: '2px' }}
-                >
-                  calendar_month
-                </span>
-                {months >= 4 ? <span>{months}개월</span> : <span>{weeks}주</span>}
-              </ItemWrapper>
-              <ItemWrapper>
-                <span
-                  className="material-symbols-outlined"
-                  style={{ fontSize: '1rem', verticalAlign: 'sub', marginRight: '2px' }}
-                >
-                  credit_card
-                </span>
-                <span>{free && !kdt ? '무료' : free && kdt ? '무료(국비)' : !free ? `${cost}만원` : ''}</span>
-              </ItemWrapper>
-            </CourseInfo>
-            <CourseTags ref={tagsRef}>
-              {superCategories?.map((tag: string, index: number) => (
-                <TagItem key={index} style={{ backgroundColor: '#e6f7ff', color: '#1c1c1c' }}>
-                  {tag}
-                </TagItem>
-              ))}
-              {subCategories?.map((tag: string, index: number) => (
-                <TagItem key={index} style={{ backgroundColor: '#e6f7ff', color: '#1c1c1c' }}>
-                  {tag}
-                </TagItem>
-              ))}
-              {languages?.map((tag: string, index: number) => (
-                <TagItem key={index} style={{ backgroundColor: '#e9ecf3', color: '#44576c' }}>
-                  {tag}
-                </TagItem>
-              ))}
-              {frameworks?.map((tag: string, index: number) => (
-                <TagItem key={index} style={{ backgroundColor: '#e9ecf3', color: '#44576c' }}>
-                  {tag}
-                </TagItem>
-              ))}
-              {isOverflowing && (
-                <ThreeDotsWrapper>
-                  <EllipsisOutlined />
-                </ThreeDotsWrapper>
-              )}
-            </CourseTags>
+            <Link to={`${PATH.COURSE.DETAIL}/${id}`}>
+              <CourseInfo>
+                <ItemWrapper>
+                  <span
+                    className="material-symbols-outlined"
+                    style={{ fontSize: '1rem', verticalAlign: 'sub', marginRight: '2px' }}
+                  >
+                    notifications
+                  </span>
+                  <span>
+                    <DateFormatter date={dates.courseStartDate} /> 개강
+                  </span>
+                </ItemWrapper>
+                <ItemWrapper>
+                  <span
+                    className="material-symbols-outlined"
+                    style={{ fontSize: '1rem', verticalAlign: 'sub', marginRight: '2px' }}
+                  >
+                    calendar_month
+                  </span>
+                  {months >= 4 ? <span>{months}개월</span> : <span>{weeks}주</span>}
+                </ItemWrapper>
+                <ItemWrapper>
+                  <span
+                    className="material-symbols-outlined"
+                    style={{ fontSize: '1rem', verticalAlign: 'sub', marginRight: '2px' }}
+                  >
+                    credit_card
+                  </span>
+                  <span>{free && !kdt ? '무료' : free && kdt ? '무료(국비)' : !free ? `${cost}만원` : ''}</span>
+                </ItemWrapper>
+              </CourseInfo>
+              <CourseTags ref={tagsRef}>
+                {superCategories?.map((tag: string, index: number) => (
+                  <TagItem key={index} style={{ backgroundColor: '#e6f7ff', color: '#1c1c1c' }}>
+                    {tag}
+                  </TagItem>
+                ))}
+                {subCategories?.map((tag: string, index: number) => (
+                  <TagItem key={index} style={{ backgroundColor: '#e6f7ff', color: '#1c1c1c' }}>
+                    {tag}
+                  </TagItem>
+                ))}
+                {languages?.map((tag: string, index: number) => (
+                  <TagItem key={index} style={{ backgroundColor: '#e9ecf3', color: '#44576c' }}>
+                    {tag}
+                  </TagItem>
+                ))}
+                {frameworks?.map((tag: string, index: number) => (
+                  <TagItem key={index} style={{ backgroundColor: '#e9ecf3', color: '#44576c' }}>
+                    {tag}
+                  </TagItem>
+                ))}
+                {isOverflowing && (
+                  <ThreeDotsWrapper>
+                    <EllipsisOutlined />
+                  </ThreeDotsWrapper>
+                )}
+              </CourseTags>
+            </Link>
           </ItemBody>
           <Bookmark
             onClick={() => {

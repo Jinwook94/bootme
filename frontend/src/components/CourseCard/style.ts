@@ -95,20 +95,17 @@ export const CourseTitle = styled.h5`
   &:hover {
     text-decoration: underline;
   }
-
   transition-delay: initial;
   transition-duration: 0.08s;
   transition-property: all;
   transition-timing-function: ease-in-out;
   font-size: 18px;
   line-height: 1.5;
-  display: -webkit-box;
-  overflow: hidden;
-  -webkit-box-orient: vertical;
   font-weight: 500;
-  -webkit-line-clamp: 1;
-  text-overflow: ellipsis;
   letter-spacing: -0.009em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 export const CompanyNameWrapper = styled(FlexBox)`
