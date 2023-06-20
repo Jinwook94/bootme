@@ -18,6 +18,7 @@ import com.bootme.member.dto.UpdateProfileRequest;
 import com.bootme.member.repository.BookmarkCourseRepository;
 import com.bootme.member.repository.MemberRepository;
 import com.bootme.member.repository.MemberStackRepository;
+import com.bootme.stack.domain.Stack;
 import com.bootme.stack.service.StackService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -26,7 +27,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -71,23 +71,10 @@ public class MemberService {
         member.modifyNickname(request.getNickname());
         member.modifyJob(request.getJob());
 
-        Set<String> requestedStackNames = new HashSet<>(request.getStacks());
-        List<MemberStack> newStacks = modifyStacks(member, requestedStackNames);
-        member.modifyStacks(newStacks);
-    }
-
-    private List<MemberStack> modifyStacks(Member member, Set<String> stackNames) {
-        List<MemberStack> toDelete = member.getMemberStacks().stream()
-                .filter(stack -> !stackNames.contains(stack.getStack().getName()))
-                .collect(Collectors.toList());
-
-        member.getMemberStacks().removeAll(toDelete);
-        memberStackRepository.deleteAll(toDelete);
-
-        return stackNames.stream()
-                .filter(stackName -> member.getMemberStacks().stream().noneMatch(stack -> stack.getStack().getName().equals(stackName)))
-                .map(stackName -> MemberStack.of(member, stackService.getStackByName(stackName)))
-                .collect(Collectors.toList());
+        Set<Stack> requestedStacks = request.getStacks().stream()
+                                        .map(stackService::getStackByName)
+                                        .collect(Collectors.toSet());
+        member.modifyStacks(requestedStacks);
     }
 
     public void modifyProfileImage(AuthInfo authinfo, Long memberId, UpdateImageRequest request) {

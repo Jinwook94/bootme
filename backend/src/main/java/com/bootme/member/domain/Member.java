@@ -7,13 +7,16 @@ import com.bootme.common.exception.AuthenticationException;
 import com.bootme.common.exception.ErrorType;
 import com.bootme.member.dto.UpdateImageRequest;
 import com.bootme.notification.domain.Notification;
+import com.bootme.stack.domain.Stack;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.bootme.common.exception.ErrorType.MEMBER_ID_MISMATCH;
 
@@ -53,10 +56,10 @@ public class Member extends BaseEntity {
 
     private String phoneNumber;
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MemberStack> memberStacks = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Notification> notifications = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
@@ -128,9 +131,30 @@ public class Member extends BaseEntity {
         this.nickname = nickname;
     }
 
-    public void modifyStacks(List<MemberStack> newStacks) {
-        this.memberStacks.clear();
-        this.memberStacks.addAll(newStacks);
+    public void modifyStacks(Set<Stack> newStacks) {
+        removeUnmatchedStacksFromMember(newStacks);
+        prepareNewStacks(newStacks);
+        addNewStacks(newStacks);
+    }
+
+    // 기존 스택 중 새로운 스택에는 포함되지 않은 것을 제거
+    private void removeUnmatchedStacksFromMember(Set<Stack> newStacks) {
+        memberStacks.removeIf(memberStack -> !newStacks.contains(memberStack.getStack()));
+    }
+
+    // 새로운 스택 중 기존 스택에 이미 있는 것을 제거
+    private void prepareNewStacks(Set<Stack> newStacks) {
+        Set<Stack> existingStacks = memberStacks.stream()
+                                    .map(MemberStack::getStack)
+                                    .collect(Collectors.toSet());
+        newStacks.removeAll(existingStacks);
+    }
+
+    private void addNewStacks(Set<Stack> newStacks) {
+        for (Stack stack : newStacks) {
+            MemberStack memberStack = new MemberStack(this, stack);
+            memberStacks.add(memberStack);
+        }
     }
 
     public void validateIdMatchesToken(Long authInfoId, Long receivedId) {
