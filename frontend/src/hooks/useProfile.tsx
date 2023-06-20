@@ -96,6 +96,7 @@ export const ProfileProvider = ({ children }: { children: React.ReactNode }) => 
   const updateProfileImage = async (profileImage: string) => {
     try {
       await fetcher.patch(`member/${memberId}/profile_image`, { profileImage });
+      localStorage.setItem('profileImage', profileImage);
       showSnackbar(SNACKBAR_MESSAGE.SUCCESS_PROFILE_IMAGE_UPDATE, CHECK);
     } catch (e: any) {
       if (e.response && e.response.data && e.response.data.message) {

@@ -50,6 +50,12 @@ const ProfilePage = () => {
     }
   };
 
+  const handleDefaultImage = async () => {
+    const smileImage = 'https://bootme-images.s3.ap-northeast-2.amazonaws.com/etc/smile_face.png';
+    await updateProfileImage(smileImage);
+    fetchMyProfile().catch();
+  };
+
   useEffect(() => {
     form.setValues({ email, nickname, job, stackNames });
   }, [stackNames]);
@@ -72,20 +78,25 @@ const ProfilePage = () => {
           <TitleWrapper>
             <Title order={2}>프로필 관리</Title>
           </TitleWrapper>
-          <ProfileImage>
-            <AvatarWrapper>
-              <Avatar
-                src={profileImage}
-                size={80}
-                radius={80}
-                style={{ cursor: 'pointer', zIndex: '100' }}
-                onClick={handleAvatarClick}
-              />
-              <IconWrapper>
-                <ImageUploadIcon />
-              </IconWrapper>
-            </AvatarWrapper>
-          </ProfileImage>
+          <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center' }}>
+            <ProfileImage>
+              <AvatarWrapper>
+                <Avatar
+                  src={profileImage}
+                  size={80}
+                  radius={80}
+                  style={{ cursor: 'pointer', zIndex: '100' }}
+                  onClick={handleAvatarClick}
+                />
+                <IconWrapper>
+                  <ImageUploadIcon />
+                </IconWrapper>
+              </AvatarWrapper>
+            </ProfileImage>
+            <Text fz="xs" c="dimmed" mt={8} style={{ cursor: 'pointer' }} onClick={handleDefaultImage}>
+              기본 이모지 😊
+            </Text>
+          </div>
           <form
             onSubmit={form.onSubmit(values => {
               handleSubmit(values);
