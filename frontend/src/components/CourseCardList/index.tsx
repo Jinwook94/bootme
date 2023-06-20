@@ -2,6 +2,7 @@ import CourseCard, { CourseCardProps } from '../CourseCard';
 import { CourseCardListStyle } from './style';
 import React, { useEffect, useRef } from 'react';
 import { useBookmarks } from '../../hooks/useBookmarks';
+import { SimpleGrid } from '@mantine/core';
 
 const CourseCardList = ({ courses, displayBookmarked, bookmarkedCourseIds }: CourseCardListProps) => {
   const isMounted = useRef(false);
@@ -22,44 +23,46 @@ const CourseCardList = ({ courses, displayBookmarked, bookmarkedCourseIds }: Cou
 
   return (
     <CourseCardListStyle>
-      {courses
-        .filter(course => {
-          return displayBookmarked ? isBookmarked[course.id] : true;
-        })
-        .map(
-          ({
-            id,
-            title,
-            url,
-            company,
-            superCategories,
-            subCategories,
-            languages,
-            frameworks,
-            dates,
-            cost,
-            period,
-            free,
-            kdt,
-          }: CourseCardProps) => (
-            <CourseCard
-              key={id}
-              id={id}
-              title={title}
-              url={url}
-              company={company}
-              superCategories={superCategories}
-              subCategories={subCategories}
-              languages={languages}
-              frameworks={frameworks}
-              dates={dates}
-              cost={cost}
-              period={period}
-              free={free}
-              kdt={kdt}
-            />
-          )
-        )}
+      <SimpleGrid cols={2} spacing="xs" verticalSpacing="xs" breakpoints={[{ maxWidth: '62rem', cols: 1 }]}>
+        {courses
+          .filter(course => {
+            return displayBookmarked ? isBookmarked[course.id] : true;
+          })
+          .map(
+            ({
+              id,
+              title,
+              url,
+              company,
+              superCategories,
+              subCategories,
+              languages,
+              frameworks,
+              dates,
+              cost,
+              period,
+              free,
+              kdt,
+            }: CourseCardProps) => (
+              <CourseCard
+                key={id}
+                id={id}
+                title={title}
+                url={url}
+                company={company}
+                superCategories={superCategories}
+                subCategories={subCategories}
+                languages={languages}
+                frameworks={frameworks}
+                dates={dates}
+                cost={cost}
+                period={period}
+                free={free}
+                kdt={kdt}
+              />
+            )
+          )}
+      </SimpleGrid>
     </CourseCardListStyle>
   );
 };

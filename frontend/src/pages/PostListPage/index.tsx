@@ -268,7 +268,7 @@ const PostListPage = () => {
               ))}
               {isLoadingPost ? (
                 <LoadingSpinner>
-                  <Spin tip="Loading" size="large" />
+                  <Spin size="large" />
                 </LoadingSpinner>
               ) : (
                 <div ref={pageEndRef} />

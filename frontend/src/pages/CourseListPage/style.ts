@@ -137,6 +137,7 @@ export const CourseListMenu = styled.div`
   align-items: center;
   justify-content: space-between;
   vertical-align: middle;
+  margin-bottom: 1rem;
 
   @media (max-width: 575px) {
     align-items: center;

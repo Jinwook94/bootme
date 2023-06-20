@@ -5,10 +5,7 @@ export const Wrapper = styled.li`
   background: white;
   position: relative;
   display: flex;
-  width: calc(50% - 0.5rem);
   padding: 1.5rem;
-  border: 0.0625rem solid #d7e2eb;
-  margin-top: 1rem;
   border-radius: 0.5rem;
   color: #263747;
   font-size: 0;
@@ -174,6 +171,9 @@ export const CourseTags = styled.ul`
   padding: 0;
   margin: 0.375rem 0 0 0;
   list-style: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   @media (max-width: 767px) {
     margin: 0.25rem 0 0 0;
@@ -189,6 +189,18 @@ export const TagItem = styled.li`
   border-radius: 0.25rem;
   font-weight: 500;
   vertical-align: top;
+`;
+
+export const ThreeDotsWrapper = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 7px;
+
+  svg {
+    width: 22px;
+    height: 100%;
+    fill: #acacb2;
+  }
 `;
 
 export const Bookmark = styled.button`
