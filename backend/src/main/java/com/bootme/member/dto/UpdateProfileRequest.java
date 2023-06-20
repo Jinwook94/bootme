@@ -11,17 +11,17 @@ public class UpdateProfileRequest {
     private String email;
     private String nickname;
     private String job;
-    private List<String> stacks;
+    private List<String> stackNames;
 
     public UpdateProfileRequest() {
     }
 
     @Builder
-    public UpdateProfileRequest(String email, String nickname, String job, List<String> stacks) {
+    public UpdateProfileRequest(String email, String nickname, String job, List<String> stackNames) {
         this.email = email;
         this.nickname = nickname;
         this.job = job;
-        this.stacks = stacks;
+        this.stackNames = stackNames;
     }
 
 }

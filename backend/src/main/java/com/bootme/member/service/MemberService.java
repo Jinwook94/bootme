@@ -12,6 +12,7 @@ import com.bootme.course.service.CourseService;
 import com.bootme.member.domain.BookmarkCourse;
 import com.bootme.member.domain.Member;
 import com.bootme.member.domain.MemberStack;
+import com.bootme.member.dto.MyProfileResponse;
 import com.bootme.member.dto.ProfileResponse;
 import com.bootme.member.dto.UpdateImageRequest;
 import com.bootme.member.dto.UpdateProfileRequest;
@@ -19,6 +20,7 @@ import com.bootme.member.repository.BookmarkCourseRepository;
 import com.bootme.member.repository.MemberRepository;
 import com.bootme.member.repository.MemberStackRepository;
 import com.bootme.stack.domain.Stack;
+import com.bootme.stack.dto.StackResponse;
 import com.bootme.stack.service.StackService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -48,7 +50,19 @@ public class MemberService {
     private final BookmarkCourseRepository bookmarkCourseRepository;
 
     @Transactional(readOnly = true)
-    public ProfileResponse findMemberProfile(AuthInfo authInfo) {
+    public ProfileResponse findMemberProfile(Long id) {
+        Member member = getMemberById(id);
+
+        List<MemberStack> memberStacks = memberStackRepository.findByMember_Id(id);
+        List<StackResponse> stacks = memberStacks.stream()
+                .map(memberStack -> StackResponse.of(memberStack.getStack()))
+                .collect(Collectors.toList());
+
+        return ProfileResponse.of(member, stacks);
+    }
+
+    @Transactional(readOnly = true)
+    public MyProfileResponse findMyProfile(AuthInfo authInfo) {
         authService.validateLogin(authInfo);
         Long id = authInfo.getMemberId();
         Member member = getMemberById(id);
@@ -58,7 +72,7 @@ public class MemberService {
                 .map(memberStack -> memberStack.getStack().getName())
                 .toArray(String[]::new);
 
-        return ProfileResponse.of(member, stacks);
+        return MyProfileResponse.of(member, stacks);
     }
 
     // 이메일, 닉네임, 직업, 기술 스택 수정 (프로필 사진 수정은 별도 메서드: modifyProfileImage)
@@ -71,7 +85,7 @@ public class MemberService {
         member.modifyNickname(request.getNickname());
         member.modifyJob(request.getJob());
 
-        Set<Stack> requestedStacks = request.getStacks().stream()
+        Set<Stack> requestedStacks = request.getStackNames().stream()
                                         .map(stackService::getStackByName)
                                         .collect(Collectors.toSet());
         member.modifyStacks(requestedStacks);

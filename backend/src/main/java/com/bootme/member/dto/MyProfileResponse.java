@@ -1,22 +1,19 @@
 package com.bootme.member.dto;
 
 import com.bootme.member.domain.Member;
-import com.bootme.stack.dto.StackResponse;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.util.List;
-
 @Getter
-public class ProfileResponse {
+public class MyProfileResponse {
     private String profileImage;
     private String email;
     private String nickname;
     private String job;
-    private List<StackResponse> stacks;
+    private String[] stacks;
 
     @Builder
-    public ProfileResponse(String profileImage, String email, String nickname, String job, List<StackResponse> stacks) {
+    public MyProfileResponse(String profileImage, String email, String nickname, String job, String[] stacks) {
         this.profileImage = profileImage;
         this.email = email;
         this.nickname = nickname;
@@ -24,8 +21,8 @@ public class ProfileResponse {
         this.stacks = stacks;
     }
 
-    public static ProfileResponse of(Member member, List<StackResponse> stacks) {
-        return ProfileResponse.builder()
+    public static MyProfileResponse of(Member member, String[] stacks) {
+        return MyProfileResponse.builder()
                 .profileImage(member.getProfileImage())
                 .email(member.getEmail())
                 .nickname(member.getNickname())
@@ -33,4 +30,5 @@ public class ProfileResponse {
                 .stacks(stacks)
                 .build();
     }
+
 }

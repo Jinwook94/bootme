@@ -3,6 +3,7 @@ package com.bootme.member.controller;
 import com.bootme.auth.dto.AuthInfo;
 import com.bootme.auth.util.Login;
 import com.bootme.course.dto.CourseResponse;
+import com.bootme.member.dto.MyProfileResponse;
 import com.bootme.member.dto.ProfileResponse;
 import com.bootme.member.dto.UpdateImageRequest;
 import com.bootme.member.dto.UpdateProfileRequest;
@@ -23,9 +24,15 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    @GetMapping("/{memberId}/profile")
+    public ResponseEntity<ProfileResponse> findMemberProfile(@PathVariable Long memberId) {
+        ProfileResponse response = memberService.findMemberProfile(memberId);
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("/me")
-    public ResponseEntity<ProfileResponse> getProfile(@Login AuthInfo authInfo) {
-        ProfileResponse response = memberService.findMemberProfile(authInfo);
+    public ResponseEntity<MyProfileResponse> findMyProfile(@Login AuthInfo authInfo) {
+        MyProfileResponse response = memberService.findMyProfile(authInfo);
         return ResponseEntity.ok(response);
     }
 
