@@ -50,12 +50,12 @@ const UserDropDown = ({ nickName, profileImage, job }: UserDropDownProps) => {
             </Link>
           </Item>
           <Item>
-            <Link to={PATH.BOOKMARKS} onClick={hide}>
+            <Link to={PATH.BOOKMARK.COURSE} onClick={hide}>
               <LinkItem>
                 <IconWrapper>
                   <BookmarkIcon />
                 </IconWrapper>
-                북마크 코스
+                북마크
               </LinkItem>
             </Link>
           </Item>

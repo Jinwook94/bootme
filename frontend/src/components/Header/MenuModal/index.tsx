@@ -110,8 +110,8 @@ const MenuModal = ({ isLogin, isMenuOpen, setIsMenuOpen, nickName, profileImage,
             <Link to={PATH.PROFILE}>
               <Item>프로필 관리</Item>
             </Link>
-            <Link to={PATH.BOOKMARKS}>
-              <Item>북마크 코스</Item>
+            <Link to={PATH.BOOKMARK.COURSE}>
+              <Item>북마크</Item>
             </Link>
             <div style={{ borderTop: '1px solid rgb(235, 235, 235)', height: '0.5rem' }}></div>
             <Item onClick={handleLogOut}>로그아웃</Item>

@@ -22,7 +22,6 @@ const PATH = {
     NAVER: '/oauth/naver',
     KAKAO: '/oauth/kakao',
   },
-  BOOKMARKS: '/bookmarks',
   PARTNER: '/partner',
 };
 
