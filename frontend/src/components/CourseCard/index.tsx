@@ -12,11 +12,10 @@ import {
   TagItem,
   Bookmark,
   CompanyNameWrapper,
-  ThreeDotsWrapper,
 } from './style';
 
 import './style.css';
-import { EllipsisOutlined, HeartFilled, HeartOutlined } from '@ant-design/icons';
+import { HeartFilled, HeartOutlined } from '@ant-design/icons';
 import DateFormatter from './dateFormatter';
 import useWebhook from '../../hooks/useWebhook';
 import { COURSE_BOOKMARKED, COURSE_CLICKED } from '../../constants/webhook';
@@ -25,7 +24,6 @@ import { appendUtmParams } from '../../api/fetcher';
 import PATH from '../../constants/path';
 import { Link } from 'react-router-dom';
 import { createStyles, Paper, rem } from '@mantine/core';
-import { useEffect, useRef, useState } from 'react';
 
 const CourseCard = ({
   id,
@@ -45,8 +43,6 @@ const CourseCard = ({
   const months = Math.round(period / 30);
   const { sendWebhookNoti } = useWebhook();
   const { isBookmarked, handleBookmark } = useBookmarks();
-  const tagsRef = useRef<HTMLUListElement | null>(null);
-  const [isOverflowing, setIsOverflowing] = useState(false);
 
   const useStyles = createStyles(theme => ({
     card: {
@@ -71,23 +67,6 @@ const CourseCard = ({
     },
   }));
   const { classes } = useStyles();
-
-  useEffect(() => {
-    const checkOverflow = () => {
-      const element = tagsRef.current;
-      if (element && element.scrollWidth > element.clientWidth) {
-        setIsOverflowing(true);
-      } else {
-        setIsOverflowing(false);
-      }
-    };
-
-    checkOverflow();
-    window.addEventListener('resize', checkOverflow);
-    return () => {
-      window.removeEventListener('resize', checkOverflow);
-    };
-  }, [superCategories, subCategories, languages, frameworks]);
 
   return (
     <div style={{ display: 'flex', width: '100%', margin: '0 auto' }}>
@@ -149,7 +128,7 @@ const CourseCard = ({
                   <span>{free && !kdt ? '무료' : free && kdt ? '무료(국비)' : !free ? `${cost}만원` : ''}</span>
                 </ItemWrapper>
               </CourseInfo>
-              <CourseTags ref={tagsRef}>
+              <CourseTags>
                 {superCategories?.map((tag: string, index: number) => (
                   <TagItem key={index} style={{ backgroundColor: '#e6f7ff', color: '#1c1c1c' }}>
                     {tag}
@@ -170,11 +149,6 @@ const CourseCard = ({
                     {tag}
                   </TagItem>
                 ))}
-                {isOverflowing && (
-                  <ThreeDotsWrapper>
-                    <EllipsisOutlined />
-                  </ThreeDotsWrapper>
-                )}
               </CourseTags>
             </Link>
           </ItemBody>

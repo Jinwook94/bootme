@@ -7,7 +7,6 @@ import { NaverLoginRedirect } from './components/LoginModal/NaverLogin';
 import { KakaoLoginRedirect } from './components/LoginModal/KakaoLogin';
 import CourseDetailPage from './pages/CourseDetailPage';
 import PrivateRoute from './routes/PrivateRoute';
-import BookmarkPage from './pages/BookmarkPage';
 import Header from './components/Header';
 import Snackbar from './components/@common/Snackbar';
 import PartnerPage from './pages/PartnerPage';
@@ -19,6 +18,7 @@ import Test from './pages/Test';
 import { useSnackbar } from './hooks/useSnackbar';
 import NotFoundPage from './pages/NotFoundPage';
 import ProfilePage from './pages/ProfilePage';
+import BookmarkCoursePage from './pages/BookmarkCoursePage';
 
 const App = () => {
   const { isVisible, message, displayIcon } = useSnackbar();
@@ -38,7 +38,7 @@ const App = () => {
         <Route path={'/test'} element={<Test />} />
         <Route element={<PrivateRoute />}>
           <Route path={PATH.PROFILE} element={<ProfilePage />} />
-          <Route path={PATH.BOOKMARKS} element={<BookmarkPage />} />
+          <Route path={PATH.BOOKMARK.COURSE} element={<BookmarkCoursePage />} />
           <Route path={PATH.POST.WRITE} element={<PostWritePage />} />
         </Route>
         <Route path={PATH.PARTNER} element={<PartnerPage />} />

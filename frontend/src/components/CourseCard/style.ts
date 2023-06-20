@@ -171,6 +171,7 @@ export const CourseTags = styled.ul`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 85%;
 
   @media (max-width: 767px) {
     margin: 0.25rem 0 0 0;
