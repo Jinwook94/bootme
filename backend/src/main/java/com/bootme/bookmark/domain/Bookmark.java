@@ -19,7 +19,7 @@ public class Bookmark extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "bookmark__id")
+    @Column(name = "bookmark_id")
     private Long id;
 
     @Column(name = "type")
