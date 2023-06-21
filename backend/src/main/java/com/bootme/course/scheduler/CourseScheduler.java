@@ -1,9 +1,8 @@
 package com.bootme.course.scheduler;
 
-import com.bootme.bookmark.domain.BookmarkType;
-import com.bootme.bookmark.repository.BookmarkRepository;
+import com.bootme.bookmark.domain.CourseBookmark;
+import com.bootme.bookmark.repository.CourseBookmarkRepository;
 import com.bootme.course.repository.CourseRepository;
-import com.bootme.bookmark.domain.Bookmark;
 import com.bootme.notification.domain.Notification;
 import com.bootme.notification.repository.NotificationRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +22,7 @@ import java.util.stream.Stream;
 public class CourseScheduler {
 
     private final CourseRepository courseRepository;
-    private final BookmarkRepository bookmarkRepository;
+    private final CourseBookmarkRepository courseBookmarkRepository;
     private final NotificationRepository notificationRepository;
 
     private static final String REGISTRATION_START = "registrationStart";
@@ -56,10 +55,9 @@ public class CourseScheduler {
 
     // todo: findAll() 성능 이슈
     public void notifyBookmarkCourses(String event, LocalDate date) {
-        try (Stream<Bookmark> bookmarkCourses = bookmarkRepository.findAll().stream()) {
-            List<Notification> notifications = bookmarkCourses
-                    .filter(bm -> bm.getType() == BookmarkType.COURSE)
-                    .map(bm -> new AbstractMap.SimpleEntry<>(bm, bm.getCourseBookmark()))
+        try (Stream<CourseBookmark> courseBookmarks = courseBookmarkRepository.findAll().stream()) {
+            List<Notification> notifications = courseBookmarks
+                    .map(cb -> new AbstractMap.SimpleEntry<>(cb.getBookmark(), cb))
                     .filter(entry -> entry.getValue().getCourse().isEventOnDate(event, date))
                     .map(entry -> Notification.of(entry.getKey().getMember(), event, entry.getValue()))
                     .collect(Collectors.toList());
@@ -67,5 +65,6 @@ public class CourseScheduler {
             notificationRepository.saveAll(notifications);
         }
     }
+
 
 }

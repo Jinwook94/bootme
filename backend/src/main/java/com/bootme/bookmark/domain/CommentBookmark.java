@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.FetchType.LAZY;
+
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
@@ -19,12 +22,16 @@ public class CommentBookmark extends BaseEntity {
     @Column(name = "comment_bookmark_id")
     private Long id;
 
+    @OneToOne(fetch = LAZY, cascade = ALL)
+    @JoinColumn(name = "bookmark_id")
+    private Bookmark bookmark;
+
     @OneToOne
     @JoinColumn(name = "comment_id")
     private Comment comment;
 
-    public CommentBookmark(Long id, Comment comment) {
-        this.id = id;
+    public CommentBookmark(Bookmark bookmark, Comment comment) {
+        this.bookmark = bookmark;
         this.comment = comment;
     }
 

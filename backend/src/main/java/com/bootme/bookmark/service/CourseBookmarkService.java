@@ -2,7 +2,7 @@ package com.bootme.bookmark.service;
 
 import com.bootme.bookmark.domain.Bookmark;
 import com.bootme.bookmark.domain.CourseBookmark;
-import com.bootme.bookmark.repository.BookmarkRepository;
+import com.bootme.bookmark.repository.CourseBookmarkRepository;
 import com.bootme.common.exception.ConflictException;
 import com.bootme.common.exception.ResourceNotFoundException;
 import com.bootme.course.domain.Course;
@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.bootme.bookmark.domain.BookmarkType.COURSE;
@@ -30,7 +31,7 @@ import static com.bootme.common.exception.ErrorType.NOT_FOUND_BOOKMARK;
 @RequiredArgsConstructor
 public class CourseBookmarkService {
 
-    private final BookmarkRepository bookmarkRepository;
+    private final CourseBookmarkRepository courseBookmarkRepository;
     private final CourseRepository courseRepository;
     private final CourseStackRepository courseStackRepository;
     private final CourseService courseService;
@@ -47,22 +48,15 @@ public class CourseBookmarkService {
         Member foundMember = memberService.getMemberById(memberId);
         Course foundCourse = courseService.getCourseById(courseId);
 
-        CourseBookmark courseBookmark = new CourseBookmark(foundCourse);
-        Bookmark bookmark = Bookmark.builder()
-                                    .type(COURSE)
-                                    .member(foundMember)
-                                    .courseBookmark(courseBookmark)
-                                    .build();
+        Bookmark bookmark = new Bookmark(COURSE, foundMember);
+        CourseBookmark courseBookmark = new CourseBookmark(bookmark, foundCourse);
 
-        return bookmarkRepository.save(bookmark).getId();
+        return courseBookmarkRepository.save(courseBookmark).getId();
     }
 
     private boolean isCourseBookmarkExist(Long memberId, Long courseId) {
-        return bookmarkRepository.findByMemberId(memberId).stream()
-                .filter(bookmark -> bookmark.getType() == COURSE)
-                .anyMatch(bookmark -> bookmark.getCourseBookmark().getCourse().getId().equals(courseId));
+        return courseBookmarkRepository.existsByBookmark_Member_IdAndCourse_Id(memberId, courseId);
     }
-
 
     @Transactional(readOnly = true)
     public Page<CourseResponse> findCourseBookmarks(Long memberId, int page, int size){
@@ -75,22 +69,23 @@ public class CourseBookmarkService {
 
     @Transactional(readOnly = true)
     public List<Long> findCourseBookmarkIds(Long memberId) {
-        return bookmarkRepository.findByMemberId(memberId).stream()
-                .filter(b -> b.getType() == COURSE)
-                .map(b -> b.getCourseBookmark().getCourse().getId())
+        return courseBookmarkRepository.findAll().stream()
+                .filter(cb -> Objects.equals(cb.getBookmark().getMember().getId(), memberId))
+                .map(cb -> cb.getCourse().getId())
                 .collect(Collectors.toList());
     }
 
     @Transactional
     public void deleteCourseBookmark(Long memberId, Long courseId) {
-        Bookmark bookmark = bookmarkRepository.findByMemberId(memberId).stream()
-                .filter(b -> b.getType() == COURSE)
-                .filter(b -> b.getCourseBookmark().getCourse().getId().equals(courseId))
+        CourseBookmark courseBookmark = courseBookmarkRepository.findAll().stream()
+                .filter(cb -> cb.getBookmark().getType() == COURSE)
+                .filter(cb -> Objects.equals(cb.getBookmark().getMember().getId(), memberId))
+                .filter(cb -> cb.getCourse().getId().equals(courseId))
                 .findFirst()
                 .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_BOOKMARK,
                         "memberId=" + memberId + ", courseId="+courseId));
 
-        bookmarkRepository.delete(bookmark);
+        courseBookmarkRepository.delete(courseBookmark);
     }
 
 }

@@ -9,6 +9,7 @@ import com.bootme.course.service.CourseService;
 import com.bootme.image.service.ImageService;
 import com.bootme.member.service.MemberService;
 import com.bootme.notification.service.NotificationService;
+import com.bootme.post.service.PostService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -49,6 +50,9 @@ public abstract class ControllerTest {
 
     @MockBean
     protected CourseService courseService;
+
+    @MockBean
+    protected PostService postService;
 
     @MockBean
     protected MemberService memberService;
