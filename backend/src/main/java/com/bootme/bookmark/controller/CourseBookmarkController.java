@@ -11,20 +11,20 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.List;
 
-@RequestMapping("/bookmarks")
+@RequestMapping("/bookmarks/{memberId}/courses")
 @RequiredArgsConstructor
 @RestController
 public class CourseBookmarkController {
 
     private final CourseBookmarkService courseBookmarkService;
 
-    @PostMapping("/{memberId}/courses/{courseId}")
+    @PostMapping("/{courseId}")
     public ResponseEntity<Void> addCourseBookmark(@PathVariable Long memberId, @PathVariable Long courseId){
         Long bookmarkCourseId = courseBookmarkService.addCourseBookmark(memberId, courseId);
         return ResponseEntity.created(URI.create("/member/" + memberId + "/bookmarks" + bookmarkCourseId)).build();
     }
 
-    @GetMapping("/{memberId}/courses")
+    @GetMapping
     public ResponseEntity<Page<CourseResponse>> findCourseBookmarks(
             @PathVariable Long memberId,
             @RequestParam(defaultValue = "1") int page,
@@ -48,13 +48,13 @@ public class CourseBookmarkController {
         return String.format("courses %d-%d/%d", startRange, endRange, totalElements);
     }
 
-    @GetMapping("/{memberId}/courses/ids")
+    @GetMapping("/ids")
     public ResponseEntity<List<Long>> findCourseBookmarkIds(@PathVariable Long memberId){
         List<Long> bookmarkCourses = courseBookmarkService.findCourseBookmarkIds(memberId);
         return ResponseEntity.ok().body(bookmarkCourses);
     }
 
-    @DeleteMapping("/{memberId}/courses/{courseId}")
+    @DeleteMapping("/{courseId}")
     public ResponseEntity<Void> deleteCourseBookmark(@PathVariable Long memberId, @PathVariable Long courseId) {
         courseBookmarkService.deleteCourseBookmark(memberId, courseId);
         return ResponseEntity.noContent().build();
