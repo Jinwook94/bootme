@@ -28,6 +28,7 @@ const ProfileContext = createContext<ProfileContextProps>({
   isNicknameDuplicate: false,
   setIsNicknameDuplicate: () => {},
   nicknameCheckDone: false,
+  setNicknameCheckDone: () => {},
   fetchProfile: async () => ({
     profileImage: '',
     email: '',
@@ -180,6 +181,7 @@ export const ProfileProvider = ({ children }: { children: React.ReactNode }) => 
         isNicknameDuplicate,
         setIsNicknameDuplicate,
         nicknameCheckDone,
+        setNicknameCheckDone,
         fetchProfile,
         fetchMyProfile,
         fetchNicknameDuplicate,
@@ -214,6 +216,7 @@ interface ProfileContextProps {
   isNicknameDuplicate: boolean;
   setIsNicknameDuplicate: React.Dispatch<React.SetStateAction<boolean>>;
   nicknameCheckDone: boolean;
+  setNicknameCheckDone: React.Dispatch<React.SetStateAction<boolean>>;
   fetchProfile: (memberId: number | string) => Promise<ProfileResponse>;
   fetchMyProfile: () => Promise<MyProfileResponse>;
   fetchNicknameDuplicate: () => Promise<void>;

@@ -2,7 +2,7 @@ import { Card, Title, Avatar, TextInput, Button, Group, Text, Center } from '@ma
 import { AvatarWrapper, IconWrapper, ProfileImage, ProfileLayout, SaveButton, TitleWrapper, Wrapper } from './style';
 import { CheckIconTabler, EditSaveIcon, ImageUploadIcon } from '../../constants/icons';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { hasLength, useForm } from '@mantine/form';
 import StackSelect from './StackSelect';
 import { LoadingState, useProfile } from '../../hooks/useProfile';
@@ -21,12 +21,15 @@ const ProfilePage = () => {
     stackNames,
     isNicknameDuplicate,
     nicknameCheckDone,
+    setNicknameCheckDone,
     fetchNicknameDuplicate,
     updateProfileImage,
     handleSubmit,
     handleNicknameChange,
   } = useProfile();
   const { uploadProfileImage } = useImage();
+  const [initialNickname] = useState(nickname);
+  const [isNicknameUnchanged, setIsNicknameUnchanged] = useState(false);
 
   const form = useForm({
     initialValues: { email: email, nickname: nickname, job: job, stackNames: stackNames },
@@ -145,13 +148,20 @@ const ProfilePage = () => {
                   이미 사용 중인 닉네임입니다.
                 </Text>
               )}
-              {!isNicknameDuplicate && nicknameCheckDone && (
+              {(!isNicknameDuplicate || isNicknameUnchanged) && nicknameCheckDone && (
                 <Text fz="sm" color="blue.7">
                   사용 가능한 닉네임입니다.
                 </Text>
               )}
               <Button
-                onClick={fetchNicknameDuplicate}
+                onClick={() => {
+                  if (form.values.nickname === initialNickname) {
+                    setNicknameCheckDone(true);
+                    setIsNicknameUnchanged(true);
+                  } else {
+                    fetchNicknameDuplicate().catch();
+                  }
+                }}
                 leftIcon={<CheckIconTabler />}
                 color="gray.1"
                 radius="md"
