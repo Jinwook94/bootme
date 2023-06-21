@@ -180,7 +180,7 @@ const PostDetailPage = () => {
                       <ProfilePic src={post?.writerProfileImage ?? ''} alt={'profile'} />
                     </Popover.Target>
                     <Popover.Dropdown p={0}>
-                      <ProfileCard memberId={memberId} />
+                      <ProfileCard memberId={post?.writerId ?? ''} />
                     </Popover.Dropdown>
                   </Popover>
                   <Writer>
@@ -189,7 +189,7 @@ const PostDetailPage = () => {
                         <NickName>{post?.writerNickname}</NickName>
                       </Popover.Target>
                       <Popover.Dropdown p={0}>
-                        <ProfileCard memberId={memberId} />
+                        <ProfileCard memberId={post?.writerId ?? ''} />
                       </Popover.Dropdown>
                     </Popover>
                     <ContentInfo>

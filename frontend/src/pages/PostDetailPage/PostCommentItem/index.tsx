@@ -146,7 +146,7 @@ const PostCommentItem = ({
               </ProfilePicture>
             </Popover.Target>
             <Popover.Dropdown p={0}>
-              <ProfileCard memberId={memberId} />
+              <ProfileCard memberId={writerId} />
             </Popover.Dropdown>
           </Popover>
           <CommentBody>
@@ -156,7 +156,7 @@ const PostCommentItem = ({
                   <UserNickname>{writerNickname}</UserNickname>
                 </Popover.Target>
                 <Popover.Dropdown p={0}>
-                  <ProfileCard memberId={memberId} />
+                  <ProfileCard memberId={writerId} />
                 </Popover.Dropdown>
               </Popover>
               <span style={{ margin: '0 4px', flex: '0 0 auto', alignSelf: 'baseline' }}> · </span>
