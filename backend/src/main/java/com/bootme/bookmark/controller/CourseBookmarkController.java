@@ -20,8 +20,8 @@ public class CourseBookmarkController {
 
     @PostMapping("/{courseId}")
     public ResponseEntity<Void> addCourseBookmark(@PathVariable Long memberId, @PathVariable Long courseId){
-        Long bookmarkCourseId = courseBookmarkService.addCourseBookmark(memberId, courseId);
-        return ResponseEntity.created(URI.create("/member/" + memberId + "/bookmarks" + bookmarkCourseId)).build();
+        Long courseBookmarkId = courseBookmarkService.addCourseBookmark(memberId, courseId);
+        return ResponseEntity.created(URI.create("/bookmarks/" + memberId + "/courses" + courseBookmarkId)).build();
     }
 
     @GetMapping
@@ -30,14 +30,14 @@ public class CourseBookmarkController {
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
-        Page<CourseResponse> bookmarkCoursePage = courseBookmarkService.findCourseBookmarks(memberId, page, size);
+        Page<CourseResponse> courseBookmarkPage = courseBookmarkService.findCourseBookmarks(memberId, page, size);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Access-Control-Expose-Headers", "X-Total-Count");
-        headers.add("X-Total-Count", String.valueOf(bookmarkCoursePage.getTotalElements()));
-        headers.add("Content-Range", getContentRange(bookmarkCoursePage));
+        headers.add("X-Total-Count", String.valueOf(courseBookmarkPage.getTotalElements()));
+        headers.add("Content-Range", getContentRange(courseBookmarkPage));
 
-        return ResponseEntity.ok().headers(headers).body(bookmarkCoursePage);
+        return ResponseEntity.ok().headers(headers).body(courseBookmarkPage);
     }
 
     private String getContentRange(Page<CourseResponse> coursePage) {
@@ -50,8 +50,8 @@ public class CourseBookmarkController {
 
     @GetMapping("/ids")
     public ResponseEntity<List<Long>> findCourseBookmarkIds(@PathVariable Long memberId){
-        List<Long> bookmarkCourses = courseBookmarkService.findCourseBookmarkIds(memberId);
-        return ResponseEntity.ok().body(bookmarkCourses);
+        List<Long> courseBookmarks = courseBookmarkService.findCourseBookmarkIds(memberId);
+        return ResponseEntity.ok().body(courseBookmarks);
     }
 
     @DeleteMapping("/{courseId}")

@@ -66,10 +66,10 @@ public class CourseBookmarkService {
 
     @Transactional(readOnly = true)
     public Page<CourseResponse> findCourseBookmarks(Long memberId, int page, int size){
-        List<Long> bookmarkCourseIds = findCourseBookmarkIds(memberId);
+        List<Long> courseBookmarkIds = findCourseBookmarkIds(memberId);
         Pageable pageable = PageRequest.of(page-1, size);
 
-        Page<Course> courses = courseRepository.findByIdIn(bookmarkCourseIds, pageable);
+        Page<Course> courses = courseRepository.findByIdIn(courseBookmarkIds, pageable);
         return courses.map(course -> CourseResponse.of(course, courseStackRepository.findStacksByCourseId(course.getId())));
     }
 
