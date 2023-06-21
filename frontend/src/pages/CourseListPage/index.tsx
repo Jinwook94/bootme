@@ -36,7 +36,7 @@ import { useBookmarks } from '../../hooks/useBookmarks';
 const CourseListPage = () => {
   const { fetchCourses, courseCount, size, currentCourses, sortOption, handleSorting, onSearch } = useCourses();
   const { selectedFilters, handleModal } = useCourseFilters();
-  const { fetchBookmarkCourses, fetchBookmarkCourseIds, bookmarkedCourseIds, setBookmarkedCourseIds, setIsBookmarked } =
+  const { fetchCourseBookmarks, fetchCourseBookmarksIds, courseBookmarksIds, setCourseBookmarksIds, setIsBookmarked } =
     useBookmarks();
   const [currentPage, setCurrentPage] = useState(1);
   const [resetPagination, setResetPagination] = useState(false);
@@ -54,14 +54,14 @@ const CourseListPage = () => {
       setCurrentPage(1);
       setResetPagination(false);
     }
-    fetchCourses(sortOption, currentPage);
-    fetchBookmarkCourses(currentPage);
+    fetchCourses(sortOption, currentPage).catch();
+    fetchCourseBookmarks(currentPage);
 
-    const fetchedPromise = fetchBookmarkCourseIds();
+    const fetchedPromise = fetchCourseBookmarksIds()?.catch();
     if (fetchedPromise) {
       fetchedPromise.then(response => {
         if (response) {
-          setBookmarkedCourseIds(response);
+          setCourseBookmarksIds(response);
           const updatedIsBookmarked: { [key: string]: boolean } = {};
           response.forEach((courseId: number) => {
             updatedIsBookmarked[courseId] = true;
@@ -131,7 +131,7 @@ const CourseListPage = () => {
                   선택하신 조건에 맞는 코스가 없습니다. <br /> 필터 옵션을 변경해 주세요.
                 </NoResultsMessage>
               ) : (
-                <CourseCardList courses={currentCourses} bookmarkedCourseIds={bookmarkedCourseIds} />
+                <CourseCardList courses={currentCourses} bookmarkedCourseIds={courseBookmarksIds} />
               )}
             </CourseListWrapper>
           </BodyWrapper2>

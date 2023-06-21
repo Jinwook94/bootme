@@ -87,10 +87,10 @@ const BookmarkCoursePage = () => {
     currentCourses,
     size,
     courseCount,
-    fetchBookmarkCourses,
-    fetchBookmarkCourseIds,
-    bookmarkedCourseIds,
-    setBookmarkedCourseIds,
+    fetchCourseBookmarks,
+    fetchCourseBookmarksIds,
+    courseBookmarksIds,
+    setCourseBookmarksIds,
     setIsBookmarked,
   } = useBookmarks();
   const [currentPage, setCurrentPage] = useState(1);
@@ -103,15 +103,15 @@ const BookmarkCoursePage = () => {
   };
 
   useEffect(() => {
-    fetchBookmarkCourses(currentPage);
+    fetchCourseBookmarks(currentPage);
   }, [currentPage]);
 
   useEffect(() => {
-    const fetchedPromise = fetchBookmarkCourseIds();
+    const fetchedPromise = fetchCourseBookmarksIds();
     if (fetchedPromise) {
       fetchedPromise.then(response => {
         if (response) {
-          setBookmarkedCourseIds(response);
+          setCourseBookmarksIds(response);
           const updatedIsBookmarked: { [key: string]: boolean } = {};
           response.forEach((courseId: number) => {
             updatedIsBookmarked[courseId] = true;
@@ -150,7 +150,7 @@ const BookmarkCoursePage = () => {
                   </Text>
                 </Flex>
               ) : (
-                <CourseCardList courses={currentCourses} bookmarkedCourseIds={bookmarkedCourseIds} displayBookmarked />
+                <CourseCardList courses={currentCourses} bookmarkedCourseIds={courseBookmarksIds} displayBookmarked />
               )}
             </Container>
             <PaginationWrapper>
