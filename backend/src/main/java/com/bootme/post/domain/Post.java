@@ -1,6 +1,9 @@
 package com.bootme.post.domain;
 
 import com.bootme.common.domain.BaseEntity;
+import com.bootme.common.domain.Bookmarkable;
+import com.bootme.common.domain.Clickable;
+import com.bootme.common.domain.Votable;
 import com.bootme.common.exception.AuthenticationException;
 import com.bootme.member.domain.Member;
 import com.bootme.post.dto.PostRequest;
@@ -21,7 +24,7 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Post extends BaseEntity implements Votable {
+public class Post extends BaseEntity implements Votable, Clickable, Bookmarkable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,7 +46,7 @@ public class Post extends BaseEntity implements Votable {
 
     private int likes;
 
-    private int views;
+    private int clicks;
 
     private int bookmarks;
 
@@ -53,14 +56,14 @@ public class Post extends BaseEntity implements Votable {
 
     @Builder
     public Post(Member member, String topic, String title, String content,
-                int likes, int views, int bookmarks, PostStatus status) {
+                int likes, int clicks, int bookmarks, PostStatus status) {
         this.member = member;
         this.topic = topic;
         this.title = new Title(title);
         this.content = new Content(content);
         this.status = status;
         this.likes = likes;
-        this.views = views;
+        this.clicks = clicks;
         this.bookmarks = bookmarks;
     }
 
@@ -70,6 +73,8 @@ public class Post extends BaseEntity implements Votable {
                 .topic(postRequest.getTopic())
                 .title(postRequest.getTitle())
                 .content(postRequest.getContent())
+                .clicks(0)
+                .bookmarks(0)
                 .status(PostStatus.DISPLAY)
                 .build();
     }
@@ -109,5 +114,15 @@ public class Post extends BaseEntity implements Votable {
     public void decrementLikes() {
         this.likes -= 1;
         }
+
+    @Override
+    public void incrementClicks() {
+        this.clicks += 1;
+    }
+
+    @Override
+    public void incrementBookmarks() {
+        this.bookmarks += 1;
+    }
 
 }

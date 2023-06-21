@@ -19,7 +19,7 @@ public class PostDetailResponse implements VotableResponse, PostResponseDto {
     private String title;
     private String content;
     private int likes;
-    private int views;
+    private int clicks;
     private int bookmarks;
     private String status;
     private long createdAt;
@@ -32,7 +32,7 @@ public class PostDetailResponse implements VotableResponse, PostResponseDto {
 
     @Builder
     public PostDetailResponse(Long id, Long writerId, String writerNickname, String writerProfileImage,
-                              String topic, String title, String content, int likes, int views, int bookmarks,
+                              String topic, String title, String content, int likes, int clicks, int bookmarks,
                               String status, long createdAt, long modifiedAt, int commentCount, String voted) {
         this.id = id;
         this.writerId = writerId;
@@ -42,7 +42,7 @@ public class PostDetailResponse implements VotableResponse, PostResponseDto {
         this.title = title;
         this.content = content;
         this.likes = likes;
-        this.views = views;
+        this.clicks = clicks;
         this.bookmarks = bookmarks;
         this.status = status;
         this.createdAt = createdAt;
@@ -61,7 +61,7 @@ public class PostDetailResponse implements VotableResponse, PostResponseDto {
                 .title(post.getTitle().getValue())
                 .content(post.getContent().getValue())
                 .likes(post.getLikes())
-                .views(post.getViews())
+                .clicks(post.getClicks())
                 .bookmarks(post.getBookmarks())
                 .status(post.getStatus().toString())
                 .createdAt(convertLocalDateTimeToLong(post.getCreatedAt()))

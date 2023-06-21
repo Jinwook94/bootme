@@ -19,7 +19,7 @@ public class PostResponse implements PostResponseDto {
     private String title;
     private String contentExcerpt;
     private int likes;
-    private int views;
+    private int clicks;
     private int bookmarks;
     private String status;
     private long createdAt;
@@ -32,7 +32,7 @@ public class PostResponse implements PostResponseDto {
 
     @Builder
     public PostResponse(Long id, Long writerId, String writerNickname, String writerProfileImage,
-                        String topic, String title, String contentExcerpt, int likes, int views,
+                        String topic, String title, String contentExcerpt, int likes, int clicks,
                         int bookmarks, String status, long createdAt, long modifiedAt, int commentCount,
                         String voted) {
         this.id = id;
@@ -43,7 +43,7 @@ public class PostResponse implements PostResponseDto {
         this.title = title;
         this.contentExcerpt = contentExcerpt;
         this.likes = likes;
-        this.views = views;
+        this.clicks = clicks;
         this.bookmarks = bookmarks;
         this.status = status;
         this.createdAt = createdAt;
@@ -62,7 +62,7 @@ public class PostResponse implements PostResponseDto {
                 .title(post.getTitle().getValue())
                 .contentExcerpt(post.getContent().getExcerpt())
                 .likes(post.getLikes())
-                .views(post.getViews())
+                .clicks(post.getClicks())
                 .bookmarks(post.getBookmarks())
                 .status(post.getStatus().toString())
                 .createdAt(convertLocalDateTimeToLong(post.getCreatedAt()))

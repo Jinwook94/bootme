@@ -1,6 +1,8 @@
 package com.bootme.course.domain;
 
 import com.bootme.common.domain.BaseEntity;
+import com.bootme.common.domain.Bookmarkable;
+import com.bootme.common.domain.Clickable;
 import com.bootme.course.dto.CourseRequest;
 import com.bootme.post.domain.CourseStatus;
 import lombok.AccessLevel;
@@ -19,7 +21,7 @@ import static javax.persistence.FetchType.LAZY;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Course extends BaseEntity {
+public class Course extends BaseEntity implements Clickable, Bookmarkable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -199,10 +201,12 @@ public class Course extends BaseEntity {
         return false;
     }
 
+    @Override
     public void incrementClicks() {
         this.clicks += 1;
     }
 
+    @Override
     public void incrementBookmarks() {
         this.bookmarks += 1;
     }

@@ -115,6 +115,18 @@ public class PostService {
         return commentResponses;
     }
 
+    @Transactional
+    public void incrementClicks(Long id) {
+        Post post = getPostById(id);
+        post.incrementClicks();
+    }
+
+    @Transactional
+    public void incrementBookmarks(Long id){
+        Post post = getPostById(id);
+        post.incrementBookmarks();
+    }
+
     public Predicate getStatusPredicate() {
         QPost qPost = QPost.post;
         return qPost.status.eq(PostStatus.DISPLAY);
