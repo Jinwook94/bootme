@@ -11,6 +11,9 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.FetchType.LAZY;
+
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
@@ -32,7 +35,7 @@ public class Company extends BaseEntity {
 
     private String logoUrl;
 
-    @OneToMany(mappedBy = "company", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "company", fetch = LAZY, cascade = PERSIST)
     private List<Course> courses = new ArrayList<>();
 
     @Builder

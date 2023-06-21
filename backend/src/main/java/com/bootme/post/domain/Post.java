@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.bootme.common.exception.ErrorType.NOT_WRITER;
+import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
@@ -26,7 +28,7 @@ public class Post extends BaseEntity implements Votable {
     @Column(name = "post_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
@@ -36,7 +38,7 @@ public class Post extends BaseEntity implements Votable {
 
     private Content content;
 
-    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "post", fetch = LAZY, cascade = PERSIST)
     private List<Comment> comments = new ArrayList<>();
 
     private int likes;

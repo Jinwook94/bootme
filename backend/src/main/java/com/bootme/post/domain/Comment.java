@@ -19,6 +19,8 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static com.bootme.common.exception.ErrorType.*;
+import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
@@ -30,19 +32,19 @@ public class Comment extends BaseEntity implements Votable {
     @Column(name = "comment_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "parent_id")
     private Comment parent;
 
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "parent", cascade = PERSIST)
     private List<Comment> children = new ArrayList<>();
 
     @Lob

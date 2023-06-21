@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 import static com.bootme.common.exception.ErrorType.NOT_FOUND_EVENT;
+import static javax.persistence.FetchType.LAZY;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -23,7 +24,7 @@ public class Notification extends BaseEntity {
     @Column(name = "notification_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
@@ -58,8 +59,8 @@ public class Notification extends BaseEntity {
                 .build();
     }
 
-    public static Notification of(Member member, String event, BookmarkCourse bookmarkCourse){
-        String courseTitle = bookmarkCourse.getCourse().getTitle();
+    public static Notification of(Member member, String event, Bookmark bookmark){
+        String courseTitle = bookmark.getCourse().getTitle();
 
         String message;
         switch (event) {

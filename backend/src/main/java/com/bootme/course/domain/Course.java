@@ -13,6 +13,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.FetchType.LAZY;
+
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
@@ -34,7 +37,7 @@ public class Course extends BaseEntity {
     @Column(nullable = false)
     private String url;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "company_id")
     private Company company;
 
@@ -43,7 +46,7 @@ public class Course extends BaseEntity {
     @Embedded
     private Categories categories;
 
-    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "course", cascade = PERSIST)
     private List<CourseStack> courseStacks = new ArrayList<>();
 
     private int cost;

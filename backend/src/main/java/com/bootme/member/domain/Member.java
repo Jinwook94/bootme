@@ -19,6 +19,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.bootme.common.exception.ErrorType.MEMBER_ID_MISMATCH;
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.FetchType.LAZY;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -56,10 +58,10 @@ public class Member extends BaseEntity {
 
     private String phoneNumber;
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "member", fetch = LAZY, cascade = ALL, orphanRemoval = true)
     private List<MemberStack> memberStacks = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "member", fetch = LAZY, cascade = ALL, orphanRemoval = true)
     private List<Notification> notifications = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
