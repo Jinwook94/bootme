@@ -13,8 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Objects;
-
 import static com.bootme.bookmark.domain.BookmarkType.POST;
 import static com.bootme.common.exception.ErrorType.ALREADY_BOOKMARKED;
 import static com.bootme.common.exception.ErrorType.NOT_FOUND_BOOKMARK;
@@ -50,11 +48,7 @@ public class PostBookmarkService {
 
     @Transactional
     public void deletePostBookmark(Long memberId, Long postId) {
-        PostBookmark postBookmark = postBookmarkRepository.findAll().stream()
-                .filter(cb -> cb.getBookmark().getType() == POST)
-                .filter(cb -> Objects.equals(cb.getBookmark().getMember().getId(), memberId))
-                .filter(cb -> cb.getPost().getId().equals(postId))
-                .findFirst()
+        PostBookmark postBookmark = postBookmarkRepository.findByBookmark_Member_IdAndPost_Id(memberId, postId)
                 .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_BOOKMARK,
                         "memberId=" + memberId + ", postId="+postId));
 

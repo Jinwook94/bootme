@@ -77,15 +77,12 @@ public class CourseBookmarkService {
 
     @Transactional
     public void deleteCourseBookmark(Long memberId, Long courseId) {
-        CourseBookmark courseBookmark = courseBookmarkRepository.findAll().stream()
-                .filter(cb -> cb.getBookmark().getType() == COURSE)
-                .filter(cb -> Objects.equals(cb.getBookmark().getMember().getId(), memberId))
-                .filter(cb -> cb.getCourse().getId().equals(courseId))
-                .findFirst()
+        CourseBookmark courseBookmark = courseBookmarkRepository.findByBookmark_Member_IdAndCourse_Id(memberId, courseId)
                 .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_BOOKMARK,
                         "memberId=" + memberId + ", courseId="+courseId));
 
         courseBookmarkRepository.delete(courseBookmark);
     }
+
 
 }
