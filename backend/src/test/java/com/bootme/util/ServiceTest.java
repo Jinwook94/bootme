@@ -5,6 +5,7 @@ import com.amazonaws.services.secretsmanager.AWSSecretsManager;
 import com.bootme.auth.dto.AwsSecrets;
 import com.bootme.auth.service.AuthService;
 import com.bootme.auth.util.TokenProvider;
+import com.bootme.bookmark.service.CourseBookmarkService;
 import com.bootme.common.interceptor.TokenValidationInterceptor;
 import com.bootme.course.service.CompanyService;
 import com.bootme.course.service.CourseService;
@@ -46,6 +47,9 @@ public abstract class ServiceTest {
 
     @Autowired
     protected MemberService memberService;
+
+    @Autowired
+    protected CourseBookmarkService courseBookmarkService;
 
     @Autowired
     protected NotificationService notificationService;

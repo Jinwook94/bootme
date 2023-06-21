@@ -1,8 +1,8 @@
 package com.bootme.notification.domain;
 
+import com.bootme.bookmark.domain.CourseBookmark;
 import com.bootme.common.domain.BaseEntity;
 import com.bootme.common.exception.ResourceNotFoundException;
-import com.bootme.member.domain.BookmarkCourse;
 import com.bootme.member.domain.Member;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -59,8 +59,8 @@ public class Notification extends BaseEntity {
                 .build();
     }
 
-    public static Notification of(Member member, String event, Bookmark bookmark){
-        String courseTitle = bookmark.getCourse().getTitle();
+    public static Notification of(Member member, String event, CourseBookmark courseBookmark){
+        String courseTitle = courseBookmark.getCourse().getTitle();
 
         String message;
         switch (event) {

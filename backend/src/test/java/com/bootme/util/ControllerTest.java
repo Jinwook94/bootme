@@ -2,6 +2,7 @@ package com.bootme.util;
 
 import com.bootme.auth.service.AuthService;
 import com.bootme.auth.util.TokenProvider;
+import com.bootme.bookmark.service.CourseBookmarkService;
 import com.bootme.common.interceptor.TokenValidationInterceptor;
 import com.bootme.course.service.CompanyService;
 import com.bootme.course.service.CourseService;
@@ -51,6 +52,9 @@ public abstract class ControllerTest {
 
     @MockBean
     protected MemberService memberService;
+
+    @MockBean
+    protected CourseBookmarkService courseBookmarkService;
 
     @MockBean
     protected NotificationService notificationService;

@@ -228,16 +228,6 @@ DELETE localhost:8080/companies/1 HTTP/1.1
 Content-Type: application/json
 Host: api.bootMe.app
 
-### 북마크 코스 추가
-POST localhost:8080/member/1/bookmarks/1
-Accept: application/json
-Host: api.bootMe.app
-
-### 북마크 코스 조회
-GET localhost:8080/member/1/bookmarks
-Accept: application/json
-Host: api.bootMe.app
-
 ### 코스 수정
 PUT localhost:8080/courses/1 HTTP/1.1
 Content-Type: application/json
