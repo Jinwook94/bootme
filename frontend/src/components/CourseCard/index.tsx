@@ -24,6 +24,7 @@ import { appendUtmParams } from '../../api/fetcher';
 import PATH from '../../constants/path';
 import { Link } from 'react-router-dom';
 import { createStyles, Paper, rem } from '@mantine/core';
+import { BOOKMARK_TYPE } from '../../constants/others';
 
 const CourseCard = ({
   id,
@@ -154,7 +155,7 @@ const CourseCard = ({
           </ItemBody>
           <Bookmark
             onClick={() => {
-              handleBookmark(id);
+              handleBookmark(id, BOOKMARK_TYPE.COURSE);
               sendWebhookNoti(COURSE_CLICKED, id);
               sendWebhookNoti(COURSE_BOOKMARKED, id);
             }}

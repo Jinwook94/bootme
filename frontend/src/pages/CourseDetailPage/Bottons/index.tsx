@@ -4,6 +4,7 @@ import React from 'react';
 import { useBookmarks } from '../../../hooks/useBookmarks';
 import { BookmarkButton, LargeScreen, Mobile } from './style';
 import { Tooltip } from 'antd';
+import { BOOKMARK_TYPE } from '../../../constants/others';
 
 const Buttons = ({ course }: { course: Course | undefined }) => {
   const { handleBookmark } = useBookmarks();
@@ -13,7 +14,7 @@ const Buttons = ({ course }: { course: Course | undefined }) => {
         <Tooltip placement="topRight" title={'북마크 저장'}>
           <BookmarkButton
             onClick={() => {
-              handleBookmark(course ? course.id : 0);
+              handleBookmark(course ? course.id : 0, BOOKMARK_TYPE.COURSE);
             }}
           >
             <BookmarkIcon2 />
@@ -23,7 +24,7 @@ const Buttons = ({ course }: { course: Course | undefined }) => {
       <Mobile>
         <BookmarkButton
           onClick={() => {
-            handleBookmark(course ? course.id : 0);
+            handleBookmark(course ? course.id : 0, BOOKMARK_TYPE.COURSE);
           }}
         >
           <BookmarkIcon2 />

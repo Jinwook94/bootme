@@ -1,3 +1,5 @@
+import { BookmarkTypeKey } from '../hooks/useBookmarks';
+
 export const BOOTME_URL = 'https://bootme.co.kr';
 
 export const GOOGLE = 'google';
@@ -22,3 +24,9 @@ export const IMAGE_TYPE = {
   POST: 'post',
   POST_COMMENT: 'postComment',
 };
+
+export const BOOKMARK_TYPE: Record<BookmarkTypeKey, string> = {
+  COURSE: 'course',
+  POST: 'post',
+  COMMENT: 'comment',
+} as const;

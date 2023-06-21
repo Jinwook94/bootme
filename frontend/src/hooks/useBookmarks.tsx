@@ -3,6 +3,7 @@ import { fetcher } from '../api/fetcher';
 import { useLogin } from './useLogin';
 import { useSnackbar } from './useSnackbar';
 import SNACKBAR_MESSAGE, { CHECK, EXCLAMATION } from '../constants/snackbar';
+import { BOOKMARK_TYPE } from '../constants/others';
 
 const BookmarkContext = createContext<BookmarkContextProps>({
   isBookmarked: {},
@@ -68,8 +69,15 @@ export const BookmarkProvider = ({ children }: BookmarkProviderProps) => {
     }
   };
 
-  const handleBookmark = async (id: number) => {
-    const endpoint = `/bookmarks/${memberId}/courses/${id}`;
+  const handleBookmark = async (id: number, type: BookmarkType) => {
+    const typePaths: Record<BookmarkType, string> = {
+      [BOOKMARK_TYPE.COURSE]: 'courses',
+      [BOOKMARK_TYPE.POST]: 'posts',
+      [BOOKMARK_TYPE.COMMENT]: 'comments',
+    };
+
+    const path = typePaths[type];
+    const endpoint = `/bookmarks/${memberId}/${path}/${id}`;
     const method = isBookmarked[id] ? 'DELETE' : 'POST';
     if (isLogin) {
       try {
@@ -82,10 +90,10 @@ export const BookmarkProvider = ({ children }: BookmarkProviderProps) => {
 
         if (method === 'DELETE') {
           setCourseBookmarksIds(prevState => prevState.filter(courseId => courseId !== id));
-          showSnackbar(SNACKBAR_MESSAGE.SUCCESS_DELETE_BOOKMARK_COURSE, CHECK);
+          showSnackbar(SNACKBAR_MESSAGE.SUCCESS_DELETE_BOOKMARK, CHECK);
         } else {
           setCourseBookmarksIds(prevState => [...prevState, id]);
-          showSnackbar(SNACKBAR_MESSAGE.SUCCESS_ADD_BOOKMARK_COURSE, CHECK);
+          showSnackbar(SNACKBAR_MESSAGE.SUCCESS_ADD_BOOKMARK, CHECK);
         }
       } catch (error) {
         console.error(`Failed to ${method} bookmark for course ${id}:`, error);
@@ -128,11 +136,14 @@ interface BookmarkContextProps {
   setCurrentCourses: React.Dispatch<Course[]>;
   fetchCourseBookmarks: (page: number) => Promise<Course[]> | undefined;
   fetchCourseBookmarksIds: () => Promise<number[]> | undefined;
-  handleBookmark: (id: number) => void;
+  handleBookmark: (id: number, type: BookmarkType) => void;
   maxPage: number;
   size: number;
   courseCount: number | undefined;
 }
+
+export type BookmarkTypeKey = 'COURSE' | 'POST' | 'COMMENT';
+export type BookmarkType = typeof BOOKMARK_TYPE[BookmarkTypeKey];
 
 interface BookmarkProviderProps {
   children: React.ReactNode;
