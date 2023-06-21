@@ -1,9 +1,8 @@
-package com.bootme.member.domain;
+package com.bootme.bookmark.domain;
 
 import com.bootme.common.domain.BaseEntity;
 import com.bootme.course.domain.Course;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,25 +11,19 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-@Table(name = "bookmark_course")
-public class BookmarkCourse extends BaseEntity {
+@Table(name = "course_bookmark")
+public class CourseBookmark extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "bookmark_course_id")
+    @Column(name = "course_bookmark_id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "member_id")
-    private Member member;
-
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "course_id")
     private Course course;
 
-    @Builder
-    public BookmarkCourse(Member member, Course course) {
-        this.member = member;
+    public CourseBookmark(Course course) {
         this.course = course;
     }
 
