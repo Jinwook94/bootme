@@ -1,6 +1,13 @@
 import { fetcher } from '../api/fetcher';
 import * as jose from 'jose';
-import { COURSE_BOOKMARKED, COURSE_CLICKED, COURSE_ID } from '../constants/webhook';
+import {
+  COURSE_BOOKMARKED,
+  COURSE_CLICKED,
+  COURSE_ID,
+  POST_BOOKMARKED,
+  POST_CLICKED,
+  POST_ID,
+} from '../constants/webhook';
 import { useSecret } from './useSecret';
 
 const useWebhook = (): useWebhookProps => {
@@ -50,6 +57,10 @@ const useWebhook = (): useWebhookProps => {
       case COURSE_CLICKED:
       case COURSE_BOOKMARKED:
         data = { [COURSE_ID]: id.toString() };
+        break;
+      case POST_CLICKED:
+      case POST_BOOKMARKED:
+        data = { [POST_ID]: id.toString() };
         break;
     }
     return {

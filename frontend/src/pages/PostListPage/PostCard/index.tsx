@@ -37,7 +37,7 @@ import 'react-quill/dist/quill.core.css';
 import { Post } from '../../../types/post';
 import { getTimeSince } from '../../../utils/timeUtils';
 import { usePost } from '../../../hooks/usePost';
-import { VOTABLE_TYPE, VOTE_TYPE } from '../../../constants/others';
+import { BOOKMARK_TYPE, VOTABLE_TYPE, VOTE_TYPE } from '../../../constants/others';
 import {
   PostShareButtonInPostCardDesktop,
   PostShareButtonInPostCardMobile,
@@ -45,6 +45,9 @@ import {
 import PATH from '../../../constants/path';
 import DOMPurify from 'dompurify';
 import { Link } from 'react-router-dom';
+import { useBookmarks } from '../../../hooks/useBookmarks';
+import useWebhook from '../../../hooks/useWebhook';
+import { POST_BOOKMARKED, POST_CLICKED } from '../../../constants/webhook';
 
 const PostCard = ({
   id,
@@ -59,6 +62,8 @@ const PostCard = ({
   commentCount,
   voted,
 }: PostCardProps) => {
+  const { sendWebhookNoti } = useWebhook();
+  const { handleBookmark } = useBookmarks();
   const { handleVote } = usePost();
   const [votedState, setVotedState] = useState(voted);
   const [likesState, setLikesState] = useState(likes);
@@ -170,6 +175,9 @@ const PostCard = ({
                 onClick={event => {
                   event.stopPropagation();
                   event.preventDefault();
+                  handleBookmark(id, BOOKMARK_TYPE.POST);
+                  sendWebhookNoti(POST_CLICKED, id);
+                  sendWebhookNoti(POST_BOOKMARKED, id);
                 }}
               >
                 <BookmarkIcon />

@@ -62,16 +62,21 @@ import { useSnackbar } from '../../hooks/useSnackbar';
 import SNACKBAR_MESSAGE, { EXCLAMATION } from '../../constants/snackbar';
 import CommentRichText from '../../components/RichTextEditor/CommentRichText';
 import DOMPurify from 'dompurify';
-import { VOTABLE_TYPE, VOTE_TYPE } from '../../constants/others';
+import { BOOKMARK_TYPE, VOTABLE_TYPE, VOTE_TYPE } from '../../constants/others';
 import { PostShareButtonInPostDetailPageDeskTop, PostShareButtonInPostDetailPageMobile } from './PostShareDropdown';
 import PATH from '../../constants/path';
 import { PostThreeDotsDropdown } from './ThreeDotsDropdown';
 import PostEdit from './PostEdit';
 import { Popover } from '@mantine/core';
 import ProfileCard from '../../components/ProfileCard';
+import { POST_BOOKMARKED, POST_CLICKED } from '../../constants/webhook';
+import useWebhook from '../../hooks/useWebhook';
+import { useBookmarks } from '../../hooks/useBookmarks';
 
 const PostDetailPage = () => {
   const { id } = useParams();
+  const { sendWebhookNoti } = useWebhook();
+  const { handleBookmark } = useBookmarks();
   const commentQuill = useRef<ReactQuill & ReactQuillProps>(null);
   const { showSnackbar } = useSnackbar();
   const { post, fetchPost, comments, fetchComments, handleVote, uploadComment } = usePost();
@@ -199,7 +204,13 @@ const PostDetailPage = () => {
                 </WriterInfo>
 
                 <ButtonWrapper>
-                  <ButtonIconWrapper>
+                  <ButtonIconWrapper
+                    onClick={() => {
+                      handleBookmark(Number(id), BOOKMARK_TYPE.POST);
+                      sendWebhookNoti(POST_CLICKED, Number(id));
+                      sendWebhookNoti(POST_BOOKMARKED, Number(id));
+                    }}
+                  >
                     <BookmarkIcon />
                   </ButtonIconWrapper>
                   <PostShareButtonInPostDetailPageDeskTop post={post} />
