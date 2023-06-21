@@ -3,7 +3,8 @@ import { Wrapper } from './style';
 import { useSnackbar } from '../../hooks/useSnackbar';
 import SNACKBAR_MESSAGE, { CHECK } from '../../constants/snackbar';
 import React, { useEffect } from 'react';
-import { useProfile } from '../../hooks/useProfile';
+import { LoadingState, useProfile } from '../../hooks/useProfile';
+import LoadingSpinner from '../@common/LoadingSpinner';
 
 const useStyles = createStyles(theme => ({
   card: {
@@ -23,7 +24,7 @@ const useStyles = createStyles(theme => ({
 const ProfileCard = ({ memberId }: ProfileCardProps) => {
   const { showSnackbar } = useSnackbar();
   const { classes } = useStyles();
-  const { fetchProfile, profileImage, nickname, job, stacks } = useProfile();
+  const { fetchProfile, loadingState, profileImage, nickname, job, stacks } = useProfile();
 
   useEffect(() => {
     fetchProfile(memberId).catch();
@@ -99,6 +100,7 @@ const ProfileCard = ({ memberId }: ProfileCardProps) => {
           </Button>
         </Card>
       </MantineProvider>
+      {loadingState !== LoadingState.None && <LoadingSpinner />}
     </Wrapper>
   );
 };

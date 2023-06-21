@@ -4,10 +4,10 @@ import { useLogin } from '../../../hooks/useLogin';
 import { useSecret } from '../../../hooks/useSecret';
 import { NAVER } from '../../../constants/others';
 import PATH from '../../../constants/path';
-import { Spin } from 'antd';
 import SNACKBAR_MESSAGE, { EXCLAMATION } from '../../../constants/snackbar';
 import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from '../../../hooks/useSnackbar';
+import LoadingSpinner from '../../@common/LoadingSpinner';
 
 export const NaverLoginButton = () => {
   const { secrets } = useSecret();
@@ -71,9 +71,5 @@ export const NaverLoginRedirect = () => {
       });
   }, []);
 
-  return (
-    <Spin tip="Loading" size="large" style={{ marginTop: '100px' }}>
-      <div className="content" />
-    </Spin>
-  );
+  return <LoadingSpinner overlay={true} />;
 };

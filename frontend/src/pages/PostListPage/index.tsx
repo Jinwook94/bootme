@@ -26,9 +26,8 @@ import {
   SortButtons,
   HotButton,
   NewestButton,
-  LoadingSpinner,
 } from './style';
-import { Space, Spin } from 'antd';
+import { Space } from 'antd';
 import { POST_FILTERS } from '../../constants/filters';
 import PATH from '../../constants/path';
 import { FireIcon2, FireIconBlue, SparklesIcon, SparklesIconBlue } from '../../constants/icons';
@@ -49,6 +48,7 @@ import SNACKBAR_MESSAGE, { CHECK } from '../../constants/snackbar';
 import { useInView } from 'react-intersection-observer';
 import { Popover } from '@mantine/core';
 import ProfileCard from '../../components/ProfileCard';
+import LoadingSpinner from '../../components/@common/LoadingSpinner';
 
 const PostListPage = () => {
   const navigationType = useNavigationType();
@@ -277,13 +277,7 @@ const PostListPage = () => {
                   voted={post.voted}
                 />
               ))}
-              {isLoadingPost ? (
-                <LoadingSpinner>
-                  <Spin size="large" />
-                </LoadingSpinner>
-              ) : (
-                <div ref={pageEndRef} />
-              )}
+              {isLoadingPost ? <LoadingSpinner /> : <div ref={pageEndRef} />}
             </PostCardList>
           )}
         </BodyWrapper>

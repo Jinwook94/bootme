@@ -3,8 +3,16 @@ import { fetcher } from '../api/fetcher';
 import { useSnackbar } from './useSnackbar';
 import SNACKBAR_MESSAGE, { CHECK, EXCLAMATION } from '../constants/snackbar';
 
+export enum LoadingState {
+  None = 'None',
+  Profile = 'Profile',
+  MyProfile = 'MyProfile',
+  UpdateProfile = 'UpdateProfile',
+  UpdateProfileImage = 'UpdateProfileImage',
+}
+
 const ProfileContext = createContext<ProfileContextProps>({
-  loadingProfile: false,
+  loadingState: LoadingState.None,
   profileImage: '',
   email: '',
   setEmail: () => {},
@@ -44,7 +52,7 @@ const ProfileContext = createContext<ProfileContextProps>({
 
 export const ProfileProvider = ({ children }: { children: React.ReactNode }) => {
   const { showSnackbar } = useSnackbar();
-  const [loadingProfile, setLoadingProfile] = useState(true);
+  const [loadingState, setLoadingState] = useState<LoadingState>(LoadingState.None);
   const [profileImage, setProfileImage] = useState(localStorage.getItem('profileImage') || '');
   const [email, setEmail] = useState(localStorage.getItem('email') || '');
   const [nickname, setNickname] = useState(localStorage.getItem('nickname') || '');
@@ -56,6 +64,7 @@ export const ProfileProvider = ({ children }: { children: React.ReactNode }) => 
   const [nicknameCheckDone, setNicknameCheckDone] = useState(false);
 
   const fetchProfile = async (memberId: number | string) => {
+    setLoadingState(LoadingState.Profile);
     const { data } = await fetcher.get<ProfileResponse>(`member/${memberId}/profile`);
     const { profileImage, email, nickname, job, stacks } = data;
     setProfileImage(profileImage);
@@ -65,11 +74,12 @@ export const ProfileProvider = ({ children }: { children: React.ReactNode }) => 
       setJob(job);
     }
     setStacks(stacks);
+    setLoadingState(LoadingState.None);
     return data;
   };
 
   const fetchMyProfile = async () => {
-    setLoadingProfile(true);
+    setLoadingState(LoadingState.MyProfile);
     const { data } = await fetcher.get<MyProfileResponse>('member/me');
     const { profileImage, email, nickname, job, stacks } = data;
     setProfileImage(profileImage);
@@ -79,7 +89,7 @@ export const ProfileProvider = ({ children }: { children: React.ReactNode }) => 
       setJob(job);
     }
     setStackNames(stacks);
-    setLoadingProfile(false);
+    setLoadingState(LoadingState.None);
     return data;
   };
 
@@ -95,32 +105,40 @@ export const ProfileProvider = ({ children }: { children: React.ReactNode }) => 
 
   const updateProfileImage = async (profileImage: string) => {
     try {
+      setLoadingState(LoadingState.UpdateProfileImage);
       await fetcher.patch(`member/${memberId}/profile_image`, { profileImage });
       localStorage.setItem('profileImage', profileImage);
       showSnackbar(SNACKBAR_MESSAGE.SUCCESS_PROFILE_IMAGE_UPDATE, CHECK);
+      setLoadingState(LoadingState.None);
     } catch (e: any) {
       if (e.response && e.response.data && e.response.data.message) {
         showSnackbar(SNACKBAR_MESSAGE.FAIL_PROFILE_IMAGE_UPDATE + ': ' + e.response.data.message, EXCLAMATION);
+        setLoadingState(LoadingState.None);
       } else {
         showSnackbar(SNACKBAR_MESSAGE.FAIL_PROFILE_IMAGE_UPDATE, EXCLAMATION);
+        setLoadingState(LoadingState.None);
       }
     }
   };
 
   const updateMemberProfile = async (data: UpdateProfileRequest) => {
     try {
+      setLoadingState(LoadingState.UpdateProfile);
       await fetcher.put(`member/${memberId}`, data);
       const { nickname, job } = data;
       localStorage.setItem('nickname', nickname);
       if (typeof job === 'string') {
         localStorage.setItem('job', job);
       }
+      setLoadingState(LoadingState.None);
       showSnackbar(SNACKBAR_MESSAGE.SUCCESS_PROFILE_UPDATE, CHECK);
     } catch (e: any) {
       if (e.response && e.response.data && e.response.data.message) {
         showSnackbar(SNACKBAR_MESSAGE.FAIL_PROFILE_UPDATE + ': ' + e.response.data.message, EXCLAMATION);
+        setLoadingState(LoadingState.None);
       } else {
         showSnackbar(SNACKBAR_MESSAGE.FAIL_PROFILE_UPDATE, EXCLAMATION);
+        setLoadingState(LoadingState.None);
       }
     }
   };
@@ -146,7 +164,7 @@ export const ProfileProvider = ({ children }: { children: React.ReactNode }) => 
   return (
     <ProfileContext.Provider
       value={{
-        loadingProfile,
+        loadingState,
         profileImage,
         email,
         setEmail,
@@ -180,7 +198,7 @@ export const ProfileProvider = ({ children }: { children: React.ReactNode }) => 
 export const useProfile = () => useContext(ProfileContext);
 
 interface ProfileContextProps {
-  loadingProfile: boolean;
+  loadingState: LoadingState;
   profileImage: string;
   email: string;
   setEmail: React.Dispatch<React.SetStateAction<string>>;

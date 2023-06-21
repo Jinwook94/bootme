@@ -5,13 +5,14 @@ import { CheckIconTabler, EditSaveIcon, ImageUploadIcon } from '../../constants/
 import React, { useEffect, useRef } from 'react';
 import { hasLength, useForm } from '@mantine/form';
 import StackSelect from './StackSelect';
-import { useProfile } from '../../hooks/useProfile';
+import { LoadingState, useProfile } from '../../hooks/useProfile';
 import useImage from '../../hooks/useImage';
 import { modals } from '@mantine/modals';
+import LoadingSpinner from '../../components/@common/LoadingSpinner';
 
 const ProfilePage = () => {
   const {
-    loadingProfile,
+    loadingState,
     fetchMyProfile,
     profileImage,
     email,
@@ -167,7 +168,7 @@ const ProfilePage = () => {
               placeholder="직업을 입력하세요"
               inputWrapperOrder={['label', 'input', 'description', 'error']}
             />
-            {!loadingProfile && <StackSelect />}
+            {loadingState !== LoadingState.MyProfile && <StackSelect />}
             <SaveButton>
               <Button
                 type="submit"
@@ -184,6 +185,8 @@ const ProfilePage = () => {
           </form>
         </Card>
       </ProfileLayout>
+      {loadingState !== LoadingState.None && <LoadingSpinner />}
+      {loadingState === LoadingState.UpdateProfile && <LoadingSpinner overlay={true} />}
     </Wrapper>
   );
 };
