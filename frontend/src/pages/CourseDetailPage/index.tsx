@@ -35,7 +35,7 @@ import {
   ItemTitle,
   BottomButtonWrapper,
 } from './style';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 import { Button } from 'antd';
@@ -48,11 +48,14 @@ import { CalendarIcon1, CalendarIcon2, HomeIcon } from '../../constants/icons';
 const CourseDetailPage = () => {
   const { id } = useParams();
   const { fetchCourse, course } = useCourse();
+  const [bookmarkedState, setBookmarkedState] = useState(course?.bookmarked);
   const cleanHTML = DOMPurify.sanitize(course?.detail || '');
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    fetchCourse(id).catch(e => console.error(e));
+    fetchCourse(id).then(fetchedCourse => {
+      setBookmarkedState(fetchedCourse?.bookmarked);
+    });
   }, []);
 
   return (
@@ -86,7 +89,11 @@ const CourseDetailPage = () => {
                   </StyledLink>
                 </ApplyButton>
                 <ButtonWrapper>
-                  <Buttons course={course} />
+                  <Buttons
+                    course={course}
+                    bookmarkedState={bookmarkedState || false}
+                    setBookmarkedState={setBookmarkedState}
+                  />
                 </ButtonWrapper>
               </MobileButtons>
               <CourseInfoWrapper>
@@ -172,7 +179,11 @@ const CourseDetailPage = () => {
                     <h4>{course?.title}</h4>
                   </CourseTitleWrapper>
                   <ButtonWrapper>
-                    <Buttons course={course} />
+                    <Buttons
+                      course={course}
+                      bookmarkedState={bookmarkedState || false}
+                      setBookmarkedState={setBookmarkedState}
+                    />
                   </ButtonWrapper>
                 </SideTop>
                 <SideDescription>

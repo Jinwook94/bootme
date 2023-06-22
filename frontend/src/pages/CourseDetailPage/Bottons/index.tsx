@@ -6,15 +6,15 @@ import { BookmarkButton, LargeScreen, Mobile } from './style';
 import { Tooltip } from 'antd';
 import { BOOKMARK_TYPE } from '../../../constants/others';
 
-const Buttons = ({ course }: { course: Course | undefined }) => {
-  const { handleBookmark } = useBookmarks();
+const Buttons = ({ course, bookmarkedState, setBookmarkedState }: ButtonsProps) => {
+  const { handleBookmarkClick } = useBookmarks();
   return (
     <>
       <LargeScreen>
         <Tooltip placement="topRight" title={'북마크 저장'}>
           <BookmarkButton
             onClick={() => {
-              // handleBookmark(course ? course.id : 0, BOOKMARK_TYPE.COURSE);
+              handleBookmarkClick(course ? course.id : 0, BOOKMARK_TYPE.COURSE, bookmarkedState, setBookmarkedState);
             }}
           >
             <BookmarkIcon2 />
@@ -24,7 +24,7 @@ const Buttons = ({ course }: { course: Course | undefined }) => {
       <Mobile>
         <BookmarkButton
           onClick={() => {
-            // handleBookmark(course ? course.id : 0, BOOKMARK_TYPE.COURSE);
+            handleBookmarkClick(course ? course.id : 0, BOOKMARK_TYPE.COURSE, bookmarkedState, setBookmarkedState);
           }}
         >
           <BookmarkIcon2 />
@@ -36,3 +36,9 @@ const Buttons = ({ course }: { course: Course | undefined }) => {
 };
 
 export default Buttons;
+
+interface ButtonsProps {
+  course: Course | undefined;
+  bookmarkedState: boolean;
+  setBookmarkedState: React.Dispatch<boolean>;
+}
