@@ -137,8 +137,10 @@ export const MobileButtons = styled.div`
   line-height: 15px;
   display: flex;
   flex-direction: row;
-  gap: 10px;
-  margin-bottom: 0.3rem;
+  gap: 25px;
+  div {
+    padding: 3px 3px;
+  }
   @media (min-width: 640px) {
     display: none;
   }
@@ -150,9 +152,6 @@ export const VoteWrapperMobile = styled.div`
   gap: 10px;
   align-items: center;
   box-sizing: border-box;
-  margin-right: 0.5rem;
-  border-radius: 999px;
-  border: 1px solid rgb(234, 237, 239);
   padding: 1px 5px;
 
   &:hover {
@@ -235,9 +234,6 @@ export const CommentIconMobile = styled.div`
   cursor: pointer;
   box-sizing: border-box;
   flex-direction: row;
-  margin-right: 0.5rem;
-  border-radius: 999px;
-  border: 1px solid rgb(234, 237, 239);
   padding: 1px 8px;
   svg {
     fill: #878a8c;
