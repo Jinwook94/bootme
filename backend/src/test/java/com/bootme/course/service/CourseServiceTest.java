@@ -109,7 +109,7 @@ class CourseServiceTest extends ServiceTest {
         Long id = courseRepository.save(course).getId();
 
         //when
-        CourseDetailResponse courseResponse = courseService.findById(id);
+        CourseDetailResponse courseResponse = courseService.findById(id, 1L);
         List<Stack> stacks = courseStackRepository.findStacksByCourseId(id);
 
         //then
@@ -142,7 +142,7 @@ class CourseServiceTest extends ServiceTest {
         MultiValueMap<String, String> filters = new LinkedMultiValueMap<>();
 
         //when
-        Page<CourseResponse> courseResponses = courseService.findAll(1, 10, "popular", filters);
+        Page<CourseResponse> courseResponses = courseService.findAll(1L, 1, 10, "popular", filters);
 
         //then: setUp()의 company1.addCourse(course)에서 코스 한 개 등록되었으므로 총 3개의 코스
         assertThat(courseResponses).hasSize(3);
@@ -158,7 +158,7 @@ class CourseServiceTest extends ServiceTest {
         filters.add("superCategories", AI);
 
         //when
-        Page<CourseResponse> courseResponses = courseService.findAll(1, 10, "popular", filters);
+        Page<CourseResponse> courseResponses = courseService.findAll(1L,1, 10, "popular", filters);
 
         CourseResponse courseResponse1 = courseResponses.getContent().get(0);
         CourseResponse courseResponse2 = courseResponses.getContent().get(1);
@@ -182,7 +182,7 @@ class CourseServiceTest extends ServiceTest {
         filters.add("frameworks", Django);
 
         //when
-        Page<CourseResponse> courseResponses = courseService.findAll(1, 10, "popular", filters);
+        Page<CourseResponse> courseResponses = courseService.findAll(1L, 1, 10, "popular", filters);
         CourseResponse courseResponse = courseResponses.getContent().get(0);
 
         //then
@@ -202,7 +202,7 @@ class CourseServiceTest extends ServiceTest {
         filters.add("search", "서버");
 
         //when
-        Page<CourseResponse> courseResponses = courseService.findAll(1, 10, "popular", filters);
+        Page<CourseResponse> courseResponses = courseService.findAll(1L,1, 10, "popular", filters);
 
         CourseResponse courseResponse1 = courseResponses.getContent().get(0);
         CourseResponse courseResponse2 = courseResponses.getContent().get(1);
@@ -225,7 +225,7 @@ class CourseServiceTest extends ServiceTest {
         MultiValueMap<String, String> filters = new LinkedMultiValueMap<>();
 
         //when: 정렬 기준을 등록순(newest)으로 설정함
-        Page<CourseResponse> courseResponses = courseService.findAll(1, 10, "newest", filters);
+        Page<CourseResponse> courseResponses = courseService.findAll(1L, 1, 10, "newest", filters);
         CourseResponse courseResponse1 = courseResponses.getContent().get(0);
         CourseResponse courseResponse2 = courseResponses.getContent().get(1);
         CourseResponse courseResponse3 = courseResponses.getContent().get(2);

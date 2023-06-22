@@ -1,5 +1,7 @@
 package com.bootme.course.controller;
 
+import com.bootme.auth.dto.AuthInfo;
+import com.bootme.auth.util.Login;
 import com.bootme.course.dto.CourseDetailRequest;
 import com.bootme.course.dto.CourseDetailResponse;
 import com.bootme.course.dto.CourseRequest;
@@ -23,43 +25,32 @@ public class CourseController {
     private final CourseService courseService;
 
     @PostMapping
-    public ResponseEntity<CourseDetailResponse> addCourse(@Valid @RequestBody CourseRequest courseRequest){
+    public ResponseEntity<CourseDetailResponse> addCourse(@Login AuthInfo authInfo,
+                                                          @Valid @RequestBody CourseRequest courseRequest){
         Long courseId = courseService.addCourse(courseRequest);
-        CourseDetailResponse courseResponse = courseService.findById(courseId);
+        CourseDetailResponse courseResponse = courseService.findById(courseId, authInfo.getMemberId());
         HttpHeaders headers = new HttpHeaders();
         headers.add("Location", "/courses/" + courseId);
         return new ResponseEntity<>(courseResponse, headers, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CourseDetailResponse> findCourse(@PathVariable Long id){
-        CourseDetailResponse courseResponse = courseService.findById(id);
+    public ResponseEntity<CourseDetailResponse> findCourse(@Login AuthInfo authInfo,
+                                                           @PathVariable Long id){
+        CourseDetailResponse courseResponse = courseService.findById(id, authInfo.getMemberId());
         return ResponseEntity.ok(courseResponse);
     }
 
     @GetMapping
     public ResponseEntity<Page<CourseResponse>> findAllCourses(
+            @Login AuthInfo authInfo,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "12") int size,
             @RequestParam(defaultValue = "popular") String sort,
             @RequestParam MultiValueMap<String, String> params
     ) {
-        Page<CourseResponse> coursePage = courseService.findAll(page, size, sort, params);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Access-Control-Expose-Headers", "X-Total-Count");
-        headers.add("X-Total-Count", String.valueOf(coursePage.getTotalElements()));
-        headers.add("Content-Range", getContentRange(coursePage));
-
-        return ResponseEntity.ok().headers(headers).body(coursePage);
-    }
-
-    private String getContentRange(Page<CourseResponse> coursePage) {
-        int startRange = coursePage.getNumber() * coursePage.getSize();
-        int endRange = startRange + coursePage.getNumberOfElements();
-        long totalElements = coursePage.getTotalElements();
-
-        return String.format("courses %d-%d/%d", startRange, endRange, totalElements);
+        Page<CourseResponse> coursePage = courseService.findAll(authInfo.getMemberId(), page, size, sort, params);
+        return ResponseEntity.ok().body(coursePage);
     }
 
     @PutMapping("/{id}")

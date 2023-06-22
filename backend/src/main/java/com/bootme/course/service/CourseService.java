@@ -1,5 +1,7 @@
 package com.bootme.course.service;
 
+import com.bootme.auth.service.AuthService;
+import com.bootme.bookmark.repository.CourseBookmarkRepository;
 import com.bootme.common.exception.ConflictException;
 import com.bootme.common.exception.ResourceNotFoundException;
 import com.bootme.course.domain.*;
@@ -34,9 +36,11 @@ import static com.bootme.common.exception.ErrorType.*;
 public class CourseService {
 
     private final CourseRepository courseRepository;
-    private final CompanyService companyService;
     private final CourseStackRepository courseStackRepository;
+    private final CourseBookmarkRepository courseBookmarkRepository;
     private final StackRepository stackRepository;
+    private final AuthService authService;
+    private final CompanyService companyService;
     private final CourseFilterPredicate courseFilterPredicate;
     private final CourseSearchPredicate courseSearchPredicate;
 
@@ -75,22 +79,37 @@ public class CourseService {
     }
 
     @Transactional(readOnly = true)
-    public CourseDetailResponse findById(Long id) {
+    public CourseDetailResponse findById(Long id, Long memberId) {
+        boolean isLogin = authService.validateLogin(memberId);
         Course foundCourse = getCourseById(id);
-        List<Stack> stacks = courseStackRepository.findStacksByCourseId(id);
-        return CourseDetailResponse.of(foundCourse, stacks);
+        return createCourseDetailResponse(foundCourse, isLogin, memberId);
+    }
+
+    private CourseDetailResponse createCourseDetailResponse(Course course, boolean isLogin, Long memberId) {
+        boolean isBookmarked = isLogin && courseBookmarkRepository.existsByBookmark_Member_IdAndCourse_Id(memberId, course.getId());
+        List<Stack> stacks = courseStackRepository.findStacksByCourseId(course.getId());
+        return CourseDetailResponse.of(course, stacks, isBookmarked);
     }
 
     @Transactional(readOnly = true)
-    public Page<CourseResponse> findAll(int page, int size, String sort, MultiValueMap<String, String> params) {
+    public Page<CourseResponse> findAll(Long memberId, int page, int size, String sort,
+                                        MultiValueMap<String, String> params) {
+        boolean isLogin = authService.validateLogin(memberId);
+
         Predicate combinedPredicate = getCombinedPredicate(params);
+
         return getCoursePage(page, size, sort, combinedPredicate)
-                .map(course -> CourseResponse.of(course, courseStackRepository.findStacksByCourseId(course.getId())));
+                .map(course -> createCourseResponse(course, isLogin, memberId));
+    }
+
+    private CourseResponse createCourseResponse(Course course, boolean isLogin, Long memberId) {
+        boolean isBookmarked = isLogin && courseBookmarkRepository.existsByBookmark_Member_IdAndCourse_Id(memberId, course.getId());
+        List<Stack> stacks = courseStackRepository.findStacksByCourseId(course.getId());
+        return CourseResponse.of(course, stacks, isBookmarked);
     }
 
     public void modifyCourse(Long id, CourseRequest courseRequest){
         Course course = getCourseById(id);
-
         course.modifyCourse(courseRequest);
     }
 

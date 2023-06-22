@@ -39,6 +39,7 @@ public class CourseDetailResponse {
     private int bookmarks;
     private long createdAt;
     private long modifiedAt;
+    private boolean isBookmarked;
 
     public CourseDetailResponse() {}
 
@@ -46,8 +47,8 @@ public class CourseDetailResponse {
     public CourseDetailResponse(Long id, String name, int generation, String title, String url, String location,
                                 List<String> superCategories, List<String> subCategories, List<String> languages, List<String> frameworks,
                                 int cost, int period, Dates dates, String detail, boolean isRecommended, boolean isFree, boolean isKdt,
-                                boolean isOnline, boolean isTested, boolean isPrerequisiteRequired, boolean isRegisterOpen,
-                                int clicks, int bookmarks, long createdAt, long modifiedAt, CompanyResponse company) {
+                                boolean isOnline, boolean isTested, boolean isPrerequisiteRequired, boolean isRegisterOpen, int clicks,
+                                int bookmarks, long createdAt, long modifiedAt, boolean isBookmarked, CompanyResponse company) {
         this.id = id;
         this.name = name;
         this.generation = generation;
@@ -73,10 +74,11 @@ public class CourseDetailResponse {
         this.bookmarks = bookmarks;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
+        this.isBookmarked = isBookmarked;
         this.company = company;
     }
 
-    public static CourseDetailResponse of(Course course, List<Stack> stacks) {
+    public static CourseDetailResponse of(Course course, List<Stack> stacks, boolean isBookmarked) {
         return CourseDetailResponse.builder()
                 .id(course.getId())
                 .name(course.getName())
@@ -104,6 +106,7 @@ public class CourseDetailResponse {
                 .createdAt(convertLocalDateTimeToLong(course.getCreatedAt()))
                 .modifiedAt(convertLocalDateTimeToLong(course.getModifiedAt()))
                 .company(CompanyResponse.of(course.getCompany()))
+                .isBookmarked(isBookmarked)
                 .build();
     }
 

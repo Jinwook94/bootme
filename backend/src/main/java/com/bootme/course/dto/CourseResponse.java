@@ -37,6 +37,7 @@ public class CourseResponse {
     private int bookmarks;
     private long createdAt;
     private long modifiedAt;
+    private boolean isBookmarked;
 
     public CourseResponse() {
     }
@@ -46,7 +47,7 @@ public class CourseResponse {
                           List<String> superCategories, List<String> subCategories, List<String> languages, List<String> frameworks,
                           int cost, int period, Dates dates, boolean isRecommended, boolean isFree, boolean isKdt,
                           boolean isOnline, boolean isTested, boolean isPrerequisiteRequired, boolean isRegisterOpen,
-                          int clicks, int bookmarks, long createdAt, long modifiedAt, CompanyResponse company) {
+                          int clicks, int bookmarks, long createdAt, long modifiedAt, boolean isBookmarked, CompanyResponse company) {
         this.id = id;
         this.name = name;
         this.generation = generation;
@@ -71,10 +72,11 @@ public class CourseResponse {
         this.bookmarks = bookmarks;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
+        this.isBookmarked = isBookmarked;
         this.company = company;
     }
 
-    public static CourseResponse of(Course course, List<Stack> stacks) {
+    public static CourseResponse of(Course course, List<Stack> stacks, boolean isBookmarked) {
         return CourseResponse.builder()
                 .id(course.getId())
                 .name(course.getName())
@@ -100,6 +102,7 @@ public class CourseResponse {
                 .bookmarks(course.getBookmarks())
                 .createdAt(convertLocalDateTimeToLong(course.getCreatedAt()))
                 .modifiedAt(convertLocalDateTimeToLong(course.getModifiedAt()))
+                .isBookmarked(isBookmarked)
                 .company(CompanyResponse.of(course.getCompany()))
                 .build();
     }
