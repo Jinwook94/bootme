@@ -1,6 +1,7 @@
 package com.bootme.util;
 
 import com.bootme.auth.service.AuthService;
+import com.bootme.auth.util.AuthenticationArgumentResolver;
 import com.bootme.auth.util.TokenProvider;
 import com.bootme.bookmark.service.CourseBookmarkService;
 import com.bootme.common.interceptor.TokenValidationInterceptor;
@@ -35,6 +36,9 @@ public abstract class ControllerTest {
 
     @Autowired
     protected ObjectMapper objectMapper;
+
+    @MockBean
+    protected AuthenticationArgumentResolver authenticationArgumentResolver;
 
     @Autowired
     protected TokenValidationInterceptor tokenValidationInterceptor;

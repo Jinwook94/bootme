@@ -1,26 +1,27 @@
 package com.bootme.bookmark.service;
 
 import com.bootme.bookmark.domain.Bookmark;
+import com.bootme.bookmark.domain.BookmarkType;
 import com.bootme.bookmark.domain.CourseBookmark;
+import com.bootme.bookmark.repository.BookmarkRepository;
 import com.bootme.bookmark.repository.CourseBookmarkRepository;
 import com.bootme.common.exception.ConflictException;
 import com.bootme.common.exception.ResourceNotFoundException;
 import com.bootme.course.domain.Course;
 import com.bootme.course.dto.CourseResponse;
-import com.bootme.course.repository.CourseRepository;
 import com.bootme.course.repository.CourseStackRepository;
 import com.bootme.course.service.CourseService;
 import com.bootme.member.domain.Member;
 import com.bootme.member.service.MemberService;
+import com.bootme.stack.domain.Stack;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.bootme.bookmark.domain.BookmarkType.COURSE;
@@ -31,9 +32,9 @@ import static com.bootme.common.exception.ErrorType.NOT_FOUND_BOOKMARK;
 @RequiredArgsConstructor
 public class CourseBookmarkService {
 
-    private final CourseBookmarkRepository courseBookmarkRepository;
-    private final CourseRepository courseRepository;
+    private final BookmarkRepository bookmarkRepository;
     private final CourseStackRepository courseStackRepository;
+    private final CourseBookmarkRepository courseBookmarkRepository;
     private final CourseService courseService;
     private final MemberService memberService;
 
@@ -58,23 +59,6 @@ public class CourseBookmarkService {
         return courseBookmarkRepository.existsByBookmark_Member_IdAndCourse_Id(memberId, courseId);
     }
 
-    @Transactional(readOnly = true)
-    public Page<CourseResponse> findCourseBookmarks(Long memberId, int page, int size){
-        List<Long> courseBookmarkIds = findCourseBookmarkIds(memberId);
-        Pageable pageable = PageRequest.of(page-1, size);
-
-        Page<Course> courses = courseRepository.findByIdIn(courseBookmarkIds, pageable);
-        return courses.map(course -> CourseResponse.of(course, courseStackRepository.findStacksByCourseId(course.getId())));
-    }
-
-    @Transactional(readOnly = true)
-    public List<Long> findCourseBookmarkIds(Long memberId) {
-        return courseBookmarkRepository.findAll().stream()
-                .filter(cb -> Objects.equals(cb.getBookmark().getMember().getId(), memberId))
-                .map(cb -> cb.getCourse().getId())
-                .collect(Collectors.toList());
-    }
-
     @Transactional
     public void deleteCourseBookmark(Long memberId, Long courseId) {
         CourseBookmark courseBookmark = courseBookmarkRepository.findByBookmark_Member_IdAndCourse_Id(memberId, courseId)
@@ -84,5 +68,37 @@ public class CourseBookmarkService {
         courseBookmarkRepository.delete(courseBookmark);
     }
 
+    @Transactional(readOnly = true)
+    public Page<CourseResponse> getBookmarkedCourses(Long memberId, Pageable pageable) {
+        List<CourseBookmark> courseBookmarks = findCourseBookmarksByMemberId(memberId);
+        List<CourseResponse> courseResponses = mapCourseBookmarksToCourseResponse(courseBookmarks);
+
+        return getPageableCourseResponse(pageable, courseResponses);
+    }
+
+    private List<CourseBookmark> findCourseBookmarksByMemberId(Long memberId) {
+        return bookmarkRepository.findByMember_Id(memberId).stream()
+                .filter(bookmark -> bookmark.getType() == BookmarkType.COURSE)
+                .flatMap(bookmark -> courseBookmarkRepository.findByBookmark_Id(bookmark.getId()).stream())
+                .collect(Collectors.toList());
+    }
+
+    private List<CourseResponse> mapCourseBookmarksToCourseResponse(List<CourseBookmark> courseBookmarks) {
+        return courseBookmarks.stream()
+                .map(this::mapCourseBookmarkToCourseResponse)
+                .collect(Collectors.toList());
+    }
+
+    private CourseResponse mapCourseBookmarkToCourseResponse(CourseBookmark courseBookmark) {
+        Course course = courseBookmark.getCourse();
+        List<Stack> stacks = courseStackRepository.findStacksByCourseId(course.getId());
+        return CourseResponse.of(course, stacks, true);
+    }
+
+    private Page<CourseResponse> getPageableCourseResponse(Pageable pageable, List<CourseResponse> courseResponses) {
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), courseResponses.size());
+        return new PageImpl<>(courseResponses.subList(start, end), pageable, courseResponses.size());
+    }
 
 }
