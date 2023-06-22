@@ -6,6 +6,7 @@ import CourseCardList from '../../components/CourseCardList';
 import { PaginationWrapper } from '../CourseListPage/style';
 import { Pagination } from 'antd';
 import { useBookmarks } from '../../hooks/useBookmarks';
+import { BOOKMARK_TYPE } from '../../constants/others';
 
 const useStyles = createStyles(theme => ({
   navbar: {
@@ -83,7 +84,7 @@ const BookmarkCoursePage = () => {
     </a>
   ));
 
-  const { fetchBookmarkedCourses, courseCount, currentCourses } = useBookmarks();
+  const { fetchBookmarkedItems, itemCount, currentItems } = useBookmarks();
   const [currentPage, setCurrentPage] = useState(1);
   const [size] = useState(12);
 
@@ -96,12 +97,8 @@ const BookmarkCoursePage = () => {
   };
 
   useEffect(() => {
-    fetchBookmarkedCourses('popular', currentPage, size).catch();
+    fetchBookmarkedItems(BOOKMARK_TYPE.COURSE, currentPage, size).catch();
   }, [currentPage]);
-
-  useEffect(() => {
-    fetchBookmarkedCourses('popular', currentPage, size).catch();
-  }, []);
 
   return (
     <Wrapper>
@@ -124,21 +121,21 @@ const BookmarkCoursePage = () => {
               북마크 코스
             </Text>
             <Container p={0} style={{ minHeight: '600px' }}>
-              {courseCount === 0 ? (
+              {itemCount === 0 ? (
                 <Flex justify={'center'} mt={48}>
                   <Text fz="xl" fw={600} color="gray.5">
                     아직 북마크 저장한 코스가 없습니다...
                   </Text>
                 </Flex>
               ) : (
-                <CourseCardList courses={currentCourses} />
+                <CourseCardList courses={currentItems} />
               )}
             </Container>
             <PaginationWrapper>
               <Pagination
                 current={currentPage}
                 pageSize={size}
-                total={courseCount}
+                total={itemCount}
                 onChange={handlePageChange}
                 showSizeChanger={false}
               />

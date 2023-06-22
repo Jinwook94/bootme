@@ -10,9 +10,9 @@ import useWebhook from './useWebhook';
 const BookmarkContext = createContext<BookmarkContextProps>({
   handleBookmarkClick: async () => {},
   handleBookmark: async () => Promise.resolve(),
-  courseCount: 0,
-  currentCourses: [],
-  fetchBookmarkedCourses: () => Promise.resolve(),
+  itemCount: 0,
+  currentItems: [],
+  fetchBookmarkedItems: () => Promise.resolve(),
 });
 
 export const BookmarkProvider = ({ children }: BookmarkProviderProps) => {
@@ -20,8 +20,8 @@ export const BookmarkProvider = ({ children }: BookmarkProviderProps) => {
   const { showSnackbar } = useSnackbar();
   const { sendWebhookNoti } = useWebhook();
   const memberId = localStorage.getItem('memberId');
-  const [courseCount, setCourseCount] = useState<number>();
-  const [currentCourses, setCurrentCourses] = useState<Course[]>([]);
+  const [itemCount, setItemCount] = useState<number>();
+  const [currentItems, setCurrentItems] = useState<Course[]>([]);
 
   const handleBookmarkClick = async (
     id: number,
@@ -76,18 +76,25 @@ export const BookmarkProvider = ({ children }: BookmarkProviderProps) => {
     }
   };
 
-  const fetchBookmarkedCourses = (sort: string, page: number, size: number) => {
+  const fetchBookmarkedItems = (type: BookmarkType, page: number, size: number) => {
+    const typePaths: Record<BookmarkType, string> = {
+      [BOOKMARK_TYPE.COURSE]: 'courses',
+      [BOOKMARK_TYPE.POST]: 'posts',
+      [BOOKMARK_TYPE.COMMENT]: 'comments',
+    };
+
+    const path = typePaths[type];
+
     return fetcher
-      .get(`/bookmarks/${memberId}/courses`, {
+      .get(`/bookmarks/${memberId}/${path}`, {
         params: {
-          sort: sort,
           page: page,
           size: size,
         },
       })
       .then(r => {
-        setCourseCount(r.data.totalElements);
-        setCurrentCourses(r.data.content);
+        setItemCount(r.data.totalElements);
+        setCurrentItems(r.data.content);
       })
       .catch(e => {
         return Promise.reject(e);
@@ -99,9 +106,9 @@ export const BookmarkProvider = ({ children }: BookmarkProviderProps) => {
       value={{
         handleBookmarkClick,
         handleBookmark,
-        courseCount,
-        currentCourses,
-        fetchBookmarkedCourses,
+        itemCount,
+        currentItems,
+        fetchBookmarkedItems,
       }}
     >
       {children}
@@ -119,9 +126,9 @@ interface BookmarkContextProps {
     setBookmarkedState: React.Dispatch<boolean>
   ) => void;
   handleBookmark: (id: number, type: BookmarkType, bookmarked: boolean) => Promise<void>;
-  courseCount: number | undefined;
-  currentCourses: Course[];
-  fetchBookmarkedCourses: (sort: string, page: number, size: number) => Promise<void>;
+  itemCount: number | undefined;
+  currentItems: any[];
+  fetchBookmarkedItems: (type: BookmarkType, page: number, size: number) => Promise<void>;
 }
 
 export type BookmarkTypeKey = 'COURSE' | 'POST' | 'COMMENT';
