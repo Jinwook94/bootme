@@ -2,14 +2,11 @@ import { Popover } from 'antd';
 import { BookmarkedIcon, BookmarkIcon, ThreeDotsVerticalIcon } from '../../../constants/icons';
 import React, { useState } from 'react';
 import { BOOKMARK_TYPE } from '../../../constants/others';
-import { POST_BOOKMARKED, POST_CLICKED } from '../../../constants/webhook';
 import { useBookmarks } from '../../../hooks/useBookmarks';
-import useWebhook from '../../../hooks/useWebhook';
 import { LinkItem, ThreeDotsWrapper, Items, Item, IconWrapper } from './stlye';
 
 export const BookmarkDropdown = ({ postId, bookmarked }: BookmarkDropdownProps) => {
-  const { sendWebhookNoti } = useWebhook();
-  const { handleBookmark } = useBookmarks();
+  const { handleBookmarkClick } = useBookmarks();
   const [bookmarkedState, setBookmarkedState] = useState(bookmarked);
   const [visible, setVisible] = useState(false);
 
@@ -31,11 +28,7 @@ export const BookmarkDropdown = ({ postId, bookmarked }: BookmarkDropdownProps) 
               onClick={event => {
                 event.stopPropagation();
                 event.preventDefault();
-                handleBookmark(postId, BOOKMARK_TYPE.POST, bookmarkedState).then(() => {
-                  setBookmarkedState(!bookmarkedState);
-                });
-                sendWebhookNoti(POST_CLICKED, postId);
-                sendWebhookNoti(POST_BOOKMARKED, postId);
+                handleBookmarkClick(postId, BOOKMARK_TYPE.POST, bookmarkedState, setBookmarkedState);
               }}
             >
               <IconWrapper>{bookmarkedState ? <BookmarkedIcon /> : <BookmarkIcon />}</IconWrapper>

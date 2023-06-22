@@ -71,14 +71,11 @@ import { PostThreeDotsDropdown } from './ThreeDotsDropdown';
 import PostEdit from './PostEdit';
 import { Popover } from '@mantine/core';
 import ProfileCard from '../../components/ProfileCard';
-import { POST_BOOKMARKED, POST_CLICKED } from '../../constants/webhook';
-import useWebhook from '../../hooks/useWebhook';
 import { useBookmarks } from '../../hooks/useBookmarks';
 
 const PostDetailPage = () => {
   const { id } = useParams();
-  const { sendWebhookNoti } = useWebhook();
-  const { handleBookmark } = useBookmarks();
+  const { handleBookmarkClick } = useBookmarks();
   const commentQuill = useRef<ReactQuill & ReactQuillProps>(null);
   const { showSnackbar } = useSnackbar();
   const { post, fetchPost, comments, fetchComments, handleVote, uploadComment } = usePost();
@@ -210,13 +207,9 @@ const PostDetailPage = () => {
                 </WriterInfo>
                 <ButtonWrapper>
                   <ButtonIconWrapper
-                    onClick={() => {
-                      handleBookmark(Number(id), BOOKMARK_TYPE.POST, bookmarkedState || false).then(() => {
-                        setBookmarkedState(!bookmarkedState);
-                      });
-                      sendWebhookNoti(POST_CLICKED, Number(id));
-                      sendWebhookNoti(POST_BOOKMARKED, Number(id));
-                    }}
+                    onClick={() =>
+                      handleBookmarkClick(Number(id), BOOKMARK_TYPE.POST, bookmarkedState || false, setBookmarkedState)
+                    }
                   >
                     {bookmarkedState ? <BookmarkedIcon3 /> : <BookmarkIcon />}
                   </ButtonIconWrapper>
@@ -269,13 +262,9 @@ const PostDetailPage = () => {
               </MobileButtonWrapper>
               <MobileButtonWrapper>
                 <MobileBookmarkIcon
-                  onClick={() => {
-                    handleBookmark(Number(id), BOOKMARK_TYPE.POST, bookmarkedState || false).then(() => {
-                      setBookmarkedState(!bookmarkedState);
-                    });
-                    sendWebhookNoti(POST_CLICKED, Number(id));
-                    sendWebhookNoti(POST_BOOKMARKED, Number(id));
-                  }}
+                  onClick={() =>
+                    handleBookmarkClick(Number(id), BOOKMARK_TYPE.POST, bookmarkedState || false, setBookmarkedState)
+                  }
                 >
                   {bookmarkedState ? <BookmarkedIcon /> : <BookmarkIcon />}
                 </MobileBookmarkIcon>

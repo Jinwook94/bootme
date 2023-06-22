@@ -4,16 +4,17 @@ import { useLogin } from './useLogin';
 import { useSnackbar } from './useSnackbar';
 import SNACKBAR_MESSAGE, { CHECK, EXCLAMATION } from '../constants/snackbar';
 import { BOOKMARK_TYPE } from '../constants/others';
+import { POST_BOOKMARKED, POST_CLICKED } from '../constants/webhook';
+import useWebhook from './useWebhook';
 
 const BookmarkContext = createContext<BookmarkContextProps>({
-  isBookmarked: {},
-  setIsBookmarked: () => {},
   courseBookmarksIds: [],
   setCourseBookmarksIds: () => {},
   currentCourses: [],
   setCurrentCourses: () => {},
   fetchCourseBookmarks: async () => [],
   fetchCourseBookmarksIds: async () => [],
+  handleBookmarkClick: async () => {},
   handleBookmark: async () => Promise.resolve(),
   maxPage: 1,
   size: 12,
@@ -23,8 +24,8 @@ const BookmarkContext = createContext<BookmarkContextProps>({
 export const BookmarkProvider = ({ children }: BookmarkProviderProps) => {
   const { isLogin } = useLogin();
   const { showSnackbar } = useSnackbar();
+  const { sendWebhookNoti } = useWebhook();
   const memberId = localStorage.getItem('memberId');
-  const [isBookmarked, setIsBookmarked] = useState<{ [key: string]: boolean }>({});
   const [courseBookmarksIds, setCourseBookmarksIds] = useState<number[]>([]);
   const [maxPage, setMaxPage] = useState<number>(1);
   const [size] = useState<number>(12);
@@ -69,6 +70,23 @@ export const BookmarkProvider = ({ children }: BookmarkProviderProps) => {
     }
   };
 
+  const handleBookmarkClick = async (
+    id: number,
+    type: BookmarkType,
+    bookmarkedState: boolean,
+    setBookmarkedState: React.Dispatch<boolean>
+  ) => {
+    if (isLogin) {
+      handleBookmark(id, BOOKMARK_TYPE.POST, bookmarkedState).then(() => {
+        setBookmarkedState(!bookmarkedState);
+      });
+      sendWebhookNoti(POST_CLICKED, id);
+      sendWebhookNoti(POST_BOOKMARKED, id);
+    } else {
+      showSnackbar(SNACKBAR_MESSAGE.NEED_LOGIN, EXCLAMATION);
+    }
+  };
+
   const handleBookmark = async (id: number, type: BookmarkType, isBookmarked: boolean) => {
     const typePaths: Record<BookmarkType, string> = {
       [BOOKMARK_TYPE.COURSE]: 'courses',
@@ -102,14 +120,13 @@ export const BookmarkProvider = ({ children }: BookmarkProviderProps) => {
   return (
     <BookmarkContext.Provider
       value={{
-        isBookmarked,
-        setIsBookmarked,
         courseBookmarksIds,
         setCourseBookmarksIds,
         currentCourses,
         setCurrentCourses,
         fetchCourseBookmarks,
         fetchCourseBookmarksIds,
+        handleBookmarkClick,
         handleBookmark,
         maxPage,
         size,
@@ -124,14 +141,18 @@ export const BookmarkProvider = ({ children }: BookmarkProviderProps) => {
 export const useBookmarks = () => useContext(BookmarkContext);
 
 interface BookmarkContextProps {
-  isBookmarked: { [key: string]: boolean };
-  setIsBookmarked: React.Dispatch<React.SetStateAction<{ [key: string]: boolean }>>;
   courseBookmarksIds: number[];
   setCourseBookmarksIds: React.Dispatch<number[]>;
   currentCourses: Course[];
   setCurrentCourses: React.Dispatch<Course[]>;
   fetchCourseBookmarks: (page: number) => Promise<Course[]> | undefined;
   fetchCourseBookmarksIds: () => Promise<number[]> | undefined;
+  handleBookmarkClick: (
+    id: number,
+    type: BookmarkType,
+    bookmarkedState: boolean,
+    setBookmarkedState: React.Dispatch<boolean>
+  ) => void;
   handleBookmark: (id: number, type: BookmarkType, bookmarked: boolean) => Promise<void>;
   maxPage: number;
   size: number;

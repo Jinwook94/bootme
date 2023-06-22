@@ -47,10 +47,8 @@ import PATH from '../../../constants/path';
 import DOMPurify from 'dompurify';
 import { Link } from 'react-router-dom';
 import { useBookmarks } from '../../../hooks/useBookmarks';
-import useWebhook from '../../../hooks/useWebhook';
-import { POST_BOOKMARKED, POST_CLICKED } from '../../../constants/webhook';
 import { Flex } from '@mantine/core';
-import { BookmarkDropdown } from '../../PostDetailPage/BookmarkDropdown';
+import { BookmarkDropdown } from '../BookmarkDropdown';
 
 const PostCard = ({
   id,
@@ -66,8 +64,7 @@ const PostCard = ({
   voted,
   bookmarked,
 }: PostCardProps) => {
-  const { sendWebhookNoti } = useWebhook();
-  const { handleBookmark } = useBookmarks();
+  const { handleBookmarkClick } = useBookmarks();
   const { handleVote } = usePost();
   const [votedState, setVotedState] = useState(voted);
   const [likesState, setLikesState] = useState(likes);
@@ -181,15 +178,7 @@ const PostCard = ({
               </CommentIconDesktop>
               <PostShareButtonInPostCardDesktop postId={id} postTitle={title} postContent={postContent} />
               <BookmarkIconDesktop
-                onClick={event => {
-                  event.stopPropagation();
-                  event.preventDefault();
-                  handleBookmark(id, BOOKMARK_TYPE.POST, bookmarkedState).then(() => {
-                    setBookmarkedState(!bookmarkedState);
-                  });
-                  sendWebhookNoti(POST_CLICKED, id);
-                  sendWebhookNoti(POST_BOOKMARKED, id);
-                }}
+                onClick={() => handleBookmarkClick(id, BOOKMARK_TYPE.POST, bookmarkedState, setBookmarkedState)}
               >
                 {bookmarkedState ? <BookmarkedIcon /> : <BookmarkIcon />}
                 <BookmarkIconTextDesktop>북마크</BookmarkIconTextDesktop>
