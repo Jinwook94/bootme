@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import { fetcher } from '../api/fetcher';
 import { useLogin } from './useLogin';
 import { useSnackbar } from './useSnackbar';
@@ -10,6 +10,9 @@ import useWebhook from './useWebhook';
 const BookmarkContext = createContext<BookmarkContextProps>({
   handleBookmarkClick: async () => {},
   handleBookmark: async () => Promise.resolve(),
+  courseCount: 0,
+  currentCourses: [],
+  fetchBookmarkedCourses: () => Promise.resolve(),
 });
 
 export const BookmarkProvider = ({ children }: BookmarkProviderProps) => {
@@ -17,6 +20,8 @@ export const BookmarkProvider = ({ children }: BookmarkProviderProps) => {
   const { showSnackbar } = useSnackbar();
   const { sendWebhookNoti } = useWebhook();
   const memberId = localStorage.getItem('memberId');
+  const [courseCount, setCourseCount] = useState<number>();
+  const [currentCourses, setCurrentCourses] = useState<Course[]>([]);
 
   const handleBookmarkClick = async (
     id: number,
@@ -71,11 +76,32 @@ export const BookmarkProvider = ({ children }: BookmarkProviderProps) => {
     }
   };
 
+  const fetchBookmarkedCourses = (sort: string, page: number, size: number) => {
+    return fetcher
+      .get(`/bookmarks/${memberId}/courses`, {
+        params: {
+          sort: sort,
+          page: page,
+          size: size,
+        },
+      })
+      .then(r => {
+        setCourseCount(r.data.totalElements);
+        setCurrentCourses(r.data.content);
+      })
+      .catch(e => {
+        return Promise.reject(e);
+      });
+  };
+
   return (
     <BookmarkContext.Provider
       value={{
         handleBookmarkClick,
         handleBookmark,
+        courseCount,
+        currentCourses,
+        fetchBookmarkedCourses,
       }}
     >
       {children}
@@ -93,6 +119,9 @@ interface BookmarkContextProps {
     setBookmarkedState: React.Dispatch<boolean>
   ) => void;
   handleBookmark: (id: number, type: BookmarkType, bookmarked: boolean) => Promise<void>;
+  courseCount: number | undefined;
+  currentCourses: Course[];
+  fetchBookmarkedCourses: (sort: string, page: number, size: number) => Promise<void>;
 }
 
 export type BookmarkTypeKey = 'COURSE' | 'POST' | 'COMMENT';

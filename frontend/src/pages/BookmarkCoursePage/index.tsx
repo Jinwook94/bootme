@@ -5,7 +5,7 @@ import { BookmarkLayout, Wrapper } from './style';
 import CourseCardList from '../../components/CourseCardList';
 import { PaginationWrapper } from '../CourseListPage/style';
 import { Pagination } from 'antd';
-import { useCourses } from '../../hooks/useCourses';
+import { useBookmarks } from '../../hooks/useBookmarks';
 
 const useStyles = createStyles(theme => ({
   navbar: {
@@ -83,8 +83,9 @@ const BookmarkCoursePage = () => {
     </a>
   ));
 
-  const { fetchCourses, size } = useCourses();
+  const { fetchBookmarkedCourses, courseCount, currentCourses } = useBookmarks();
   const [currentPage, setCurrentPage] = useState(1);
+  const [size] = useState(12);
 
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
@@ -95,57 +96,56 @@ const BookmarkCoursePage = () => {
   };
 
   useEffect(() => {
-    fetchCourses('popular', currentPage).catch();
+    fetchBookmarkedCourses('popular', currentPage, size).catch();
   }, [currentPage]);
 
   useEffect(() => {
-    fetchCourses('popular', currentPage).catch();
+    fetchBookmarkedCourses('popular', currentPage, size).catch();
   }, []);
 
   return (
     <Wrapper>
-      {/*<BookmarkLayout>*/}
-      {/*  <Flex justify="center" align="flex-start" direction="row">*/}
-      {/*    <MediaQuery query="(max-width: 75em)" styles={{ display: 'none' }}>*/}
-      {/*      <Navbar height={230} width={{ sm: 250 }} p="md" className={classes.navbar}>*/}
-      {/*        <Navbar.Section grow>*/}
-      {/*          <Group className={classes.header} position="apart">*/}
-      {/*            <Text fz={20} ml={16} fw={700}>*/}
-      {/*              내 북마크*/}
-      {/*            </Text>*/}
-      {/*          </Group>*/}
-      {/*          {links}*/}
-      {/*        </Navbar.Section>*/}
-      {/*      </Navbar>*/}
-      {/*    </MediaQuery>*/}
-      {/*    <Container className={classes.body}>*/}
-      {/*      <Text fz={20} fw={700} pl={16} className={classes.header}>*/}
-      {/*        북마크 코스*/}
-      {/*      </Text>*/}
-      {/*      <Container p={0} style={{ minHeight: '600px' }}>*/}
-      {/*        {*/}
-      {/*          bookmarkedCount === 0 ? (*/}
-      {/*            <Flex justify={'center'} mt={48}>*/}
-      {/*              <Text fz="xl" fw={600} color="gray.5">*/}
-      {/*                아직 북마크 저장한 코스가 없습니다...*/}
-      {/*              </Text>*/}
-      {/*            </Flex>*/}
-      {/*          ) : null*/}
-      {/*          // <CourseCardList courses={currentCourses} displayBookmarked />*/}
-      {/*        }*/}
-      {/*      </Container>*/}
-      {/*      <PaginationWrapper>*/}
-      {/*        <Pagination*/}
-      {/*          current={currentPage}*/}
-      {/*          pageSize={size}*/}
-      {/*          total={bookmarkedCount}*/}
-      {/*          onChange={handlePageChange}*/}
-      {/*          showSizeChanger={false}*/}
-      {/*        />*/}
-      {/*      </PaginationWrapper>*/}
-      {/*    </Container>*/}
-      {/*  </Flex>*/}
-      {/*</BookmarkLayout>*/}
+      <BookmarkLayout>
+        <Flex justify="center" align="flex-start" direction="row">
+          <MediaQuery query="(max-width: 75em)" styles={{ display: 'none' }}>
+            <Navbar height={230} width={{ sm: 250 }} p="md" className={classes.navbar}>
+              <Navbar.Section grow>
+                <Group className={classes.header} position="apart">
+                  <Text fz={20} ml={16} fw={700}>
+                    내 북마크
+                  </Text>
+                </Group>
+                {links}
+              </Navbar.Section>
+            </Navbar>
+          </MediaQuery>
+          <Container className={classes.body}>
+            <Text fz={20} fw={700} pl={16} className={classes.header}>
+              북마크 코스
+            </Text>
+            <Container p={0} style={{ minHeight: '600px' }}>
+              {courseCount === 0 ? (
+                <Flex justify={'center'} mt={48}>
+                  <Text fz="xl" fw={600} color="gray.5">
+                    아직 북마크 저장한 코스가 없습니다...
+                  </Text>
+                </Flex>
+              ) : (
+                <CourseCardList courses={currentCourses} />
+              )}
+            </Container>
+            <PaginationWrapper>
+              <Pagination
+                current={currentPage}
+                pageSize={size}
+                total={courseCount}
+                onChange={handlePageChange}
+                showSizeChanger={false}
+              />
+            </PaginationWrapper>
+          </Container>
+        </Flex>
+      </BookmarkLayout>
     </Wrapper>
   );
 };
