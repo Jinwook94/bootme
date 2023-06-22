@@ -171,7 +171,7 @@ const PostCard = ({
             </MobileButtons>
             <DesktopButtons>
               <CommentIconDesktop>
-                <div style={{ marginTop: '4px' }}>
+                <div>
                   <CommentIcon />
                 </div>
                 <CommentCountDesktop>{commentCount}개 댓글</CommentCountDesktop>

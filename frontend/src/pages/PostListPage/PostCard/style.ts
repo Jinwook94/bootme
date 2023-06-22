@@ -132,8 +132,12 @@ export const ContentBottom = styled.div`
 `;
 
 export const MobileButtons = styled.div`
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 15px;
   display: flex;
   flex-direction: row;
+  gap: 10px;
   margin-bottom: 0.3rem;
   @media (min-width: 640px) {
     display: none;
@@ -185,8 +189,6 @@ export const DownvoteButton = styled(VoteButton)`
 `;
 
 export const MobileVoteButton = styled.div`
-  width: 20px;
-  height: 20px;
   padding-top: 2px;
   display: flex;
   flex-direction: column;
@@ -197,8 +199,8 @@ export const MobileVoteButton = styled.div`
   cursor: pointer;
   fill: #878a8c;
   svg {
-    width: 18px;
-    height: 18px;
+    width: 21px;
+    height: 21px;
   }
 `;
 
@@ -218,10 +220,8 @@ export const MobileDownvoteButton = styled(MobileVoteButton)`
 
 export const VoteCountMobile = styled.div`
   color: #878a8c;
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 15px;
   margin: 0 1px 3px 1px;
+  padding: 0 8px;
   text-align: center;
   min-width: 1rem;
   pointer-events: none;
@@ -241,8 +241,8 @@ export const CommentIconMobile = styled.div`
   padding: 1px 8px;
   svg {
     fill: #878a8c;
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
   }
 
   &:hover {
@@ -256,6 +256,8 @@ export const ShareIconMobile = styled(CommentIconMobile)``;
 export const ShareIconTextMobile = styled(VoteCountMobile)``;
 
 export const DesktopButtons = styled.div`
+  font-size: 12px;
+  font-weight: 700;
   display: flex;
   flex-direction: row;
   padding-right: 0.5rem;
