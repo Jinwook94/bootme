@@ -5,9 +5,8 @@ import { BOOKMARK_TYPE } from '../../../constants/others';
 import { useBookmarks } from '../../../hooks/useBookmarks';
 import { LinkItem, ThreeDotsWrapper, Items, Item, IconWrapper } from './stlye';
 
-export const BookmarkDropdown = ({ postId, bookmarked }: BookmarkDropdownProps) => {
+export const BookmarkDropdown = ({ postId, bookmarkedState, setBookmarkedState }: BookmarkDropdownProps) => {
   const { handleBookmarkClick } = useBookmarks();
-  const [bookmarkedState, setBookmarkedState] = useState(bookmarked);
   const [visible, setVisible] = useState(false);
 
   const handleVisibleChange = (flag: boolean) => {
@@ -51,5 +50,6 @@ export const BookmarkDropdown = ({ postId, bookmarked }: BookmarkDropdownProps) 
 
 interface BookmarkDropdownProps {
   postId: number;
-  bookmarked: boolean;
+  bookmarkedState: boolean;
+  setBookmarkedState: React.Dispatch<boolean>;
 }

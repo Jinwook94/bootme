@@ -133,7 +133,7 @@ const PostCard = ({
                   {writerNickname} · {createdAt && getTimeSince(createdAt)}
                 </span>
               </WriterInfo>
-              <BookmarkDropdown postId={id} bookmarked={bookmarkedState} />
+              <BookmarkDropdown postId={id} bookmarkedState={bookmarkedState} setBookmarkedState={setBookmarkedState} />
             </Flex>
             <ContentHeader>
               {title}
@@ -178,7 +178,11 @@ const PostCard = ({
               </CommentIconDesktop>
               <PostShareButtonInPostCardDesktop postId={id} postTitle={title} postContent={postContent} />
               <BookmarkIconDesktop
-                onClick={() => handleBookmarkClick(id, BOOKMARK_TYPE.POST, bookmarkedState, setBookmarkedState)}
+                onClick={event => {
+                  event.stopPropagation();
+                  event.preventDefault();
+                  handleBookmarkClick(id, BOOKMARK_TYPE.POST, bookmarkedState, setBookmarkedState);
+                }}
               >
                 {bookmarkedState ? <BookmarkedIcon /> : <BookmarkIcon />}
                 <BookmarkIconTextDesktop>북마크</BookmarkIconTextDesktop>
