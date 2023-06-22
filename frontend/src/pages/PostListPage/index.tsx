@@ -193,9 +193,11 @@ const PostListPage = () => {
                         {profilePicture && profilePicture !== 'null' && profilePicture !== 'undefined' ? (
                           <ProfilePic src={profilePicture} />
                         ) : null}
-                        <Popover.Dropdown p={0}>
-                          <ProfileCard memberId={memberId} />
-                        </Popover.Dropdown>
+                        {isLogin && (
+                          <Popover.Dropdown p={0}>
+                            <ProfileCard memberId={memberId} />
+                          </Popover.Dropdown>
+                        )}
                       </ProfileWrapper5>
                     </ProfileWrapper3>
                   </ProfileWrapper2>
