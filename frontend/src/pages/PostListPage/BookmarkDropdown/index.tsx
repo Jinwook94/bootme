@@ -22,16 +22,17 @@ export const BookmarkDropdown = ({ postId, bookmarkedState, setBookmarkedState }
     return (
       <>
         <Items>
-          <Item>
-            <LinkItem
-              onClick={event => {
-                event.stopPropagation();
-                event.preventDefault();
-                handleBookmarkClick(postId, BOOKMARK_TYPE.POST, bookmarkedState, setBookmarkedState);
-              }}
-            >
+          <Item
+            onClick={event => {
+              event.stopPropagation();
+              event.preventDefault();
+              handleBookmarkClick(postId, BOOKMARK_TYPE.POST, bookmarkedState, setBookmarkedState);
+              handleVisibleChange(false);
+            }}
+          >
+            <LinkItem>
               <IconWrapper>{bookmarkedState ? <BookmarkedIcon /> : <BookmarkIcon />}</IconWrapper>
-              북마크
+              {bookmarkedState ? '북마크 삭제' : '북마크 저장'}
             </LinkItem>
           </Item>
         </Items>

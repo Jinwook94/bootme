@@ -39,6 +39,9 @@ export const LinkItem = styled.a`
   :hover {
     background: rgba(63, 120, 224, 0.02);
     color: rgb(63, 120, 224);
+    svg {
+      stroke: rgb(63, 120, 224);
+    }
   }
 `;
 
