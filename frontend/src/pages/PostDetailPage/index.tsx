@@ -40,6 +40,8 @@ import {
 } from './style';
 import {
   AddIcon,
+  BookmarkedIcon,
+  BookmarkedIcon3,
   BookmarkIcon,
   DownvoteFilledIcon,
   DownvoteIcon,
@@ -88,6 +90,7 @@ const PostDetailPage = () => {
   const [, setTextLength] = useState(0);
   const [isEmptyContent, setIsEmptyContent] = useState(false);
   const [editMode, setEditMode] = useState(false);
+  const [bookmarkedState, setBookmarkedState] = useState(post?.bookmarked);
 
   const handleEditClick = () => {
     setEditMode(true);
@@ -125,7 +128,10 @@ const PostDetailPage = () => {
 
   useEffect(() => {
     fetchPost(Number(id))
-      .then(fetchedPost => setVotedState(fetchedPost?.voted))
+      .then(fetchedPost => {
+        setVotedState(fetchedPost?.voted);
+        setBookmarkedState(fetchedPost?.bookmarked);
+      })
       .catch(e => console.error(e));
     fetchComments(Number(id)).catch(e => console.error(e));
   }, []);
@@ -202,16 +208,17 @@ const PostDetailPage = () => {
                     </ContentInfo>
                   </Writer>
                 </WriterInfo>
-
                 <ButtonWrapper>
                   <ButtonIconWrapper
                     onClick={() => {
-                      handleBookmark(Number(id), BOOKMARK_TYPE.POST);
+                      handleBookmark(Number(id), BOOKMARK_TYPE.POST, bookmarkedState || false).then(() => {
+                        setBookmarkedState(!bookmarkedState);
+                      });
                       sendWebhookNoti(POST_CLICKED, Number(id));
                       sendWebhookNoti(POST_BOOKMARKED, Number(id));
                     }}
                   >
-                    <BookmarkIcon />
+                    {bookmarkedState ? <BookmarkedIcon3 /> : <BookmarkIcon />}
                   </ButtonIconWrapper>
                   <PostShareButtonInPostDetailPageDeskTop post={post} />
                   {post?.writerId === memberId ? (
@@ -261,8 +268,16 @@ const PostDetailPage = () => {
                 </MobileVoteButton>
               </MobileButtonWrapper>
               <MobileButtonWrapper>
-                <MobileBookmarkIcon>
-                  <BookmarkIcon />
+                <MobileBookmarkIcon
+                  onClick={() => {
+                    handleBookmark(Number(id), BOOKMARK_TYPE.POST, bookmarkedState || false).then(() => {
+                      setBookmarkedState(!bookmarkedState);
+                    });
+                    sendWebhookNoti(POST_CLICKED, Number(id));
+                    sendWebhookNoti(POST_BOOKMARKED, Number(id));
+                  }}
+                >
+                  {bookmarkedState ? <BookmarkedIcon /> : <BookmarkIcon />}
                 </MobileBookmarkIcon>
               </MobileButtonWrapper>
               <PostShareButtonInPostDetailPageMobile post={post} />

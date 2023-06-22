@@ -14,7 +14,7 @@ const BookmarkContext = createContext<BookmarkContextProps>({
   setCurrentCourses: () => {},
   fetchCourseBookmarks: async () => [],
   fetchCourseBookmarksIds: async () => [],
-  handleBookmark: () => {},
+  handleBookmark: async () => Promise.resolve(),
   maxPage: 1,
   size: 12,
   courseCount: 0,
@@ -69,7 +69,7 @@ export const BookmarkProvider = ({ children }: BookmarkProviderProps) => {
     }
   };
 
-  const handleBookmark = async (id: number, type: BookmarkType) => {
+  const handleBookmark = async (id: number, type: BookmarkType, isBookmarked: boolean) => {
     const typePaths: Record<BookmarkType, string> = {
       [BOOKMARK_TYPE.COURSE]: 'courses',
       [BOOKMARK_TYPE.POST]: 'posts',
@@ -78,25 +78,21 @@ export const BookmarkProvider = ({ children }: BookmarkProviderProps) => {
 
     const path = typePaths[type];
     const endpoint = `/bookmarks/${memberId}/${path}/${id}`;
-    const method = isBookmarked[id] ? 'DELETE' : 'POST';
+    const method = isBookmarked ? 'DELETE' : 'POST';
     if (isLogin) {
       try {
-        await fetcher(endpoint, {
-          method: method,
-        });
-        setIsBookmarked(prevState => {
-          return { ...prevState, [id]: !prevState[id] };
-        });
-
+        await fetcher(endpoint, { method: method });
         if (method === 'DELETE') {
-          setCourseBookmarksIds(prevState => prevState.filter(courseId => courseId !== id));
           showSnackbar(SNACKBAR_MESSAGE.SUCCESS_DELETE_BOOKMARK, CHECK);
         } else {
-          setCourseBookmarksIds(prevState => [...prevState, id]);
           showSnackbar(SNACKBAR_MESSAGE.SUCCESS_ADD_BOOKMARK, CHECK);
         }
-      } catch (error) {
-        console.error(`Failed to ${method} bookmark for course ${id}:`, error);
+        return Promise.resolve();
+      } catch (e: any) {
+        if (e.response.data) {
+          showSnackbar(SNACKBAR_MESSAGE.FAIL_ADD_BOOKMARK + ': ' + e.response.data.message, EXCLAMATION);
+        }
+        return Promise.reject();
       }
     } else if (!isLogin) {
       showSnackbar(SNACKBAR_MESSAGE.NEED_LOGIN, EXCLAMATION);
@@ -136,7 +132,7 @@ interface BookmarkContextProps {
   setCurrentCourses: React.Dispatch<Course[]>;
   fetchCourseBookmarks: (page: number) => Promise<Course[]> | undefined;
   fetchCourseBookmarksIds: () => Promise<number[]> | undefined;
-  handleBookmark: (id: number, type: BookmarkType) => void;
+  handleBookmark: (id: number, type: BookmarkType, bookmarked: boolean) => Promise<void>;
   maxPage: number;
   size: number;
   courseCount: number | undefined;

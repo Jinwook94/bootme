@@ -14,7 +14,7 @@ const Buttons = ({ course }: { course: Course | undefined }) => {
         <Tooltip placement="topRight" title={'북마크 저장'}>
           <BookmarkButton
             onClick={() => {
-              handleBookmark(course ? course.id : 0, BOOKMARK_TYPE.COURSE);
+              // handleBookmark(course ? course.id : 0, BOOKMARK_TYPE.COURSE);
             }}
           >
             <BookmarkIcon2 />
@@ -24,7 +24,7 @@ const Buttons = ({ course }: { course: Course | undefined }) => {
       <Mobile>
         <BookmarkButton
           onClick={() => {
-            handleBookmark(course ? course.id : 0, BOOKMARK_TYPE.COURSE);
+            // handleBookmark(course ? course.id : 0, BOOKMARK_TYPE.COURSE);
           }}
         >
           <BookmarkIcon2 />

@@ -28,6 +28,7 @@ export interface Post {
   modifiedAt: number;
   commentCount: number;
   voted: string;
+  bookmarked: boolean;
 }
 
 export interface PostDetail extends Omit<Post, 'contentExcerpt'> {

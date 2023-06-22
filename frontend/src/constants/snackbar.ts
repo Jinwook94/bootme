@@ -5,6 +5,7 @@ const SNACKBAR_MESSAGE = {
   FAIL_PROFILE_UPDATE: '프로필 수정에 실패했습니다.',
   SUCCESS_PROFILE_IMAGE_UPDATE: '프로필 이미지가 수정되었습니다.',
   FAIL_PROFILE_IMAGE_UPDATE: '프로필 이미지 수정에 실패했습니다.',
+  FAIL_ADD_BOOKMARK: '북마크 저장에 실패했습니다.',
   SUCCESS_ADD_BOOKMARK: '북마크 저장되었습니다.',
   SUCCESS_DELETE_BOOKMARK: '북마크 삭제되었습니다.',
   SUCCESS_COPY_URL_TO_CLIPBOARD: 'URL이 복사되었습니다.',

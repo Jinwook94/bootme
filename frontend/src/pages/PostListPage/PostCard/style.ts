@@ -285,11 +285,23 @@ export const ShareIconDesktop = styled(ShareIconMobile)`
 `;
 export const ShareIconTextDesktop = styled(ShareIconTextMobile)``;
 
-export const BookmarkIconDesktop = styled(ShareIconDesktop)`
+export const BookmarkIconDesktop = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  box-sizing: border-box;
+  flex-direction: row;
+  margin-right: 0.5rem;
+  border-radius: 0;
+  border: 0;
+  padding: 1px 8px;
   svg {
-    fill: none;
     width: 20px;
     height: 20px;
+  }
+  &:hover {
+    background: rgb(234, 237, 239);
   }
 `;
 

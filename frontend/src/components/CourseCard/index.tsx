@@ -155,7 +155,7 @@ const CourseCard = ({
           </ItemBody>
           <Bookmark
             onClick={() => {
-              handleBookmark(id, BOOKMARK_TYPE.COURSE);
+              // handleBookmark(id, BOOKMARK_TYPE.COURSE);
               sendWebhookNoti(COURSE_CLICKED, id);
               sendWebhookNoti(COURSE_BOOKMARKED, id);
             }}

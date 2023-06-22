@@ -196,6 +196,26 @@ export const BookmarkIcon = () => (
   </svg>
 );
 
+export const BookmarkedIcon3 = () => (
+  <svg
+    width="100%"
+    height="100%"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    strokeWidth="1.5"
+    stroke="rgb(0, 132, 255)"
+    aria-hidden="true"
+    className="h-5 w-5 text-gray-400 hover:cursor-pointer hover:text-blue-500 dark:hover:text-blue-200"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
+    ></path>
+  </svg>
+);
+
 export const BookmarkIcon2 = () => (
   <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="ic-24">
     <path
@@ -206,37 +226,59 @@ export const BookmarkIcon2 = () => (
 );
 
 export const BookmarkIcon3 = () => (
-  <svg version="1.1" viewBox="0 0 96 96" xmlSpace="preserve" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <clipPath id="d">
-        <path d="m0 2.2888e-5h72v72h-72z" clipRule="evenodd" />
-      </clipPath>
-      <clipPath id="c">
-        <path d="m9.54e-7 3.0518e-5h72v72h-72z" clipRule="evenodd" />
-      </clipPath>
-      <clipPath id="b">
-        <path d="m-3.815e-6 3.0518e-5h72v72h-72z" clipRule="evenodd" />
-      </clipPath>
-      <clipPath id="a">
-        <path d="m9.54e-7 3.0518e-5h72v72h-72z" clipRule="evenodd" />
-      </clipPath>
-    </defs>
-    <g transform="matrix(1.3333 0 0 -1.3333 0 96)">
-      <g clipPath="url(#d)">
-        <path d="m0 7.629e-6h72v72h-72z" fill="#fff" fillRule="evenodd" />
-      </g>
-      <g clipPath="url(#c)">
-        <path d="m12.3 70.86v-69.855" fill="none" stroke="#7f7f7f" strokeMiterlimit="10" strokeWidth="2.04" />
-      </g>
-      <g clipPath="url(#b)">
-        <path d="m61.62 70.86v-69.855" fill="none" stroke="#7f7f7f" strokeMiterlimit="10" strokeWidth="2.04" />
-      </g>
-      <g clipPath="url(#a)">
-        <path d="m12.3 69.78" fill="none" stroke="#7f7f7f" strokeMiterlimit="10" strokeWidth="2.04" />
-      </g>
-      <path d="m11.58 70.14 51.024-0.146" fill="none" stroke="#7f7f7f" strokeMiterlimit="10" strokeWidth="2.04" />
-      <path d="M 13.02,2.0454 37.782,15.9" fill="none" stroke="#7f7f7f" strokeMiterlimit="10" strokeWidth="2.04" />
-      <path d="M 61.508,2.0453 37.02,15.9" fill="none" stroke="#7f7f7f" strokeMiterlimit="10" strokeWidth="2.04" />
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="icon icon-tabler icon-tabler-bookmark"
+    width="100%"
+    height="100%"
+    preserveAspectRatio="none"
+    viewBox="5 2 18 18"
+    strokeWidth="1"
+    stroke="#878a8c"
+    fill="none"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+    <path transform="scale(1.15, 0.90)" d="M9 4h6a2 2 0 0 1 2 2v14l-5 -3l-5 3v-14a2 2 0 0 1 2 -2"></path>
+  </svg>
+);
+
+// https://editsvg.online/editor.html 에서 수동으로 수정함
+export const BookmarkedIcon = () => (
+  <svg
+    viewBox="2 1 20 20"
+    xmlns="http://www.w3.org/2000/svg"
+    className="icon icon-tabler icon-tabler-bookmarks"
+    strokeLinejoin="round"
+    stroke="rgb(135, 138, 140)"
+    strokeWidth="1.25"
+    fill="none"
+    transform="rotate(0)matrix(-1, 0, 0, 1, 0, 0)"
+  >
+    <g className="layer">
+      <path d="m13,7a2,2 0 0 1 2,2l0,12l-5,-3l-5,3l0,-12a2,2 0 0 1 2,-2l6,0z" id="svg_2" />
+      <path d="m9.27,3.98a2,2 0 0 1 1.73,-1l6,0a2,2 0 0 1 2,2l0,12l-1,-0.6" id="svg_3" />
+      <line stroke="#878a8c" id="svg_17" x1="9.28" x2="9.28" y1="3.95" y2="7" />
+      <line stroke="#878a8c" id="svg_4" x1="15.04" x2="18.04" y1="14.64" y2="16.41" />
+    </g>
+  </svg>
+);
+
+// https://www.svgrepo.com/svg/365162/bookmarks-thin
+export const BookmarkedIcon2 = () => (
+  <svg
+    fill="#878a8c"
+    width="100%"
+    height="100%"
+    viewBox="0 0 260 200"
+    xmlns="http://www.w3.org/2000/svg"
+    transform="rotate(0)matrix(-1, 0, 0, 1, 0, 0)"
+  >
+    <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+    <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+    <g id="SVGRepo_iconCarrier">
+      <path d="M192,28H96A12.01343,12.01343,0,0,0,84,40V60H64A12.01343,12.01343,0,0,0,52,72V224a4.00021,4.00021,0,0,0,6.3252,3.25488L111.99268,188.916l53.68261,38.33886A3.99976,3.99976,0,0,0,172,224V176.91748l25.67529,18.3374A3.99976,3.99976,0,0,0,204,192V40A12.01343,12.01343,0,0,0,192,28ZM164,216.22754l-49.68262-35.48242a3.99976,3.99976,0,0,0-4.6499,0L60,216.22656V72a4.00427,4.00427,0,0,1,4-4h96a4.00427,4.00427,0,0,1,4,4Zm32-32-24-17.14038V72a12.01343,12.01343,0,0,0-12-12H92V40a4.00427,4.00427,0,0,1,4-4h96a4.00427,4.00427,0,0,1,4,4Z"></path>{' '}
     </g>
   </svg>
 );
@@ -483,9 +525,14 @@ export const ThreeDotsIcon1 = () => (
   </svg>
 );
 
-export const ThreeDotsIcon2 = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
-    <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
+export const ThreeDotsVerticalIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 20 20"
+    fill="currentColor"
+    transform="rotate(90)matrix(-1, 0, 0, 1, 0, 0)"
+  >
+    <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zm4-2a2 2 0 100 4 2 2 0 000-4zm6 0a2 2 0 100 4 2 2 0 000-4z"></path>
   </svg>
 );
 

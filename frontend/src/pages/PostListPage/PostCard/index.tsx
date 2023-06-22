@@ -1,4 +1,5 @@
 import {
+  BookmarkedIcon,
   BookmarkIcon,
   CommentIcon,
   DownvoteFilledIcon,
@@ -48,6 +49,8 @@ import { Link } from 'react-router-dom';
 import { useBookmarks } from '../../../hooks/useBookmarks';
 import useWebhook from '../../../hooks/useWebhook';
 import { POST_BOOKMARKED, POST_CLICKED } from '../../../constants/webhook';
+import { Flex } from '@mantine/core';
+import { BookmarkDropdown } from '../../PostDetailPage/BookmarkDropdown';
 
 const PostCard = ({
   id,
@@ -61,12 +64,15 @@ const PostCard = ({
   createdAt,
   commentCount,
   voted,
+  bookmarked,
 }: PostCardProps) => {
   const { sendWebhookNoti } = useWebhook();
   const { handleBookmark } = useBookmarks();
   const { handleVote } = usePost();
   const [votedState, setVotedState] = useState(voted);
   const [likesState, setLikesState] = useState(likes);
+  const [bookmarkedState, setBookmarkedState] = useState(bookmarked);
+
   const shouldApplyMask =
     !/(<img\s[^>]*?src\s*=\s*['\"]([^'\"]*?)['\"][^>]*?>)|(<iframe\s[^>]*?src\s*=\s*['\"]([^'\"]*?)['\"][^>]*?>)|(<video\s[^>]*?src\s*=\s*['\"]([^'\"]*?)['\"][^>]*?>)/i.test(
       contentExcerpt
@@ -117,18 +123,21 @@ const PostCard = ({
       <Link to={`${PATH.POST.DETAIL}/${id}`} style={{ width: '100%' }}>
         <ContentWrapper>
           <div>
-            <WriterInfo>
-              <img
-                width="18"
-                height="18"
-                src={writerProfileImage}
-                alt="profile"
-                style={{ borderRadius: '18px', objectFit: 'cover', marginRight: '8px' }}
-              />
-              <span>
-                {writerNickname} · {createdAt && getTimeSince(createdAt)}
-              </span>
-            </WriterInfo>
+            <Flex direction={'row'} justify={'space-between'}>
+              <WriterInfo>
+                <img
+                  width="18"
+                  height="18"
+                  src={writerProfileImage}
+                  alt="profile"
+                  style={{ borderRadius: '18px', objectFit: 'cover', marginRight: '8px' }}
+                />
+                <span>
+                  {writerNickname} · {createdAt && getTimeSince(createdAt)}
+                </span>
+              </WriterInfo>
+              <BookmarkDropdown postId={id} bookmarked={bookmarkedState} />
+            </Flex>
             <ContentHeader>
               {title}
               <TopicChip>{topic}</TopicChip>
@@ -175,12 +184,14 @@ const PostCard = ({
                 onClick={event => {
                   event.stopPropagation();
                   event.preventDefault();
-                  handleBookmark(id, BOOKMARK_TYPE.POST);
+                  handleBookmark(id, BOOKMARK_TYPE.POST, bookmarkedState).then(() => {
+                    setBookmarkedState(!bookmarkedState);
+                  });
                   sendWebhookNoti(POST_CLICKED, id);
                   sendWebhookNoti(POST_BOOKMARKED, id);
                 }}
               >
-                <BookmarkIcon />
+                {bookmarkedState ? <BookmarkedIcon /> : <BookmarkIcon />}
                 <BookmarkIconTextDesktop>북마크</BookmarkIconTextDesktop>
               </BookmarkIconDesktop>
             </DesktopButtons>
