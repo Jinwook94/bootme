@@ -13,6 +13,7 @@ const ShareButton = ({ course }: { course: Course | undefined }) => {
   const { secrets } = useSecret();
   const KAKAO_KEY = secrets?.['kakaoJavascriptKey'];
   const [visible, setVisible] = useState(false);
+  const [image, setImage] = useState<string>();
 
   const handleVisibleChange = () => {
     setVisible(!visible);
@@ -26,6 +27,7 @@ const ShareButton = ({ course }: { course: Course | undefined }) => {
         courseTitle: course?.title,
         companyLogo: course?.company.logoUrl,
         companyName: course?.company.name,
+        image: image,
         shareUrl: `course/${course?.id}`,
       },
     });
@@ -41,6 +43,24 @@ const ShareButton = ({ course }: { course: Course | undefined }) => {
         });
     }
   };
+
+  // 카톡 공유시 첨부 이미지 결정 로직
+  // 코스 상세에 이미지 첨부됨 ? 해당 이미지를 공유시 첨부 : 회사 로고 이미지를 공유시 첨부
+  useEffect(() => {
+    if (course?.detail) {
+      const domParser = new DOMParser();
+      const contentDocument = domParser.parseFromString(course.detail, 'text/html');
+      const imgElement = contentDocument.querySelector('img');
+
+      if (imgElement && imgElement.src) {
+        setImage(imgElement.src);
+      } else {
+        setImage(course?.company.logoUrl);
+      }
+    } else {
+      setImage(course?.company.logoUrl);
+    }
+  }, [course?.detail]);
 
   useEffect(() => {
     setCurrentUrl(`${BOOTME_URL}/course/${course?.id}`);
