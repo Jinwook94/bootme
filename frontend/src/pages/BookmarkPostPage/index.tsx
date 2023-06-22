@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { createStyles, Navbar, Group, Text, Flex, Container, MediaQuery } from '@mantine/core';
+import { Navbar, Group, Text, Flex, Container, MediaQuery } from '@mantine/core';
 import { BookmarkLayout, NavBarItem, PostCardList, Wrapper } from './style';
 import { PaginationWrapper } from '../CourseListPage/style';
 import { Pagination } from 'antd';
@@ -11,78 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import PATH from '../../constants/path';
 import { PapersIcon, RocketIcon } from '../../constants/icons';
 import LoadingSpinner from '../../components/@common/LoadingSpinner';
-
-const useStyles = createStyles(theme => ({
-  navbar: {
-    backgroundColor: theme.white,
-    border: '1px solid #e1e2e3;',
-    borderRadius: '5px',
-
-    '@media (max-width: 767px)': {
-      borderRadius: '0px',
-    },
-  },
-
-  header: {
-    paddingBottom: theme.spacing.md,
-    marginBottom: `calc(${theme.spacing.md} * 1.5)`,
-    borderBottom: `1px solid #e1e2e3;`,
-
-    '@media (max-width: 767px)': {
-      marginBottom: `0`,
-      borderBottom: `4px solid rgb(242, 242, 242)`,
-    },
-  },
-
-  bodyHeaderDesktop: {
-    paddingBottom: theme.spacing.md,
-    marginBottom: `calc(${theme.spacing.md} * 1.5)`,
-    borderBottom: `1px solid #e1e2e3;`,
-
-    '@media (max-width: 767px)': {
-      borderBottom: `4px solid rgb(242, 242, 242)`,
-    },
-    '@media (max-width: 1200px)': {
-      display: 'none',
-    },
-  },
-
-  bodyHeaderMobile: {
-    position: 'relative',
-    cursor: 'pointer',
-    marginBottom: `0`,
-
-    '@media (min-width: 1200px)': {
-      display: 'none',
-    },
-  },
-
-  mobileText: {
-    '&:hover': {
-      backgroundColor: '#F8F9FA',
-    },
-  },
-
-  body: {
-    backgroundColor: theme.white,
-    border: '1px solid #e1e2e3;',
-    borderRadius: '5px',
-    minHeight: '800px',
-    width: '100%',
-    marginLeft: '1rem',
-    marginBottom: '3rem',
-
-    '@media (max-width: 1200px)': {
-      padding: '0',
-    },
-
-    '@media (max-width: 767px)': {
-      padding: '0',
-      width: '100vw',
-      marginLeft: '0',
-    },
-  },
-}));
+import { useStyles } from '../BookmarkCoursePage/style';
 
 const BookmarkPostPage = () => {
   const navigate = useNavigate();
