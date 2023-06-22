@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext } from 'react';
 import { fetcher } from '../api/fetcher';
 import { useLogin } from './useLogin';
 import { useSnackbar } from './useSnackbar';
@@ -8,17 +8,8 @@ import { COURSE_BOOKMARKED, COURSE_CLICKED, POST_BOOKMARKED, POST_CLICKED } from
 import useWebhook from './useWebhook';
 
 const BookmarkContext = createContext<BookmarkContextProps>({
-  courseBookmarksIds: [],
-  setCourseBookmarksIds: () => {},
-  currentCourses: [],
-  setCurrentCourses: () => {},
-  fetchCourseBookmarks: async () => [],
-  fetchCourseBookmarksIds: async () => [],
   handleBookmarkClick: async () => {},
   handleBookmark: async () => Promise.resolve(),
-  maxPage: 1,
-  size: 12,
-  courseCount: 0,
 });
 
 export const BookmarkProvider = ({ children }: BookmarkProviderProps) => {
@@ -26,49 +17,6 @@ export const BookmarkProvider = ({ children }: BookmarkProviderProps) => {
   const { showSnackbar } = useSnackbar();
   const { sendWebhookNoti } = useWebhook();
   const memberId = localStorage.getItem('memberId');
-  const [courseBookmarksIds, setCourseBookmarksIds] = useState<number[]>([]);
-  const [maxPage, setMaxPage] = useState<number>(1);
-  const [size] = useState<number>(12);
-  const [courseCount, setCourseCount] = useState<number>();
-  const [currentCourses, setCurrentCourses] = useState<Course[]>([]);
-
-  const fetchCourseBookmarks = async (page: number) => {
-    const endpoint = `/bookmarks/${memberId}/courses`;
-    if (isLogin) {
-      return fetcher
-        .get(endpoint, {
-          params: {
-            page: page,
-            size: 12,
-          },
-        })
-        .then(r => {
-          setMaxPage(r.data.totalPages);
-          setCurrentCourses(r.data.content);
-          setCourseCount(r.data.totalElements);
-          return r.data.content;
-        })
-        .catch(error => {
-          console.log(error);
-          return [];
-        });
-    }
-  };
-
-  const fetchCourseBookmarksIds = () => {
-    const endpoint = `/bookmarks/${memberId}/courses/ids`;
-    if (isLogin) {
-      return fetcher
-        .get(endpoint, {})
-        .then(response => {
-          return response.data;
-        })
-        .catch(error => {
-          console.log(error);
-          return [];
-        });
-    }
-  };
 
   const handleBookmarkClick = async (
     id: number,
@@ -126,17 +74,8 @@ export const BookmarkProvider = ({ children }: BookmarkProviderProps) => {
   return (
     <BookmarkContext.Provider
       value={{
-        courseBookmarksIds,
-        setCourseBookmarksIds,
-        currentCourses,
-        setCurrentCourses,
-        fetchCourseBookmarks,
-        fetchCourseBookmarksIds,
         handleBookmarkClick,
         handleBookmark,
-        maxPage,
-        size,
-        courseCount,
       }}
     >
       {children}
@@ -147,12 +86,6 @@ export const BookmarkProvider = ({ children }: BookmarkProviderProps) => {
 export const useBookmarks = () => useContext(BookmarkContext);
 
 interface BookmarkContextProps {
-  courseBookmarksIds: number[];
-  setCourseBookmarksIds: React.Dispatch<number[]>;
-  currentCourses: Course[];
-  setCurrentCourses: React.Dispatch<Course[]>;
-  fetchCourseBookmarks: (page: number) => Promise<Course[]> | undefined;
-  fetchCourseBookmarksIds: () => Promise<number[]> | undefined;
   handleBookmarkClick: (
     id: number,
     type: BookmarkType,
@@ -160,9 +93,6 @@ interface BookmarkContextProps {
     setBookmarkedState: React.Dispatch<boolean>
   ) => void;
   handleBookmark: (id: number, type: BookmarkType, bookmarked: boolean) => Promise<void>;
-  maxPage: number;
-  size: number;
-  courseCount: number | undefined;
 }
 
 export type BookmarkTypeKey = 'COURSE' | 'POST' | 'COMMENT';

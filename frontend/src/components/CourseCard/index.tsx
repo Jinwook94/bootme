@@ -18,12 +18,13 @@ import './style.css';
 import { HeartFilled, HeartOutlined } from '@ant-design/icons';
 import DateFormatter from './dateFormatter';
 import useWebhook from '../../hooks/useWebhook';
-import { COURSE_BOOKMARKED, COURSE_CLICKED } from '../../constants/webhook';
+import { COURSE_CLICKED } from '../../constants/webhook';
 import { useBookmarks } from '../../hooks/useBookmarks';
 import { appendUtmParams } from '../../api/fetcher';
 import PATH from '../../constants/path';
 import { Link } from 'react-router-dom';
 import { createStyles, Paper, rem } from '@mantine/core';
+import { useState } from 'react';
 import { BOOKMARK_TYPE } from '../../constants/others';
 
 const CourseCard = ({
@@ -39,11 +40,13 @@ const CourseCard = ({
   cost,
   free,
   kdt,
+  bookmarked,
 }: CourseCardProps) => {
   const weeks = Math.round(period / 7);
   const months = Math.round(period / 30);
   const { sendWebhookNoti } = useWebhook();
-  const { isBookmarked, handleBookmark } = useBookmarks();
+  const { handleBookmarkClick } = useBookmarks();
+  const [bookmarkedState, setBookmarkedState] = useState(bookmarked);
 
   const useStyles = createStyles(theme => ({
     card: {
@@ -153,14 +156,8 @@ const CourseCard = ({
               </CourseTags>
             </Link>
           </ItemBody>
-          <Bookmark
-            onClick={() => {
-              // handleBookmark(id, BOOKMARK_TYPE.COURSE);
-              sendWebhookNoti(COURSE_CLICKED, id);
-              sendWebhookNoti(COURSE_BOOKMARKED, id);
-            }}
-          >
-            {isBookmarked[id] ? <HeartFilled /> : <HeartOutlined />}
+          <Bookmark onClick={() => handleBookmarkClick(id, BOOKMARK_TYPE.COURSE, bookmarkedState, setBookmarkedState)}>
+            {bookmarkedState ? <HeartFilled /> : <HeartOutlined />}
           </Bookmark>
         </Wrapper>
       </Paper>

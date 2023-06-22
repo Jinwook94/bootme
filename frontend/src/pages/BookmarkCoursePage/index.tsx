@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { createStyles, Navbar, Group, getStylesRef, Text, Flex, Container, MediaQuery } from '@mantine/core';
 import { IconRocket, IconNews } from '@tabler/icons-react';
 import { BookmarkLayout, Wrapper } from './style';
-import { useBookmarks } from '../../hooks/useBookmarks';
 import CourseCardList from '../../components/CourseCardList';
 import { PaginationWrapper } from '../CourseListPage/style';
 import { Pagination } from 'antd';
+import { useCourses } from '../../hooks/useCourses';
 
 const useStyles = createStyles(theme => ({
   navbar: {
@@ -83,17 +83,9 @@ const BookmarkCoursePage = () => {
     </a>
   ));
 
-  const {
-    currentCourses,
-    size,
-    courseCount,
-    fetchCourseBookmarks,
-    fetchCourseBookmarksIds,
-    courseBookmarksIds,
-    setCourseBookmarksIds,
-    setIsBookmarked,
-  } = useBookmarks();
+  const { fetchCourses, size } = useCourses();
   const [currentPage, setCurrentPage] = useState(1);
+
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
     window.scrollTo({
@@ -103,68 +95,57 @@ const BookmarkCoursePage = () => {
   };
 
   useEffect(() => {
-    fetchCourseBookmarks(currentPage);
+    fetchCourses('popular', currentPage).catch();
   }, [currentPage]);
 
   useEffect(() => {
-    const fetchedPromise = fetchCourseBookmarksIds();
-    if (fetchedPromise) {
-      fetchedPromise.then(response => {
-        if (response) {
-          setCourseBookmarksIds(response);
-          const updatedIsBookmarked: { [key: string]: boolean } = {};
-          response.forEach((courseId: number) => {
-            updatedIsBookmarked[courseId] = true;
-          });
-          setIsBookmarked(updatedIsBookmarked);
-        }
-      });
-    }
-  }, [currentPage]);
+    fetchCourses('popular', currentPage).catch();
+  }, []);
 
   return (
     <Wrapper>
-      <BookmarkLayout>
-        <Flex justify="center" align="flex-start" direction="row">
-          <MediaQuery query="(max-width: 75em)" styles={{ display: 'none' }}>
-            <Navbar height={230} width={{ sm: 250 }} p="md" className={classes.navbar}>
-              <Navbar.Section grow>
-                <Group className={classes.header} position="apart">
-                  <Text fz={20} ml={16} fw={700}>
-                    내 북마크
-                  </Text>
-                </Group>
-                {links}
-              </Navbar.Section>
-            </Navbar>
-          </MediaQuery>
-          <Container className={classes.body}>
-            <Text fz={20} fw={700} pl={16} className={classes.header}>
-              북마크 코스
-            </Text>
-            <Container p={0} style={{ minHeight: '600px' }}>
-              {courseCount === 0 ? (
-                <Flex justify={'center'} mt={48}>
-                  <Text fz="xl" fw={600} color="gray.5">
-                    아직 북마크 저장한 코스가 없습니다...
-                  </Text>
-                </Flex>
-              ) : (
-                <CourseCardList courses={currentCourses} bookmarkedCourseIds={courseBookmarksIds} displayBookmarked />
-              )}
-            </Container>
-            <PaginationWrapper>
-              <Pagination
-                current={currentPage}
-                pageSize={size}
-                total={courseCount}
-                onChange={handlePageChange}
-                showSizeChanger={false}
-              />
-            </PaginationWrapper>
-          </Container>
-        </Flex>
-      </BookmarkLayout>
+      {/*<BookmarkLayout>*/}
+      {/*  <Flex justify="center" align="flex-start" direction="row">*/}
+      {/*    <MediaQuery query="(max-width: 75em)" styles={{ display: 'none' }}>*/}
+      {/*      <Navbar height={230} width={{ sm: 250 }} p="md" className={classes.navbar}>*/}
+      {/*        <Navbar.Section grow>*/}
+      {/*          <Group className={classes.header} position="apart">*/}
+      {/*            <Text fz={20} ml={16} fw={700}>*/}
+      {/*              내 북마크*/}
+      {/*            </Text>*/}
+      {/*          </Group>*/}
+      {/*          {links}*/}
+      {/*        </Navbar.Section>*/}
+      {/*      </Navbar>*/}
+      {/*    </MediaQuery>*/}
+      {/*    <Container className={classes.body}>*/}
+      {/*      <Text fz={20} fw={700} pl={16} className={classes.header}>*/}
+      {/*        북마크 코스*/}
+      {/*      </Text>*/}
+      {/*      <Container p={0} style={{ minHeight: '600px' }}>*/}
+      {/*        {*/}
+      {/*          bookmarkedCount === 0 ? (*/}
+      {/*            <Flex justify={'center'} mt={48}>*/}
+      {/*              <Text fz="xl" fw={600} color="gray.5">*/}
+      {/*                아직 북마크 저장한 코스가 없습니다...*/}
+      {/*              </Text>*/}
+      {/*            </Flex>*/}
+      {/*          ) : null*/}
+      {/*          // <CourseCardList courses={currentCourses} displayBookmarked />*/}
+      {/*        }*/}
+      {/*      </Container>*/}
+      {/*      <PaginationWrapper>*/}
+      {/*        <Pagination*/}
+      {/*          current={currentPage}*/}
+      {/*          pageSize={size}*/}
+      {/*          total={bookmarkedCount}*/}
+      {/*          onChange={handlePageChange}*/}
+      {/*          showSizeChanger={false}*/}
+      {/*        />*/}
+      {/*      </PaginationWrapper>*/}
+      {/*    </Container>*/}
+      {/*  </Flex>*/}
+      {/*</BookmarkLayout>*/}
     </Wrapper>
   );
 };

@@ -54,6 +54,7 @@ interface Course {
   prerequisiteRequired: boolean;
   recommended: boolean;
   registerOpen: boolean;
+  bookmarked: boolean;
 }
 
 type datesType = {

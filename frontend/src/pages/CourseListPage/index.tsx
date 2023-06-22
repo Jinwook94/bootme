@@ -31,13 +31,10 @@ import { useCourseFilters } from '../../hooks/useFilters';
 import ModalFilter from '../../components/Filters/ModalFilter';
 import { Pagination, Select, Space } from 'antd';
 import Search from 'antd/es/input/Search';
-import { useBookmarks } from '../../hooks/useBookmarks';
 
 const CourseListPage = () => {
   const { fetchCourses, courseCount, size, currentCourses, sortOption, handleSorting, onSearch } = useCourses();
   const { selectedFilters, handleModal } = useCourseFilters();
-  const { fetchCourseBookmarks, fetchCourseBookmarksIds, courseBookmarksIds, setCourseBookmarksIds, setIsBookmarked } =
-    useBookmarks();
   const [currentPage, setCurrentPage] = useState(1);
   const [resetPagination, setResetPagination] = useState(false);
 
@@ -55,21 +52,6 @@ const CourseListPage = () => {
       setResetPagination(false);
     }
     fetchCourses(sortOption, currentPage).catch();
-    fetchCourseBookmarks(currentPage);
-
-    const fetchedPromise = fetchCourseBookmarksIds()?.catch();
-    if (fetchedPromise) {
-      fetchedPromise.then(response => {
-        if (response) {
-          setCourseBookmarksIds(response);
-          const updatedIsBookmarked: { [key: string]: boolean } = {};
-          response.forEach((courseId: number) => {
-            updatedIsBookmarked[courseId] = true;
-          });
-          setIsBookmarked(updatedIsBookmarked);
-        }
-      });
-    }
   }, [sortOption, selectedFilters, currentPage, resetPagination]);
 
   useEffect(() => {
@@ -131,7 +113,7 @@ const CourseListPage = () => {
                   선택하신 조건에 맞는 코스가 없습니다. <br /> 필터 옵션을 변경해 주세요.
                 </NoResultsMessage>
               ) : (
-                <CourseCardList courses={currentCourses} bookmarkedCourseIds={courseBookmarksIds} />
+                <CourseCardList courses={currentCourses} />
               )}
             </CourseListWrapper>
           </BodyWrapper2>
