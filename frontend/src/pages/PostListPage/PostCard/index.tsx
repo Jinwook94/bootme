@@ -193,4 +193,4 @@ const PostCard = ({
 
 export default PostCard;
 
-type PostCardProps = Omit<Post, 'views' | 'bookmarks' | 'status' | 'modifiedAt'>;
+type PostCardProps = Omit<Post, 'clicks' | 'bookmarks' | 'status' | 'modifiedAt'>;

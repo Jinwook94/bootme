@@ -208,12 +208,12 @@ const PostListPage = () => {
           <SortAndFilterMobile>
             <SortAndFilterWrapper>
               <SortButtons>
-                <Link to={`${PATH.POST.LIST}?sort=views&topic=${currentTopic}`}>
+                <Link to={`${PATH.POST.LIST}?sort=hottest&topic=${currentTopic}`}>
                   <HotButton
                     size={'large'}
-                    style={{ color: sortOption === 'views' ? '#0079d3' : 'rgb(135, 138, 140)' }}
+                    style={{ color: sortOption === 'hottest' ? '#0079d3' : 'rgb(135, 138, 140)' }}
                   >
-                    {sortOption === 'views' ? <FireIconBlue /> : <FireIcon2 />}
+                    {sortOption === 'hottest' ? <FireIconBlue /> : <FireIcon2 />}
                     인기글
                   </HotButton>
                 </Link>
@@ -234,10 +234,10 @@ const PostListPage = () => {
           </SortAndFilterMobile>
           <SortSearchDesktop>
             <SortWrapper>
-              <Link to={`${PATH.POST.LIST}?sort=views&topic=${currentTopic}`}>
+              <Link to={`${PATH.POST.LIST}?sort=hottest&topic=${currentTopic}`}>
                 <SortOption>
-                  {sortOption === 'views' ? <FireIconBlue /> : <FireIcon2 />}
-                  <SortName style={{ color: sortOption === 'views' ? '#0079d3' : 'rgb(135, 138, 140)' }}>
+                  {sortOption === 'hottest' ? <FireIconBlue /> : <FireIcon2 />}
+                  <SortName style={{ color: sortOption === 'hottest' ? '#0079d3' : 'rgb(135, 138, 140)' }}>
                     인기글
                   </SortName>
                 </SortOption>

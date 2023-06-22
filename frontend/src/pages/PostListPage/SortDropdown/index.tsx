@@ -30,7 +30,7 @@ const SortDropdown = () => {
   const items: MenuProps['items'] = [
     {
       label: '인기글',
-      key: 'views',
+      key: 'hottest',
       icon: <FireIcon />,
     },
     {
@@ -49,7 +49,7 @@ const SortDropdown = () => {
 
   const getLabel = (option: string) => {
     switch (option) {
-      case 'views':
+      case 'hottest':
         return '인기글';
       case 'newest':
         return '최신글';
@@ -61,7 +61,7 @@ const SortDropdown = () => {
   return (
     <Dropdown menu={sortProps} trigger={['click']}>
       <StyledButton>
-        {sortOption === 'views' ? <FireIcon /> : <SparklesIcon />}
+        {sortOption === 'hottest' ? <FireIcon /> : <SparklesIcon />}
         {getLabel(sortOption)}
         <CaretIconBlue>
           <CaretDownIcon />

@@ -198,7 +198,7 @@ const PostDetailPage = () => {
                       </Popover.Dropdown>
                     </Popover>
                     <ContentInfo>
-                      {post?.createdAt && getTimeSince(post.createdAt)} · 조회수 {post?.views}
+                      {post?.createdAt && getTimeSince(post.createdAt)} · 조회수 {post?.clicks}
                     </ContentInfo>
                   </Writer>
                 </WriterInfo>

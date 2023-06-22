@@ -40,7 +40,7 @@ export const PostProvider = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
   const { showSnackbar } = useSnackbar();
   const { selectedFilters, clearAndAddFilter } = usePostFilters();
-  const [sortOption, setSortOption] = useState<string>('views');
+  const [sortOption, setSortOption] = useState<string>('hottest');
   const [page, setPage] = useState(1);
   const [size] = useState<number>(10);
   const [postList, setPostList] = useState<Post[]>([]);

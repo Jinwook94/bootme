@@ -21,7 +21,7 @@ export interface Post {
   title: string;
   contentExcerpt: string;
   likes: number;
-  views: number;
+  clicks: number;
   bookmarks: number;
   status: string;
   createdAt: number;
