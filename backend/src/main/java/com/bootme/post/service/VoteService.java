@@ -2,6 +2,7 @@ package com.bootme.post.service;
 
 import com.bootme.auth.dto.AuthInfo;
 import com.bootme.auth.service.AuthService;
+import com.bootme.bookmark.service.PostBookmarkService;
 import com.bootme.common.exception.ValidationException;
 import com.bootme.member.domain.Member;
 import com.bootme.member.service.MemberService;
@@ -30,6 +31,7 @@ public class VoteService {
 
     private final AuthService authService;
     private final MemberService memberService;
+    private final PostBookmarkService postBookmarkService;
     private final VoteRepository voteRepository;
     private final PostService postService;
     private final CommentService commentService;
@@ -56,8 +58,9 @@ public class VoteService {
         switch (votableType) {
             case POST:
                 Post post = postService.getPostById(votableId);
+                boolean isBookmarked = postBookmarkService.isBookmarkedByMember(authInfo.getMemberId(), post.getId());
                 handleVote(voteType, existingVote, post, votableType, votableId, member);
-                return PostDetailResponse.of(post);
+                return PostDetailResponse.of(post, isBookmarked);
             case POST_COMMENT:
                 Comment comment = commentService.getCommentById(votableId);
                 handleVote(voteType, existingVote, comment, votableType, votableId, member);

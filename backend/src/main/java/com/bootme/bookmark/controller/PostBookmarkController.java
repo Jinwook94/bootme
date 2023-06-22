@@ -26,5 +26,4 @@ public class PostBookmarkController {
         return ResponseEntity.noContent().build();
     }
 
-
 }

@@ -2,6 +2,7 @@ package com.bootme.post.service;
 
 import com.bootme.auth.dto.AuthInfo;
 import com.bootme.auth.service.AuthService;
+import com.bootme.bookmark.repository.PostBookmarkRepository;
 import com.bootme.common.exception.ResourceNotFoundException;
 import com.bootme.member.domain.Member;
 import com.bootme.member.service.MemberService;
@@ -35,6 +36,7 @@ public class PostService {
     private final AuthService authService;
     private final MemberService memberService;
     private final PostRepository postRepository;
+    private final PostBookmarkRepository postBookmarkRepository;
     private final CommentRepository commentRepository;
     private final VoteRepository voteRepository;
     private final PostTopicPredicate postTopicPredicate;
@@ -65,7 +67,12 @@ public class PostService {
     public PostDetailResponse findPost(Long memberId, Long id) {
         boolean isLogin = authService.validateLogin(memberId);
         Post post = getPostById(id);
-        PostDetailResponse response = PostDetailResponse.of(post);
+        return createPostDetailResponse(post, isLogin, memberId);
+    }
+
+    private PostDetailResponse createPostDetailResponse(Post post, boolean isLogin, Long memberId) {
+        boolean isBookmarked = isLogin && postBookmarkRepository.existsByBookmark_Member_IdAndPost_Id(memberId, post.getId());
+        PostDetailResponse response = PostDetailResponse.of(post, isBookmarked);
         updateVoteStatusForPost(isLogin, memberId, post, response);
         return response;
     }
@@ -73,14 +80,18 @@ public class PostService {
     @Transactional(readOnly = true)
     public Page<PostResponse> findAllPosts(Long memberId, int page, int size, String sort, MultiValueMap<String, String> params) {
         boolean isLogin = authService.validateLogin(memberId);
+
         Predicate combinedPredicate = getCombinedPredicate(params);
 
         return getPostPage(page, size, sort, combinedPredicate)
-                .map(post -> {
-                    PostResponse response = PostResponse.of(post);
-                    updateVoteStatusForPost(isLogin, memberId, post, response);
-                    return response;
-                });
+                .map(post -> createPostResponse(post, isLogin, memberId));
+    }
+
+    private PostResponse createPostResponse(Post post, boolean isLogin, Long memberId) {
+        boolean isBookmarked = isLogin && postBookmarkRepository.existsByBookmark_Member_IdAndPost_Id(memberId, post.getId());
+        PostResponse response = PostResponse.of(post, isBookmarked);
+        updateVoteStatusForPost(isLogin, memberId, post, response);
+        return response;
     }
 
     @Transactional

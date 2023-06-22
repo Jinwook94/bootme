@@ -26,14 +26,15 @@ public class PostDetailResponse implements VotableResponse, PostResponseDto {
     private long modifiedAt;
     private int commentCount;
     private String voted;
+    private boolean isBookmarked;
 
     public PostDetailResponse() {
     }
 
     @Builder
-    public PostDetailResponse(Long id, Long writerId, String writerNickname, String writerProfileImage,
-                              String topic, String title, String content, int likes, int clicks, int bookmarks,
-                              String status, long createdAt, long modifiedAt, int commentCount, String voted) {
+    public PostDetailResponse(Long id, Long writerId, String writerNickname, String writerProfileImage, String topic,
+                              String title, String content, int likes, int clicks, int bookmarks, String status,
+                              long createdAt, long modifiedAt, int commentCount, String voted, boolean isBookmarked) {
         this.id = id;
         this.writerId = writerId;
         this.writerNickname = writerNickname;
@@ -49,9 +50,10 @@ public class PostDetailResponse implements VotableResponse, PostResponseDto {
         this.modifiedAt = modifiedAt;
         this.commentCount = commentCount;
         this.voted = voted;
+        this.isBookmarked = isBookmarked;
     }
 
-    public static PostDetailResponse of(Post post){
+    public static PostDetailResponse of(Post post, boolean isBookmarked){
         return PostDetailResponse.builder()
                 .id(post.getId())
                 .writerId(post.getMember().getId())
@@ -67,6 +69,7 @@ public class PostDetailResponse implements VotableResponse, PostResponseDto {
                 .createdAt(convertLocalDateTimeToLong(post.getCreatedAt()))
                 .modifiedAt(convertLocalDateTimeToLong(post.getModifiedAt()))
                 .commentCount(post.getComments().size())
+                .isBookmarked(isBookmarked)
                 .build();
     }
 

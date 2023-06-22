@@ -26,6 +26,7 @@ public class PostResponse implements PostResponseDto {
     private long modifiedAt;
     private int commentCount;
     private String voted;
+    private boolean isBookmarked;
 
     public PostResponse() {
     }
@@ -34,7 +35,7 @@ public class PostResponse implements PostResponseDto {
     public PostResponse(Long id, Long writerId, String writerNickname, String writerProfileImage,
                         String topic, String title, String contentExcerpt, int likes, int clicks,
                         int bookmarks, String status, long createdAt, long modifiedAt, int commentCount,
-                        String voted) {
+                        String voted, boolean isBookmarked) {
         this.id = id;
         this.writerId = writerId;
         this.writerNickname = writerNickname;
@@ -50,9 +51,10 @@ public class PostResponse implements PostResponseDto {
         this.modifiedAt = modifiedAt;
         this.commentCount = commentCount;
         this.voted = voted;
+        this.isBookmarked = isBookmarked;
     }
 
-    public static PostResponse of(Post post){
+    public static PostResponse of(Post post, boolean isBookmarked){
         return PostResponse.builder()
                 .id(post.getId())
                 .writerId(post.getMember().getId())
@@ -68,6 +70,7 @@ public class PostResponse implements PostResponseDto {
                 .createdAt(convertLocalDateTimeToLong(post.getCreatedAt()))
                 .modifiedAt(convertLocalDateTimeToLong(post.getModifiedAt()))
                 .commentCount(post.getComments().size())
+                .isBookmarked(isBookmarked)
                 .build();
     }
 

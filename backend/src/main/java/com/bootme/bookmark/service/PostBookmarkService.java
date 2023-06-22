@@ -27,9 +27,9 @@ public class PostBookmarkService {
 
     @Transactional
     public Long addPostBookmark(Long memberId, Long postId) {
-        boolean isExist = isPostBookmarkExist(memberId, postId);
+        boolean isBookmarked = isBookmarkedByMember(memberId, postId);
 
-        if (isExist){
+        if (isBookmarked){
             throw new ConflictException(ALREADY_BOOKMARKED, "memberId=" + memberId + ", postId="+postId);
         }
 
@@ -42,7 +42,7 @@ public class PostBookmarkService {
         return postBookmarkRepository.save(postBookmark).getId();
     }
 
-    private boolean isPostBookmarkExist(Long memberId, Long postId) {
+    public boolean isBookmarkedByMember(Long memberId, Long postId) {
         return postBookmarkRepository.existsByBookmark_Member_IdAndPost_Id(memberId, postId);
     }
 
