@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { createStyles, Navbar, Group, Text, Flex, Container, MediaQuery } from '@mantine/core';
-import { BookmarkLayout, NavBarItem, Wrapper } from './style';
-import CourseCardList from '../../components/CourseCardList';
+import { BookmarkLayout, NavBarItem, PostCardList, Wrapper } from './style';
 import { PaginationWrapper } from '../CourseListPage/style';
 import { Pagination } from 'antd';
 import { useBookmarks } from '../../hooks/useBookmarks';
 import { BOOKMARK_TYPE } from '../../constants/others';
+import { Post } from '../../types/post';
+import PostCard from '../PostListPage/PostCard';
 import { useNavigate } from 'react-router-dom';
 import PATH from '../../constants/path';
 import { PapersIcon, RocketIcon } from '../../constants/icons';
@@ -83,7 +84,7 @@ const useStyles = createStyles(theme => ({
   },
 }));
 
-const BookmarkCoursePage = () => {
+const BookmarkPostPage = () => {
   const navigate = useNavigate();
   const { classes } = useStyles();
   const { fetchBookmarkedItems, itemCount, currentItems } = useBookmarks();
@@ -100,7 +101,7 @@ const BookmarkCoursePage = () => {
   };
 
   useEffect(() => {
-    fetchBookmarkedItems(BOOKMARK_TYPE.COURSE, currentPage, size).then(() => setIsLoading(false));
+    fetchBookmarkedItems(BOOKMARK_TYPE.POST, currentPage, size).then(() => setIsLoading(false));
   }, [currentPage]);
 
   return (
@@ -115,11 +116,11 @@ const BookmarkCoursePage = () => {
                     내 북마크
                   </Text>
                 </Group>
-                <NavBarItem style={{ backgroundColor: '#f1f3f5', borderRadius: '0.25rem' }}>
+                <NavBarItem onClick={() => navigate(PATH.BOOKMARK.COURSE)}>
                   <RocketIcon />
                   <span>부트캠프</span>
                 </NavBarItem>
-                <NavBarItem onClick={() => navigate(PATH.BOOKMARK.POST)}>
+                <NavBarItem style={{ backgroundColor: '#f1f3f5', borderRadius: '0.25rem' }}>
                   <PapersIcon />
                   <span>커뮤니티</span>
                 </NavBarItem>
@@ -128,15 +129,16 @@ const BookmarkCoursePage = () => {
           </MediaQuery>
           <Container className={classes.body}>
             <Text fz={20} fw={700} pt={16} pl={16} className={classes.bodyHeaderDesktop}>
-              북마크 코스
+              북마크 게시글
             </Text>
             <Flex direction={'row'} justify={'space-around'} className={classes.bodyHeaderMobile}>
               <Text
                 fz={20}
                 fw={700}
                 py={16}
-                style={{ flex: 1, textAlign: 'center', borderBottom: '2px solid rgb(0, 132, 255)' }}
+                style={{ flex: 1, textAlign: 'center', borderBottom: '2px solid rgb(242, 242, 242)' }}
                 className={classes.mobileText}
+                onClick={() => navigate(PATH.BOOKMARK.COURSE)}
               >
                 코스
               </Text>
@@ -144,9 +146,8 @@ const BookmarkCoursePage = () => {
                 fz={20}
                 fw={700}
                 py={16}
-                style={{ flex: 1, textAlign: 'center', borderBottom: '2px solid rgb(242, 242, 242)' }}
+                style={{ flex: 1, textAlign: 'center', borderBottom: '2px solid rgb(0, 132, 255)' }}
                 className={classes.mobileText}
-                onClick={() => navigate(PATH.BOOKMARK.POST)}
               >
                 게시글
               </Text>
@@ -157,11 +158,29 @@ const BookmarkCoursePage = () => {
               ) : itemCount === 0 ? (
                 <Flex justify={'center'} mt={48}>
                   <Text fz="xl" fw={600} color="gray.5">
-                    아직 북마크 저장한 코스가 없습니다...
+                    아직 북마크 저장한 게시글이 없습니다...
                   </Text>
                 </Flex>
               ) : (
-                <CourseCardList courses={currentItems} />
+                <PostCardList>
+                  {currentItems?.map((post: Post) => (
+                    <PostCard
+                      key={post.id}
+                      id={post.id}
+                      writerId={post.writerId}
+                      writerNickname={post.writerNickname}
+                      writerProfileImage={post.writerProfileImage}
+                      topic={post.topic}
+                      title={post.title}
+                      contentExcerpt={post.contentExcerpt}
+                      likes={post.likes}
+                      createdAt={post.createdAt}
+                      commentCount={post.commentCount}
+                      voted={post.voted}
+                      bookmarked={post.bookmarked}
+                    />
+                  ))}
+                </PostCardList>
               )}
             </Container>
             <PaginationWrapper>
@@ -180,4 +199,4 @@ const BookmarkCoursePage = () => {
   );
 };
 
-export default BookmarkCoursePage;
+export default BookmarkPostPage;

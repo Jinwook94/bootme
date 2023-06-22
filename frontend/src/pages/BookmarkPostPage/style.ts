@@ -7,7 +7,7 @@ export const Wrapper = styled.div`
 
 export const BookmarkLayout = styled(Layout)`
   padding-top: 1.5rem;
-
+  
   @media (max-width: 767px) {
     padding: 1rem 0 0 0 ;
   },

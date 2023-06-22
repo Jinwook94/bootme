@@ -19,6 +19,7 @@ import { useSnackbar } from './hooks/useSnackbar';
 import NotFoundPage from './pages/NotFoundPage';
 import ProfilePage from './pages/ProfilePage';
 import BookmarkCoursePage from './pages/BookmarkCoursePage';
+import BookmarkPostPage from './pages/BookmarkPostPage';
 
 const App = () => {
   const { isVisible, message, displayIcon } = useSnackbar();
@@ -39,6 +40,7 @@ const App = () => {
         <Route element={<PrivateRoute />}>
           <Route path={PATH.PROFILE} element={<ProfilePage />} />
           <Route path={PATH.BOOKMARK.COURSE} element={<BookmarkCoursePage />} />
+          <Route path={PATH.BOOKMARK.POST} element={<BookmarkPostPage />} />
           <Route path={PATH.POST.WRITE} element={<PostWritePage />} />
         </Route>
         <Route path={PATH.PARTNER} element={<PartnerPage />} />
