@@ -71,10 +71,9 @@ export const ProfileProvider = ({ children }: { children: React.ReactNode }) => 
     setProfileImage(profileImage);
     setEmail(email);
     setNickname(nickname);
-    if (job !== null) {
-      setJob(job);
-    }
+    setJob(job || '');
     setStacks(stacks);
+
     setLoadingState(LoadingState.None);
     return data;
   };
@@ -86,10 +85,9 @@ export const ProfileProvider = ({ children }: { children: React.ReactNode }) => 
     setProfileImage(profileImage);
     setEmail(email);
     setNickname(nickname);
-    if (job !== null) {
-      setJob(job);
-    }
+    setJob(job || '');
     setStackNames(stacks);
+
     setLoadingState(LoadingState.None);
     return data;
   };

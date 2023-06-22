@@ -50,7 +50,7 @@ const ProfileCard = ({ memberId }: ProfileCardProps) => {
                 {nickname}
               </Text>
               <Text ta="left" fz="sm" c="dimmed">
-                {job && job !== 'null' && job !== 'undefined' ? job : '-'}
+                {job && job !== 'null' && job !== '' && job !== 'undefined' ? job : '-'}
               </Text>
             </div>
           </div>
