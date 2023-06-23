@@ -62,16 +62,13 @@ const PostListPage = () => {
     postCount,
     page,
     isLastPosts,
-    setLastPosts,
     setPage,
     onSearch,
     fetchPostList,
     setSortOption,
-    setPostList,
     isLoadingPost,
   } = usePost();
   const { selectedFilters, clearAndAddFilter } = usePostFilters();
-  const [currentTopic, setCurrentTopic] = useState('');
   const profilePicture = localStorage.getItem('profileImage') || '';
   const memberId = localStorage.getItem('memberId') || '';
   const [initialized, setInitialized] = useState(false);
@@ -85,10 +82,6 @@ const PostListPage = () => {
     } else {
       showSnackbar(SNACKBAR_MESSAGE.NEED_LOGIN, CHECK);
     }
-  };
-
-  const resetPageState = async () => {
-    setPage(1);
   };
 
   useEffect(() => {
@@ -150,31 +143,18 @@ const PostListPage = () => {
   const prevPage = useRef(page);
 
   useEffect(() => {
-    // 정렬 옵션 변경 처리
-    if (sortOption !== prevSortOption.current) {
-      resetPageState().then(() => fetchPostList(sortOption, 1));
-    }
-    // 토픽 필터, 페이지 변경 처리
-    else if (initialized && (selectedFilters !== prevSelectedFilters.current || page !== prevPage.current)) {
-      if (page === 1) {
-        resetPageState().then(() => fetchPostList(sortOption, 1));
-      } else {
-        fetchPostList(sortOption, page);
-      }
+    if (
+      sortOption !== prevSortOption.current ||
+      selectedFilters !== prevSelectedFilters.current ||
+      page !== prevPage.current
+    ) {
+      fetchPostList(sortOption, page).catch();
     }
 
-    // 토픽 필터 변경 처리
-    setCurrentTopic(selectedFilters?.topic ? selectedFilters?.topic[0] : '');
-
-    // 이전 상태 업데이트
     prevSortOption.current = sortOption;
     prevSelectedFilters.current = selectedFilters;
     prevPage.current = page;
   }, [selectedFilters, page, initialized, sortOption]);
-
-  useEffect(() => {
-    console.log(postList);
-  }, [postList]);
 
   return (
     <>
@@ -211,7 +191,7 @@ const PostListPage = () => {
           <SortAndFilterMobile>
             <SortAndFilterWrapper>
               <SortButtons>
-                <Link to={`${PATH.POST.LIST}?sort=hottest&topic=${currentTopic}`}>
+                <Link to={`${PATH.POST.LIST}?sort=hottest&topic=${selectedFilters?.topic?.[0]}`}>
                   <HotButton
                     size={'large'}
                     style={{ color: sortOption === 'hottest' ? '#0079d3' : 'rgb(135, 138, 140)' }}
@@ -220,7 +200,7 @@ const PostListPage = () => {
                     인기글
                   </HotButton>
                 </Link>
-                <Link to={`${PATH.POST.LIST}?sort=newest&topic=${currentTopic}`}>
+                <Link to={`${PATH.POST.LIST}?sort=newest&topic=${selectedFilters?.topic?.[0]}`}>
                   <NewestButton
                     size={'large'}
                     style={{ color: sortOption === 'newest' ? '#0079d3' : 'rgb(135, 138, 140)' }}
@@ -237,7 +217,7 @@ const PostListPage = () => {
           </SortAndFilterMobile>
           <SortSearchDesktop>
             <SortWrapper>
-              <Link to={`${PATH.POST.LIST}?sort=hottest&topic=${currentTopic}`}>
+              <Link to={`${PATH.POST.LIST}?sort=hottest&topic=${selectedFilters?.topic?.[0]}`}>
                 <SortOption>
                   {sortOption === 'hottest' ? <FireIconBlue /> : <FireIcon2 />}
                   <SortName style={{ color: sortOption === 'hottest' ? '#0079d3' : 'rgb(135, 138, 140)' }}>
@@ -245,7 +225,7 @@ const PostListPage = () => {
                   </SortName>
                 </SortOption>
               </Link>
-              <Link to={`${PATH.POST.LIST}?sort=newest&topic=${currentTopic}`}>
+              <Link to={`${PATH.POST.LIST}?sort=newest&topic=${selectedFilters?.topic?.[0]}`}>
                 <SortOption>
                   {sortOption === 'newest' ? <SparklesIconBlue /> : <SparklesIcon />}
                   <SortName style={{ color: sortOption === 'newest' ? '#0079d3' : 'rgb(135, 138, 140)' }}>
