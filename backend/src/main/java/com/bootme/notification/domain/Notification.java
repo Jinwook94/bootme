@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import java.util.Objects;
+
 import static com.bootme.common.exception.ErrorType.NOT_FOUND_EVENT;
 import static javax.persistence.FetchType.LAZY;
 
@@ -62,7 +64,19 @@ public class Notification extends BaseEntity {
     public static Notification of(Member member, String event, UpvotedNotification details) {
         String message;
         if (event.equals("upvoted")) {
-            message = "<b>" + details.getMemberNickname() + "</b>님이 <b>" + details.getPostTitle() + "</b>글을 좋아해요.";
+            String memberNickname = "<b>" + details.getMemberNickname() + "</b>";
+            String content = details.getContent();
+            if (Objects.equals(details.getVotableType(),"post")) {
+                message = memberNickname + "님이 <b>\"" + content + "\"</b> 글을 좋아해요.";
+            } else if (Objects.equals(details.getVotableType(),"postComment")) {
+                if (content == null || content.isEmpty()) {
+                    message = memberNickname + "님이 댓글을 좋아해요.";
+                } else {
+                    message = memberNickname + "님이 <b>\"" + content + "\"</b> 댓글을 좋아해요.";
+                }
+            } else {
+                throw new ResourceNotFoundException(NOT_FOUND_EVENT, event);
+            }
         } else {
             throw new ResourceNotFoundException(NOT_FOUND_EVENT, event);
         }

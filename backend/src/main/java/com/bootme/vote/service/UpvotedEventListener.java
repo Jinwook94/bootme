@@ -1,13 +1,16 @@
 package com.bootme.vote.service;
 
-import com.bootme.member.domain.Member;
+import com.bootme.comment.domain.Comment;
+import com.bootme.comment.service.CommentService;
 import com.bootme.notification.service.NotificationService;
 import com.bootme.post.domain.Post;
 import com.bootme.post.service.PostService;
 import com.bootme.vote.domain.Vote;
-import com.bootme.vote.dto.UpvotedNotification;
+import com.bootme.vote.dto.CommentUpvotedNotification;
+import com.bootme.vote.dto.PostUpvotedNotification;
 import com.bootme.vote.event.UpvotedEvent;
 import lombok.RequiredArgsConstructor;
+import org.jsoup.Jsoup;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionalEventListener;
@@ -24,8 +27,10 @@ public class UpvotedEventListener {
     private final NotificationService notificationService;
     private final VoteService voteService;
     private final PostService postService;
+    private final CommentService commentService;
 
     private static final String POST = "post";
+    private static final String COMMENT = "postComment";
     private static final String UPVOTE = "upvote";
     private static final String UPVOTED_EVENT = "upvoted";
 
@@ -33,38 +38,49 @@ public class UpvotedEventListener {
     @Transactional(propagation = REQUIRES_NEW)
     public void handleUpvotedEvent(UpvotedEvent event) {
         Vote vote = voteService.getVoteById(event.getVoteId());
-        Post post = postService.getPostById(vote.getVotableId());
 
-        if (shouldSendNotification(vote, post)) {
-            sendNotification(vote, post);
+        if (isUpvote(vote)) {
+            if (isVoteForPost(vote)) {
+                Post post = postService.getPostById(vote.getVotableId());
+                if (!vote.isVoteToSelf(post.getMember())) {
+                    sendPostUpvoteNotification(vote, post);
+                }
+            } else if (isVoteForComment(vote)) {
+                Comment comment = commentService.getCommentById(vote.getVotableId());
+                if (!vote.isVoteToSelf(comment.getMember())) {
+                    sendCommentUpvoteNotification(vote, comment);
+                }
+            }
         }
-    }
-
-    private boolean shouldSendNotification(Vote vote, Post post) {
-        return isNotSelfVote(vote, post.getMember())
-                && isVoteForPost(vote)
-                && isUpvote(vote);
-    }
-
-    private boolean isNotSelfVote(Vote vote, Member postMember) {
-        return !vote.isVoteToSelf(postMember);
     }
 
     private boolean isVoteForPost(Vote vote) {
         return Objects.equals(vote.getVotableType(), POST);
     }
 
+    private boolean isVoteForComment(Vote vote) {
+        return Objects.equals(vote.getVotableType(), COMMENT);
+    }
+
     private boolean isUpvote(Vote vote) {
         return Objects.equals(vote.getVoteType(), UPVOTE);
     }
 
-    private void sendNotification(Vote vote, Post post) {
+    private void sendPostUpvoteNotification(Vote vote, Post post) {
         String voterNickname = vote.getMember().getNickname();
         String postTitle = post.getTitle().getValue();
-        UpvotedNotification details = new UpvotedNotification(voterNickname, postTitle);
+        PostUpvotedNotification details = new PostUpvotedNotification(voterNickname, postTitle);
 
         notificationService.sendNotification(post.getMember(), UPVOTED_EVENT, details);
     }
 
-}
+    private void sendCommentUpvoteNotification(Vote vote, Comment comment) {
+        String voterNickname = vote.getMember().getNickname();
+        String commentContent = comment.getContent();
+        commentContent = Jsoup.parse(commentContent).text();
+        CommentUpvotedNotification details = new CommentUpvotedNotification(voterNickname, commentContent);
 
+        notificationService.sendNotification(comment.getMember(), UPVOTED_EVENT, details);
+    }
+
+}
