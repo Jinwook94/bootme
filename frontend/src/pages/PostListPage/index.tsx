@@ -141,6 +141,7 @@ const PostListPage = () => {
   const prevSortOption = useRef(sortOption);
   const prevSelectedFilters = useRef(selectedFilters);
   const prevPage = useRef(page);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
     if (
@@ -151,7 +152,11 @@ const PostListPage = () => {
       fetchPostList(sortOption, page).catch();
     }
 
-    if (sortOption !== prevSortOption.current || selectedFilters !== prevSelectedFilters.current) {
+    if (
+      isInitialized &&
+      navigationType !== 'POP' &&
+      (sortOption !== prevSortOption.current || selectedFilters !== prevSelectedFilters.current)
+    ) {
       window.scrollTo({
         top: 0,
         behavior: 'smooth',
@@ -161,7 +166,11 @@ const PostListPage = () => {
     prevSortOption.current = sortOption;
     prevSelectedFilters.current = selectedFilters;
     prevPage.current = page;
-  }, [selectedFilters, page, initialized, sortOption]);
+  }, [selectedFilters, page, initialized, sortOption, isInitialized]);
+
+  useEffect(() => {
+    setIsInitialized(true);
+  }, []);
 
   return (
     <>

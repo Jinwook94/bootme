@@ -40,7 +40,7 @@ export const PostProvider = ({ children }: { children: React.ReactNode }) => {
   const { selectedFilters, clearAndAddFilter } = usePostFilters();
   const [sortOption, setSortOption] = useState<string>('hottest');
   const [page, setPage] = useState(1);
-  const [size] = useState<number>(10);
+  const [size] = useState<number>(25);
   const [postList, setPostList] = useState<Post[]>([]);
   const [post, setPost] = useState<PostDetail>();
   const [postCount, setPostCount] = useState<number>();
