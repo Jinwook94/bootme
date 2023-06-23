@@ -15,8 +15,10 @@ const PostContext = createContext<PostContextProps>({
   setSortOption: async () => undefined,
   page: 1,
   setPage: async () => undefined,
-  isEndOfPosts: false,
-  setEndOfPosts: async () => undefined,
+  isFirstPosts: false,
+  setFirstPosts: () => undefined,
+  isLastPosts: false,
+  setLastPosts: () => undefined,
   postList: undefined,
   setPostList: async () => undefined,
   post: undefined,
@@ -47,10 +49,11 @@ export const PostProvider = ({ children }: { children: React.ReactNode }) => {
   const [post, setPost] = useState<PostDetail>();
   const [postCount, setPostCount] = useState<number>();
   const [comments, setComments] = useState<PostComment[]>([]);
-  const [isEndOfPosts, setEndOfPosts] = useState(false);
+  const [isFirstPosts, setFirstPosts] = useState(false);
+  const [isLastPosts, setLastPosts] = useState(false);
   const [isLoadingPost, setIsLoadingPost] = useState(false);
 
-  const fetchPostList = async (sort: string, page: number, append: boolean) => {
+  const fetchPostList = async (sort: string, page: number) => {
     setIsLoadingPost(true);
     const filterParams = Object.entries(selectedFilters).flatMap(([key, value]) => {
       if (value && value.length) {
@@ -70,14 +73,17 @@ export const PostProvider = ({ children }: { children: React.ReactNode }) => {
         },
       });
       const fetchedPosts = response.data;
-      if (append) {
-        setPostList(prevPosts => [...prevPosts, ...fetchedPosts.content]);
-      } else {
-        setPostList(fetchedPosts.content);
-      }
       setPostCount(fetchedPosts.totalElements);
-      if (fetchedPosts && fetchedPosts.numberOfElements < size) {
-        setEndOfPosts(true);
+      if (fetchedPosts.first) {
+        setPostList(fetchedPosts.content);
+      } else {
+        setPostList(prevPosts => [...prevPosts, ...fetchedPosts.content]);
+      }
+      {
+        fetchedPosts.first ? setFirstPosts(true) : setFirstPosts(false);
+      }
+      {
+        fetchedPosts.last ? setLastPosts(true) : setLastPosts(false);
       }
     } catch (e: any) {
       showSnackbar(SNACKBAR_MESSAGE.FAIL_POST_FETCH + ': ' + e.response.data.message, EXCLAMATION);
@@ -245,8 +251,10 @@ export const PostProvider = ({ children }: { children: React.ReactNode }) => {
         setSortOption,
         page,
         setPage,
-        isEndOfPosts,
-        setEndOfPosts,
+        isFirstPosts,
+        setFirstPosts,
+        isLastPosts,
+        setLastPosts,
         postList,
         setPostList,
         post,
@@ -279,8 +287,10 @@ interface PostContextProps {
   setSortOption: (value: string) => void;
   page: number;
   setPage: (value: number) => void;
-  isEndOfPosts: boolean;
-  setEndOfPosts: (value: boolean) => void;
+  isFirstPosts: boolean;
+  setFirstPosts: (value: boolean) => void;
+  isLastPosts: boolean;
+  setLastPosts: (value: boolean) => void;
   postList?: Post[];
   setPostList: (postList: Post[]) => void;
   post?: PostDetail;

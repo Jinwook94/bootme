@@ -60,14 +60,14 @@ const PostListPage = () => {
     sortOption,
     postList,
     postCount,
-    isEndOfPosts,
     page,
+    isLastPosts,
+    setLastPosts,
     setPage,
     onSearch,
     fetchPostList,
     setSortOption,
     setPostList,
-    setEndOfPosts,
     isLoadingPost,
   } = usePost();
   const { selectedFilters, clearAndAddFilter } = usePostFilters();
@@ -90,14 +90,14 @@ const PostListPage = () => {
   const resetPageState = async () => {
     setPostList([]);
     setPage(1);
-    setEndOfPosts(false);
+    setLastPosts(false);
   };
 
   useEffect(() => {
-    if (inView && !isEndOfPosts && !isLoadingPost) {
+    if (inView && !isLastPosts && !isLoadingPost) {
       setPage(page + 1);
     }
-  }, [inView, isEndOfPosts, page, isLoadingPost]);
+  }, [inView, isLastPosts, page, isLoadingPost]);
 
   useEffect(() => {
     if (navigationType === 'POP') {
@@ -174,6 +174,10 @@ const PostListPage = () => {
     prevPage.current = page;
   }, [selectedFilters, page, initialized, sortOption]);
 
+  useEffect(() => {
+    console.log(postList);
+  }, [postList]);
+
   return (
     <>
       <CommunityPageLayout>
@@ -204,7 +208,6 @@ const PostListPage = () => {
                 </ProfileWrapper1>
               </Popover.Target>
             </Popover>
-
             <CreatePostInput onClick={handleCreatePost} placeholder="글 작성하기" />
           </CreatePostWrapper>
           <SortAndFilterMobile>
