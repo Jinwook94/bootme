@@ -67,6 +67,7 @@ const PostListPage = () => {
     fetchPostList,
     setSortOption,
     isLoadingPost,
+    setIsLoadingPost,
   } = usePost();
   const { selectedFilters, clearAndAddFilter } = usePostFilters();
   const profilePicture = localStorage.getItem('profileImage') || '';
@@ -86,6 +87,7 @@ const PostListPage = () => {
 
   useEffect(() => {
     if (inView && !isLastPosts && !isLoadingPost) {
+      setIsLoadingPost(true);
       setPage(page + 1);
     }
   }, [inView, isLastPosts, page, isLoadingPost]);

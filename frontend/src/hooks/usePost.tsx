@@ -32,6 +32,7 @@ const PostContext = createContext<PostContextProps>({
   handleVote: async () => undefined,
   onSearch: async () => undefined,
   isLoadingPost: false,
+  setIsLoadingPost: () => undefined,
 });
 
 export const PostProvider = ({ children }: { children: React.ReactNode }) => {
@@ -264,6 +265,7 @@ export const PostProvider = ({ children }: { children: React.ReactNode }) => {
         handleVote,
         onSearch,
         isLoadingPost,
+        setIsLoadingPost,
       }}
     >
       {children}
@@ -307,4 +309,5 @@ interface PostContextProps {
   ) => Promise<void>;
   onSearch: (value: string) => void;
   isLoadingPost: boolean;
+  setIsLoadingPost: React.Dispatch<boolean>;
 }

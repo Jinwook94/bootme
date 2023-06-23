@@ -9,10 +9,14 @@ export const CommunityPageLayout = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin: 0 auto 60px auto;
+  margin: 0 auto;
 
   @media (min-width: 640px) {
-    padding: 20px 24px;
+    padding: 20px 24px 60px 24px;
+  }
+
+  @media (max-width: 640px) {
+    margin: 0 auto 60px auto;
   }
 `;
 
