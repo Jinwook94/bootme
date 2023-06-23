@@ -1,6 +1,7 @@
-package com.bootme.post.dto;
+package com.bootme.comment.dto;
 
-import com.bootme.post.domain.Comment;
+import com.bootme.comment.domain.Comment;
+import com.bootme.post.dto.VotableResponse;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +10,7 @@ import static com.bootme.common.util.TimeConverter.convertLocalDateTimeToLong;
 
 @Getter
 @Setter
-public class CommentResponse implements VotableResponse{
+public class CommentResponse implements VotableResponse {
 
     private Long id;
     private Long postId;

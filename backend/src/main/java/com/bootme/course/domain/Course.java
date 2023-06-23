@@ -4,7 +4,6 @@ import com.bootme.common.domain.BaseEntity;
 import com.bootme.common.domain.Bookmarkable;
 import com.bootme.common.domain.Clickable;
 import com.bootme.course.dto.CourseRequest;
-import com.bootme.post.domain.CourseStatus;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

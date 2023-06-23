@@ -1,4 +1,4 @@
-package com.bootme.post.domain;
+package com.bootme.course.domain;
 
 public enum CourseStatus {
 

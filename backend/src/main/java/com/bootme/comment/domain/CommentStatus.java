@@ -1,4 +1,4 @@
-package com.bootme.post.domain;
+package com.bootme.comment.domain;
 
 public enum CommentStatus {
     DISPLAY("DISPLAY"),

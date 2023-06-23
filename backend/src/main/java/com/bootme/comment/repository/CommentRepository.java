@@ -1,6 +1,6 @@
-package com.bootme.post.repository;
+package com.bootme.comment.repository;
 
-import com.bootme.post.domain.Comment;
+import com.bootme.comment.domain.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;

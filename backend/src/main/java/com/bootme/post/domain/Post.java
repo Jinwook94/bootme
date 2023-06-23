@@ -1,5 +1,6 @@
 package com.bootme.post.domain;
 
+import com.bootme.comment.domain.Comment;
 import com.bootme.common.domain.BaseEntity;
 import com.bootme.common.domain.Bookmarkable;
 import com.bootme.common.domain.Clickable;

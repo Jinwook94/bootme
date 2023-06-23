@@ -1,15 +1,16 @@
-package com.bootme.post.service;
+package com.bootme.comment.service;
 
 import com.bootme.auth.dto.AuthInfo;
 import com.bootme.auth.service.AuthService;
 import com.bootme.common.exception.ResourceNotFoundException;
 import com.bootme.member.domain.Member;
 import com.bootme.member.service.MemberService;
-import com.bootme.post.domain.Comment;
+import com.bootme.comment.domain.Comment;
 import com.bootme.post.domain.Post;
-import com.bootme.post.dto.CommentRequest;
-import com.bootme.post.dto.CommentResponse;
-import com.bootme.post.repository.CommentRepository;
+import com.bootme.comment.dto.CommentRequest;
+import com.bootme.comment.dto.CommentResponse;
+import com.bootme.comment.repository.CommentRepository;
+import com.bootme.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

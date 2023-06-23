@@ -1,7 +1,7 @@
 package com.bootme.bookmark.domain;
 
 import com.bootme.common.domain.BaseEntity;
-import com.bootme.post.domain.Comment;
+import com.bootme.comment.domain.Comment;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

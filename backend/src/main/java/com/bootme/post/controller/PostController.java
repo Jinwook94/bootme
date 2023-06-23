@@ -2,7 +2,7 @@ package com.bootme.post.controller;
 
 import com.bootme.auth.dto.AuthInfo;
 import com.bootme.auth.util.Login;
-import com.bootme.post.dto.CommentResponse;
+import com.bootme.comment.dto.CommentResponse;
 import com.bootme.post.dto.PostDetailResponse;
 import com.bootme.post.dto.PostRequest;
 import com.bootme.post.dto.PostResponse;

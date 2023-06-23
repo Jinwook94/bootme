@@ -1,10 +1,10 @@
-package com.bootme.post.controller;
+package com.bootme.comment.controller;
 
 import com.bootme.auth.dto.AuthInfo;
 import com.bootme.auth.util.Login;
-import com.bootme.post.dto.CommentRequest;
-import com.bootme.post.dto.CommentResponse;
-import com.bootme.post.service.CommentService;
+import com.bootme.comment.dto.CommentRequest;
+import com.bootme.comment.dto.CommentResponse;
+import com.bootme.comment.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

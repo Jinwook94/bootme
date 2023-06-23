@@ -11,7 +11,7 @@ import com.bootme.course.dto.CourseRequest;
 import com.bootme.course.dto.CourseResponse;
 import com.bootme.course.repository.CourseRepository;
 import com.bootme.course.repository.CourseStackRepository;
-import com.bootme.post.domain.CourseStatus;
+import com.bootme.course.domain.CourseStatus;
 import com.bootme.stack.domain.Stack;
 import com.bootme.stack.repository.StackRepository;
 import com.querydsl.core.BooleanBuilder;
