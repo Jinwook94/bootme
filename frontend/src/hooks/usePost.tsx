@@ -295,7 +295,7 @@ interface PostContextProps {
   setPostList: (postList: Post[]) => void;
   post?: PostDetail;
   postCount?: number;
-  fetchPostList: (sort: string, page: number, append: boolean) => Promise<PostListResponse | void>;
+  fetchPostList: (sort: string, page: number) => Promise<PostListResponse | void>;
   fetchPost: (id: number | undefined) => Promise<PostDetail | void>;
   uploadPost: (topic: string, title: string | undefined, content: string) => Promise<void>;
   editPost: (

@@ -88,9 +88,7 @@ const PostListPage = () => {
   };
 
   const resetPageState = async () => {
-    setPostList([]);
     setPage(1);
-    setLastPosts(false);
   };
 
   useEffect(() => {
@@ -154,14 +152,14 @@ const PostListPage = () => {
   useEffect(() => {
     // 정렬 옵션 변경 처리
     if (sortOption !== prevSortOption.current) {
-      resetPageState().then(() => fetchPostList(sortOption, 1, false));
+      resetPageState().then(() => fetchPostList(sortOption, 1));
     }
     // 토픽 필터, 페이지 변경 처리
     else if (initialized && (selectedFilters !== prevSelectedFilters.current || page !== prevPage.current)) {
       if (page === 1) {
-        resetPageState().then(() => fetchPostList(sortOption, 1, false));
+        resetPageState().then(() => fetchPostList(sortOption, 1));
       } else {
-        fetchPostList(sortOption, page, true);
+        fetchPostList(sortOption, page);
       }
     }
 
@@ -194,9 +192,9 @@ const PostListPage = () => {
                     <ProfileWrapper3>
                       <ProfileWrapper4></ProfileWrapper4>
                       <ProfileWrapper5>
-                        {profilePicture && profilePicture !== 'null' && profilePicture !== 'undefined' ? (
+                        {profilePicture && profilePicture !== 'null' && profilePicture !== 'undefined' && (
                           <ProfilePic src={profilePicture} />
-                        ) : null}
+                        )}
                         {isLogin && (
                           <Popover.Dropdown p={0}>
                             <ProfileCard memberId={memberId} />
