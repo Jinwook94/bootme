@@ -41,7 +41,7 @@ public class CommentService {
     public CommentResponse findComment(AuthInfo authInfo, Long id) {
         authService.validateLogin(authInfo);
         Comment comment = getCommentById(id);
-        comment.validateWriter(authInfo.getMemberId(), id);
+        comment.assertAuthor(authInfo.getMemberId());
 
         return CommentResponse.of(comment);
     }
@@ -50,7 +50,7 @@ public class CommentService {
     public void modifyComment(AuthInfo authInfo, Long id, String modifiedContent) {
         authService.validateLogin(authInfo);
         Comment comment = getCommentById(id);
-        comment.validateWriter(authInfo.getMemberId(), comment.getMember().getId());
+        comment.assertAuthor(authInfo.getMemberId());
 
         comment.modifyContent(modifiedContent);
     }
@@ -59,7 +59,7 @@ public class CommentService {
     public void deleteComment(AuthInfo authInfo, Long id){
         authService.validateLogin(authInfo);
         Comment comment = getCommentById(id);
-        comment.validateWriter(authInfo.getMemberId(), comment.getMember().getId());
+        comment.assertAuthor(authInfo.getMemberId());
 
         comment.softDeleteComment();
     }
@@ -106,4 +106,5 @@ public class CommentService {
         }
         return 0;
     }
+
 }

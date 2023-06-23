@@ -101,8 +101,8 @@ public class PostService {
     public void modifyPost(AuthInfo authInfo, Long postId, PostRequest postRequest) {
         authService.validateLogin(authInfo);
         Post post = getPostById(postId);
-        post.validateWriter(authInfo.getMemberId(), post.getMember().getId());
 
+        post.assertAuthor(authInfo.getMemberId());
         post.modifyPost(postRequest);
     }
 
@@ -110,8 +110,8 @@ public class PostService {
     public void deletePost(AuthInfo authInfo, Long postId) {
         authService.validateLogin(authInfo);
         Post post = getPostById(postId);
-        post.validateWriter(authInfo.getMemberId(), post.getMember().getId());
 
+        post.assertAuthor(authInfo.getMemberId());
         post.softDeletePost();
     }
 
