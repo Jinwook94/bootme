@@ -1,6 +1,6 @@
-package com.bootme.post.repository;
+package com.bootme.vote.repository;
 
-import com.bootme.post.domain.Vote;
+import com.bootme.vote.domain.Vote;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

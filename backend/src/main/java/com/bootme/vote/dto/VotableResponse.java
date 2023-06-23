@@ -1,4 +1,4 @@
-package com.bootme.post.dto;
+package com.bootme.vote.dto;
 
 public interface VotableResponse {
 }

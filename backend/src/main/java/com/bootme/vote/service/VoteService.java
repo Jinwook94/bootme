@@ -1,4 +1,4 @@
-package com.bootme.post.service;
+package com.bootme.vote.service;
 
 import com.bootme.auth.dto.AuthInfo;
 import com.bootme.auth.service.AuthService;
@@ -10,12 +10,13 @@ import com.bootme.member.service.MemberService;
 import com.bootme.comment.domain.Comment;
 import com.bootme.post.domain.Post;
 import com.bootme.common.domain.Votable;
-import com.bootme.post.domain.Vote;
+import com.bootme.post.service.PostService;
+import com.bootme.vote.domain.Vote;
 import com.bootme.comment.dto.CommentResponse;
 import com.bootme.post.dto.PostDetailResponse;
-import com.bootme.post.dto.VotableResponse;
-import com.bootme.post.dto.VoteRequest;
-import com.bootme.post.repository.VoteRepository;
+import com.bootme.vote.dto.VotableResponse;
+import com.bootme.vote.dto.VoteRequest;
+import com.bootme.vote.repository.VoteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

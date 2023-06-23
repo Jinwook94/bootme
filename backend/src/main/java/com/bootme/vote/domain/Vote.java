@@ -1,4 +1,4 @@
-package com.bootme.post.domain;
+package com.bootme.vote.domain;
 
 import com.bootme.common.domain.BaseEntity;
 import com.bootme.member.domain.Member;

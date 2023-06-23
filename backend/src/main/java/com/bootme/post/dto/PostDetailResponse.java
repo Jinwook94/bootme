@@ -1,6 +1,7 @@
 package com.bootme.post.dto;
 
 import com.bootme.post.domain.Post;
+import com.bootme.vote.dto.VotableResponse;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
