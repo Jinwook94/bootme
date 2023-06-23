@@ -2,6 +2,7 @@ package com.bootme.comment.service;
 
 import com.bootme.auth.dto.AuthInfo;
 import com.bootme.auth.service.AuthService;
+import com.bootme.comment.event.CommentAddEvent;
 import com.bootme.common.exception.ResourceNotFoundException;
 import com.bootme.member.domain.Member;
 import com.bootme.member.service.MemberService;
@@ -12,6 +13,7 @@ import com.bootme.comment.dto.CommentResponse;
 import com.bootme.comment.repository.CommentRepository;
 import com.bootme.post.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +27,7 @@ public class CommentService {
     private final PostService postService;
     private final MemberService memberService;
     private final CommentRepository commentRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Transactional
     public Long addComment(AuthInfo authInfo, Long postId, CommentRequest commentRequest) {
@@ -34,6 +37,7 @@ public class CommentService {
 
         Comment comment = createComment(commentRequest, post, member);
         Comment savedComment = commentRepository.save(comment);
+        eventPublisher.publishEvent(new CommentAddEvent(this, comment.getId()));
         return savedComment.getId();
     }
 

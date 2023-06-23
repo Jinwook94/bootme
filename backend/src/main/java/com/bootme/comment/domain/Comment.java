@@ -107,6 +107,10 @@ public class Comment extends BaseEntity implements Votable {
         }
     }
 
+    public boolean isWriterOfComment(Member member) {
+        return this.member.equals(member);
+    }
+
     public Optional<Long> getParentId() {
         return Optional.ofNullable(parent).map(Comment::getId);
     }
@@ -138,4 +142,5 @@ public class Comment extends BaseEntity implements Votable {
     public void decrementLikes() {
         this.likes -= 1;
     }
+
 }

@@ -16,7 +16,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static com.bootme.common.exception.ErrorType.NOT_WRITER;
 import static javax.persistence.CascadeType.PERSIST;
@@ -94,6 +93,10 @@ public class Post extends BaseEntity implements Votable, Clickable, Bookmarkable
         if (!this.member.getId().equals(supposedAuthorId)) {
             throw new AuthenticationException(NOT_WRITER, String.valueOf(supposedAuthorId));
         }
+    }
+
+    public boolean isWriterOfPost(Member member) {
+        return this.member.equals(member);
     }
 
     public String getWriterNickname() {

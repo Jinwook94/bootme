@@ -2,6 +2,7 @@ package com.bootme.notification.service;
 
 import com.bootme.member.domain.Member;
 import com.bootme.notification.domain.Notification;
+import com.bootme.notification.dto.NotificationDetail;
 import com.bootme.notification.dto.NotificationResponse;
 import com.bootme.notification.repository.NotificationRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +13,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class NotificationService {
 
@@ -24,11 +24,19 @@ public class NotificationService {
         return notificationList.stream().map(NotificationResponse::of).collect(Collectors.toList());
     }
 
+    @Transactional
+    public void sendNotification(Member member, String event, NotificationDetail details){
+        Notification notification = Notification.of(member, event, details);
+        notificationRepository.save(notification);
+    }
+
+    @Transactional
     public Long sendNotification(Member member, String event){
         Notification notification = Notification.of(member, event);
         return notificationRepository.save(notification).getId();
     }
 
+    @Transactional
     public void markAllAsCheckedForMember(Long memberId) {
         notificationRepository.markAllAsCheckedForMember(memberId);
     }

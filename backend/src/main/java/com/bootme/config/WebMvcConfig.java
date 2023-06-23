@@ -5,6 +5,7 @@ import com.bootme.common.interceptor.IPInterceptor;
 import com.bootme.common.interceptor.TokenValidationInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -39,7 +40,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .allowedMethods(ALLOWED_METHOD_NAMES.split(","))
                 .allowedHeaders("*")
                 .allowCredentials(true)
-                .exposedHeaders("Location");
+                .exposedHeaders(HttpHeaders.LOCATION);
     }
 
     @Override
