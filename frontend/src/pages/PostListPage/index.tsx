@@ -151,6 +151,13 @@ const PostListPage = () => {
       fetchPostList(sortOption, page).catch();
     }
 
+    if (sortOption !== prevSortOption.current || selectedFilters !== prevSelectedFilters.current) {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+    }
+
     prevSortOption.current = sortOption;
     prevSelectedFilters.current = selectedFilters;
     prevPage.current = page;
