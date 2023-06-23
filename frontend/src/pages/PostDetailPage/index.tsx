@@ -124,6 +124,9 @@ const PostDetailPage = () => {
   };
 
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+    });
     fetchPost(Number(id))
       .then(fetchedPost => {
         setVotedState(fetchedPost?.voted);
