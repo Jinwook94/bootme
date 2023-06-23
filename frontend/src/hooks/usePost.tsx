@@ -10,17 +10,13 @@ import PATH from '../constants/path';
 import { useNavigate } from 'react-router-dom';
 
 const PostContext = createContext<PostContextProps>({
-  size: 10,
   sortOption: '',
   setSortOption: async () => undefined,
   page: 1,
   setPage: async () => undefined,
-  isFirstPosts: false,
-  setFirstPosts: () => undefined,
   isLastPosts: false,
   setLastPosts: () => undefined,
   postList: undefined,
-  setPostList: async () => undefined,
   post: undefined,
   postCount: 0,
   fetchPostList: async () => undefined,
@@ -49,7 +45,7 @@ export const PostProvider = ({ children }: { children: React.ReactNode }) => {
   const [post, setPost] = useState<PostDetail>();
   const [postCount, setPostCount] = useState<number>();
   const [comments, setComments] = useState<PostComment[]>([]);
-  const [isFirstPosts, setFirstPosts] = useState(false);
+  const [, setFirstPosts] = useState(false);
   const [isLastPosts, setLastPosts] = useState(false);
   const [isLoadingPost, setIsLoadingPost] = useState(false);
 
@@ -246,17 +242,13 @@ export const PostProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <PostContext.Provider
       value={{
-        size,
         sortOption,
         setSortOption,
         page,
         setPage,
-        isFirstPosts,
-        setFirstPosts,
         isLastPosts,
         setLastPosts,
         postList,
-        setPostList,
         post,
         postCount,
         fetchPostList,
@@ -282,17 +274,13 @@ export const PostProvider = ({ children }: { children: React.ReactNode }) => {
 export const usePost = () => useContext(PostContext);
 
 interface PostContextProps {
-  size: number;
   sortOption: string;
   setSortOption: (value: string) => void;
   page: number;
   setPage: (value: number) => void;
-  isFirstPosts: boolean;
-  setFirstPosts: (value: boolean) => void;
   isLastPosts: boolean;
   setLastPosts: (value: boolean) => void;
   postList?: Post[];
-  setPostList: (postList: Post[]) => void;
   post?: PostDetail;
   postCount?: number;
   fetchPostList: (sort: string, page: number) => Promise<PostListResponse | void>;
