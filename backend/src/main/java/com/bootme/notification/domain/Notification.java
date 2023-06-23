@@ -4,7 +4,8 @@ import com.bootme.bookmark.domain.CourseBookmark;
 import com.bootme.common.domain.BaseEntity;
 import com.bootme.common.exception.ResourceNotFoundException;
 import com.bootme.member.domain.Member;
-import com.bootme.notification.dto.NotificationDetail;
+import com.bootme.comment.dto.CommentNotification;
+import com.bootme.vote.dto.UpvotedNotification;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -45,12 +46,10 @@ public class Notification extends BaseEntity {
 
     public static Notification of(Member member, String event){
         String message;
-        switch (event) {
-            case "signUp":
-                message = "환영합니다! 다양한 소프트웨어 커리큘럼들을 비교하고 선택할 수 있도록 도와드릴게요 :) \uD83D\uDE0A \uD83D\uDE00 \uD83D\uDE04 ☺️";
-                break;
-            default:
-                throw new ResourceNotFoundException(NOT_FOUND_EVENT, event);
+        if (event.equals("signUp")) {
+            message = "환영합니다! 다양한 소프트웨어 커리큘럼들을 비교하고 선택할 수 있도록 도와드릴게요 :) \uD83D\uDE0A \uD83D\uDE00 \uD83D\uDE04 ☺️";
+        } else {
+            throw new ResourceNotFoundException(NOT_FOUND_EVENT, event);
         }
         return Notification.builder()
                 .member(member)
@@ -60,7 +59,22 @@ public class Notification extends BaseEntity {
                 .build();
     }
 
-    public static Notification of(Member member, String event, NotificationDetail details){
+    public static Notification of(Member member, String event, UpvotedNotification details) {
+        String message;
+        if (event.equals("upvoted")) {
+            message = "<b>" + details.getMemberNickname() + "</b>님이 <b>" + details.getPostTitle() + "</b>글을 좋아해요.";
+        } else {
+            throw new ResourceNotFoundException(NOT_FOUND_EVENT, event);
+        }
+        return Notification.builder()
+                .member(member)
+                .event(event)
+                .message(message)
+                .checked(false)
+                .build();
+    }
+
+    public static Notification of(Member member, String event, CommentNotification details) {
         String message;
         switch (event) {
             case "commentAdded":

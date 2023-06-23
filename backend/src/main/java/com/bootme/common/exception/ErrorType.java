@@ -35,6 +35,7 @@ public enum ErrorType {
     NOT_FOUND_STACK         (3006, "존재하지 않는 기술 스택입니다."),
     NOT_FOUND_POST          (3007, "존재하지 않는 게시글입니다."),
     NOT_FOUND_COMMENT       (3008, "존재하지 않는 댓글입니다."),
+    NOT_FOUND_VOTE          (3009, "존재하지 않는 투표입니다."),
 
     // Resource already exists errors
     ALREADY_SAVED_STACK     (4001, "이미 저장된 기술 스택입니다."),

@@ -3,7 +3,7 @@ package com.bootme.comment.service;
 import com.bootme.comment.domain.Comment;
 import com.bootme.comment.event.CommentAddEvent;
 import com.bootme.member.domain.Member;
-import com.bootme.notification.dto.NotificationDetail;
+import com.bootme.comment.dto.CommentNotification;
 import com.bootme.notification.service.NotificationService;
 import com.bootme.post.domain.Post;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +32,7 @@ public class CommentAddEventListener {
         Post post = comment.getPost();
         Member commentWriter = comment.getMember();
 
-        NotificationDetail details = NotificationDetail.builder()
+        CommentNotification details = CommentNotification.builder()
                 .postTitle(post.getTitle().getValue())
                 .commentWriter(commentWriter.getNickname())
                 .commentContent(comment.getContent())

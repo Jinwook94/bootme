@@ -4,6 +4,7 @@ import com.bootme.auth.dto.AuthInfo;
 import com.bootme.auth.service.AuthService;
 import com.bootme.bookmark.service.PostBookmarkService;
 import com.bootme.comment.service.CommentService;
+import com.bootme.common.exception.ResourceNotFoundException;
 import com.bootme.common.exception.ValidationException;
 import com.bootme.member.domain.Member;
 import com.bootme.member.service.MemberService;
@@ -16,16 +17,17 @@ import com.bootme.comment.dto.CommentResponse;
 import com.bootme.post.dto.PostDetailResponse;
 import com.bootme.vote.dto.VotableResponse;
 import com.bootme.vote.dto.VoteRequest;
+import com.bootme.vote.event.UpvotedEvent;
 import com.bootme.vote.repository.VoteRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 import java.util.Optional;
 
-import static com.bootme.common.exception.ErrorType.INVALID_VOTABLE_TYPE;
-import static com.bootme.common.exception.ErrorType.INVALID_VOTE_TYPE;
+import static com.bootme.common.exception.ErrorType.*;
 
 @Service
 @RequiredArgsConstructor
@@ -37,13 +39,12 @@ public class VoteService {
     private final VoteRepository voteRepository;
     private final PostService postService;
     private final CommentService commentService;
-
+    private final ApplicationEventPublisher eventPublisher;
 
     private static final String UPVOTE = "upvote";
     private static final String DOWNVOTE = "downvote";
     private static final String POST = "post";
     private static final String POST_COMMENT = "postComment";
-
 
     @Transactional
     public VotableResponse vote(AuthInfo authInfo, VoteRequest request) {
@@ -128,6 +129,7 @@ public class VoteService {
         }
         vote.modifyVoteType(voteType);
         voteRepository.save(vote);
+        eventPublisher.publishEvent(new UpvotedEvent(this, vote.getId()));
     }
 
     private void saveVote(String votableType, Long votableId, String voteType, Member member) {
@@ -138,6 +140,12 @@ public class VoteService {
                 .member(member)
                 .build();
         voteRepository.save(vote);
+        eventPublisher.publishEvent(new UpvotedEvent(this, vote.getId()));
+    }
+
+    public Vote getVoteById(Long id) {
+        return voteRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_VOTE, String.valueOf(id)));
     }
 
 }

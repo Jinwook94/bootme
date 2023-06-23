@@ -2,9 +2,10 @@ package com.bootme.notification.service;
 
 import com.bootme.member.domain.Member;
 import com.bootme.notification.domain.Notification;
-import com.bootme.notification.dto.NotificationDetail;
+import com.bootme.comment.dto.CommentNotification;
 import com.bootme.notification.dto.NotificationResponse;
 import com.bootme.notification.repository.NotificationRepository;
+import com.bootme.vote.dto.UpvotedNotification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +26,15 @@ public class NotificationService {
     }
 
     @Transactional
-    public void sendNotification(Member member, String event, NotificationDetail details){
+    public void sendNotification(Member member, String event, UpvotedNotification details){
+        Notification notification = Notification.of(member, event, details);
+        if (!notificationRepository.existsByMemberAndEventAndMessage(member, event, notification.getMessage())) {
+            notificationRepository.save(notification);
+        }
+    }
+
+    @Transactional
+    public void sendNotification(Member member, String event, CommentNotification details){
         Notification notification = Notification.of(member, event, details);
         notificationRepository.save(notification);
     }

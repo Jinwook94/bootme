@@ -1,5 +1,6 @@
 package com.bootme.notification.repository;
 
+import com.bootme.member.domain.Member;
 import com.bootme.notification.domain.Notification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -18,5 +19,7 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
     @Modifying
     @Query("UPDATE Notification n SET n.checked = true WHERE n.member.id = :memberId")
     void markAllAsCheckedForMember(@Param("memberId") Long memberId);
+
+    boolean existsByMemberAndEventAndMessage(Member member, String event, String message);
 
 }

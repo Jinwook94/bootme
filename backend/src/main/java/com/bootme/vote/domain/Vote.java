@@ -43,4 +43,9 @@ public class Vote extends BaseEntity {
     public void modifyVoteType(String voteType) {
         this.voteType = voteType;
     }
+
+    public boolean isVoteToSelf(Member member) {
+        return this.member.equals(member);
+    }
+
 }
