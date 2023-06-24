@@ -1,7 +1,5 @@
 package com.bootme.sse;
 
-import com.bootme.auth.dto.AuthInfo;
-import com.bootme.auth.util.Login;
 import com.bootme.common.exception.SseException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -21,15 +19,14 @@ public class SseController {
     private final SseEmitterManager sseEmitterManager;
 
     @GetMapping(value = "/connect", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public ResponseEntity<SseEmitter> connect(@Login AuthInfo authinfo) {
-        Long memberId = authinfo.getMemberId();
-        SseEmitter emitter = new SseEmitter(60*5*1000L);
-        sseEmitterManager.add(memberId, emitter);
+    public ResponseEntity<SseEmitter> connect() {
+        SseEmitter emitter = new SseEmitter(60 * 1000L);
+        sseEmitterManager.add(emitter);
         try {
             emitter.send(SseEmitter.event()
                     .name(SseEvent.CONNECT.toString())
                     .data(SseEvent.CONNECT.toString()));
-        } catch (IOException | IllegalStateException e) {
+        } catch (IOException e) {
             throw new SseException(SSE_CONNECT_FAIL, SseEvent.CONNECT.toString(), e);
         }
         return ResponseEntity.ok(emitter);
