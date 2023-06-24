@@ -9,6 +9,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.bootme.auth.dto.*;
 import com.bootme.auth.dto.NaverResponse.NaverUserInfo;
 import com.bootme.auth.util.JwkProviderSingleton;
+import com.bootme.common.enums.OAuthProvider;
 import com.bootme.common.exception.*;
 import com.bootme.member.domain.Member;
 import com.bootme.member.repository.MemberRepository;
@@ -30,6 +31,7 @@ import java.time.Instant;
 import java.util.*;
 
 import static com.bootme.auth.util.GoogleIdTokenVerifierSingleton.verifyGoogleIdToken;
+import static com.bootme.common.enums.OAuthProvider.*;
 import static com.bootme.common.exception.ErrorType.*;
 import static com.bootme.notification.domain.NotificationEventType.SIGN_UP;
 
@@ -37,11 +39,6 @@ import static com.bootme.notification.domain.NotificationEventType.SIGN_UP;
 @Service
 @Transactional
 public class AuthService {
-
-    private static final String BOOTME = "bootme";
-    private static final String GOOGLE = "google";
-    private static final String NAVER = "naver";
-    private static final String KAKAO = "kakao";
 
     private final AwsSecrets awsSecrets;
     private final MemberRepository memberRepository;
@@ -106,7 +103,9 @@ public class AuthService {
         JwtVo jwtVo = parseToken(idToken);
         JwtVo.Body body = jwtVo.getBody();
 
-        String issuer = verifyIssuer(body);
+        String issuerString = verifyIssuer(body);
+        OAuthProvider issuer = OAuthProvider.fromString(issuerString);
+
         verifyAudience(body, issuer);
         verifyIssuedAt(body);
         verifyExpiration(body);
@@ -117,18 +116,18 @@ public class AuthService {
         final String iss = body.getIss();
 
         if (Objects.equals(iss, awsSecrets.getBootmeIssuer())) {
-            return BOOTME;
+            return BOOTME.getValue();
         } else if (Objects.equals(iss, awsSecrets.getGoogleIssuer())) {
-            return GOOGLE;
+            return GOOGLE.getValue();
         } else if (Objects.equals(iss, awsSecrets.getNaverIssuer())) {
-            return NAVER;
+            return NAVER.getValue();
         } else if (Objects.equals(iss, awsSecrets.getKakaoIssuer())) {
-            return KAKAO;
+            return KAKAO.getValue();
         }
         throw new AuthenticationException(INVALID_ISSUER, iss);
     }
 
-    private void verifyAudience(JwtVo.Body body, String issuer) {
+    private void verifyAudience(JwtVo.Body body, OAuthProvider issuer) {
         String expectedAud = null;
         switch (issuer) {
             case BOOTME:
@@ -172,7 +171,7 @@ public class AuthService {
         }
     }
 
-    private void verifySignature(String jwt, String issuer) {
+    private void verifySignature(String jwt, OAuthProvider issuer) {
         switch (issuer) {
             case BOOTME:
                 verifyBootmeSignature(jwt, awsSecrets.getBootmeSigningKey());
@@ -236,7 +235,9 @@ public class AuthService {
 
             // 3. 서명 검증
             Algorithm algorithm = Algorithm.RSA256((RSAPublicKey) jwk.getPublicKey(), null);
-            JWTVerifier verifier = JWT.require(algorithm).build();
+            JWTVerifier verifier = JWT.require(algorithm)
+                    .acceptLeeway(5)
+                    .build();
             verifier.verify(idToken);
 
         } catch (SignatureVerificationException | JwkException e) {
