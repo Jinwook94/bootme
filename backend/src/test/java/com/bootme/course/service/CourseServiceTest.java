@@ -23,6 +23,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static com.bootme.common.exception.ErrorType.NOT_FOUND_COURSE;
 import static com.bootme.util.fixture.CourseFixture.*;
@@ -51,16 +53,16 @@ class CourseServiceTest extends ServiceTest {
 
     @BeforeEach
     void setup(){
-        stackRepository.save(Stack.of("JavaScript", "svg"));
-        stackRepository.save(Stack.of("TypeScript", "svg"));
-        stackRepository.save(Stack.of("Java", "svg"));
-        stackRepository.save(Stack.of("Kotlin", "svg"));
-        stackRepository.save(Stack.of("Swift", "svg"));
-        stackRepository.save(Stack.of("React", "svg"));
-        stackRepository.save(Stack.of("Django", "svg"));
-        stackRepository.save(Stack.of("Spring", "svg"));
-        stackRepository.save(Stack.of("Node.js", "svg"));
-        stackRepository.save(Stack.of("Vue.js", "svg"));
+        stackRepository.save(Stack.of("JavaScript", "svg", LANGUAGES, FRAMEWORKS));
+        stackRepository.save(Stack.of("TypeScript", "svg", LANGUAGES, FRAMEWORKS));
+        stackRepository.save(Stack.of("Java", "svg", LANGUAGES, FRAMEWORKS));
+        stackRepository.save(Stack.of("Kotlin", "svg", LANGUAGES, FRAMEWORKS));
+        stackRepository.save(Stack.of("Swift", "svg", LANGUAGES, FRAMEWORKS));
+        stackRepository.save(Stack.of("React", "svg", LANGUAGES, FRAMEWORKS));
+        stackRepository.save(Stack.of("Django", "svg", LANGUAGES, FRAMEWORKS));
+        stackRepository.save(Stack.of("Spring", "svg", LANGUAGES, FRAMEWORKS));
+        stackRepository.save(Stack.of("Node.js", "svg", LANGUAGES, FRAMEWORKS));
+        stackRepository.save(Stack.of("Vue.js", "svg", LANGUAGES, FRAMEWORKS));
         company1 = getCompany(1);
         company2 = getCompany(2);
         company3 = getCompany(3);
@@ -112,6 +114,14 @@ class CourseServiceTest extends ServiceTest {
         //when
         CourseDetailResponse courseResponse = courseService.findById(id, 1L);
         List<Stack> stacks = courseStackRepository.findStacksByCourseId(id);
+        List<String> languages = stacks.stream()
+                .filter(stack -> Objects.equals(stack.getType(), "language"))
+                .map(Stack::getName)
+                .collect(Collectors.toList());
+        List<String> frameworks = stacks.stream()
+                .filter(stack -> Objects.equals(stack.getType(), "framework"))
+                .map(Stack::getName)
+                .collect(Collectors.toList());
 
         //then
         assertAll(
@@ -129,8 +139,8 @@ class CourseServiceTest extends ServiceTest {
                 () -> assertThat(courseResponse.isPrerequisiteRequired()).isTrue(),
                 () -> assertThat(courseResponse.getSuperCategories()).isEqualTo(course.getCategories().getSuperCategories()),
                 () -> assertThat(courseResponse.getSubCategories()).isEqualTo(course.getCategories().getSubCategories()),
-                () -> assertThat(courseResponse.getLanguages()).isEqualTo(Stack.getLanguages(stacks)),
-                () -> assertThat(courseResponse.getFrameworks()).isEqualTo(Stack.getFrameworks(stacks))
+                () -> assertThat(courseResponse.getLanguages()).isEqualTo(languages),
+                () -> assertThat(courseResponse.getFrameworks()).isEqualTo(frameworks)
         );
     }
 

@@ -51,7 +51,23 @@ Cookie: accessToken=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpZCI6IjEiLCJlbWFpbCI
   "content" : "댓글 입니다."
 }
 
-### 기술 스택 추가
+### 개별 기술 스택 추가 (language)
+POST localhost:8080/stacks/language?language=JavaScript&icon=https://bootme-images.s3.ap-northeast-2.amazonaws.com/logos/stack/javascript.png HTTP/1.1
+Content-Type: application/json
+
+### 개별 기술 스택 삭제 (language)
+DELETE localhost:8080/stacks/language?language=JavaScript&icon=https://bootme-images.s3.ap-northeast-2.amazonaws.com/logos/stack/javascript.png HTTP/1.1
+Content-Type: application/json
+
+### 개별 기술 스택 추가 (framework)
+POST localhost:8080/stacks/framework?framework=React&icon=https://bootme-images.s3.ap-northeast-2.amazonaws.com/logos/stack/react.png HTTP/1.1
+Content-Type: application/json
+
+### 개별 기술 스택 삭제 (framework)
+DELETE localhost:8080/stacks/framework?framework=React&icon=https://bootme-images.s3.ap-northeast-2.amazonaws.com/logos/stack/react.png HTTP/1.1
+Content-Type: application/json
+
+### 기술 스택 추가 (stacks in bulk)
 POST localhost:8080/stacks HTTP/1.1
 Content-Type: application/json
 

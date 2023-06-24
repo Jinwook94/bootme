@@ -10,14 +10,12 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 public class Stack extends BaseEntity {
-
-    private static final List<String> LANGUAGES = List.of("JavaScript", "TypeScript", "Java", "Python", "Swift", "Kotlin");
-    private static final List<String> FRAMEWORKS = List.of("React", "Vue.js", "Spring", "Node.js", "Django");
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,12 +43,12 @@ public class Stack extends BaseEntity {
         this.icon = icon;
     }
 
-    public static Stack of(String stack, String icon){
+    public static Stack of(String stack, String icon, List<String> languages, List<String> frameworks){
         String type;
 
-        if (LANGUAGES.contains(stack)) {
+        if (languages.contains(stack)) {
             type = "language";
-        } else if (FRAMEWORKS.contains(stack)) {
+        } else if (frameworks.contains(stack)) {
             type = "framework";
         } else {
             throw new IllegalArgumentException("Invalid stack: " + stack);
@@ -60,21 +58,17 @@ public class Stack extends BaseEntity {
     }
 
     public static List<String> getLanguages(List<Stack> stacks) {
-        return classifyStacks(stacks, LANGUAGES);
+        return stacks.stream()
+                .filter(stack -> stack.getType().equals("language"))
+                .map(Stack::getName)
+                .collect(Collectors.toList());
     }
 
     public static List<String> getFrameworks(List<Stack> stacks) {
-        return classifyStacks(stacks, FRAMEWORKS);
-    }
-
-    private static List<String> classifyStacks(List<Stack> stacks, List<String> identifiers) {
-        List<String> classifiedStacks = new ArrayList<>();
-        for (Stack stack : stacks) {
-            if (identifiers.contains(stack.getName())) {
-                classifiedStacks.add(stack.getName());
-            }
-        }
-        return classifiedStacks;
+        return stacks.stream()
+                .filter(stack -> stack.getType().equals("framework"))
+                .map(Stack::getName)
+                .collect(Collectors.toList());
     }
 
 }
