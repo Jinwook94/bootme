@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState } from 'react';
 import { fetcher } from '../api/fetcher';
 import { useCourseFilters } from './useFilters';
 import { COURSE_FILTERS } from '../constants/filters';
+import { SORT_OPTION } from '../constants/others';
 
 const CourseContext = createContext<CourseContextProps>({
   currentCourses: [],
@@ -17,7 +18,7 @@ const CourseContext = createContext<CourseContextProps>({
 export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
   const { selectedFilters, clearAndAddFilter } = useCourseFilters();
   const [currentCourses, setCurrentCourses] = useState<Course[]>([]);
-  const [sortOption, setSortOption] = useState('popular');
+  const [sortOption, setSortOption] = useState<SortOption>(SORT_OPTION.CLICKS);
   const [maxPage, setMaxPage] = useState<number>(1);
   const [size] = useState<number>(12);
   const [courseCount, setCourseCount] = useState<number>();
@@ -51,8 +52,8 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
       });
   };
 
-  const handleSorting = (option: string) => {
-    setSortOption(option);
+  const handleSorting = (value: string) => {
+    setSortOption(value as SortOption);
   };
 
   const onSearch = (value: string) => {
@@ -85,7 +86,7 @@ interface CourseContextProps {
   maxPage: number;
   size: number;
   sortOption: string;
-  handleSorting: (option: string) => void;
+  handleSorting: (value: string) => void;
   fetchCourses: (sort: string, page: number) => Promise<void>;
   onSearch: (value: string) => void;
 }

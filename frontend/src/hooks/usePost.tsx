@@ -3,7 +3,7 @@ import { useSnackbar } from './useSnackbar';
 import React, { createContext, useContext, useState } from 'react';
 import SNACKBAR_MESSAGE, { CHECK, EXCLAMATION } from '../constants/snackbar';
 import { Post, PostComment, PostDetail, PostListResponse } from '../types/post';
-import { VOTABLE_TYPE } from '../constants/others';
+import { SORT_OPTION, VOTABLE_TYPE } from '../constants/others';
 import { usePostFilters } from './useFilters';
 import { POST_FILTERS } from '../constants/filters';
 import PATH from '../constants/path';
@@ -39,7 +39,7 @@ export const PostProvider = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
   const { showSnackbar } = useSnackbar();
   const { selectedFilters, clearAndAddFilter } = usePostFilters();
-  const [sortOption, setSortOption] = useState<string>('hottest');
+  const [sortOption, setSortOption] = useState<string>(SORT_OPTION.LIKES);
   const [page, setPage] = useState(1);
   const [size] = useState<number>(25);
   const [postList, setPostList] = useState<Post[]>([]);
@@ -311,6 +311,3 @@ interface PostContextProps {
   isLoadingPost: boolean;
   setIsLoadingPost: React.Dispatch<boolean>;
 }
-
-export type VotableType = 'POST' | 'POST_COMMENT';
-export type VoteType = 'UPVOTE' | 'DOWNVOTE' | 'NONE';

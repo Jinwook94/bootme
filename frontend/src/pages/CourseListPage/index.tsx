@@ -31,6 +31,7 @@ import { useCourseFilters } from '../../hooks/useFilters';
 import ModalFilter from '../../components/Filters/ModalFilter';
 import { Pagination, Select, Space } from 'antd';
 import Search from 'antd/es/input/Search';
+import { SORT_OPTION } from '../../constants/others';
 
 const CourseListPage = () => {
   const { fetchCourses, courseCount, size, currentCourses, sortOption, handleSorting, onSearch } = useCourses();
@@ -93,9 +94,9 @@ const CourseListPage = () => {
                         defaultValue="인기순"
                         style={{ width: 94 }}
                         options={[
-                          { value: 'popular', label: '인기순' },
-                          { value: 'newest', label: '등록순' },
-                          { value: 'bookmark', label: '북마크순' },
+                          { value: SORT_OPTION.CLICKS, label: '인기순' },
+                          { value: SORT_OPTION.CREATED_AT, label: '등록순' },
+                          { value: SORT_OPTION.BOOKMARKS, label: '북마크순' },
                         ]}
                         onSelect={handleSorting}
                       />

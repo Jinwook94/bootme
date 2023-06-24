@@ -49,6 +49,7 @@ import { useInView } from 'react-intersection-observer';
 import { Popover } from '@mantine/core';
 import ProfileCard from '../../components/ProfileCard';
 import LoadingSpinner from '../../components/@common/LoadingSpinner';
+import { SORT_OPTION } from '../../constants/others';
 
 const PostListPage = () => {
   const navigationType = useNavigationType();
@@ -209,21 +210,21 @@ const PostListPage = () => {
           <SortAndFilterMobile>
             <SortAndFilterWrapper>
               <SortButtons>
-                <Link to={`${PATH.POST.LIST}?sort=hottest&topic=${selectedFilters?.topic?.[0]}`}>
+                <Link to={`${PATH.POST.LIST}?sort=${SORT_OPTION.LIKES}&topic=${selectedFilters?.topic?.[0]}`}>
                   <HotButton
                     size={'large'}
-                    style={{ color: sortOption === 'hottest' ? '#0079d3' : 'rgb(135, 138, 140)' }}
+                    style={{ color: sortOption === SORT_OPTION.LIKES ? '#0079d3' : 'rgb(135, 138, 140)' }}
                   >
-                    {sortOption === 'hottest' ? <FireIconBlue /> : <FireIcon2 />}
+                    {sortOption === SORT_OPTION.LIKES ? <FireIconBlue /> : <FireIcon2 />}
                     인기글
                   </HotButton>
                 </Link>
-                <Link to={`${PATH.POST.LIST}?sort=newest&topic=${selectedFilters?.topic?.[0]}`}>
+                <Link to={`${PATH.POST.LIST}?sort=${SORT_OPTION.CREATED_AT}&topic=${selectedFilters?.topic?.[0]}`}>
                   <NewestButton
                     size={'large'}
-                    style={{ color: sortOption === 'newest' ? '#0079d3' : 'rgb(135, 138, 140)' }}
+                    style={{ color: sortOption === SORT_OPTION.CREATED_AT ? '#0079d3' : 'rgb(135, 138, 140)' }}
                   >
-                    {sortOption === 'newest' ? <SparklesIconBlue /> : <SparklesIcon />}
+                    {sortOption === SORT_OPTION.CREATED_AT ? <SparklesIconBlue /> : <SparklesIcon />}
                     최신글
                   </NewestButton>
                 </Link>
@@ -235,18 +236,18 @@ const PostListPage = () => {
           </SortAndFilterMobile>
           <SortSearchDesktop>
             <SortWrapper>
-              <Link to={`${PATH.POST.LIST}?sort=hottest&topic=${selectedFilters?.topic?.[0]}`}>
+              <Link to={`${PATH.POST.LIST}?sort=${SORT_OPTION.LIKES}&topic=${selectedFilters?.topic?.[0]}`}>
                 <SortOption>
-                  {sortOption === 'hottest' ? <FireIconBlue /> : <FireIcon2 />}
-                  <SortName style={{ color: sortOption === 'hottest' ? '#0079d3' : 'rgb(135, 138, 140)' }}>
+                  {sortOption === SORT_OPTION.LIKES ? <FireIconBlue /> : <FireIcon2 />}
+                  <SortName style={{ color: sortOption === SORT_OPTION.LIKES ? '#0079d3' : 'rgb(135, 138, 140)' }}>
                     인기글
                   </SortName>
                 </SortOption>
               </Link>
-              <Link to={`${PATH.POST.LIST}?sort=newest&topic=${selectedFilters?.topic?.[0]}`}>
+              <Link to={`${PATH.POST.LIST}?sort=${SORT_OPTION.CREATED_AT}&topic=${selectedFilters?.topic?.[0]}`}>
                 <SortOption>
-                  {sortOption === 'newest' ? <SparklesIconBlue /> : <SparklesIcon />}
-                  <SortName style={{ color: sortOption === 'newest' ? '#0079d3' : 'rgb(135, 138, 140)' }}>
+                  {sortOption === SORT_OPTION.CREATED_AT ? <SparklesIconBlue /> : <SparklesIcon />}
+                  <SortName style={{ color: sortOption === SORT_OPTION.CREATED_AT ? '#0079d3' : 'rgb(135, 138, 140)' }}>
                     최신글
                   </SortName>
                 </SortOption>

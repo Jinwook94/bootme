@@ -1,5 +1,4 @@
 import { BookmarkTypeKey } from '../hooks/useBookmarks';
-import { VotableType, VoteType } from '../hooks/usePost';
 
 export const BOOTME_URL = 'https://bootme.co.kr';
 
@@ -8,6 +7,13 @@ export const NAVER = 'naver';
 export const KAKAO = 'kakao';
 
 export const UTM_PARAMS = 'utm_source=bootme&utm_medium=referral';
+
+export const SORT_OPTION: { [type: string]: SortOption } = {
+  CREATED_AT: 'createdAt',
+  CLICKS: 'clicks',
+  BOOKMARKS: 'bookmarks',
+  LIKES: 'likes',
+};
 
 export const VOTABLE_TYPE: { [type: string]: VotableType } = {
   POST: 'POST',

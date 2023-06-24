@@ -3,7 +3,7 @@ import { getTimeSince } from '../../../utils/timeUtils';
 import { PostComment } from '../../../types/post';
 import DOMPurify from 'dompurify';
 import { VOTABLE_TYPE, VOTE_TYPE } from '../../../constants/others';
-import { usePost, VotableType, VoteType } from '../../../hooks/usePost';
+import { usePost } from '../../../hooks/usePost';
 import React, { useEffect, useRef, useState } from 'react';
 import ReactQuill, { ReactQuillProps } from 'react-quill';
 import { Button } from 'antd';

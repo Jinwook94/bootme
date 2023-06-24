@@ -53,7 +53,7 @@ import ReactQuill, { ReactQuillProps } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.core.css';
 import { Link, useParams } from 'react-router-dom';
-import { usePost, VotableType, VoteType } from '../../hooks/usePost';
+import { usePost } from '../../hooks/usePost';
 import React, { useEffect, useRef, useState } from 'react';
 import { getTimeSince } from '../../utils/timeUtils';
 import { Button } from 'antd';

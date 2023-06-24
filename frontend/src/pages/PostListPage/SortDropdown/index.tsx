@@ -7,6 +7,7 @@ import PATH from '../../../constants/path';
 import { usePostFilters } from '../../../hooks/useFilters';
 import './style.css';
 import { useNavigate } from 'react-router-dom';
+import { SORT_OPTION } from '../../../constants/others';
 
 /* 사용 안함 */
 const SortDropdown = () => {
@@ -30,12 +31,12 @@ const SortDropdown = () => {
   const items: MenuProps['items'] = [
     {
       label: '인기글',
-      key: 'hottest',
+      key: SORT_OPTION.LIKES,
       icon: <FireIcon />,
     },
     {
       label: '최신글',
-      key: 'newest',
+      key: SORT_OPTION.CREATED_AT,
       icon: <SparklesIcon />,
     },
   ];
@@ -49,9 +50,9 @@ const SortDropdown = () => {
 
   const getLabel = (option: string) => {
     switch (option) {
-      case 'hottest':
+      case SORT_OPTION.LIKES:
         return '인기글';
-      case 'newest':
+      case SORT_OPTION.CREATED_AT:
         return '최신글';
       default:
         return '인기글';
@@ -61,7 +62,7 @@ const SortDropdown = () => {
   return (
     <Dropdown menu={sortProps} trigger={['click']}>
       <StyledButton>
-        {sortOption === 'hottest' ? <FireIcon /> : <SparklesIcon />}
+        {sortOption === SORT_OPTION.LIKES ? <FireIcon /> : <SparklesIcon />}
         {getLabel(sortOption)}
         <CaretIconBlue>
           <CaretDownIcon />
