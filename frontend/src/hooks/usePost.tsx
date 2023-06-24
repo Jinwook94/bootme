@@ -210,9 +210,9 @@ export const PostProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const handleVote = async (
-    votableType: string,
+    votableType: VotableType,
     votableId: number | undefined,
-    voteType: string,
+    voteType: VoteType,
     postId: number | undefined,
     memberId: number
   ) => {
@@ -301,9 +301,9 @@ interface PostContextProps {
   editComment: (commentId: number, editedComment: string) => Promise<void>;
   deleteComment: (postId: number) => void;
   handleVote: (
-    votableType: string,
+    votableType: VotableType,
     votableId: number | undefined,
-    voteType: string,
+    voteType: VoteType,
     postId: number | undefined,
     memberId: number
   ) => Promise<void>;
@@ -311,3 +311,6 @@ interface PostContextProps {
   isLoadingPost: boolean;
   setIsLoadingPost: React.Dispatch<boolean>;
 }
+
+export type VotableType = 'POST' | 'POST_COMMENT';
+export type VoteType = 'UPVOTE' | 'DOWNVOTE' | 'NONE';

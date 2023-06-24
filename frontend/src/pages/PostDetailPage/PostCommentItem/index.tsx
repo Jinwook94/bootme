@@ -3,7 +3,7 @@ import { getTimeSince } from '../../../utils/timeUtils';
 import { PostComment } from '../../../types/post';
 import DOMPurify from 'dompurify';
 import { VOTABLE_TYPE, VOTE_TYPE } from '../../../constants/others';
-import { usePost } from '../../../hooks/usePost';
+import { usePost, VotableType, VoteType } from '../../../hooks/usePost';
 import React, { useEffect, useRef, useState } from 'react';
 import ReactQuill, { ReactQuillProps } from 'react-quill';
 import { Button } from 'antd';
@@ -100,9 +100,9 @@ const PostCommentItem = ({
   };
 
   const handleVoteAndUpdateIcon = async (
-    votableType: string,
+    votableType: VotableType,
     votableId: number | undefined,
-    voteType: string,
+    voteType: VoteType,
     postId: number | undefined,
     memberId: number
   ) => {

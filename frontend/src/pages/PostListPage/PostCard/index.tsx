@@ -37,7 +37,7 @@ import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.core.css';
 import { Post } from '../../../types/post';
 import { getTimeSince } from '../../../utils/timeUtils';
-import { usePost } from '../../../hooks/usePost';
+import { usePost, VotableType, VoteType } from '../../../hooks/usePost';
 import { BOOKMARK_TYPE, VOTABLE_TYPE, VOTE_TYPE } from '../../../constants/others';
 import {
   PostShareButtonInPostCardDesktop,
@@ -77,9 +77,9 @@ const PostCard = ({
   const postContent = DOMPurify.sanitize(contentExcerpt, { ADD_TAGS: ['iframe', 'video'] });
 
   const handleVoteAndUpdateIcon = async (
-    votableType: string,
+    votableType: VotableType,
     votableId: number | undefined,
-    voteType: string,
+    voteType: VoteType,
     postId: number | undefined,
     memberId: number
   ) => {

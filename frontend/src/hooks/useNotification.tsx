@@ -7,7 +7,6 @@ const NotificationContext = createContext<NotificationContextProps>({
   isAllChecked: true,
   setIsAllChecked: () => {},
   getNotifications: () => {},
-  sendNotification: () => {},
   updateNotifications: () => Promise.resolve(),
 });
 
@@ -32,12 +31,6 @@ export const NotificationProvider = ({ children }: NotificationProviderProps) =>
       });
   };
 
-  const sendNotification = (memberId: number, event: string) => {
-    fetcher.post(`/notifications/${memberId}?event=${event}`).catch(error => {
-      console.log(error);
-    });
-  };
-
   const updateNotifications = (memberId: number) => {
     return fetcher
       .put(`/notifications/${memberId}/checked`)
@@ -58,7 +51,6 @@ export const NotificationProvider = ({ children }: NotificationProviderProps) =>
         isAllChecked,
         setIsAllChecked,
         getNotifications,
-        sendNotification,
         updateNotifications,
       }}
     >
@@ -75,7 +67,6 @@ interface NotificationContextProps {
   isAllChecked: boolean;
   setIsAllChecked: React.Dispatch<boolean>;
   getNotifications: (memberId: number) => void;
-  sendNotification: (memberId: number, event: string) => void;
   updateNotifications: (memberId: number) => Promise<void>;
 }
 

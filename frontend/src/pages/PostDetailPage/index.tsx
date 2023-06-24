@@ -53,7 +53,7 @@ import ReactQuill, { ReactQuillProps } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.core.css';
 import { Link, useParams } from 'react-router-dom';
-import { usePost } from '../../hooks/usePost';
+import { usePost, VotableType, VoteType } from '../../hooks/usePost';
 import React, { useEffect, useRef, useState } from 'react';
 import { getTimeSince } from '../../utils/timeUtils';
 import { Button } from 'antd';
@@ -106,9 +106,9 @@ const PostDetailPage = () => {
   };
 
   const handleVoteAndUpdateIcon = async (
-    votableType: string,
+    votableType: VotableType,
     votableId: number | undefined,
-    voteType: string,
+    voteType: VoteType,
     postId: number | undefined,
     memberId: number
   ) => {

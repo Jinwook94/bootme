@@ -1,4 +1,5 @@
 import { BookmarkTypeKey } from '../hooks/useBookmarks';
+import { VotableType, VoteType } from '../hooks/usePost';
 
 export const BOOTME_URL = 'https://bootme.co.kr';
 
@@ -8,15 +9,15 @@ export const KAKAO = 'kakao';
 
 export const UTM_PARAMS = 'utm_source=bootme&utm_medium=referral';
 
-export const VOTABLE_TYPE = {
-  POST: 'post',
-  POST_COMMENT: 'postComment',
+export const VOTABLE_TYPE: { [type: string]: VotableType } = {
+  POST: 'POST',
+  POST_COMMENT: 'POST_COMMENT',
 };
 
-export const VOTE_TYPE = {
-  NONE: 'none',
-  UPVOTE: 'upvote',
-  DOWNVOTE: 'downvote',
+export const VOTE_TYPE: { [type: string]: VoteType } = {
+  NONE: 'NONE',
+  UPVOTE: 'UPVOTE',
+  DOWNVOTE: 'DOWNVOTE',
 };
 
 export const IMAGE_TYPE = {
