@@ -1,5 +1,6 @@
 package com.bootme.course.service;
 
+import com.bootme.common.enums.SortOption;
 import com.bootme.common.exception.ResourceNotFoundException;
 import com.bootme.course.domain.Company;
 import com.bootme.course.domain.Course;
@@ -225,7 +226,7 @@ class CourseServiceTest extends ServiceTest {
         MultiValueMap<String, String> filters = new LinkedMultiValueMap<>();
 
         //when: 정렬 기준을 등록순(newest)으로 설정함
-        Page<CourseResponse> courseResponses = courseService.findAll(1L, 1, 10, "newest", filters);
+        Page<CourseResponse> courseResponses = courseService.findAll(1L, 1, 10, SortOption.CREATED_AT.getValue(), filters);
         CourseResponse courseResponse1 = courseResponses.getContent().get(0);
         CourseResponse courseResponse2 = courseResponses.getContent().get(1);
         CourseResponse courseResponse3 = courseResponses.getContent().get(2);
