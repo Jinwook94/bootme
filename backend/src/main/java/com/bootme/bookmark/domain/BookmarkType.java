@@ -1,20 +1,29 @@
 package com.bootme.bookmark.domain;
 
+import java.util.Arrays;
+
 public enum BookmarkType {
 
     COURSE("COURSE"),
     POST("POST"),
     COMMENT("COMMENT");
 
-    private final String displayName;
+    private final String value;
 
-    BookmarkType(String displayName) {
-        this.displayName = displayName;
+    BookmarkType(String value) {
+        this.value = value;
     }
 
     @Override
     public String toString() {
-        return displayName;
+        return value;
+    }
+
+    public static BookmarkType fromString(String value) {
+        return Arrays.stream(BookmarkType.values())
+                .filter(type -> type.value.equals(value))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("Invalid BookmarkType value: " + value));
     }
 
 }

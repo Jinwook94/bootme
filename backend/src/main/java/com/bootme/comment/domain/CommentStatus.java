@@ -1,19 +1,29 @@
 package com.bootme.comment.domain;
 
+import java.util.Arrays;
+
 public enum CommentStatus {
+
     DISPLAY("DISPLAY"),
     HIDDEN("HIDDEN"),
     DELETED("DELETED");
 
-    private final String displayName;
+    private final String value;
 
-    CommentStatus(String displayName) {
-        this.displayName = displayName;
+    CommentStatus(String value) {
+        this.value = value;
     }
 
     @Override
     public String toString() {
-        return displayName;
+        return value;
+    }
+
+    public static CommentStatus fromString(String value) {
+        return Arrays.stream(CommentStatus.values())
+                .filter(status -> status.value.equals(value))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("Invalid CommentStatus value: " + value));
     }
 
 }

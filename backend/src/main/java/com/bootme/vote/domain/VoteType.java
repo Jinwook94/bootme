@@ -1,20 +1,28 @@
 package com.bootme.vote.domain;
 
+import java.util.Arrays;
+
 public enum VoteType {
 
     UPVOTE("UPVOTE"),
     DOWNVOTE("DOWNVOTE"),
     NONE("NONE");
 
-    private final String displayName;
+    private final String value;
 
-    VoteType(String displayName) {
-        this.displayName = displayName;
+    VoteType(String value) {
+        this.value = value;
     }
 
     @Override
     public String toString() {
-        return displayName;
+        return value;
     }
 
+    public static VoteType fromString(String value) {
+        return Arrays.stream(VoteType.values())
+                .filter(vote -> vote.value.equals(value))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("Invalid VoteType value: " + value));
+    }
 }

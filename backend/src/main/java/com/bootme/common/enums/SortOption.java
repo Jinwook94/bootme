@@ -1,5 +1,7 @@
 package com.bootme.common.enums;
 
+import java.util.Arrays;
+
 public enum SortOption {
 
     CREATED_AT("createdAt"),
@@ -13,8 +15,16 @@ public enum SortOption {
         this.value = value;
     }
 
-    public String getValue() {
-        return this.value;
+    @Override
+    public String toString() {
+        return value;
+    }
+
+    public static SortOption fromString(String value) {
+        return Arrays.stream(SortOption.values())
+                .filter(option -> option.value.equals(value))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("Invalid SortOption value: " + value));
     }
 
 }

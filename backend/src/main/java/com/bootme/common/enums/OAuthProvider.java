@@ -1,5 +1,7 @@
 package com.bootme.common.enums;
 
+import java.util.Arrays;
+
 public enum OAuthProvider {
 
     BOOTME("bootme"),
@@ -13,17 +15,16 @@ public enum OAuthProvider {
         this.value = value;
     }
 
-    public String getValue() {
-        return this.value;
+    @Override
+    public String toString() {
+        return value;
     }
 
     public static OAuthProvider fromString(String value) {
-        for (OAuthProvider provider : OAuthProvider.values()) {
-            if (provider.getValue().equalsIgnoreCase(value)) {
-                return provider;
-            }
-        }
-        throw new IllegalArgumentException("Invalid OAuthProvider value: " + value);
+        return Arrays.stream(OAuthProvider.values())
+                .filter(provider -> provider.toString().equalsIgnoreCase(value))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Invalid OAuthProvider value: " + value));
     }
 
 }
