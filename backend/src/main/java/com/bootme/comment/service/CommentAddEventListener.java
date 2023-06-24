@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionalEventListener;
 
+import static com.bootme.notification.domain.NotificationEventType.COMMENT_ADDED;
+import static com.bootme.notification.domain.NotificationEventType.COMMENT_REPLY_ADDED;
 import static org.springframework.transaction.annotation.Propagation.REQUIRES_NEW;
 import static org.springframework.transaction.event.TransactionPhase.AFTER_COMMIT;
 
@@ -20,9 +22,6 @@ public class CommentAddEventListener {
 
     private final NotificationService notificationService;
     private final CommentService commentService;
-
-    private static final String COMMENT_ADDED_EVENT = "commentAdded";
-    private static final String COMMENT_REPLY_ADDED_EVENT = "commentReplyAdded";
 
     @TransactionalEventListener(phase = AFTER_COMMIT)
     @Transactional(propagation = REQUIRES_NEW)
@@ -39,11 +38,11 @@ public class CommentAddEventListener {
                 .build();
 
         if (!post.isWriterOfPost(commentWriter)) {
-            notificationService.sendNotification(post.getMember(), COMMENT_ADDED_EVENT, details);
+            notificationService.sendNotification(post.getMember(), COMMENT_ADDED, details);
         }
 
         if (parent != null && !parent.isWriterOfComment(commentWriter)) {
-            notificationService.sendNotification(parent.getMember(), COMMENT_REPLY_ADDED_EVENT, details);
+            notificationService.sendNotification(parent.getMember(), COMMENT_REPLY_ADDED, details);
         }
     }
 

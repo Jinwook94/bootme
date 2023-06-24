@@ -34,7 +34,7 @@ public class NotificationResponse {
         return NotificationResponse.builder()
                 .notificationId(notification.getId())
                 .memberId(notification.getMember().getId())
-                .event(notification.getEvent())
+                .event(notification.getEvent().toString())
                 .message(notification.getMessage())
                 .isChecked(notification.isChecked())
                 .createdAt(convertLocalDateTimeToLong(notification.getCreatedAt()))

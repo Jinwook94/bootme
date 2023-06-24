@@ -31,6 +31,7 @@ import java.util.*;
 
 import static com.bootme.auth.util.GoogleIdTokenVerifierSingleton.verifyGoogleIdToken;
 import static com.bootme.common.exception.ErrorType.*;
+import static com.bootme.notification.domain.NotificationEventType.SIGN_UP;
 
 
 @Service
@@ -257,7 +258,7 @@ public class AuthService {
 
             Member member = Member.of(userInfo);
             Member savedMember = memberRepository.save(member);
-            notificationService.sendNotification(savedMember, "signUp");
+            notificationService.sendNotification(savedMember, SIGN_UP);
         }
     }
 

@@ -1,6 +1,5 @@
 package com.bootme.notification.controller;
 
-import com.bootme.member.domain.Member;
 import com.bootme.notification.dto.NotificationResponse;
 import com.bootme.util.ControllerTest;
 import org.junit.jupiter.api.DisplayName;
@@ -12,7 +11,6 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.util.List;
 
 import static com.bootme.util.fixture.NotificationFixture.getNotificationResponse;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -44,27 +42,6 @@ class NotificationControllerTest extends ControllerTest {
         //docs
         perform.andDo(print())
                 .andDo(document("notification/findNotificationsByMemberId/success",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())));
-    }
-
-    @Test
-    @DisplayName("sendNotification()는 정상 요청시 상태코드 201을 반환한다.")
-    void sendNotification() throws Exception {
-        //given
-        given(notificationService.sendNotification(any(Member.class), any(String.class))).willReturn(1L);
-
-        //when
-        ResultActions perform = mockMvc.perform(post("/notifications/1")
-                .param("event", "signUp")
-                .accept(MediaType.APPLICATION_JSON));
-
-        //then
-        perform.andExpect(status().isCreated());
-
-        //docs
-        perform.andDo(print())
-                .andDo(document("notification/sendNotification/success",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint())));
     }

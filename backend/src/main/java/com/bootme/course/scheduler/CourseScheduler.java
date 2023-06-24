@@ -4,7 +4,9 @@ import com.bootme.bookmark.domain.CourseBookmark;
 import com.bootme.bookmark.repository.CourseBookmarkRepository;
 import com.bootme.course.repository.CourseRepository;
 import com.bootme.notification.domain.Notification;
-import com.bootme.notification.repository.NotificationRepository;
+import com.bootme.notification.domain.NotificationEventType;
+import com.bootme.notification.domain.NotificationFactory;
+import com.bootme.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -16,6 +18,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.bootme.notification.domain.NotificationEventType.*;
+
 @RequiredArgsConstructor
 @Component
 @Slf4j
@@ -23,11 +27,8 @@ public class CourseScheduler {
 
     private final CourseRepository courseRepository;
     private final CourseBookmarkRepository courseBookmarkRepository;
-    private final NotificationRepository notificationRepository;
-
-    private static final String REGISTRATION_START = "registrationStart";
-    private static final String REGISTRATION_END_IN_THREE_DAYS = "registrationEndInThreeDays";
-    private static final String REGISTRATION_END = "registrationEnd";
+    private final NotificationFactory notificationFactory;
+    private final NotificationService notificationService;
 
     @Scheduled(cron = "00 55 09 * * *", zone = "Asia/Seoul")
     public void updateIsRegisterOpen() {
@@ -54,15 +55,15 @@ public class CourseScheduler {
     }
 
     // todo: findAll() 성능 이슈
-    public void notifyBookmarkCourses(String event, LocalDate date) {
+    public void notifyBookmarkCourses(NotificationEventType event, LocalDate date) {
         try (Stream<CourseBookmark> courseBookmarks = courseBookmarkRepository.findAll().stream()) {
             List<Notification> notifications = courseBookmarks
                     .map(cb -> new AbstractMap.SimpleEntry<>(cb.getBookmark(), cb))
                     .filter(entry -> entry.getValue().getCourse().isEventOnDate(event, date))
-                    .map(entry -> Notification.of(entry.getKey().getMember(), event, entry.getValue()))
+                    .map(entry -> notificationFactory.createCourseBookmarkNotification(entry.getKey().getMember(), event, entry.getValue()))
                     .collect(Collectors.toList());
 
-            notificationRepository.saveAll(notifications);
+            notificationService.sendNotifications(notifications);
         }
     }
 

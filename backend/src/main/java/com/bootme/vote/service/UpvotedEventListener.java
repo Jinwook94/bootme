@@ -17,6 +17,7 @@ import org.springframework.transaction.event.TransactionalEventListener;
 
 import java.util.Objects;
 
+import static com.bootme.notification.domain.NotificationEventType.UPVOTED;
 import static org.springframework.transaction.annotation.Propagation.REQUIRES_NEW;
 import static org.springframework.transaction.event.TransactionPhase.AFTER_COMMIT;
 
@@ -32,7 +33,6 @@ public class UpvotedEventListener {
     private static final String POST = "post";
     private static final String COMMENT = "postComment";
     private static final String UPVOTE = "upvote";
-    private static final String UPVOTED_EVENT = "upvoted";
 
     @TransactionalEventListener(phase = AFTER_COMMIT)
     @Transactional(propagation = REQUIRES_NEW)
@@ -71,7 +71,7 @@ public class UpvotedEventListener {
         String postTitle = post.getTitle().getValue();
         PostUpvotedNotification details = new PostUpvotedNotification(voterNickname, postTitle);
 
-        notificationService.sendNotification(post.getMember(), UPVOTED_EVENT, details);
+        notificationService.sendNotification(post.getMember(), UPVOTED, details);
     }
 
     private void sendCommentUpvoteNotification(Vote vote, Comment comment) {
@@ -80,7 +80,7 @@ public class UpvotedEventListener {
         commentContent = Jsoup.parse(commentContent).text();
         CommentUpvotedNotification details = new CommentUpvotedNotification(voterNickname, commentContent);
 
-        notificationService.sendNotification(comment.getMember(), UPVOTED_EVENT, details);
+        notificationService.sendNotification(comment.getMember(), UPVOTED, details);
     }
 
 }

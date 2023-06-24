@@ -4,6 +4,7 @@ import com.bootme.common.domain.BaseEntity;
 import com.bootme.common.domain.Bookmarkable;
 import com.bootme.common.domain.Clickable;
 import com.bootme.course.dto.CourseRequest;
+import com.bootme.notification.domain.NotificationEventType;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.bootme.notification.domain.NotificationEventType.*;
 import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.FetchType.LAZY;
 
@@ -184,11 +186,7 @@ public class Course extends BaseEntity implements Clickable, Bookmarkable {
         return afterStart && beforeEnd;
     }
 
-    private static final String REGISTRATION_START = "registrationStart";
-    private static final String REGISTRATION_END_IN_THREE_DAYS = "registrationEndInThreeDays";
-    private static final String REGISTRATION_END = "registrationEnd";
-
-    public boolean isEventOnDate(String event, LocalDate date) {
+    public boolean isEventOnDate(NotificationEventType event, LocalDate date) {
         if (REGISTRATION_START.equals(event)) {
             return this.dates.isRegistrationStartsOn(date);
         } else if (REGISTRATION_END_IN_THREE_DAYS.equals(event)) {
