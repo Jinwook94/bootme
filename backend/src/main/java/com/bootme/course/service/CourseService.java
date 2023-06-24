@@ -28,6 +28,7 @@ import org.springframework.util.MultiValueMap;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.bootme.common.enums.SortOption.*;
 import static com.bootme.common.exception.ErrorType.*;
 
 @Service
@@ -43,10 +44,6 @@ public class CourseService {
     private final CompanyService companyService;
     private final CourseFilterPredicate courseFilterPredicate;
     private final CourseSearchPredicate courseSearchPredicate;
-
-    private static final String CREATED_AT = "createdAt";
-    private static final String CLICKS = "clicks";
-    private static final String BOOKMARKS = "bookmarks";
 
     public Course getCourseById(Long id) {
         return courseRepository.findById(id)
@@ -181,30 +178,26 @@ public class CourseService {
 
     private Pageable getSortedPageable(int page, int size, String sort) {
         Sort sorting;
-        switch(sort) {
-            case "newest":
-                sorting = Sort.by(
-                        Sort.Order.desc(CREATED_AT),
-                        Sort.Order.desc(CLICKS),
-                        Sort.Order.desc(BOOKMARKS)
-                );
-                break;
-            case "bookmark":
-                sorting = Sort.by(
-                        Sort.Order.desc(BOOKMARKS),
-                        Sort.Order.desc(CLICKS),
-                        Sort.Order.asc(CREATED_AT)
-                );
-                break;
-            default:
-                sorting = Sort.by(
-                        Sort.Order.desc(CLICKS),
-                        Sort.Order.desc(BOOKMARKS),
-                        Sort.Order.asc(CREATED_AT)
-                );
-                break;
+        if (sort.equals(CREATED_AT.getValue())) {
+            sorting = Sort.by(
+                    Sort.Order.desc(CREATED_AT.getValue()),
+                    Sort.Order.desc(CLICKS.getValue()),
+                    Sort.Order.desc(BOOKMARKS.getValue())
+            );
+        } else if (sort.equals(BOOKMARKS.getValue())) {
+            sorting = Sort.by(
+                    Sort.Order.desc(BOOKMARKS.getValue()),
+                    Sort.Order.desc(CLICKS.getValue()),
+                    Sort.Order.asc(CREATED_AT.getValue())
+            );
+        } else {
+            sorting = Sort.by(
+                    Sort.Order.desc(CLICKS.getValue()),
+                    Sort.Order.desc(BOOKMARKS.getValue()),
+                    Sort.Order.asc(CREATED_AT.getValue())
+            );
         }
-        return PageRequest.of(page-1, size, sorting);
+        return PageRequest.of(page - 1, size, sorting);
     }
 
 }

@@ -30,6 +30,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.bootme.common.enums.SortOption.CREATED_AT;
+import static com.bootme.common.enums.SortOption.LIKES;
 import static com.bootme.common.exception.ErrorType.*;
 import static com.bootme.vote.domain.VotableType.POST;
 import static com.bootme.vote.domain.VotableType.POST_COMMENT;
@@ -47,9 +49,6 @@ public class PostService {
     private final VoteRepository voteRepository;
     private final PostTopicPredicate postTopicPredicate;
     private final PostSearchPredicate postSearchPredicate;
-
-    private static final String CREATED_AT = "createdAt";
-    private static final String LIKES = "likes";
 
     @Transactional(readOnly = true)
     public Post getPostById(Long id) {
@@ -183,15 +182,15 @@ public class PostService {
 
     private Pageable getSortedPageable(int page, int size, String sort) {
         Sort sorting;
-        if (sort.equals("newest")) {
+        if (sort.equals(CREATED_AT.getValue())) {
             sorting = Sort.by(
-                    Sort.Order.desc(CREATED_AT),
-                    Sort.Order.desc(LIKES)
+                    Sort.Order.desc(CREATED_AT.getValue()),
+                    Sort.Order.desc(LIKES.getValue())
             );
         } else {
             sorting = Sort.by(
-                    Sort.Order.desc(LIKES),
-                    Sort.Order.asc(CREATED_AT)
+                    Sort.Order.desc(LIKES.getValue()),
+                    Sort.Order.asc(CREATED_AT.getValue())
             );
         }
         return PageRequest.of(page-1, size, sorting);
