@@ -178,23 +178,23 @@ public class CourseService {
 
     private Pageable getSortedPageable(int page, int size, String sort) {
         Sort sorting;
-        if (sort.equals(CREATED_AT.getValue())) {
+        if (sort.equals(CREATED_AT.toString())) {
             sorting = Sort.by(
-                    Sort.Order.desc(CREATED_AT.getValue()),
-                    Sort.Order.desc(CLICKS.getValue()),
-                    Sort.Order.desc(BOOKMARKS.getValue())
+                    Sort.Order.desc(CREATED_AT.toString()),
+                    Sort.Order.desc(CLICKS.toString()),
+                    Sort.Order.desc(BOOKMARKS.toString())
             );
-        } else if (sort.equals(BOOKMARKS.getValue())) {
+        } else if (sort.equals(BOOKMARKS.toString())) {
             sorting = Sort.by(
-                    Sort.Order.desc(BOOKMARKS.getValue()),
-                    Sort.Order.desc(CLICKS.getValue()),
-                    Sort.Order.asc(CREATED_AT.getValue())
+                    Sort.Order.desc(BOOKMARKS.toString()),
+                    Sort.Order.desc(CLICKS.toString()),
+                    Sort.Order.asc(CREATED_AT.toString())
             );
         } else {
             sorting = Sort.by(
-                    Sort.Order.desc(CLICKS.getValue()),
-                    Sort.Order.desc(BOOKMARKS.getValue()),
-                    Sort.Order.asc(CREATED_AT.getValue())
+                    Sort.Order.desc(CLICKS.toString()),
+                    Sort.Order.desc(BOOKMARKS.toString()),
+                    Sort.Order.asc(CREATED_AT.toString())
             );
         }
         return PageRequest.of(page - 1, size, sorting);

@@ -236,7 +236,7 @@ class CourseServiceTest extends ServiceTest {
         MultiValueMap<String, String> filters = new LinkedMultiValueMap<>();
 
         //when: 정렬 기준을 등록순(newest)으로 설정함
-        Page<CourseResponse> courseResponses = courseService.findAll(1L, 1, 10, SortOption.CREATED_AT.getValue(), filters);
+        Page<CourseResponse> courseResponses = courseService.findAll(1L, 1, 10, SortOption.CREATED_AT.toString(), filters);
         CourseResponse courseResponse1 = courseResponses.getContent().get(0);
         CourseResponse courseResponse2 = courseResponses.getContent().get(1);
         CourseResponse courseResponse3 = courseResponses.getContent().get(2);

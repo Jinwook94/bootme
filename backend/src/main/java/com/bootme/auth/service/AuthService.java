@@ -116,13 +116,13 @@ public class AuthService {
         final String iss = body.getIss();
 
         if (Objects.equals(iss, awsSecrets.getBootmeIssuer())) {
-            return BOOTME.getValue();
+            return BOOTME.toString();
         } else if (Objects.equals(iss, awsSecrets.getGoogleIssuer())) {
-            return GOOGLE.getValue();
+            return GOOGLE.toString();
         } else if (Objects.equals(iss, awsSecrets.getNaverIssuer())) {
-            return NAVER.getValue();
+            return NAVER.toString();
         } else if (Objects.equals(iss, awsSecrets.getKakaoIssuer())) {
-            return KAKAO.getValue();
+            return KAKAO.toString();
         }
         throw new AuthenticationException(INVALID_ISSUER, iss);
     }

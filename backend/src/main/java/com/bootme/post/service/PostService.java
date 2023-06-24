@@ -182,15 +182,15 @@ public class PostService {
 
     private Pageable getSortedPageable(int page, int size, String sort) {
         Sort sorting;
-        if (sort.equals(CREATED_AT.getValue())) {
+        if (sort.equals(CREATED_AT.toString())) {
             sorting = Sort.by(
-                    Sort.Order.desc(CREATED_AT.getValue()),
-                    Sort.Order.desc(LIKES.getValue())
+                    Sort.Order.desc(CREATED_AT.toString()),
+                    Sort.Order.desc(LIKES.toString())
             );
         } else {
             sorting = Sort.by(
-                    Sort.Order.desc(LIKES.getValue()),
-                    Sort.Order.asc(CREATED_AT.getValue())
+                    Sort.Order.desc(LIKES.toString()),
+                    Sort.Order.asc(CREATED_AT.toString())
             );
         }
         return PageRequest.of(page-1, size, sorting);
