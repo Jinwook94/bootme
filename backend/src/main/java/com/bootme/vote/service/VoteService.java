@@ -12,6 +12,8 @@ import com.bootme.comment.domain.Comment;
 import com.bootme.post.domain.Post;
 import com.bootme.common.domain.Votable;
 import com.bootme.post.service.PostService;
+import com.bootme.vote.domain.VotableType;
+import com.bootme.vote.domain.VoteType;
 import com.bootme.vote.domain.Vote;
 import com.bootme.comment.dto.CommentResponse;
 import com.bootme.post.dto.PostDetailResponse;
@@ -28,6 +30,8 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static com.bootme.common.exception.ErrorType.*;
+import static com.bootme.vote.domain.VoteType.DOWNVOTE;
+import static com.bootme.vote.domain.VoteType.UPVOTE;
 
 @Service
 @RequiredArgsConstructor
@@ -41,17 +45,14 @@ public class VoteService {
     private final CommentService commentService;
     private final ApplicationEventPublisher eventPublisher;
 
-    private static final String UPVOTE = "upvote";
-    private static final String DOWNVOTE = "downvote";
-    private static final String POST = "post";
-    private static final String POST_COMMENT = "postComment";
-
     @Transactional
     public VotableResponse vote(AuthInfo authInfo, VoteRequest request) {
         authService.validateLogin(authInfo);
-        String votableType = request.getVotableType();
+        String votableTypeString = request.getVotableType();
+        VotableType votableType = VotableType.valueOf(votableTypeString);
         Long votableId = request.getVotableId();
-        String voteType = request.getVoteType();
+        String voteTypeString = request.getVoteType();
+        VoteType voteType = VoteType.valueOf(voteTypeString);
         Member member = memberService.getMemberById(authInfo.getMemberId());
 
         authService.validateLogin(authInfo);
@@ -69,23 +70,23 @@ public class VoteService {
                 handleVote(voteType, existingVote, comment, votableType, votableId, member);
                 return CommentResponse.of(comment);
             default:
-                throw new ValidationException(INVALID_VOTABLE_TYPE, votableType);
+                throw new ValidationException(INVALID_VOTABLE_TYPE, votableType.toString());
         }
     }
 
-    private void validateVoteType(String voteType) {
+    private void validateVoteType(VoteType voteType) {
         if (!Objects.equals(voteType, UPVOTE) && !Objects.equals(voteType, DOWNVOTE)) {
-            throw new ValidationException(INVALID_VOTE_TYPE, voteType);
+            throw new ValidationException(INVALID_VOTE_TYPE, voteType.toString());
         }
     }
 
-    private Optional<Vote> findExistingVote(String votableType, Long votableId, Long memberId) {
+    private Optional<Vote> findExistingVote(VotableType votableType, Long votableId, Long memberId) {
         return voteRepository.findByVotableTypeAndVotableIdAndMemberId(
                 votableType, votableId, memberId);
     }
 
-    private <T extends Votable> void handleVote(String voteType, Optional<Vote> existingVote, T votable,
-                                                String votableType, Long votableId, Member member) {
+    private <T extends Votable> void handleVote(VoteType voteType, Optional<Vote> existingVote, T votable,
+                                                VotableType votableType, Long votableId, Member member) {
         if (existingVote.isPresent()) {
             updateExistingVote(voteType, existingVote.get(), votable);
         } else {
@@ -93,7 +94,7 @@ public class VoteService {
         }
     }
 
-    private <T extends Votable> void updateExistingVote(String voteType, Vote existingVote, T votable) {
+    private <T extends Votable> void updateExistingVote(VoteType voteType, Vote existingVote, T votable) {
         if (voteType.equals(existingVote.getVoteType())) {
             undoVote(voteType, votable, existingVote);
         } else {
@@ -101,7 +102,7 @@ public class VoteService {
         }
     }
 
-    private <T extends Votable> void handleNewVote(String voteType, T votable, String votableType, Long votableId, Member member) {
+    private <T extends Votable> void handleNewVote(VoteType voteType, T votable, VotableType votableType, Long votableId, Member member) {
         if (voteType.equals(UPVOTE)) {
             votable.incrementLikes();
         } else if (voteType.equals(DOWNVOTE)) {
@@ -110,7 +111,7 @@ public class VoteService {
         saveVote(votableType, votableId, voteType, member);
     }
 
-    private <T extends Votable> void undoVote(String voteType, T votable, Vote vote) {
+    private <T extends Votable> void undoVote(VoteType voteType, T votable, Vote vote) {
         if (voteType.equals(UPVOTE)) {
             votable.decrementLikes();
         } else if (voteType.equals(DOWNVOTE)) {
@@ -119,7 +120,7 @@ public class VoteService {
         voteRepository.delete(vote);
     }
 
-    private <T extends Votable> void changeVote(String voteType, T votable, Vote vote) {
+    private <T extends Votable> void changeVote(VoteType voteType, T votable, Vote vote) {
         if (voteType.equals(UPVOTE)) {
             votable.incrementLikes();
             votable.incrementLikes();
@@ -132,7 +133,7 @@ public class VoteService {
         eventPublisher.publishEvent(new UpvotedEvent(this, vote.getId()));
     }
 
-    private void saveVote(String votableType, Long votableId, String voteType, Member member) {
+    private void saveVote(VotableType votableType, Long votableId, VoteType voteType, Member member) {
         Vote vote = Vote.builder()
                 .votableType(votableType)
                 .votableId(votableId)

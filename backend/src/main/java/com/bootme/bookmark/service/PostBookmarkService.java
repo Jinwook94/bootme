@@ -27,6 +27,8 @@ import java.util.stream.Collectors;
 
 import static com.bootme.common.exception.ErrorType.ALREADY_BOOKMARKED;
 import static com.bootme.common.exception.ErrorType.NOT_FOUND_BOOKMARK;
+import static com.bootme.vote.domain.VotableType.POST;
+import static com.bootme.vote.domain.VoteType.NONE;
 
 @Service
 @RequiredArgsConstructor
@@ -37,9 +39,6 @@ public class PostBookmarkService {
     private final VoteRepository voteRepository;
     private final MemberService memberService;
     private final PostService postService;
-
-    private static final String NONE = "none";
-    private static final String POST = "post";
 
     @Transactional
     public Long addPostBookmark(Long memberId, Long postId) {
@@ -100,9 +99,9 @@ public class PostBookmarkService {
     private void updateVoteStatusForPost(Long memberId, Post post, PostResponse response) {
         Optional<Vote> vote = voteRepository.findByVotableTypeAndVotableIdAndMemberId(POST, post.getId(), memberId);
         if(vote.isPresent()) {
-            response.setVoted(vote.get().getVoteType());
+            response.setVoted(vote.get().getVoteType().toString());
         } else {
-            response.setVoted(NONE);
+            response.setVoted(NONE.toString());
         }
     }
 

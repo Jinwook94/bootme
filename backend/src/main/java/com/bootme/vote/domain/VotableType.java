@@ -1,14 +1,13 @@
-package com.bootme.post.domain;
+package com.bootme.vote.domain;
 
-public enum PostStatus {
+public enum VotableType {
 
-    DISPLAY("DISPLAY"),
-    HIDDEN("HIDDEN"),
-    DELETED("DELETED");
+    POST("POST"),
+    POST_COMMENT("POST_COMMENT");
 
     private final String displayName;
 
-    PostStatus(String displayName) {
+    VotableType(String displayName) {
         this.displayName = displayName;
     }
 

@@ -21,11 +21,11 @@ public class Vote extends BaseEntity {
     @Column(name = "vote_id")
     private Long id;
 
-    private String votableType;
+    private VotableType votableType;
 
     private Long votableId;
 
-    private String voteType;
+    private VoteType voteType;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
@@ -33,14 +33,14 @@ public class Vote extends BaseEntity {
 
 
     @Builder
-    public Vote(String votableType, Long votableId, String voteType, Member member) {
+    public Vote(VotableType votableType, Long votableId, VoteType voteType, Member member) {
         this.votableType = votableType;
         this.votableId = votableId;
         this.voteType = voteType;
         this.member = member;
     }
 
-    public void modifyVoteType(String voteType) {
+    public void modifyVoteType(VoteType voteType) {
         this.voteType = voteType;
     }
 

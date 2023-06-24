@@ -31,6 +31,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.bootme.common.exception.ErrorType.*;
+import static com.bootme.vote.domain.VotableType.POST;
+import static com.bootme.vote.domain.VotableType.POST_COMMENT;
+import static com.bootme.vote.domain.VoteType.NONE;
 
 @Service
 @RequiredArgsConstructor
@@ -47,9 +50,6 @@ public class PostService {
 
     private static final String CREATED_AT = "createdAt";
     private static final String LIKES = "likes";
-    private static final String POST = "post";
-    private static final String POST_COMMENT = "postComment";
-    private static final String NONE = "none";
 
     @Transactional(readOnly = true)
     public Post getPostById(Long id) {
@@ -210,7 +210,7 @@ public class PostService {
     private void setVotedForMember(List<CommentResponse> commentResponses, Long memberId) {
         for (CommentResponse response : commentResponses) {
             Optional<Vote> vote = voteRepository.findByVotableTypeAndVotableIdAndMemberId(POST_COMMENT, response.getId(), memberId);
-            response.setVoted(vote.map(Vote::getVoteType).orElse(NONE));
+            response.setVoted(vote.map(v -> v.getVoteType().toString()).orElse(NONE.toString()));
         }
     }
 
@@ -218,9 +218,9 @@ public class PostService {
         if (isLogin) {
             Optional<Vote> vote = voteRepository.findByVotableTypeAndVotableIdAndMemberId(POST, post.getId(), memberId);
             if(vote.isPresent()) {
-                response.setVoted(vote.get().getVoteType());
+                response.setVoted(vote.get().getVoteType().toString());
             } else {
-                response.setVoted(NONE);
+                response.setVoted(NONE.toString());
             }
         }
     }

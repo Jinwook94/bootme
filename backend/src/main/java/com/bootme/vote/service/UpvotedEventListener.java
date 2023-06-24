@@ -18,6 +18,9 @@ import org.springframework.transaction.event.TransactionalEventListener;
 import java.util.Objects;
 
 import static com.bootme.notification.domain.NotificationEventType.UPVOTED;
+import static com.bootme.vote.domain.VotableType.POST;
+import static com.bootme.vote.domain.VotableType.POST_COMMENT;
+import static com.bootme.vote.domain.VoteType.UPVOTE;
 import static org.springframework.transaction.annotation.Propagation.REQUIRES_NEW;
 import static org.springframework.transaction.event.TransactionPhase.AFTER_COMMIT;
 
@@ -29,10 +32,6 @@ public class UpvotedEventListener {
     private final VoteService voteService;
     private final PostService postService;
     private final CommentService commentService;
-
-    private static final String POST = "post";
-    private static final String COMMENT = "postComment";
-    private static final String UPVOTE = "upvote";
 
     @TransactionalEventListener(phase = AFTER_COMMIT)
     @Transactional(propagation = REQUIRES_NEW)
@@ -59,7 +58,7 @@ public class UpvotedEventListener {
     }
 
     private boolean isVoteForComment(Vote vote) {
-        return Objects.equals(vote.getVotableType(), COMMENT);
+        return Objects.equals(vote.getVotableType(), POST_COMMENT);
     }
 
     private boolean isUpvote(Vote vote) {
