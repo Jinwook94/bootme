@@ -40,7 +40,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .allowedMethods(ALLOWED_METHOD_NAMES.split(","))
                 .allowedHeaders("*")
                 .allowCredentials(true)
-                .exposedHeaders(HttpHeaders.LOCATION);
+                .exposedHeaders(HttpHeaders.LOCATION)
+                .exposedHeaders(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN)
+                .exposedHeaders(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS);
     }
 
     @Override

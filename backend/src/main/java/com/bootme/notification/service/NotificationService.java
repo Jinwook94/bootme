@@ -7,6 +7,7 @@ import com.bootme.notification.domain.NotificationEventType;
 import com.bootme.notification.domain.NotificationFactory;
 import com.bootme.notification.dto.NotificationResponse;
 import com.bootme.notification.repository.NotificationRepository;
+import com.bootme.sse.SseService;
 import com.bootme.vote.dto.UpvotedNotification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,12 +16,16 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.bootme.sse.SseEvent.NEW_NOTIFICATION;
+
 @Service
 @RequiredArgsConstructor
 public class NotificationService {
 
     private final NotificationRepository notificationRepository;
     private final NotificationFactory notificationFactory;
+    private final SseService sseService;
+
 
     @Transactional(readOnly = true)
     public List<NotificationResponse> findNotificationsByMemberId(Long memberId) {
@@ -36,12 +41,15 @@ public class NotificationService {
     @Transactional
     public void sendNotifications(List<Notification> notifications) {
         notificationRepository.saveAll(notifications);
+        //todo: emitEvent 추가
     }
 
     @Transactional
     public void sendNotification(Member member, NotificationEventType event){
         Notification notification = notificationFactory.createSignUpNotification(member, event);
         notificationRepository.save(notification);
+        sseService.emitEventToClients(NEW_NOTIFICATION);
+
     }
 
     @Transactional
@@ -50,12 +58,14 @@ public class NotificationService {
         if (!notificationRepository.existsByMemberAndEventAndMessage(member, event, notification.getMessage())) {
             notificationRepository.save(notification);
         }
+        sseService.emitEventToClients(NEW_NOTIFICATION);
     }
 
     @Transactional
     public void sendNotification(Member member, NotificationEventType event, CommentNotification details) {
         Notification notification = notificationFactory.createCommentNotification(member, event, details);
         notificationRepository.save(notification);
+        sseService.emitEventToClients(NEW_NOTIFICATION);
     }
 
 }
