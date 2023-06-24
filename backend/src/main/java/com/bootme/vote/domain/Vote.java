@@ -21,10 +21,14 @@ public class Vote extends BaseEntity {
     @Column(name = "vote_id")
     private Long id;
 
+    @Column(name = "votableType")
+    @Enumerated(EnumType.STRING)
     private VotableType votableType;
 
     private Long votableId;
 
+    @Column(name = "voteType")
+    @Enumerated(EnumType.STRING)
     private VoteType voteType;
 
     @ManyToOne(fetch = LAZY)
