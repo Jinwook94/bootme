@@ -1,26 +1,23 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { fetcher } from '../api/fetcher';
+import { EVENT_SOURCE_TYPE } from '../constants/others';
+import { useLogin } from './useLogin';
 
 const NotificationContext = createContext<NotificationContextProps>({
   notifications: [],
   setNotifications: () => {},
   isAllChecked: true,
   setIsAllChecked: () => {},
-  getNotifications: () => {},
+  fetchNotifications: () => {},
   updateNotifications: () => Promise.resolve(),
 });
 
 export const NotificationProvider = ({ children }: NotificationProviderProps) => {
+  const { isLogin } = useLogin();
   const [notifications, setNotifications] = useState<NotificationTypes[]>([]);
   const [isAllChecked, setIsAllChecked] = useState<boolean>(true);
 
-  useEffect(() => {
-    // 알림 중 checked 값이 false 인 것이 하나라도 있으면 => isAllChecked = false
-    const isAllChecked = !notifications.some(notification => !notification.checked);
-    setIsAllChecked(isAllChecked);
-  }, [notifications]);
-
-  const getNotifications = (memberId: number) => {
+  const fetchNotifications = (memberId: number) => {
     fetcher
       .get(`/notifications/${memberId}`)
       .then(r => {
@@ -43,6 +40,44 @@ export const NotificationProvider = ({ children }: NotificationProviderProps) =>
       });
   };
 
+  useEffect(() => {
+    if (!isLogin) {
+      return;
+    }
+
+    const memberId = Number(localStorage.getItem('memberId'));
+    const url = process.env.SERVER_URL + 'connect';
+    let eventSource = new EventSource(url);
+
+    eventSource.addEventListener(EVENT_SOURCE_TYPE.CONNECT, e => {
+      const { data: receivedConnectData } = e;
+      console.log(receivedConnectData); // "connect"
+    });
+
+    eventSource.addEventListener(EVENT_SOURCE_TYPE.NEW_NOTIFICATION, function (event) {
+      if (event.data === EVENT_SOURCE_TYPE.NEW_NOTIFICATION) {
+        fetchNotifications(memberId);
+      }
+    });
+
+    eventSource.onerror = function (err) {
+      console.error('EventSource failed:', err);
+      if (eventSource.readyState === EventSource.CLOSED) {
+        eventSource = new EventSource(url);
+      }
+    };
+
+    return () => {
+      eventSource.close();
+    };
+  }, []);
+
+  useEffect(() => {
+    // 알림 중 checked 값이 false 인 것이 하나라도 있으면 => isAllChecked = false
+    const isAllChecked = !notifications.some(notification => !notification.checked);
+    setIsAllChecked(isAllChecked);
+  }, [notifications]);
+
   return (
     <NotificationContext.Provider
       value={{
@@ -50,7 +85,7 @@ export const NotificationProvider = ({ children }: NotificationProviderProps) =>
         setNotifications,
         isAllChecked,
         setIsAllChecked,
-        getNotifications,
+        fetchNotifications,
         updateNotifications,
       }}
     >
@@ -66,7 +101,7 @@ interface NotificationContextProps {
   setNotifications: React.Dispatch<NotificationTypes[]>;
   isAllChecked: boolean;
   setIsAllChecked: React.Dispatch<boolean>;
-  getNotifications: (memberId: number) => void;
+  fetchNotifications: (memberId: number) => void;
   updateNotifications: (memberId: number) => Promise<void>;
 }
 

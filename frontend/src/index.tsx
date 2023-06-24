@@ -52,8 +52,8 @@ const BootstrapApp = () => {
     .wrap(CourseFilterProvider)
     .wrap(BookmarkProvider)
     .wrap(GoogleOAuthProvider, { clientId: secrets?.['googleClientId'] as string })
-    .wrap(LoginProvider)
     .wrap(NotificationProvider)
+    .wrap(LoginProvider)
     .wrap(SnackbarProvider)
     .build();
 

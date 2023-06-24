@@ -8,6 +8,11 @@ export const KAKAO = 'kakao';
 
 export const UTM_PARAMS = 'utm_source=bootme&utm_medium=referral';
 
+export const EVENT_SOURCE_TYPE: { [type: string]: EventSourceType } = {
+  CONNECT: 'connect',
+  NEW_NOTIFICATION: 'newNotification',
+};
+
 export const SORT_OPTION: { [type: string]: SortOption } = {
   CREATED_AT: 'createdAt',
   CLICKS: 'clicks',
@@ -26,7 +31,7 @@ export const VOTE_TYPE: { [type: string]: VoteType } = {
   DOWNVOTE: 'DOWNVOTE',
 };
 
-export const IMAGE_TYPE = {
+export const IMAGE_TYPE: { [type: string]: ImageType } = {
   COURSE_DETAIL: 'courseDetail',
   POST: 'post',
   POST_COMMENT: 'postComment',
