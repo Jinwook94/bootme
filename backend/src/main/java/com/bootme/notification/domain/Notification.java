@@ -25,6 +25,8 @@ public class Notification extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @Column(name = "event")
+    @Enumerated(EnumType.STRING)
     private NotificationEventType event;
 
     private String message;
