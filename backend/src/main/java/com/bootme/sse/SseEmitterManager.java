@@ -1,11 +1,13 @@
 package com.bootme.sse;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Slf4j
 @Component
 public class SseEmitterManager {
 
@@ -13,8 +15,8 @@ public class SseEmitterManager {
 
     void add(Long memberId, SseEmitter emitter) {
         this.emitterMap.put(memberId, emitter);
-        emitter.onCompletion(() -> this.emitterMap.remove(memberId, emitter));
         emitter.onTimeout(emitter::complete);
+        emitter.onCompletion(() -> this.emitterMap.remove(memberId, emitter));
     }
 
     public SseEmitter getEmitter(Long memberId) {
@@ -24,4 +26,5 @@ public class SseEmitterManager {
     public void remove(SseEmitter emitter) {
         this.emitterMap.values().remove(emitter);
     }
+
 }

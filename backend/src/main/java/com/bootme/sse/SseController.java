@@ -23,13 +23,13 @@ public class SseController {
     @GetMapping(value = "/connect", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public ResponseEntity<SseEmitter> connect(@Login AuthInfo authinfo) {
         Long memberId = authinfo.getMemberId();
-        SseEmitter emitter = new SseEmitter();
+        SseEmitter emitter = new SseEmitter(60*5*1000L);
         sseEmitterManager.add(memberId, emitter);
         try {
             emitter.send(SseEmitter.event()
                     .name(SseEvent.CONNECT.toString())
                     .data(SseEvent.CONNECT.toString()));
-        } catch (IOException e) {
+        } catch (IOException | IllegalStateException e) {
             throw new SseException(SSE_CONNECT_FAIL, SseEvent.CONNECT.toString(), e);
         }
         return ResponseEntity.ok(emitter);
