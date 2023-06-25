@@ -47,7 +47,7 @@ export const NotificationProvider = ({ children }: NotificationProviderProps) =>
 
     const memberId = Number(localStorage.getItem('memberId'));
     const url = process.env.SERVER_URL + 'connect';
-    let eventSource = new EventSource(url);
+    let eventSource = new EventSource(url, { withCredentials: true });
 
     eventSource.addEventListener(EVENT_SOURCE_TYPE.CONNECT, e => {
       const { data: receivedConnectData } = e;
@@ -63,14 +63,14 @@ export const NotificationProvider = ({ children }: NotificationProviderProps) =>
     eventSource.onerror = function (err) {
       console.error('EventSource failed:', err);
       if (eventSource.readyState === EventSource.CLOSED) {
-        eventSource = new EventSource(url);
+        eventSource = new EventSource(url, { withCredentials: true });
       }
     };
 
     return () => {
       eventSource.close();
     };
-  }, []);
+  }, [isLogin]);
 
   useEffect(() => {
     // 알림 중 checked 값이 false 인 것이 하나라도 있으면 => isAllChecked = false
