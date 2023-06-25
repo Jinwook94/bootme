@@ -40,8 +40,10 @@ public class NotificationService {
 
     @Transactional
     public void sendNotifications(List<Notification> notifications) {
-        notificationRepository.saveAll(notifications);
-        //todo: emitEvent 추가
+        notifications.forEach(notification -> {
+            notificationRepository.save(notification);
+            sseService.emitEventToMember(notification.getMember().getId(), NEW_NOTIFICATION);
+        });
     }
 
     @Transactional
