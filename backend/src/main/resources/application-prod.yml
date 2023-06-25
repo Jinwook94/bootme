@@ -7,7 +7,7 @@ spring:
     password: ENC(0Jv/q2l5mIo6wOjZLyf/wZqVybziuXme)
     driver-class-name: org.mariadb.jdbc.Driver
     hikari:
-      maximum-pool-size: 6
+      maximum-pool-size: 20
   jpa:
     properties:
       hibernate:
