@@ -1,26 +1,27 @@
 package com.bootme.sse;
 
-import lombok.Getter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Component
-@Getter
 public class SseEmitterManager {
 
-    private final List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
+    private final Map<Long, SseEmitter> emitterMap = new ConcurrentHashMap<>();
 
-    void add(SseEmitter emitter) {
-        this.emitters.add(emitter);
-        emitter.onCompletion(() -> this.emitters.remove(emitter));
+    void add(Long memberId, SseEmitter emitter) {
+        this.emitterMap.put(memberId, emitter);
+        emitter.onCompletion(() -> this.emitterMap.remove(memberId, emitter));
         emitter.onTimeout(emitter::complete);
     }
 
-    public void remove(SseEmitter emitter) {
-        this.emitters.remove(emitter);
+    public SseEmitter getEmitter(Long memberId) {
+        return this.emitterMap.get(memberId);
     }
 
+    public void remove(SseEmitter emitter) {
+        this.emitterMap.values().remove(emitter);
+    }
 }

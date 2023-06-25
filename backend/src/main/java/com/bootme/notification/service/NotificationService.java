@@ -48,8 +48,7 @@ public class NotificationService {
     public void sendNotification(Member member, NotificationEventType event){
         Notification notification = notificationFactory.createSignUpNotification(member, event);
         notificationRepository.save(notification);
-        sseService.emitEventToClients(NEW_NOTIFICATION);
-
+        sseService.emitEventToMember(member.getId(), NEW_NOTIFICATION);
     }
 
     @Transactional
@@ -58,14 +57,14 @@ public class NotificationService {
         if (!notificationRepository.existsByMemberAndEventAndMessage(member, event, notification.getMessage())) {
             notificationRepository.save(notification);
         }
-        sseService.emitEventToClients(NEW_NOTIFICATION);
+        sseService.emitEventToMember(member.getId(), NEW_NOTIFICATION);
     }
 
     @Transactional
     public void sendNotification(Member member, NotificationEventType event, CommentNotification details) {
         Notification notification = notificationFactory.createCommentNotification(member, event, details);
         notificationRepository.save(notification);
-        sseService.emitEventToClients(NEW_NOTIFICATION);
+        sseService.emitEventToMember(member.getId(), NEW_NOTIFICATION);
     }
 
 }
