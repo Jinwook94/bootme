@@ -1,6 +1,7 @@
 package com.bootme.sse;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -12,6 +13,7 @@ public class SseService {
 
     private final SseEmitterManager sseEmitterManager;
 
+    @Async
     public void emitEventToMember(Long memberId, SseEvent event) {
         SseEmitter emitter = sseEmitterManager.getEmitter(memberId);
         if (emitter != null) {
