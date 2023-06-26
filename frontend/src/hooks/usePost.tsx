@@ -100,6 +100,9 @@ export const PostProvider = ({ children }: { children: React.ReactNode }) => {
       return response.data;
     } catch (e: any) {
       showSnackbar(SNACKBAR_MESSAGE.FAIL_POST_FETCH + ': ' + e.response.data.message, EXCLAMATION);
+      setTimeout(() => {
+        navigate(PATH.POST.LIST);
+      }, 1500);
     }
   };
 
