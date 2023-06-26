@@ -41,26 +41,15 @@ public class MemberFixture {
     public static Member getMember(int index){
         index--;
         String[] emails = {VALID_EMAIL_1, VALID_EMAIL_2, VALID_EMAIL_3};
-        String[] passwords = {VALID_PASSWORD_1, VALID_PASSWORD_2, VALID_PASSWORD_3};
-        String[] oAuthProviders = {GOOGLE, NAVER, KAKAO};
         String[] names = {VALID_NAME_1, VALID_NAME_2, VALID_NAME_3};
         String[] profileImages = {VALID_PROFILE_IMAGE_1, VALID_PROFILE_IMAGE_2 ,VALID_PROFILE_IMAGE_3};
-        String[] birthdays = {VALID_BIRTHDAY_1, VALID_BIRTHDAY_2, VALID_BIRTHDAY_3};
-        String[] birthYears = {VALID_BIRTHYEAR_1, VALID_BIRTHYEAR_2, VALID_BIRTHYEAR_3};
-        String[] ageRanges = {VALID_AGE_RANGE_1, VALID_AGE_RANGE_2, VALID_AGE_RANGE_3};
         String[] nicknames = {VALID_NICKNAME_1, VALID_NICKNAME_2, VALID_NICKNAME_3};
         String[] phoneNumbers = {VALID_PHONE_NUMBER_1, VALID_PHONE_NUMBER_2, VALID_PHONE_NUMBER_3};
 
         return Member.builder()
                 .email(emails[index])
-                .password(passwords[index])
-                .oAuthProvider(oAuthProviders[index])
                 .name(names[index])
                 .profileImage(profileImages[index])
-                .birthday(birthdays[index])
-                .birthYear(birthYears[index])
-                .ageRange(ageRanges[index])
-                .gender(MALE)
                 .nickname(nicknames[index])
                 .phoneNumber(phoneNumbers[index])
                 .roleType(RoleType.USER)
