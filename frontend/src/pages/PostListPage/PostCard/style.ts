@@ -68,10 +68,10 @@ export const WriterInfo = styled.div`
   width: 100%;
 `;
 
-export const ContentHeader = styled.div`
+export const ContentHeader = styled.div<{ viewed?: boolean }>`
   margin-top: 8px;
   font-size: 18px;
-  color: #222222ff;
+  color: ${({ viewed }) => (viewed ? 'rgb(155, 155, 155)' : '#222222ff')};
   line-height: 22px;
   font-weight: 500;
   width: 100%;
@@ -96,12 +96,14 @@ const maskImageStyle = `
 `;
 
 interface ContentBodyProps {
+  viewed: boolean;
   shouldApplyMask: boolean;
 }
 
 export const ContentBody = styled.div<ContentBodyProps>`
   width: 100%;
   margin-top: 8px;
+  color: ${({ viewed }) => (viewed ? 'rgb(135, 138, 140)' : 'rgb(38, 55, 71)')};
   font-size: 14px;
   line-height: 21px;
   font-weight: 400;

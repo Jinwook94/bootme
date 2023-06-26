@@ -278,6 +278,7 @@ const PostListPage = () => {
                   commentCount={post.commentCount}
                   voted={post.voted}
                   bookmarked={post.bookmarked}
+                  viewed={post.viewed}
                 />
               ))}
               {isLoadingPost ? <LoadingSpinner /> : <div ref={pageEndRef} />}

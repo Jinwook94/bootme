@@ -29,9 +29,10 @@ export interface Post {
   commentCount: number;
   voted: string;
   bookmarked: boolean;
+  viewed: boolean;
 }
 
-export interface PostDetail extends Omit<Post, 'contentExcerpt'> {
+export interface PostDetail extends Omit<Post, 'contentExcerpt' | 'viewed'> {
   content: string;
 }
 

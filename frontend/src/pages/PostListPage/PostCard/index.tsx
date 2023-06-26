@@ -63,6 +63,7 @@ const PostCard = ({
   commentCount,
   voted,
   bookmarked,
+  viewed,
 }: PostCardProps) => {
   const { handleBookmarkClick } = useBookmarks();
   const { handleVote } = usePost();
@@ -135,11 +136,15 @@ const PostCard = ({
               </WriterInfo>
               <BookmarkDropdown postId={id} bookmarkedState={bookmarkedState} setBookmarkedState={setBookmarkedState} />
             </Flex>
-            <ContentHeader>
+            <ContentHeader viewed={viewed}>
               {title}
               <TopicChip>{topic}</TopicChip>
             </ContentHeader>
-            <ContentBody dangerouslySetInnerHTML={{ __html: postContent }} shouldApplyMask={shouldApplyMask} />
+            <ContentBody
+              dangerouslySetInnerHTML={{ __html: postContent }}
+              viewed={viewed}
+              shouldApplyMask={shouldApplyMask}
+            />
           </div>
           <ContentBottom>
             <MobileButtons>
