@@ -8,6 +8,7 @@ import com.bootme.bookmark.repository.PostBookmarkRepository;
 import com.bootme.common.exception.ConflictException;
 import com.bootme.common.exception.ResourceNotFoundException;
 import com.bootme.post.domain.Post;
+import com.bootme.session.service.SessionService;
 import com.bootme.vote.domain.Vote;
 import com.bootme.post.dto.PostResponse;
 import com.bootme.member.service.MemberService;
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.bootme.common.exception.ErrorType.ALREADY_BOOKMARKED;
@@ -39,6 +41,7 @@ public class PostBookmarkService {
     private final VoteRepository voteRepository;
     private final MemberService memberService;
     private final PostService postService;
+    private final SessionService sessionService;
 
     @Transactional
     public Long addPostBookmark(Long memberId, Long postId) {
@@ -86,10 +89,12 @@ public class PostBookmarkService {
     }
 
     private List<PostResponse> mapPostBookmarksToPostResponse(List<PostBookmark> postBookmarks) {
+        Set<Long> viewedPosts = sessionService.getViewedPosts();
         return postBookmarks.stream()
                 .map(postBookmark -> {
                     Post post = postBookmark.getPost();
-                    PostResponse postResponse = PostResponse.of(post, true);
+                    boolean isViewed = viewedPosts.contains(post.getId());
+                    PostResponse postResponse = PostResponse.of(post, true, isViewed);
                     updateVoteStatusForPost(postBookmark.getBookmark().getMember().getId(), post, postResponse);
                     return postResponse;
                 })

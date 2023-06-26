@@ -4,6 +4,7 @@ import com.bootme.common.exception.ValidationException;
 import lombok.Getter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import javax.persistence.Column;
@@ -29,7 +30,7 @@ public class Content {
 
     public Content(String value) {
         validate(value);
-        this.value = value;
+        this.value = removeSpanStyle(value);
     }
 
     private void validate(String value) {
@@ -37,6 +38,21 @@ public class Content {
         if (value.length() > MAX_CONTENT_LENGTH) {
             throw new ValidationException(POST_CONTENT_MAX_LENGTH, value);
         }
+    }
+
+    // react-quill 디폴트로 긴 텍스트에 폰트 컬러 스타일을 적용하는데, 이 스타일을 제거
+    private String removeSpanStyle(String value) {
+        Document doc = Jsoup.parse(value);
+
+        // 폰트 컬러 스타일 있는 span 선택
+        Elements spanTags = doc.select("span[style=color: rgb(38, 55, 71);]");
+
+        // 스타일 삭제
+        for (Element span : spanTags) {
+            span.removeAttr("style");
+        }
+
+        return doc.body().html();
     }
 
     public String getExcerpt() {
