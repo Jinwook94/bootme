@@ -10,6 +10,7 @@ const CourseContext = createContext<CourseContextProps>({
   maxPage: 0,
   size: 12,
   sortOption: '',
+  isLoading: false,
   handleSorting: () => {},
   fetchCourses: () => Promise.resolve(),
   onSearch: () => {},
@@ -22,8 +23,10 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
   const [maxPage, setMaxPage] = useState<number>(1);
   const [size] = useState<number>(12);
   const [courseCount, setCourseCount] = useState<number>();
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchCourses = (sort: string, page: number) => {
+    setIsLoading(true);
     const filterParams = Object.entries(selectedFilters).flatMap(([key, value]) => {
       if (value && value.length) {
         return value.map(option => `${key}=${encodeURIComponent(option)}`);
@@ -45,9 +48,11 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
         setMaxPage(r.data.totalPages);
         setCourseCount(r.data.totalElements);
         setCurrentCourses(r.data.content);
+        setIsLoading(false);
       })
       .catch(e => {
         console.log(e);
+        setIsLoading(false);
         return Promise.reject(e);
       });
   };
@@ -68,6 +73,7 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
         maxPage,
         size,
         sortOption,
+        isLoading,
         handleSorting,
         fetchCourses,
         onSearch,
@@ -86,6 +92,7 @@ interface CourseContextProps {
   maxPage: number;
   size: number;
   sortOption: string;
+  isLoading: boolean;
   handleSorting: (value: string) => void;
   fetchCourses: (sort: string, page: number) => Promise<void>;
   onSearch: (value: string) => void;

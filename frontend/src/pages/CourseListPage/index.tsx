@@ -32,9 +32,11 @@ import ModalFilter from '../../components/Filters/ModalFilter';
 import { Pagination, Select, Space } from 'antd';
 import Search from 'antd/es/input/Search';
 import { SORT_OPTION } from '../../constants/others';
+import CourseCardSkeleton from '../../components/CourseCardSkeleton';
 
 const CourseListPage = () => {
-  const { fetchCourses, courseCount, size, currentCourses, sortOption, handleSorting, onSearch } = useCourses();
+  const { fetchCourses, isLoading, courseCount, size, currentCourses, sortOption, handleSorting, onSearch } =
+    useCourses();
   const { selectedFilters, handleModal } = useCourseFilters();
   const [currentPage, setCurrentPage] = useState(1);
   const [resetPagination, setResetPagination] = useState(false);
@@ -109,7 +111,9 @@ const CourseListPage = () => {
                   </Space>
                 </SearchInput>
               </CourseListMenu>
-              {courseCount === 0 ? (
+              {isLoading ? (
+                <CourseCardSkeleton />
+              ) : courseCount === 0 ? (
                 <NoResultsMessage>
                   선택하신 조건에 맞는 코스가 없습니다. <br /> 필터 옵션을 변경해 주세요.
                 </NoResultsMessage>
