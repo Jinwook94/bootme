@@ -16,3 +16,9 @@ spring:
       connection:
         characterEncoding: utf8mb4
         charSet: utf8mb4
+
+server:
+  servlet:
+    session:
+      cookie:
+        domain: bootme.co.kr
