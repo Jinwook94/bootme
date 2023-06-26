@@ -68,6 +68,7 @@ const PostListPage = () => {
     fetchPostList,
     setSortOption,
     isLoadingPost,
+    hasError,
     setIsLoadingPost,
   } = usePost();
   const { selectedFilters, clearAndAddFilter } = usePostFilters();
@@ -148,9 +149,10 @@ const PostListPage = () => {
 
   useEffect(() => {
     if (
-      sortOption !== prevSortOption.current ||
-      selectedFilters !== prevSelectedFilters.current ||
-      page !== prevPage.current
+      !hasError &&
+      (sortOption !== prevSortOption.current ||
+        selectedFilters !== prevSelectedFilters.current ||
+        page !== prevPage.current)
     ) {
       fetchPostList(sortOption, page).catch();
     }

@@ -15,6 +15,7 @@ const PostContext = createContext<PostContextProps>({
   page: 1,
   setPage: async () => undefined,
   isLastPosts: false,
+  hasError: false,
   setLastPosts: () => undefined,
   postList: undefined,
   post: undefined,
@@ -49,9 +50,11 @@ export const PostProvider = ({ children }: { children: React.ReactNode }) => {
   const [, setFirstPosts] = useState(false);
   const [isLastPosts, setLastPosts] = useState(false);
   const [isLoadingPost, setIsLoadingPost] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
   const fetchPostList = async (sort: string, page: number) => {
     setIsLoadingPost(true);
+    setHasError(false);
     const filterParams = Object.entries(selectedFilters).flatMap(([key, value]) => {
       if (value && value.length) {
         return value.map(option => `${key}=${encodeURIComponent(option)}`);
@@ -83,6 +86,7 @@ export const PostProvider = ({ children }: { children: React.ReactNode }) => {
         fetchedPosts.last ? setLastPosts(true) : setLastPosts(false);
       }
     } catch (e: any) {
+      setHasError(true);
       showSnackbar(SNACKBAR_MESSAGE.FAIL_POST_FETCH + ': ' + e.response.data.message, EXCLAMATION);
     } finally {
       setIsLoadingPost(false);
@@ -248,6 +252,7 @@ export const PostProvider = ({ children }: { children: React.ReactNode }) => {
         page,
         setPage,
         isLastPosts,
+        hasError,
         setLastPosts,
         postList,
         post,
@@ -281,6 +286,7 @@ interface PostContextProps {
   page: number;
   setPage: (value: number) => void;
   isLastPosts: boolean;
+  hasError: boolean;
   setLastPosts: (value: boolean) => void;
   postList?: Post[];
   post?: PostDetail;
