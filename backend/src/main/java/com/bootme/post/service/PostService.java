@@ -12,6 +12,7 @@ import com.bootme.post.domain.*;
 import com.bootme.post.dto.*;
 import com.bootme.comment.repository.CommentRepository;
 import com.bootme.post.repository.PostRepository;
+import com.bootme.session.service.SessionService;
 import com.bootme.vote.repository.VoteRepository;
 import com.bootme.vote.domain.Vote;
 import com.querydsl.core.BooleanBuilder;
@@ -25,9 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.bootme.common.enums.SortOption.CREATED_AT;
@@ -43,6 +42,7 @@ public class PostService {
 
     private final AuthService authService;
     private final MemberService memberService;
+    private final SessionService sessionService;
     private final PostRepository postRepository;
     private final PostBookmarkRepository postBookmarkRepository;
     private final CommentRepository commentRepository;
@@ -69,6 +69,7 @@ public class PostService {
     public PostDetailResponse findPost(Long memberId, Long id) {
         boolean isLogin = authService.validateLogin(memberId);
         Post post = getPostById(id);
+        addViewedPost(id);
         return createPostDetailResponse(post, isLogin, memberId);
     }
 
@@ -86,14 +87,23 @@ public class PostService {
         Predicate combinedPredicate = getCombinedPredicate(params);
 
         return getPostPage(page, size, sort, combinedPredicate)
-                .map(post -> createPostResponse(post, isLogin, memberId));
+                .map(post -> createPostResponse(post, isLogin, memberId, getViewedPosts()));
     }
 
-    private PostResponse createPostResponse(Post post, boolean isLogin, Long memberId) {
+    private PostResponse createPostResponse(Post post, boolean isLogin, Long memberId, Set<Long> viewedPosts) {
         boolean isBookmarked = isLogin && postBookmarkRepository.existsByBookmark_Member_IdAndPost_Id(memberId, post.getId());
-        PostResponse response = PostResponse.of(post, isBookmarked);
+        boolean isViewed = viewedPosts.contains(post.getId());
+        PostResponse response = PostResponse.of(post, isBookmarked, isViewed);
         updateVoteStatusForPost(isLogin, memberId, post, response);
         return response;
+    }
+
+    public void addViewedPost(Long postId) {
+        sessionService.addViewedPost(postId);
+    }
+
+    public Set<Long> getViewedPosts() {
+        return sessionService.getViewedPosts();
     }
 
     @Transactional
