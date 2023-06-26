@@ -1,7 +1,7 @@
 package com.bootme.course.domain;
 
 import com.bootme.common.domain.BaseEntity;
-import com.bootme.common.domain.Bookmarkable;
+import com.bootme.bookmark.domain.Bookmarkable;
 import com.bootme.common.domain.Clickable;
 import com.bootme.course.dto.CourseRequest;
 import com.bootme.notification.domain.NotificationEventType;

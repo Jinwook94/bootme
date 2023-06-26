@@ -1,7 +1,7 @@
 package com.bootme.comment.domain;
 
 import com.bootme.common.domain.BaseEntity;
-import com.bootme.common.domain.Votable;
+import com.bootme.vote.domain.Votable;
 import com.bootme.common.exception.AuthenticationException;
 import com.bootme.common.exception.ValidationException;
 import com.bootme.member.domain.Member;

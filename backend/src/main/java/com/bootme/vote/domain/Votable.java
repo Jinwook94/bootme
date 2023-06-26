@@ -1,4 +1,4 @@
-package com.bootme.common.domain;
+package com.bootme.vote.domain;
 
 public interface Votable {
     void incrementLikes();

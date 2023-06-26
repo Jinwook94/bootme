@@ -2,9 +2,9 @@ package com.bootme.post.domain;
 
 import com.bootme.comment.domain.Comment;
 import com.bootme.common.domain.BaseEntity;
-import com.bootme.common.domain.Bookmarkable;
+import com.bootme.bookmark.domain.Bookmarkable;
 import com.bootme.common.domain.Clickable;
-import com.bootme.common.domain.Votable;
+import com.bootme.vote.domain.Votable;
 import com.bootme.common.exception.AuthenticationException;
 import com.bootme.member.domain.Member;
 import com.bootme.post.dto.PostRequest;

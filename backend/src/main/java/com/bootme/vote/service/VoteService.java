@@ -10,7 +10,7 @@ import com.bootme.member.domain.Member;
 import com.bootme.member.service.MemberService;
 import com.bootme.comment.domain.Comment;
 import com.bootme.post.domain.Post;
-import com.bootme.common.domain.Votable;
+import com.bootme.vote.domain.Votable;
 import com.bootme.post.service.PostService;
 import com.bootme.vote.domain.VotableType;
 import com.bootme.vote.domain.VoteType;
