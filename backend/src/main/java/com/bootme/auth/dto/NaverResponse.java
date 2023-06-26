@@ -40,26 +40,6 @@ public class NaverResponse {
         }
 
         @Override
-        public String getBirthDay() {
-            return birthday;
-        }
-
-        @Override
-        public String getBirthYear() {
-            return birthyear;
-        }
-
-        @Override
-        public String getAgeRange() {
-            return null;
-        }
-
-        @Override
-        public String getPhoneNumber() {
-            return mobile;
-        }
-
-        @Override
         public String getIss() {
             return "https://bootme.co.kr";
         }

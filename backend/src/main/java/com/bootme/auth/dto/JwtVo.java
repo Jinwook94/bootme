@@ -38,7 +38,7 @@ public class JwtVo {
         private Long iat;
         private Long exp;
         private String email;
-
+        private String nickname;
         private String name;
         private String picture;
         private String given_name;
@@ -53,14 +53,17 @@ public class JwtVo {
         private String gender;
         private String id;
         private String phoneNumber;
-        private String nickname;
         private String auth_time;
 
         public Body() {
         }
 
         @Builder
-        public Body(String oAuthProvider, String iss, String aud, String sub, Long iat, Long exp, String email, String name, String picture, String given_name, String family_name, String azp, String jti, Long nbf, boolean email_verified, String ageRange, String birthDay, String birthYear, String gender, String id, String phoneNumber, String nickname, String auth_time) {
+        public Body(String oAuthProvider, String iss, String aud, String sub, Long iat,
+                    Long exp, String email, String nickname, String name, String picture,
+                    String given_name, String family_name, String azp, String jti, Long nbf,
+                    boolean email_verified, String ageRange, String birthDay, String birthYear,
+                    String gender, String id, String phoneNumber, String auth_time) {
             this.oAuthProvider = oAuthProvider;
             this.iss = iss;
             this.aud = aud;
@@ -68,6 +71,7 @@ public class JwtVo {
             this.iat = iat;
             this.exp = exp;
             this.email = email;
+            this.nickname = nickname;
             this.name = name;
             this.picture = picture;
             this.given_name = given_name;
@@ -82,7 +86,6 @@ public class JwtVo {
             this.gender = gender;
             this.id = id;
             this.phoneNumber = phoneNumber;
-            this.nickname = nickname;
             this.auth_time = auth_time;
         }
 

@@ -7,10 +7,5 @@ public interface UserInfo {
     String getName();
     String getNickname();
     String getPicture();
-    String getBirthDay();
-    String getBirthYear();
-    String getAgeRange();
-    String getGender();
-    String getPhoneNumber();
     void setOAuthProvider(String oAuthProvider);
 }

@@ -1,10 +1,7 @@
 package com.bootme.member.domain;
 
-import com.bootme.auth.dto.UserInfo;
 import com.bootme.common.domain.BaseEntity;
-import com.bootme.common.exception.ArgumentNotValidException;
 import com.bootme.common.exception.AuthenticationException;
-import com.bootme.common.exception.ErrorType;
 import com.bootme.member.dto.UpdateImageRequest;
 import com.bootme.notification.domain.Notification;
 import com.bootme.stack.domain.Stack;
@@ -20,6 +17,7 @@ import java.util.stream.Collectors;
 
 import static com.bootme.common.exception.ErrorType.MEMBER_ID_MISMATCH;
 import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.FetchType.LAZY;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -32,31 +30,23 @@ public class Member extends BaseEntity {
     @Column(name = "member_id")
     private Long id;
 
+    @OneToOne(fetch = LAZY, cascade = PERSIST)
+    @JoinColumn(name = "oauth_info_id")
+    private OauthInfo oauthInfo;
+
     @Column(unique = true, nullable = false)
     private String email;
 
-    private String password;
-
-    @Column(name="oauth_provider", nullable = false)
-    private String oAuthProvider;
+    private String nickname;
 
     private String name;
 
     private String profileImage;
 
+    private String phoneNumber;
+
     private String job;
 
-    private String birthday;
-
-    private String birthYear;
-
-    private String ageRange;
-
-    private String gender;
-
-    private String nickname;
-
-    private String phoneNumber;
 
     @OneToMany(mappedBy = "member", fetch = LAZY, cascade = ALL, orphanRemoval = true)
     private List<MemberStack> memberStacks = new ArrayList<>();
@@ -72,46 +62,26 @@ public class Member extends BaseEntity {
     private Long visitsCount;
 
     @Builder
-    public Member(String email, String password, String oAuthProvider, String name, String profileImage,
-                  String job, String birthday, String birthYear, String ageRange, String gender,
-                  String nickname, String phoneNumber, RoleType roleType, Long visitsCount) {
+    public Member(OauthInfo oauthInfo, String email, String nickname, String name, String profileImage,
+                  String phoneNumber, String job, RoleType roleType, Long visitsCount) {
+        this.oauthInfo = oauthInfo;
         this.email = email;
-        this.password = password;
-        this.oAuthProvider = oAuthProvider;
+        this.nickname = nickname;
         this.name = name;
         this.profileImage = profileImage;
-        this.job = job;
-        this.birthday = birthday;
-        this.birthYear = birthYear;
-        this.ageRange = ageRange;
-        this.gender = gender;
-        this.nickname = nickname;
         this.phoneNumber = phoneNumber;
+        this.job = job;
         this.roleType = roleType;
         this.visitsCount = visitsCount;
     }
 
-    public static Member of(UserInfo userInfo) {
-        String email = userInfo.getEmail();
-        if (email == null || email.isEmpty()) {
-            throw new ArgumentNotValidException(ErrorType.INVALID_EMAIL_NULL, email);
-        }
-        String nickname = userInfo.getNickname();
-        if (nickname == null || nickname.isEmpty()) {
-            nickname = userInfo.getName();
-        }
+    public static Member of(OauthInfo oauthInfo) {
         return Member.builder()
-                .email(userInfo.getEmail())
-//                .password()
-                .oAuthProvider(userInfo.getOAuthProvider())
-                .name(userInfo.getName())
-                .profileImage(userInfo.getPicture())
-                .birthday(userInfo.getBirthDay())
-                .birthYear(userInfo.getBirthYear())
-                .ageRange(userInfo.getAgeRange())
-                .gender(userInfo.getGender())
-                .nickname(nickname)
-                .phoneNumber(userInfo.getPhoneNumber())
+                .oauthInfo(oauthInfo)
+                .email(oauthInfo.getEmail())
+                .nickname(oauthInfo.getNickname())
+                .name(oauthInfo.getName())
+                .profileImage(oauthInfo.getProfileImage())
                 .roleType(RoleType.USER)
                 .visitsCount(1L)
                 .build();

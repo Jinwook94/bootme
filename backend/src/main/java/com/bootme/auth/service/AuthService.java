@@ -12,6 +12,7 @@ import com.bootme.auth.util.JwkProviderSingleton;
 import com.bootme.common.enums.OAuthProvider;
 import com.bootme.common.exception.*;
 import com.bootme.member.domain.Member;
+import com.bootme.member.domain.OauthInfo;
 import com.bootme.member.repository.MemberRepository;
 import com.bootme.notification.service.NotificationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -257,8 +258,10 @@ public class AuthService {
             String issuer = verifyIssuer(userInfo);
             userInfo.setOAuthProvider(issuer);
 
-            Member member = Member.of(userInfo);
+            OauthInfo oauthInfo = OauthInfo.of(userInfo);
+            Member member = Member.of(oauthInfo);
             Member savedMember = memberRepository.save(member);
+
             notificationService.sendNotification(savedMember, SIGN_UP);
         }
     }
