@@ -37,3 +37,16 @@ cloud:
 logback:
   access:
     config: classpath:logback-access.xml
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    enable:
+      hikaricp: true
+      jvm: true
