@@ -50,3 +50,6 @@ management:
     enable:
       hikaricp: true
       jvm: true
+
+openai:
+  api-key: ENC(HchUXMxCfaQSLOPoh7QNGMctcHZU/8i3SgvEJDHZi+j3UHAlPqbz1SBe5qPQoSkAyCl1BCBngNCwIuYnw1RhRQ==)
