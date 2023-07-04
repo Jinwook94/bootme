@@ -23,10 +23,7 @@ import { CloseIconBlack, CloseIconGray } from '../../../constants/icons';
 import { useLogin } from '../../../hooks/useLogin';
 import PATH from '../../../constants/path';
 import { Link } from 'react-router-dom';
-import SNACKBAR_MESSAGE, { EXCLAMATION } from '../../../constants/snackbar';
-import { useSnackbar } from '../../../hooks/useSnackbar';
 const MenuModal = ({ isLogin, isMenuOpen, setIsMenuOpen, nickName, profileImage, job }: MenuModalProps) => {
-  const { showSnackbar } = useSnackbar();
   const [isHovered, setIsHovered] = useState(false);
   const { handleLogOut, handleLoginModal } = useLogin();
 
@@ -86,7 +83,9 @@ const MenuModal = ({ isLogin, isMenuOpen, setIsMenuOpen, nickName, profileImage,
           <a href={'https://bootme.co.kr/course/list'}>
             <Item>부트캠프</Item>
           </a>
-          <Item onClick={() => showSnackbar(SNACKBAR_MESSAGE.WORK_IN_PROGRESS, EXCLAMATION)}>회사</Item>
+          <a href={'https://bootme.co.kr/prompt/generator'}>
+            <Item>프롬프트</Item>
+          </a>
           <a href={'https://bootme.co.kr/post/list'}>
             <Item>커뮤니티</Item>
           </a>

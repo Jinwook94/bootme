@@ -11,6 +11,11 @@ const PATH = {
     LIST: '/course/list',
     DETAIL: '/course',
   },
+  PROMPT: {
+    DOMAIN: '/prompt',
+    GENERATOR: 'prompt/generator',
+    LIST: 'prompt/list',
+  },
   POST: {
     DOMAIN: '/post',
     LIST: '/post/list',

@@ -21,6 +21,7 @@ import { ProfileProvider } from './hooks/useProfile';
 import { StackProvider } from './hooks/useStacks';
 import { ModalsProvider } from '@mantine/modals';
 import { MantineProvider } from '@mantine/core';
+import { PromptProvider } from './hooks/usePrompt';
 
 const rootElement = document.getElementById('root') as Element;
 
@@ -45,6 +46,7 @@ const BootstrapApp = () => {
     .wrap(ModalsProvider)
     .wrap(MantineProvider)
     .wrap(ProfileProvider)
+    .wrap(PromptProvider)
     .wrap(StackProvider)
     .wrap(PostProvider)
     .wrap(PostFilterProvider)

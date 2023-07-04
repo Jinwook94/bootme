@@ -54,12 +54,20 @@ type HeaderItemProps = {
 };
 
 const determineBootcampHeaderColor = (path: string) =>
-  path.startsWith(PATH.COURSE.DOMAIN) || (!path.startsWith(PATH.POST.DOMAIN) && !path.startsWith(PATH.COURSE.DOMAIN))
+  path.startsWith(PATH.COURSE.DOMAIN) ||
+  (!path.startsWith(PATH.POST.DOMAIN) && !path.startsWith(PATH.PROMPT.DOMAIN) && !path.startsWith(PATH.COURSE.DOMAIN))
+    ? '#000'
+    : 'rgb(174, 174, 174)';
+
+const determinePromptHeaderColor = (path: string) =>
+  path.startsWith(PATH.PROMPT.DOMAIN) ||
+  (!path.startsWith(PATH.POST.DOMAIN) && !path.startsWith(PATH.PROMPT.DOMAIN) && !path.startsWith(PATH.COURSE.DOMAIN))
     ? '#000'
     : 'rgb(174, 174, 174)';
 
 const determinePostHeaderColor = (path: string) =>
-  path.startsWith(PATH.POST.DOMAIN) || (!path.startsWith(PATH.POST.DOMAIN) && !path.startsWith(PATH.COURSE.DOMAIN))
+  path.startsWith(PATH.POST.DOMAIN) ||
+  (!path.startsWith(PATH.POST.DOMAIN) && !path.startsWith(PATH.PROMPT.DOMAIN) && !path.startsWith(PATH.COURSE.DOMAIN))
     ? '#000'
     : 'rgb(174, 174, 174)';
 
@@ -87,6 +95,10 @@ export const HeaderItem = styled.div<HeaderItemProps>`
 
 export const BootcampHeader = styled(HeaderItem)`
   color: ${props => determineBootcampHeaderColor(props.currentPath)};
+`;
+
+export const PromptHeader = styled(HeaderItem)`
+  color: ${props => determinePromptHeaderColor(props.currentPath)};
 `;
 
 export const PostHeader = styled(HeaderItem)`

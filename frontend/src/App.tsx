@@ -20,6 +20,7 @@ import NotFoundPage from './pages/NotFoundPage';
 import ProfilePage from './pages/ProfilePage';
 import BookmarkCoursePage from './pages/BookmarkCoursePage';
 import BookmarkPostPage from './pages/BookmarkPostPage';
+import PromptGeneratorPage from './pages/PromptGeneratorPage';
 
 const App = () => {
   const { isVisible, message, displayIcon } = useSnackbar();
@@ -33,6 +34,7 @@ const App = () => {
         <Route path={PATH.OAUTH.KAKAO} element={<KakaoLoginRedirect />} />
         <Route path={PATH.COURSE.LIST} element={<CourseListPage />} />
         <Route path={`${PATH.COURSE.DETAIL}/:id`} element={<CourseDetailPage />} />
+        <Route path={PATH.PROMPT.GENERATOR} element={<PromptGeneratorPage />} />
         <Route path={PATH.POST.LIST} element={<PostListPage />} />
         <Route path={`${PATH.POST.DETAIL}/:id`} element={<PostDetailPage />} />
         <Route path={PATH.POST.SEARCH} element={<PostSearchMobilePage />} />

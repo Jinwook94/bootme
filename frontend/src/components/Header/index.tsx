@@ -4,7 +4,6 @@ import {
   Wrapper,
   LogIn,
   SignIn,
-  HeaderItem,
   Logo,
   ServiceName,
   NotiButton,
@@ -14,6 +13,7 @@ import {
   PostHeader,
   BootcampHeader,
   HeaderItemWrapper,
+  PromptHeader,
 } from './style';
 
 import GitHubIcon from '../../assets/github.svg';
@@ -27,12 +27,9 @@ import UserDropDown from './UserDropdown';
 import MenuModal from './MenuModal';
 import { useLocation } from 'react-router-dom';
 import NotificationDropdown from './NotificationDropdown';
-import { useSnackbar } from '../../hooks/useSnackbar';
-import SNACKBAR_MESSAGE, { EXCLAMATION } from '../../constants/snackbar';
 import { GoogleLoginOneTap } from '../LoginModal/GoogleLogin';
 
 const Header = () => {
-  const { showSnackbar } = useSnackbar();
   const { isLogin, handleLoginModal } = useLogin();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [profileImage, setProfileImage] = useState(localStorage.getItem('profileImage'));
@@ -77,12 +74,9 @@ const Header = () => {
                 </a>
               </HeaderItemWrapper>
               <HeaderItemWrapper>
-                <HeaderItem
-                  currentPath={location.pathname}
-                  onClick={() => showSnackbar(SNACKBAR_MESSAGE.WORK_IN_PROGRESS, EXCLAMATION)}
-                >
-                  회사
-                </HeaderItem>
+                <a href={'https://bootme.co.kr/prompt/generator'} style={{ display: 'inline-block' }}>
+                  <PromptHeader currentPath={location.pathname}> 프롬프트 </PromptHeader>
+                </a>
               </HeaderItemWrapper>
               <HeaderItemWrapper>
                 <a href={'https://bootme.co.kr/post/list'} style={{ display: 'inline-block' }}>
