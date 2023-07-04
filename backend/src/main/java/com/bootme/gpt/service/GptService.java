@@ -1,5 +1,6 @@
 package com.bootme.gpt.service;
 
+import com.bootme.common.exception.ExternalServiceException;
 import com.bootme.config.OpenAiConfig;
 import com.bootme.gpt.dto.GptRequest;
 import com.bootme.gpt.dto.GptResponse;
@@ -12,6 +13,8 @@ import reactor.core.publisher.Mono;
 
 import java.time.Duration;
 import java.util.List;
+
+import static com.bootme.common.exception.ErrorType.OPEN_AI_API_FAIL;
 
 @Service
 public class GptService {
@@ -46,6 +49,7 @@ public class GptService {
                 .retrieve()
                 .bodyToMono(GptResponse.class)
                 .timeout(Duration.ofSeconds(120))
+                .onErrorMap(e -> new ExternalServiceException(OPEN_AI_API_FAIL, e))
                 .map(gptResponse -> new MessageResponse(gptResponse.getChoices().get(0).getMessage().getContent()));
     }
 
@@ -54,7 +58,8 @@ public class GptService {
                 .bodyValue(request)
                 .retrieve()
                 .bodyToMono(GptResponse.class)
-                .timeout(Duration.ofSeconds(120));
+                .timeout(Duration.ofSeconds(120))
+                .onErrorMap(e -> new ExternalServiceException(OPEN_AI_API_FAIL, e));
     }
 
 }

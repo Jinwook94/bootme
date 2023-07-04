@@ -25,10 +25,17 @@ public class RateLimitConfig {
     }
 
     private Bucket newBucket(String ip) {
-        // allow 20 tokens per hour
-        Refill refill = Refill.greedy(20, Duration.ofHours(1));
+        validateEmpty(ip);
+
+        Refill refill = Refill.greedy(20, Duration.ofHours(1)); // 시간 당 20개 토큰 허용
         Bandwidth limit = Bandwidth.classic(20, refill).withInitialTokens(20);
         return Bucket.builder().addLimit(limit).build();
+    }
+
+    private void validateEmpty(String ip) {
+        if (ip == null || ip.isEmpty()) {
+            throw new IllegalArgumentException("IP address must not be null or empty.");
+        }
     }
 
 }

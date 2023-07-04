@@ -64,8 +64,9 @@ public enum ErrorType {
     JSON_PROCESSING_FAIL    (6001, "JSON 처리에 실패했습니다."),
     SSE_CONNECT_FAIL        (6002, "SSE 연결에 실패했습니다."),
 
-    // AWS
+    // External Service errors
     S3_UPLOAD_FAIL          (7001, "이미지 파일을 S3 업로드 실패했습니다."),
+    OPEN_AI_API_FAIL         (7002, "OpenAI API 에서 문제가 발생 했습니다."),
 
     // Internal server errors
     RUNTIME_EXCEPTION       (9001, "서버에 알 수 없는 문제가 발생했습니다.");
