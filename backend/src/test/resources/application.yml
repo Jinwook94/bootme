@@ -43,3 +43,6 @@ security:
         millisecond:
           access: 3600000
           refresh: 2592000000
+
+openai:
+  api-key: ENC(HchUXMxCfaQSLOPoh7QNGMctcHZU/8i3SgvEJDHZi+j3UHAlPqbz1SBe5qPQoSkAyCl1BCBngNCwIuYnw1RhRQ==)

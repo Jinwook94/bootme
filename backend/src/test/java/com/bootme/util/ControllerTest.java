@@ -4,6 +4,7 @@ import com.bootme.auth.service.AuthService;
 import com.bootme.auth.util.AuthenticationArgumentResolver;
 import com.bootme.auth.util.TokenProvider;
 import com.bootme.bookmark.service.CourseBookmarkService;
+import com.bootme.common.interceptor.RateLimitInterceptor;
 import com.bootme.common.interceptor.TokenValidationInterceptor;
 import com.bootme.course.service.CompanyService;
 import com.bootme.course.service.CourseService;
@@ -39,6 +40,9 @@ public abstract class ControllerTest {
 
     @MockBean
     protected AuthenticationArgumentResolver authenticationArgumentResolver;
+
+    @MockBean
+    protected RateLimitInterceptor rateLimitInterceptor;
 
     @Autowired
     protected TokenValidationInterceptor tokenValidationInterceptor;
@@ -99,4 +103,5 @@ public abstract class ControllerTest {
                         )
                 ).build();
     }
+
 }

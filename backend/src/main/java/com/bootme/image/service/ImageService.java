@@ -4,7 +4,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
 import com.bootme.auth.dto.AuthInfo;
 import com.bootme.auth.service.AuthService;
-import com.bootme.common.exception.AwsException;
+import com.bootme.common.exception.ExternalServiceException;
 import com.bootme.common.exception.FileHandlingException;
 import com.bootme.common.exception.ValidationException;
 import lombok.RequiredArgsConstructor;
@@ -89,7 +89,7 @@ public class ImageService {
         try {
             amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, image));
         } catch (AmazonS3Exception e) {
-            throw new AwsException(S3_UPLOAD_FAIL, e.getMessage());
+            throw new ExternalServiceException(S3_UPLOAD_FAIL, e.getMessage());
         }
         return String.format("https://%s.s3.ap-northeast-2.amazonaws.com/%s", bucketName, fileName);
     }
