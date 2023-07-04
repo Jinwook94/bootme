@@ -47,6 +47,7 @@ dependencies {
     implementation 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1'
     implementation 'net.logstash.logback:logstash-logback-encoder:7.3'
     implementation 'org.jsoup:jsoup:1.13.1'
+    implementation 'com.github.vladimir-bukhtoyarov:bucket4j-core:7.6.0'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.rest-assured:rest-assured:4.5.1'
     compileOnly 'org.projectlombok:lombok'
