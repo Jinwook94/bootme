@@ -63,6 +63,7 @@ public enum ErrorType {
     // System errors
     JSON_PROCESSING_FAIL    (6001, "JSON 처리에 실패했습니다."),
     SSE_CONNECT_FAIL        (6002, "SSE 연결에 실패했습니다."),
+    SSE_SEND_FAIL           (6003, "SSE 전송에 실패했습니다."),
 
     // External Service errors
     S3_UPLOAD_FAIL          (7001, "이미지 파일을 S3 업로드 실패했습니다."),

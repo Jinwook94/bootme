@@ -10,6 +10,10 @@ public class SseException extends SystemException {
         super(errorType, invalidInput);
     }
 
+    public SseException(ErrorType errorType, Throwable cause) {
+        super(errorType, cause);
+    }
+
     public SseException(ErrorType errorType, String invalidInput, Throwable cause) {
         super(errorType, invalidInput, cause);
     }
