@@ -10,8 +10,8 @@ spring:
       leakDetectionThreshold: 10000
       maximum-pool-size: 20
   jpa:
+    open-in-view: false  # if true: SSE 커넥션 열려있는 동안 DB 커넥션도 열려있음 => Connection leak
     properties:
-      open-in-view: false  # if true: SSE 커넥션 열려있는 동안 DB 커넥션도 열려있음 => Connection leak
       hibernate:
         dialect: org.hibernate.dialect.MariaDB103Dialect
         format_sql: true
