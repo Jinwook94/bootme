@@ -43,6 +43,7 @@ public class JwtVo {
         private String picture;
         private String given_name;
         private String family_name;
+        private String locale;
         private String azp;
         private String jti;
         private Long nbf;
@@ -61,7 +62,7 @@ public class JwtVo {
         @Builder
         public Body(String oAuthProvider, String iss, String aud, String sub, Long iat,
                     Long exp, String email, String nickname, String name, String picture,
-                    String given_name, String family_name, String azp, String jti, Long nbf,
+                    String given_name, String family_name, String locale, String azp, String jti, Long nbf,
                     boolean email_verified, String ageRange, String birthDay, String birthYear,
                     String gender, String id, String phoneNumber, String auth_time) {
             this.oAuthProvider = oAuthProvider;
@@ -76,6 +77,7 @@ public class JwtVo {
             this.picture = picture;
             this.given_name = given_name;
             this.family_name = family_name;
+            this.locale = locale;
             this.azp = azp;
             this.jti = jti;
             this.nbf = nbf;
