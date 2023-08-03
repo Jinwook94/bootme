@@ -52,12 +52,16 @@ public class OauthInfo extends BaseEntity {
         if (nickname == null || nickname.isEmpty()) {
             nickname = userInfo.getName();
         }
+        String profileImage = userInfo.getPicture();
+        if (profileImage == null || profileImage.isEmpty()) {
+            profileImage = "https://bootme-images.s3.ap-northeast-2.amazonaws.com/profile/default_profile.png";
+        }
         return OauthInfo.builder()
                 .oAuthProvider(userInfo.getOAuthProvider())
                 .email(userInfo.getEmail())
                 .nickname(nickname)
                 .name(userInfo.getName())
-                .profileImage(userInfo.getPicture())
+                .profileImage(profileImage)
                 .build();
     }
 
