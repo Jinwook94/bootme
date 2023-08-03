@@ -41,6 +41,11 @@ logback:
   access:
     config: classpath:logback-access.xml
 
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: false
+
 management:
   endpoints:
     web:
