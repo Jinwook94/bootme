@@ -31,7 +31,7 @@ public class S3Config {
     }
 
     @Bean
-    @Profile("prod")
+    @Profile({"staging", "prod"})
     public AmazonS3Client amazonS3Prod() {
         return (AmazonS3Client) AmazonS3ClientBuilder
                 .standard()

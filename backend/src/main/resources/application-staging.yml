@@ -1,0 +1,33 @@
+domain: bootme.co.kr
+
+spring:
+  datasource:
+    url: ENC(K2RzR/FzhdYNg7Sd99xcNs38OLCbRa3qHfS1QSDbG2wmxX/BGmsXgRXjcFjyf8b0Ylg35BhH5rvJ8KM9SG1f8Fio0/4fvjeKlpH+uQBuzidCO8UrhQLOqEj0djIpr38VzzJ4Cb/Y5Zw=)
+    username: ENC(Me7JQ99ri7Ufbh9eNwhY8Q==)
+    password: ENC(0Jv/q2l5mIo6wOjZLyf/wZqVybziuXme)
+    driver-class-name: org.mariadb.jdbc.Driver
+    hikari:
+      leakDetectionThreshold: 10000
+      maximum-pool-size: 20
+  jpa:
+    open-in-view: false  # if true: SSE 커넥션 열려있는 동안 DB 커넥션도 열려있음 => Connection leak
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDB103Dialect
+        format_sql: true
+      connection:
+        characterEncoding: utf8mb4
+        charSet: utf8mb4
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration/staging
+    baseline-version: 0
+
+server:
+  servlet:
+    session:
+      cookie:
+        domain: bootme.co.kr

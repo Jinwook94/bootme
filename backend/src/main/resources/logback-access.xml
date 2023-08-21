@@ -6,7 +6,7 @@
         <appender-ref ref="console-access-logger"/>
     </springProfile>
 
-    <springProfile name="prod">
+    <springProfile name="staging, prod">
         <include resource="logback/file-access-logger.xml"/>
         <appender-ref ref="file-access-text"/>
         <appender-ref ref="file-access-json"/>

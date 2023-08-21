@@ -29,7 +29,7 @@
         </root>
     </springProfile>
 
-    <springProfile name="prod">
+    <springProfile name="staging, prod">
         <include resource="logback/file-logger.xml"/>
 
         <logger name="com.bootme" level="INFO" additivity="false">

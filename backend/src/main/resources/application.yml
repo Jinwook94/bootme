@@ -2,7 +2,7 @@ jasypt:
   encryptor:
     password: encryptKey
 
-allowed-origins: http://localhost:3000,http://localhost:3001,https://bootme.co.kr,https://www.bootme.co.kr
+allowed-origins: http://localhost:3000,http://localhost:3001,https://bootme.co.kr,https://www.bootme.co.kr,https://staging.bootme.co.kr
 allowed-ips: ENC(nbcm5j30lelbJkCZkAUxhyeIKaSfynmWWz5QZ5j4qap3jkHlZHFwurEsapQKsKTZeqrF+W40Qh0=)
 
 spring:
