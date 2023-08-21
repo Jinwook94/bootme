@@ -11,6 +11,8 @@ spring:
       maximum-pool-size: 20
   jpa:
     open-in-view: false  # if true: SSE 커넥션 열려있는 동안 DB 커넥션도 열려있음 => Connection leak
+    hibernate:
+      ddl-auto: validate
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MariaDB103Dialect
@@ -18,6 +20,11 @@ spring:
       connection:
         characterEncoding: utf8mb4
         charSet: utf8mb4
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration/prod
+    baseline-version: 0
 
 server:
   servlet:
