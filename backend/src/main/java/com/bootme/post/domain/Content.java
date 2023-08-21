@@ -22,7 +22,7 @@ public class Content {
     private static final int EXCERPT_LENGTH = 200;
 
     @Lob
-    @Column(name = "content", nullable = false)
+    @Column(name = "content", nullable = false, columnDefinition = "TEXT")
     private String value;
 
     protected Content() {

@@ -50,6 +50,7 @@ public class Comment extends BaseEntity implements Votable {
     private List<Comment> children = new ArrayList<>();
 
     @Lob
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     private int groupNum;

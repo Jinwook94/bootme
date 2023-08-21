@@ -60,6 +60,7 @@ public class Course extends BaseEntity implements Clickable, Bookmarkable {
     private Dates dates;
 
     @Lob
+    @Column(columnDefinition = "TEXT")
     private String detail;
 
     private boolean isRecommended;
