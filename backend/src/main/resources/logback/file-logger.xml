@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <included>
-    <property name="DIR_TEXT" value="/home/ec2-user/logs/general/text/"/>
-    <appender name="file-general-text" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <property name="DIR_TEXT" value="/home/ec2-user/logs/stg/general/text/"/>
+    <appender name="stg-file-general-text" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${DIR_TEXT}bootme-springboot-general-text-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxFileSize>10MB</maxFileSize>
@@ -11,8 +11,51 @@
         </encoder>
     </appender>
 
-    <property name="DIR_JSON" value="/home/ec2-user/logs/general/json/"/>
-    <appender name="file-general-json" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <property name="DIR_JSON" value="/home/ec2-user/logs/stg/general/json/"/>
+    <appender name="stg-file-general-json" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${DIR_JSON}bootme-springboot-general-json-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+        </rollingPolicy>
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp>
+                    <timeZone>Asia/Seoul</timeZone>
+                </timestamp>
+                <version/>
+                <logLevel/>
+                <message/>
+                <mdc/>
+                <threadName/>
+                <loggerName/>
+                <pattern>
+                    <pattern>
+                        {
+                        "caller_class_name": "%caller{0}",
+                        "caller_method_name": "%caller{1}",
+                        "caller_file_name": "%caller{2}",
+                        "caller_line_number": "%caller{3}"
+                        }
+                    </pattern>
+                </pattern>
+                <stackTrace/>
+            </providers>
+        </encoder>
+    </appender>
+
+    <property name="DIR_TEXT" value="/home/ec2-user/logs/prod/general/text/"/>
+    <appender name="prod-file-general-text" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${DIR_TEXT}bootme-springboot-general-text-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+        </rollingPolicy>
+        <encoder>
+            <Pattern>%date{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} [%thread] %-5level %logger{36} - [requestId:%X{requestId:-none}] %msg%n</Pattern>
+        </encoder>
+    </appender>
+
+    <property name="DIR_JSON" value="/home/ec2-user/logs/prod/general/json/"/>
+    <appender name="prod-file-general-json" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${DIR_JSON}bootme-springboot-general-json-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxFileSize>10MB</maxFileSize>

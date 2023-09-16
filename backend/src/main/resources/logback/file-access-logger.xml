@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <included>
-    <property name="DIR_TEXT" value="/home/ec2-user/logs/access/text/"/>
-    <appender name="file-access-text" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <property name="DIR_TEXT" value="/home/ec2-user/logs/stg/access/text/"/>
+    <appender name="stg-file-access-text" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${DIR_TEXT}bootme-backend-access-text-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxFileSize>10MB</maxFileSize>
@@ -21,8 +21,50 @@
         </encoder>
     </appender>
 
-    <property name="DIR_JSON" value="/home/ec2-user/logs/access/json/"/>
-    <appender name="file-access-json" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <property name="DIR_JSON" value="/home/ec2-user/logs/stg/access/json/"/>
+    <appender name="stg-file-access-json" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${DIR_JSON}bootme-backend-access-json-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+            <evaluator class="ch.qos.logback.access.net.URLEvaluator">
+                <URL>/actuator/health</URL>
+            </evaluator>
+            <OnMismatch>NEUTRAL</OnMismatch>
+            <OnMatch>DENY</OnMatch>
+        </filter>
+        <encoder>
+            <charset>utf8</charset>
+            <Pattern>
+                {"remoteIP":"%remoteIP","user":"%user","timestamp":"%date{yyyy-MM-dd'T'HH:mm:ss.SSSXXX}","request":"%requestURL","status":"%statusCode","bytesSent":"%bytesSent","referrer":"%header{Referer}","userAgent":"%header{User-Agent}"}
+            </Pattern>
+        </encoder>
+    </appender>
+
+    <property name="DIR_TEXT" value="/home/ec2-user/logs/prod/access/text/"/>
+    <appender name="prod-file-access-text" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${DIR_TEXT}bootme-backend-access-text-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+            <evaluator class="ch.qos.logback.access.net.URLEvaluator">
+                <URL>/actuator/health</URL>
+            </evaluator>
+            <OnMismatch>NEUTRAL</OnMismatch>
+            <OnMatch>DENY</OnMatch>
+        </filter>
+        <encoder>
+            <charset>utf8</charset>
+            <Pattern>
+                %remoteIP - %user [%date{dd/MMM/yyyy:HH:mm:ss Z}] "%requestURL" %statusCode %bytesSent "%header{Referer}" "%header{User-Agent}"
+            </Pattern>
+        </encoder>
+    </appender>
+
+    <property name="DIR_JSON" value="/home/ec2-user/logs/prod/access/json/"/>
+    <appender name="prod-file-access-json" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${DIR_JSON}bootme-backend-access-json-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxFileSize>10MB</maxFileSize>

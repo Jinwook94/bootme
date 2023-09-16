@@ -6,9 +6,15 @@
         <appender-ref ref="console-access-logger"/>
     </springProfile>
 
-    <springProfile name="staging, prod">
+    <springProfile name="staging">
         <include resource="logback/file-access-logger.xml"/>
-        <appender-ref ref="file-access-text"/>
-        <appender-ref ref="file-access-json"/>
+        <appender-ref ref="stg-file-access-text"/>
+        <appender-ref ref="stg-file-access-json"/>
+    </springProfile>
+
+    <springProfile name="prod">
+        <include resource="logback/file-access-logger.xml"/>
+        <appender-ref ref="prod-file-access-text"/>
+        <appender-ref ref="prod-file-access-json"/>
     </springProfile>
 </configuration>
