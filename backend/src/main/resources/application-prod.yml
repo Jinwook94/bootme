@@ -17,6 +17,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MariaDB103Dialect
         format_sql: true
+        default_batch_fetch_size: 100
       connection:
         characterEncoding: utf8mb4
         charSet: utf8mb4
