@@ -21,9 +21,15 @@ import static com.bootme.common.exception.ErrorType.NOT_WRITER;
 import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.FetchType.LAZY;
 
+/**
+ * Indexes:
+ *  - idx_likes_created (likes DESC, created_at DESC)
+ *  - idx_created_likes (created_at DESC, likes DESC)
+ */
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "post")
 public class Post extends BaseEntity implements Votable, Clickable, Bookmarkable {
 
     @Id
