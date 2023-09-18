@@ -200,7 +200,7 @@ public class PostService {
         } else {
             sorting = Sort.by(
                     Sort.Order.desc(LIKES.toString()),
-                    Sort.Order.asc(CREATED_AT.toString())
+                    Sort.Order.desc(CREATED_AT.toString())
             );
         }
         return PageRequest.of(page-1, size, sorting);
