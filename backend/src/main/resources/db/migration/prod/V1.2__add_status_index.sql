@@ -1,0 +1,1 @@
+CREATE INDEX idx_status ON post (status);
