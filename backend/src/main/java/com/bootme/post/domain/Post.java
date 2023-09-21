@@ -25,6 +25,7 @@ import static javax.persistence.FetchType.LAZY;
  * Indexes:
  *  - idx_likes_created (likes DESC, created_at DESC)
  *  - idx_created_likes (created_at DESC, likes DESC)
+ *  - idx_status (status)
  */
 @Entity
 @Getter
