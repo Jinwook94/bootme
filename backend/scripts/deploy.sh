@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
+echo "$(date '+%Y-%m-%dT%H:%M:%S') INFO [deploy.sh] Starting deploy.sh" >> /var/log/user-data.log
 sudo chmod 777 /var/log/user-data.log
 sudo chmod 777 /home/ec2-user/logs
-echo "$(date '+%Y-%m-%dT%H:%M:%S') INFO [deploy.sh] Starting deploy.sh" >> /var/log/user-data.log
 REPOSITORY=/home/ec2-user/deployment
 cd $REPOSITORY
 JAR_NAME=$(ls $REPOSITORY/build/libs/ | grep "bootme" | tail -n 1)
