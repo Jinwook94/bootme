@@ -21,6 +21,9 @@ spring:
       connection:
         characterEncoding: utf8mb4
         charSet: utf8mb4
+  redis:
+    host: ENC(o+BiQ/5aXo9san8cU62L2Vb8sAdH7zpBbQ4v43qg4trz81rDXF6rnbxj2jK0NglEr8aek/tnXPqPtWw4Z10itlenYeBOa//VsvoOhvBJz2E=)
+    port: 6379
   flyway:
     enabled: true
     baseline-on-migrate: true

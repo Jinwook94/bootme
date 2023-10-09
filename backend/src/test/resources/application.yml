@@ -1,6 +1,6 @@
 jasypt:
   encryptor:
-    password: encryptKey
+    password: G4#pLs9!tR0nG
 
 domain: localhost
 allowed-origins: http://localhost:3000,http://localhost:3001,https://bootme.co.kr,https://www.bootme.co.kr,https://staging.bootme.co.kr
@@ -18,6 +18,9 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  redis:
+    host: localhost
+    port: 6379
 
 cloud:
   aws:
