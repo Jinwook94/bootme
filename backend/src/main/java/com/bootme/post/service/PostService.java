@@ -6,6 +6,7 @@ import com.bootme.bookmark.repository.PostBookmarkRepository;
 import com.bootme.comment.domain.Comment;
 import com.bootme.comment.dto.CommentResponse;
 import com.bootme.common.exception.ResourceNotFoundException;
+import com.bootme.common.util.CustomPageImpl;
 import com.bootme.member.domain.Member;
 import com.bootme.member.service.MemberService;
 import com.bootme.post.domain.*;
@@ -18,6 +19,7 @@ import com.bootme.vote.domain.Vote;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -81,13 +83,16 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public Page<PostResponse> findAllPosts(Long memberId, int page, int size, String sort, MultiValueMap<String, String> params) {
+    @Cacheable(value = "posts", key = "#memberId + '-' + #page + '-' + #size + '-' + #sort + '-' + #params.toString()")
+    public CustomPageImpl<PostResponse> findAllPosts(Long memberId, int page, int size, String sort, MultiValueMap<String, String> params) {
         boolean isLogin = authService.validateLogin(memberId);
 
         Predicate combinedPredicate = getCombinedPredicate(params);
 
-        return getPostPage(page, size, sort, combinedPredicate)
+        Page<PostResponse> postResponses = getPostPage(page, size, sort, combinedPredicate)
                 .map(post -> createPostResponse(post, isLogin, memberId, getViewedPosts()));
+
+        return new CustomPageImpl<>(postResponses);
     }
 
     private PostResponse createPostResponse(Post post, boolean isLogin, Long memberId, Set<Long> viewedPosts) {
@@ -150,16 +155,16 @@ public class PostService {
         post.incrementBookmarks();
     }
 
-    public Predicate getStatusPredicate() {
-        QPost qPost = QPost.post;
-        return qPost.status.eq(PostStatus.DISPLAY);
-    }
-
     private Predicate getCombinedPredicate(MultiValueMap<String, String> params) {
         Predicate statusPredicate = getStatusPredicate();
         Predicate topicPredicate = postTopicPredicate.build(params);
         Predicate searchPredicate = postSearchPredicate.build(params);
         return combinePredicates(statusPredicate, topicPredicate, searchPredicate);
+    }
+
+    private Predicate getStatusPredicate() {
+        QPost qPost = QPost.post;
+        return qPost.status.eq(PostStatus.DISPLAY);
     }
 
     private Predicate combinePredicates(Predicate statusPredicate, Predicate topicPredicate, Predicate searchPredicate) {
@@ -181,12 +186,12 @@ public class PostService {
     }
 
 
-    private Page<Post> getPostPage(int page, int size, String sort, Predicate predicate) {
+    private CustomPageImpl<Post> getPostPage(int page, int size, String sort, Predicate predicate) {
         Pageable pageable = getSortedPageable(page, size, sort);
         if (predicate == null) {
-            return postRepository.findAll(pageable);
+            return new CustomPageImpl<>(postRepository.findAll(pageable));
         } else {
-            return postRepository.findAll(predicate, pageable);
+            return new CustomPageImpl<>(postRepository.findAll(predicate, pageable));
         }
     }
 
