@@ -13,6 +13,7 @@ import com.bootme.post.domain.*;
 import com.bootme.post.dto.*;
 import com.bootme.comment.repository.CommentRepository;
 import com.bootme.post.repository.PostRepository;
+import com.bootme.post.repository.PostRepositoryProxy;
 import com.bootme.session.service.SessionService;
 import com.bootme.vote.repository.VoteRepository;
 import com.bootme.vote.domain.Vote;
@@ -21,9 +22,6 @@ import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
@@ -31,8 +29,6 @@ import org.springframework.util.MultiValueMap;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.bootme.common.enums.SortOption.CREATED_AT;
-import static com.bootme.common.enums.SortOption.LIKES;
 import static com.bootme.common.exception.ErrorType.*;
 import static com.bootme.vote.domain.VotableType.POST;
 import static com.bootme.vote.domain.VotableType.POST_COMMENT;
@@ -46,6 +42,7 @@ public class PostService {
     private final MemberService memberService;
     private final SessionService sessionService;
     private final PostRepository postRepository;
+    private final PostRepositoryProxy postRepositoryProxy;
     private final PostBookmarkRepository postBookmarkRepository;
     private final CommentRepository commentRepository;
     private final VoteRepository voteRepository;
@@ -78,29 +75,30 @@ public class PostService {
     private PostDetailResponse createPostDetailResponse(Post post, boolean isLogin, Long memberId) {
         boolean isBookmarked = isLogin && postBookmarkRepository.existsByBookmark_Member_IdAndPost_Id(memberId, post.getId());
         PostDetailResponse response = PostDetailResponse.of(post, isBookmarked);
-        updateVoteStatusForPost(isLogin, memberId, post, response);
+        updateVoteStatusForPost(isLogin, memberId, response);
         return response;
     }
 
     @Transactional(readOnly = true)
-    @Cacheable(value = "posts", key = "#memberId + '-' + #page + '-' + #size + '-' + #sort + '-' + #params.toString()")
     public CustomPageImpl<PostResponse> findAllPosts(Long memberId, int page, int size, String sort, MultiValueMap<String, String> params) {
         boolean isLogin = authService.validateLogin(memberId);
-
         Predicate combinedPredicate = getCombinedPredicate(params);
+        Set<Long> viewedPosts = getViewedPosts();
+        String topic = params.get("topic").get(0);
 
-        Page<PostResponse> postResponses = getPostPage(page, size, sort, combinedPredicate)
-                .map(post -> createPostResponse(post, isLogin, memberId, getViewedPosts()));
+        Page<PostResponse> postResponses = postRepositoryProxy.getPostPage(page, size, sort, topic, combinedPredicate)
+                .map(postResponse -> createPostResponse(postResponse, isLogin, memberId, viewedPosts));
 
         return new CustomPageImpl<>(postResponses);
     }
 
-    private PostResponse createPostResponse(Post post, boolean isLogin, Long memberId, Set<Long> viewedPosts) {
-        boolean isBookmarked = isLogin && postBookmarkRepository.existsByBookmark_Member_IdAndPost_Id(memberId, post.getId());
-        boolean isViewed = viewedPosts.contains(post.getId());
-        PostResponse response = PostResponse.of(post, isBookmarked, isViewed);
-        updateVoteStatusForPost(isLogin, memberId, post, response);
-        return response;
+    private PostResponse createPostResponse(PostResponse postResponse, boolean isLogin, Long memberId, Set<Long> viewedPosts) {
+        boolean isBookmarked = isLogin && postBookmarkRepository.existsByBookmark_Member_IdAndPost_Id(memberId, postResponse.getId());
+        boolean isViewed = viewedPosts.contains(postResponse.getId());
+        postResponse.setBookmarked(isBookmarked);
+        postResponse.setViewed(isViewed);
+        updateVoteStatusForPost(isLogin, memberId, postResponse);
+        return postResponse;
     }
 
     public void addViewedPost(Long postId) {
@@ -185,32 +183,6 @@ public class PostService {
         return builder.getValue();
     }
 
-
-    private CustomPageImpl<Post> getPostPage(int page, int size, String sort, Predicate predicate) {
-        Pageable pageable = getSortedPageable(page, size, sort);
-        if (predicate == null) {
-            return new CustomPageImpl<>(postRepository.findAll(pageable));
-        } else {
-            return new CustomPageImpl<>(postRepository.findAll(predicate, pageable));
-        }
-    }
-
-    private Pageable getSortedPageable(int page, int size, String sort) {
-        Sort sorting;
-        if (sort.equals(CREATED_AT.toString())) {
-            sorting = Sort.by(
-                    Sort.Order.desc(CREATED_AT.toString()),
-                    Sort.Order.desc(LIKES.toString())
-            );
-        } else {
-            sorting = Sort.by(
-                    Sort.Order.desc(LIKES.toString()),
-                    Sort.Order.desc(CREATED_AT.toString())
-            );
-        }
-        return PageRequest.of(page-1, size, sorting);
-    }
-
     private List<CommentResponse> mapCommentsToResponse(List<Comment> comments) {
         return comments.stream()
                 .sorted(Comparator.comparing(Comment::getGroupNum)
@@ -228,9 +200,9 @@ public class PostService {
         }
     }
 
-    private void updateVoteStatusForPost(boolean isLogin, Long memberId, Post post, PostResponseDto response) {
+    private void updateVoteStatusForPost(boolean isLogin, Long memberId, PostResponseDto response) {
         if (isLogin) {
-            Optional<Vote> vote = voteRepository.findByVotableTypeAndVotableIdAndMemberId(POST, post.getId(), memberId);
+            Optional<Vote> vote = voteRepository.findByVotableTypeAndVotableIdAndMemberId(POST, response.getId(), memberId);
             if(vote.isPresent()) {
                 response.setVoted(vote.get().getVoteType().toString());
             } else {
