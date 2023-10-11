@@ -1,13 +1,13 @@
 jasypt:
   encryptor:
-    password: encryptKey
+    password: G4#pLs9!tR0nG
 
 allowed-origins: http://localhost:3000,http://localhost:3001,https://bootme.co.kr,https://www.bootme.co.kr,https://staging.bootme.co.kr
 allowed-ips: ENC(nbcm5j30lelbJkCZkAUxhyeIKaSfynmWWz5QZ5j4qap3jkHlZHFwurEsapQKsKTZeqrF+W40Qh0=)
 
 spring:
   profiles:
-    active: prod
+    active: staging
   servlet:
     multipart:
       max-file-size: 10MB
