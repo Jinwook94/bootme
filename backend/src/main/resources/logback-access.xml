@@ -7,9 +7,9 @@
     </springProfile>
 
     <springProfile name="staging">
-        <include resource="logback/file-access-logger.xml"/>
-        <appender-ref ref="stg-file-access-text"/>
-        <appender-ref ref="stg-file-access-json"/>
+<!--        <include resource="logback/file-access-logger.xml"/>-->
+<!--        <appender-ref ref="stg-file-access-text"/>-->
+<!--        <appender-ref ref="stg-file-access-json"/>-->
     </springProfile>
 
     <springProfile name="prod">
