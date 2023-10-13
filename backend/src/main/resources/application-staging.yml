@@ -22,7 +22,7 @@ spring:
         characterEncoding: utf8mb4
         charSet: utf8mb4
   redis:
-    host: ENC(GaOqk2YsyPFz2OP1Dm7iguh0lM++GT9ItrO4RWqiAbI99GYvnj1JYJQtwHLoZZ5ZOGNg8kHmPbEX6hbmLTJn+2tEKTFd2c8J)
+    host: ENC(jEvMbZFxfZLTb0i42wiZKQelUtpPn1+yZnS0qInY4dkyYqKCdvZTxb2gNvaIABtbCMxa22+X0OLWeFpRMWusJ0cH5CeF36lH)
     port: 6379
   flyway:
     enabled: true
