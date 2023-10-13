@@ -2,7 +2,7 @@ domain: bootme.co.kr
 
 spring:
   datasource:
-    url: ENC(GJ7YVjbXGmfxlbSiXryBgB7M45ZcN2kOrkjlfxLu1tMoDl6QYBg6ukNk+TQhm/W43MHL5X9RTDz+dZqRDZe2y5atoKmpFf4hDCg1ygnhfcQ15fOFOXUj6axuoTjOQDsxbLSGfEMvfXw=)
+    url: ENC(at9gpuvTeg+zWcw6QP9BXiVoUly6xtaa49WrsDxSehOPKZrnC1868wVNsA/4aNMM/3ETEumNH5OBIoZRcv0DsgcgusUd4Gpye2NlwpsyfDI3ffTsp4R3GoiXiiDTPELBirIHp5oavDA=)
     username: ENC(Me7JQ99ri7Ufbh9eNwhY8Q==)
     password: ENC(0Jv/q2l5mIo6wOjZLyf/wZqVybziuXme)
     driver-class-name: org.mariadb.jdbc.Driver
