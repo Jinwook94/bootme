@@ -86,8 +86,9 @@ public class PostService {
         Predicate combinedPredicate = getCombinedPredicate(params);
         Set<Long> viewedPosts = getViewedPosts();
         String topic = params.get("topic").get(0);
+        String search = params.getOrDefault("search", Collections.singletonList("")).get(0);
 
-        Page<PostResponse> postResponses = postRepositoryProxy.getPostPage(page, size, sort, topic, combinedPredicate)
+        Page<PostResponse> postResponses = postRepositoryProxy.getPostPage(page, size, sort, topic, search, combinedPredicate)
                 .map(postResponse -> createPostResponse(postResponse, isLogin, memberId, viewedPosts));
 
         return new CustomPageImpl<>(postResponses);

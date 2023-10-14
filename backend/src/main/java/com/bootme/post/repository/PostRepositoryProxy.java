@@ -20,8 +20,12 @@ public class PostRepositoryProxy {
 
     private final PostRepository postRepository;
 
-    @Cacheable(value = "posts", key = "#size + ':' + #sort + ':' + (#topic == '' ? 'none' : #topic) + ':' + #page")
-    public CustomPageImpl<PostResponse> getPostPage(int page, int size, String sort, String topic, Predicate predicate) {
+    @Cacheable(
+            value = "posts",
+            key = "(#topic == '' ? 'none' : #topic) + ':' + " +
+                    "(#search == '' ? 'none' : #search) + ':' + " +
+                    "#sort + ':' + #page + ':' + #size")
+    public CustomPageImpl<PostResponse> getPostPage(int page, int size, String sort, String topic, String search, Predicate predicate) {
         Pageable pageable = getSortedPageable(page, size, sort);
         return new CustomPageImpl<>(postRepository.findAll(predicate, pageable)
                 .map(post -> PostResponse.of(post, false, false)));
