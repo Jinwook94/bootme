@@ -23,13 +23,8 @@ public class PostRepositoryProxy {
     @Cacheable(value = "posts", key = "#size + ':' + #sort + ':' + (#topic == '' ? 'none' : #topic) + ':' + #page")
     public CustomPageImpl<PostResponse> getPostPage(int page, int size, String sort, String topic, Predicate predicate) {
         Pageable pageable = getSortedPageable(page, size, sort);
-        if (predicate == null) {
-            return new CustomPageImpl<>(postRepository.findAll(pageable)
-                    .map(post -> PostResponse.of(post, false, false)));
-        } else {
-            return new CustomPageImpl<>(postRepository.findAll(predicate, pageable)
-                    .map(post -> PostResponse.of(post, false, false)));
-        }
+        return new CustomPageImpl<>(postRepository.findAll(predicate, pageable)
+                .map(post -> PostResponse.of(post, false, false)));
     }
 
     private Pageable getSortedPageable(int page, int size, String sort) {
