@@ -1,5 +1,6 @@
 package com.bootme.util.fixture;
 
+import com.bootme.auth.dto.AwsSecrets;
 import com.bootme.auth.dto.JwtVo;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -55,6 +56,28 @@ public class AuthFixture {
                 .setExpiration(expirationTime)
                 .signWith(SIGNING_KEY)
                 .compact();
+    }
+
+    public static AwsSecrets getAwsSecrets() {
+        return AwsSecrets.builder()
+                .apiUrl("valid_apiUrl")
+                .googleClientId("valid_googleClientId")
+                .googleIssuer("valid_googleIssuer")
+                .googleAudience("valid_googleAudience")
+                .naverClientId("valid_naverClientId")
+                .naverClientSecret("valid_naverClientSecret")
+                .naverIssuer("valid_naverIssuer")
+                .naverAudience("valid_naverAudience")
+                .naverSigningKey("valid_naverSigningKey")
+                .kakaoRestApiKey("valid_kakaoRestApiKey")
+                .kakaoClientSecret("valid_kakaoClientSecret")
+                .kakaoIssuer("valid_kakaoIssuer")
+                .kakaoAudience("valid_kakaoAudience")
+                .kakaoJavascriptKey("valid_kakaoJavascriptKey")
+                .bootmeIssuer("valid_bootmeIssuer")
+                .bootmeAudience("valid_bootmeAudience")
+                .bootmeSigningKey("valid_bootmeSigningKey")
+                .build();
     }
 
 }

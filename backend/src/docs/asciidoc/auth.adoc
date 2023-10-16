@@ -24,3 +24,7 @@ operation::auth/login/fail/token-expired[snippets='http-request,http-response']
 === 로그아웃
 ==== 성공
 operation::auth/logout/success[snippets='http-request,http-response']
+
+=== 시크릿 요청
+==== 성공
+operation::auth/secrets/success[snippets='http-request,http-response']
