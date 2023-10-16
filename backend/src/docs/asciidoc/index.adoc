@@ -9,6 +9,7 @@
 
 include::auth.adoc[]
 include::member.adoc[]
+include::courseBookmark.adoc[]
 include::company.adoc[]
 include::course.adoc[]
 include::notification.adoc[]

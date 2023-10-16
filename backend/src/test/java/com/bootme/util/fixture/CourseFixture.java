@@ -229,7 +229,7 @@ public class CourseFixture {
         return new CourseDetailRequest(details[index]);
     }
 
-        public static CourseResponse getCourseResponse(int index) {
+    public static CourseResponse getCourseResponse(int index) {
         index--;
         Long[] ids = {1L, 2L, 3L};
         String[] titles = {VALID_TITLE_1, VALID_TITLE_2, VALID_TITLE_3};
