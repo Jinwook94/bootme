@@ -1,6 +1,8 @@
 package com.bootme.util.fixture;
 
 import com.bootme.course.domain.Dates;
+import com.bootme.post.dto.PostDetailResponse;
+import com.bootme.post.dto.PostRequest;
 import com.bootme.post.dto.PostResponse;
 
 import java.time.LocalDate;
@@ -55,6 +57,49 @@ public class PostFixture {
             .courseEndDate(LocalDate.of(2024, 7, 31))
             .build();
 
+    public static PostRequest getPostRequest(int index) {
+        index--;
+        String[] topics = {VALID_TOPIC_1, VALID_TOPIC_2, VALID_TOPIC_3};
+        String[] titles = {VALID_POST_TITLE_1, VALID_POST_TITLE_2, VALID_POST_TITLE_3};
+        String[] contents = {VALID_CONTENT_EXCERPT_1, VALID_CONTENT_EXCERPT_2, VALID_CONTENT_EXCERPT_3};
+
+        return PostRequest.builder()
+                .topic(topics[index])
+                .title(titles[index])
+                .content(contents[index])
+                .build();
+    }
+
+    public static PostDetailResponse getPostDetailResponse(int index) {
+        index--;
+        String[] nickNames = {VALID_WRITER_NICKNAME_1, VALID_WRITER_NICKNAME_2, VALID_WRITER_NICKNAME_3};
+        String[] profileImages = {VALID_PROFILE_IMAGE_1, VALID_PROFILE_IMAGE_2, VALID_PROFILE_IMAGE_3};
+        String[] topics = {VALID_TOPIC_1, VALID_TOPIC_2, VALID_TOPIC_3};
+        String[] titles = {VALID_POST_TITLE_1, VALID_POST_TITLE_2, VALID_POST_TITLE_3};
+        String[] contentExcerpts = {VALID_CONTENT_EXCERPT_1, VALID_CONTENT_EXCERPT_2, VALID_CONTENT_EXCERPT_3};
+        String[] statuses = {VALID_STATUS_1, VALID_STATUS_2, VALID_STATUS_3};
+        String[] votes = {VALID_VOTED_1, VALID_VOTED_2, VALID_VOTED_3};
+
+        return PostDetailResponse.builder()
+                .id((long) index + 1)
+                .writerId((long) index + 1)
+                .writerNickname(nickNames[index])
+                .writerProfileImage(profileImages[index])
+                .topic(topics[index])
+                .title(titles[index])
+                .content(contentExcerpts[index])
+                .likes(index + 10)
+                .clicks(index + 20)
+                .bookmarks(index + 30)
+                .status(statuses[index])
+                .createdAt(1L)
+                .modifiedAt(1L)
+                .commentCount(index + 3)
+                .voted(votes[index])
+                .isBookmarked(false)
+                .build();
+    }
+
     public static PostResponse getPostResponse(int index) {
         index--;
         String[] nickNames = {VALID_WRITER_NICKNAME_1, VALID_WRITER_NICKNAME_2, VALID_WRITER_NICKNAME_3};
@@ -77,7 +122,9 @@ public class PostFixture {
                 .clicks(index + 20)
                 .bookmarks(index + 30)
                 .status(statuses[index])
-                .commentCount(index+1)
+                .createdAt(1L)
+                .modifiedAt(1L)
+                .commentCount(index + 1)
                 .voted(votes[index])
                 .isBookmarked(false)
                 .isViewed(false)
