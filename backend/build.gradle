@@ -120,7 +120,7 @@ jacocoTestCoverageVerification {
 }
 
 asciidoctor.doFirst {
-    delete file('src/main/resources/static/docs')
+    delete file('src/main/resources/static/docs/rest')
 }
 
 asciidoctor {
@@ -133,13 +133,13 @@ asciidoctor {
 task copyDocument(type: Copy) {
     dependsOn asciidoctor
     from file("build/docs/asciidoc")
-    into file("src/main/resources/static/docs")
+    into file("src/main/resources/static/docs/rest")
 }
 
 task buildDocument(type: Copy) {
     dependsOn copyDocument
-    from file("src/main/resources/static/docs")
-    into file("build/resources/main/static/docs")
+    from file("src/main/resources/static/docs/rest")
+    into file("build/resources/main/static/docs/rest")
 }
 
 bootJar {
