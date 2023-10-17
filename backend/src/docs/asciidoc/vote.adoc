@@ -1,0 +1,5 @@
+== Vote
+
+=== 투표 (Upvote / Downvote)
+==== 성공
+operation::votes/vote/success[snippets='http-request,http-response']

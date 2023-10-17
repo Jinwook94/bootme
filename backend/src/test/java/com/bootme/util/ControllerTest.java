@@ -18,6 +18,7 @@ import com.bootme.prompt.service.PromptService;
 import com.bootme.sse.SseEmitterManager;
 import com.bootme.sse.SseService;
 import com.bootme.stack.service.StackService;
+import com.bootme.vote.service.VoteService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -73,6 +74,9 @@ public abstract class ControllerTest {
 
     @MockBean
     protected CommentService commentService;
+
+    @MockBean
+    protected VoteService voteService;
 
     @MockBean
     protected MemberService memberService;
