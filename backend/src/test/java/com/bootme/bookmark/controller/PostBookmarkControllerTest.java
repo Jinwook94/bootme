@@ -42,7 +42,7 @@ class PostBookmarkControllerTest extends ControllerTest {
 
         //docs
         perform.andDo(print())
-                .andDo(document("bookmarks/add-post/success",
+                .andDo(document("postBookmarks/add-post/success",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint())));
     }
@@ -59,7 +59,7 @@ class PostBookmarkControllerTest extends ControllerTest {
 
         //docs
         perform.andDo(print())
-                .andDo(document("bookmarks/delete-post/success",
+                .andDo(document("postBookmarks/delete-post/success",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint())));
     }
@@ -84,7 +84,7 @@ class PostBookmarkControllerTest extends ControllerTest {
 
         //docs
         perform.andDo(print())
-                .andDo(document("bookmarks/find-all-posts/success",
+                .andDo(document("postBookmarks/find-all-posts/success",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint())));
     }

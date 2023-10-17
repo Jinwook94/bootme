@@ -2,12 +2,12 @@
 
 === 북마크 포스트 추가
 ==== 성공
-operation::bookmarks/add-post/success[snippets='http-request,http-response']
+operation::postBookmarks/add-post/success[snippets='http-request,http-response']
 
 === 북마크 포스트 삭제
 ==== 성공
-operation::bookmarks/delete-post/success[snippets='http-request,http-response']
+operation::postBookmarks/delete-post/success[snippets='http-request,http-response']
 
-=== 북마크된 포스트 조회
+=== 북마크 포스트 전체 조회
 ==== 성공
-operation::bookmarks/find-all-posts/success[snippets='http-request,http-response']
+operation::postBookmarks/find-all-posts/success[snippets='http-request,http-response']
