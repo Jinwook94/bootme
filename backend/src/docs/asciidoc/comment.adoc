@@ -1,0 +1,17 @@
+== Comment
+
+=== 댓글 추가
+==== 성공
+operation::comments/add/success[snippets='http-request,http-response']
+
+=== 댓글 조회
+==== 성공
+operation::comments/find/success[snippets='http-request,http-response']
+
+=== 댓글 수정
+==== 성공
+operation::comments/modify/success[snippets='http-request,http-response']
+
+=== 댓글 삭제
+==== 성공
+operation::comments/delete/success[snippets='http-request,http-response']

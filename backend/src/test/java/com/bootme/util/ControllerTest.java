@@ -5,6 +5,7 @@ import com.bootme.auth.util.AuthenticationArgumentResolver;
 import com.bootme.auth.util.TokenProvider;
 import com.bootme.bookmark.service.CourseBookmarkService;
 import com.bootme.bookmark.service.PostBookmarkService;
+import com.bootme.comment.service.CommentService;
 import com.bootme.common.interceptor.RateLimitInterceptor;
 import com.bootme.common.interceptor.TokenValidationInterceptor;
 import com.bootme.course.service.CompanyService;
@@ -62,6 +63,9 @@ public abstract class ControllerTest {
 
     @MockBean
     protected PostService postService;
+
+    @MockBean
+    protected CommentService commentService;
 
     @MockBean
     protected MemberService memberService;
