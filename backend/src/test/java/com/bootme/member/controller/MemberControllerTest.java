@@ -27,7 +27,7 @@ class MemberControllerTest extends ControllerTest {
         given(memberService.findMemberProfile(anyLong())).willReturn(getProfileResponse(1));
 
         //when
-        ResultActions perform = mockMvc.perform(get("/member/1/profile")
+        ResultActions perform = mockMvc.perform(get("/member/{memberId}/profile", 1)
                 .accept(MediaType.APPLICATION_JSON));
 
         //then
@@ -68,7 +68,7 @@ class MemberControllerTest extends ControllerTest {
         String content = objectMapper.writeValueAsString(getUpdateProfileRequest(1));
 
         //when
-        ResultActions perform = mockMvc.perform(put("/member/1")
+        ResultActions perform = mockMvc.perform(put("/member/{memberId}", 1)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content));
 
@@ -90,7 +90,7 @@ class MemberControllerTest extends ControllerTest {
         String content = objectMapper.writeValueAsString(getUpdateImageRequest(1));
 
         //when
-        ResultActions perform = mockMvc.perform(patch("/member/1/profile_image")
+        ResultActions perform = mockMvc.perform(patch("/member/{memberId}/profile_image", 1)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content));
 
@@ -111,7 +111,8 @@ class MemberControllerTest extends ControllerTest {
         given(memberService.isNicknameDuplicate(anyString())).willReturn(false);
 
         //when
-        ResultActions perform = mockMvc.perform(get("/member/nickname/user_nickname/exists"));
+        ResultActions perform = mockMvc.perform(
+                get("/member/nickname/{nickname}/exists", "철수"));
 
         //then
         perform.andExpect(status().isOk());

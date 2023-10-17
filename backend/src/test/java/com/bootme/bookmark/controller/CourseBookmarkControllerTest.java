@@ -33,7 +33,7 @@ class CourseBookmarkControllerTest extends ControllerTest {
         given(courseBookmarkService.addCourseBookmark(any(), any())).willReturn(1L);
 
         //when
-        ResultActions perform = mockMvc.perform(post("/bookmarks/1/courses/1")
+        ResultActions perform = mockMvc.perform(post("/bookmarks/{memberId}/courses/{courseId}", 1, 1)
                 .contentType(MediaType.APPLICATION_JSON));
 
         //then
@@ -53,7 +53,7 @@ class CourseBookmarkControllerTest extends ControllerTest {
         willDoNothing().given(courseBookmarkService).deleteCourseBookmark(any(), any());
 
         //when
-        ResultActions perform = mockMvc.perform(delete("/bookmarks/1/courses/1")
+        ResultActions perform = mockMvc.perform(delete("/bookmarks/{memberId}/courses/{courseId}", 1, 1)
                 .contentType(MediaType.APPLICATION_JSON));
 
         //then
@@ -78,7 +78,7 @@ class CourseBookmarkControllerTest extends ControllerTest {
         given(courseBookmarkService.getBookmarkedCourses(anyLong(), any())).willReturn(coursePage);
 
         //when
-        ResultActions perform = mockMvc.perform(get("/bookmarks/1/courses")
+        ResultActions perform = mockMvc.perform(get("/bookmarks/{memberId}/courses", 1)
                 .accept(MediaType.APPLICATION_JSON));
 
         //then

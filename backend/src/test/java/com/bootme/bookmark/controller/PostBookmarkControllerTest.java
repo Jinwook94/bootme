@@ -34,7 +34,7 @@ class PostBookmarkControllerTest extends ControllerTest {
         given(postBookmarkService.addPostBookmark(anyLong(), anyLong())).willReturn(1L);
 
         //when
-        ResultActions perform = mockMvc.perform(post("/bookmarks/1/posts/1")
+        ResultActions perform = mockMvc.perform(post("/bookmarks/{memberId}/posts/{postId}", 1, 1)
                 .contentType(MediaType.APPLICATION_JSON));
 
         //then
@@ -51,7 +51,7 @@ class PostBookmarkControllerTest extends ControllerTest {
     @DisplayName("deletePostBookmark()는 정상 요청시 북마크를 삭제하고 상태코드 204를 반환한다.")
     void deletePostBookmark() throws Exception {
         //when
-        ResultActions perform = mockMvc.perform(delete("/bookmarks/1/posts/1")
+        ResultActions perform = mockMvc.perform(delete("/bookmarks/{memberId}/posts/{postId}", 1, 1)
                 .contentType(MediaType.APPLICATION_JSON));
 
         //then
@@ -76,7 +76,7 @@ class PostBookmarkControllerTest extends ControllerTest {
         given(postBookmarkService.getBookmarkedPosts(anyLong(), any())).willReturn(postPage);
 
         //when
-        ResultActions perform = mockMvc.perform(get("/bookmarks/1/posts")
+        ResultActions perform = mockMvc.perform(get("/bookmarks/{memberId}/posts", 1)
                 .accept(MediaType.APPLICATION_JSON));
 
         //then

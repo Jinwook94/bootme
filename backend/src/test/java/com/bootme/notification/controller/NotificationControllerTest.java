@@ -33,7 +33,7 @@ class NotificationControllerTest extends ControllerTest {
         given(notificationService.findNotificationsByMemberId(anyLong())).willReturn(List.of(notificationResponse1, notificationResponse2, notificationResponse3));
 
         //when
-        ResultActions perform = mockMvc.perform(get("/notifications/1")
+        ResultActions perform = mockMvc.perform(get("/notifications/{memberId}", 1)
                 .accept(MediaType.APPLICATION_JSON));
 
         //then
@@ -56,7 +56,7 @@ class NotificationControllerTest extends ControllerTest {
         given(notificationService.findNotificationsByMemberId(anyLong())).willReturn(List.of(notificationResponse1, notificationResponse2, notificationResponse3));
 
         //when
-        ResultActions perform = mockMvc.perform(put("/notifications/1/checked")
+        ResultActions perform = mockMvc.perform(put("/notifications/{memberId}/checked", 1)
                 .accept(MediaType.APPLICATION_JSON));
 
         //then
@@ -68,4 +68,5 @@ class NotificationControllerTest extends ControllerTest {
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint())));
     }
+
 }

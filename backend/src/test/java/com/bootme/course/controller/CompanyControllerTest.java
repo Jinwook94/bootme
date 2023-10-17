@@ -60,7 +60,7 @@ class CompanyControllerTest extends ControllerTest {
         given(companyService.findById(any())).willReturn(getCompanyResponse(1));
 
         //when
-        ResultActions perform = mockMvc.perform(get("/companies/1")
+        ResultActions perform = mockMvc.perform(get("/companies/{id}", 1)
                 .accept(MediaType.APPLICATION_JSON));
 
         //then
@@ -81,7 +81,7 @@ class CompanyControllerTest extends ControllerTest {
                 .willThrow(new ResourceNotFoundException(NOT_FOUND_COMPANY, "2"));
 
         //when
-        ResultActions perform = mockMvc.perform(get("/companies/2")
+        ResultActions perform = mockMvc.perform(get("/companies/{id}", 2)
                 .accept(MediaType.APPLICATION_JSON));
 
         //then
@@ -122,13 +122,13 @@ class CompanyControllerTest extends ControllerTest {
 
     @Test
     @DisplayName("modifyCompany()는 정상 요청시 상태코드 204를 반환한다.")
-    void modifyCompany() throws Exception{
+    void modifyCompany() throws Exception {
         //given
         String content = objectMapper.writeValueAsString(getCompanyRequest(1));
         willDoNothing().given(companyService).modifyCompany(any(), any());
 
         //when
-        ResultActions perform = mockMvc.perform(put("/companies/1")
+        ResultActions perform = mockMvc.perform(put("/companies/{id}", 1)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content));
 
@@ -144,14 +144,14 @@ class CompanyControllerTest extends ControllerTest {
 
     @Test
     @DisplayName("modifyCompany()는 해당 id의 회사가 존재하지 않는 경우 400 Bad Request 를 반환한다.")
-    void modifyCompany_NOT_FOUND_COMPANY() throws Exception{
+    void modifyCompany_NOT_FOUND_COMPANY() throws Exception {
         //given
         String content = objectMapper.writeValueAsString(getCompanyRequest(2));
         willThrow(new ResourceNotFoundException(NOT_FOUND_COMPANY, "2"))
                 .given(companyService).modifyCompany(any(), any());
 
         //when
-        ResultActions perform = mockMvc.perform(put("/companies/2")
+        ResultActions perform = mockMvc.perform(put("/companies/{id}", 2)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content));
 
@@ -175,7 +175,7 @@ class CompanyControllerTest extends ControllerTest {
         willDoNothing().given(companyService).deleteCompany(any());
 
         //when
-        ResultActions perform = mockMvc.perform(delete("/companies/1")
+        ResultActions perform = mockMvc.perform(delete("/companies/{id}", 1)
                 .contentType(MediaType.APPLICATION_JSON));
 
         //then
@@ -196,7 +196,7 @@ class CompanyControllerTest extends ControllerTest {
                 .given(companyService).deleteCompany(any());
 
         //when
-        ResultActions perform = mockMvc.perform(delete("/companies/2")
+        ResultActions perform = mockMvc.perform(delete("/companies/{id}", 2)
                 .contentType(MediaType.APPLICATION_JSON));
 
         //then
