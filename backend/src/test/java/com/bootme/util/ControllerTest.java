@@ -15,6 +15,8 @@ import com.bootme.member.service.MemberService;
 import com.bootme.notification.service.NotificationService;
 import com.bootme.post.service.PostService;
 import com.bootme.prompt.service.PromptService;
+import com.bootme.sse.SseEmitterManager;
+import com.bootme.sse.SseService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -85,6 +87,12 @@ public abstract class ControllerTest {
 
     @MockBean
     protected PromptService promptService;
+
+    @MockBean
+    protected SseService sseService;
+
+    @MockBean
+    protected SseEmitterManager sseEmitterManager;
 
     @BeforeEach
     void setUp(final WebApplicationContext context, final RestDocumentationContextProvider provider) {

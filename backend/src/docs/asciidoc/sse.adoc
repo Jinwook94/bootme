@@ -1,0 +1,5 @@
+== SSE
+
+=== SSE 연결
+==== 성공
+operation::sse/connect/success[snippets='http-request,http-response']

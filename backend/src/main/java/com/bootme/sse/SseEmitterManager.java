@@ -16,7 +16,7 @@ public class SseEmitterManager {
 
     private final Map<Long, SseEmitter> emitterMap = new ConcurrentHashMap<>();
 
-    void add(Long memberId, SseEmitter emitter) {
+    public void add(Long memberId, SseEmitter emitter) {
         this.emitterMap.put(memberId, emitter);
         emitter.onTimeout(() -> {
             emitter.complete();
