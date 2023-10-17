@@ -5,19 +5,19 @@ import com.bootme.bookmark.domain.Bookmarkable;
 import com.bootme.common.domain.Clickable;
 import com.bootme.course.dto.CourseRequest;
 import com.bootme.notification.domain.NotificationEventType;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.bootme.notification.domain.NotificationEventType.*;
-import static javax.persistence.CascadeType.PERSIST;
-import static javax.persistence.FetchType.LAZY;
+import static jakarta.persistence.CascadeType.PERSIST;
+import static jakarta.persistence.FetchType.LAZY;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter

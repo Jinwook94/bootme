@@ -2,11 +2,10 @@ package com.bootme.prompt.controller;
 
 import com.bootme.prompt.dto.*;
 import com.bootme.prompt.service.PromptService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
-
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/prompts")

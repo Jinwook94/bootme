@@ -7,6 +7,7 @@ import com.bootme.post.dto.PostDetailResponse;
 import com.bootme.post.dto.PostRequest;
 import com.bootme.post.dto.PostResponse;
 import com.bootme.post.service.PostService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
@@ -14,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 

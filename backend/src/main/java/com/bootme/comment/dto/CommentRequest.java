@@ -1,10 +1,10 @@
 package com.bootme.comment.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import javax.annotation.Nullable;
-import javax.validation.constraints.NotBlank;
 
 @Getter
 @AllArgsConstructor

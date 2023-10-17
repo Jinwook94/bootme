@@ -5,11 +5,11 @@ import com.bootme.auth.util.Login;
 import com.bootme.comment.dto.CommentRequest;
 import com.bootme.comment.dto.CommentResponse;
 import com.bootme.comment.service.CommentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.net.URI;
 
 @RestController

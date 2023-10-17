@@ -1,9 +1,10 @@
 package com.bootme.session.service;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpSession;
+
 
 import java.util.HashSet;
 import java.util.Set;

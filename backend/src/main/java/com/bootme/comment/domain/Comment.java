@@ -6,6 +6,7 @@ import com.bootme.common.exception.AuthenticationException;
 import com.bootme.common.exception.ValidationException;
 import com.bootme.member.domain.Member;
 import com.bootme.post.domain.Post;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,15 +15,14 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 import static com.bootme.common.exception.ErrorType.*;
-import static javax.persistence.CascadeType.PERSIST;
-import static javax.persistence.FetchType.LAZY;
+import static jakarta.persistence.CascadeType.PERSIST;
+import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Getter

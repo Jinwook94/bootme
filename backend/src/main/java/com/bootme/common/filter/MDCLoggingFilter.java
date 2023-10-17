@@ -1,11 +1,11 @@
 package com.bootme.common.filter;
 
+import jakarta.servlet.*;
 import org.slf4j.MDC;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.*;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -33,4 +33,5 @@ class MDCLoggingFilter implements Filter {
             MDC.remove("requestId");
         }
     }
+
 }

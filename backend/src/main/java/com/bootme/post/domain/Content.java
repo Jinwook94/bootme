@@ -1,15 +1,15 @@
 package com.bootme.post.domain;
 
 import com.bootme.common.exception.ValidationException;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.Lob;
 import lombok.Getter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.Lob;
 import java.util.Objects;
 
 import static com.bootme.common.exception.ErrorType.*;
@@ -95,10 +95,9 @@ public class Content {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Content)) {
+        if (!(o instanceof Content content)) {
             return false;
         }
-        Content content = (Content) o;
         return Objects.equals(value, content.value);
     }
 

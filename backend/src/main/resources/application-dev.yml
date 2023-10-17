@@ -7,6 +7,10 @@ spring:
     hikari:
       leakDetectionThreshold: 10000
       maximum-pool-size: 10
+  data:
+    redis:
+      host: localhost
+      port: 6379
   jpa:
     open-in-view: false  # if true: SSE 커넥션 열려있는 동안 DB 커넥션도 열려있음 => Connection leak
     hibernate:
@@ -17,9 +21,6 @@ spring:
       path: /h2-console
   flyway:
     enabled: false
-  redis:
-    host: localhost
-    port: 6379
 
 decorator:
   datasource:

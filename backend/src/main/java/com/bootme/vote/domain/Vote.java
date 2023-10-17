@@ -2,14 +2,13 @@ package com.bootme.vote.domain;
 
 import com.bootme.common.domain.BaseEntity;
 import com.bootme.member.domain.Member;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-
-import static javax.persistence.FetchType.LAZY;
+import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Getter

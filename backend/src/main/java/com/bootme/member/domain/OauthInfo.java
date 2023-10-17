@@ -4,12 +4,11 @@ import com.bootme.auth.dto.UserInfo;
 import com.bootme.common.domain.BaseEntity;
 import com.bootme.common.exception.ArgumentNotValidException;
 import com.bootme.common.exception.ErrorType;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter

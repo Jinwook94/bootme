@@ -1,9 +1,8 @@
 package com.bootme.course.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Getter;
-
-import javax.validation.constraints.NotBlank;
 
 @Getter
 public class CompanyRequest {
@@ -35,4 +34,5 @@ public class CompanyRequest {
         this.serviceUrl = serviceUrl;
         this.logoUrl = logoUrl;
     }
+
 }

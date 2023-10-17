@@ -1,10 +1,10 @@
 package com.bootme.post.domain;
 
 import com.bootme.common.exception.ValidationException;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 import lombok.Getter;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
 import java.util.Objects;
 
 import static com.bootme.common.exception.ErrorType.POST_TITLE_EMPTY;
@@ -41,10 +41,9 @@ public class Title {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Title)) {
+        if (!(o instanceof Title title)) {
             return false;
         }
-        Title title = (Title) o;
         return Objects.equals(value, title.value);
     }
 
