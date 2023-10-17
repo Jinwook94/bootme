@@ -9,6 +9,10 @@ spring:
     hikari:
       leakDetectionThreshold: 10000
       maximum-pool-size: 20
+  data:
+    redis:
+      host: ENC(jEvMbZFxfZLTb0i42wiZKQelUtpPn1+yZnS0qInY4dkyYqKCdvZTxb2gNvaIABtbCMxa22+X0OLWeFpRMWusJ0cH5CeF36lH)
+      port: 6379
   jpa:
     open-in-view: false  # if true: SSE 커넥션 열려있는 동안 DB 커넥션도 열려있음 => Connection leak
     hibernate:
@@ -21,9 +25,6 @@ spring:
       connection:
         characterEncoding: utf8mb4
         charSet: utf8mb4
-  redis:
-    host: ENC(jEvMbZFxfZLTb0i42wiZKQelUtpPn1+yZnS0qInY4dkyYqKCdvZTxb2gNvaIABtbCMxa22+X0OLWeFpRMWusJ0cH5CeF36lH)
-    port: 6379
   flyway:
     enabled: true
     baseline-on-migrate: true
