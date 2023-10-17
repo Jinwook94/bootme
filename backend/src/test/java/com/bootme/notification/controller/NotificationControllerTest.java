@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
@@ -13,9 +14,8 @@ import java.util.List;
 import static com.bootme.util.fixture.NotificationFixture.getNotificationResponse;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -33,8 +33,9 @@ class NotificationControllerTest extends ControllerTest {
         given(notificationService.findNotificationsByMemberId(anyLong())).willReturn(List.of(notificationResponse1, notificationResponse2, notificationResponse3));
 
         //when
-        ResultActions perform = mockMvc.perform(get("/notifications/{memberId}", 1)
-                .accept(MediaType.APPLICATION_JSON));
+        ResultActions perform = mockMvc.perform(
+                RestDocumentationRequestBuilders.get("/notifications/{memberId}", 1)
+                        .accept(MediaType.APPLICATION_JSON));
 
         //then
         perform.andExpect(status().isOk());
@@ -56,8 +57,9 @@ class NotificationControllerTest extends ControllerTest {
         given(notificationService.findNotificationsByMemberId(anyLong())).willReturn(List.of(notificationResponse1, notificationResponse2, notificationResponse3));
 
         //when
-        ResultActions perform = mockMvc.perform(put("/notifications/{memberId}/checked", 1)
-                .accept(MediaType.APPLICATION_JSON));
+        ResultActions perform = mockMvc.perform(
+                RestDocumentationRequestBuilders.put("/notifications/{memberId}/checked", 1)
+                        .accept(MediaType.APPLICATION_JSON));
 
         //then
         perform.andExpect(status().isOk());
