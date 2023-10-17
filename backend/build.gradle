@@ -144,11 +144,42 @@ task buildDocument(type: Copy) {
     into file("build/resources/main/static/docs/rest")
 }
 
+openapi3 {
+    servers = [
+            {
+                url = "https://api.bootme.co.kr"
+                description = "운영 서버"
+            },
+            {
+                url = "https://staging.api.bootme.co.kr"
+                description = "스테이징 서버"
+            },
+            {
+                url = "http://localhost:8080"
+                description = "로컬"
+            }
+    ]
+    title = 'BootMe API'
+    description 'BootMe API 문서'
+    version = '0.0.1'
+    format = 'json'
+    contact = {
+        name = 'Jin-wook Kim'
+        email = 'kimjinwook94@gmail.com'
+    }
+    separatePublicApi = false
+    outputDirectory = "src/main/resources/static/docs/swagger/open-api-spec"
+    outputFileNamePrefix = 'open-api-3.0.1'
+}
+
 bootJar {
     def dateTime = new Date().format('yyyy-MMdd-HHmm')
     archivesBaseName = 'bootme-' + dateTime
     archiveFileName = archivesBaseName + '.jar'
 
-    dependsOn buildDocument
+    dependsOn(
+            buildDocument,
+            ':openapi3'
+    )
     enabled = true
 }
