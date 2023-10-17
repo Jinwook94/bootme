@@ -6,6 +6,7 @@ import com.bootme.member.dto.MyProfileResponse;
 import com.bootme.member.dto.ProfileResponse;
 import com.bootme.member.dto.UpdateImageRequest;
 import com.bootme.member.dto.UpdateProfileRequest;
+import com.bootme.stack.dto.StackRequest;
 import com.bootme.stack.dto.StackResponse;
 
 import java.util.ArrayList;
@@ -75,6 +76,19 @@ public class MemberFixture {
                 .nickname(nicknames[index])
                 .phoneNumber(phoneNumbers[index])
                 .roleType(RoleType.USER)
+                .build();
+    }
+
+    public static StackRequest getStackRequest(int index) {
+        index--;
+        String[] names = {VALID_STACK_1, VALID_STACK_2, VALID_STACK_3, VALID_STACK_4};
+        String[] types = {VALID_STACK_TYPE_1, VALID_STACK_TYPE_2, VALID_STACK_TYPE_3, VALID_STACK_TYPE_4};
+        String[] icons = {VALID_STACK_ICON_1, VALID_STACK_ICON_2, VALID_STACK_ICON_3, VALID_STACK_ICON_4};
+
+        return StackRequest.builder()
+                .name(names[index])
+                .type(types[index])
+                .icon(icons[index])
                 .build();
     }
 

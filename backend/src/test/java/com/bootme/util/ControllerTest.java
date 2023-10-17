@@ -17,6 +17,7 @@ import com.bootme.post.service.PostService;
 import com.bootme.prompt.service.PromptService;
 import com.bootme.sse.SseEmitterManager;
 import com.bootme.sse.SseService;
+import com.bootme.stack.service.StackService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -57,6 +58,9 @@ public abstract class ControllerTest {
 
     @MockBean
     protected AuthService authService;
+
+    @MockBean
+    protected StackService stackService;
 
     @MockBean
     protected CompanyService companyService;
