@@ -58,33 +58,33 @@ public class StackService {
     }
 
     @Transactional
-    public void addLanguage(String language, String icon) {
-        validateDuplicate(language);
-        Stack stack = new Stack(language, LANGUAGE, icon);
+    public void addLanguage(String name, String icon) {
+        validateDuplicate(name);
+        Stack stack = new Stack(name, LANGUAGE, icon);
         stackRepository.save(stack);
-        languages.add(language);
+        languages.add(name);
     }
 
     @Transactional
-    public void removeLanguage(String language) {
-        Stack stack = getStackByNameAndType(language, LANGUAGE);
+    public void removeLanguage(String name) {
+        Stack stack = getStackByNameAndType(name, LANGUAGE);
         stackRepository.delete(stack);
-        languages.remove(language);
+        languages.remove(name);
     }
 
     @Transactional
-    public void addFramework(String framework, String icon) {
-        validateDuplicate(framework);
-        Stack stack = new Stack(framework, FRAMEWORK, icon);
+    public void addFramework(String name, String icon) {
+        validateDuplicate(name);
+        Stack stack = new Stack(name, FRAMEWORK, icon);
         stackRepository.save(stack);
-        frameworks.add(framework);
+        frameworks.add(name);
     }
 
     @Transactional
-    public void removeFramework(String framework) {
-        Stack stack = getStackByNameAndType(framework, FRAMEWORK);
+    public void removeFramework(String name) {
+        Stack stack = getStackByNameAndType(name, FRAMEWORK);
         stackRepository.delete(stack);
-        frameworks.remove(framework);
+        frameworks.remove(name);
     }
 
     @Transactional(readOnly = true)

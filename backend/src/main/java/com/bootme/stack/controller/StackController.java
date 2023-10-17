@@ -29,26 +29,26 @@ public class StackController {
     }
 
     @PostMapping("/language")
-    public ResponseEntity<Void> addLanguage(@RequestParam String language, @RequestParam String icon) {
-        stackService.addLanguage(language, icon);
+    public ResponseEntity<Void> addLanguage(@RequestParam String name, @RequestParam String icon) {
+        stackService.addLanguage(name, icon);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/language")
-    public ResponseEntity<Void> removeLanguage(@RequestParam String language) {
-        stackService.removeLanguage(language);
+    public ResponseEntity<Void> removeLanguage(@RequestParam String name) {
+        stackService.removeLanguage(name);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/framework")
-    public ResponseEntity<Void> addFramework(@RequestParam String framework, @RequestParam String icon) {
-        stackService.addFramework(framework, icon);
+    public ResponseEntity<Void> addFramework(@RequestParam String name, @RequestParam String icon) {
+        stackService.addFramework(name, icon);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/framework")
-    public ResponseEntity<Void> removeFramework(@RequestParam String framework) {
-        stackService.removeFramework(framework);
+    public ResponseEntity<Void> removeFramework(@RequestParam String name) {
+        stackService.removeFramework(name);
         return ResponseEntity.ok().build();
     }
 

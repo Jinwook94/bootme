@@ -1,5 +1,6 @@
 package com.bootme.auth.controller;
 
+import com.bootme.auth.dto.AwsSecrets;
 import com.bootme.auth.dto.LoginResponse;
 import com.bootme.common.exception.TokenParseException;
 import com.bootme.common.exception.AuthenticationException;
@@ -16,7 +17,9 @@ import static com.bootme.common.exception.ErrorType.*;
 import static com.bootme.util.fixture.AuthFixture.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -199,6 +202,32 @@ class AuthControllerTest extends ControllerTest {
         //docs
         perform.andDo(print())
                 .andDo(document("auth/logout/success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())));
+    }
+
+    @Test
+    @DisplayName("getSecrets()는 정상 요청시 상태코드 200을 반환한다.")
+    void getSecrets_success() throws Exception {
+        //given
+        String secret = "validSecret";
+        String origin = "https://bootme.co.kr";
+        AwsSecrets awsSecrets = getAwsSecrets();
+        willDoNothing().given(authService).verifySecretRequest(any(), any());
+        given(authService.getAwsSecrets()).willReturn(awsSecrets);
+
+        //when
+        ResultActions perform = mockMvc.perform(get("/secrets")
+                .header("Bootme_Secret", secret)
+                .header("Origin", origin)
+                .accept(MediaType.APPLICATION_JSON));
+
+        //then
+        perform.andExpect(status().isOk());
+
+        //docs
+        perform.andDo(print())
+                .andDo(document("auth/secrets/success",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint())));
     }

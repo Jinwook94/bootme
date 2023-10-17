@@ -28,6 +28,14 @@ operation::courses/modify/success[snippets='http-request,http-response']
 ===== 해당 id의 코스가 존재하지 않는 경우
 operation::courses/modify/fail/not-found-course[snippets='http-request,http-response']
 
+=== 코스 상세 수정
+==== 성공
+operation::courses/modify-detail/success[snippets='http-request,http-response']
+
+==== 실패
+===== 해당 id의 코스가 존재하지 않는 경우
+operation::courses/modify-detail/fail/not-found-course[snippets='http-request,http-response']
+
 === 코스 삭제
 ==== 성공
 operation::courses/delete/success[snippets='http-request,http-response']

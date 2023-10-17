@@ -4,10 +4,6 @@
 ==== 성공
 operation::notification/findNotificationsByMemberId/success[snippets='http-request,http-response']
 
-=== 알림 전송
-==== 성공
-operation::notification/sendNotification/success[snippets='http-request,http-response']
-
 === 알림 전체 확인
 ==== 성공
 operation::notification/markAllNotificationsAsCheckedForMember/success[snippets='http-request,http-response']

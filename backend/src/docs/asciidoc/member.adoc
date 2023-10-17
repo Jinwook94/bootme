@@ -1,29 +1,21 @@
 == Member
 
-=== 북마크 코스 추가
+=== 회원 프로필 조회
 ==== 성공
-operation::member/addBookmarkCourse/success[snippets='http-request,http-response']
+operation::members/find-profile/success[snippets='http-request,http-response']
 
-==== 실패
-===== 해당 id의 멤버가 존재하지 않는 경우
-operation::member/addBookmarkCourse/fail/not-found-member[snippets='http-request,http-response']
-
-==== 실패
-===== 해당 id의 코스가 존재하지 않는 경우
-operation::member/addBookmarkCourse/fail/not-found-course[snippets='http-request,http-response']
-
-=== 북마크 코스 삭제
+=== 회원 자신의 프로필 조회
 ==== 성공
-operation::member/deleteBookmarkCourse/success[snippets='http-request,http-response']
+operation::members/find-my-profile/success[snippets='http-request,http-response']
 
-==== 실패
-operation::member/deleteBookmarkCourse/fail/not-found-bookmark[snippets='http-request,http-response']
-
-=== 북마크 코스 조회
+=== 회원 프로필 수정
 ==== 성공
-operation::member/findBookmarkCourses/success[snippets='http-request,http-response']
+operation::members/modify-profile/success[snippets='http-request,http-response']
 
-=== 북마크 코스 ID 조회
+=== 회원 프로필 이미지 수정
 ==== 성공
-operation::member/findBookmarkCourseIds/success[snippets='http-request,http-response']
+operation::members/modify-profile-image/success[snippets='http-request,http-response']
 
+=== 닉네임 중복 검사
+==== 성공
+operation::members/check-nickname/success[snippets='http-request,http-response']

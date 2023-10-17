@@ -1,5 +1,6 @@
 package com.bootme.vote.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
@@ -19,5 +20,13 @@ public class VoteRequest {
 
     @NotNull
     private Long memberId;
+
+    @Builder
+    public VoteRequest(String votableType, Long votableId, String voteType, Long memberId) {
+        this.votableType = votableType;
+        this.votableId = votableId;
+        this.voteType = voteType;
+        this.memberId = memberId;
+    }
 
 }

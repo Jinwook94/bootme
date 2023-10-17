@@ -4,6 +4,8 @@ import com.bootme.auth.service.AuthService;
 import com.bootme.auth.util.AuthenticationArgumentResolver;
 import com.bootme.auth.util.TokenProvider;
 import com.bootme.bookmark.service.CourseBookmarkService;
+import com.bootme.bookmark.service.PostBookmarkService;
+import com.bootme.comment.service.CommentService;
 import com.bootme.common.interceptor.RateLimitInterceptor;
 import com.bootme.common.interceptor.TokenValidationInterceptor;
 import com.bootme.course.service.CompanyService;
@@ -12,6 +14,11 @@ import com.bootme.image.service.ImageService;
 import com.bootme.member.service.MemberService;
 import com.bootme.notification.service.NotificationService;
 import com.bootme.post.service.PostService;
+import com.bootme.prompt.service.PromptService;
+import com.bootme.sse.SseEmitterManager;
+import com.bootme.sse.SseService;
+import com.bootme.stack.service.StackService;
+import com.bootme.vote.service.VoteService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -54,6 +61,9 @@ public abstract class ControllerTest {
     protected AuthService authService;
 
     @MockBean
+    protected StackService stackService;
+
+    @MockBean
     protected CompanyService companyService;
 
     @MockBean
@@ -63,16 +73,34 @@ public abstract class ControllerTest {
     protected PostService postService;
 
     @MockBean
+    protected CommentService commentService;
+
+    @MockBean
+    protected VoteService voteService;
+
+    @MockBean
     protected MemberService memberService;
 
     @MockBean
     protected CourseBookmarkService courseBookmarkService;
 
     @MockBean
+    protected PostBookmarkService postBookmarkService;
+
+    @MockBean
     protected NotificationService notificationService;
 
     @MockBean
     protected ImageService imageService;
+
+    @MockBean
+    protected PromptService promptService;
+
+    @MockBean
+    protected SseService sseService;
+
+    @MockBean
+    protected SseEmitterManager sseEmitterManager;
 
     @BeforeEach
     void setUp(final WebApplicationContext context, final RestDocumentationContextProvider provider) {

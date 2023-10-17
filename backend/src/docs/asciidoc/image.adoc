@@ -1,0 +1,5 @@
+== Image
+
+=== 이미지 업로드
+==== 성공
+operation::images/upload/success[snippets='http-request,http-response']

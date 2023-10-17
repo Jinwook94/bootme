@@ -88,7 +88,7 @@ class CourseControllerTest extends ControllerTest {
         given(courseService.findById(anyLong(), anyLong())).willReturn(getCourseDetailResponse(1));
 
         //when
-        ResultActions perform = mockMvc.perform(get("/courses/1")
+        ResultActions perform = mockMvc.perform(get("/courses/{id}", 1)
                 .accept(MediaType.APPLICATION_JSON));
 
         //then
@@ -101,31 +101,29 @@ class CourseControllerTest extends ControllerTest {
                         preprocessResponse(prettyPrint())));
     }
 
-//    @Test
-//    @DisplayName("findCourse()는 해당 id의 코스가 존재하지 않는 경우 400 Bad Request 를 반환한다.")
-//    void findCourse_NOT_FOUND_COURSE() throws Exception {
-//        //given
-//        AuthInfo authInfo = new AuthInfo(null, null, null);
-//        given(authenticationArgumentResolver.resolveArgument(any(), any(), any(), any())).willReturn(authInfo);
-//        willThrow(new ResourceNotFoundException(NOT_FOUND_COURSE, "2"))
-//                .given(courseService).findById(anyLong(), anyLong());
-//
-//        //when
-//        ResultActions perform = mockMvc.perform(get("/courses/2")
-//                .accept(MediaType.APPLICATION_JSON));
-//
-//        //then
-//        perform.andExpectAll(
-//                status().isBadRequest(),
-//                jsonPath("message").value(NOT_FOUND_COURSE.getMessage())
-//        );
-//
-//        //docs
-//        perform.andDo(print())
-//                .andDo(document("courses/find/fail/not-found-course",
-//                        preprocessRequest(prettyPrint()),
-//                        preprocessResponse(prettyPrint())));
-//    }
+    @Test
+    @DisplayName("findCourse()는 해당 id의 코스가 존재하지 않는 경우 400 Bad Request 를 반환한다.")
+    void findCourse_NOT_FOUND_COURSE() throws Exception {
+        //given
+        willThrow(new ResourceNotFoundException(NOT_FOUND_COURSE, "2"))
+                .given(courseService).findById(any(), any());
+
+        //when
+        ResultActions perform = mockMvc.perform(get("/courses/{id}", 2)
+                .accept(MediaType.APPLICATION_JSON));
+
+        //then
+        perform.andExpectAll(
+                status().isBadRequest(),
+                jsonPath("message").value(NOT_FOUND_COURSE.getMessage())
+        );
+
+        //docs
+        perform.andDo(print())
+                .andDo(document("courses/find/fail/not-found-course",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())));
+    }
 
     @Test
     @DisplayName("findCourses()는 정상 요청시 상태코드 200을 반환한다.")
@@ -137,7 +135,7 @@ class CourseControllerTest extends ControllerTest {
         courseResponses.add(getCourseResponse(3));
         Page<CourseResponse> coursePage = new PageImpl<>(courseResponses);
 
-        given(courseService.findAll(anyLong(), anyInt(),anyInt(),anyString(),any())).willReturn(coursePage);
+        given(courseService.findAll(anyLong(), anyInt(), anyInt(), anyString(), any())).willReturn(coursePage);
 
         //when
         ResultActions perform = mockMvc.perform(get("/courses")
@@ -156,13 +154,13 @@ class CourseControllerTest extends ControllerTest {
 
     @Test
     @DisplayName("modifyCourse()는 정상 요청시 상태코드 204를 반환한다.")
-    void modifyCourse() throws Exception{
+    void modifyCourse() throws Exception {
         //given
         String content = objectMapper.writeValueAsString(getCourseRequest(1));
         willDoNothing().given(courseService).modifyCourse(any(), any());
 
         //when
-        ResultActions perform = mockMvc.perform(put("/courses/1")
+        ResultActions perform = mockMvc.perform(put("/courses/{id}", 1)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content));
 
@@ -182,10 +180,10 @@ class CourseControllerTest extends ControllerTest {
         //given
         String content = objectMapper.writeValueAsString(getCourseRequest(2));
         willThrow(new ResourceNotFoundException(NOT_FOUND_COURSE, "2"))
-                .given(courseService).modifyCourse(any(),any());
+                .given(courseService).modifyCourse(any(), any());
 
         //when
-        ResultActions perform = mockMvc.perform(put("/courses/2")
+        ResultActions perform = mockMvc.perform(put("/courses/{id}", 2)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content));
 
@@ -203,13 +201,61 @@ class CourseControllerTest extends ControllerTest {
     }
 
     @Test
+    @DisplayName("modifyCourseDetail()는 정상 요청시 상태코드 204를 반환한다.")
+    void modifyCourseDetail() throws Exception {
+        //given
+        willDoNothing().given(courseService).modifyCourseDetail(anyLong(), any());
+        String content = objectMapper.writeValueAsString(getCourseDetailRequest(1));
+
+        //when
+        ResultActions perform = mockMvc.perform(patch("/courses/{id}/detail", 1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content));
+
+        //then
+        perform.andExpect(status().isNoContent());
+
+        //docs
+        perform.andDo(print())
+                .andDo(document("courses/modify-detail/success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())));
+    }
+
+    @Test
+    @DisplayName("modifyCourseDetail()는 해당 id의 코스가 존재하지 않는 경우 400 Bad Request 를 반환한다.")
+    void modifyCourseDetail_NOT_FOUND_COURSE() throws Exception {
+        //given
+        String content = objectMapper.writeValueAsString(getCourseDetailRequest(2));
+        willThrow(new ResourceNotFoundException(NOT_FOUND_COURSE, "2"))
+                .given(courseService).modifyCourseDetail(anyLong(), any());
+
+        //when
+        ResultActions perform = mockMvc.perform(patch("/courses/{id}/detail", 2)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content));
+
+        //then
+        perform.andExpectAll(
+                status().isBadRequest(),
+                jsonPath("message").value(NOT_FOUND_COURSE.getMessage())
+        );
+
+        //docs
+        perform.andDo(print())
+                .andDo(document("courses/modify-detail/fail/not-found-course",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())));
+    }
+
+    @Test
     @DisplayName("deleteCourse()는 정상 요청시 상태코드 204를 반환한다.")
     void deleteCourse() throws Exception {
         //given
         willDoNothing().given(courseService).deleteCourse(any());
 
         //when
-        ResultActions perform = mockMvc.perform(delete("/courses/1")
+        ResultActions perform = mockMvc.perform(delete("/courses/{id}", 1)
                 .contentType(MediaType.APPLICATION_JSON));
 
         //then
@@ -230,7 +276,7 @@ class CourseControllerTest extends ControllerTest {
                 .given(courseService).deleteCourse(any());
 
         //when
-        ResultActions perform = mockMvc.perform(delete("/courses/2")
+        ResultActions perform = mockMvc.perform(delete("/courses/{id}", 2)
                 .contentType(MediaType.APPLICATION_JSON));
 
         //then

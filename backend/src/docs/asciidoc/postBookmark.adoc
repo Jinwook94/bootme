@@ -1,0 +1,13 @@
+== Post Bookmark
+
+=== 북마크 포스트 추가
+==== 성공
+operation::postBookmarks/add-post/success[snippets='http-request,http-response']
+
+=== 북마크 포스트 삭제
+==== 성공
+operation::postBookmarks/delete-post/success[snippets='http-request,http-response']
+
+=== 북마크 포스트 전체 조회
+==== 성공
+operation::postBookmarks/find-all-posts/success[snippets='http-request,http-response']
