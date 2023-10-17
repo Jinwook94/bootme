@@ -5,20 +5,19 @@ import com.bootme.common.exception.AuthenticationException;
 import com.bootme.member.dto.UpdateImageRequest;
 import com.bootme.notification.domain.Notification;
 import com.bootme.stack.domain.Stack;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.bootme.common.exception.ErrorType.MEMBER_ID_MISMATCH;
-import static javax.persistence.CascadeType.ALL;
-import static javax.persistence.CascadeType.PERSIST;
-import static javax.persistence.FetchType.LAZY;
+import static jakarta.persistence.CascadeType.ALL;
+import static jakarta.persistence.CascadeType.PERSIST;
+import static jakarta.persistence.FetchType.LAZY;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter

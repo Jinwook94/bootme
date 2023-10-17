@@ -8,18 +8,18 @@ import com.bootme.vote.domain.Votable;
 import com.bootme.common.exception.AuthenticationException;
 import com.bootme.member.domain.Member;
 import com.bootme.post.dto.PostRequest;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.bootme.common.exception.ErrorType.NOT_WRITER;
-import static javax.persistence.CascadeType.PERSIST;
-import static javax.persistence.FetchType.LAZY;
+import static jakarta.persistence.CascadeType.PERSIST;
+import static jakarta.persistence.FetchType.LAZY;
 
 /**
  * Indexes:

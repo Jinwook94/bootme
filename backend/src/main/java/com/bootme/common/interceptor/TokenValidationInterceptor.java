@@ -2,12 +2,11 @@ package com.bootme.common.interceptor;
 
 import com.bootme.auth.service.AuthService;
 import com.bootme.auth.util.TokenProvider;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import static com.bootme.common.util.RequestUtils.getCookieValue;
 

@@ -3,11 +3,11 @@ package com.bootme.stack.domain;
 import com.bootme.common.domain.BaseEntity;
 import com.bootme.course.domain.CourseStack;
 import com.bootme.member.domain.MemberStack;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;

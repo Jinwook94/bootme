@@ -4,12 +4,12 @@ import com.bootme.auth.dto.AwsSecrets;
 import com.bootme.auth.dto.LoginResponse;
 import com.bootme.auth.service.AuthService;
 import com.bootme.auth.util.TokenProvider;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 @RestController
