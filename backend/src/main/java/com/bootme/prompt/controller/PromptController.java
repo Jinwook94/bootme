@@ -3,7 +3,6 @@ package com.bootme.prompt.controller;
 import com.bootme.prompt.dto.*;
 import com.bootme.prompt.service.PromptService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
@@ -17,16 +16,14 @@ public class PromptController {
     private final PromptService promptService;
 
     @PostMapping("/generation/{type}")
-    public Mono<ResponseEntity<PromptGenerationResponse>> generatePrompt(@PathVariable String type,
-                                                                         @RequestBody @Valid PromptGenerationRequest promptRequest) {
-        return promptService.generatePrompt(type, promptRequest)
-                .map(ResponseEntity::ok);
+    public Mono<PromptGenerationResponse> generatePrompt(@PathVariable String type,
+                                                         @RequestBody @Valid PromptGenerationRequest promptRequest) {
+        return promptService.generatePrompt(type, promptRequest);
     }
 
     @PostMapping("/submission")
-    public Mono<ResponseEntity<PromptSubmissionResponse>> submitPrompt(@RequestBody @Valid PromptSubmissionRequest promptRequest) {
-        return promptService.submitPrompt(promptRequest)
-                .map(ResponseEntity::ok);
+    public Mono<PromptSubmissionResponse> submitPrompt(@RequestBody @Valid PromptSubmissionRequest promptRequest) {
+        return promptService.submitPrompt(promptRequest);
     }
 
 }
