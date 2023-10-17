@@ -122,11 +122,10 @@ public abstract class ControllerTest {
                                         .removePort(),
                                 prettyPrint()
                         ).withResponseDefaults(
-                                removeHeaders(
-                                        "Transfer-Encoding",
-                                        "Date",
-                                        "Keep-Alive",
-                                        "Connection"),
+                                modifyHeaders().remove("Transfer-Encoding"),
+                                modifyHeaders().remove("Date"),
+                                modifyHeaders().remove("Keep-Alive"),
+                                modifyHeaders().remove("Connection"),
                                 prettyPrint()
                         )
                 ).build();
