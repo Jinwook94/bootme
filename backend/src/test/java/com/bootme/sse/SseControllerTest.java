@@ -9,7 +9,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.any;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;

@@ -76,6 +76,7 @@ classDef cloudwatch fill:#f2d5e0, stroke:#FFF
 
 ## API 문서
 
-- https://api.bootme.co.kr/docs/index.html
+- https://api.bootme.co.kr/docs/swagger/index.html
+- https://api.bootme.co.kr/docs/rest/index.html
 
 <br>

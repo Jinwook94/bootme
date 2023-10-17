@@ -6,11 +6,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -28,7 +28,7 @@ class ImageControllerTest extends ControllerTest {
 
         //when
         ResultActions perform = mockMvc.perform(
-                MockMvcRequestBuilders.multipart("/images")
+                RestDocumentationRequestBuilders.multipart("/images")
                         .file(imageFile)
                         .param("imageType", "PROFILE")
         );
