@@ -14,6 +14,7 @@ import com.bootme.image.service.ImageService;
 import com.bootme.member.service.MemberService;
 import com.bootme.notification.service.NotificationService;
 import com.bootme.post.service.PostService;
+import com.bootme.prompt.service.PromptService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -81,6 +82,9 @@ public abstract class ControllerTest {
 
     @MockBean
     protected ImageService imageService;
+
+    @MockBean
+    protected PromptService promptService;
 
     @BeforeEach
     void setUp(final WebApplicationContext context, final RestDocumentationContextProvider provider) {

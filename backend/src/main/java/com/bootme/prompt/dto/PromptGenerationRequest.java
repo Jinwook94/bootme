@@ -3,7 +3,7 @@ package com.bootme.prompt.dto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +12,6 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class PromptGenerationRequest {
 
     @NotBlank
@@ -36,6 +35,24 @@ public class PromptGenerationRequest {
     private List<String> principles;
     private String responseFormat;
     private String promptLanguage;
+
+    @Builder
+    public PromptGenerationRequest(String promptType, String question, String example, String featureDescription,
+                                   String exampleCode, String apiDescription, String erd, String entity, List<String> techStack,
+                                   List<String> principles, String responseFormat, String promptLanguage) {
+        this.promptType = promptType;
+        this.question = question;
+        this.example = example;
+        this.featureDescription = featureDescription;
+        this.exampleCode = exampleCode;
+        this.apiDescription = apiDescription;
+        this.erd = erd;
+        this.entity = entity;
+        this.techStack = techStack;
+        this.principles = principles;
+        this.responseFormat = responseFormat;
+        this.promptLanguage = promptLanguage;
+    }
 
     @Override
     public String toString() {
