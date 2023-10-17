@@ -4,7 +4,6 @@ import com.amazonaws.auth.*;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,8 +39,4 @@ public class S3Config {
                 .build();
     }
 
-    @Bean
-    public Tika mimeTypeParser() {
-        return new Tika();
-    }
 }
