@@ -201,6 +201,54 @@ class CourseControllerTest extends ControllerTest {
     }
 
     @Test
+    @DisplayName("modifyCourseDetail()는 정상 요청시 상태코드 204를 반환한다.")
+    void modifyCourseDetail() throws Exception {
+        //given
+        willDoNothing().given(courseService).modifyCourseDetail(anyLong(), any());
+        String content = objectMapper.writeValueAsString(getCourseDetailRequest(1));
+
+        //when
+        ResultActions perform = mockMvc.perform(patch("/courses/{id}/detail", 1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content));
+
+        //then
+        perform.andExpect(status().isNoContent());
+
+        //docs
+        perform.andDo(print())
+                .andDo(document("courses/modify-detail/success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())));
+    }
+
+    @Test
+    @DisplayName("modifyCourseDetail()는 해당 id의 코스가 존재하지 않는 경우 400 Bad Request 를 반환한다.")
+    void modifyCourseDetail_NOT_FOUND_COURSE() throws Exception {
+        //given
+        String content = objectMapper.writeValueAsString(getCourseDetailRequest(2));
+        willThrow(new ResourceNotFoundException(NOT_FOUND_COURSE, "2"))
+                .given(courseService).modifyCourseDetail(anyLong(), any());
+
+        //when
+        ResultActions perform = mockMvc.perform(patch("/courses/{id}/detail", 2)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content));
+
+        //then
+        perform.andExpectAll(
+                status().isBadRequest(),
+                jsonPath("message").value(NOT_FOUND_COURSE.getMessage())
+        );
+
+        //docs
+        perform.andDo(print())
+                .andDo(document("courses/modify-detail/fail/not-found-course",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())));
+    }
+
+    @Test
     @DisplayName("deleteCourse()는 정상 요청시 상태코드 204를 반환한다.")
     void deleteCourse() throws Exception {
         //given
