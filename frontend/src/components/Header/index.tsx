@@ -30,6 +30,7 @@ import NotificationDropdown from './NotificationDropdown';
 import { GoogleLoginOneTap } from '../LoginModal/GoogleLogin';
 
 const Header = () => {
+  const clientUrl = process.env.CLIENT_URL;
   const { isLogin, handleLoginModal } = useLogin();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [profileImage, setProfileImage] = useState(localStorage.getItem('profileImage'));
@@ -61,7 +62,7 @@ const Header = () => {
           <Wrapper>
             <HeaderLeft>
               <Logo>
-                <a href={'https://bootme.co.kr/'} style={{ display: 'flex', flexDirection: 'row' }}>
+                <a href={clientUrl} style={{ display: 'flex', flexDirection: 'row' }}>
                   <div style={{ position: 'relative', top: '6px' }}>
                     <GitHubIcon />
                   </div>
@@ -69,17 +70,17 @@ const Header = () => {
                 </a>
               </Logo>
               <HeaderItemWrapper>
-                <a href={'https://bootme.co.kr/course/list'} style={{ display: 'inline-block' }}>
+                <a href={`${clientUrl}course/list`} style={{ display: 'inline-block' }}>
                   <BootcampHeader currentPath={location.pathname}> 부트캠프 </BootcampHeader>
                 </a>
               </HeaderItemWrapper>
               <HeaderItemWrapper>
-                <a href={'https://bootme.co.kr/prompt/generator'} style={{ display: 'inline-block' }}>
+                <a href={`${clientUrl}prompt/generator`} style={{ display: 'inline-block' }}>
                   <PromptHeader currentPath={location.pathname}> 프롬프트 </PromptHeader>
                 </a>
               </HeaderItemWrapper>
               <HeaderItemWrapper>
-                <a href={'https://bootme.co.kr/post/list'} style={{ display: 'inline-block' }}>
+                <a href={`${clientUrl}post/list`} style={{ display: 'inline-block' }}>
                   <PostHeader currentPath={location.pathname}>커뮤니티 </PostHeader>
                 </a>
               </HeaderItemWrapper>

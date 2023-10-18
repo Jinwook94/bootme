@@ -24,6 +24,7 @@ import { useLogin } from '../../../hooks/useLogin';
 import PATH from '../../../constants/path';
 import { Link } from 'react-router-dom';
 const MenuModal = ({ isLogin, isMenuOpen, setIsMenuOpen, nickName, profileImage, job }: MenuModalProps) => {
+  const clientUrl = process.env.CLIENT_URL;
   const [isHovered, setIsHovered] = useState(false);
   const { handleLogOut, handleLoginModal } = useLogin();
 
@@ -80,13 +81,13 @@ const MenuModal = ({ isLogin, isMenuOpen, setIsMenuOpen, nickName, profileImage,
       </MenuHeader>
       <MenuBody>
         <Items>
-          <a href={'https://bootme.co.kr/course/list'}>
+          <a href={`${clientUrl}course/list`}>
             <Item>부트캠프</Item>
           </a>
-          <a href={'https://bootme.co.kr/prompt/generator'}>
+          <a href={`${clientUrl}prompt/generator`}>
             <Item>프롬프트</Item>
           </a>
-          <a href={'https://bootme.co.kr/post/list'}>
+          <a href={`${clientUrl}post/list`}>
             <Item>커뮤니티</Item>
           </a>
         </Items>

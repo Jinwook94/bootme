@@ -4,9 +4,10 @@
   "description": "bootme",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server --config webpack/webpack.dev.js --open --hot",
+    "dev": "NODE_ENV=dev webpack-dev-server --config webpack/webpack.dev.js --open --hot",
     "build": "NODE_ENV=production webpack --config webpack/webpack.prod.js",
-    "start": "webpack --config webpack/webpack.dev.js",
+    "build:staging": "NODE_ENV=staging webpack --config webpack/webpack.prod.js",
+    "start": "NODE_ENV=dev webpack --config webpack/webpack.dev.js",
     "storybook": "start-storybook ... -s ./src",
     "build-storybook": "build-storybook -s ./src",
     "prettier": "npx prettier --write '**/*.{jsx,js,css,html,json}'"
