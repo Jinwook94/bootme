@@ -145,12 +145,6 @@ openapi3 {
     outputFileNamePrefix = 'open-api-3.0.1'
 }
 
-task copyOpenApiSpec(type: Copy) {
-    dependsOn openapi3
-    from file("src/main/resources/static/docs/swagger/open-api-spec")
-    into file("build/resources/main/static/docs/swagger/open-api-spec")
-}
-
 asciidoctor.doFirst {
     delete file('src/main/resources/static/docs/rest')
 }
@@ -174,11 +168,17 @@ task buildDocument(type: Copy) {
     into file("build/resources/main/static/docs/rest")
 }
 
+task copyOpenApiSpec(type: Copy) {
+    dependsOn buildDocument
+    from file("src/main/resources/static/docs/swagger/open-api-spec")
+    into file("build/resources/main/static/docs/swagger/open-api-spec")
+}
+
 bootJar {
     def dateTime = new Date().format('yyyy-MMdd-HHmm')
     archivesBaseName = 'bootme-' + dateTime
     archiveFileName = archivesBaseName + '.jar'
 
-    dependsOn buildDocument
+    dependsOn copyOpenApiSpec
     enabled = true
 }
