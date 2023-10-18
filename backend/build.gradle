@@ -121,29 +121,6 @@ jacocoTestCoverageVerification {
     dependsOn test
 }
 
-asciidoctor.doFirst {
-    delete file('src/main/resources/static/docs/rest')
-}
-
-asciidoctor {
-    dependsOn test
-    inputs.dir snippetsDir
-    configurations 'asciidoctorExt'
-    baseDirFollowsSourceFile()
-}
-
-task copyDocument(type: Copy) {
-    dependsOn asciidoctor
-    from file("build/docs/asciidoc")
-    into file("src/main/resources/static/docs/rest")
-}
-
-task buildDocument(type: Copy) {
-    dependsOn copyDocument
-    from file("src/main/resources/static/docs/rest")
-    into file("build/resources/main/static/docs/rest")
-}
-
 openapi3 {
     servers = [
             {
@@ -168,14 +145,34 @@ openapi3 {
     outputFileNamePrefix = 'open-api-3.0.1'
 }
 
+asciidoctor.doFirst {
+    delete file('src/main/resources/static/docs/rest')
+}
+
+asciidoctor {
+    dependsOn test, ':openapi3'
+    inputs.dir snippetsDir
+    configurations 'asciidoctorExt'
+    baseDirFollowsSourceFile()
+}
+
+task copyDocument(type: Copy) {
+    dependsOn asciidoctor
+    from file("build/docs/asciidoc")
+    into file("src/main/resources/static/docs/rest")
+}
+
+task buildDocument(type: Copy) {
+    dependsOn copyDocument
+    from file("src/main/resources/static/docs/rest")
+    into file("build/resources/main/static/docs/rest")
+}
+
 bootJar {
     def dateTime = new Date().format('yyyy-MMdd-HHmm')
     archivesBaseName = 'bootme-' + dateTime
     archiveFileName = archivesBaseName + '.jar'
 
-    dependsOn(
-            ':openapi3',
-            buildDocument
-    )
+    dependsOn buildDocument
     enabled = true
 }
