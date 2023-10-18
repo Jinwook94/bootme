@@ -58,8 +58,8 @@ public class AuthController {
 
     @PostMapping("/logout")
     public ResponseEntity<Void> logOut(HttpServletResponse response) {
-        response.addHeader(HttpHeaders.SET_COOKIE, "accessToken=; Max-Age=0; Domain=" + domain +";");
-        response.addHeader(HttpHeaders.SET_COOKIE, "refreshToken=; Max-Age=0; Domain=" + domain + ";");
+        response.addHeader(HttpHeaders.SET_COOKIE, "accessToken=; Max-Age=0; Path=/; HttpOnly; Secure; SameSite=Lax; Domain=" + domain + ";");
+        response.addHeader(HttpHeaders.SET_COOKIE, "refreshToken=; Max-Age=0; Path=/; HttpOnly; Secure; SameSite=Lax; Domain=" + domain + ";");
         return ResponseEntity.noContent().build();
     }
 
