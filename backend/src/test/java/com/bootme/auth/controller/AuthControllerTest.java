@@ -42,7 +42,7 @@ class AuthControllerTest extends ControllerTest {
         given(authService.login(any())).willReturn(response);
 
         //when
-        ResultActions perform = mockMvc.perform(post("/login")
+        ResultActions perform = mockMvc.perform(post("/auth/login")
                 .header("Authorization", "Bearer validIdToken")
                 .accept(MediaType.APPLICATION_JSON));
 
@@ -65,7 +65,7 @@ class AuthControllerTest extends ControllerTest {
                 .willThrow(new TokenParseException(TOKEN_PARSING_FAIL, invalidJwt));
 
         //when
-        ResultActions perform = mockMvc.perform(post("/login")
+        ResultActions perform = mockMvc.perform(post("/auth/login")
                 .header("Authorization", "Bearer " + invalidJwt)
                 .accept(MediaType.APPLICATION_JSON));
 
@@ -91,7 +91,7 @@ class AuthControllerTest extends ControllerTest {
                 .willThrow(new AuthenticationException(INVALID_ISSUER, invalidIssuerJwt));
 
         //when
-        ResultActions perform = mockMvc.perform(post("/login")
+        ResultActions perform = mockMvc.perform(post("/auth/login")
                 .header("Authorization", "Bearer " + invalidIssuerJwt)
                 .accept(MediaType.APPLICATION_JSON));
 
@@ -117,7 +117,7 @@ class AuthControllerTest extends ControllerTest {
                 .willThrow(new AuthenticationException(INVALID_AUDIENCE, invalidAudJwt));
 
         //when
-        ResultActions perform = mockMvc.perform(post("/login")
+        ResultActions perform = mockMvc.perform(post("/auth/login")
                 .header("Authorization", "Bearer " + invalidAudJwt)
                 .accept(MediaType.APPLICATION_JSON));
 
@@ -145,7 +145,7 @@ class AuthControllerTest extends ControllerTest {
                 .willThrow(new AuthenticationException(INVALID_ISSUED_AT, invalidIatJwt));
 
         //when
-        ResultActions perform = mockMvc.perform(post("/login")
+        ResultActions perform = mockMvc.perform(post("/auth/login")
                 .header("Authorization", "Bearer " + invalidIatJwt)
                 .accept(MediaType.APPLICATION_JSON));
 
@@ -173,7 +173,7 @@ class AuthControllerTest extends ControllerTest {
                 .willThrow(new AuthenticationException(TOKEN_EXPIRED, invalidExpJwt));
 
         //when
-        ResultActions perform = mockMvc.perform(post("/login")
+        ResultActions perform = mockMvc.perform(post("/auth/login")
                 .header("Authorization", "Bearer " + invalidExpJwt)
                 .accept(MediaType.APPLICATION_JSON));
 
@@ -191,10 +191,38 @@ class AuthControllerTest extends ControllerTest {
     }
 
     @Test
+    @DisplayName("naverLogin()는 정상 요청시 상태코드 200을 반환한다.")
+    void naverLogin_success() throws Exception {
+        //given
+        String accessTokenCookie = "accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c; Path=/; Domain=bootme.co.kr; Max-Age=3600; Expires=Fri, 18 May 2023 16:51:53 GMT; Secure; HttpOnly; SameSite=Lax";
+        String refreshTokenCookie = "refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c; Path=/; Domain=bootme.co.kr; Max-Age=2592000; Expires=Sun, 17 Jun 2023 15:51:53 GMT; Secure; HttpOnly; SameSite=Lax";
+        LoginResponse response = new LoginResponse(1L, "john@gmail.com", "John", "imageUrl", "Backend Developer");
+        String content = "{\"url\":\"https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&client_id=ABCDEFG&client_secret=abcdefg&code=secretcode&state=secrretstate  \\n\"}";
+        given(authService.processNaverLogin(any())).willReturn(response);
+        given(tokenProvider.getAccessTokenCookie(any(),any())).willReturn(accessTokenCookie);
+        given(tokenProvider.getRefreshTokenCookie(any(),any())).willReturn(refreshTokenCookie);
+
+        //when
+        ResultActions perform = mockMvc.perform(post("/auth/login/naver")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content)
+                .accept(MediaType.APPLICATION_JSON));
+
+        //then
+        perform.andExpect(status().isOk());
+
+        //docs
+        perform.andDo(print())
+                .andDo(document("auth/login/naver/success",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())));
+    }
+
+    @Test
     @DisplayName("logout()은 정상 요청시 상태코드 204를 반환한다.")
     void logout() throws Exception {
         //when
-        ResultActions perform = mockMvc.perform(post("/logout"));
+        ResultActions perform = mockMvc.perform(post("/auth/logout"));
 
         //then
         perform.andExpect(status().isNoContent());
@@ -217,7 +245,7 @@ class AuthControllerTest extends ControllerTest {
         given(authService.getAwsSecrets()).willReturn(awsSecrets);
 
         //when
-        ResultActions perform = mockMvc.perform(get("/secrets")
+        ResultActions perform = mockMvc.perform(get("/auth/secrets")
                 .header("Bootme_Secret", secret)
                 .header("Origin", origin)
                 .accept(MediaType.APPLICATION_JSON));

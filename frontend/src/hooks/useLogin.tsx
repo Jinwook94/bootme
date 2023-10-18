@@ -32,7 +32,7 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
 
   const sendIdTokenToServer = (idToken: string | undefined) => {
     return fetcher
-      .post('/login', null, {
+      .post('auth/login', null, {
         headers: {
           Authorization: 'Bearer ' + idToken,
         },
@@ -47,7 +47,7 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
 
   const handleNaverLogin = (naverOauthUrl: string) => {
     return fetcher
-      .post(`/login/naver`, { url: naverOauthUrl })
+      .post(`auth/login/naver`, { url: naverOauthUrl })
       .then(r => {
         storeUserInfoToLocalStorage(r.data);
       })
@@ -76,12 +76,13 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
 
   const handleLogOut = () => {
     fetcher
-      .post('/logout', null, {})
+      .post('auth/logout', null, {})
       .then(() => {
         setIsLogin(false);
-        localStorage.removeItem('MemberId');
-        localStorage.removeItem('NickName');
-        localStorage.removeItem('ProfileImage');
+        localStorage.removeItem('email');
+        localStorage.removeItem('memberId');
+        localStorage.removeItem('nickname');
+        localStorage.removeItem('profileImage');
         setTimeout(() => {
           window.location.reload();
         }, 500);

@@ -53,9 +53,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(tokenValidationInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/login")
-                .excludePathPatterns("/naver")
-                .excludePathPatterns("/logout")
+                .excludePathPatterns("/auth/login/**")
+                .excludePathPatterns("/auth/logout")
                 .excludePathPatterns("/docs/**");
         registry.addInterceptor(rateLimitInterceptor)
                 .addPathPatterns("/prompts/**")

@@ -20,6 +20,10 @@ operation::auth/login/fail/invalid-issued-at[snippets='http-request,http-respons
 ===== 토큰이 만료된 경우
 operation::auth/login/fail/token-expired[snippets='http-request,http-response']
 
+=== 네이버 로그인
+==== 성공
+operation::auth/login/naver/success[snippets='http-request,http-response']
+
 === 로그아웃
 ==== 성공
 operation::auth/logout/success[snippets='http-request,http-response']

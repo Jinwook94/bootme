@@ -12,7 +12,7 @@ export const SecretProvider = ({ children }: SecretProviderProps) => {
 
   const fetchSecrets = useCallback(async () => {
     const jwt = await generateJwt();
-    const response = await fetcher.get<SecretsResponse>('secrets', {
+    const response = await fetcher.get<SecretsResponse>('auth/secrets', {
       headers: {
         Bootme_Secret: 'Bearer ' + jwt,
       },
