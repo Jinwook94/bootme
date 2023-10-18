@@ -174,8 +174,8 @@ bootJar {
     archiveFileName = archivesBaseName + '.jar'
 
     dependsOn(
-            buildDocument,
-            ':openapi3'
+            ':openapi3',
+            buildDocument
     )
     enabled = true
 }
