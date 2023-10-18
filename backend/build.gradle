@@ -147,10 +147,6 @@ task buildDocument(type: Copy) {
 openapi3 {
     servers = [
             {
-                url = "https://api.bootme.co.kr"
-                description = "운영 서버"
-            },
-            {
                 url = "https://staging.api.bootme.co.kr"
                 description = "스테이징 서버"
             },
