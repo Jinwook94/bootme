@@ -64,7 +64,7 @@ dependencies {
     // rest docs
     asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-    implementation 'com.epages:restdocs-api-spec-mockmvc:0.19.0'
+    testImplementation 'com.epages:restdocs-api-spec-mockmvc:0.19.0'
 }
 
 ext {
@@ -143,6 +143,12 @@ openapi3 {
     separatePublicApi = false
     outputDirectory = "src/main/resources/static/docs/swagger/open-api-spec"
     outputFileNamePrefix = 'open-api-3.0.1'
+}
+
+task copyOpenApiSpec(type: Copy) {
+    dependsOn openapi3
+    from file("src/main/resources/static/docs/swagger/open-api-spec")
+    into file("build/resources/main/static/docs/swagger/open-api-spec")
 }
 
 asciidoctor.doFirst {
