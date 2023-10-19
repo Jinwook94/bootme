@@ -7,6 +7,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 import static com.bootme.common.exception.ErrorType.SSE_SEND_FAIL;
 
@@ -15,6 +16,10 @@ import static com.bootme.common.exception.ErrorType.SSE_SEND_FAIL;
 public class SseEmitterManager {
 
     private final Map<Long, SseEmitter> emitterMap = new ConcurrentHashMap<>();
+
+    public SseEmitter createEmitter() {
+        return new SseEmitter(TimeUnit.MINUTES.toMillis(5));
+    }
 
     public void add(Long memberId, SseEmitter emitter) {
         this.emitterMap.put(memberId, emitter);
