@@ -108,7 +108,7 @@ public class MemberFixture {
     public static ProfileResponse getProfileResponse(int index) {
         List<StackResponse> stackResponses = new ArrayList<>();
         stackResponses.add(getStackResponse(index));
-        stackResponses.add(getStackResponse(index));
+        stackResponses.add(getStackResponse(index+1));
 
         index--;
         String[] profileImages = {VALID_PROFILE_IMAGE_1, VALID_PROFILE_IMAGE_2 ,VALID_PROFILE_IMAGE_3};

@@ -3,6 +3,7 @@ package com.bootme.stack.controller;
 import com.bootme.stack.dto.StackRequest;
 import com.bootme.stack.dto.StackResponse;
 import com.bootme.util.ControllerTest;
+import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -12,10 +13,12 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.util.List;
 
 import static com.bootme.util.fixture.MemberFixture.*;
+import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static org.mockito.BDDMockito.given;
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -42,7 +45,17 @@ class StackControllerTest extends ControllerTest {
         perform.andDo(print())
                 .andDo(document("stacks/findAll/success",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())));
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .summary("기술 스택 전체 조회")
+                                .description("프로필 관리 페이지에서 기술 스택 설정을 위해 전체 기술 스택을 가져온다.")
+                                .responseFields(
+                                        fieldWithPath("[].name").description("기술 스택 이름"),
+                                        fieldWithPath("[].type").description("기술 스택 유형"),
+                                        fieldWithPath("[].icon").description("기술 스택 아이콘")
+                                )
+                                .build())
+                ));
     }
 
     @Test
@@ -65,77 +78,17 @@ class StackControllerTest extends ControllerTest {
         perform.andDo(print())
                 .andDo(document("stacks/add/success",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())));
-    }
-
-    @Test
-    @DisplayName("addLanguage()는 정상 요청시 상태코드 200을 반환한다.")
-    void addLanguage() throws Exception {
-        // when
-        ResultActions perform = mockMvc.perform(post("/stacks/language")
-                .param("name", VALID_STACK_1)
-                .param("icon", VALID_STACK_ICON_1));
-
-        // then
-        perform.andExpect(status().isOk());
-
-        // docs
-        perform.andDo(print())
-                .andDo(document("stacks/addLanguage/success",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())));
-    }
-
-    @Test
-    @DisplayName("removeLanguage()는 정상 요청시 상태코드 200을 반환한다.")
-    void removeLanguage() throws Exception {
-        // when
-        ResultActions perform = mockMvc.perform(delete("/stacks/language")
-                .param("name", VALID_STACK_2));
-
-        // then
-        perform.andExpect(status().isOk());
-
-        // docs
-        perform.andDo(print())
-                .andDo(document("stacks/removeLanguage/success",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())));
-    }
-
-    @Test
-    @DisplayName("addFramework()는 정상 요청시 상태코드 200을 반환한다.")
-    void addFramework() throws Exception {
-        // when
-        ResultActions perform = mockMvc.perform(post("/stacks/framework")
-                .param("name", VALID_STACK_3)
-                .param("icon", VALID_STACK_ICON_3));
-
-        // then
-        perform.andExpect(status().isOk());
-
-        // docs
-        perform.andDo(print())
-                .andDo(document("stacks/addFramework/success",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())));
-    }
-
-    @Test
-    @DisplayName("removeFramework()는 정상 요청시 상태코드 200을 반환한다.")
-    void removeFramework() throws Exception {
-        // when
-        ResultActions perform = mockMvc.perform(delete("/stacks/framework")
-                .param("name", VALID_STACK_4));
-
-        // then
-        perform.andExpect(status().isOk());
-
-        // docs
-        perform.andDo(print())
-                .andDo(document("stacks/removeFramework/success",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())));
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .summary("기술 스택 여러 개 추가")
+                                .description("기술 스택 여러 개 추가")
+                                .requestFields(
+                                        fieldWithPath("[].name").description("기술 스택 이름"),
+                                        fieldWithPath("[].type").description("기술 스택 유형"),
+                                        fieldWithPath("[].icon").description("기술 스택 아이콘")
+                                )
+                                .build())
+                ));
     }
 
 }

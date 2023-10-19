@@ -1,12 +1,14 @@
 package com.bootme.sse;
 
 import com.bootme.util.ControllerTest;
+import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
+import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.any;
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
@@ -36,7 +38,12 @@ class SseControllerTest extends ControllerTest {
         perform.andDo(print())
                 .andDo(document("sse/connect/success",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())));
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .summary("SSE 연결")
+                                .description("실시간 알림 송수신 위한 SSE 커넥션 연결")
+                                .build())
+                ));
     }
 
 }

@@ -11,11 +11,11 @@ public class VoteFixture {
     public static String VALID_VOTABLE_TYPE_1 = "POST";
     public static String VALID_VOTABLE_TYPE_2 = "POST_COMMENT";
 
-    public static VoteRequest getPostUpvoteRequest() {
+    public static VoteRequest getCommentUpvoteRequest() {
         return VoteRequest.builder()
-                .voteType(VALID_VOTE_TYPE_1)
+                .voteType(VALID_VOTABLE_TYPE_1)
                 .votableId(1L)
-                .votableType(VALID_VOTABLE_TYPE_1)
+                .votableType(VALID_VOTABLE_TYPE_2)
                 .memberId(1L)
                 .build();
     }

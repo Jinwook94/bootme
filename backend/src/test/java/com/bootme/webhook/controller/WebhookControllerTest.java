@@ -2,6 +2,7 @@ package com.bootme.webhook.controller;
 
 import com.bootme.util.ControllerTest;
 import com.bootme.webhook.dto.WebhookRequest;
+import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -13,11 +14,13 @@ import java.util.Map;
 
 import static com.bootme.common.exception.ErrorType.INVALID_EVENT;
 import static com.bootme.util.fixture.WebhookFixture.getWebhookRequest;
+import static com.epages.restdocs.apispec.ResourceDocumentation.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.*;
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -47,7 +50,23 @@ class WebhookControllerTest extends ControllerTest {
         perform.andDo(print())
                 .andDo(document("webhook/handleWebhook/success",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())));
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .summary("웹훅 처리")
+                                .description("수신된 웹훅을 처리한다.")
+                                .requestHeaders(
+                                        headerWithName("Bootme_Secret").description("BootMe 발행 JWT")
+                                )
+                                .requestFields(
+                                        fieldWithPath("sessionId").description("세션 ID"),
+                                        fieldWithPath("memberId").description("회원 ID"),
+                                        fieldWithPath("event").description("웹훅 이벤트 유형"),
+                                        fieldWithPath("data.*").description("웹훅 이벤트 정보"),
+                                        fieldWithPath("currentUrl").description("웹훅 이벤트 발생한 페이지 URL"),
+                                        fieldWithPath("createdAt").description("웹훅 이벤트 발생 시간")
+                                )
+                                .build())
+                ));
     }
 
     @Test

@@ -5,6 +5,7 @@ import com.bootme.auth.dto.LoginResponse;
 import com.bootme.common.exception.TokenParseException;
 import com.bootme.common.exception.AuthenticationException;
 import com.bootme.util.ControllerTest;
+import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -15,6 +16,7 @@ import java.util.Date;
 
 import static com.bootme.common.exception.ErrorType.*;
 import static com.bootme.util.fixture.AuthFixture.*;
+import static com.epages.restdocs.apispec.ResourceDocumentation.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
@@ -22,6 +24,7 @@ import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.docume
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -53,7 +56,22 @@ class AuthControllerTest extends ControllerTest {
         perform.andDo(print())
                 .andDo(document("auth/login/success",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())));
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .summary("구글, 카카오 로그인")
+                                .description("구글, 카카오 로그인 (OpenID Connect)")
+                                .requestHeaders(
+                                        headerWithName("Authorization").description("ID Token")
+                                )
+                                .responseFields(
+                                        fieldWithPath("memberId").description("멤버 ID"),
+                                        fieldWithPath("email").description("이메일"),
+                                        fieldWithPath("nickname").description("닉네임"),
+                                        fieldWithPath("profileImage").description("프로필 사진"),
+                                        fieldWithPath("job").description("직업")
+                                )
+                                .build())
+                ));
     }
 
     @Test
@@ -215,7 +233,22 @@ class AuthControllerTest extends ControllerTest {
         perform.andDo(print())
                 .andDo(document("auth/login/naver/success",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())));
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .summary("네이버 로그인")
+                                .description("네이버 로그인 (OAuth 2.0)")
+                                .requestFields(
+                                        fieldWithPath("url").description("네이버 OAuth URL")
+                                )
+                                .responseFields(
+                                        fieldWithPath("memberId").description("멤버 ID"),
+                                        fieldWithPath("email").description("이메일"),
+                                        fieldWithPath("nickname").description("닉네임"),
+                                        fieldWithPath("profileImage").description("프로필 사진"),
+                                        fieldWithPath("job").description("직")
+                                )
+                                .build())
+                ));
     }
 
     @Test
@@ -231,7 +264,12 @@ class AuthControllerTest extends ControllerTest {
         perform.andDo(print())
                 .andDo(document("auth/logout/success",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())));
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .summary("로그아웃")
+                                .description("로그아웃")
+                                .build())
+                ));
     }
 
     @Test
@@ -257,7 +295,35 @@ class AuthControllerTest extends ControllerTest {
         perform.andDo(print())
                 .andDo(document("auth/secrets/success",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())));
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .summary("시크릿 요청")
+                                .description("AWS Secrets Manager 저장된 시크릿 값 요청. (소셜 로그인 위한 API Key 등)")
+                                .requestHeaders(
+                                        headerWithName("Bootme_Secret").description("JWT 검증 목적"),
+                                        headerWithName("Origin").description("허용된 origin 인지 검증 목적")
+                                )
+                                .responseFields(
+                                        fieldWithPath("apiUrl").description("bootme 서버 URL"),
+                                        fieldWithPath("googleClientId").description("googleClientId"),
+                                        fieldWithPath("googleIssuer").description("googleIssuer"),
+                                        fieldWithPath("googleAudience").description("googleAudience"),
+                                        fieldWithPath("naverClientId").description("naverClientId"),
+                                        fieldWithPath("naverClientSecret").description("naverClientSecret"),
+                                        fieldWithPath("naverIssuer").description("naverIssuer"),
+                                        fieldWithPath("naverAudience").description("naverAudience"),
+                                        fieldWithPath("naverSigningKey").description("naverSigningKey"),
+                                        fieldWithPath("kakaoRestApiKey").description("kakaoRestApiKey"),
+                                        fieldWithPath("kakaoClientSecret").description("kakaoClientSecret"),
+                                        fieldWithPath("kakaoIssuer").description("kakaoIssuer"),
+                                        fieldWithPath("kakaoAudience").description("kakaoAudience"),
+                                        fieldWithPath("kakaoJavascriptKey").description("kakaoJavascriptKey"),
+                                        fieldWithPath("bootmeIssuer").description("bootmeIssuer"),
+                                        fieldWithPath("bootmeAudience").description("bootmeAudience"),
+                                        fieldWithPath("bootmeSigningKey").description("bootmeSigningKey")
+                                )
+                                .build())
+                ));
     }
 
 }

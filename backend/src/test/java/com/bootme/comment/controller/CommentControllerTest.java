@@ -1,6 +1,7 @@
 package com.bootme.comment.controller;
 
 import com.bootme.util.ControllerTest;
+import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -12,8 +13,11 @@ import static com.bootme.util.fixture.CommentFixture.getCommentResponse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.*;
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
+import static com.epages.restdocs.apispec.ResourceDocumentation.*;
+import static com.epages.restdocs.apispec.ResourceDocumentation.parameterWithName;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -40,7 +44,18 @@ class CommentControllerTest extends ControllerTest {
         perform.andDo(print())
                 .andDo(document("comments/add/success",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())));
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .summary("댓글 추가")
+                                .description("게시글에 댓글 추가")
+                                .pathParameters(
+                                        parameterWithName("id").description("댓글 추가할 게시글 ID")
+                                )
+                                .requestFields(
+                                        fieldWithPath("parentId").description("부모 댓글 ID").optional(),
+                                        fieldWithPath("content").description("댓글 내용"))
+                                .build())
+                ));
     }
 
     @Test
@@ -59,7 +74,32 @@ class CommentControllerTest extends ControllerTest {
         perform.andDo(print())
                 .andDo(document("comments/find/success",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())));
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .summary("댓글 조회")
+                                .description("댓글 조회")
+                                .pathParameters(
+                                        parameterWithName("id").description("댓글 ID")
+                                )
+                                .responseFields(
+                                        fieldWithPath("id").description("댓글 ID"),
+                                        fieldWithPath("postId").description("게시글 ID"),
+                                        fieldWithPath("writerId").description("작성자 ID"),
+                                        fieldWithPath("writerNickname").description("작성자 닉네임"),
+                                        fieldWithPath("writerProfileImage").description("작성자 프로필 이미지"),
+                                        fieldWithPath("parentId").description("부모 댓글 ID").optional(),
+                                        fieldWithPath("content").description("댓글 내용"),
+                                        fieldWithPath("groupNum").description("groupNum"),
+                                        fieldWithPath("levelNum").description("levelNum"),
+                                        fieldWithPath("orderNum").description("orderNum"),
+                                        fieldWithPath("likes").description("좋아요 수"),
+                                        fieldWithPath("voted").description("투표 상태"),
+                                        fieldWithPath("status").description("댓글 디스플레이 상태"),
+                                        fieldWithPath("createdAt").description("생성 시간"),
+                                        fieldWithPath("modifiedAt").description("수정 시간")
+                                )
+                                .build())
+                ));
     }
 
     @Test
@@ -81,7 +121,18 @@ class CommentControllerTest extends ControllerTest {
         perform.andDo(print())
                 .andDo(document("comments/modify/success",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())));
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .summary("댓글 수정")
+                                .description("댓글 수정")
+                                .pathParameters(
+                                        parameterWithName("id").description("댓글 ID")
+                                )
+                                .requestFields(
+                                        fieldWithPath("parentId").description("부모 댓글 ID").optional(),
+                                        fieldWithPath("content").description("댓글 내용"))
+                                .build())
+                ));
     }
 
     @Test
@@ -101,7 +152,15 @@ class CommentControllerTest extends ControllerTest {
         perform.andDo(print())
                 .andDo(document("comments/delete/success",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())));
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .summary("댓글 삭제")
+                                .description("댓글 삭제")
+                                .pathParameters(
+                                        parameterWithName("id").description("댓글 ID")
+                                )
+                                .build())
+                ));
     }
 
 }

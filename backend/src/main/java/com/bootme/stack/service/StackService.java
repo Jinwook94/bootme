@@ -57,36 +57,6 @@ public class StackService {
         }
     }
 
-    @Transactional
-    public void addLanguage(String name, String icon) {
-        validateDuplicate(name);
-        Stack stack = new Stack(name, LANGUAGE, icon);
-        stackRepository.save(stack);
-        languages.add(name);
-    }
-
-    @Transactional
-    public void removeLanguage(String name) {
-        Stack stack = getStackByNameAndType(name, LANGUAGE);
-        stackRepository.delete(stack);
-        languages.remove(name);
-    }
-
-    @Transactional
-    public void addFramework(String name, String icon) {
-        validateDuplicate(name);
-        Stack stack = new Stack(name, FRAMEWORK, icon);
-        stackRepository.save(stack);
-        frameworks.add(name);
-    }
-
-    @Transactional
-    public void removeFramework(String name) {
-        Stack stack = getStackByNameAndType(name, FRAMEWORK);
-        stackRepository.delete(stack);
-        frameworks.remove(name);
-    }
-
     @Transactional(readOnly = true)
     public List<StackResponse> findAllStacks() {
         return stackRepository.findAll().stream()
@@ -97,11 +67,6 @@ public class StackService {
     @Transactional(readOnly = true)
     public Stack getStackByName(String name) {
         return stackRepository.findByName(name)
-                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_STACK, name));
-    }
-
-    private Stack getStackByNameAndType(String name, String type) {
-        return stackRepository.findByNameAndType(name, type)
                 .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_STACK, name));
     }
 

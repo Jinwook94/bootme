@@ -3,6 +3,7 @@ package com.bootme.course.controller;
 import com.bootme.common.exception.ResourceNotFoundException;
 import com.bootme.course.dto.CompanyResponse;
 import com.bootme.util.ControllerTest;
+import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -15,6 +16,8 @@ import java.util.List;
 import static com.bootme.common.exception.ErrorType.NOT_FOUND_COMPANY;
 import static com.bootme.util.fixture.CourseFixture.getCompanyRequest;
 import static com.bootme.util.fixture.CourseFixture.getCompanyResponse;
+import static com.epages.restdocs.apispec.ResourceDocumentation.parameterWithName;
+import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.*;
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
@@ -22,6 +25,7 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -50,7 +54,28 @@ class CompanyControllerTest extends ControllerTest {
         perform.andDo(print())
                 .andDo(document("companies/add/success",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())));
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .summary("회사 추가")
+                                .description("회사 추가")
+                                .requestFields(
+                                        fieldWithPath("name").description("회사 이름"),
+                                        fieldWithPath("serviceName").description("회사 운영 서비스 이름"),
+                                        fieldWithPath("url").description("회사 URL"),
+                                        fieldWithPath("serviceUrl").description("회사 운영 서비스 URL"),
+                                        fieldWithPath("logoUrl").description("회사 로고 URL")
+                                )
+                                .responseFields(
+                                        fieldWithPath("id").description("회사 ID"),
+                                        fieldWithPath("name").description("회사 이름"),
+                                        fieldWithPath("serviceName").description("회사 운영 서비스 이름"),
+                                        fieldWithPath("url").description("회사 URL"),
+                                        fieldWithPath("serviceUrl").description("회사 운영 서비스 URL"),
+                                        fieldWithPath("logoUrl").description("회사 로고 URL"),
+                                        fieldWithPath("courses").description("회사 운영 코스")
+                                )
+                                .build())
+                ));
     }
 
     @Test
@@ -70,7 +95,24 @@ class CompanyControllerTest extends ControllerTest {
         perform.andDo(print())
                 .andDo(document("companies/find/success",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())));
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .summary("회사 조회")
+                                .description("회사 조회")
+                                .pathParameters(
+                                        parameterWithName("id").description("회사 ID")
+                                )
+                                .responseFields(
+                                        fieldWithPath("id").description("회사 ID"),
+                                        fieldWithPath("name").description("회사 이름"),
+                                        fieldWithPath("serviceName").description("회사 운영 서비스 이름"),
+                                        fieldWithPath("url").description("회사 URL"),
+                                        fieldWithPath("serviceUrl").description("회사 운영 서비스 URL"),
+                                        fieldWithPath("logoUrl").description("회사 로고 URL"),
+                                        fieldWithPath("courses").description("회사 운영 코스")
+                                )
+                                .build())
+                ));
     }
 
     @Test
@@ -117,7 +159,21 @@ class CompanyControllerTest extends ControllerTest {
         perform.andDo(print())
                 .andDo(document("companies/findAll/success",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())));
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .summary("회사 전체 조회")
+                                .description("회사 전체 조회")
+                                .responseFields(
+                                        fieldWithPath("[].id").description("회사 ID"),
+                                        fieldWithPath("[].name").description("회사 이름"),
+                                        fieldWithPath("[].serviceName").description("회사 운영 서비스 이름"),
+                                        fieldWithPath("[].url").description("회사 URL"),
+                                        fieldWithPath("[].serviceUrl").description("회사 운영 서비스 URL"),
+                                        fieldWithPath("[].logoUrl").description("회사 로고 URL"),
+                                        fieldWithPath("[].courses[]").description("회사 운영 코스")
+                                )
+                                .build())
+                ));
     }
 
     @Test
@@ -139,7 +195,22 @@ class CompanyControllerTest extends ControllerTest {
         perform.andDo(print())
                 .andDo(document("companies/modify/success",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())));
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .summary("회사 수정")
+                                .description("회사 수정")
+                                .pathParameters(
+                                        parameterWithName("id").description("회사 ID")
+                                )
+                                .requestFields(
+                                        fieldWithPath("name").description("회사 이름"),
+                                        fieldWithPath("serviceName").description("회사 운영 서비스 이름"),
+                                        fieldWithPath("url").description("회사 URL"),
+                                        fieldWithPath("serviceUrl").description("회사 운영 서비스 URL"),
+                                        fieldWithPath("logoUrl").description("회사 로고 URL")
+                                )
+                                .build())
+                ));
     }
 
     @Test
@@ -185,7 +256,15 @@ class CompanyControllerTest extends ControllerTest {
         perform.andDo(print())
                 .andDo(document("companies/delete/success",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())));
+                        preprocessResponse(prettyPrint()),
+                        resource(ResourceSnippetParameters.builder()
+                                .summary("회사 삭제")
+                                .description("회사 삭제")
+                                .pathParameters(
+                                        parameterWithName("id").description("회사 ID")
+                                )
+                                .build())
+                ));
     }
 
     @Test
