@@ -24,7 +24,6 @@ import org.springframework.util.MultiValueMap;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import static com.bootme.common.exception.ErrorType.NOT_FOUND_COURSE;
 import static com.bootme.util.fixture.CourseFixture.*;
@@ -117,11 +116,11 @@ class CourseServiceTest extends ServiceTest {
         List<String> languages = stacks.stream()
                 .filter(stack -> Objects.equals(stack.getType(), "language"))
                 .map(Stack::getName)
-                .collect(Collectors.toList());
+                .toList();
         List<String> frameworks = stacks.stream()
                 .filter(stack -> Objects.equals(stack.getType(), "framework"))
                 .map(Stack::getName)
-                .collect(Collectors.toList());
+                .toList();
 
         //then
         assertAll(

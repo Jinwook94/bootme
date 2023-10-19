@@ -41,7 +41,7 @@ public class MemberService {
         List<MemberStack> memberStacks = memberStackRepository.findByMember_Id(id);
         List<StackResponse> stacks = memberStacks.stream()
                 .map(memberStack -> StackResponse.of(memberStack.getStack()))
-                .collect(Collectors.toList());
+                .toList();
 
         return ProfileResponse.of(member, stacks);
     }

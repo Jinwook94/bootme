@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -61,14 +60,14 @@ public class Stack extends BaseEntity {
         return stacks.stream()
                 .filter(stack -> stack.getType().equals("language"))
                 .map(Stack::getName)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public static List<String> getFrameworks(List<Stack> stacks) {
         return stacks.stream()
                 .filter(stack -> stack.getType().equals("framework"))
                 .map(Stack::getName)
-                .collect(Collectors.toList());
+                .toList();
     }
 
 }

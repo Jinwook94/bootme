@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.bootme.sse.SseEvent.NEW_NOTIFICATION;
 
@@ -30,7 +29,9 @@ public class NotificationService {
     @Transactional(readOnly = true)
     public List<NotificationResponse> findNotificationsByMemberId(Long memberId) {
         List<Notification> notificationList = notificationRepository.findByMemberId(memberId);
-        return notificationList.stream().map(NotificationResponse::of).collect(Collectors.toList());
+        return notificationList.stream()
+                .map(NotificationResponse::of)
+                .toList();
     }
 
     @Transactional

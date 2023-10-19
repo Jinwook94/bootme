@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.util.AbstractMap;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.bootme.notification.domain.NotificationEventType.*;
@@ -61,7 +60,7 @@ public class CourseScheduler {
                     .map(cb -> new AbstractMap.SimpleEntry<>(cb.getBookmark(), cb))
                     .filter(entry -> entry.getValue().getCourse().isEventOnDate(event, date))
                     .map(entry -> notificationFactory.createCourseBookmarkNotification(entry.getKey().getMember(), event, entry.getValue()))
-                    .collect(Collectors.toList());
+                    .toList();
 
             notificationService.sendNotifications(notifications);
         }

@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 public class CompanyResponse {
@@ -47,6 +46,9 @@ public class CompanyResponse {
     }
 
     private static List<String> getCourseTitles(Company company) {
-        return company.getCourses().stream().map(Course::getTitle).collect(Collectors.toList());
+        return company.getCourses().stream()
+                .map(Course::getTitle)
+                .toList();
     }
+
 }

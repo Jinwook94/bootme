@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.bootme.common.exception.ErrorType.ALREADY_SAVED_STACK;
 import static com.bootme.common.exception.ErrorType.NOT_FOUND_STACK;
@@ -32,12 +31,12 @@ public class StackService {
         languages = stackRepository.findByType(LANGUAGE)
                 .stream()
                 .map(Stack::getName)
-                .collect(Collectors.toList());
+                .toList();
 
         frameworks = stackRepository.findByType(FRAMEWORK)
                 .stream()
                 .map(Stack::getName)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Transactional
@@ -61,7 +60,7 @@ public class StackService {
     public List<StackResponse> findAllStacks() {
         return stackRepository.findAll().stream()
                 .map(StackResponse::of)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Transactional(readOnly = true)

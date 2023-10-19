@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.bootme.common.exception.ErrorType.ALREADY_SAVED_COMPANY;
 import static com.bootme.common.exception.ErrorType.NOT_FOUND_COMPANY;
@@ -59,7 +58,9 @@ public class CompanyService {
     @Transactional(readOnly = true)
     public List<CompanyResponse> findAll() {
         List<Company> companyList = companyRepository.findAll();
-        return companyList.stream().map(CompanyResponse::of).collect(Collectors.toList());
+        return companyList.stream()
+                .map(CompanyResponse::of)
+                .toList();
     }
 
     public void modifyCompany(Long id, CompanyRequest companyRequest){

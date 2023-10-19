@@ -25,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static com.bootme.common.exception.ErrorType.ALREADY_BOOKMARKED;
 import static com.bootme.common.exception.ErrorType.NOT_FOUND_BOOKMARK;
@@ -85,7 +84,7 @@ public class PostBookmarkService {
         return bookmarkRepository.findByMember_Id(memberId).stream()
                 .filter(bookmark -> bookmark.getType() == BookmarkType.POST)
                 .flatMap(bookmark -> postBookmarkRepository.findByBookmark_Id(bookmark.getId()).stream())
-                .collect(Collectors.toList());
+                .toList();
     }
 
     private List<PostResponse> mapPostBookmarksToPostResponse(List<PostBookmark> postBookmarks) {
@@ -98,7 +97,7 @@ public class PostBookmarkService {
                     updateVoteStatusForPost(postBookmark.getBookmark().getMember().getId(), post, postResponse);
                     return postResponse;
                 })
-                .collect(Collectors.toList());
+                .toList();
     }
 
     private void updateVoteStatusForPost(Long memberId, Post post, PostResponse response) {

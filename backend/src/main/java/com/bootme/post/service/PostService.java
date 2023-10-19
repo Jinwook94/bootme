@@ -27,7 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static com.bootme.common.exception.ErrorType.*;
 import static com.bootme.vote.domain.VotableType.POST;
@@ -192,7 +191,7 @@ public class PostService {
                 .sorted(Comparator.comparing(Comment::getGroupNum)
                         .thenComparing(Comment::getOrderNum))
                 .map(CommentResponse::of)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     // 해당 회원이 댓글에 Upvote or Downvote 했다면 voted 값은 "upvote" or "downvote"

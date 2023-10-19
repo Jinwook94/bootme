@@ -22,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.bootme.bookmark.domain.BookmarkType.COURSE;
 import static com.bootme.common.exception.ErrorType.ALREADY_BOOKMARKED;
@@ -80,13 +79,13 @@ public class CourseBookmarkService {
         return bookmarkRepository.findByMember_Id(memberId).stream()
                 .filter(bookmark -> bookmark.getType() == BookmarkType.COURSE)
                 .flatMap(bookmark -> courseBookmarkRepository.findByBookmark_Id(bookmark.getId()).stream())
-                .collect(Collectors.toList());
+                .toList();
     }
 
     private List<CourseResponse> mapCourseBookmarksToCourseResponse(List<CourseBookmark> courseBookmarks) {
         return courseBookmarks.stream()
                 .map(this::mapCourseBookmarkToCourseResponse)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     private CourseResponse mapCourseBookmarkToCourseResponse(CourseBookmark courseBookmark) {
