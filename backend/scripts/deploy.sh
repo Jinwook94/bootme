@@ -4,10 +4,11 @@ sudo chmod 777 /var/log/user-data.log
 sudo chmod 777 /home/ec2-user/logs 2>> /var/log/user-data.log
 echo "$(date '+%Y-%m-%dT%H:%M:%S') INFO [deploy.sh] Starting deploy.sh" >> /var/log/user-data.log
 
-# 인스턴스의 이름 태그 값을 Pinpoint Agent ID로 사용
+# 인스턴스 실행 시각을 Pinpoint Agent ID로 사용
 INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
 REGION=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document | grep region | awk -F\" '{print $4}')
 AGENT_ID=$(aws ec2 describe-tags --region $REGION --filters "Name=resource-id,Values=$INSTANCE_ID" "Name=key,Values=Name" --output text | cut -f5)
+AGENT_ID=$(echo $AGENT_ID | sed 's/PROD_WAS_AS_//')
 
 REPOSITORY=/home/ec2-user/deployment
 JAR_NAME=$(ls $REPOSITORY/build/libs/ | grep "bootme" | tail -n 1)
