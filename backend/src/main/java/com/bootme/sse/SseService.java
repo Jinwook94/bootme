@@ -29,7 +29,7 @@ public class SseService {
 
             log.info("SSE connection successfully established for member id: {}", memberId);
             return emitter;
-        } catch (IOException | IllegalStateException e) {
+        } catch (IOException | IllegalStateException | NullPointerException e) {
             log.error("Failed to establish SSE connection for member id: {}", memberId, e);
             throw new SseException(SSE_CONNECT_FAIL, SseEvent.CONNECT.toString(), e);
         }
