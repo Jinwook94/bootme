@@ -18,7 +18,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
 
 import static com.bootme.common.exception.ErrorType.*;
 
@@ -47,7 +46,7 @@ public class ImageService {
     }
 
     private File toFile(MultipartFile image) {
-        File file = new File(Objects.requireNonNull(image.getOriginalFilename()));
+        File file = new File("/tmp/"+image.getOriginalFilename());
         try (FileOutputStream fos = new FileOutputStream(file)) {
             fos.write(image.getBytes());
         } catch (IOException e) {
