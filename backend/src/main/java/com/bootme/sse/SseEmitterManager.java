@@ -46,4 +46,12 @@ public class SseEmitterManager {
         this.emitterMap.values().remove(emitter);
     }
 
+    public void remove(Long memberId) {
+        SseEmitter emitter = this.emitterMap.remove(memberId);
+        if (emitter != null) {
+            emitter.complete();
+            log.info("SSE connection completed for member id: {}", memberId);
+        }
+    }
+
 }

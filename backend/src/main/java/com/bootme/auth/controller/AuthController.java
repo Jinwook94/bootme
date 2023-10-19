@@ -1,9 +1,12 @@
 package com.bootme.auth.controller;
 
+import com.bootme.auth.dto.AuthInfo;
 import com.bootme.auth.dto.AwsSecrets;
 import com.bootme.auth.dto.LoginResponse;
 import com.bootme.auth.service.AuthService;
+import com.bootme.auth.util.Login;
 import com.bootme.auth.util.TokenProvider;
+import com.bootme.sse.SseEmitterManager;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -18,13 +21,16 @@ public class AuthController {
 
     private final AuthService authService;
     private final TokenProvider tokenProvider;
+    private final SseEmitterManager sseEmitterManager;
     private final String domain;
 
     public AuthController(AuthService authService,
                           TokenProvider tokenProvider,
-                          @Value("${domain}") String domain ) {
+                          SseEmitterManager sseEmitterManager,
+                          @Value("${domain}") String domain) {
         this.authService = authService;
         this.tokenProvider = tokenProvider;
+        this.sseEmitterManager = sseEmitterManager;
         this.domain = domain;
     }
 
@@ -58,7 +64,9 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<Void> logOut(HttpServletResponse response) {
+    public ResponseEntity<Void> logOut(@Login AuthInfo authInfo, HttpServletResponse response) {
+        sseEmitterManager.remove(authInfo.getMemberId());
+
         response.addHeader(HttpHeaders.SET_COOKIE, "accessToken=; Max-Age=0; Path=/; HttpOnly; Secure; SameSite=Lax; Domain=" + domain + ";");
         response.addHeader(HttpHeaders.SET_COOKIE, "refreshToken=; Max-Age=0; Path=/; HttpOnly; Secure; SameSite=Lax; Domain=" + domain + ";");
         return ResponseEntity.noContent().build();
