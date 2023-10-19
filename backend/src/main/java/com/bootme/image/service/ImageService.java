@@ -51,7 +51,7 @@ public class ImageService {
         try (FileOutputStream fos = new FileOutputStream(file)) {
             fos.write(image.getBytes());
         } catch (IOException e) {
-            throw new FileHandlingException(FILE_CONVERSION_FAIL, e.getMessage());
+            throw new FileHandlingException(FILE_CONVERSION_FAIL, image.getOriginalFilename(), e);
         }
         return file;
     }
