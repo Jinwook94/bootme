@@ -7,20 +7,3 @@ operation::stacks/findAll/success[snippets='http-request,http-response']
 === 기술 스택 추가
 ==== 성공
 operation::stacks/add/success[snippets='http-request,http-response']
-
-=== 언어 추가
-==== 성공
-operation::stacks/addLanguage/success[snippets='http-request,http-response']
-
-=== 언어 삭제
-==== 성공
-operation::stacks/removeLanguage/success[snippets='http-request,http-response']
-
-=== 프레임워크 추가
-==== 성공
-operation::stacks/addFramework/success[snippets='http-request,http-response']
-
-=== 프레임워크 삭제
-==== 성공
-operation::stacks/removeFramework/success[snippets='http-request,http-response']
-
