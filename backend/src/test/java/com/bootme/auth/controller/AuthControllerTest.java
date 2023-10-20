@@ -21,6 +21,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.HttpHeaders.SET_COOKIE;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -59,9 +61,13 @@ class AuthControllerTest extends ControllerTest {
                         preprocessResponse(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()
                                 .summary("구글, 카카오 로그인")
-                                .description("구글, 카카오 로그인 (OpenID Connect)")
+                                .description("구글, 카카오 로그인 (OpenID Connect) <br> 1. ID 토큰 검증 & 로그인 및 가입 처리 <br> 2. 쿠키에 엑세스 토큰과 리프레시 토큰을 반환, 바디에 유저 정보 반환")
                                 .requestHeaders(
-                                        headerWithName("Authorization").description("ID Token")
+                                        headerWithName(AUTHORIZATION).description("ID Token")
+                                )
+                                .responseHeaders(
+                                        headerWithName(SET_COOKIE).description("accessToken"),
+                                        headerWithName(SET_COOKIE).description("refreshToken")
                                 )
                                 .responseFields(
                                         fieldWithPath("memberId").description("멤버 ID"),
@@ -236,9 +242,13 @@ class AuthControllerTest extends ControllerTest {
                         preprocessResponse(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()
                                 .summary("네이버 로그인")
-                                .description("네이버 로그인 (OAuth 2.0)")
+                                .description("네이버 로그인 (OAuth 2.0) <br> 1. Naver OAuth 서버로부터 엑세스 토큰 수신 <br> 2. 로그인 및 가입 처리 <br> 3. 쿠키에 엑세스 토큰과 리프레시 토큰을 반환, 바디에 유저 정보 반환")
                                 .requestFields(
                                         fieldWithPath("url").description("네이버 OAuth URL")
+                                )
+                                .responseHeaders(
+                                        headerWithName(SET_COOKIE).description("accessToken"),
+                                        headerWithName(SET_COOKIE).description("refreshToken")
                                 )
                                 .responseFields(
                                         fieldWithPath("memberId").description("멤버 ID"),
@@ -267,7 +277,11 @@ class AuthControllerTest extends ControllerTest {
                         preprocessResponse(prettyPrint()),
                         resource(ResourceSnippetParameters.builder()
                                 .summary("로그아웃")
-                                .description("로그아웃")
+                                .description("`Max-Age=0` 설정된 토큰 쿠키 응답을 통해 엑세스 토큰과 리프레시 토큰을 만료시켜 로그아웃 되도록 한다.")
+                                .responseHeaders(
+                                        headerWithName(SET_COOKIE).description("accessToken=; Max-Age=0;"),
+                                        headerWithName(SET_COOKIE).description("refreshToken=; Max-Age=0;")
+                                )
                                 .build())
                 ));
     }
