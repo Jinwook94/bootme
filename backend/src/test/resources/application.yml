@@ -1,6 +1,6 @@
 jasypt:
   encryptor:
-    password: G4#pLs9!tR0nG
+    password: encryptKey
 
 domain: localhost
 allowed-origins: http://localhost:3000,http://localhost:3001,http://localhost:63342,https://bootme.co.kr,https://www.bootme.co.kr,https://staging.bootme.co.kr,https://api.bootme.co.kr,https://staging.api.bootme.co.kr
