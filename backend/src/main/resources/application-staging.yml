@@ -19,7 +19,7 @@ spring:
       ddl-auto: validate
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MariaDB103Dialect
+        dialect: org.hibernate.dialect.MariaDBDialect
         format_sql: true
         default_batch_fetch_size: 100
       connection:
