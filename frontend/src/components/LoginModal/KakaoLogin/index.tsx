@@ -33,7 +33,7 @@ export const KakaoLoginRedirect = () => {
   const KAKAO_OAUTH_ID_TOKEN_URL = 'https://kauth.kakao.com/oauth/token';
   const CLIENT_SECRET = secrets?.['kakaoClientSecret'];
 
-  const sendAccessTokenToKakao = async () => {
+  const sendAccessCodeToKakao = async () => {
     const code = new URL(window.location.href).searchParams.get('code');
     const payload = qs.stringify({
       grant_type: 'authorization_code',
@@ -68,7 +68,7 @@ export const KakaoLoginRedirect = () => {
    *  5. 로컬스토리지 Login 값을 true 로 변경하고 이전 페이지로 리다이렉트
    * */
   useEffect(() => {
-    sendAccessTokenToKakao()
+    sendAccessCodeToKakao()
       .then(idToken => sendIdTokenToServer(idToken))
       .then(() => {
         handleLoginSuccess();
