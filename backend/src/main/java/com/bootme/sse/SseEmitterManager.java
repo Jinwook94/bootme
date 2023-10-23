@@ -22,32 +22,32 @@ public class SseEmitterManager {
     }
 
     public void add(Long memberId, SseEmitter emitter) {
-        this.emitterMap.put(memberId, emitter);
+        emitterMap.put(memberId, emitter);
         emitter.onTimeout(() -> {
             emitter.complete();
             log.info("SSE connection timed out for member id: {}", memberId);
         });
         emitter.onCompletion(() -> {
-            this.emitterMap.remove(memberId, emitter);
+            emitterMap.remove(memberId, emitter);
             log.info("SSE connection completed for member id: {}", memberId);
         });
         emitter.onError((Throwable t) -> {
-            this.emitterMap.remove(memberId, emitter);
+            emitterMap.remove(memberId, emitter);
             log.error("Error in SseEmitter for member id: {}", memberId, t);
             throw new SseException(SSE_SEND_FAIL, t);
         });
     }
 
     public SseEmitter getEmitter(Long memberId) {
-        return this.emitterMap.get(memberId);
+        return emitterMap.get(memberId);
     }
 
     public void remove(SseEmitter emitter) {
-        this.emitterMap.values().remove(emitter);
+        emitterMap.values().remove(emitter);
     }
 
     public void remove(Long memberId) {
-        SseEmitter emitter = this.emitterMap.remove(memberId);
+        SseEmitter emitter = emitterMap.remove(memberId);
         if (emitter != null) {
             emitter.complete();
             log.info("SSE connection completed for member id: {}", memberId);
