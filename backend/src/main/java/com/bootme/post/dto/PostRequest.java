@@ -1,5 +1,7 @@
 package com.bootme.post.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,7 +18,11 @@ public class PostRequest {
     private final String content;
 
     @Builder
-    public PostRequest(String topic, String title, String content) {
+    @JsonCreator
+    public PostRequest(
+            @JsonProperty("topic") String topic,
+            @JsonProperty("title") String title,
+            @JsonProperty("content") String content) {
         this.topic = topic;
         this.title = title;
         this.content = content;
