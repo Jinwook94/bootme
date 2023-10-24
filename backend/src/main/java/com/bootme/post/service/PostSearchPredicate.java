@@ -1,7 +1,6 @@
 package com.bootme.post.service;
 
 import com.bootme.common.exception.ValidationException;
-import com.bootme.post.domain.QPost;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import org.springframework.stereotype.Component;
@@ -10,6 +9,7 @@ import org.springframework.util.MultiValueMap;
 import java.util.List;
 
 import static com.bootme.common.exception.ErrorType.INVALID_SEARCH_QUERY;
+import static com.bootme.post.domain.QPost.post;
 
 @Component
 public class PostSearchPredicate implements PostPredicate {
@@ -23,8 +23,6 @@ public class PostSearchPredicate implements PostPredicate {
 
         String searchParam = searchParams.get(0).trim();
         validateSearchQuery(searchParam);
-
-        QPost post = QPost.post;
 
         BooleanBuilder builder = new BooleanBuilder();
 

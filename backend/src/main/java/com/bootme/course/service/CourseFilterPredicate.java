@@ -1,7 +1,6 @@
 package com.bootme.course.service;
 
 import com.bootme.common.exception.ResourceNotFoundException;
-import com.bootme.course.domain.QCourse;
 import com.bootme.stack.domain.Stack;
 import com.bootme.stack.repository.StackRepository;
 import com.querydsl.core.BooleanBuilder;
@@ -18,6 +17,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.bootme.common.exception.ErrorType.NOT_FOUND_STACK;
+import static com.bootme.course.domain.QCourse.course;
 
 /**
  * 코스 조회시 필터링을 위해 Querydsl Predicate 을 반환함
@@ -46,7 +46,6 @@ public class CourseFilterPredicate implements CoursePredicate {
     private final StackRepository stackRepository;
 
     public Predicate build(MultiValueMap<String, String> filters) {
-        QCourse course = QCourse.course;
 
         if (filters == null || filters.isEmpty()) {
             return null;
@@ -54,10 +53,10 @@ public class CourseFilterPredicate implements CoursePredicate {
 
         BooleanBuilder builder = new BooleanBuilder();
 
-        processCategoryFilters(builder, filters, "superCategories", course);
-        processCategoryFilters(builder, filters, "subCategories", course);
-        processStackFilters(builder, filters, "languages", course);
-        processStackFilters(builder, filters, "frameworks", course);
+        processCategoryFilters(builder, filters, "superCategories");
+        processCategoryFilters(builder, filters, "subCategories");
+        processStackFilters(builder, filters, "languages");
+        processStackFilters(builder, filters, "frameworks");
 
         processInputFilters(builder, filters, "costInput", course.cost::loe, Integer::valueOf);
         processInputFilters(builder, filters, "periodInput", value -> course.period.loe(value * 30), Integer::valueOf);
@@ -73,7 +72,7 @@ public class CourseFilterPredicate implements CoursePredicate {
     }
 
     private void processCategoryFilters(BooleanBuilder builder, MultiValueMap<String, String> filters,
-                                        String key, QCourse course) {
+                                        String key) {
         List<String> categories = filters.get(key);
         if (!CollectionUtils.isEmpty(categories)) {
             BooleanBuilder categoryBuilder = new BooleanBuilder();
@@ -84,8 +83,7 @@ public class CourseFilterPredicate implements CoursePredicate {
         }
     }
 
-    private void processStackFilters(BooleanBuilder builder, MultiValueMap<String, String> filters,
-                                     String key, QCourse course) {
+    private void processStackFilters(BooleanBuilder builder, MultiValueMap<String, String> filters, String key) {
         List<String> stackNames = filters.get(key);
         if (!CollectionUtils.isEmpty(stackNames)) {
             // 데이터베이스에서 해당 종류의 기술 스택 전체를 꺼낸다.

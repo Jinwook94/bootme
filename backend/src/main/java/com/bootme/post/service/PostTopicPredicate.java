@@ -1,6 +1,5 @@
 package com.bootme.post.service;
 
-import com.bootme.post.domain.QPost;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import org.springframework.stereotype.Component;
@@ -9,6 +8,8 @@ import org.springframework.util.MultiValueMap;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+
+import static com.bootme.post.domain.QPost.post;
 
 @Component
 public class PostTopicPredicate implements PostPredicate {
@@ -22,7 +23,6 @@ public class PostTopicPredicate implements PostPredicate {
         String searchParam = topicParams.get(0);
         searchParam = URLDecoder.decode(searchParam, StandardCharsets.UTF_8);
 
-        QPost post = QPost.post;
         BooleanBuilder builder = new BooleanBuilder();
         builder.or(post.topic.contains(searchParam.toLowerCase()));
 

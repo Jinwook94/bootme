@@ -1,7 +1,5 @@
 package com.bootme.course.service;
 
-import com.bootme.course.domain.QCompany;
-import com.bootme.course.domain.QCourse;
 import com.bootme.common.exception.ValidationException;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
@@ -11,6 +9,8 @@ import org.springframework.util.MultiValueMap;
 import java.util.List;
 
 import static com.bootme.common.exception.ErrorType.INVALID_SEARCH_QUERY;
+import static com.bootme.course.domain.QCompany.company;
+import static com.bootme.course.domain.QCourse.course;
 
 @Component
 public class CourseSearchPredicate implements CoursePredicate {
@@ -24,9 +24,6 @@ public class CourseSearchPredicate implements CoursePredicate {
 
         String searchParam = searchParams.get(0).trim();
         validateSearchQuery(searchParam);
-
-        QCourse course = QCourse.course;
-        QCompany company = QCompany.company;
 
         BooleanBuilder builder = new BooleanBuilder();
 
