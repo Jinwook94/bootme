@@ -3,7 +3,6 @@ package com.bootme.post.domain;
 import com.bootme.common.exception.ValidationException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.Lob;
 import lombok.Getter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -21,7 +20,6 @@ public class Content {
     private static final int MAX_CONTENT_LENGTH = 50000;
     private static final int EXCERPT_LENGTH = 200;
 
-    @Lob
     @Column(name = "content", nullable = false, columnDefinition = "TEXT")
     private String value;
 
