@@ -58,12 +58,11 @@ public class CourseFilterPredicate implements CoursePredicate {
         processStackFilters(builder, filters, "languages");
         processStackFilters(builder, filters, "frameworks");
 
+        processFreeAndKdtFilters(builder, filters);
         processInputFilters(builder, filters, "costInput", course.cost::loe, Integer::valueOf);
         processInputFilters(builder, filters, "periodInput", value -> course.period.loe(value * 30), Integer::valueOf);
 
         processBooleanFilters(builder, filters, "isRecommended", course.isRecommended::eq);
-        processBooleanFilters(builder, filters, "isFree", course.isFree::eq);
-        processBooleanFilters(builder, filters, "isKdt", course.isKdt::eq);
         processBooleanFilters(builder, filters, "isOnline", course.isOnline::eq);
         processBooleanFilters(builder, filters, "isTested", course.isTested::eq);
         processBooleanFilters(builder, filters, "isPrerequisiteRequired", course.isPrerequisiteRequired::eq);
@@ -102,6 +101,29 @@ public class CourseFilterPredicate implements CoursePredicate {
                 stackBuilder.and(course.courseStacks.any().stack.id.eq(stackId));
             }
             builder.and(stackBuilder);
+        }
+    }
+
+    private void processFreeAndKdtFilters(BooleanBuilder builder, MultiValueMap<String, String> filters) {
+        BooleanExpression isFreeFilter = createFilter(filters, "isFree", value -> course.isFree.eq(Boolean.valueOf(value)));
+        BooleanExpression isKdtFilter = createFilter(filters, "isKdt", value -> course.isKdt.eq(Boolean.valueOf(value)));
+
+        addFiltersToBuilder(builder, isFreeFilter, isKdtFilter);
+    }
+
+    private BooleanExpression createFilter(MultiValueMap<String, String> filters, String key, Function<String, BooleanExpression> expressionFn) {
+        return filters.containsKey(key) ? expressionFn.apply(filters.getFirst(key)) : null;
+    }
+
+    private void addFiltersToBuilder(BooleanBuilder builder, BooleanExpression... expressions) {
+        BooleanBuilder localBuilder = new BooleanBuilder();
+        for (BooleanExpression expression : expressions) {
+            if (expression != null) {
+                localBuilder.or(expression);
+            }
+        }
+        if (localBuilder.hasValue()) {
+            builder.and(localBuilder);
         }
     }
 
