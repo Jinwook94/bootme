@@ -46,7 +46,6 @@ public class PostService {
     private final CommentRepository commentRepository;
     private final VoteRepository voteRepository;
     private final PostTopicPredicate postTopicPredicate;
-    private final PostSearchPredicate postSearchPredicate;
 
     @Transactional(readOnly = true)
     public Post getPostById(Long id) {
@@ -159,8 +158,7 @@ public class PostService {
     private Predicate getCombinedPredicate(MultiValueMap<String, String> params) {
         Predicate statusPredicate = getStatusPredicate();
         Predicate topicPredicate = postTopicPredicate.build(params);
-        Predicate searchPredicate = postSearchPredicate.build(params);
-        return combinePredicates(statusPredicate, topicPredicate, searchPredicate);
+        return combinePredicates(statusPredicate, topicPredicate);
     }
 
     private Predicate getStatusPredicate() {
@@ -168,15 +166,11 @@ public class PostService {
         return qPost.status.eq(PostStatus.DISPLAY);
     }
 
-    private Predicate combinePredicates(Predicate statusPredicate, Predicate topicPredicate, Predicate searchPredicate) {
+    private Predicate combinePredicates(Predicate statusPredicate, Predicate topicPredicate) {
         BooleanBuilder builder = new BooleanBuilder();
 
         if (topicPredicate != null) {
             builder.and(topicPredicate);
-        }
-
-        if (searchPredicate != null) {
-            builder.and(searchPredicate);
         }
 
         if (statusPredicate != null) {
