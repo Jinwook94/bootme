@@ -33,8 +33,8 @@ import static com.bootme.course.domain.QCourse.course;
  * |-----------------|-----------------|--------------|-----------|-----------|
  * | SuperCategories | OR              | OR           | AND       | AND       |
  * | SubCategories   | OR              | OR           | AND       | AND       |
- * | Languages       | AND             | AND          | OR        | OR        |
- * | Frameworks      | AND             | AND          | OR        | OR        |
+ * | Languages       | AND             | AND          | OR        | AND       |
+ * | Frameworks      | AND             | AND          | AND       | OR        |
  * |-----------------|-------------- --|--------------|-----------|-----------|
  * </pre>
  * </p>
