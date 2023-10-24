@@ -28,9 +28,9 @@ public class PostSearchPredicate implements PostPredicate {
 
         BooleanBuilder builder = new BooleanBuilder();
 
-        builder.or(post.topic.containsIgnoreCase(searchParam));
-        builder.or(post.title.value.containsIgnoreCase(searchParam));
-        builder.or(post.content.value.containsIgnoreCase(searchParam));
+        builder.or(post.topic.contains(searchParam.toLowerCase()));
+        builder.or(post.title.value.contains(searchParam.toLowerCase()));
+        builder.or(post.content.value.contains(searchParam.toLowerCase()));
 
         return builder.getValue();
     }

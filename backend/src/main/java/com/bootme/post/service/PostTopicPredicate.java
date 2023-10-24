@@ -24,7 +24,7 @@ public class PostTopicPredicate implements PostPredicate {
 
         QPost post = QPost.post;
         BooleanBuilder builder = new BooleanBuilder();
-        builder.or(post.topic.containsIgnoreCase(searchParam));
+        builder.or(post.topic.contains(searchParam.toLowerCase()));
 
         return builder.getValue();
     }
