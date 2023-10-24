@@ -98,7 +98,7 @@ public class CourseFilterPredicate implements CoursePredicate {
             BooleanBuilder stackBuilder = new BooleanBuilder();
             for (String stackName : stackNames) {
                 Long stackId = stackNameToIdMap.get(stackName);
-                stackBuilder.and(course.courseStacks.any().stack.id.eq(stackId));
+                stackBuilder.or(course.courseStacks.any().stack.id.eq(stackId));
             }
             builder.and(stackBuilder);
         }
