@@ -18,7 +18,7 @@ import static com.bootme.post.domain.QPost.post;
 
 @RequiredArgsConstructor
 @Repository
-    public class PostQuerydslRepositoryImpl implements PostQuerydslRepository {
+public class PostQuerydslRepositoryImpl implements PostQuerydslRepository {
 
     private final JPAQueryFactory queryFactory;
 
