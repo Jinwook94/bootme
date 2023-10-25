@@ -17,10 +17,7 @@ public class CustomDialect extends MariaDBDialect {
 
         functionContributions.getFunctionRegistry().register(
                 "match",
-                new StandardSQLFunction(
-                        "match(?1) against (?2 in boolean mode)",
-                        StandardBasicTypes.DOUBLE
-                )
+                new StandardSQLFunction("match(?1) against (?2)", StandardBasicTypes.BOOLEAN)
         );
     }
 

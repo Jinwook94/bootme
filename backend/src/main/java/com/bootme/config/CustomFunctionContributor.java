@@ -8,7 +8,7 @@ import static org.hibernate.type.StandardBasicTypes.BOOLEAN;
 public class CustomFunctionContributor implements FunctionContributor {
 
     private static final String FUNCTION_NAME = "match_against";
-    private static final String FUNCTION_PATTERN = "match (?1, ?2, ?3) against (?4)";
+    private static final String FUNCTION_PATTERN = "match (?1, ?2, ?3) against (?4 in boolean mode)";
 
     @Override
     public void contributeFunctions(final FunctionContributions functionContributions) {

@@ -48,9 +48,10 @@ import static com.bootme.post.domain.QPost.post;
     // 아래 형태 쿼리문 생성
     // MATCH(p1_0.topic, p1_0.title, p1_0.content) AGAINST ('+searchQuery')
     private BooleanExpression generateMatchAgainstExpression(StringPath topic, StringPath title, StringPath content, String searchWord) {
+        String searchWithWildcard = searchWord + "*";
         return Expressions.booleanTemplate(
                 "function('match_against', {0}, {1}, {2}, {3})",
-                topic, title, content, searchWord
+                topic, title, content, searchWithWildcard
         );
     }
 
