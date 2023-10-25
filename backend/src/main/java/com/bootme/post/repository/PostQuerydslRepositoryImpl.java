@@ -1,7 +1,6 @@
 package com.bootme.post.repository;
 
 import com.bootme.post.domain.Post;
-import com.bootme.post.domain.PostStatus;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -15,12 +14,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.bootme.post.domain.PostStatus.DISPLAY;
 import static com.bootme.post.domain.QPost.post;
 
 @RequiredArgsConstructor
 @Repository
-    public class PostQuerydslRepositoryImpl implements PostQuerydslRepository {
+        public class PostQuerydslRepositoryImpl implements PostQuerydslRepository {
 
     private final JPAQueryFactory queryFactory;
 
@@ -53,7 +51,7 @@ import static com.bootme.post.domain.QPost.post;
         return Expressions.booleanTemplate(
                 "function('match_against', {0}, {1}, {2}, {3})",
                 topic, title, content, searchWord
-        ).and(post.status.eq(PostStatus.valueOf(DISPLAY.toString())));
+        );
     }
 
 }
