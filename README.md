@@ -21,8 +21,8 @@
 <br>
 
 ## 기술 스택
-- Java 17, TypeScript 4.8.4
-- Spring Boot 3.1.4, React 18.2.0, MariaDB 10.5.20
+- **Java 17**, TypeScript 4.8.4
+- **Spring Boot 3.1.4**, React 18.2.0, MariaDB 10.5.20
 - AWS CodeDeploy, CloudFront, EC2, S3, Secrets Manager
 
 <br>
