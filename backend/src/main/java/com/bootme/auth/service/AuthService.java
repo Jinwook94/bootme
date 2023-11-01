@@ -131,20 +131,10 @@ public class AuthService {
     private void verifyAudience(JwtVo.Body body, OAuthProvider issuer) {
         String expectedAud = null;
         switch (issuer) {
-            case BOOTME:
-                expectedAud = awsSecrets.getBootmeAudience();
-                break;
-            case GOOGLE:
-                expectedAud = awsSecrets.getGoogleAudience();
-                break;
-            case NAVER:
-                expectedAud = awsSecrets.getNaverAudience();
-                break;
-            case KAKAO:
-                expectedAud = awsSecrets.getKakaoAudience();
-                break;
-            default:
-                break;
+            case BOOTME -> expectedAud = awsSecrets.getBootmeAudience();
+            case GOOGLE -> expectedAud = awsSecrets.getGoogleAudience();
+            case NAVER -> expectedAud = awsSecrets.getNaverAudience();
+            case KAKAO -> expectedAud = awsSecrets.getKakaoAudience();
         }
         String actualAud = body.getAud();
         if (!Objects.equals(expectedAud, actualAud)) {
@@ -174,20 +164,10 @@ public class AuthService {
 
     private void verifySignature(String jwt, OAuthProvider issuer) {
         switch (issuer) {
-            case BOOTME:
-                verifyBootmeSignature(jwt, awsSecrets.getBootmeSigningKey());
-                break;
-            case GOOGLE:
-                verifyGoogleSignature(jwt);
-                break;
-            case NAVER:
-                verifyNaverSignature(jwt, awsSecrets.getNaverSigningKey());
-                break;
-            case KAKAO:
-                verifyKakaoSignature(jwt);
-                break;
-            default:
-                break;
+            case BOOTME -> verifyBootmeSignature(jwt, awsSecrets.getBootmeSigningKey());
+            case GOOGLE -> verifyGoogleSignature(jwt);
+            case NAVER -> verifyNaverSignature(jwt, awsSecrets.getNaverSigningKey());
+            case KAKAO -> verifyKakaoSignature(jwt);
         }
     }
 

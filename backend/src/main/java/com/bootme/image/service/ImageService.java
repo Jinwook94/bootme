@@ -56,23 +56,13 @@ public class ImageService {
     }
 
     private String getFormattedFileName(String imageType, Long memberId, File image) {
-        String uploadPath;
-        switch (imageType) {
-            case PROFILE:
-                uploadPath = String.format("profile/%d/", memberId);
-                break;
-            case COURSE_DETAIL:
-                uploadPath = String.format("course-detail/%d/", memberId);
-                break;
-            case POST:
-                uploadPath = String.format("post/%d/", memberId);
-                break;
-            case POST_COMMENT:
-                uploadPath = String.format("post-comment/%d/", memberId);
-                break;
-            default:
-                throw new ValidationException(INVALID_IMAGE_TYPE, imageType);
-        }
+        String uploadPath = switch (imageType) {
+            case PROFILE -> String.format("profile/%d/", memberId);
+            case COURSE_DETAIL -> String.format("course-detail/%d/", memberId);
+            case POST -> String.format("post/%d/", memberId);
+            case POST_COMMENT -> String.format("post-comment/%d/", memberId);
+            default -> throw new ValidationException(INVALID_IMAGE_TYPE, imageType);
+        };
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmm");
         String currentDateTime = LocalDateTime.now().format(formatter);

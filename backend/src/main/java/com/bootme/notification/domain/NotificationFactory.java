@@ -39,38 +39,27 @@ public class NotificationFactory {
     }
 
     public Notification createCommentNotification(Member member, NotificationEventType event, CommentNotification details) {
-        String message;
-        switch (event) {
-            case COMMENT_ADDED:
-                message = "<b>"+ details.getCommentWriter() + "</b>님이 <b>\"" + details.getPostTitle() + "\"</b>에 댓글을 달았어요. " +
-                        "<span style='color: #7c7c7c;'>" + details.getCommentContent() + "</span>";
-                break;
-            case COMMENT_REPLY_ADDED:
-                message = "<b>" + details.getCommentWriter() + "</b>님이 대댓글을 달았어요. <span style='color: #7c7c7c;'>" + details.getCommentContent() + "</span>";
-                break;
-            default:
-                throw new ResourceNotFoundException(NOT_FOUND_EVENT, event.toString());
-        }
+        String message = switch (event) {
+            case COMMENT_ADDED ->
+                    "<b>" + details.getCommentWriter() + "</b>님이 <b>\"" + details.getPostTitle() + "\"</b>에 댓글을 달았어요. " +
+                            "<span style='color: #7c7c7c;'>" + details.getCommentContent() + "</span>";
+            case COMMENT_REPLY_ADDED ->
+                    "<b>" + details.getCommentWriter() + "</b>님이 대댓글을 달았어요. <span style='color: #7c7c7c;'>" + details.getCommentContent() + "</span>";
+            default -> throw new ResourceNotFoundException(NOT_FOUND_EVENT, event.toString());
+        };
         return new Notification(member, event, message);
     }
 
     public Notification createCourseBookmarkNotification(Member member, NotificationEventType event, CourseBookmark courseBookmark) {
         String courseTitle = courseBookmark.getCourse().getTitle();
 
-        String message;
-        switch (event) {
-            case REGISTRATION_START:
-                message = "북마크하신 코스 **" + courseTitle + "**의 접수가 시작되었어요. 놓치지 마시고 신청하세요 \uD83D\uDE0A";
-                break;
-            case REGISTRATION_END_IN_THREE_DAYS:
-                message = "북마크하신 코스 **" + courseTitle + "**의 접수 마감이 3일 남았어요. 놓치지 마시고 신청하세요 \uD83D\uDE00";
-                break;
-            case REGISTRATION_END:
-                message = "북마크하신 코스 **" + courseTitle + "**의 접수 마감일이에요. 놓치지 마시고 신청하세요 \uD83D\uDE04";
-                break;
-            default:
-                throw new ResourceNotFoundException(NOT_FOUND_EVENT, event.toString());
-        }
+        String message = switch (event) {
+            case REGISTRATION_START -> "북마크하신 코스 **" + courseTitle + "**의 접수가 시작되었어요. 놓치지 마시고 신청하세요 \uD83D\uDE0A";
+            case REGISTRATION_END_IN_THREE_DAYS ->
+                    "북마크하신 코스 **" + courseTitle + "**의 접수 마감이 3일 남았어요. 놓치지 마시고 신청하세요 \uD83D\uDE00";
+            case REGISTRATION_END -> "북마크하신 코스 **" + courseTitle + "**의 접수 마감일이에요. 놓치지 마시고 신청하세요 \uD83D\uDE04";
+            default -> throw new ResourceNotFoundException(NOT_FOUND_EVENT, event.toString());
+        };
         return new Notification(member, event, message);
     }
 

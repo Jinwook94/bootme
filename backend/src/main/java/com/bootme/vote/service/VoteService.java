@@ -60,17 +60,18 @@ public class VoteService {
         Optional<Vote> existingVote = findExistingVote(votableType, votableId, member.getId());
 
         switch (votableType) {
-            case POST:
+            case POST -> {
                 Post post = postService.getPostById(votableId);
                 boolean isBookmarked = postBookmarkService.isBookmarkedByMember(authInfo.getMemberId(), post.getId());
                 handleVote(voteType, existingVote, post, votableType, votableId, member);
                 return PostDetailResponse.of(post, isBookmarked);
-            case POST_COMMENT:
+            }
+            case POST_COMMENT -> {
                 Comment comment = commentService.getCommentById(votableId);
                 handleVote(voteType, existingVote, comment, votableType, votableId, member);
                 return CommentResponse.of(comment);
-            default:
-                throw new ValidationException(INVALID_VOTABLE_TYPE, votableType.toString());
+            }
+            default -> throw new ValidationException(INVALID_VOTABLE_TYPE, votableType.toString());
         }
     }
 
