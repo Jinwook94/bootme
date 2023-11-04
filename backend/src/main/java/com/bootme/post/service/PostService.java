@@ -40,14 +40,20 @@ public class PostService {
     private final SessionService sessionService;
     private final PostRepository postRepository;
     private final PostRepositoryProxy postRepositoryProxy;
+    private final PostElasticsearchRepository postElasticsearchRepository;
     private final PostBookmarkRepository postBookmarkRepository;
     private final CommentRepository commentRepository;
     private final VoteRepository voteRepository;
 
     @Transactional(readOnly = true)
-    public Post getPostById(Long id) {
-        return postRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_POST, String.valueOf(id)));
+    public Post getPostById(Long postId) {
+        return postRepository.findById(postId)
+                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_POST, String.valueOf(postId)));
+    }
+
+    public PostDocument getPostDocumentByPostId(Long postId) {
+        return postElasticsearchRepository.findByPostId(postId)
+                .orElseThrow(() -> new ResourceNotFoundException(NOT_FOUND_POST, String.valueOf(postId)));
     }
 
     @Transactional
@@ -61,16 +67,16 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public PostDetailResponse findPost(Long memberId, Long id) {
+    public PostDetailResponse findPost(Long memberId, Long postId) {
         boolean isLogin = authService.validateLogin(memberId);
-        Post post = getPostById(id);
-        addViewedPost(id);
-        return createPostDetailResponse(post, isLogin, memberId);
+        PostDocument postDocument = getPostDocumentByPostId(postId);
+        addViewedPost(postId);
+        return createPostDetailResponse(postDocument, isLogin, memberId);
     }
 
-    private PostDetailResponse createPostDetailResponse(Post post, boolean isLogin, Long memberId) {
-        boolean isBookmarked = isLogin && postBookmarkRepository.existsByBookmark_Member_IdAndPost_Id(memberId, post.getId());
-        PostDetailResponse response = PostDetailResponse.of(post, isBookmarked);
+    private PostDetailResponse createPostDetailResponse(PostDocument postDocument, boolean isLogin, Long memberId) {
+        boolean isBookmarked = isLogin && postBookmarkRepository.existsByBookmark_Member_IdAndPost_Id(memberId, postDocument.getPostId());
+        PostDetailResponse response = PostDetailResponse.fromPostDocument(postDocument, isBookmarked);
         updateVoteStatusForPost(isLogin, memberId, response);
         return response;
     }

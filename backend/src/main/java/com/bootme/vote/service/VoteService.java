@@ -64,7 +64,7 @@ public class VoteService {
                 Post post = postService.getPostById(votableId);
                 boolean isBookmarked = postBookmarkService.isBookmarkedByMember(authInfo.getMemberId(), post.getId());
                 handleVote(voteType, existingVote, post, votableType, votableId, member);
-                return PostDetailResponse.of(post, isBookmarked);
+                return PostDetailResponse.fromPost(post, isBookmarked);
             }
             case POST_COMMENT -> {
                 Comment comment = commentService.getCommentById(votableId);
