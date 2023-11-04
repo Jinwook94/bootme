@@ -1,13 +1,15 @@
 package com.bootme.comment.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import javax.annotation.Nullable;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class CommentRequest {
 
     @Nullable
