@@ -2,6 +2,7 @@ package com.bootme.post.dto;
 
 import com.bootme.post.domain.Post;
 import com.bootme.post.domain.PostDocument;
+import com.bootme.post.util.PostUtils;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -59,6 +60,7 @@ public class PostResponse implements PostResponseDto {
     }
 
     public static PostResponse fromPost(Post post, boolean isBookmarked, boolean isViewed){
+        String excerpt = PostUtils.getContentExcerpt(post.getContent().getValue());
         return PostResponse.builder()
                 .id(post.getId())
                 .writerId(post.getMember().getId())
@@ -66,7 +68,7 @@ public class PostResponse implements PostResponseDto {
                 .writerProfileImage(post.getMember().getProfileImage())
                 .topic(post.getTopic())
                 .title(post.getTitle().getValue())
-                .contentExcerpt(post.getContent().getExcerpt())
+                .contentExcerpt(excerpt)
                 .likes(post.getLikes())
                 .clicks(post.getClicks())
                 .bookmarks(post.getBookmarks())
@@ -80,6 +82,7 @@ public class PostResponse implements PostResponseDto {
     }
 
     public static PostResponse fromPostDocument(PostDocument postDocument) {
+        String excerpt = PostUtils.getContentExcerpt(postDocument.getContent());
         return PostResponse.builder()
                 .id(postDocument.getPostId())
                 .writerId(postDocument.getWriterId())
@@ -87,7 +90,7 @@ public class PostResponse implements PostResponseDto {
                 .writerProfileImage(postDocument.getWriterProfileImage())
                 .topic(postDocument.getTopic())
                 .title(postDocument.getTitle())
-                .contentExcerpt(postDocument.getContent())
+                .contentExcerpt(excerpt)
                 .commentCount(postDocument.getCommentCount())
                 .likes(postDocument.getLikes())
                 .clicks(postDocument.getClicks())

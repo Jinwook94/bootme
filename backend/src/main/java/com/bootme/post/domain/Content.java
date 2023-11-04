@@ -18,7 +18,6 @@ import static com.bootme.common.exception.ErrorType.*;
 public class Content {
 
     private static final int MAX_CONTENT_LENGTH = 50000;
-    private static final int EXCERPT_LENGTH = 200;
 
     @Column(name = "content", nullable = false, columnDefinition = "TEXT")
     private String value;
@@ -51,41 +50,6 @@ public class Content {
         }
 
         return doc.body().html();
-    }
-
-    public String getExcerpt() {
-        if ("<p><br></p>".equals(value)) {
-            return "";
-        }
-
-        Document doc = Jsoup.parse(value);
-        Elements iframeTags = doc.getElementsByTag("iframe");
-        Elements videoTags = doc.getElementsByTag("video");
-        Elements imgTags = doc.getElementsByTag("img");
-
-        String firstIframe;
-        if (!iframeTags.isEmpty()) {
-            firstIframe = iframeTags.first().toString();
-            return firstIframe;
-        }
-
-        String firstVideo;
-        if (!videoTags.isEmpty()) {
-            firstVideo = videoTags.first().toString();
-            return firstVideo;
-        }
-
-        String firstImg;
-        if (!imgTags.isEmpty()) {
-            firstImg = imgTags.first().toString();
-            return firstImg;
-        }
-
-        if (value.length() <= EXCERPT_LENGTH) {
-            return value;
-        } else {
-            return value.substring(0, EXCERPT_LENGTH) + "...";
-        }
     }
 
     @Override
