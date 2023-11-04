@@ -120,10 +120,14 @@ public class PostService {
     @CacheEvict(value = "posts", allEntries = true)
     public void modifyPost(AuthInfo authInfo, Long postId, PostRequest postRequest) {
         authService.validateLogin(authInfo);
-        Post post = getPostById(postId);
 
+        Post post = getPostById(postId);
         post.assertAuthor(authInfo.getMemberId());
         post.modifyPost(postRequest);
+
+        PostDocument document = getPostDocumentByPostId(postId);
+        document.updateFromRequest(postRequest);
+        postElasticsearchRepository.modifyPost(document);
     }
 
     @Transactional
