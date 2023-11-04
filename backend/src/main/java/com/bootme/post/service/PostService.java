@@ -12,6 +12,7 @@ import com.bootme.member.service.MemberService;
 import com.bootme.post.domain.*;
 import com.bootme.post.dto.*;
 import com.bootme.comment.repository.CommentRepository;
+import com.bootme.post.repository.PostElasticsearchRepository;
 import com.bootme.post.repository.PostRepository;
 import com.bootme.post.repository.PostRepositoryProxy;
 import com.bootme.session.service.SessionService;
@@ -60,9 +61,13 @@ public class PostService {
     @CacheEvict(value = "posts", allEntries = true)
     public Long addPost(AuthInfo authInfo, PostRequest postRequest){
         authService.validateLogin(authInfo);
+
         Member member = memberService.getMemberById(authInfo.getMemberId());
         Post post = Post.of(postRequest, member);
         Post savedPost = postRepository.save(post);
+
+        PostDocument postDocument = PostDocument.fromPost(savedPost);
+        postElasticsearchRepository.save(postDocument);
         return savedPost.getId();
     }
 
