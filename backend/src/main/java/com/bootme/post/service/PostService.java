@@ -17,8 +17,6 @@ import com.bootme.post.repository.PostRepositoryProxy;
 import com.bootme.session.service.SessionService;
 import com.bootme.vote.repository.VoteRepository;
 import com.bootme.vote.domain.Vote;
-import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
@@ -45,7 +43,6 @@ public class PostService {
     private final PostBookmarkRepository postBookmarkRepository;
     private final CommentRepository commentRepository;
     private final VoteRepository voteRepository;
-    private final PostTopicPredicate postTopicPredicate;
 
     @Transactional(readOnly = true)
     public Post getPostById(Long id) {
@@ -152,31 +149,6 @@ public class PostService {
     public void incrementBookmarks(Long id){
         Post post = getPostById(id);
         post.incrementBookmarks();
-    }
-
-    private Predicate getCombinedPredicate(MultiValueMap<String, String> params) {
-        Predicate statusPredicate = getStatusPredicate();
-        Predicate topicPredicate = postTopicPredicate.build(params);
-        return combinePredicates(statusPredicate, topicPredicate);
-    }
-
-    private Predicate getStatusPredicate() {
-        QPost qPost = QPost.post;
-        return qPost.status.eq(PostStatus.DISPLAY);
-    }
-
-    private Predicate combinePredicates(Predicate statusPredicate, Predicate topicPredicate) {
-        BooleanBuilder builder = new BooleanBuilder();
-
-        if (topicPredicate != null) {
-            builder.and(topicPredicate);
-        }
-
-        if (statusPredicate != null) {
-            builder.and(statusPredicate);
-        }
-
-        return builder.getValue();
     }
 
     private List<CommentResponse> mapCommentsToResponse(List<Comment> comments) {
