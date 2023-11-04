@@ -4,6 +4,9 @@
     <springProfile name="dev">
         <include resource="logback/console-logger.xml"/>
 
+        <!-- Elasticsearch 로그 -->
+<!--        <logger name="tracer" level="trace"/>-->
+
         <logger name="com.bootme" level="INFO" additivity="false">
             <appender-ref ref="STDOUT"/>
         </logger>
@@ -37,6 +40,9 @@
             <appender-ref ref="stg-file-general-json"/>
         </logger>
 
+        <logger name="com.bootme.common.aspect.ElasticsearchLoggingAspect" level="OFF" additivity="false">
+        </logger>
+
         <logger name="org.springframework" level="INFO" additivity="false">
 <!--            <appender-ref ref="stg-file-general-text"/>-->
             <appender-ref ref="stg-file-general-json"/>
@@ -59,6 +65,9 @@
         <logger name="com.bootme" level="INFO" additivity="false">
             <appender-ref ref="prod-file-general-text"/>
             <appender-ref ref="prod-file-general-json"/>
+        </logger>
+
+        <logger name="com.bootme.common.aspect.ElasticsearchLoggingAspect" level="OFF" additivity="false">
         </logger>
 
         <logger name="org.springframework" level="INFO" additivity="false">
