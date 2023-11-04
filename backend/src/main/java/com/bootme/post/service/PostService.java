@@ -14,19 +14,28 @@ import com.bootme.post.dto.*;
 import com.bootme.comment.repository.CommentRepository;
 import com.bootme.post.repository.PostElasticsearchRepository;
 import com.bootme.post.repository.PostRepository;
-import com.bootme.post.repository.PostRepositoryProxy;
 import com.bootme.session.service.SessionService;
 import com.bootme.vote.repository.VoteRepository;
 import com.bootme.vote.domain.Vote;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.elasticsearch.core.SearchHit;
+import org.springframework.data.elasticsearch.core.SearchPage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
 
 import java.util.*;
 
+import static com.bootme.common.enums.SortOption.CREATED_AT;
+import static com.bootme.common.enums.SortOption.LIKES;
 import static com.bootme.common.exception.ErrorType.*;
 import static com.bootme.vote.domain.VotableType.POST;
 import static com.bootme.vote.domain.VotableType.POST_COMMENT;
@@ -36,15 +45,20 @@ import static com.bootme.vote.domain.VoteType.NONE;
 @RequiredArgsConstructor
 public class PostService {
 
+    private PostService self;
     private final AuthService authService;
     private final MemberService memberService;
     private final SessionService sessionService;
     private final PostRepository postRepository;
-    private final PostRepositoryProxy postRepositoryProxy;
     private final PostElasticsearchRepository postElasticsearchRepository;
     private final PostBookmarkRepository postBookmarkRepository;
     private final CommentRepository commentRepository;
     private final VoteRepository voteRepository;
+
+    @Autowired
+    public void setPostService(@Lazy PostService postService) {
+        this.self = postService;
+    }
 
     @Transactional(readOnly = true)
     public Post getPostById(Long postId) {
@@ -93,10 +107,53 @@ public class PostService {
         String topic = params.getOrDefault("topic", Collections.singletonList("")).get(0);
         String search = params.getOrDefault("search", Collections.singletonList("")).get(0);
 
-        Page<PostResponse> postResponses = postRepositoryProxy.getPostPage(page, size, sort, topic, search)
+        Page<PostResponse> postResponses = self.getPostPage(page, size, sort, topic, search)
                 .map(postResponse -> createPostResponse(postResponse, isLogin, memberId, viewedPosts));
 
         return new CustomPageImpl<>(postResponses);
+    }
+
+    @Cacheable(
+            value = "posts",
+            key = "(#topic == '' ? 'none' : #topic) + ':' + " +
+                    "(#search == '' ? 'none' : #search) + ':' + " +
+                    "#sort + ':' + #page + ':' + #size")
+    public CustomPageImpl<PostResponse> getPostPage(int page, int size, String sort, String topic, String search) {
+        Pageable pageable = getSortedPageable(page, size, sort);
+        SearchPage<PostDocument> searchPage = postElasticsearchRepository.findAllPosts(topic, search, pageable);
+        return mapToCustomPageImpl(searchPage);
+    }
+
+    private Pageable getSortedPageable(int page, int size, String sort) {
+        Sort sorting;
+        if (sort.equals(CREATED_AT.toString())) {
+            sorting = Sort.by(
+                    Sort.Order.desc(CREATED_AT.toString()),
+                    Sort.Order.desc(LIKES.toString())
+            );
+        } else {
+            sorting = Sort.by(
+                    Sort.Order.desc(LIKES.toString()),
+                    Sort.Order.desc(CREATED_AT.toString())
+            );
+        }
+        return PageRequest.of(page - 1, size, sorting);
+    }
+
+    // Redis 데이터 수신시 역직렬화 문제로 인해 Page 타입이 아닌 CustomPageImpl 타입 반환
+    private CustomPageImpl<PostResponse> mapToCustomPageImpl(SearchPage<PostDocument> searchPage) {
+        List<PostResponse> postResponses = searchPage.getContent()
+                .stream()
+                .map(SearchHit::getContent)
+                .map(PostResponse::fromPostDocument)
+                .toList();
+
+        return new CustomPageImpl<>(
+                postResponses,
+                searchPage.getPageable().getPageNumber(),
+                searchPage.getPageable().getPageSize(),
+                searchPage.getTotalElements()
+        );
     }
 
     private PostResponse createPostResponse(PostResponse postResponse, boolean isLogin, Long memberId, Set<Long> viewedPosts) {
@@ -121,7 +178,7 @@ public class PostService {
     public void modifyPost(AuthInfo authInfo, Long postId, PostRequest postRequest) {
         authService.validateLogin(authInfo);
 
-        Post post = getPostById(postId);
+        Post post = self.getPostById(postId);
         post.assertAuthor(authInfo.getMemberId());
         post.modifyPost(postRequest);
 
@@ -135,7 +192,7 @@ public class PostService {
     public void deletePost(AuthInfo authInfo, Long postId) {
         authService.validateLogin(authInfo);
 
-        Post post = getPostById(postId);
+        Post post = self.getPostById(postId);
         post.assertAuthor(authInfo.getMemberId());
         post.softDeletePost();
 
@@ -159,13 +216,13 @@ public class PostService {
 
     @Transactional
     public void incrementClicks(Long id) {
-        Post post = getPostById(id);
+        Post post = self.getPostById(id);
         post.incrementClicks();
     }
 
     @Transactional
     public void incrementBookmarks(Long id){
-        Post post = getPostById(id);
+        Post post = self.getPostById(id);
         post.incrementBookmarks();
     }
 
