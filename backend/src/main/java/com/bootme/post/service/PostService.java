@@ -134,10 +134,13 @@ public class PostService {
     @CacheEvict(value = "posts", allEntries = true)
     public void deletePost(AuthInfo authInfo, Long postId) {
         authService.validateLogin(authInfo);
-        Post post = getPostById(postId);
 
+        Post post = getPostById(postId);
         post.assertAuthor(authInfo.getMemberId());
         post.softDeletePost();
+
+        PostDocument postDocument = getPostDocumentByPostId(postId);
+        postElasticsearchRepository.softDeletePost(postDocument);
     }
 
     @Transactional(readOnly = true)
