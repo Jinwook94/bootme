@@ -31,6 +31,10 @@ spring:
     locations: classpath:db/migration/staging
     baseline-version: 0
 
+elasticsearch:
+  host: ENC(lguxyL/JPPQK468m451LZ60q7psQsSuk)
+  port: 9200
+
 server:
   servlet:
     session:

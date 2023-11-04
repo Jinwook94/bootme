@@ -117,7 +117,9 @@ export const PostProvider = ({ children }: { children: React.ReactNode }) => {
       const savedLocation = response.headers['location'];
       const postId = savedLocation?.split('/').pop();
       if (postId) {
-        navigate(`${PATH.POST.DETAIL}/${postId}`);
+        setTimeout(() => {
+          navigate(`${PATH.POST.DETAIL}/${postId}`);
+        }, 300);
       }
     } catch (e: any) {
       if (e.response.data) {
