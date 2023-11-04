@@ -22,6 +22,10 @@ spring:
   flyway:
     enabled: false
 
+elasticsearch:
+  host: localhost
+  port: 9200
+
 decorator:
   datasource:
     p6spy:
@@ -30,6 +34,8 @@ decorator:
 logging:
   level:
     com.bootme.common.aspect.LoggingAspect: OFF
+    org.springframework.cache: DEBUG
+    org.springframework.data.elasticsearch.client.WIRE: TRACE
     org.hibernate.SQL: OFF
     org.hibernate.type: OFF
     org.hibernate.type.descriptor.sql.BasicBinder: OFF
