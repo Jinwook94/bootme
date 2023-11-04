@@ -81,12 +81,11 @@ public class PostService {
     @Transactional(readOnly = true)
     public CustomPageImpl<PostResponse> findAllPosts(Long memberId, int page, int size, String sort, MultiValueMap<String, String> params) {
         boolean isLogin = authService.validateLogin(memberId);
-        Predicate combinedPredicate = getCombinedPredicate(params);
         Set<Long> viewedPosts = getViewedPosts();
         String topic = params.getOrDefault("topic", Collections.singletonList("")).get(0);
         String search = params.getOrDefault("search", Collections.singletonList("")).get(0);
 
-        Page<PostResponse> postResponses = postRepositoryProxy.getPostPage(page, size, sort, topic, search, combinedPredicate)
+        Page<PostResponse> postResponses = postRepositoryProxy.getPostPage(page, size, sort, topic, search)
                 .map(postResponse -> createPostResponse(postResponse, isLogin, memberId, viewedPosts));
 
         return new CustomPageImpl<>(postResponses);
