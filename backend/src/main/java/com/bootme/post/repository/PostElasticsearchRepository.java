@@ -71,7 +71,9 @@ public class PostElasticsearchRepository {
 
     public SearchPage<PostDocument> findAllPosts(String topic, String search, Pageable pageable) {
         Criteria criteria = buildCriteria(topic, search);
-        Query query = new CriteriaQuery(criteria).setPageable(pageable);
+        CriteriaQuery query = new CriteriaQuery(criteria);
+        query.setTrackTotalHits(true);
+        query.setPageable(pageable);
 
         SearchHits<PostDocument> searchHits = elasticsearchOperations.search(query, PostDocument.class, IndexCoordinates.of(INDEX_NAME_POST));
         return SearchHitSupport.searchPageFor(searchHits, pageable);
