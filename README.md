@@ -9,7 +9,7 @@
 ## 결과물 URL
 | 결과물                | URL                                                                                                                                              |
 |--------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
-| 프로젝트 소개 문서         | [bootme.pdf](https://github.com/Jinwook94/bootme/files/13223261/bootme.pdf)                                                                      |
+| 프로젝트 소개 문서         | [bootme.pdf](https://github.com/Jinwook94/bootme/files/13258975/bootme.pdf)                                                                      |
 | 개발 문서              | [samata94.notion.site/a26611d37ab2404d92366e4c5677efff?v](https://samata94.notion.site/a26611d37ab2404d92366e4c5677efff?v)                       |
 | 서비스 (운영)           | [bootme.co.kr](https://bootme.co.kr)                                                                                                             |
 | 서비스 (스테이징)         | [staging.bootme.co.kr](https://staging.bootme.co.kr)                                                                                             |
