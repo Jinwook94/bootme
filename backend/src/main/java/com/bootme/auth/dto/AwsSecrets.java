@@ -25,6 +25,7 @@ public class AwsSecrets {
     private String bootmeIssuer;
     private String bootmeAudience;
     private String bootmeSigningKey;
+    private String gaMeasurementId;
 
     public AwsSecrets() {
     }
@@ -32,7 +33,7 @@ public class AwsSecrets {
     @Builder
     public AwsSecrets(String apiUrl, String googleClientId, String googleIssuer, String googleAudience, String naverClientId, String naverClientSecret,
                       String naverIssuer, String naverAudience, String naverSigningKey, String kakaoRestApiKey, String kakaoClientSecret,
-                      String kakaoIssuer, String kakaoAudience, String kakaoJavascriptKey, String bootmeIssuer, String bootmeAudience, String bootmeSigningKey) {
+                      String kakaoIssuer, String kakaoAudience, String kakaoJavascriptKey, String bootmeIssuer, String bootmeAudience, String bootmeSigningKey, String gaMeasurementId) {
         this.apiUrl = apiUrl;
         this.googleClientId = googleClientId;
         this.googleIssuer = googleIssuer;
@@ -50,6 +51,7 @@ public class AwsSecrets {
         this.bootmeIssuer = bootmeIssuer;
         this.bootmeAudience = bootmeAudience;
         this.bootmeSigningKey = bootmeSigningKey;
+        this.gaMeasurementId = gaMeasurementId;
     }
 
     public static AwsSecrets of(Map<String, String> secrets) {
@@ -71,6 +73,7 @@ public class AwsSecrets {
                 .bootmeIssuer(secrets.get("bootme-issuer"))
                 .bootmeAudience(secrets.get("bootme-audience"))
                 .bootmeSigningKey(secrets.get("bootme-signing-key"))
+                .gaMeasurementId(secrets.get("ga-measurement-id"))
                 .build();
     }
 

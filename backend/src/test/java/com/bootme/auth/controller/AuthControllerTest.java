@@ -334,7 +334,8 @@ class AuthControllerTest extends ControllerTest {
                                         fieldWithPath("kakaoJavascriptKey").description("kakaoJavascriptKey"),
                                         fieldWithPath("bootmeIssuer").description("bootmeIssuer"),
                                         fieldWithPath("bootmeAudience").description("bootmeAudience"),
-                                        fieldWithPath("bootmeSigningKey").description("bootmeSigningKey")
+                                        fieldWithPath("bootmeSigningKey").description("bootmeSigningKey"),
+                                        fieldWithPath("gaMeasurementId").description("gaMeasurementId")
                                 )
                                 .build())
                 ));

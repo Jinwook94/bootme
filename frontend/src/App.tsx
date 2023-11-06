@@ -21,12 +21,14 @@ import ProfilePage from './pages/ProfilePage';
 import BookmarkCoursePage from './pages/BookmarkCoursePage';
 import BookmarkPostPage from './pages/BookmarkPostPage';
 import PromptGeneratorPage from './pages/PromptGeneratorPage';
+import RouteChangeTracker from './utils/RouteChangeTracker';
 
 const App = () => {
   const { isVisible, message, displayIcon } = useSnackbar();
   return (
     <>
       <Header />
+      <RouteChangeTracker />
       <Routes>
         <Route path={PATH.HOME} element={<PostListPage />} />
         <Route path={PATH.LOGIN} element={<LoginPage />} />
