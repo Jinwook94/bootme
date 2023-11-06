@@ -81,4 +81,5 @@ interface SecretsResponse {
   bootmeIssuer: string;
   bootmeAudience: string;
   bootmeSigningKey: string;
+  gaMeasurementId: string;
 }
