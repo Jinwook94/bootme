@@ -89,10 +89,8 @@ public class CourseService {
     }
 
     @Transactional(readOnly = true)
-    public Page<CourseResponse> findAll(Long memberId, int page, int size, String sort,
-                                        MultiValueMap<String, String> params) {
+    public Page<CourseResponse> findAll(Long memberId, int page, int size, String sort, MultiValueMap<String, String> params) {
         boolean isLogin = authService.validateLogin(memberId);
-
         Predicate combinedPredicate = getCombinedPredicate(params);
 
         return getCoursePage(page, size, sort, combinedPredicate)
@@ -101,7 +99,9 @@ public class CourseService {
 
     private CourseResponse createCourseResponse(Course course, boolean isLogin, Long memberId) {
         boolean isBookmarked = isLogin && courseBookmarkRepository.existsByBookmark_Member_IdAndCourse_Id(memberId, course.getId());
-        List<Stack> stacks = courseStackRepository.findStacksByCourseId(course.getId());
+        List<Stack> stacks = course.getCourseStacks().stream()
+                .map(CourseStack::getStack)
+                .toList();
         return CourseResponse.of(course, stacks, isBookmarked);
     }
 
