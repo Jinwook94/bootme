@@ -254,4 +254,7 @@ public class PostService {
         }
     }
 
+    @CacheEvict(value = "posts", allEntries = true)
+    public void cacheEvict() {}
+
 }

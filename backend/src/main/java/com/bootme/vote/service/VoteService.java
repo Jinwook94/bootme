@@ -72,6 +72,8 @@ public class VoteService {
                 PostDocument postDocumentFromPost = PostDocument.fromPost(post);
                 postDocumentFromPost.setId(postDocumentByPostId.getId());
                 postElasticsearchRepository.modifyPost(postDocumentFromPost);
+
+                postService.cacheEvict();
                 return PostDetailResponse.fromPost(post, isBookmarked);
             }
             case POST_COMMENT -> {
