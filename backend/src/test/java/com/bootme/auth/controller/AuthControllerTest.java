@@ -1,6 +1,5 @@
 package com.bootme.auth.controller;
 
-import com.bootme.auth.dto.AwsSecrets;
 import com.bootme.auth.dto.LoginResponse;
 import com.bootme.common.exception.TokenParseException;
 import com.bootme.common.exception.AuthenticationException;
@@ -222,7 +221,7 @@ class AuthControllerTest extends ControllerTest {
         String refreshTokenCookie = "refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c; Path=/; Domain=bootme.co.kr; Max-Age=2592000; Expires=Sun, 17 Jun 2023 15:51:53 GMT; Secure; HttpOnly; SameSite=Lax";
         LoginResponse response = new LoginResponse(1L, "john@gmail.com", "John", "imageUrl", "Backend Developer");
         String content = "{\"url\":\"https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&client_id=ABCDEFG&client_secret=abcdefg&code=secretcode&state=secrretstate  \\n\"}";
-        given(authService.processNaverLogin(any())).willReturn(response);
+        given(authService.naverLogin(any())).willReturn(response);
         given(tokenProvider.getAccessTokenCookie(any(),any())).willReturn(accessTokenCookie);
         given(tokenProvider.getRefreshTokenCookie(any(),any())).willReturn(refreshTokenCookie);
 
@@ -292,9 +291,7 @@ class AuthControllerTest extends ControllerTest {
         //given
         String secret = "validSecret";
         String origin = "https://bootme.co.kr";
-        AwsSecrets awsSecrets = getAwsSecrets();
         willDoNothing().given(authService).verifySecretRequest(any(), any());
-        given(authService.getAwsSecrets()).willReturn(awsSecrets);
 
         //when
         ResultActions perform = mockMvc.perform(get("/auth/secrets")
@@ -320,19 +317,15 @@ class AuthControllerTest extends ControllerTest {
                                 .responseFields(
                                         fieldWithPath("apiUrl").description("bootme 서버 URL"),
                                         fieldWithPath("googleClientId").description("googleClientId"),
-                                        fieldWithPath("googleIssuer").description("googleIssuer"),
                                         fieldWithPath("googleAudience").description("googleAudience"),
                                         fieldWithPath("naverClientId").description("naverClientId"),
                                         fieldWithPath("naverClientSecret").description("naverClientSecret"),
-                                        fieldWithPath("naverIssuer").description("naverIssuer"),
                                         fieldWithPath("naverAudience").description("naverAudience"),
                                         fieldWithPath("naverSigningKey").description("naverSigningKey"),
                                         fieldWithPath("kakaoRestApiKey").description("kakaoRestApiKey"),
                                         fieldWithPath("kakaoClientSecret").description("kakaoClientSecret"),
-                                        fieldWithPath("kakaoIssuer").description("kakaoIssuer"),
                                         fieldWithPath("kakaoAudience").description("kakaoAudience"),
                                         fieldWithPath("kakaoJavascriptKey").description("kakaoJavascriptKey"),
-                                        fieldWithPath("bootmeIssuer").description("bootmeIssuer"),
                                         fieldWithPath("bootmeAudience").description("bootmeAudience"),
                                         fieldWithPath("bootmeSigningKey").description("bootmeSigningKey"),
                                         fieldWithPath("gaMeasurementId").description("gaMeasurementId")

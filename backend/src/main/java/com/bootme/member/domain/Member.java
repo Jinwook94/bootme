@@ -108,6 +108,10 @@ public class Member extends BaseEntity {
         addNewStacks(newStacks);
     }
 
+    public void incrementVisits() {
+        this.visitsCount += 1;
+    }
+
     // 기존 스택 중 새로운 스택에는 포함되지 않은 것을 제거
     private void removeUnmatchedStacksFromMember(Set<Stack> newStacks) {
         memberStacks.removeIf(memberStack -> !newStacks.contains(memberStack.getStack()));

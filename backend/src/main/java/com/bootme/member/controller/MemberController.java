@@ -1,6 +1,7 @@
 package com.bootme.member.controller;
 
 import com.bootme.auth.dto.AuthInfo;
+import com.bootme.auth.service.AuthService;
 import com.bootme.auth.util.Login;
 import com.bootme.member.dto.MyProfileResponse;
 import com.bootme.member.dto.ProfileResponse;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
 
     private final MemberService memberService;
+    private final AuthService authService;
 
     @GetMapping("/{memberId}/profile")
     public ResponseEntity<ProfileResponse> findMemberProfile(@PathVariable Long memberId) {
@@ -26,6 +28,7 @@ public class MemberController {
 
     @GetMapping("/me")
     public ResponseEntity<MyProfileResponse> findMyProfile(@Login AuthInfo authInfo) {
+        authService.validateLogin(authInfo);
         MyProfileResponse response = memberService.findMyProfile(authInfo);
         return ResponseEntity.ok(response);
     }
@@ -34,6 +37,7 @@ public class MemberController {
     public ResponseEntity<Void> modifyProfile(@Login AuthInfo authInfo,
                                               @PathVariable Long memberId,
                                               @RequestBody UpdateProfileRequest request) {
+        authService.validateLogin(authInfo);
         memberService.modifyProfile(authInfo, memberId, request);
         return ResponseEntity.ok().build();
     }
@@ -42,6 +46,7 @@ public class MemberController {
     public ResponseEntity<Void> modifyProfileImage(@Login AuthInfo authInfo,
                                                    @PathVariable Long memberId,
                                                    @RequestBody UpdateImageRequest request) {
+        authService.validateLogin(authInfo);
         memberService.modifyProfileImage(authInfo, memberId, request);
         return ResponseEntity.ok().build();
     }

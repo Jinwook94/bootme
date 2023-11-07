@@ -60,12 +60,11 @@ public class JwtVo {
         }
 
         @Builder
-        public Body(String oAuthProvider, String iss, String aud, String sub, Long iat,
+        public Body(String iss, String aud, String sub, Long iat,
                     Long exp, String email, String nickname, String name, String picture,
                     String given_name, String family_name, String locale, String azp, String jti, Long nbf,
                     boolean email_verified, String ageRange, String birthDay, String birthYear,
                     String gender, String id, String phoneNumber, String auth_time) {
-            this.oAuthProvider = oAuthProvider;
             this.iss = iss;
             this.aud = aud;
             this.sub = sub;
@@ -89,10 +88,6 @@ public class JwtVo {
             this.id = id;
             this.phoneNumber = phoneNumber;
             this.auth_time = auth_time;
-        }
-
-        public void setOAuthProvider(String oAuthProvider) {
-            this.oAuthProvider = oAuthProvider;
         }
     }
 

@@ -37,10 +37,10 @@ export const SecretProvider = ({ children }: SecretProviderProps) => {
     const typ = 'JWT';
 
     // workflow 빌드 중 깃허브 리포지토리 시크릿으로 교체 (frontend-deploy.yml)
-    const issuer = 'BOOTME_ISSUER';
+    const issuer = 'bootme.co.kr';
     const audience = 'BOOTME_AUDIENCE';
-    const signingKEy = 'BOOTME_SIGNING_KEY';
-    const encodedKey = new TextEncoder().encode(signingKEy);
+    const signingKey = 'BOOTME_SIGNING_KEY';
+    const encodedKey = new TextEncoder().encode(signingKey);
 
     return new jose.SignJWT({})
       .setProtectedHeader({ alg, typ })
@@ -66,19 +66,15 @@ interface SecretProviderProps {
 interface SecretsResponse {
   apiUrl: string;
   googleClientId: string;
-  googleIssuer: string;
   googleAudience: string;
   naverClientId: string;
   naverClientSecret: string;
-  naverIssuer: string;
   naverAudience: string;
   naverSigningKey: string;
   kakaoRestApiKey: string;
   kakaoClientSecret: string;
-  kakaoIssuer: string;
   kakaoAudience: string;
   kakaoJavascriptKey: string;
-  bootmeIssuer: string;
   bootmeAudience: string;
   bootmeSigningKey: string;
   gaMeasurementId: string;

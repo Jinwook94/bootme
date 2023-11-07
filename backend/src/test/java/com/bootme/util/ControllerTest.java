@@ -1,5 +1,6 @@
 package com.bootme.util;
 
+import com.bootme.auth.dto.AwsSecrets;
 import com.bootme.auth.service.AuthService;
 import com.bootme.auth.util.AuthenticationArgumentResolver;
 import com.bootme.auth.util.TokenProvider;
@@ -56,6 +57,9 @@ public abstract class ControllerTest {
 
     @MockBean
     protected TokenProvider tokenProvider;
+
+    @MockBean
+    protected AwsSecrets awsSecrets;
 
     @MockBean
     protected AuthService authService;

@@ -22,15 +22,18 @@ public class AuthController {
     private final AuthService authService;
     private final TokenProvider tokenProvider;
     private final SseEmitterManager sseEmitterManager;
+    private final AwsSecrets awsSecrets;
     private final String domain;
 
     public AuthController(AuthService authService,
                           TokenProvider tokenProvider,
                           SseEmitterManager sseEmitterManager,
+                          AwsSecrets awsSecrets,
                           @Value("${domain}") String domain) {
         this.authService = authService;
         this.tokenProvider = tokenProvider;
         this.sseEmitterManager = sseEmitterManager;
+        this.awsSecrets = awsSecrets;
         this.domain = domain;
     }
 
@@ -51,7 +54,7 @@ public class AuthController {
 
     @PostMapping("/login/naver")
     public ResponseEntity<LoginResponse> naverLogin(@RequestBody Map<String, String> body) {
-        LoginResponse response = authService.processNaverLogin(body.get("url"));
+        LoginResponse response = authService.naverLogin(body.get("url"));
         Long memberId = response.getMemberId();
         String email = response.getEmail();
 
@@ -74,10 +77,9 @@ public class AuthController {
 
 //    @IPFilter
     @GetMapping("/secrets")
-    public ResponseEntity<AwsSecrets> getSecrets(@RequestHeader(name = "Bootme_Secret") String secret,
+    public ResponseEntity<AwsSecrets> getSecrets(@RequestHeader(name = "Bootme_Secret") String secretHeader,
                                                  @RequestHeader(value = "Origin", required = false) String origin) {
-        authService.verifySecretRequest(secret, origin);
-        AwsSecrets awsSecrets = authService.getAwsSecrets();
+        authService.verifySecretRequest(secretHeader, origin);
         return ResponseEntity.ok(awsSecrets);
     }
 

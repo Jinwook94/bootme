@@ -1,7 +1,9 @@
 package com.bootme.common.interceptor;
 
+import com.bootme.auth.dto.JwtVo;
 import com.bootme.auth.service.AuthService;
 import com.bootme.auth.util.TokenProvider;
+import com.bootme.member.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,14 +27,18 @@ public class TokenValidationInterceptor implements HandlerInterceptor {
     private final String domain;
     private final long accessTokenExpireTimeInMilliseconds;
     private final TokenProvider tokenProvider;
+    private final MemberService memberService;
     private final AuthService authService;
 
     public TokenValidationInterceptor(@Value("${domain}") String domain,
                                       @Value("${security.jwt.bootme.exp.millisecond.access}") long accessTokenExpireTimeInMilliseconds,
-                                      TokenProvider tokenProvider, AuthService authService) {
+                                      TokenProvider tokenProvider,
+                                      MemberService memberService,
+                                      AuthService authService) {
         this.domain = domain;
         this.accessTokenExpireTimeInMilliseconds = accessTokenExpireTimeInMilliseconds;
         this.tokenProvider = tokenProvider;
+        this.memberService = memberService;
         this.authService = authService;
     }
 
@@ -49,11 +55,21 @@ public class TokenValidationInterceptor implements HandlerInterceptor {
     }
 
     private boolean isAccessTokenValid(String accessToken) {
-        return accessToken != null && tokenProvider.isValid(accessToken) && authService.verifyExistingMember(accessToken);
+        if (accessToken == null) {
+            return false;
+        }
+        JwtVo jwtVo = authService.parseToken(accessToken);
+        String email = jwtVo.getBody().getEmail();
+        return tokenProvider.isValid(accessToken) && memberService.isRegistered(email);
     }
 
     private boolean isRefreshTokenValidAndReissueAccessToken(String refreshToken, HttpServletResponse response) {
-        if (refreshToken != null && tokenProvider.isValid(refreshToken) && authService.verifyExistingMember(refreshToken)) {
+        if (refreshToken == null) {
+            return false;
+        }
+        JwtVo jwtVo = authService.parseToken(refreshToken);
+        String email = jwtVo.getBody().getEmail();
+        if (tokenProvider.isValid(refreshToken) && memberService.isRegistered(email)) {
             String newAccessToken = tokenProvider.reissueAccessToken(refreshToken);
             setAccessTokenCookie(newAccessToken, response);
             return true;

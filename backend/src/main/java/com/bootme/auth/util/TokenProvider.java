@@ -15,6 +15,8 @@ import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
+import static com.bootme.common.enums.JwtIssuer.BOOTME_ISSUER;
+
 @Component
 @Slf4j
 public class TokenProvider {
@@ -61,7 +63,7 @@ public class TokenProvider {
                 .setHeaderParam("typ", "JWT")
                 .claim("id", id)
                 .claim("email", email)
-                .setIssuer(awsSecrets.getBootmeIssuer())
+                .setIssuer(BOOTME_ISSUER)
                 .setIssuedAt(now)
                 .setExpiration(expiration)
                 .signWith(getSigningKey())

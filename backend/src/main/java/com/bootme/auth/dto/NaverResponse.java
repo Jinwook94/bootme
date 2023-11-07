@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import static com.bootme.common.enums.JwtIssuer.BOOTME_ISSUER;
+
 @Getter
 @Setter
 public class NaverResponse {
@@ -15,8 +17,7 @@ public class NaverResponse {
     @Getter
     @Setter
     public static class NaverUserInfo implements UserInfo {
-        private String oAuthProvider = "naver";
-        private String iss = "https://bootme.co.kr";
+        private String iss = BOOTME_ISSUER;
         private String id;
         private String nickname;
         @JsonProperty("profile_image")
@@ -31,7 +32,7 @@ public class NaverResponse {
         private String birthday;
         private String birthyear;
 
-        public NaverUserInfo() {
+        private NaverUserInfo() {
         }
 
         @Override
@@ -41,14 +42,8 @@ public class NaverResponse {
 
         @Override
         public String getIss() {
-            return "https://bootme.co.kr";
+            return iss;
         }
-
-        @Override
-        public void setOAuthProvider(String oAuthProvider) {
-            this.oAuthProvider = "naver";
-        }
-
     }
 
 }

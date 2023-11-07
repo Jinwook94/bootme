@@ -34,7 +34,7 @@ const useWebhook = (): useWebhookProps => {
   };
 
   function generateJwt() {
-    const ISSUER = secrets?.['bootmeIssuer'];
+    const ISSUER = 'bootme.co.kr';
     const AUDIENCE = secrets?.['bootmeAudience'];
     const SIGNING_KEY = secrets?.['bootmeSigningKey'];
     const alg = 'HS256';

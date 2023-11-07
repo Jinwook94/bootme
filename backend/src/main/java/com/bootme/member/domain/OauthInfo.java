@@ -2,6 +2,7 @@ package com.bootme.member.domain;
 
 import com.bootme.auth.dto.UserInfo;
 import com.bootme.common.domain.BaseEntity;
+import com.bootme.common.enums.JwtIssuer;
 import com.bootme.common.exception.ArgumentNotValidException;
 import com.bootme.common.exception.ErrorType;
 import jakarta.persistence.*;
@@ -43,6 +44,7 @@ public class OauthInfo extends BaseEntity {
     }
 
     public static OauthInfo of(UserInfo userInfo) {
+        JwtIssuer issuer = JwtIssuer.fromString(userInfo.getIss());
         String email = userInfo.getEmail();
         if (email == null || email.isEmpty()) {
             throw new ArgumentNotValidException(ErrorType.INVALID_EMAIL_NULL, email);
@@ -56,7 +58,7 @@ public class OauthInfo extends BaseEntity {
             profileImage = "https://bootme-images.s3.ap-northeast-2.amazonaws.com/profile/default_profile.png";
         }
         return OauthInfo.builder()
-                .oAuthProvider(userInfo.getOAuthProvider())
+                .oAuthProvider(issuer.toString())
                 .email(userInfo.getEmail())
                 .nickname(nickname)
                 .name(userInfo.getName())
