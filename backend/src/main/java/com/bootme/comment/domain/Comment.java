@@ -46,7 +46,7 @@ public class Comment extends BaseEntity implements Votable {
     @JoinColumn(name = "parent_id")
     private Comment parent;
 
-    @OneToMany(mappedBy = "parent", cascade = PERSIST)
+    @OneToMany(mappedBy = "parent", fetch = LAZY, cascade = PERSIST)
     private List<Comment> children = new ArrayList<>();
 
     @Lob

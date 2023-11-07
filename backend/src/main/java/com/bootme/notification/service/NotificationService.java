@@ -25,7 +25,6 @@ public class NotificationService {
     private final NotificationFactory notificationFactory;
     private final SseService sseService;
 
-
     @Transactional(readOnly = true)
     public List<NotificationResponse> findNotificationsByMemberId(Long memberId) {
         List<Notification> notificationList = notificationRepository.findByMemberId(memberId);

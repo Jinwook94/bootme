@@ -21,7 +21,7 @@ public class CourseBookmark extends BaseEntity {
     @Column(name = "course_bookmark_id")
     private Long id;
 
-    @OneToOne(fetch = LAZY, cascade = ALL)
+    @OneToOne(fetch = LAZY, cascade = ALL, orphanRemoval = true)
     @JoinColumn(name = "bookmark_id")
     private Bookmark bookmark;
 

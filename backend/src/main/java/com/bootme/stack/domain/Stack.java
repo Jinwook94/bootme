@@ -11,6 +11,9 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
+import static jakarta.persistence.CascadeType.PERSIST;
+import static jakarta.persistence.FetchType.*;
+
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
@@ -30,10 +33,10 @@ public class Stack extends BaseEntity {
     @Column(nullable = false, length = 5000)
     private String icon;
 
-    @OneToMany(mappedBy = "stack", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "stack", fetch = LAZY, cascade = PERSIST, orphanRemoval = true)
     private List<MemberStack> memberStacks = new ArrayList<>();
 
-    @OneToMany(mappedBy = "stack", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "stack", fetch = LAZY, cascade = PERSIST, orphanRemoval = true)
     private List<CourseStack> courseStacks = new ArrayList<>();
 
     public Stack(String name, String type, String icon) {

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.bootme.notification.domain.NotificationEventType.*;
-import static jakarta.persistence.CascadeType.PERSIST;
+import static jakarta.persistence.CascadeType.ALL;
 import static jakarta.persistence.FetchType.LAZY;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -49,7 +49,7 @@ public class Course extends BaseEntity implements Clickable, Bookmarkable {
     @Embedded
     private Categories categories;
 
-    @OneToMany(mappedBy = "course", cascade = PERSIST)
+    @OneToMany(mappedBy = "course", fetch = LAZY, cascade = ALL, orphanRemoval = true)
     private List<CourseStack> courseStacks = new ArrayList<>();
 
     private int cost;

@@ -18,6 +18,4 @@ public interface StackRepository extends JpaRepository<Stack, Long> {
 
     List<Stack> findByType(String type);
 
-    Optional<Stack> findByNameAndType(String name, String type);
-
 }
