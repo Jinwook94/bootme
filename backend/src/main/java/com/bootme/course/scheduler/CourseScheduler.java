@@ -31,7 +31,10 @@ public class CourseScheduler {
 
     @Scheduled(cron = "00 55 09 * * *", zone = "Asia/Seoul")
     public void updateIsRegisterOpen() {
-        courseRepository.updateAllCoursesRegistrationStatus();
+        courseRepository.findAll().forEach(course -> {
+            course.updateRegistrationStatus();
+            courseRepository.save(course);
+        });
         log.info("@Scheduled 코스 접수중 여부 업데이트 완료");
     }
 

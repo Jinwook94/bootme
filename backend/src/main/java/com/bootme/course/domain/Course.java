@@ -181,6 +181,13 @@ public class Course extends BaseEntity implements Clickable, Bookmarkable {
         this.status = CourseStatus.DELETED;
     }
 
+    public void updateRegistrationStatus() {
+        boolean nowIsRegisterOpen = checkRegisterOpen();
+        if (this.isRegisterOpen != nowIsRegisterOpen) {
+            this.isRegisterOpen = nowIsRegisterOpen;
+        }
+    }
+
     public boolean checkRegisterOpen() {
         boolean afterStart = LocalDate.now().isEqual(dates.getRegistrationStartDate()) || LocalDate.now().isAfter(dates.getRegistrationStartDate());
         boolean beforeEnd = LocalDate.now().isEqual(dates.getRegistrationEndDate()) || LocalDate.now().isBefore(dates.getRegistrationEndDate());
