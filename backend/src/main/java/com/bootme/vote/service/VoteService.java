@@ -10,6 +10,8 @@ import com.bootme.member.domain.Member;
 import com.bootme.member.service.MemberService;
 import com.bootme.comment.domain.Comment;
 import com.bootme.post.domain.Post;
+import com.bootme.post.domain.PostDocument;
+import com.bootme.post.repository.PostElasticsearchRepository;
 import com.bootme.vote.domain.Votable;
 import com.bootme.post.service.PostService;
 import com.bootme.vote.domain.VotableType;
@@ -42,12 +44,14 @@ public class VoteService {
     private final PostBookmarkService postBookmarkService;
     private final VoteRepository voteRepository;
     private final PostService postService;
+    private final PostElasticsearchRepository postElasticsearchRepository;
     private final CommentService commentService;
     private final ApplicationEventPublisher eventPublisher;
 
     @Transactional
     public VotableResponse vote(AuthInfo authInfo, VoteRequest request) {
         authService.validateLogin(authInfo);
+
         String votableTypeString = request.getVotableType();
         VotableType votableType = VotableType.valueOf(votableTypeString);
         Long votableId = request.getVotableId();
@@ -55,7 +59,6 @@ public class VoteService {
         VoteType voteType = VoteType.valueOf(voteTypeString);
         Member member = memberService.getMemberById(authInfo.getMemberId());
 
-        authService.validateLogin(authInfo);
         validateVoteType(voteType);
         Optional<Vote> existingVote = findExistingVote(votableType, votableId, member.getId());
 
@@ -64,6 +67,11 @@ public class VoteService {
                 Post post = postService.getPostById(votableId);
                 boolean isBookmarked = postBookmarkService.isBookmarkedByMember(authInfo.getMemberId(), post.getId());
                 handleVote(voteType, existingVote, post, votableType, votableId, member);
+
+                PostDocument postDocumentByPostId = postService.getPostDocumentByPostId(post.getId());
+                PostDocument postDocumentFromPost = PostDocument.fromPost(post);
+                postDocumentFromPost.setId(postDocumentByPostId.getId());
+                postElasticsearchRepository.modifyPost(postDocumentFromPost);
                 return PostDetailResponse.fromPost(post, isBookmarked);
             }
             case POST_COMMENT -> {
