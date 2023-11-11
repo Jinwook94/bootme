@@ -32,7 +32,7 @@ spring:
     baseline-version: 0
 
 elasticsearch:
-  host: ENC(IJZhKJCQKAtVxWT0NWjb9Toj3uTUDOff)
+  host: ENC(GZUavrahU/rtXRaVr6kGsLHWhu6pct4V)
   port: 9200
 
 server:
