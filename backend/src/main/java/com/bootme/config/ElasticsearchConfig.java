@@ -16,11 +16,17 @@ public class ElasticsearchConfig extends ElasticsearchConfiguration {
     @Value("${elasticsearch.port:9200}")
     private int elasticsearchPort;
 
+    @Value("${elasticsearch.username}")
+    private String elasticsearchUsername;
+
+    @Value("${elasticsearch.password}")
+    private String elasticsearchPassword;
+
     @Override
     public ClientConfiguration clientConfiguration() {
         return ClientConfiguration.builder()
                 .connectedTo(elasticsearchHost + ":" + elasticsearchPort)
+                .withBasicAuth(elasticsearchUsername, elasticsearchPassword)
                 .build();
     }
-
 }

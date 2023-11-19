@@ -34,6 +34,8 @@ spring:
 elasticsearch:
   host: ENC(lguxyL/JPPQK468m451LZ60q7psQsSuk)
   port: 9200
+  username: ENC(dY9LzRN0RqiuzlXYD4vBYA==)
+  password: ENC(PxrTjPFz/BfnTymvst17eLObLyJEyRz4)
 
 server:
   servlet:
