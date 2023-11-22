@@ -2,6 +2,7 @@ package com.bootme.course.scheduler;
 
 import com.bootme.bookmark.domain.CourseBookmark;
 import com.bootme.bookmark.repository.CourseBookmarkRepository;
+import com.bootme.course.domain.Course;
 import com.bootme.course.repository.CourseRepository;
 import com.bootme.notification.domain.Notification;
 import com.bootme.notification.domain.NotificationEventType;
@@ -41,10 +42,9 @@ public class CourseScheduler {
     @Scheduled(cron = "00 55 09 * * *", zone = "Asia/Seoul")
     @Transactional
     public void updateIsRegisterOpen() {
-        courseRepository.findAll().forEach(course -> {
-            course.updateRegistrationStatus();
-            courseRepository.save(course);
-        });
+        List<Course> courses = courseRepository.findAll();
+        courses.forEach(Course::updateRegistrationStatus);
+        courseRepository.saveAll(courses);
         log.info("@Scheduled 코스 접수중 여부 업데이트 완료");
     }
 
