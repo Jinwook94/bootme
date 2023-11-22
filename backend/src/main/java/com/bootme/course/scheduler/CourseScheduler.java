@@ -17,9 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.AbstractMap;
 import java.util.List;
-import java.util.stream.Stream;
 
 import static com.bootme.notification.domain.NotificationEventType.*;
 
@@ -69,16 +67,14 @@ public class CourseScheduler {
     // todo: N+1 문제 → JOIN FETCH 사용한 해결 필요
     @Transactional
     public void notifyBookmarkCourses(NotificationEventType event, LocalDate date) {
-        try (Stream<CourseBookmark> courseBookmarks = courseBookmarkRepository.findAll().stream()) {
-            List<Notification> notifications = courseBookmarks
-                    .map(cb -> new AbstractMap.SimpleEntry<>(cb.getBookmark(), cb))
-                    .filter(entry -> entry.getValue().getCourse().isEventOnDate(event, date))
-                    .map(entry -> notificationFactory.createCourseBookmarkNotification(entry.getKey().getMember(), event, entry.getValue()))
-                    .toList();
+        List<CourseBookmark> courseBookmarks = courseBookmarkRepository.findAll();
 
-            notificationService.sendNotifications(notifications);
-        }
+        List<Notification> notifications = courseBookmarks.stream()
+                .filter(cb -> cb.getCourse().isEventOnDate(event, date))
+                .map(cb -> notificationFactory.createCourseBookmarkNotification(cb.getBookmark().getMember(), event, cb))
+                .toList();
+
+        notificationService.sendNotifications(notifications);
     }
-
 
 }

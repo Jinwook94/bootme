@@ -25,7 +25,7 @@ public class CourseBookmark extends BaseEntity {
     @JoinColumn(name = "bookmark_id")
     private Bookmark bookmark;
 
-    @OneToOne
+    @OneToOne(fetch = LAZY)
     @JoinColumn(name = "course_id")
     private Course course;
 
