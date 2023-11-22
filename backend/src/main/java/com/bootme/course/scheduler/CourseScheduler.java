@@ -9,8 +9,11 @@ import com.bootme.notification.domain.NotificationFactory;
 import com.bootme.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.AbstractMap;
@@ -24,12 +27,19 @@ import static com.bootme.notification.domain.NotificationEventType.*;
 @Slf4j
 public class CourseScheduler {
 
+    private CourseScheduler self;
     private final CourseRepository courseRepository;
     private final CourseBookmarkRepository courseBookmarkRepository;
     private final NotificationFactory notificationFactory;
     private final NotificationService notificationService;
 
+    @Autowired
+    public void setCourseScheduler(@Lazy CourseScheduler courseScheduler) {
+        this.self = courseScheduler;
+    }
+
     @Scheduled(cron = "00 55 09 * * *", zone = "Asia/Seoul")
+    @Transactional
     public void updateIsRegisterOpen() {
         courseRepository.findAll().forEach(course -> {
             course.updateRegistrationStatus();
@@ -40,23 +50,24 @@ public class CourseScheduler {
 
     @Scheduled(cron = "00 00 10 * * *", zone = "Asia/Seoul")
     public void notifyCourseRegistrationStart() {
-        notifyBookmarkCourses(REGISTRATION_START, LocalDate.now());
+        self.notifyBookmarkCourses(REGISTRATION_START, LocalDate.now());
         log.info("@Scheduled 코스 접수 시작 알림 전송 완료");
     }
 
     @Scheduled(cron = "00 00 10 * * *", zone = "Asia/Seoul")
     public void notifyCourseRegistrationEndInThreeDays() {
-        notifyBookmarkCourses(REGISTRATION_END_IN_THREE_DAYS, LocalDate.now().plusDays(3));
+        self.notifyBookmarkCourses(REGISTRATION_END_IN_THREE_DAYS, LocalDate.now().plusDays(3));
         log.info("@Scheduled 코스 접수 마감 3일전 알림 전송 완료");
     }
 
     @Scheduled(cron = "00 00 10 * * *", zone = "Asia/Seoul")
     public void notifyCourseRegistrationEnd() {
-        notifyBookmarkCourses(REGISTRATION_END, LocalDate.now());
+        self.notifyBookmarkCourses(REGISTRATION_END, LocalDate.now());
         log.info("@Scheduled 코스 접수 마감 당일 알림 전송 완료");
     }
 
-    // todo: findAll() 성능 이슈
+    // todo: N+1 문제 → JOIN FETCH 사용한 해결 필요
+    @Transactional
     public void notifyBookmarkCourses(NotificationEventType event, LocalDate date) {
         try (Stream<CourseBookmark> courseBookmarks = courseBookmarkRepository.findAll().stream()) {
             List<Notification> notifications = courseBookmarks
