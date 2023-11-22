@@ -67,10 +67,9 @@ public class CourseScheduler {
     // todo: N+1 문제 → JOIN FETCH 사용한 해결 필요
     @Transactional
     public void notifyBookmarkCourses(NotificationEventType event, LocalDate date) {
-        List<CourseBookmark> courseBookmarks = courseBookmarkRepository.findAll();
+        List<CourseBookmark> courseBookmarks = courseBookmarkRepository.findAllWithCourseAndMemberOnDate(date);
 
         List<Notification> notifications = courseBookmarks.stream()
-                .filter(cb -> cb.getCourse().isEventOnDate(event, date))
                 .map(cb -> notificationFactory.createCourseBookmarkNotification(cb.getBookmark().getMember(), event, cb))
                 .toList();
 
