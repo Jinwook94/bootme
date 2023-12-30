@@ -50,7 +50,7 @@ public class LoggingAspect {
                 .orElse("");
 
         try {
-            log.info("[HTTP Request] {}, params & body={}", requestUrl, objectMapper.writeValueAsString(parameters));
+                log.info("[HTTP Request] {}, params={}", requestUrl, objectMapper.writeValueAsString(parameters));
         } catch (JsonProcessingException e) {
             log.warn("logging failed", e);
         }
