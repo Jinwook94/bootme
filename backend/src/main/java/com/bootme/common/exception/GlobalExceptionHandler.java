@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> methodArgumentExceptionHandler(final MethodArgumentNotValidException e,
                                                                         HttpServletRequest request) throws JsonProcessingException {
         MDC.put(REQUEST_INFO, getRequestInfo(request));
-        log.warn("Method Argument Not Valid Exception", e);
+        log.error("Method Argument Not Valid Exception", e);
         String errorMessage = e.getBindingResult()
                 .getFieldErrors()
                 .get(0)
@@ -43,7 +43,7 @@ public class GlobalExceptionHandler {
                                                                     HttpServletRequest request,
                                                                     HttpServletResponse response) throws JsonProcessingException {
         MDC.put(REQUEST_INFO, getRequestInfo(request));
-        log.warn("Bad Request Exception", e);
+        log.error("Bad Request Exception", e);
         ErrorType errorType = e.getErrorType();
         MDC.remove(REQUEST_INFO);
 
@@ -54,7 +54,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<ErrorResponse> unauthorizedExceptionHandler(final UnauthorizedException e, HttpServletRequest request) throws JsonProcessingException {
         MDC.put(REQUEST_INFO, getRequestInfo(request));
-        log.warn("Unauthorized Exception", e);
+        log.error("Unauthorized Exception", e);
         ErrorType errorType = e.getErrorType();
         MDC.remove(REQUEST_INFO);
         return ResponseEntity.status(UNAUTHORIZED).body(ErrorResponse.of(errorType));
@@ -63,7 +63,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ForbiddenException.class)
     public ResponseEntity<ErrorResponse> forbiddenExceptionHandler(final ForbiddenException e, HttpServletRequest request) throws JsonProcessingException {
         MDC.put(REQUEST_INFO, getRequestInfo(request));
-        log.warn("Forbidden Exception", e);
+        log.error("Forbidden Exception", e);
         ErrorType errorType = e.getErrorType();
         MDC.remove(REQUEST_INFO);
         return ResponseEntity.status(FORBIDDEN).body(ErrorResponse.of(errorType));
@@ -72,7 +72,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException e, HttpServletRequest request) throws JsonProcessingException {
         MDC.put(REQUEST_INFO, getRequestInfo(request));
-        log.warn("Runtime Exception", e);
+        log.error("Runtime Exception", e);
         MDC.remove(REQUEST_INFO);
         return ResponseEntity.internalServerError().body(ErrorResponse.of(RUNTIME_EXCEPTION));
     }
