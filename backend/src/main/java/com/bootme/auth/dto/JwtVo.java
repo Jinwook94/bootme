@@ -1,5 +1,6 @@
 package com.bootme.auth.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,6 +31,7 @@ public class JwtVo {
     }
 
     @Getter
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Body implements UserInfo {
         private String oAuthProvider;
         private String iss;
