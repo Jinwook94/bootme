@@ -83,8 +83,9 @@ public class AuthService {
         try {
             String[] jwtParts = token.split("\\.");
             ObjectMapper mapper = new ObjectMapper();
-            JwtVo.Header header = mapper.readValue(Base64.getDecoder().decode(jwtParts[0]), JwtVo.Header.class);
-            JwtVo.Body body = mapper.readValue(Base64.getDecoder().decode(jwtParts[1]), JwtVo.Body.class);
+            Base64.Decoder decoder = Base64.getUrlDecoder();
+            JwtVo.Header header = mapper.readValue(decoder.decode(jwtParts[0]), JwtVo.Header.class);
+            JwtVo.Body body = mapper.readValue(decoder.decode(jwtParts[1]), JwtVo.Body.class);
             return new JwtVo(header, body);
         } catch (IOException | IllegalArgumentException e ) {
             throw new TokenParseException(TOKEN_PARSING_FAIL, token, e);
