@@ -239,7 +239,10 @@ public class PostService {
     private void setVotedForMember(List<CommentResponse> commentResponses, Long memberId) {
         for (CommentResponse response : commentResponses) {
             Optional<Vote> vote = voteRepository.findByVotableTypeAndVotableIdAndMemberId(POST_COMMENT, response.getId(), memberId);
-            response.setVoted(vote.map(v -> v.getVoteType().toString()).orElse(NONE.toString()));
+            response.setVoted(
+                    vote.map(v -> v.getVoteType().toString())
+                            .orElse(NONE.toString())
+            );
         }
     }
 

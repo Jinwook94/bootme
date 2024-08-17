@@ -1,3 +1,15 @@
+### 게시글 조회 기본
+GET localhost:8080/posts HTTP/1.1
+Content-Type: application/json
+
+### 게시글 조회
+GET localhost:8080/posts?topic=자유&search=fish&sort=likes&page=1&size=25 HTTP/1.1
+Content-Type: application/json
+
+### Elasticsearch Test
+GET localhost:8080/posts/es/bIfik4sB7G0tsj9URYRD
+Content-Type: application/json
+
 ### 카카오 토큰 정보
 GET https://kapi.kakao.com/v1/user/access_token_info HTTP/1.1
 Authorization: Bearer token
