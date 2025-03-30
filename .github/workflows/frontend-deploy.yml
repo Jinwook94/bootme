@@ -1,9 +1,9 @@
 name: frontend deployment
 
-on:
-  push:
-    branches: [main]
-    paths: ["frontend/**"]
+#on:
+#  push:
+#    branches: [main]
+#    paths: ["frontend/**"]
 
 defaults:
   run:

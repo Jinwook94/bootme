@@ -1,9 +1,9 @@
 name: backend deployment
 
-on:
-  push:
-    branches: [main]
-    paths: ["backend/**"]
+#on:
+#  push:
+#    branches: [main]
+#    paths: ["frontend/**"]
 
 defaults:
   run:
