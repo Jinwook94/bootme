@@ -1,6 +1,3 @@
-[![frontend deployment](https://github.com/Jinwook94/bootme/actions/workflows/frontend-deploy.yml/badge.svg)](https://github.com/Jinwook94/bootme/actions/workflows/frontend-deploy.yml)
-[![backend deployment](https://github.com/Jinwook94/bootme/actions/workflows/backend-deploy.yml/badge.svg)](https://github.com/Jinwook94/bootme/actions/workflows/backend-deploy.yml)
-
 ## 프로젝트 소개
 - 개발자 커뮤니티 & 소프트웨어 커리큘럼 Aggregator 웹 서비스
 
