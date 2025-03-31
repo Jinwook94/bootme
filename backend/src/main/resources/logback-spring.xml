@@ -33,56 +33,48 @@
     </springProfile>
 
     <springProfile name="staging">
-        <include resource="logback/file-logger.xml"/>
+        <include resource="logback/console-logger.xml"/>
 
         <logger name="com.bootme" level="INFO" additivity="false">
-<!--            <appender-ref ref="stg-file-general-text"/>-->
-            <appender-ref ref="stg-file-general-json"/>
+            <appender-ref ref="STDOUT"/>
         </logger>
 
         <logger name="com.bootme.common.aspect.ElasticsearchLoggingAspect" level="OFF" additivity="false">
         </logger>
 
         <logger name="org.springframework" level="INFO" additivity="false">
-<!--            <appender-ref ref="stg-file-general-text"/>-->
-            <appender-ref ref="stg-file-general-json"/>
+            <appender-ref ref="STDOUT"/>
         </logger>
 
         <logger name="org.hibernate.SQL" level="INFO" additivity="false">
-<!--            <appender-ref ref="stg-file-general-text"/>-->
-            <appender-ref ref="stg-file-general-json"/>
+            <appender-ref ref="STDOUT"/>
         </logger>
 
         <root level="INFO">
-<!--            <appender-ref ref="stg-file-general-text"/>-->
-            <appender-ref ref="stg-file-general-json"/>
+            <appender-ref ref="STDOUT"/>
         </root>
     </springProfile>
 
     <springProfile name="prod">
-        <include resource="logback/file-logger.xml"/>
+        <include resource="logback/console-logger.xml"/>
 
         <logger name="com.bootme" level="INFO" additivity="false">
-            <appender-ref ref="prod-file-general-text"/>
-            <appender-ref ref="prod-file-general-json"/>
+            <appender-ref ref="STDOUT"/>
         </logger>
 
         <logger name="com.bootme.common.aspect.ElasticsearchLoggingAspect" level="OFF" additivity="false">
         </logger>
 
         <logger name="org.springframework" level="INFO" additivity="false">
-            <appender-ref ref="prod-file-general-text"/>
-            <appender-ref ref="prod-file-general-json"/>
+            <appender-ref ref="STDOUT"/>
         </logger>
 
         <logger name="org.hibernate.SQL" level="INFO" additivity="false">
-            <appender-ref ref="prod-file-general-text"/>
-            <appender-ref ref="prod-file-general-json"/>
+            <appender-ref ref="STDOUT"/>
         </logger>
 
         <root level="INFO">
-            <appender-ref ref="prod-file-general-text"/>
-            <appender-ref ref="prod-file-general-json"/>
+            <appender-ref ref="STDOUT"/>
         </root>
     </springProfile>
 </configuration>
