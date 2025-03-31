@@ -2,7 +2,7 @@ domain: bootme.co.kr
 
 spring:
   datasource:
-    url: ENC(DH2p2uxp5rxc5XWG7j4JzBunWuN6Sj8eAWha7sEuQHgc5u8x+WBNmXSC91L7wszscoVfFA4H7ei1xa/SOvoUb2LGu6LBzFzmcVr13FXqHj9fG/cT1nIkG2Y3bSny4w3nWu5kqKeicKg=)
+    url: ENC(0YuQ00lAMM4AD+1F4F2yv+kaTUSKjATPEAZqdX9eUt39MyHc8T3nubBaflGKBYdM+7CFJV2pYlh3vrYIcjAQnFLaVEwc1SpeTBXqaNFNKGSi1qSuDl9i6mc1/Qip8p384az6tcEwUUg=)
     username: ENC(Me7JQ99ri7Ufbh9eNwhY8Q==)
     password: ENC(0Jv/q2l5mIo6wOjZLyf/wZqVybziuXme)
     driver-class-name: org.mariadb.jdbc.Driver
@@ -11,7 +11,7 @@ spring:
       maximum-pool-size: 20
   data:
     redis:
-      host: ENC(4D3x72p+EQpt5L33Wi0w1Xm5abOKIbGshV/j2y0DEPLYV/q3X4PJHb5K1OXorsyGa00ZGR7w74Z9MlN1PsdQ/n/eId/7Zp96)
+      host: ENC(nI8w8hoaeD5tgiCepSt5Fkn/MTFqileX)
       port: 6379
   jpa:
     open-in-view: false  # if true: SSE 커넥션 열려있는 동안 DB 커넥션도 열려있음 => Connection leak
@@ -32,7 +32,7 @@ spring:
     baseline-version: 0
 
 elasticsearch:
-  host: ENC(GZUavrahU/rtXRaVr6kGsLHWhu6pct4V)
+  host: ENC(Y6X2hrLyMNMyV4IJs8XBmpHcrxSvaVgI)
   port: 9200
   username: ENC(dY9LzRN0RqiuzlXYD4vBYA==)
   password: ENC(PxrTjPFz/BfnTymvst17eLObLyJEyRz4)

@@ -14,7 +14,7 @@ spring:
   jpa:
     open-in-view: false  # if true: SSE 커넥션 열려있는 동안 DB 커넥션도 열려있음 => Connection leak
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
   h2:
     console:
       enabled: true
