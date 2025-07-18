@@ -84,6 +84,17 @@ public class AwsSecretsConfig {
     @Bean
     public BeanFactoryPostProcessor awsSecretsProcessor(ConfigurableEnvironment environment) {
         return (ConfigurableListableBeanFactory beanFactory) -> {
+            if (isTestEnvironment(environment)) {
+                logger.info("Detected test environment - skip loading AWS Secrets.");
+                this.awsSecretsInstance = createDummyAwsSecrets();
+
+                Properties dummyProps = new Properties();
+                dummyProps.setProperty(OPENAI_API_KEY_PROPERTY, "test");
+                environment.getPropertySources()
+                        .addFirst(new PropertiesPropertySource(PROPERTY_SOURCE_NAME, dummyProps));
+                return; // 더 이상 진행하지 않음
+            }
+
             try {
                 // 시크릿 JSON 로드
                 String secretJson = loadSecrets(environment);
@@ -288,4 +299,35 @@ public class AwsSecretsConfig {
 
         return properties;
     }
+
+    /**
+     * 테스트 환경(H2 in‑memory DB 사용) 여부를 판별
+     */
+    private boolean isTestEnvironment(ConfigurableEnvironment environment) {
+        String datasourceUrl = environment.getProperty(SPRING_DATASOURCE_URL);
+        return datasourceUrl != null && datasourceUrl.startsWith("jdbc:h2:mem");
+    }
+
+    /**
+     * 테스트 전용 더미 AwsSecrets
+     */
+    private AwsSecrets createDummyAwsSecrets() {
+        return AwsSecrets.builder()
+                .apiUrl("http://localhost")
+                .googleClientId("dummy")
+                .googleAudience("dummy")
+                .naverClientId("dummy")
+                .naverClientSecret("dummy")
+                .naverAudience("dummy")
+                .naverSigningKey("dummy")
+                .kakaoRestApiKey("dummy")
+                .kakaoClientSecret("dummy")
+                .kakaoAudience("dummy")
+                .kakaoJavascriptKey("dummy")
+                .bootmeAudience("dummy")
+                .bootmeSigningKey("dummy")
+                .gaMeasurementId("dummy")
+                .build();
+    }
+
 }
