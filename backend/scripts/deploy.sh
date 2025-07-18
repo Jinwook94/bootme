@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# deprecated. 현재는 backend/scripts/local-push/prod/prod-push-core.sh 스크립트로 배포함
 sudo chmod 777 /var/log/user-data.log
 sudo chmod 777 /home/ec2-user/logs 2>> /var/log/user-data.log
 echo "$(date '+%Y-%m-%dT%H:%M:%S') INFO [deploy.sh] Starting deploy.sh" >> /var/log/user-data.log
