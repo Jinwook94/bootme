@@ -20,7 +20,7 @@ const SlideBanner = () => {
           }}
         >
           <SwiperSlide>
-            <a href={'https://bootme.co.kr/course/list'} target="_blank" rel="noreferrer">
+            <a href={'https://bootme.co.kr/post/list'} target="_blank" rel="noreferrer">
               <div className="banner-item" style={{ background: '#E1F5FE' }}>
                 <div className="banner-item-wrapper">
                   <img
