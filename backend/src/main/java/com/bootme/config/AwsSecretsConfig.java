@@ -1,5 +1,6 @@
 package com.bootme.config;
 
+import com.bootme.auth.dto.AwsSecrets;
 import com.bootme.common.exception.ExternalServiceException;
 import com.bootme.common.exception.ValidationException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,11 +30,27 @@ public class AwsSecretsConfig {
     // 환경 변수 상수
     private static final String AWS_SECRETS_MANAGER_SECRETS_ENV_VAR = "AWS_SECRETS_MANAGER_SECRETS";
 
-    // AWS Secrets Manager 키 상수
+    // AWS Secrets Manager 키 상수 - DB 관련
     private static final String SECRET_KEY_DB_URL = "backend_db_url";
     private static final String SECRET_KEY_DB_USERNAME = "backend_db_username";
     private static final String SECRET_KEY_DB_PASSWORD = "backend_db_password";
     private static final String SECRET_KEY_OPENAI_API_KEY = "backend_openai_api_key";
+
+    // AWS Secrets Manager 키 상수 - OAuth 및 기타
+    private static final String SECRET_KEY_API_URL = "backend_api_url";
+    private static final String SECRET_KEY_GOOGLE_CLIENT_ID = "backend_google_client_id";
+    private static final String SECRET_KEY_GOOGLE_AUDIENCE = "backend_google_audience";
+    private static final String SECRET_KEY_NAVER_CLIENT_ID = "backend_naver_client_id";
+    private static final String SECRET_KEY_NAVER_CLIENT_SECRET = "backend_naver_client_secret";
+    private static final String SECRET_KEY_NAVER_AUDIENCE = "backend_naver_audience";
+    private static final String SECRET_KEY_NAVER_SIGNING_KEY = "backend_naver_signing_key";
+    private static final String SECRET_KEY_KAKAO_REST_API_KEY = "backend_kakao_rest_api_key";
+    private static final String SECRET_KEY_KAKAO_CLIENT_SECRET = "backend_kakao_client_secret";
+    private static final String SECRET_KEY_KAKAO_AUDIENCE = "backend_kakao_audience";
+    private static final String SECRET_KEY_KAKAO_JAVASCRIPT_KEY = "backend_kakao_javascript_key";
+    private static final String SECRET_KEY_BOOTME_AUDIENCE = "backend_bootme_audience";
+    private static final String SECRET_KEY_BOOTME_SIGNING_KEY = "backend_bootme_signing_key";
+    private static final String SECRET_KEY_GA_MEASUREMENT_ID = "backend_ga_measurement_id";
 
     // Spring 프로퍼티 키 상수
     private static final String SPRING_DATASOURCE_URL = "spring.datasource.url";
@@ -50,6 +67,9 @@ public class AwsSecretsConfig {
     private static final String DEFAULT_REGION = "ap-northeast-2";
     private static final String DEV_PROFILE = "dev";
     private static final String PROPERTY_SOURCE_NAME = "awsSecrets";
+
+    // AwsSecrets 저장용 변수
+    private AwsSecrets awsSecretsInstance;
 
     /**
      * AWS Secrets Manager의 시크릿을 처리하는 BeanFactoryPostProcessor를 생성합니다.
@@ -72,6 +92,9 @@ public class AwsSecretsConfig {
                 @SuppressWarnings("unchecked")
                 Map<String, String> secretsMap = objectMapper.readValue(secretJson, Map.class);
 
+                // AwsSecrets 인스턴스 생성
+                this.awsSecretsInstance = createAwsSecrets(secretsMap);
+
                 // 설정 적용
                 Properties properties = createApplicationProperties(secretsMap, environment);
 
@@ -85,6 +108,17 @@ public class AwsSecretsConfig {
                 throw new ExternalServiceException(EXTERNAL_SERVICE_EXCEPTION, "", e);
             }
         };
+    }
+
+    /**
+     * AwsSecrets Bean을 생성합니다.
+     */
+    @Bean
+    public AwsSecrets awsSecrets() {
+        if (awsSecretsInstance == null) {
+            throw new IllegalStateException("AwsSecrets has not been initialized. Make sure awsSecretsProcessor runs first.");
+        }
+        return awsSecretsInstance;
     }
 
     /**
@@ -175,6 +209,39 @@ public class AwsSecretsConfig {
             throw new ValidationException(MISSING_CONFIGURATION, AWS_SECRETS_MANAGER_SECRETS_ENV_VAR);
         }
         return secretsJson;
+    }
+
+    /**
+     * AwsSecrets 객체를 생성합니다.
+     */
+    private AwsSecrets createAwsSecrets(Map<String, String> secretsMap) {
+        return AwsSecrets.builder()
+                .apiUrl(getRequiredSecret(secretsMap, SECRET_KEY_API_URL))
+                .googleClientId(getRequiredSecret(secretsMap, SECRET_KEY_GOOGLE_CLIENT_ID))
+                .googleAudience(getRequiredSecret(secretsMap, SECRET_KEY_GOOGLE_AUDIENCE))
+                .naverClientId(getRequiredSecret(secretsMap, SECRET_KEY_NAVER_CLIENT_ID))
+                .naverClientSecret(getRequiredSecret(secretsMap, SECRET_KEY_NAVER_CLIENT_SECRET))
+                .naverAudience(getRequiredSecret(secretsMap, SECRET_KEY_NAVER_AUDIENCE))
+                .naverSigningKey(getRequiredSecret(secretsMap, SECRET_KEY_NAVER_SIGNING_KEY))
+                .kakaoRestApiKey(getRequiredSecret(secretsMap, SECRET_KEY_KAKAO_REST_API_KEY))
+                .kakaoClientSecret(getRequiredSecret(secretsMap, SECRET_KEY_KAKAO_CLIENT_SECRET))
+                .kakaoAudience(getRequiredSecret(secretsMap, SECRET_KEY_KAKAO_AUDIENCE))
+                .kakaoJavascriptKey(getRequiredSecret(secretsMap, SECRET_KEY_KAKAO_JAVASCRIPT_KEY))
+                .bootmeAudience(getRequiredSecret(secretsMap, SECRET_KEY_BOOTME_AUDIENCE))
+                .bootmeSigningKey(getRequiredSecret(secretsMap, SECRET_KEY_BOOTME_SIGNING_KEY))
+                .gaMeasurementId(getRequiredSecret(secretsMap, SECRET_KEY_GA_MEASUREMENT_ID))
+                .build();
+    }
+
+    /**
+     * 필수 시크릿 값을 가져옵니다.
+     */
+    private String getRequiredSecret(Map<String, String> secretsMap, String key) {
+        String value = secretsMap.get(key);
+        if (value == null || value.isEmpty()) {
+            throw new ValidationException(MISSING_CONFIGURATION, key);
+        }
+        return value;
     }
 
     /**

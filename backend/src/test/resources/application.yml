@@ -18,12 +18,6 @@ spring:
       hibernate:
         format_sql: true
 
-cloud:
-  aws:
-    credentials:
-      access-key: ENC(2vctfEcCiuZ7RN87cOUTravlqHfd55Xe1s6zEKdLlzk=)
-      secret-key: ENC(Koa+RVqWim1y9HryvbZ/ZE4T65fOjk1d+7IIrMQKDx1vuDcKJDaHIlbYAzDn/cseipNh/23YbvU=)
-
 #elasticsearch:
 #  host: localhost
 #  port: 9200
@@ -41,7 +35,6 @@ security:
         millisecond:
           access: 3600000
           refresh: 2592000000
-
 
 app:
   aws:

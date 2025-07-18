@@ -11,12 +11,6 @@ spring:
     async:
       request-timeout: 120000
 
-cloud:
-  aws:
-    credentials:
-      access-key: ENC(2vctfEcCiuZ7RN87cOUTravlqHfd55Xe1s6zEKdLlzk=)
-      secret-key: ENC(Koa+RVqWim1y9HryvbZ/ZE4T65fOjk1d+7IIrMQKDx1vuDcKJDaHIlbYAzDn/cseipNh/23YbvU=)
-
 security:
   jwt:
     bootme:
