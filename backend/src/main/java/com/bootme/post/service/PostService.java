@@ -20,7 +20,6 @@ import com.bootme.vote.domain.Vote;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,7 +53,6 @@ public class PostService {
     }
 
     @Transactional
-    @CacheEvict(value = "posts", allEntries = true)
     public Long addPost(AuthInfo authInfo, PostRequest postRequest){
         authService.validateLogin(authInfo);
         Member member = memberService.getMemberById(authInfo.getMemberId());
@@ -110,7 +108,6 @@ public class PostService {
     }
 
     @Transactional
-    @CacheEvict(value = "posts", allEntries = true)
     public void modifyPost(AuthInfo authInfo, Long postId, PostRequest postRequest) {
         authService.validateLogin(authInfo);
         Post post = getPostById(postId);
@@ -120,7 +117,6 @@ public class PostService {
     }
 
     @Transactional
-    @CacheEvict(value = "posts", allEntries = true)
     public void deletePost(AuthInfo authInfo, Long postId) {
         authService.validateLogin(authInfo);
         Post post = getPostById(postId);

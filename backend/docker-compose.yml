@@ -1,6 +1,6 @@
-version: "3.7"
+name: bootme-backend
 
-services:
+#services:
 #  elasticsearch:
 #    image: docker.elastic.co/elasticsearch/elasticsearch:8.10.2
 #    environment:
@@ -26,25 +26,25 @@ services:
 #      timeout: 10s
 #      retries: 5
 
-  redis:
-    image: redis:7.0
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
-    networks:
-      - esnet
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
+#  redis:
+#    image: redis:7.0
+#    ports:
+#      - "6379:6379"
+#    volumes:
+#      - redis_data:/data
+#    networks:
+#      - esnet
+#    healthcheck:
+#      test: ["CMD", "redis-cli", "ping"]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 3
 
-networks:
-  esnet:
-
-volumes:
-  esdata1:
-    driver: local
-  redis_data:
-    driver: local
+#networks:
+#  esnet:
+#
+#volumes:
+#  esdata1:
+#    driver: local
+#  redis_data:
+#    driver: local

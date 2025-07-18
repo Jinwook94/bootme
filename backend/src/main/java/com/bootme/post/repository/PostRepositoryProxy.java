@@ -7,7 +7,6 @@ import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Component;
 
@@ -24,11 +23,6 @@ public class PostRepositoryProxy {
     private final PostRepository postRepository;
     private final PostQuerydslRepositoryImpl customPostRepository;
 
-    @Cacheable(
-            value = "posts",
-            key = "(#topic == '' ? 'none' : #topic) + ':' + " +
-                    "(#search == '' ? 'none' : #search) + ':' + " +
-                    "#sort + ':' + #page + ':' + #size")
     public CustomPageImpl<PostResponse> getPostPage(int page, int size, String sort, String topic, String search, Predicate predicate) {
         if (search != null && !search.isEmpty()) {
             return getPostPageWithSearch(page, size, sort, search, predicate);
