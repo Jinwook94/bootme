@@ -39,8 +39,8 @@
             <appender-ref ref="STDOUT"/>
         </logger>
 
-        <logger name="com.bootme.common.aspect.ElasticsearchLoggingAspect" level="OFF" additivity="false">
-        </logger>
+<!--        <logger name="com.bootme.common.aspect.ElasticsearchLoggingAspect" level="OFF" additivity="false">-->
+<!--        </logger>-->
 
         <logger name="org.springframework" level="INFO" additivity="false">
             <appender-ref ref="STDOUT"/>
@@ -62,8 +62,8 @@
             <appender-ref ref="STDOUT"/>
         </logger>
 
-        <logger name="com.bootme.common.aspect.ElasticsearchLoggingAspect" level="OFF" additivity="false">
-        </logger>
+<!--        <logger name="com.bootme.common.aspect.ElasticsearchLoggingAspect" level="OFF" additivity="false">-->
+<!--        </logger>-->
 
         <logger name="org.springframework" level="INFO" additivity="false">
             <appender-ref ref="STDOUT"/>

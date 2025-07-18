@@ -1,7 +1,7 @@
 package com.bootme.post.dto;
 
 import com.bootme.post.domain.Post;
-import com.bootme.post.domain.PostDocument;
+//import com.bootme.post.domain.PostDocument;
 import com.bootme.post.util.PostUtils;
 import lombok.Builder;
 import lombok.Getter;
@@ -59,7 +59,7 @@ public class PostResponse implements PostResponseDto {
         this.isViewed = isViewed;
     }
 
-    public static PostResponse fromPost(Post post, boolean isBookmarked, boolean isViewed){
+    public static PostResponse of(Post post, boolean isBookmarked, boolean isViewed){
         String excerpt = PostUtils.getContentExcerpt(post.getContent().getValue());
         return PostResponse.builder()
                 .id(post.getId())
@@ -81,27 +81,27 @@ public class PostResponse implements PostResponseDto {
                 .build();
     }
 
-    public static PostResponse fromPostDocument(PostDocument postDocument) {
-        String excerpt = PostUtils.getContentExcerpt(postDocument.getContent());
-        return PostResponse.builder()
-                .id(postDocument.getPostId())
-                .writerId(postDocument.getWriterId())
-                .writerNickname(postDocument.getWriterNickname())
-                .writerProfileImage(postDocument.getWriterProfileImage())
-                .topic(postDocument.getTopic())
-                .title(postDocument.getTitle())
-                .contentExcerpt(excerpt)
-                .commentCount(postDocument.getCommentCount())
-                .likes(postDocument.getLikes())
-                .clicks(postDocument.getClicks())
-                .bookmarks(postDocument.getBookmarks())
-                .status(postDocument.getStatus())
-                .createdAt(postDocument.getCreatedAt())
-                .modifiedAt(postDocument.getModifiedAt())
-                .voted(NONE.toString())
-                .isBookmarked(false)
-                .isViewed(false)
-                .build();
-    }
+//    public static PostResponse fromPostDocument(PostDocument postDocument) {
+//        String excerpt = PostUtils.getContentExcerpt(postDocument.getContent());
+//        return PostResponse.builder()
+//                .id(postDocument.getPostId())
+//                .writerId(postDocument.getWriterId())
+//                .writerNickname(postDocument.getWriterNickname())
+//                .writerProfileImage(postDocument.getWriterProfileImage())
+//                .topic(postDocument.getTopic())
+//                .title(postDocument.getTitle())
+//                .contentExcerpt(excerpt)
+//                .commentCount(postDocument.getCommentCount())
+//                .likes(postDocument.getLikes())
+//                .clicks(postDocument.getClicks())
+//                .bookmarks(postDocument.getBookmarks())
+//                .status(postDocument.getStatus())
+//                .createdAt(postDocument.getCreatedAt())
+//                .modifiedAt(postDocument.getModifiedAt())
+//                .voted(NONE.toString())
+//                .isBookmarked(false)
+//                .isViewed(false)
+//                .build();
+//    }
 
 }

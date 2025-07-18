@@ -31,11 +31,11 @@ spring:
     locations: classpath:db/migration/prod
     baseline-version: 0
 
-elasticsearch:
-  host: ENC(Y6X2hrLyMNMyV4IJs8XBmpHcrxSvaVgI)
-  port: 9200
-  username: ENC(dY9LzRN0RqiuzlXYD4vBYA==)
-  password: ENC(PxrTjPFz/BfnTymvst17eLObLyJEyRz4)
+#elasticsearch:
+#  host: ENC(Y6X2hrLyMNMyV4IJs8XBmpHcrxSvaVgI)
+#  port: 9200
+#  username: ENC(dY9LzRN0RqiuzlXYD4vBYA==)
+#  password: ENC(PxrTjPFz/BfnTymvst17eLObLyJEyRz4)
 
 server:
   servlet:

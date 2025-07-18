@@ -1,7 +1,7 @@
 package com.bootme.post.dto;
 
 import com.bootme.post.domain.Post;
-import com.bootme.post.domain.PostDocument;
+//import com.bootme.post.domain.PostDocument;
 import com.bootme.vote.dto.VotableResponse;
 import lombok.Builder;
 import lombok.Getter;
@@ -55,7 +55,7 @@ public class PostDetailResponse implements VotableResponse, PostResponseDto {
         this.isBookmarked = isBookmarked;
     }
 
-    public static PostDetailResponse fromPost(Post post, boolean isBookmarked){
+    public static PostDetailResponse of(Post post, boolean isBookmarked){
         return PostDetailResponse.builder()
                 .id(post.getId())
                 .writerId(post.getMember().getId())
@@ -75,24 +75,24 @@ public class PostDetailResponse implements VotableResponse, PostResponseDto {
                 .build();
     }
 
-    public static PostDetailResponse fromPostDocument(PostDocument postDocument, boolean isBookmarked) {
-        return PostDetailResponse.builder()
-                .id(postDocument.getPostId())
-                .writerId(postDocument.getWriterId())
-                .writerNickname(postDocument.getWriterNickname())
-                .writerProfileImage(postDocument.getWriterProfileImage())
-                .topic(postDocument.getTopic())
-                .title(postDocument.getTitle())
-                .content(postDocument.getContent())
-                .likes(postDocument.getLikes())
-                .clicks(postDocument.getClicks())
-                .bookmarks(postDocument.getBookmarks())
-                .status(postDocument.getStatus())
-                .createdAt(postDocument.getCreatedAt())
-                .modifiedAt(postDocument.getModifiedAt())
-                .commentCount(postDocument.getCommentCount())
-                .isBookmarked(isBookmarked)
-                .build();
-    }
+//    public static PostDetailResponse fromPostDocument(PostDocument postDocument, boolean isBookmarked) {
+//        return PostDetailResponse.builder()
+//                .id(postDocument.getPostId())
+//                .writerId(postDocument.getWriterId())
+//                .writerNickname(postDocument.getWriterNickname())
+//                .writerProfileImage(postDocument.getWriterProfileImage())
+//                .topic(postDocument.getTopic())
+//                .title(postDocument.getTitle())
+//                .content(postDocument.getContent())
+//                .likes(postDocument.getLikes())
+//                .clicks(postDocument.getClicks())
+//                .bookmarks(postDocument.getBookmarks())
+//                .status(postDocument.getStatus())
+//                .createdAt(postDocument.getCreatedAt())
+//                .modifiedAt(postDocument.getModifiedAt())
+//                .commentCount(postDocument.getCommentCount())
+//                .isBookmarked(isBookmarked)
+//                .build();
+//    }
 
 }

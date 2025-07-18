@@ -22,9 +22,9 @@ spring:
   flyway:
     enabled: false
 
-elasticsearch:
-  host: localhost
-  port: 9200
+#elasticsearch:
+#  host: localhost
+#  port: 9200
 
 decorator:
   datasource:

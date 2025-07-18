@@ -23,11 +23,11 @@ spring:
       hibernate:
         format_sql: true
 
-elasticsearch:
-  host: localhost
-  port: 9200
-  username: ENC(dY9LzRN0RqiuzlXYD4vBYA==)
-  password: ENC(PxrTjPFz/BfnTymvst17eLObLyJEyRz4)
+#elasticsearch:
+#  host: localhost
+#  port: 9200
+#  username: ENC(dY9LzRN0RqiuzlXYD4vBYA==)
+#  password: ENC(PxrTjPFz/BfnTymvst17eLObLyJEyRz4)
 
 cloud:
   aws:

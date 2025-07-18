@@ -10,8 +10,6 @@ import com.bootme.member.domain.Member;
 import com.bootme.member.service.MemberService;
 import com.bootme.comment.domain.Comment;
 import com.bootme.post.domain.Post;
-import com.bootme.post.domain.PostDocument;
-import com.bootme.post.repository.PostElasticsearchRepository;
 import com.bootme.vote.domain.Votable;
 import com.bootme.post.service.PostService;
 import com.bootme.vote.domain.VotableType;
@@ -44,7 +42,6 @@ public class VoteService {
     private final PostBookmarkService postBookmarkService;
     private final VoteRepository voteRepository;
     private final PostService postService;
-    private final PostElasticsearchRepository postElasticsearchRepository;
     private final CommentService commentService;
     private final ApplicationEventPublisher eventPublisher;
 
@@ -67,14 +64,7 @@ public class VoteService {
                 Post post = postService.getPostById(votableId);
                 boolean isBookmarked = postBookmarkService.isBookmarkedByMember(authInfo.getMemberId(), post.getId());
                 handleVote(voteType, existingVote, post, votableType, votableId, member);
-
-                PostDocument postDocumentByPostId = postService.getPostDocumentByPostId(post.getId());
-                PostDocument postDocumentFromPost = PostDocument.fromPost(post);
-                postDocumentFromPost.setId(postDocumentByPostId.getId());
-                postElasticsearchRepository.modifyPost(postDocumentFromPost);
-
-                postService.cacheEvict();
-                return PostDetailResponse.fromPost(post, isBookmarked);
+                return PostDetailResponse.of(post, isBookmarked);
             }
             case POST_COMMENT -> {
                 Comment comment = commentService.getCommentById(votableId);

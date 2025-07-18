@@ -93,7 +93,7 @@ public class PostBookmarkService {
                 .map(postBookmark -> {
                     Post post = postBookmark.getPost();
                     boolean isViewed = viewedPosts.contains(post.getId());
-                    PostResponse postResponse = PostResponse.fromPost(post, true, isViewed);
+                    PostResponse postResponse = PostResponse.of(post, true, isViewed);
                     updateVoteStatusForPost(postBookmark.getBookmark().getMember().getId(), post, postResponse);
                     return postResponse;
                 })
