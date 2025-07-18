@@ -67,7 +67,9 @@ public enum ErrorType {
 
     // External Service errors
     S3_UPLOAD_FAIL          (7001, "이미지 파일을 S3 업로드 실패했습니다."),
-    OPEN_AI_API_FAIL         (7002, "OpenAI API 에서 문제가 발생 했습니다."),
+    OPEN_AI_API_FAIL        (7002, "OpenAI API 에서 문제가 발생 했습니다."),
+    MISSING_CONFIGURATION   (7003, "필수 설정값이 누락되었습니다."),
+    EXTERNAL_SERVICE_EXCEPTION (7004, "외부 서비스 연동 중 오류가 발생했습니다."),
 
     // Internal server errors
     RUNTIME_EXCEPTION       (9001, "서버에 알 수 없는 문제가 발생했습니다.");

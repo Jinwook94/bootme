@@ -2,9 +2,6 @@ domain: bootme.co.kr
 
 spring:
   datasource:
-    url: ENC(0YuQ00lAMM4AD+1F4F2yv+kaTUSKjATPEAZqdX9eUt39MyHc8T3nubBaflGKBYdM+7CFJV2pYlh3vrYIcjAQnFLaVEwc1SpeTBXqaNFNKGSi1qSuDl9i6mc1/Qip8p384az6tcEwUUg=)
-    username: ENC(Me7JQ99ri7Ufbh9eNwhY8Q==)
-    password: ENC(0Jv/q2l5mIo6wOjZLyf/wZqVybziuXme)
     driver-class-name: org.mariadb.jdbc.Driver
     hikari:
       leakDetectionThreshold: 10000
@@ -42,3 +39,11 @@ server:
     session:
       cookie:
         domain: bootme.co.kr
+
+# backend/src/main/java/com/bootme/config/AwsSecretsConfig.java
+app:
+  aws:
+    profile: cac-sso-workloads-prod
+    region: ap-northeast-2
+    secrets-manager:
+      secret-name: bootme

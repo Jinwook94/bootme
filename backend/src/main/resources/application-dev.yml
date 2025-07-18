@@ -2,8 +2,8 @@ domain: localhost
 
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/bootme;MODE=MySQL
-    username: sa
+#    url: jdbc:h2:tcp://localhost/~/bootme;MODE=MySQL
+#    username: sa
     hikari:
       leakDetectionThreshold: 10000
       maximum-pool-size: 10
@@ -42,3 +42,11 @@ logging:
     org.hibernate.type.descriptor.sql.BasicExtractor: OFF
     com.zaxxer.hikari.HikariConfig: DEBUG
     com.zaxxer.hikari: DEBUG
+
+# backend/src/main/java/com/bootme/config/AwsSecretsConfig.java
+app:
+  aws:
+    profile: cac-sso-workloads-dev
+    region: ap-northeast-2
+    secrets-manager:
+      secret-name: bootme

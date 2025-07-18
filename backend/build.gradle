@@ -33,6 +33,13 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-aws-core:2.2.6.RELEASE'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'io.micrometer:micrometer-registry-prometheus'
+
+    // AWS SDK v2 for Secrets Manager
+    implementation 'software.amazon.awssdk:secretsmanager:2.20.162'
+    implementation 'software.amazon.awssdk:sso:2.20.162'
+    implementation 'software.amazon.awssdk:ssooidc:2.20.162'
+
+    // S3 관련 기존 의존성 유지
     implementation 'com.amazonaws:aws-java-sdk-s3'
     implementation 'com.amazonaws.secretsmanager:aws-secretsmanager-caching-java:1.0.2'
     implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
@@ -45,7 +52,6 @@ dependencies {
     implementation 'com.google.api-client:google-api-client:1.32.1'
     implementation 'com.google.http-client:google-http-client-jackson2:1.31.0'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.3'
-    implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
     implementation 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1'
     implementation 'net.logstash.logback:logstash-logback-encoder:7.3'
     implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'

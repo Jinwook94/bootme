@@ -1,7 +1,7 @@
 package com.bootme.config;
 
 import com.bootme.auth.util.AuthenticationArgumentResolver;
-import com.bootme.common.interceptor.IPInterceptor;
+//import com.bootme.common.interceptor.IPInterceptor;
 import com.bootme.common.interceptor.RateLimitInterceptor;
 import com.bootme.common.interceptor.TokenValidationInterceptor;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,18 +21,18 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     private final TokenValidationInterceptor tokenValidationInterceptor;
     private final RateLimitInterceptor rateLimitInterceptor;
-    private final IPInterceptor ipInterceptor;
+//    private final IPInterceptor ipInterceptor;
     private final AuthenticationArgumentResolver authenticationArgumentResolver;
     private final String[] allowedOrigins;
 
     public WebMvcConfig(TokenValidationInterceptor tokenValidationInterceptor,
                         RateLimitInterceptor rateLimitInterceptor,
-                        IPInterceptor ipInterceptor,
+//                        IPInterceptor ipInterceptor,
                         AuthenticationArgumentResolver authenticationArgumentResolver,
                         @Value("${allowed-origins}") String allowedOrigins) {
         this.tokenValidationInterceptor = tokenValidationInterceptor;
         this.rateLimitInterceptor = rateLimitInterceptor;
-        this.ipInterceptor = ipInterceptor;
+//        this.ipInterceptor = ipInterceptor;
         this.authenticationArgumentResolver = authenticationArgumentResolver;
         this.allowedOrigins = allowedOrigins.split(",");
     }
@@ -59,7 +59,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(rateLimitInterceptor)
                 .addPathPatterns("/prompts/**")
                 .addPathPatterns("/gpt/**");
-        registry.addInterceptor(ipInterceptor);
+//        registry.addInterceptor(ipInterceptor);
     }
 
     @Override
