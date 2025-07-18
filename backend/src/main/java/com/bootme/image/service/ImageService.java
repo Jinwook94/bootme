@@ -74,7 +74,7 @@ public class ImageService {
     }
 
     private String uploadToS3(String fileName, File image) {
-        String bucketName = "bootme-images";
+        String bucketName = "bootme-application-images";
         try {
             amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, image));
         } catch (AmazonS3Exception e) {
