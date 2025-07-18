@@ -56,3 +56,5 @@ app:
     region: ap-northeast-2
     secrets-manager:
       secret-name: bootme
+    s3:
+      bucket-name: dev-bootme-application-images

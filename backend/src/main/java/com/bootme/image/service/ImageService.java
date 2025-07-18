@@ -1,15 +1,20 @@
 package com.bootme.image.service;
 
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.*;
 import com.bootme.auth.dto.AuthInfo;
 import com.bootme.auth.service.AuthService;
 import com.bootme.common.exception.ExternalServiceException;
 import com.bootme.common.exception.FileHandlingException;
 import com.bootme.common.exception.ValidationException;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import software.amazon.awssdk.core.sync.RequestBody;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.model.S3Exception;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -25,8 +30,16 @@ import static com.bootme.common.exception.ErrorType.*;
 @Service
 public class ImageService {
 
+    private static final Logger logger = LoggerFactory.getLogger(ImageService.class);
+
     private final AuthService authService;
-    private final AmazonS3 amazonS3Client;
+    private final S3Client s3Client;
+
+    @Value("${app.aws.s3.bucket-name}")
+    private String bucketName;
+
+    @Value("${app.aws.region:ap-northeast-2}")
+    private String awsRegion;
 
     private static final String PROFILE = "profile";
     private static final String COURSE_DETAIL = "courseDetail";
@@ -36,6 +49,8 @@ public class ImageService {
     public String upload(AuthInfo authInfo, String imageType, MultipartFile imageFile) {
         authService.validateLogin(authInfo);
         Long memberId = authInfo.getMemberId();
+
+        logger.info("Uploading image to bucket: {} in region: {}", bucketName, awsRegion);
 
         File file = toFile(imageFile);
         String fileName = getFormattedFileName(imageType, memberId, file);
@@ -74,13 +89,20 @@ public class ImageService {
     }
 
     private String uploadToS3(String fileName, File image) {
-        String bucketName = "bootme-application-images";
         try {
-            amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, image));
-        } catch (AmazonS3Exception e) {
+            PutObjectRequest putObjectRequest = PutObjectRequest.builder()
+                    .bucket(bucketName)
+                    .key(fileName)
+                    .build();
+
+            s3Client.putObject(putObjectRequest, RequestBody.fromFile(image));
+            logger.info("Successfully uploaded file: {} to bucket: {}", fileName, bucketName);
+        } catch (S3Exception e) {
+            logger.error("Failed to upload file to S3. Bucket: {}, Error: {}", bucketName, e.getMessage());
             throw new ExternalServiceException(S3_UPLOAD_FAIL, e.getMessage());
         }
-        return String.format("https://%s.s3.ap-northeast-2.amazonaws.com/%s", bucketName, fileName);
+
+        return String.format("https://%s.s3.%s.amazonaws.com/%s", bucketName, awsRegion, fileName);
     }
 
     private void deleteLocalTempFile(File image) {

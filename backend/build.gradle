@@ -39,8 +39,9 @@ dependencies {
     implementation 'software.amazon.awssdk:sso:2.20.162'
     implementation 'software.amazon.awssdk:ssooidc:2.20.162'
 
-    // S3 관련 기존 의존성 유지
-    implementation 'com.amazonaws:aws-java-sdk-s3'
+    // AWS SDK v2 for S3
+    implementation 'software.amazon.awssdk:s3:2.20.162'
+
     implementation 'com.amazonaws.secretsmanager:aws-secretsmanager-caching-java:1.0.2'
     implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
     annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
