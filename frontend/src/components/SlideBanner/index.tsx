@@ -20,13 +20,7 @@ const SlideBanner = () => {
           }}
         >
           <SwiperSlide>
-            <a
-              href={
-                'https://career.programmers.co.kr/companies/2653?itm_source=coupang10&amp;itm_source=prgms&amp;itm_medium=banner&amp;itm_campaign=index_2&amp;itm_content=banner_id_4053_display_order_2.0&amp;source=career.programmers.co.kr%2Fjob'
-              }
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a href={'https://bootme.co.kr/course/list'} target="_blank" rel="noreferrer">
               <div className="banner-item" style={{ background: '#E1F5FE' }}>
                 <div className="banner-item-wrapper">
                   <img

@@ -38,8 +38,8 @@ export const SecretProvider = ({ children }: SecretProviderProps) => {
 
     // workflow 빌드 중 깃허브 리포지토리 시크릿으로 교체 (frontend-deploy.yml)
     const issuer = 'bootme.co.kr';
-    const audience = 'BOOTME_AUDIENCE';
-    const signingKey = 'BOOTME_SIGNING_KEY';
+    const audience = 'bootme.co.kr';
+    const signingKey = 'dRgUkXp2s5v8yBEHMbPeShVmYq3t6w9zCFJNcRfTjWnZr4u7xADG'; // todo AWS Secretes Manager 등 사용하여 개선
     const encodedKey = new TextEncoder().encode(signingKey);
 
     return new jose.SignJWT({})
