@@ -7,8 +7,8 @@ import static org.hibernate.type.StandardBasicTypes.BOOLEAN;
 
 public class CustomFunctionContributor implements FunctionContributor {
 
-    private static final String FUNCTION_NAME = "match_against";
-    private static final String FUNCTION_PATTERN = "match (?1, ?2, ?3) against (?4 in boolean mode)";
+    private static final String FUNCTION_NAME = "fulltext_search";
+    private static final String FUNCTION_PATTERN = "to_tsvector('simple', ?1 || ' ' || ?2 || ' ' || ?3) @@ plainto_tsquery('simple', ?4)";
 
     @Override
     public void contributeFunctions(final FunctionContributions functionContributions) {

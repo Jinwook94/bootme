@@ -2,7 +2,7 @@ domain: bootme.co.kr
 
 spring:
   datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
+    driver-class-name: org.postgresql.Driver
     hikari:
       leakDetectionThreshold: 10000
       maximum-pool-size: 20
@@ -16,13 +16,10 @@ spring:
       ddl-auto: validate
     properties:
       hibernate:
-        dialect: com.bootme.config.CustomDialect
-        format_sql: true
+        default_schema: core
         default_batch_fetch_size: 100
-      connection:
-        characterEncoding: utf8mb4
-        charSet: utf8mb4
   flyway:
+    schemas: core
     enabled: true
     baseline-on-migrate: true
     locations: classpath:db/migration/prod

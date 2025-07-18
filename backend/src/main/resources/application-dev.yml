@@ -2,8 +2,10 @@ domain: localhost
 
 spring:
   datasource:
-#    url: jdbc:h2:tcp://localhost/~/bootme;MODE=MySQL
-#    username: sa
+#    url: jdbc:postgresql://localhost:5432/bootme
+#    username: local_user
+#    password: local_password
+    driver-class-name: org.postgresql.Driver
     hikari:
       leakDetectionThreshold: 10000
       maximum-pool-size: 10
@@ -14,13 +16,17 @@ spring:
   jpa:
     open-in-view: false  # if true: SSE 커넥션 열려있는 동안 DB 커넥션도 열려있음 => Connection leak
     hibernate:
-      ddl-auto: update
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
+      ddl-auto: validate
+    properties:
+      hibernate:
+        default_schema: core
+        default_batch_fetch_size: 100
   flyway:
-    enabled: false
+    schemas: core
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration/prod
+    baseline-version: 0
 
 #elasticsearch:
 #  host: localhost

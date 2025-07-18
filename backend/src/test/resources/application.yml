@@ -17,6 +17,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  flyway:
+    enabled: false  # 테스트 환경에서 Flyway 비활성화
 
 #elasticsearch:
 #  host: localhost
