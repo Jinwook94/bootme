@@ -135,7 +135,7 @@ openapi3 {
                 description = "스테이징 서버"
             },
             {
-                url = "http://localhost:8080"
+                url = "http://localhost:8000"
                 description = "로컬"
             }
     ]

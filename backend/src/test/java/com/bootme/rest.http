@@ -1,15 +1,15 @@
-GET localhost:8080//actuator/health HTTP/1.1
+GET localhost:8000//actuator/health HTTP/1.1
 
 ### 게시글 조회 기본
-GET localhost:8080/posts HTTP/1.1
+GET localhost:8000/posts HTTP/1.1
 Content-Type: application/json
 
 ### 게시글 조회
-GET localhost:8080/posts?topic=자유&search=fish&sort=likes&page=1&size=25 HTTP/1.1
+GET localhost:8000/posts?topic=자유&search=fish&sort=likes&page=1&size=25 HTTP/1.1
 Content-Type: application/json
 
 ### Elasticsearch Test
-GET localhost:8080/posts/es/bIfik4sB7G0tsj9URYRD
+GET localhost:8000/posts/es/bIfik4sB7G0tsj9URYRD
 Content-Type: application/json
 
 ### 카카오 토큰 정보
@@ -21,30 +21,30 @@ GET https://kapi.kakao.com/v1/user/logout
 Authorization: Bearer token
 
 ### 시크릿
-GET localhost:8080/secrets HTTP/1.1
+GET localhost:8000/secrets HTTP/1.1
 Bootme_secret: Bearer token
 Origin: https://bootme.co.kr
 Accept: application/json
 Host: api.bootMe.app
 
 ### 로그인
-POST localhost:8080/login HTTP/1.1
+POST localhost:8000/login HTTP/1.1
 Authorization: Bearer accessToken
 Accept: application/json
 Host: api.bootMe.app
 
 ### 내 프로필 조회
-GET localhost:8080/member/me HTTP/1.1
+GET localhost:8000/member/me HTTP/1.1
 Authorization: Bearer token
 Content-Type: application/json
 
 ### 프로필 조회
-GET localhost:8080/member/1/profile/ HTTP/1.1
+GET localhost:8000/member/1/profile/ HTTP/1.1
 Content-Type: application/json
 
 
 ### 게시글 작성
-POST localhost:8080/posts HTTP/1.1
+POST localhost:8000/posts HTTP/1.1
 Content-Type: application/json
 Cookie: accessToken=
 
@@ -55,7 +55,7 @@ Cookie: accessToken=
 }
 
 ### 댓글 작성
-POST localhost:8080/posts/1/comments HTTP/1.1
+POST localhost:8000/posts/1/comments HTTP/1.1
 Content-Type: application/json
 Cookie: accessToken=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpZCI6IjEiLCJlbWFpbCI6ImdvZGZhdGhlcjk0QGtha2FvLmNvbSIsImlzcyI6Imh0dHBzOi8vYm9vdG1lLmJhY2suY29tIiwiaWF0IjoxNjg1ODg4NjM0LCJleHAiOjE2ODU4OTIyMzR9.DNqu7Z8DbKpg_6JqibpaQrzF7AUa1Uql0zBwSsBz1NGyZ11a34tiPjOCPl1zypxsvoKCHijLYHJ8WN81KT4y-A;
 
@@ -66,23 +66,23 @@ Cookie: accessToken=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpZCI6IjEiLCJlbWFpbCI
 }
 
 ### 개별 기술 스택 추가 (language)
-POST localhost:8080/stacks/language?language=JavaScript&icon=https://bootme-images.s3.ap-northeast-2.amazonaws.com/logos/stack/javascript.png HTTP/1.1
+POST localhost:8000/stacks/language?language=JavaScript&icon=https://bootme-images.s3.ap-northeast-2.amazonaws.com/logos/stack/javascript.png HTTP/1.1
 Content-Type: application/json
 
 ### 개별 기술 스택 삭제 (language)
-DELETE localhost:8080/stacks/language?language=JavaScript&icon=https://bootme-images.s3.ap-northeast-2.amazonaws.com/logos/stack/javascript.png HTTP/1.1
+DELETE localhost:8000/stacks/language?language=JavaScript&icon=https://bootme-images.s3.ap-northeast-2.amazonaws.com/logos/stack/javascript.png HTTP/1.1
 Content-Type: application/json
 
 ### 개별 기술 스택 추가 (framework)
-POST localhost:8080/stacks/framework?framework=React&icon=https://bootme-images.s3.ap-northeast-2.amazonaws.com/logos/stack/react.png HTTP/1.1
+POST localhost:8000/stacks/framework?framework=React&icon=https://bootme-images.s3.ap-northeast-2.amazonaws.com/logos/stack/react.png HTTP/1.1
 Content-Type: application/json
 
 ### 개별 기술 스택 삭제 (framework)
-DELETE localhost:8080/stacks/framework?framework=React&icon=https://bootme-images.s3.ap-northeast-2.amazonaws.com/logos/stack/react.png HTTP/1.1
+DELETE localhost:8000/stacks/framework?framework=React&icon=https://bootme-images.s3.ap-northeast-2.amazonaws.com/logos/stack/react.png HTTP/1.1
 Content-Type: application/json
 
 ### 기술 스택 추가 (stacks in bulk)
-POST localhost:8080/stacks HTTP/1.1
+POST localhost:8000/stacks HTTP/1.1
 Content-Type: application/json
 
 [
@@ -159,7 +159,7 @@ Content-Type: application/json
 ]
 
 ### 회사 추가
-POST localhost:8080/companies HTTP/1.1
+POST localhost:8000/companies HTTP/1.1
 Content-Type: application/json
 Host: api.bootMe.app
 
@@ -172,7 +172,7 @@ Host: api.bootMe.app
 }
 
 ### 코스 추가
-POST localhost:8080/courses HTTP/1.1
+POST localhost:8000/courses HTTP/1.1
 Content-Type: application/json
 Host: api.bootMe.app
 
@@ -204,27 +204,27 @@ Host: api.bootMe.app
 }
 
 ### 코스 조회
-GET localhost:8080/courses/1 HTTP/1.1
+GET localhost:8000/courses/1 HTTP/1.1
 Accept: application/json
 Host: api.bootMe.app
 
 ### 코스 1페이지 조회
-GET localhost:8080/courses?sort=popular&page=1&size=10 HTTP/1.1
+GET localhost:8000/courses?sort=popular&page=1&size=10 HTTP/1.1
 Accept: application/json
 Host: api.bootMe.app
 
 ### 코스 필터링 조회
-GET localhost:8080/courses?superCategory=웹&language=Java HTTP/1.1
+GET localhost:8000/courses?superCategory=웹&language=Java HTTP/1.1
 Accept: application/json
 Host: api.bootMe.app
 
 ### 코스 검색
-GET localhost:8080/courses?search=네이버  HTTP/1.1
+GET localhost:8000/courses?search=네이버  HTTP/1.1
 Accept: application/json
 Host: api.bootMe.app
 
 ### 코스 상세 수정
-PATCH localhost:8080/courses/1/detail
+PATCH localhost:8000/courses/1/detail
 Content-Type: application/json
 
 {
@@ -232,17 +232,17 @@ Content-Type: application/json
 }
 
 ### 회사 조회
-GET localhost:8080/companies/1 HTTP/1.1
+GET localhost:8000/companies/1 HTTP/1.1
 Accept: application/json
 Host: api.bootMe.app
 
 ### 회사 전체 조회
-GET localhost:8080/companies HTTP/1.1
+GET localhost:8000/companies HTTP/1.1
 Accept: application/json
 Host: api.bootMe.app
 
 ### 회사 수정
-PUT localhost:8080/companies/1 HTTP/1.1
+PUT localhost:8000/companies/1 HTTP/1.1
 Content-Type: application/json
 Host: api.bootMe.app
 
@@ -255,12 +255,12 @@ Host: api.bootMe.app
 }
 
 ### 회사 삭제
-DELETE localhost:8080/companies/1 HTTP/1.1
+DELETE localhost:8000/companies/1 HTTP/1.1
 Content-Type: application/json
 Host: api.bootMe.app
 
 ### 코스 수정
-PUT localhost:8080/courses/1 HTTP/1.1
+PUT localhost:8000/courses/1 HTTP/1.1
 Content-Type: application/json
 Host: api.bootMe.app
 
@@ -292,12 +292,12 @@ Host: api.bootMe.app
 }
 
 ### 코스 삭제
-DELETE localhost:8080/courses/3 HTTP/1.1
+DELETE localhost:8000/courses/3 HTTP/1.1
 Content-Type: application/json
 Host: api.bootMe.app
 
 ### 웹훅 처리
-POST localhost:8080/webhook HTTP/1.1
+POST localhost:8000/webhook HTTP/1.1
 Content-Type: application/json
 Bootme_Secret: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2ODQ1OTcxMTMsImV4cCI6MTY4NDU5NzQxMywiaXNzIjoiaHR0cHM6Ly9ib290bWUuZnJvbnQuY29tIiwiYXVkIjoiYm9vdG1lLmNvbSJ9.0GlU2rEquwGY5nTHbmnVdYITMhZXjxy4zXWyug9Lj2o
 Host: api.bootMe.app
@@ -314,25 +314,25 @@ Host: api.bootMe.app
 }
 
 ### 로그인 [실패: TOKEN_PARSING_FAIL]
-POST localhost:8080/login HTTP/1.1
+POST localhost:8000/login HTTP/1.1
 Authorization: Bearer InvalidBase64PayloadString.eyJhdWQiOiJkMGMwZmEzMWU1ZDQ4YmMzZjQ5MDIwZTExNjY4NDgwOSIsInN1YiI6IjI2NDY1ODY0NTYiLCJhdXRoX3RpbWUiOjE2ODQ1ODE2MzUsImlzcyI6Imh0dHBzOi8va2F1dGgua2FrYW8uY29tIiwibmlja25hbWUiOiLsp4TsmrEiLCJleHAiOjE2ODQ2MDMyMzUsImlhdCI6MTY4NDU4MTYzNSwicGljdHVyZSI6Imh0dHA6Ly9rLmtha2FvY2RuLm5ldC9kbi9kcGs5bDEvYnRxbUdoQTJsS0wvT3owd0R1Sm4xWVYyREluOTJmNkRWSy9pbWdfMTEweDExMC5qcGciLCJlbWFpbCI6ImdvZGZhdGhlcjk0QGtha2FvLmNvbSJ9.UjCa91vPFHFD7K58QFYvT1JJNcXNlCJ1tdVuhW3L4Yzt1klLEypYz-OwDLq_Ggviaf30ImWK5CWzCtOx19UnTmlipwfnGaPA7xhVdTaexsQsa4_tST25weUfrtbii0g6joFzivdYiycbAXKF_dHjjabZLWRZDow8z7t5zcOl1fZRJTfuWWrr-NzmQFcuWn0caFlWybp1s2wcOY9Y6AvyzHgvANyORL6KgkPby_U_tLsXRMtxe-K4-xw7AGkfk3WWV4DKHlotPBIa5zb6xKUXlO-5r4Or70qt13PM6KgHJ0bWUA_HPrt4hflSyemxZlAkFYtZd5IcIQ9btE-EcwbanA
 Accept: application/json
 Host: api.bootMe.app
 
 ### 로그인 [실패: INVALID_ISSUER]
-POST localhost:8080/login HTTP/1.1
+POST localhost:8000/login HTTP/1.1
 Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJpbnZhbGlkSXNzdWVyIiwiaWF0IjoxNjg0NTgyMTA5LCJleHAiOjE3MTYxMTgxMDksImF1ZCI6Imh0dHBzOi8va2F1dGgua2FrYW8uY29tLyIsInN1YiI6IjI2NDY1ODY0NTYiLCJhdXRoX3RpbWUiOiIxNjg0NTgxNjM1Iiwibmlja25hbWUiOiLsp4TsmrEiLCJwaWN0dXJlIjoiaHR0cDovL2sua2FrYW9jZG4ubmV0L2RuL2RwazlsMS9idHFtR2hBMmxLTC9PejB3RHVKbjFZVjJESW45MmY2RFZLL2ltZ18xMTB4MTEwLmpwZyIsImVtYWlsIjoiZ29kZmF0aGVyOTRAa2FrYW8uY29tIn0.bNW6GWrscwfSA2oey_D_DniCvH2Dpr8rJVKuIckZVcM
 Accept: application/json
 Host: api.bootMe.app
 
 ### 로그인 [실패: INVALID_AUDIENCE]
-POST localhost:8080/login HTTP/1.1
+POST localhost:8000/login HTTP/1.1
 Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2Jvb3RtZS5mcm9udC5jb20iLCJpYXQiOjE2ODQ1ODIxMDksImV4cCI6MTcxNjExODEwOSwiYXVkIjoiaW52YWxpZEF1ZGllbmNlIiwic3ViIjoiMjY0NjU4NjQ1NiIsImF1dGhfdGltZSI6IjE2ODQ1ODE2MzUiLCJuaWNrbmFtZSI6IuynhOyasSIsInBpY3R1cmUiOiJodHRwOi8vay5rYWthb2Nkbi5uZXQvZG4vZHBrOWwxL2J0cW1HaEEybEtML096MHdEdUpuMVlWMkRJbjkyZjZEVksvaW1nXzExMHgxMTAuanBnIiwiZW1haWwiOiJnb2RmYXRoZXI5NEBrYWthby5jb20ifQ.bbzTjATw7WaD285BDqKJpWsAXa7JYbsNTGuFRWTc8R0
 Accept: application/json
 Host: api.bootMe.app
 
 ### 로그인 [실패: INVALID_SIGNATURE]
-POST localhost:8080/login HTTP/1.1
+POST localhost:8000/login HTTP/1.1
 Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2Jvb3RtZS5mcm9udC5jb20iLCJpYXQiOjE2ODQ1ODIxMDksImV4cCI6MTcxNjExODEwOSwiYXVkIjoiYm9vdG1lLmNvbSIsInN1YiI6IjI2NDY1ODY0NTYiLCJhdXRoX3RpbWUiOiIxNjg0NTgxNjM1Iiwibmlja25hbWUiOiLsp4TsmrEiLCJwaWN0dXJlIjoiaHR0cDovL2sua2FrYW9jZG4ubmV0L2RuL2RwazlsMS9idHFtR2hBMmxLTC9PejB3RHVKbjFZVjJESW45MmY2RFZLL2ltZ18xMTB4MTEwLmpwZyIsImVtYWlsIjoiZ29kZmF0aGVyOTRAa2FrYW8uY29tIn0.-9V0pSCMuxjJUwJSl6WL6PUsrOnrjYrEaMEsC_NxWdc
 Accept: application/json
 Host: api.bootMe.app
