@@ -2,6 +2,9 @@ domain: bootme.co.kr
 
 spring:
   datasource:
+#    url: jdbc:postgresql://localhost:5432/bootme
+    username: ${AURORA_POSTGRESQL_USERNAME}
+    password: ${AURORA_POSTGRESQL_PASSWORD}
     driver-class-name: org.postgresql.Driver
     hikari:
       leakDetectionThreshold: 10000

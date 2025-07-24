@@ -3,8 +3,8 @@ domain: localhost
 spring:
   datasource:
 #    url: jdbc:postgresql://localhost:5432/bootme
-#    username: local_user
-#    password: local_password
+    username: local_user
+    password: local_password
     driver-class-name: org.postgresql.Driver
     hikari:
       leakDetectionThreshold: 10000

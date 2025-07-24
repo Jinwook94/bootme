@@ -32,8 +32,6 @@ public class AwsSecretsConfig {
 
     // AWS Secrets Manager 키 상수 - DB 관련
     private static final String SECRET_KEY_DB_URL = "backend_db_url";
-    private static final String SECRET_KEY_DB_USERNAME = "backend_db_username";
-    private static final String SECRET_KEY_DB_PASSWORD = "backend_db_password";
     private static final String SECRET_KEY_OPENAI_API_KEY = "backend_openai_api_key";
 
     // AWS Secrets Manager 키 상수 - OAuth 및 기타
@@ -274,17 +272,6 @@ public class AwsSecretsConfig {
             throw new ValidationException(MISSING_CONFIGURATION, SECRET_KEY_DB_URL);
         }
 
-        String dbUsername = secretsMap.get(SECRET_KEY_DB_USERNAME);
-        if (dbUsername == null || dbUsername.isEmpty()) {
-            throw new ValidationException(MISSING_CONFIGURATION, SECRET_KEY_DB_USERNAME);
-        }
-
-        // DB 비밀번호는 빈 문자열을 허용 (H2 데이터베이스 등에서 비밀번호 없이 사용하는 경우)
-        String dbPassword = secretsMap.get(SECRET_KEY_DB_PASSWORD);
-        if (dbPassword == null) {
-            throw new ValidationException(MISSING_CONFIGURATION, SECRET_KEY_DB_PASSWORD);
-        }
-
         // OpenAI API 키
         String openAiApiKey = secretsMap.get(SECRET_KEY_OPENAI_API_KEY);
         if (openAiApiKey == null || openAiApiKey.isEmpty()) {
@@ -293,8 +280,6 @@ public class AwsSecretsConfig {
 
         // Spring 설정값으로 변환
         properties.setProperty(SPRING_DATASOURCE_URL, dbUrl);
-        properties.setProperty(SPRING_DATASOURCE_USERNAME, dbUsername);
-        properties.setProperty(SPRING_DATASOURCE_PASSWORD, dbPassword);
         properties.setProperty(OPENAI_API_KEY_PROPERTY, openAiApiKey);
 
         return properties;
