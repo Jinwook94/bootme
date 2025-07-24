@@ -25,7 +25,7 @@ const useWebhook = (): useWebhookProps => {
     fetcher
       .post('/webhook', webhookObject, {
         headers: {
-          Bootme_Secret: 'Bearer ' + jwt,
+          bootmesecrets: 'Bearer ' + jwt,
         },
       })
       .catch(error => {
