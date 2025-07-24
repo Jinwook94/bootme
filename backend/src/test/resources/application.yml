@@ -43,3 +43,6 @@ app:
     region: ap-northeast-2
     secrets-manager:
       secret-name: bootme
+    profile: test-profile
+    s3:
+      bucket-name: test-bucket
