@@ -14,6 +14,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -50,7 +51,7 @@ public class LoggingAspect {
                 .orElse("");
 
         try {
-                log.info("[HTTP Request] {}, params={}", requestUrl, objectMapper.writeValueAsString(parameters));
+            log.info("[HTTP Request] {}, params={}", requestUrl, objectMapper.writeValueAsString(parameters));
         } catch (JsonProcessingException e) {
             log.warn("logging failed", e);
         }
@@ -94,7 +95,20 @@ public class LoggingAspect {
         final int numOfParameters = parameterNames.length;
 
         for (int i = 0; i < numOfParameters; i++) {
-            parameters.put(parameterNames[i], joinPoint.getArgs()[i]);
+            Object argValue = joinPoint.getArgs()[i];
+
+            // MultipartFile 타입인 경우 파일 메타데이터만 로깅
+            if (argValue instanceof MultipartFile) {
+                MultipartFile file = (MultipartFile) argValue;
+                Map<String, Object> fileInfo = new HashMap<>();
+                fileInfo.put("originalFilename", file.getOriginalFilename());
+                fileInfo.put("size", file.getSize());
+                fileInfo.put("contentType", file.getContentType());
+                fileInfo.put("isEmpty", file.isEmpty());
+                parameters.put(parameterNames[i], fileInfo);
+            } else {
+                parameters.put(parameterNames[i], argValue);
+            }
         }
 
         return parameters;
