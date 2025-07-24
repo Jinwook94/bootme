@@ -1,6 +1,7 @@
 package com.bootme.config;
 
 import com.bootme.common.exception.ValidationException;
+import com.bootme.common.exception.ExternalServiceException;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,12 +11,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
-import software.amazon.awssdk.auth.credentials.InstanceProfileCredentialsProvider;
+import software.amazon.awssdk.auth.credentials.ContainerCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider;
+import software.amazon.awssdk.core.exception.SdkClientException;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.HeadBucketRequest;
+import software.amazon.awssdk.services.s3.model.NoSuchBucketException;
+import software.amazon.awssdk.services.s3.model.S3Exception;
 
 import static com.bootme.common.exception.ErrorType.MISSING_CONFIGURATION;
+import static com.bootme.common.exception.ErrorType.EXTERNAL_SERVICE_EXCEPTION;
 
 @Configuration
 public class S3Config {
@@ -29,6 +35,9 @@ public class S3Config {
 
     @Value("${app.aws.region:ap-northeast-2}")
     private String awsRegion;
+
+    @Value("${app.aws.s3.bucket-name}")
+    private String bucketName;
 
     // 생성자 주입
     public S3Config(Environment environment) {
@@ -78,15 +87,20 @@ public class S3Config {
     @Bean
     @Profile({"staging", "prod"})
     public S3Client s3ClientProd() {
-        logger.info("Creating S3 client for production environment");
+        logger.info("Creating S3 client for production environment using ECS Task Role");
 
-        // ECS 에서는 Instance Profile 사용
-        AwsCredentialsProvider credentialsProvider = InstanceProfileCredentialsProvider.create();
+        // ECS Fargate에서는 ContainerCredentialsProvider 사용
+        AwsCredentialsProvider credentialsProvider = ContainerCredentialsProvider.builder().build();
 
-        return S3Client.builder()
+        S3Client s3Client = S3Client.builder()
                 .credentialsProvider(credentialsProvider)
                 .region(Region.of(awsRegion))
                 .build();
+
+        // 자격 증명 및 버킷 접근 검증
+        validateS3Access(s3Client, "production");
+
+        return s3Client;
     }
 
     @Bean
@@ -97,5 +111,41 @@ public class S3Config {
         return S3Client.builder()
                 .region(Region.of(awsRegion))
                 .build();
+    }
+
+    /**
+     * S3 자격 증명 및 버킷 접근 권한을 검증합니다.
+     * 애플리케이션 시작 시점에 문제를 발견하여 fast-fail을 보장합니다.
+     */
+    private void validateS3Access(S3Client s3Client, String environment) {
+        logger.info("Validating S3 access for {} environment. Bucket: {}", environment, bucketName);
+
+        try {
+            // HeadBucket 요청으로 버킷 존재 여부 및 접근 권한 확인
+            HeadBucketRequest headBucketRequest = HeadBucketRequest.builder()
+                    .bucket(bucketName)
+                    .build();
+
+            s3Client.headBucket(headBucketRequest);
+            logger.info("Successfully validated S3 access. Bucket '{}' is accessible in {} environment",
+                    bucketName, environment);
+
+        } catch (NoSuchBucketException e) {
+            logger.error("S3 bucket '{}' does not exist", bucketName);
+            throw new ExternalServiceException(EXTERNAL_SERVICE_EXCEPTION,
+                    String.format("S3 bucket '%s' does not exist", bucketName), e);
+
+        } catch (S3Exception e) {
+            // 권한 문제 또는 기타 S3 관련 에러
+            logger.error("Failed to access S3 bucket '{}'. Error: {}", bucketName, e.getMessage());
+            throw new ExternalServiceException(EXTERNAL_SERVICE_EXCEPTION,
+                    String.format("Failed to access S3 bucket '%s': %s", bucketName, e.getMessage()), e);
+
+        } catch (SdkClientException e) {
+            // 자격 증명 문제
+            logger.error("AWS credentials validation failed. Error: {}", e.getMessage());
+            throw new ExternalServiceException(EXTERNAL_SERVICE_EXCEPTION,
+                    "AWS credentials validation failed: " + e.getMessage(), e);
+        }
     }
 }
