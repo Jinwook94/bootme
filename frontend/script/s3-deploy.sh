@@ -18,7 +18,7 @@ if [[ "$ENVIRONMENT" == "dev" ]]; then
     BUILD_COMMAND=""
 elif [[ "$ENVIRONMENT" == "prod" ]]; then
     S3_BUCKET="bootme.co.kr"
-    CLOUDFRONT_DISTRIBUTION_ID="E3FOSQIR7KW2WX"
+    CLOUDFRONT_DISTRIBUTION_ID="EB18CLL4N618A"
     AWS_PROFILE="cac-sso-workloads-prod"
     BUILD_COMMAND="build"
 
