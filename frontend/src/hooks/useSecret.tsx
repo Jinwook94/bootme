@@ -14,7 +14,7 @@ export const SecretProvider = ({ children }: SecretProviderProps) => {
     const jwt = await generateJwt();
     const response = await fetcher.get<SecretsResponse>('auth/secrets', {
       headers: {
-        bootmesecrets: 'Bearer ' + jwt,
+        Bootme_Secret: 'Bearer ' + jwt,
       },
     });
     setSecrets(response.data);
