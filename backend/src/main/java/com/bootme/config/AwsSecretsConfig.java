@@ -206,7 +206,7 @@ public class AwsSecretsConfig {
      * 환경 변수에서 시크릿 JSON을 로드합니다.
      *
      * AWS 시크릿 매니저에 저장된 시크릿 값이 ECS 태스크 정의의 containerDefinitions.secrets 항목에서 참조되어
-     * 컨테이너의 BOOTME_SECRETS 환경 변수로 주입됩니다. 컨테이너 시작 시 ECS 서비스가 해당 시크릿을 자동으로 가져와 환경 변수에 설정합니다.
+     * 컨테이너의 환경 변수로 주입됩니다. 컨테이너 시작 시 ECS 서비스가 해당 시크릿을 자동으로 가져와 환경 변수에 설정합니다.
      *
      * 참고: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/secrets-envvar-secrets-manager.html#secrets-envvar-secrets-manager-update-container-definition
      *

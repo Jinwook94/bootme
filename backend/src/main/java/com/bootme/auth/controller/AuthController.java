@@ -77,7 +77,7 @@ public class AuthController {
 
 //    @IPFilter
     @GetMapping("/secrets")
-    public ResponseEntity<AwsSecrets> getSecrets(@RequestHeader(name = "Bootme_Secret") String secretHeader,
+    public ResponseEntity<AwsSecrets> getSecrets(@RequestHeader(name = "bootmesecrets") String secretHeader,
                                                  @RequestHeader(value = "Origin", required = false) String origin) {
         authService.verifySecretRequest(secretHeader, origin);
         return ResponseEntity.ok(awsSecrets);
