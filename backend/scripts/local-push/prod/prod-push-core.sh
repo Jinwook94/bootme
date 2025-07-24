@@ -32,8 +32,8 @@ if [ "$input" == "$CONFIRMATION_STRING" ]; then
     export DOCKER_IMAGE_TAG="${ECR_URL}:latest"
     export ENV_ARG="SPRING_PROFILE=prod"
     export TASK_DEFINITION_NAME="bootme-core"
-    export CLUSTER_NAME="bootme-ecs-cluster"
-    export SERVICE_NAME="bootme-ecs-service-core"
+    export CLUSTER_NAME="prod-bootme-ecs-cluster"
+    export SERVICE_NAME="prod-bootme-ecs-service-core"
 
     # JAR 빌드
     GRADLEW_PATH="../../.."
