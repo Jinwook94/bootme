@@ -39,7 +39,7 @@ class WebhookControllerTest extends ControllerTest {
 
         // when
         ResultActions perform = mockMvc.perform(post("/webhook")
-                .header("bootmesecrets", "secret")
+                .header("Bootme_Secret", "secret")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content));
 
@@ -55,7 +55,7 @@ class WebhookControllerTest extends ControllerTest {
                                 .summary("웹훅 처리")
                                 .description("수신된 웹훅을 처리한다.")
                                 .requestHeaders(
-                                        headerWithName("bootmesecrets").description("BootMe 발행 JWT")
+                                        headerWithName("Bootme_Secret").description("BootMe 발행 JWT")
                                 )
                                 .requestFields(
                                         fieldWithPath("sessionId").description("세션 ID"),
@@ -87,7 +87,7 @@ class WebhookControllerTest extends ControllerTest {
 
         // when
         ResultActions perform = mockMvc.perform(post("/webhook")
-                .header("bootmesecrets", "secret")
+                .header("Bootme_Secret", "secret")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content));
 

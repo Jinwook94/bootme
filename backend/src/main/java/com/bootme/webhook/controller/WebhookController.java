@@ -29,7 +29,7 @@ public class WebhookController {
     private final PostService postService;
 
     @PostMapping
-    public ResponseEntity<String> handleWebhook(@RequestHeader(name = "bootmesecrets") String secret,
+    public ResponseEntity<String> handleWebhook(@RequestHeader(name = "Bootme_Secret") String secret,
                                                 @RequestBody WebhookRequest webhookRequest) {
         String jwt = authService.getToken(secret);
         authService.verifyToken(jwt);

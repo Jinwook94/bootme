@@ -295,7 +295,7 @@ class AuthControllerTest extends ControllerTest {
 
         //when
         ResultActions perform = mockMvc.perform(get("/auth/secrets")
-                .header("bootmesecrets", secret)
+                .header("Bootme_Secret", secret)
                 .header("Origin", origin)
                 .accept(MediaType.APPLICATION_JSON));
 
@@ -311,7 +311,7 @@ class AuthControllerTest extends ControllerTest {
                                 .summary("시크릿 요청")
                                 .description("AWS Secrets Manager 저장된 시크릿 값 요청. (소셜 로그인 위한 API Key 등)")
                                 .requestHeaders(
-                                        headerWithName("bootmesecrets").description("JWT 검증 목적"),
+                                        headerWithName("Bootme_Secret").description("JWT 검증 목적"),
                                         headerWithName("Origin").description("허용된 origin 인지 검증 목적")
                                 )
                                 .responseFields(
