@@ -52,8 +52,6 @@ public class AwsSecretsConfig {
 
     // Spring 프로퍼티 키 상수
     private static final String SPRING_DATASOURCE_URL = "spring.datasource.url";
-    private static final String SPRING_DATASOURCE_USERNAME = "spring.datasource.username";
-    private static final String SPRING_DATASOURCE_PASSWORD = "spring.datasource.password";
     private static final String OPENAI_API_KEY_PROPERTY = "openai.api-key";
 
     // 애플리케이션 설정 키 상수
