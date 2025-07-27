@@ -39,6 +39,9 @@ management:
   endpoint:
     health:
       show-details: always
+  health:
+    db:
+      enabled: false  # DB health check 비활성화
   metrics:
     enable:
       hikaricp: true
