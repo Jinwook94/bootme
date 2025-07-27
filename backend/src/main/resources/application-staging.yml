@@ -4,8 +4,13 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     hikari:
-      leakDetectionThreshold: 10000
       maximum-pool-size: 20
+      leakDetectionThreshold: 10000
+      max-lifetime: 300000   # 5분
+      idle-timeout: 240000   # 4분
+      keepalive-time: 120000   # 2분
+      validation-timeout: 5000
+      connection-timeout: 10000
 #  data:
 #    redis:
 #      host: ENC(jEvMbZFxfZLTb0i42wiZKQelUtpPn1+yZnS0qInY4dkyYqKCdvZTxb2gNvaIABtbCMxa22+X0OLWeFpRMWusJ0cH5CeF36lH)

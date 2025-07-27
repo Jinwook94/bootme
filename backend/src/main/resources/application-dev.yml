@@ -7,8 +7,13 @@ spring:
     password: local_password
     driver-class-name: org.postgresql.Driver
     hikari:
-      leakDetectionThreshold: 10000
       maximum-pool-size: 10
+      leakDetectionThreshold: 10000
+      max-lifetime: 300000   # 5분
+      idle-timeout: 240000   # 4분
+      keepalive-time: 120000   # 2분
+      validation-timeout: 5000
+      connection-timeout: 10000
 #  data:
 #    redis:
 #      host: localhost
