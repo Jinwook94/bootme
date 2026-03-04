@@ -2,7 +2,7 @@ domain: localhost
 
 spring:
   datasource:
-#    url: jdbc:postgresql://localhost:5432/bootme
+    url: jdbc:postgresql://localhost:5433/bootme
     username: local_user
     password: local_password
     driver-class-name: org.postgresql.Driver

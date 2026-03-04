@@ -135,10 +135,7 @@ public class AwsSecretsConfig {
      * @return 시크릿 JSON 문자열
      */
     private String loadSecrets(ConfigurableEnvironment environment) {
-        String[] activeProfiles = environment.getActiveProfiles();
-        boolean isLocal = activeProfiles.length > 0 && DEV_PROFILE.equals(activeProfiles[0]);
-
-        if (isLocal) {
+        if (isDevEnvironment(environment)) {
             // 로컬 환경에서는 AWS Secrets Manager에서 직접 로드
             return loadFromSecretsManager(environment);
         } else {
@@ -264,10 +261,18 @@ public class AwsSecretsConfig {
     private Properties createApplicationProperties(Map<String, String> secretsMap, ConfigurableEnvironment environment) {
         Properties properties = new Properties();
 
-        // DB 설정
-        String dbUrl = secretsMap.get(SECRET_KEY_DB_URL);
-        if (dbUrl == null || dbUrl.isEmpty()) {
-            throw new ValidationException(MISSING_CONFIGURATION, SECRET_KEY_DB_URL);
+        String localDatasourceUrl = environment.getProperty(SPRING_DATASOURCE_URL);
+        boolean hasLocalDatasourceUrl = localDatasourceUrl != null && !localDatasourceUrl.isBlank();
+
+        // dev에서는 로컬 설정이 명시되어 있으면 해당 URL을 우선 사용
+        if (!isDevEnvironment(environment) || !hasLocalDatasourceUrl) {
+            String dbUrl = secretsMap.get(SECRET_KEY_DB_URL);
+            if (dbUrl == null || dbUrl.isEmpty()) {
+                throw new ValidationException(MISSING_CONFIGURATION, SECRET_KEY_DB_URL);
+            }
+            properties.setProperty(SPRING_DATASOURCE_URL, dbUrl);
+        } else {
+            logger.info("Using local spring.datasource.url for dev profile.");
         }
 
         // OpenAI API 키
@@ -277,10 +282,19 @@ public class AwsSecretsConfig {
         }
 
         // Spring 설정값으로 변환
-        properties.setProperty(SPRING_DATASOURCE_URL, dbUrl);
         properties.setProperty(OPENAI_API_KEY_PROPERTY, openAiApiKey);
 
         return properties;
+    }
+
+    private boolean isDevEnvironment(ConfigurableEnvironment environment) {
+        String[] activeProfiles = environment.getActiveProfiles();
+        for (String activeProfile : activeProfiles) {
+            if (DEV_PROFILE.equals(activeProfile)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
