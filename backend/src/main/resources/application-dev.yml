@@ -1,5 +1,8 @@
 domain: localhost
 
+server:
+  port: 8001
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5433/bootme
