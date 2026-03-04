@@ -68,8 +68,8 @@ module.exports = {
       'process.env.CLIENT_URL': JSON.stringify(
           process.env.NODE_ENV === 'production' ? 'https://bootme.co.kr/' :
               process.env.NODE_ENV === 'staging' ? 'https://staging.bootme.co.kr/' :
-                  process.env.NODE_ENV === 'dev' ? 'http://localhost:3000/' :
-                      'http://localhost:3000/'
+                  process.env.NODE_ENV === 'dev' ? 'http://localhost:3001/' :
+                      'http://localhost:3001/'
       ),
       'process.env.SERVER_URL': JSON.stringify(
           process.env.NODE_ENV === 'production' ? 'https://api.bootme.co.kr/' :
